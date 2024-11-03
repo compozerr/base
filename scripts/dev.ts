@@ -1,81 +1,68 @@
-const runCommandWithLabel = async (command: string, label: string, color: string) => {
-    const process = new Deno.Command(
-        command,
-        {
-            stdout: "piped",
-            stderr: "piped",
-        });
-
+const runCommandWithLabel = async (process: Deno.ChildProcess, label: string, color: string) => {
     const encoder = new TextEncoder();
     const decoder = new TextDecoder();
 
-    // Read output from the command
-    while (true) {
-        const output = await process.output();
-        if (output.stderr.length === 0 && output.stdout.length === 0) {
-            break; // No more output
-        }
+    const handleOutput = async (stream: ReadableStream<Uint8Array> | null, isError = false) => {
+        if (!stream) return;
 
-        // Log the output with the label and color
-        if (output.stdout.length > 0) {
-            const text = decoder.decode(output.stdout);
-            Deno.stdout.write(encoder.encode(`${color}${label}: ${text}\x1b[0m`));
-        }
+        const reader = stream.getReader();
+        try {
+            while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
 
-        if (output.stderr.length > 0) {
-            const errorText = decoder.decode(output.stderr);
-            Deno.stderr.write(encoder.encode(`${color}${label} ERROR: ${errorText}\x1b[0m`));
-        }
-    }
+                const text = decoder.decode(value);
+                const outputLabel = isError ? `${label} ERROR: ` : `${label}: `;
+                const outputColor = isError ? `\n${color}${outputLabel}${text}\x1b[0m` : `\n${color}${outputLabel}${text}\x1b[0m`;
 
-    // Wait for the process to finish
-    const status = await process.output();
-    return status.success;
+                await Deno.stdout.write(encoder.encode(outputColor));
+            }
+        } finally {
+            reader.releaseLock();
+        }
+    };
+
+    await Promise.all([
+        handleOutput(process.stdout),
+        handleOutput(process.stderr, true)
+    ]);
+
+    const output = await process.output();
+    return output.success;
 };
 
-// Function to terminate a process
-const terminateProcess = async (process: Deno.Command) => {
-    try {
-        await process.output(); // Wait for it to exit
-    } catch (_err: unknown) {
-        console.log("Process terminated.");
-    }
+const terminateProcess = (process: Deno.ChildProcess, name: string) => {
+    process.kill("SIGTERM");
+    console.log(`${name} process terminated.`);
 };
 
-// Commands to run the frontend and backend
-const frontendCommand = `cd ${Deno.cwd()}/src/frontend && npm run dev`;
-const backendCommand = `cd ${Deno.cwd()}/src/backend && dotnet run`;
-
-// Colors for labeling output
 const FRONTEND_COLOR = "\x1b[32m"; // Green
 const BACKEND_COLOR = "\x1b[34m";   // Blue
 
-// Run commands concurrently
-const frontendProcess = new Deno.Command(frontendCommand, {
+const frontendProcess = new Deno.Command("sh", {
+    args: ["-c", "cd src/frontend && npm run dev"],
     stdout: "piped",
     stderr: "piped",
-});
-const backendProcess = new Deno.Command(backendCommand, {
-    stdout: "piped",
-    stderr: "piped",
-});
+}).spawn();
 
-// Capture the SIGINT signal for cleanup
-const cleanup = async () => {
+const backendProcess = new Deno.Command("sh", {
+    args: ["-c", "cd src/backend && dotnet run"],
+    stdout: "piped",
+    stderr: "piped",
+}).spawn();
+
+const cleanup = () => {
     console.log("\nShutting down...");
-    await terminateProcess(frontendProcess);
-    await terminateProcess(backendProcess);
+    terminateProcess(frontendProcess, "Frontend");
+    terminateProcess(backendProcess, "Backend");
     Deno.exit(0);
 };
 
 Deno.addSignalListener("SIGINT", cleanup);
 
-// Read and log output from both processes concurrently
-const frontendPromise = runCommandWithLabel(frontendCommand, "FRONTEND", FRONTEND_COLOR);
-const backendPromise = runCommandWithLabel(backendCommand, "BACKEND", BACKEND_COLOR);
+const frontendPromise = runCommandWithLabel(frontendProcess, "FRONTEND", FRONTEND_COLOR);
+const backendPromise = runCommandWithLabel(backendProcess, "BACKEND", BACKEND_COLOR);
 
-// Wait for both processes to complete
 await Promise.all([frontendPromise, backendPromise]);
 
-// Cleanup in case the processes exit normally
-await cleanup();
+cleanup();
