@@ -1,5 +1,7 @@
 import { Config } from "./config.ts";
 
+let isShuttingDown = false;
+
 const runCommandWithLabel = async (process: Deno.ChildProcess, label: string, color: string) => {
     const encoder = new TextEncoder();
     const decoder = new TextDecoder();
@@ -9,7 +11,7 @@ const runCommandWithLabel = async (process: Deno.ChildProcess, label: string, co
 
         const reader = stream.getReader();
         try {
-            while (true) {
+            while (true && !isShuttingDown) {
                 const { done, value } = await reader.read();
                 if (done) break;
 
@@ -82,6 +84,7 @@ const backendProcess = new Deno.Command("sh", {
 }).spawn();
 
 const cleanup = async () => {
+    isShuttingDown = true;
     console.log("\nShutting down...");
     terminateProcess(frontendProcess, "Frontend");
     terminateProcess(backendProcess, "Backend");
