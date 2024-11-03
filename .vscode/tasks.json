@@ -18,7 +18,7 @@
                 ],
                 "background": {
                     "activeOnStart": true,
-                    "beginsPattern": "Now listening on:",
+                    "beginsPattern": "All services are ready!",
                     "endsPattern": "Shutting down..."
                 }
             },

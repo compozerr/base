@@ -1,6 +1,19 @@
 import { Config } from "./config.ts";
 
 let isShuttingDown = false;
+let isFrontendReady = false;
+let isBackendReady = false;
+
+const printServicesReady = () => {
+    if (!isBackendReady || !isFrontendReady) {
+        return;
+    }
+
+    console.log("All services are ready!");
+    for (const [key, value] of Object.entries(Config.ports)) {
+        console.log(`${key} running on http://localhost:${value}`);
+    }
+}
 
 const runCommandWithLabel = async (process: Deno.ChildProcess, label: string, color: string) => {
     const encoder = new TextEncoder();
@@ -19,15 +32,19 @@ const runCommandWithLabel = async (process: Deno.ChildProcess, label: string, co
                 const outputLabel = isError ? `${label} ERROR: ` : `${label}: `;
                 const outputColor = isError ? `\n${color}${outputLabel}${text}\x1b[0m` : `\n${color}${outputLabel}${text}\x1b[0m`;
 
-
-                // Check for "Now listening" message and attach debugger if in VS Code
-                if (label === "BACKEND" && text.includes("Now listening on:") && Deno.env.get("TERM_PROGRAM") === "vscode") {
-                    await Deno.mkdir("./bin", { recursive: true });
-
-                    await Deno.writeTextFile("./bin/backendProcess.pid", backendProcess.pid.toString());
+                if ((isFrontendReady && isBackendReady) || Deno.args.includes("--verbose")) {
+                    await Deno.stdout.write(encoder.encode(outputColor));
                 }
-
-                await Deno.stdout.write(encoder.encode(outputColor));
+                else
+                    if (label === "BACKEND") {
+                        if (text.includes("Now listening on:")) {
+                            setTimeout(() => { isBackendReady = true; printServicesReady(); }, 10);
+                        }
+                    } else if (label === "FRONTEND") {
+                        if (text.includes("press h + enter to show help")) {
+                            setTimeout(() => { isFrontendReady = true; printServicesReady(); }, 10);
+                        }
+                    }
             }
         } finally {
             reader.releaseLock();
@@ -83,13 +100,12 @@ const backendProcess = new Deno.Command("sh", {
     stderr: "piped",
 }).spawn();
 
-const cleanup = async () => {
+const cleanup = () => {
     isShuttingDown = true;
     console.log("\nShutting down...");
     terminateProcess(frontendProcess, "Frontend");
     terminateProcess(backendProcess, "Backend");
 
-    await Deno.remove("./bin", { recursive: true });
     Deno.exit(0);
 };
 
@@ -100,4 +116,4 @@ const backendPromise = runCommandWithLabel(backendProcess, "BACKEND", BACKEND_CO
 
 await Promise.all([frontendPromise, backendPromise]);
 
-await cleanup();
+cleanup();
