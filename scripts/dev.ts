@@ -46,7 +46,7 @@ const frontendProcess = new Deno.Command("sh", {
 }).spawn();
 
 const backendProcess = new Deno.Command("sh", {
-    args: ["-c", "cd src/backend && dotnet run"],
+    args: ["-c", "cd src/backend && dotnet watch"],
     stdout: "piped",
     stderr: "piped",
 }).spawn();
