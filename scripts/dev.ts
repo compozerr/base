@@ -15,16 +15,6 @@ const runCommandWithLabel = async (process: Deno.ChildProcess, label: string, co
                 const outputLabel = isError ? `${label} ERROR: ` : `${label}: `;
                 const outputColor = isError ? `\n${color}${outputLabel}${text}\x1b[0m` : `\n${color}${outputLabel}${text}\x1b[0m`;
 
-                // Check for "Now listening" message and attach debugger if in VS Code
-                if (label === "BACKEND" && text.includes("Now listening on:") && Deno.env.get("VSCODE_CLI") !== undefined) {
-                    const debugProcess = new Deno.Command("dotnet", {
-                        args: ["attach", "--process-id", process.pid.toString()],
-                        stdout: "inherit",
-                        stderr: "inherit"
-                    }).spawn();
-                    console.log("\x1b[35mAttaching debugger to .NET process...\x1b[0m");
-                }
-
                 await Deno.stdout.write(encoder.encode(outputColor));
             }
         } finally {
