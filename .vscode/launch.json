@@ -6,8 +6,7 @@
             "type": "coreclr",
             "request": "attach",
             "processName": "Base",
-            "preLaunchTask": "Run npm run dev",
-            "postDebugTask": "Terminate All Tasks"
+            "preLaunchTask": "Run npm run dev"
         }
     ]
 }

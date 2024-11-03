@@ -94,7 +94,7 @@ const frontendProcess = new Deno.Command("sh", {
 }).spawn();
 
 const backendProcess = new Deno.Command("sh", {
-    args: ["-c", "cd src/backend && dotnet watch run --urls http://localhost:" + Config.ports.backend],
+    args: ["-c", "cd src/backend && export DOTNET_WATCH_RESTART_ON_RUDE_EDIT=1 && dotnet watch run --urls http://localhost:" + Config.ports.backend],
     stdout: "piped",
     stderr: "piped",
 }).spawn();
