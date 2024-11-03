@@ -2,17 +2,11 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Attach to .NET Process",
+            "name": "Attach to Backend Process",
             "type": "coreclr",
             "request": "attach",
-            "processId": "${command:readBackendProcessId}",
-            "preLaunchTask": "Run npm dev"
+            "processName": "Base",
+            "preLaunchTask": "Run npm run dev"
         }
     ],
-    "compounds": [
-        {
-            "name": "Run npm and Attach",
-            "configurations": ["Attach to .NET Process"]
-        }
-    ]
 }
