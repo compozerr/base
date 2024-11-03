@@ -36,6 +36,24 @@ const terminateProcess = (process: Deno.ChildProcess, name: string) => {
     console.log(`${name} process terminated.`);
 };
 
+const ports = ["5190", "5173"];
+
+const cleanup_old_ports = async () => {
+    for (const port of ports) {
+        const process = new Deno.Command("sh", {
+            args: ["-c", `lsof -t -i:${port} | xargs kill -9`],
+            stdout: "piped",
+            stderr: "piped"
+        });
+
+        await process.output();
+    }
+
+    console.log("Old ports cleaned up.");
+}
+
+await cleanup_old_ports();
+
 const FRONTEND_COLOR = "\x1b[32m"; // Green
 const BACKEND_COLOR = "\x1b[34m";   // Blue
 
