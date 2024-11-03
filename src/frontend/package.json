@@ -7,8 +7,7 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview",
-    "generate-api": "openapi-generator-cli generate -i http://localhost:5190/swagger/v1/swagger.json -g typescript-axios -o ./src/api-client"
+    "preview": "vite preview"
   },
   "dependencies": {
     "react": "^18.3.1",
