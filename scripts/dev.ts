@@ -1,3 +1,5 @@
+import { Config } from "./config.ts";
+
 const runCommandWithLabel = async (process: Deno.ChildProcess, label: string, color: string) => {
     const encoder = new TextEncoder();
     const decoder = new TextDecoder();
@@ -44,10 +46,8 @@ const terminateProcess = (process: Deno.ChildProcess, name: string) => {
     console.log(`${name} process terminated.`);
 };
 
-const ports = ["5190", "5173"];
-
 const cleanup_old_ports = async () => {
-    for (const port of ports) {
+    for (const port of Object.values(Config.ports)) {
         const process = new Deno.Command("sh", {
             args: ["-c", `lsof -t -i:${port} | xargs kill -9`],
             stdout: "piped",
@@ -66,13 +66,13 @@ const FRONTEND_COLOR = "\x1b[32m"; // Green
 const BACKEND_COLOR = "\x1b[34m";   // Blue
 
 const frontendProcess = new Deno.Command("sh", {
-    args: ["-c", "cd src/frontend && npm run dev"],
+    args: ["-c", `cd src/frontend && npm run dev -- --port ${Config.ports.frontend}`],
     stdout: "piped",
     stderr: "piped",
 }).spawn();
 
 const backendProcess = new Deno.Command("sh", {
-    args: ["-c", "cd src/backend && dotnet watch run"],
+    args: ["-c", "cd src/backend && dotnet watch run --urls http://localhost:" + Config.ports.backend],
     stdout: "piped",
     stderr: "piped",
 }).spawn();
