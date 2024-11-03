@@ -42,7 +42,11 @@ const runCommandWithLabel = async (process: Deno.ChildProcess, label: string, co
 };
 
 const terminateProcess = (process: Deno.ChildProcess, name: string) => {
-    process.kill("SIGTERM");
+    try {
+        process.kill("SIGTERM");
+    } catch (error) {
+        console.error(`Error terminating ${name} process: ${error}`);
+    }
     console.log(`${name} process terminated.`);
 };
 
