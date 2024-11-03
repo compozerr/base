@@ -1,48 +1,81 @@
-const openTerminalMac = async (command: string) => {
-    const process = Deno.run({
-        cmd: [
-            "osascript", // AppleScript to open a new terminal window
-            "-e",
-            `tell application "Terminal" to do script "${command}"`
-        ],
-    });
+const runCommandWithLabel = async (command: string, label: string, color: string) => {
+    const process = new Deno.Command(
+        command,
+        {
+            stdout: "piped",
+            stderr: "piped",
+        });
 
-    await process.status();
-}
+    const encoder = new TextEncoder();
+    const decoder = new TextDecoder();
 
-const openTerminalWindows = async (command: string) => {
-    const process = Deno.run({
-        cmd: [
-            "cmd", // Command prompt
-            "/c",
-            `start cmd /k "${command}"` // Start a new command prompt with the specified command
-        ],
-    });
+    // Read output from the command
+    while (true) {
+        const output = await process.output();
+        if (output.stderr.length === 0 && output.stdout.length === 0) {
+            break; // No more output
+        }
 
-    await process.status();
-}
+        // Log the output with the label and color
+        if (output.stdout.length > 0) {
+            const text = decoder.decode(output.stdout);
+            Deno.stdout.write(encoder.encode(`${color}${label}: ${text}\x1b[0m`));
+        }
 
-const openTerminal = async (command: string) => {
+        if (output.stderr.length > 0) {
+            const errorText = decoder.decode(output.stderr);
+            Deno.stderr.write(encoder.encode(`${color}${label} ERROR: ${errorText}\x1b[0m`));
+        }
+    }
 
-    switch (Deno.build.os) {
-        case "darwin":
-            await openTerminalMac(command);
-            break;
-        case "win32":
-            await openTerminalWindows(command);
-            break;
-        default:
-            console.error("Unsupported platform");
-            Deno.exit(1);
+    // Wait for the process to finish
+    const status = await process.output();
+    return status.success;
+};
+
+// Function to terminate a process
+const terminateProcess = async (process: Deno.Command) => {
+    try {
+        await process.output(); // Wait for it to exit
+    } catch (_err: unknown) {
+        console.log("Process terminated.");
     }
 };
 
-// Command to run the frontend
+// Commands to run the frontend and backend
 const frontendCommand = `cd ${Deno.cwd()}/src/frontend && npm run dev`;
+const backendCommand = `cd ${Deno.cwd()}/src/backend && dotnet run`;
 
-// Command to run the backend
-const backendCommand = `cd ${Deno.cwd()}/src/backend && dotnet run`; // Adjust the command if necessary
+// Colors for labeling output
+const FRONTEND_COLOR = "\x1b[32m"; // Green
+const BACKEND_COLOR = "\x1b[34m";   // Blue
 
-// Open terminal windows
-await openTerminal(frontendCommand);
-await openTerminal(backendCommand);
+// Run commands concurrently
+const frontendProcess = new Deno.Command(frontendCommand, {
+    stdout: "piped",
+    stderr: "piped",
+});
+const backendProcess = new Deno.Command(backendCommand, {
+    stdout: "piped",
+    stderr: "piped",
+});
+
+// Capture the SIGINT signal for cleanup
+const cleanup = async () => {
+    console.log("\nShutting down...");
+    await terminateProcess(frontendProcess);
+    await terminateProcess(backendProcess);
+    Deno.exit(0);
+};
+
+Deno.addSignalListener("SIGINT", cleanup);
+
+// Read and log output from both processes concurrently
+const frontendPromise = runCommandWithLabel(frontendCommand, "FRONTEND", FRONTEND_COLOR);
+const backendPromise = runCommandWithLabel(backendCommand, "BACKEND", BACKEND_COLOR);
+
+// Wait for both processes to complete
+await Promise.all([frontendPromise, backendPromise]);
+
+// Cleanup in case the processes exit normally
+await cleanup();
