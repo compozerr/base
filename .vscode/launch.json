@@ -1,10 +1,18 @@
 {
+    "version": "0.2.0",
     "configurations": [
         {
-            "name": ".NET Core Attach",
+            "name": "Attach to .NET Process",
             "type": "coreclr",
             "request": "attach",
-            "processId": "${command:pickProcess}"
+            "processId": "${command:readBackendProcessId}",
+            "preLaunchTask": "Run npm dev"
+        }
+    ],
+    "compounds": [
+        {
+            "name": "Run npm and Attach",
+            "configurations": ["Attach to .NET Process"]
         }
     ]
 }

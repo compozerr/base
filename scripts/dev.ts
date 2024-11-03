@@ -15,6 +15,14 @@ const runCommandWithLabel = async (process: Deno.ChildProcess, label: string, co
                 const outputLabel = isError ? `${label} ERROR: ` : `${label}: `;
                 const outputColor = isError ? `\n${color}${outputLabel}${text}\x1b[0m` : `\n${color}${outputLabel}${text}\x1b[0m`;
 
+
+                // Check for "Now listening" message and attach debugger if in VS Code
+                if (label === "BACKEND" && text.includes("Now listening on:") && Deno.env.get("TERM_PROGRAM") === "vscode") {
+                    await Deno.mkdir("./bin", { recursive: true });
+
+                    await Deno.writeTextFile("./bin/backendProcess.pid", backendProcess.pid.toString());
+                }
+
                 await Deno.stdout.write(encoder.encode(outputColor));
             }
         } finally {
@@ -69,10 +77,12 @@ const backendProcess = new Deno.Command("sh", {
     stderr: "piped",
 }).spawn();
 
-const cleanup = () => {
+const cleanup = async () => {
     console.log("\nShutting down...");
     terminateProcess(frontendProcess, "Frontend");
     terminateProcess(backendProcess, "Backend");
+
+    await Deno.remove("./bin", { recursive: true });
     Deno.exit(0);
 };
 
@@ -83,4 +93,4 @@ const backendPromise = runCommandWithLabel(backendProcess, "BACKEND", BACKEND_CO
 
 await Promise.all([frontendPromise, backendPromise]);
 
-cleanup();
+await cleanup();

@@ -1,0 +1,3 @@
+{
+    "command.readBackendProcessId": "cat ${workspaceFolder}/bin/backendProcess.pid"
+}
