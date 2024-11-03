@@ -1,0 +1,20 @@
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - 'v*'
+
+jobs:
+  test:
+    if: github.event.ref == 'refs/heads/main' || github.event.ref == 'refs/tags/*'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+  deploy:
+    if: github.event.ref == 'refs/tags/*'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
