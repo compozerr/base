@@ -8,11 +8,12 @@ const printServicesReady = () => {
     if (!isBackendReady || !isFrontendReady) {
         return;
     }
-
-    console.log("All services are ready!");
+    
     for (const [key, value] of Object.entries(Config.ports)) {
         console.log(`${key} running on http://localhost:${value}`);
     }
+
+    console.log("All services are ready");
 }
 
 const runCommandWithLabel = async (process: Deno.ChildProcess, label: string, color: string) => {
@@ -111,6 +112,8 @@ Deno.addSignalListener("SIGINT", cleanup);
 
 const frontendPromise = runCommandWithLabel(frontendProcess, "FRONTEND", FRONTEND_COLOR);
 const backendPromise = runCommandWithLabel(backendProcess, "BACKEND", BACKEND_COLOR);
+
+console.log("Starting services...");
 
 await Promise.all([frontendPromise, backendPromise]);
 
