@@ -79,8 +79,6 @@ const cleanup_old_ports = async () => {
 
         await process.output();
     }
-
-    console.log("Old ports cleaned up.");
 }
 
 await cleanup_old_ports();
