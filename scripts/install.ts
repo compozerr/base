@@ -47,4 +47,19 @@ exec("cd ../src/fronend && npm install", (error, stdout, stderr) => {
     }
 });
 
+let openapiGeneratorInstalled = true;
+
+//Check if openapi-generator-cli is installed
+exec("openapi-generator-cli --version", (error, stdout, stderr) => {
+    if (error) {
+        openapiGeneratorInstalled = false;
+        return;
+    }
+});
+
+if (!openapiGeneratorInstalled) {
+    console.log("openapi-generator-cli is not installed, installing...");
+    exec("npm install @openapitools/openapi-generator-cli -g");
+}
+
 console.log("Dependencies installed!");
