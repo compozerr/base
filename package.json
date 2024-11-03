@@ -1,0 +1,5 @@
+{
+    "scripts": {
+        "deploy": "nbgv tag && git push origin --tags"
+    }
+}
