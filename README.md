@@ -21,3 +21,20 @@ npm run dev
 ```bash
 npm run deploy
 ```
+
+
+# General
+
+## Compozerr.json
+Format
+```json
+{
+    "dependencies": {
+        "admin": "*",
+        "auth": "*"
+    },
+    "start": "echo 'Hi Mom!'",
+    "ready": "I am ready son!",
+    "end": "echo 'Bye Mom!'"
+}
+```
