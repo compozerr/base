@@ -68,8 +68,8 @@ export class Command {
                         }
                     }
                     else if (this.options?.readyMessage && text.includes(this.options.readyMessage)) {
+                        await this.logger.logAsync(`is ready${this.options.port?.trim() ? ` on http://localhost:${this.options.port}` : ""}\n`);
                         this.markAsReady();
-                        await this.logger.logAsync(` is ready${this.options.port?.trim() ? ` on port ${this.options.port}` : ""}\n`);
                     }
                 }
             } finally {

@@ -19,7 +19,10 @@ export class Logger {
     }
 
     async logAsync(message: string, color?: string, label?: string) {
-        const output = `\n${color ?? this.color}${label ?? this.label}${message}\x1b[0m`;
+        label = label ?? this.label;
+        const hasLabel = !!label.trim();
+        
+        const output = `\n${color ?? this.color}${label}${hasLabel ? ": " : ""}${message}\x1b[0m`;
 
         await Deno.stdout.write(encoder.encode(output));
     }
