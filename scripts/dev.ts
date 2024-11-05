@@ -3,8 +3,22 @@ import { Config } from "./config.ts";
 import { Command } from "./utils/command.ts";
 
 const commands: Command[] = [
-    new Command(`cd src/frontend && npm run dev -- --port ${Config.ports.frontend}`, "frontend", { readyMessage: "press h + enter to show help", port: Config.ports.frontend }),
-    new Command(`cd src/backend && export DOTNET_WATCH_RESTART_ON_RUDE_EDIT=1 && dotnet watch run --urls http://localhost:${Config.ports.backend}`, "BACKEND", { readyMessage: "ready", port: Config.ports.backend })
+    new Command(
+        `cd src/frontend && npm run dev -- --port ${Config.ports.frontend}`,
+        "frontend",
+        {
+            readyMessage: "press h + enter to show help",
+            port: Config.ports.frontend
+        }
+    ),
+    new Command(
+        `cd src/backend && export DOTNET_WATCH_RESTART_ON_RUDE_EDIT=1 && dotnet watch run --urls http://localhost:${Config.ports.backend}`,
+        "backend",
+        {
+            readyMessage: "Now listening on:",
+            port: Config.ports.backend
+        }
+    )
 ];
 
 const cleanup = () => {
