@@ -12,6 +12,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      - name: Test
+        run: deno test
   deploy:
     if: github.event.ref == 'refs/tags/*'
     runs-on: ubuntu-latest

@@ -1,5 +1,7 @@
 {
     "dependencies": { },
     "start": "",
-    "end": ""
+    "readyMessage": "",
+    "end": "",
+    "port": ""
 }

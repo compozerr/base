@@ -2,5 +2,6 @@
     "tasks": {
         "dev": "deno run --allow-all scripts/dev.ts"
     },
-    "exclude": ["scripts/install.ts", "src/frontend/src/**"]
+    "exclude": ["scripts/install.ts", "src/frontend/src/**"],
+    "nodeModulesDir": "auto"
 }
