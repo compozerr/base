@@ -9,7 +9,7 @@ export class Random {
 
     getRandomColor() {
         const hashed = crypto.createHash("sha256").update(this.seed).digest("hex");
-        const color = Math.floor(parseInt(hashed, 16)) % 16;
-        return `\x1b[3${color}m`;
+        const color = Math.floor(parseInt(hashed, 16) * 1000) % 7 + 31;
+        return `\x1b[${color}m`;
     }
 }
