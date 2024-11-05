@@ -65,6 +65,8 @@ addEventListener("ready", async () => {
     }
 });
 
+await (new Command("clear")).spawn();
+
 await logger.logAsync("Starting services...");
 
 await Promise.all(commands.map(command => command.cleanupPortAsync()));
