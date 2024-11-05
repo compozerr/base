@@ -1,4 +1,5 @@
 import { CompozerrFile } from "../../types/compozerr-file.ts";
+import { Config } from "../config.ts";
 
 type AddedService = {
     name: string,
@@ -13,12 +14,12 @@ export class AddedModulesService {
     async initializeAsync() {
         if (this.addedModules.length > 0) return;
 
-        const moduleFolders = Deno.readDir("../modules");
+        const moduleFolders = Deno.readDir(Config.moduleFolderDir);
 
         for await (const moduleFolder of moduleFolders) {
             if (!moduleFolder.isDirectory) continue;
 
-            const file = await Deno.readFile(`../modules/${moduleFolder.name}/compozerr.json`);
+            const file = await Deno.readFile(`${Config.moduleFolderDir}/${moduleFolder.name}/compozerr.json`);
             if (!file) throw new Error("compozerr.json not found");
             const decoder = new TextDecoder();
             const compozerr = CompozerrFile.safeParse(JSON.parse(decoder.decode(file)));
