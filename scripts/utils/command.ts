@@ -19,14 +19,14 @@ export class Command {
     private isShuttingDown = false;
     private startupStartTime?: Date = undefined;
 
-    constructor(private cmd: string, name: string, private options?: CommandOptions) {
+    constructor(private cmd: string, name?: string, private options?: CommandOptions) {
         if (!options?.readyMessage) {
             this.markAsReady();
         }
 
         this.options = { ...options, startupTimeoutMs: options?.startupTimeoutMs ?? 5000 };
 
-        this.label = name.toUpperCase();
+        this.label = name?.toUpperCase() ?? "";
         this.logger = new Logger(this.label);
     }
 
