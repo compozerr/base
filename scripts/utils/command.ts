@@ -79,10 +79,11 @@ export class Command {
 
                     const text = decoder.decode(value);
 
-                    if (this.options?.logCallback) {
-                        this.options.logCallback(text);
-                    }
                     if (this.isReady || Deno.args.includes("--verbose")) {
+                        if (this.options?.logCallback) {
+                            this.options.logCallback(text);
+                        }
+                        
                         if (!isError) {
                             await this.logger.logAsync(text);
                         } else {
@@ -93,7 +94,7 @@ export class Command {
                         const startupTime = new Date().getTime() - this.startupStartTime!.getTime();
                         clearTimeout(startupTimeout);
 
-                        await this.logger.logAsync(`is ready${this.options.port?.trim() ? ` on http://localhost:${this.options.port}` : ""} took ${startupTime}ms \n`);
+                        await this.logger.logAsync(`is ready${this.options.port?.trim() ? ` on http://localhost:${this.options.port}` : ""} (took ${startupTime}ms)`);
                         this.markAsReady();
                     }
                 }

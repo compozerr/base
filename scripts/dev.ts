@@ -22,10 +22,9 @@ const commands: Command[] = [
             port: Config.ports.backend,
             startupTimeoutMs: 10000,
             logCallback: (text) => {
-                if (text.includes("dotnet watch ⌚ Exited")) {
+                if (text.includes("Content root path:")) {
                     setTimeout(() => {
-                        //REATTACH HERE PLEASE
-
+                        logger.logAsync("Click 'F5' to reattach the debugger\n", "RED");
                     }, 1000);
                 }
             }
@@ -67,7 +66,7 @@ addEventListener("ready", async () => {
 
 await (new Command("clear")).spawn();
 
-await logger.logAsync("Starting services...");
+await logger.logAsync("Starting services...\n");
 
 await Promise.all(commands.map(command => command.cleanupPortAsync()));
 await Promise.all(commands.map(command => command.spawn()));
