@@ -1,4 +1,4 @@
-import { Random } from "./random.ts";
+import { Logger } from "./logger.ts";
 
 interface CommandOptions {
     readyMessage?: string;
@@ -7,18 +7,18 @@ interface CommandOptions {
 
 export class Command {
     private isShuttingDown = false;
-    private color: string;
     public isReady = false;
     private process?: Deno.ChildProcess;
     private label: string;
+    private logger: Logger;
 
-    constructor(private cmd: string, private name: string, private options?: CommandOptions) {
+    constructor(private cmd: string, name: string, private options?: CommandOptions) {
         if (!options?.readyMessage) {
             this.markAsReady();
         }
 
         this.label = name.toUpperCase();
-        this.color = new Random(this.label).getRandomColor();
+        this.logger = new Logger(this.label);
     }
 
     markAsShuttingDown() {
@@ -47,7 +47,6 @@ export class Command {
             stderr: "piped",
         }).spawn();
 
-        const encoder = new TextEncoder();
         const decoder = new TextDecoder();
 
         const handleOutput = async (stream: ReadableStream<Uint8Array> | null, isError = false) => {
@@ -60,15 +59,17 @@ export class Command {
                     if (done) break;
 
                     const text = decoder.decode(value);
-                    const outputLabel = isError ? `${this.label} ERROR: ` : `${this.label}: `;
-                    const outputColor = isError ? `\n${this.color}${outputLabel}${text}\x1b[0m` : `\n${this.color}${outputLabel}${text}\x1b[0m`;
 
                     if (this.isReady || Deno.args.includes("--verbose")) {
-                        await Deno.stdout.write(encoder.encode(outputColor));
+                        if (!isError) {
+                            await this.logger.logAsync(text);
+                        } else {
+                            await this.logger.errorAsync(text);
+                        }
                     }
                     else if (this.options?.readyMessage && text.includes(this.options.readyMessage)) {
                         this.markAsReady();
-                        await Deno.stdout.write(encoder.encode(`${this.color}${this.label} is ready${this.options.port?.trim() ? ` on port ${this.options.port}` : ""}\n`));
+                        await this.logger.logAsync(` is ready${this.options.port?.trim() ? ` on port ${this.options.port}` : ""}\n`);
                     }
                 }
             } finally {
