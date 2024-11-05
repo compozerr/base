@@ -4,19 +4,27 @@ interface CommandOptions {
     readyMessage?: string;
     port?: string;
     logCallback?: (message: string) => void;
+    startupTimeoutMs?: number;
 }
 
 export class Command {
-    private isShuttingDown = false;
+    static terminateAllCallback? = () => { };
+
     public isReady = false;
+
     private process?: Deno.ChildProcess;
     private label: string;
     private logger: Logger;
+
+    private isShuttingDown = false;
+    private startupStartTime?: Date = undefined;
 
     constructor(private cmd: string, name: string, private options?: CommandOptions) {
         if (!options?.readyMessage) {
             this.markAsReady();
         }
+
+        this.options = { ...options, startupTimeoutMs: options?.startupTimeoutMs ?? 5000 };
 
         this.label = name.toUpperCase();
         this.logger = new Logger(this.label);
@@ -42,6 +50,16 @@ export class Command {
     }
 
     async spawn() {
+        this.startupStartTime = new Date();
+
+        const startupTimeout = setTimeout(() => {
+            if (!this.isReady) {
+                this.logger.errorAsync(`Process startup took too long (more than ${this.options?.startupTimeoutMs}ms). Terminating all processes...`);
+                Command.terminateAllCallback?.();
+            }
+
+        }, this.options?.startupTimeoutMs!);
+
         this.process = new Deno.Command("sh", {
             args: ["-c", this.cmd],
             stdout: "piped",
@@ -72,7 +90,10 @@ export class Command {
                         }
                     }
                     else if (this.options?.readyMessage && text.includes(this.options.readyMessage)) {
-                        await this.logger.logAsync(`is ready${this.options.port?.trim() ? ` on http://localhost:${this.options.port}` : ""}\n`);
+                        const startupTime = new Date().getTime() - this.startupStartTime!.getTime();
+                        clearTimeout(startupTimeout);
+
+                        await this.logger.logAsync(`is ready${this.options.port?.trim() ? ` on http://localhost:${this.options.port}` : ""} took ${startupTime}ms \n`);
                         this.markAsReady();
                     }
                 }
