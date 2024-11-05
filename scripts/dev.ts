@@ -20,6 +20,7 @@ const commands: Command[] = [
         {
             readyMessage: "Content root path:",
             port: Config.ports.backend,
+            startupTimeoutMs: 10000,
             logCallback: (text) => {
                 if (text.includes("dotnet watch ⌚ Exited")) {
                     setTimeout(() => {
