@@ -10,24 +10,30 @@ export enum LoggerColors {
 export class Logger {
     private color: string;
 
+    private fromStringToTerminalColor(color: string): string {
+        return `\x1b[${color}m`;
+    }
+
     constructor(private label: string, color?: keyof typeof LoggerColors) {
         if (color) {
-            this.color = `\x1b[${LoggerColors[color]}m`;
+            this.color = this.fromStringToTerminalColor(LoggerColors[color]);
         } else {
             this.color = new Random(label).getRandomColor();
         }
     }
 
-    async logAsync(message: string, color?: string, label?: string) {
+    async logAsync(message: string, color?: keyof typeof LoggerColors, label?: string) {
         label = label ?? this.label;
         const hasLabel = !!label.trim();
-        
-        const output = `\n${color ?? this.color}${label}${hasLabel ? ": " : ""}${message}\x1b[0m`;
+
+        const terminalColor = color ? this.fromStringToTerminalColor(LoggerColors[color]) : this.color;
+
+        const output = `\n${terminalColor}${label}${hasLabel ? ": " : ""}${message}\x1b[0m`;
 
         await Deno.stdout.write(encoder.encode(output));
     }
 
     async errorAsync(message: string) {
-        await this.logAsync(message, LoggerColors.RED, `${this.label} ERROR`)
+        await this.logAsync(message, "RED", `${this.label} ERROR`)
     }
 }
