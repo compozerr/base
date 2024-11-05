@@ -93,6 +93,11 @@ export class Command {
         try {
             this.process.kill("SIGTERM");
         } catch (error) {
+            if (error instanceof TypeError && error.message === "Child process has already terminated") {
+                console.log(`${this.label} process already terminated.`);
+                return;
+            }
+
             console.error(`Error terminating ${this.label} process: ${error}`);
         }
         console.log(`${this.label} process terminated.`);

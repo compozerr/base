@@ -26,12 +26,10 @@ export class AddedModulesService {
 
             if (!compozerr.success) throw new Error(`compozerr.json is invalid in ${moduleFolder.name}`, { cause: compozerr.error.message });
 
-            for (const [module, _version] of Object.entries(compozerr.data.dependencies)) {
-                this.addedModules.push({
-                    name: module,
-                    config: compozerr.data
-                });
-            }
+            this.addedModules.push({
+                name: moduleFolder.name,
+                config: compozerr.data
+            });
         }
 
         this.isInitialized = true;
@@ -44,6 +42,6 @@ export class AddedModulesService {
 
     async getModulesWithStartCommandsAsync() {
         const modules = await this.getAllAddedModulesAsync();
-        return modules.filter(module => !!module.config.start?.trim());
+        return modules.filter(module => module.config.start?.trim());
     }
 }
