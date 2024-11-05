@@ -3,6 +3,7 @@ import { Logger } from "./logger.ts";
 interface CommandOptions {
     readyMessage?: string;
     port?: string;
+    logCallback?: (message: string) => void;
 }
 
 export class Command {
@@ -60,6 +61,9 @@ export class Command {
 
                     const text = decoder.decode(value);
 
+                    if (this.options?.logCallback) {
+                        this.options.logCallback(text);
+                    }
                     if (this.isReady || Deno.args.includes("--verbose")) {
                         if (!isError) {
                             await this.logger.logAsync(text);

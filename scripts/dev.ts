@@ -19,7 +19,12 @@ const commands: Command[] = [
         "backend",
         {
             readyMessage: "Content root path:",
-            port: Config.ports.backend
+            port: Config.ports.backend,
+            logCallback: (text) => {
+                if (text.includes("dotnet watch ⌚ Exited")){
+                    logger.errorAsync("Backend exited unexpectedly");
+                }
+            }
         }
     )
 ];
