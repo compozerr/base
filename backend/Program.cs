@@ -1,6 +1,8 @@
+using Template;
+
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 
-app.MapGet("/", () => "Hello World!");
+app.MapGet("/", () => ExampleClass.ExampleMethod());
 
 app.Run();
