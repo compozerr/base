@@ -1,18 +1,10 @@
 import * as React from 'react'
 import { Link, Outlet, createRootRoute } from '@tanstack/react-router'
+import { TanStackRouterDevtools } from '@tanstack/router-devtools'
 
 export const Route = createRootRoute({
   component: RootComponent,
 })
-
-const TanStackRouterDevtools =
-  process.env.NODE_ENV === 'production'
-    ? () => null
-    : React.lazy(() =>
-      import('@tanstack/router-devtools').then((res) => ({
-        default: res.TanStackRouterDevtools,
-      })),
-    )
 
 function RootComponent() {
   return (
@@ -34,6 +26,22 @@ function RootComponent() {
           }}
         >
           About
+        </Link>
+        <Link
+          to="/using-module-component"
+          activeProps={{
+            className: 'font-bold',
+          }}
+        >
+          Module
+        </Link>
+        <Link
+          to="/example"
+          activeProps={{
+            className: 'font-bold',
+          }}
+        >
+          Example
         </Link>
       </div>
       <hr />

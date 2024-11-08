@@ -1,4 +1,4 @@
-import { CompozerrFile } from "../../types/compozerr-file.ts";
+import { CompozerrFile } from "../types/compozerr-file.ts";
 import { Config } from "../config.ts";
 
 type AddedService = {

@@ -40,7 +40,7 @@ if (!nbgvInstalled) {
     exec("dotnet tool install nbgv");
 }
 
-exec("cd ../src/fronend && npm install", (error, stdout, stderr) => {
+exec("cd ../frontend && npm install", (error, stdout, stderr) => {
     if (error) {
         console.error("Error installing frontend dependencies");
         return;

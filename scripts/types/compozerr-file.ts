@@ -6,7 +6,11 @@ export const CompozerrFile = z.object({
     startupTimeoutMs: z.number().optional(),
     readyMessage: z.string().optional(),
     end: z.string().optional(),
-    port: z.string().optional()
+    port: z.string().optional(),
+    frontend: z.object({
+        rootRoute: z.string().optional(),
+        routePrefix: z.string().optional(),
+    }).optional(),
 });
 
 export type CompozerrFile = z.infer<typeof CompozerrFile>;

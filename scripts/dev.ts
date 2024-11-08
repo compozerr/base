@@ -7,7 +7,7 @@ const logger = new Logger("", "WHITE");
 
 const commands: Command[] = [
     new Command(
-        `cd src/frontend && npm run dev -- --port ${Config.ports.frontend}`,
+        `cd frontend && npm run dev -- --port ${Config.ports.frontend}`,
         "frontend",
         {
             readyMessage: "press h + enter to show help",
@@ -15,7 +15,7 @@ const commands: Command[] = [
         }
     ),
     new Command(
-        `cd src/backend && export DOTNET_WATCH_RESTART_ON_RUDE_EDIT=1 && dotnet watch run --urls http://localhost:${Config.ports.backend}`,
+        `cd backend && export DOTNET_WATCH_RESTART_ON_RUDE_EDIT=1 && dotnet watch run --urls http://localhost:${Config.ports.backend}`,
         "backend",
         {
             readyMessage: "Content root path:",

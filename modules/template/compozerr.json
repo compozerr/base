@@ -4,5 +4,8 @@
     "startupTimeoutMs": 1000,
     "readyMessage": "Hi Mom",
     "end": "",
-    "port": ""
+    "port": "",
+    "frontend":{
+        "rootRoute": "frontend/src/routes"
+    }
 }
