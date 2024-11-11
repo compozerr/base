@@ -9,10 +9,10 @@ export const CompozerrFile = z.object({
     end: z.string().optional(),
     port: z.string().optional(),
     frontend: z.object({
-        srcDir: z.string().optional(),
+        srcDir: z.string().optional().default(Config.defaults.frontend.srcDir),
+        alias: z.string().optional().default(Config.defaults.frontend.alias),
         routesDir: z.string().optional(),
         routePrefix: z.string().optional(),
-        alias: z.string().optional(),
     }).optional().default(Config.defaults.frontend),
 });
 
