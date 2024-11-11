@@ -2,7 +2,7 @@ import { AddedModulesService } from "../added-modules.ts";
 import { Config } from "../../config.ts";
 import { FileUtils } from "../file-utils.ts";
 
-export const beforeRunFrontendAsync = async (addedModulesService: AddedModulesService) => {
+const addAliasesToFrontendTsconfig = async (addedModulesService: AddedModulesService) => {
     const modules = await addedModulesService.getAllAddedModulesAsync();
     const denoFile = await Deno.readFile("frontend/tsconfig.modules.json")
     const decoder = new TextDecoder();
@@ -25,4 +25,8 @@ export const beforeRunFrontendAsync = async (addedModulesService: AddedModulesSe
     }
 
     await Deno.writeFile("frontend/tsconfig.modules.json", new TextEncoder().encode(JSON.stringify(tsconfig, null, 4)));
+}
+
+export const beforeRunFrontendAsync = async (addedModulesService: AddedModulesService) => {
+    await addAliasesToFrontendTsconfig(addedModulesService);
 }
