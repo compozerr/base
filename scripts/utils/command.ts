@@ -95,7 +95,8 @@ export class Command {
                             await this.logger.errorAsync(text);
                         }
                     }
-                    else if (this.options?.readyMessage && text.includes(this.options.readyMessage)) {
+
+                    if (!this.isReady && this.options?.readyMessage && text.includes(this.options.readyMessage)) {
                         const startupTime = new Date().getTime() - this.startupStartTime!.getTime();
                         clearTimeout(startupTimeout);
 
