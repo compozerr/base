@@ -23,7 +23,7 @@ export class Logger {
     }
 
     async logAsync(message: string, color?: keyof typeof LoggerColors, label?: string) {
-        if (this.silent) return;
+        if (this.silent && !Deno.args.includes("--verbose")) return;
 
         label = label ?? this.label;
         const hasLabel = !!label.trim();
