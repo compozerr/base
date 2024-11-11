@@ -1,4 +1,5 @@
 import { z } from "npm:zod";
+import { Config } from "../config.ts";
 
 export const CompozerrFile = z.object({
     dependencies: z.record(z.string()),
@@ -8,9 +9,11 @@ export const CompozerrFile = z.object({
     end: z.string().optional(),
     port: z.string().optional(),
     frontend: z.object({
-        rootRouteDir: z.string().optional(),
+        srcDir: z.string().optional(),
+        routesDir: z.string().optional(),
         routePrefix: z.string().optional(),
-    }).optional(),
+        alias: z.string().optional(),
+    }).optional().default(Config.defaults.frontend),
 });
 
 export type CompozerrFile = z.infer<typeof CompozerrFile>;

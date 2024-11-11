@@ -40,6 +40,11 @@ export class AddedModulesService {
         return this.addedModules;
     }
 
+    async filterAddedModulesAsync(predicate: (module: AddedService) => boolean) {
+        const modules = await this.getAllAddedModulesAsync();
+        return modules.filter(predicate);
+    }
+
     async getModulesWithStartCommandsAsync() {
         const modules = await this.getAllAddedModulesAsync();
         return modules.filter(module => module.config.start?.trim());

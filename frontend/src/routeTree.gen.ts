@@ -14,7 +14,6 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as UsingModuleComponentImport } from './routes/using-module-component'
 import { Route as AboutImport } from './routes/about'
 import { Route as IndexImport } from './routes/index'
-import { Route as ExampleIndexImport } from './../../modules/template/frontend/src/routes/example/index'
 
 // Create/Update Routes
 
@@ -33,12 +32,6 @@ const AboutRoute = AboutImport.update({
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const ExampleIndexRoute = ExampleIndexImport.update({
-  id: '/example/',
-  path: '/example/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -67,13 +60,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UsingModuleComponentImport
       parentRoute: typeof rootRoute
     }
-    '/example/': {
-      id: '/example/'
-      path: '/example'
-      fullPath: '/example'
-      preLoaderRoute: typeof ExampleIndexImport
-      parentRoute: typeof rootRoute
-    }
   }
 }
 
@@ -83,14 +69,12 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/using-module-component': typeof UsingModuleComponentRoute
-  '/example': typeof ExampleIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/using-module-component': typeof UsingModuleComponentRoute
-  '/example': typeof ExampleIndexRoute
 }
 
 export interface FileRoutesById {
@@ -98,15 +82,14 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/using-module-component': typeof UsingModuleComponentRoute
-  '/example/': typeof ExampleIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/using-module-component' | '/example'
+  fullPaths: '/' | '/about' | '/using-module-component'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/using-module-component' | '/example'
-  id: '__root__' | '/' | '/about' | '/using-module-component' | '/example/'
+  to: '/' | '/about' | '/using-module-component'
+  id: '__root__' | '/' | '/about' | '/using-module-component'
   fileRoutesById: FileRoutesById
 }
 
@@ -114,14 +97,12 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   UsingModuleComponentRoute: typeof UsingModuleComponentRoute
-  ExampleIndexRoute: typeof ExampleIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   UsingModuleComponentRoute: UsingModuleComponentRoute,
-  ExampleIndexRoute: ExampleIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -136,8 +117,7 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/about",
-        "/using-module-component",
-        "/example/"
+        "/using-module-component"
       ]
     },
     "/": {
@@ -148,9 +128,6 @@ export const routeTree = rootRoute
     },
     "/using-module-component": {
       "filePath": "./using-module-component.tsx"
-    },
-    "/example/": {
-      "filePath": "../../../modules/template/frontend/src/routes/example/index.tsx"
     }
   }
 }

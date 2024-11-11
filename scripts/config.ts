@@ -4,4 +4,10 @@ export const Config = {
         backend: "1235"
     },
     moduleFolderDir: "modules",
+    defaults: {
+        frontend: {
+            alias: "@/*",
+            srcDir: "frontend/src",
+        }
+    }
 }

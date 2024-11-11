@@ -5,6 +5,7 @@ interface CommandOptions {
     port?: string;
     logCallback?: (message: string) => void;
     startupTimeoutMs?: number;
+    beforeRunAsync?: () => Promise<void>;
 }
 
 export class Command {
@@ -51,7 +52,7 @@ export class Command {
 
     async spawn() {
         this.startupStartTime = new Date();
-
+        
         const startupTimeout = setTimeout(() => {
             if (!this.isReady) {
                 this.logger.errorAsync(`Process startup took too long (more than ${this.options?.startupTimeoutMs}ms). Terminating all processes...`);
@@ -59,6 +60,8 @@ export class Command {
             }
 
         }, this.options?.startupTimeoutMs!);
+
+        await this.options?.beforeRunAsync?.();
 
         this.process = new Deno.Command("sh", {
             args: ["-c", this.cmd],
@@ -83,7 +86,7 @@ export class Command {
                         if (this.options?.logCallback) {
                             this.options.logCallback(text);
                         }
-                        
+
                         if (!isError) {
                             await this.logger.logAsync(text);
                         } else {

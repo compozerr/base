@@ -1,9 +1,7 @@
 {
+    "extends": "./tsconfig.modules.json",
     "include": ["../modules/*/frontend/src/*", "."],
     "compilerOptions": {
-        "paths": {
-            "@/*": ["../modules/template/frontend/src/*"]
-        },
         "strict": true,
         "esModuleInterop": true,
         "jsx": "preserve",
@@ -11,4 +9,4 @@
         "module": "ESNext",
         "moduleResolution": "Bundler"
     }
-}
+}   

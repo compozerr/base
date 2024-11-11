@@ -2,8 +2,11 @@ import { AddedModulesService } from "./utils/added-modules.ts";
 import { Config } from "./config.ts";
 import { Command } from "./utils/command.ts";
 import { Logger } from "./utils/logger.ts";
+import { beforeRunFrontendAsync } from "./utils/frontend/before-run-frontend.ts";
 
 const logger = new Logger("", "WHITE");
+const moduleService = new AddedModulesService();
+await moduleService.initializeAsync();
 
 const commands: Command[] = [
     new Command(
@@ -11,7 +14,8 @@ const commands: Command[] = [
         "frontend",
         {
             readyMessage: "press h + enter to show help",
-            port: Config.ports.frontend
+            port: Config.ports.frontend,
+            beforeRunAsync: () => beforeRunFrontendAsync(moduleService)
         }
     ),
     new Command(
@@ -40,9 +44,6 @@ const cleanupAsync = async () => {
 
 Deno.addSignalListener("SIGINT", cleanupAsync);
 Command.terminateAllCallback = cleanupAsync;
-
-const moduleService = new AddedModulesService();
-await moduleService.initializeAsync();
 
 const modulesWithStartCommands = await moduleService.getModulesWithStartCommandsAsync();
 

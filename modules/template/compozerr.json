@@ -6,6 +6,6 @@
     "end": "",
     "port": "",
     "frontend":{
-        "rootRouteDir": "frontend/src/routes"
+        "routeDir": "frontend/src/routes"
     }
 }
