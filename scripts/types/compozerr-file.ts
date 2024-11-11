@@ -8,7 +8,7 @@ export const CompozerrFile = z.object({
     end: z.string().optional(),
     port: z.string().optional(),
     frontend: z.object({
-        rootRoute: z.string().optional(),
+        rootRouteDir: z.string().optional(),
         routePrefix: z.string().optional(),
     }).optional(),
 });
