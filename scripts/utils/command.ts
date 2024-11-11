@@ -96,6 +96,10 @@ export class Command {
                         }
                     }
 
+                    if (!this.isReady && isError) {
+                        this.logger.errorAsync(text);
+                    }
+
                     if (!this.isReady && this.options?.readyMessage && text.includes(this.options.readyMessage)) {
                         const startupTime = new Date().getTime() - this.startupStartTime!.getTime();
                         clearTimeout(startupTimeout);
