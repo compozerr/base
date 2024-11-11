@@ -6,6 +6,8 @@ interface CommandOptions {
     logCallback?: (message: string) => void;
     startupTimeoutMs?: number;
     beforeRunAsync?: () => Promise<void>;
+    afterRunAsync?: () => Promise<void>;
+    silent?: boolean;
 }
 
 export class Command {
@@ -28,7 +30,7 @@ export class Command {
         this.options = { ...options, startupTimeoutMs: options?.startupTimeoutMs ?? 5000 };
 
         this.label = name?.toUpperCase() ?? "";
-        this.logger = new Logger(this.label);
+        this.logger = new Logger(this.label, this.options.silent);
     }
 
     markAsShuttingDown() {
@@ -52,7 +54,7 @@ export class Command {
 
     async spawn() {
         this.startupStartTime = new Date();
-        
+
         const startupTimeout = setTimeout(() => {
             if (!this.isReady) {
                 this.logger.errorAsync(`Process startup took too long (more than ${this.options?.startupTimeoutMs}ms). Terminating all processes...`);
@@ -96,6 +98,8 @@ export class Command {
                     else if (this.options?.readyMessage && text.includes(this.options.readyMessage)) {
                         const startupTime = new Date().getTime() - this.startupStartTime!.getTime();
                         clearTimeout(startupTimeout);
+
+                        await this.options?.afterRunAsync?.();
 
                         await this.logger.logAsync(`is ready${this.options.port?.trim() ? ` on http://localhost:${this.options.port}` : ""} (took ${startupTime}ms)`);
                         this.markAsReady();

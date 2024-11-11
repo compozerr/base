@@ -14,7 +14,7 @@ export class Logger {
         return `\x1b[${color}m`;
     }
 
-    constructor(private label: string, color?: keyof typeof LoggerColors) {
+    constructor(private label: string, private silent: boolean = false, color?: keyof typeof LoggerColors) {
         if (color) {
             this.color = this.fromStringToTerminalColor(LoggerColors[color]);
         } else {
@@ -23,6 +23,8 @@ export class Logger {
     }
 
     async logAsync(message: string, color?: keyof typeof LoggerColors, label?: string) {
+        if (this.silent) return;
+
         label = label ?? this.label;
         const hasLabel = !!label.trim();
 

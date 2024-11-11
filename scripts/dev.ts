@@ -3,8 +3,9 @@ import { Config } from "./config.ts";
 import { Command } from "./utils/command.ts";
 import { Logger } from "./utils/logger.ts";
 import { beforeRunFrontendAsync } from "./utils/frontend/before-run-frontend.ts";
+import { afterRunBackendAsync } from "./utils/backend/after-run-backend.ts";
 
-const logger = new Logger("", "WHITE");
+const logger = new Logger("", false, "WHITE");
 const moduleService = new AddedModulesService();
 await moduleService.initializeAsync();
 
@@ -31,7 +32,8 @@ const commands: Command[] = [
                         logger.logAsync("Click 'F5' to reattach the debugger\n", "RED");
                     }, 1000);
                 }
-            }
+            },
+            afterRunAsync: afterRunBackendAsync
         }
     )
 ];
