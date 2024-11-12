@@ -21,18 +21,6 @@ public static class Core_DependencyInjection
         services.AddSwaggerGen(c =>
         {
             c.SwaggerDoc("v1", new() { Title = "conpozerr base", Version = "v1" });
-
-            c.DocInclusionPredicate((s, description) =>
-            {
-                foreach (var metaData in description.ActionDescriptor.EndpointMetadata)
-                {
-                    if (metaData is IIncludeOpenApi)
-                    {
-                        return true;
-                    }
-                }
-                return false;
-            });
         });
 
 

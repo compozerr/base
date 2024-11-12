@@ -9,6 +9,10 @@
  * ---------------------------------------------------------------
  */
 
+export interface GetExampleResponse {
+  message?: string | null;
+}
+
 export type QueryParamsType = Record<string | number, any>;
 export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;
 
@@ -237,4 +241,27 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       method: "GET",
       ...params,
     });
+
+  example = {
+    /**
+     * No description
+     *
+     * @tags Api
+     * @name ExampleList
+     * @request GET:/example
+     */
+    exampleList: (
+      query: {
+        name: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<GetExampleResponse, any>({
+        path: `/example`,
+        method: "GET",
+        query: query,
+        format: "json",
+        ...params,
+      }),
+  };
 }
