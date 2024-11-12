@@ -1,13 +1,14 @@
-using Base.Helpers;
+using Core.Helpers;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace Base.Core;
+namespace Core;
 
 public static class Core_DependencyInjection
 {
     public static IServiceCollection AddCore(this IServiceCollection services)
     => services.AddWebApiConfig();
 
-    public static IServiceCollection AddWebApiConfig(this IServiceCollection services)
+    private static IServiceCollection AddWebApiConfig(this IServiceCollection services)
     {
         services.AddCors(options =>
         {

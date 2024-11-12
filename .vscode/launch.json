@@ -5,7 +5,7 @@
             "name": "Attach to Backend Process",
             "type": "coreclr",
             "request": "attach",
-            "processName": "Base",
+            "processName": "Api",
             "preLaunchTask": "Run npm run dev",
             "internalConsoleOptions": "neverOpen"
         }

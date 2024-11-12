@@ -220,14 +220,14 @@ export class HttpClient<SecurityDataType = unknown> {
 }
 
 /**
- * @title Base
- * @version 1.0
+ * @title conpozerr base
+ * @version v1
  */
 export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
   /**
    * No description
    *
-   * @tags Base
+   * @tags Api
    * @name GetRoot
    * @request GET:/
    */

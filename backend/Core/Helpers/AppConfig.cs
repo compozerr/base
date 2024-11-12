@@ -1,4 +1,4 @@
-namespace Base.Helpers;
+namespace Core.Helpers;
 
 public class AppConstants
 {

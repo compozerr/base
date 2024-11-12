@@ -1,4 +1,4 @@
-using Base.Core;
+using Core;
 using Template;
 
 var builder = WebApplication.CreateBuilder(args);

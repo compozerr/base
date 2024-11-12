@@ -20,7 +20,7 @@ const commands: Command[] = [
         }
     ),
     new Command(
-        `cd backend && export DOTNET_WATCH_RESTART_ON_RUDE_EDIT=1 && dotnet watch run --urls http://localhost:${Config.ports.backend}`,
+        `cd backend && export DOTNET_WATCH_RESTART_ON_RUDE_EDIT=1 && dotnet watch run --project Api --urls http://localhost:${Config.ports.backend}`,
         "backend",
         {
             readyMessage: "Content root path:",
