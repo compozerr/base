@@ -23,7 +23,6 @@ public static class Core_DependencyInjection
             c.SwaggerDoc("v1", new() { Title = "conpozerr base", Version = "v1" });
         });
 
-
         return services;
     }
 }
