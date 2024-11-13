@@ -19,10 +19,13 @@ const addAliasesToFrontendTsconfig = async (addedModulesService: AddedModulesSer
             ...tsconfig.compilerOptions,
             paths: {}
         };
-        if (!tsconfig.compilerOptions.paths[module.config.frontend.alias!]) tsconfig.compilerOptions.paths[module.config.frontend.alias!] = [];
 
-        if (!tsconfig.compilerOptions.paths[module.config.frontend.alias!].includes(aliasPath))
-            tsconfig.compilerOptions.paths[module.config.frontend.alias!].push(aliasPath);
+        const alias = `@${module.name}/*`;
+
+        if (!tsconfig.compilerOptions.paths[alias]) tsconfig.compilerOptions.paths[alias] = [];
+
+        if (!tsconfig.compilerOptions.paths[alias].includes(aliasPath))
+            tsconfig.compilerOptions.paths[alias].push(aliasPath);
     }
 
     await Deno.writeFile("frontend/tsconfig.modules.json", new TextEncoder().encode(JSON.stringify(tsconfig, null, 4)));
