@@ -7,6 +7,7 @@ public class HomeModule : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/", () => ExampleClass.ExampleMethod());
+        app.MapGet("/", () => ExampleClass.ExampleMethod())
+           .WithTags(nameof(Home));
     }
 }
