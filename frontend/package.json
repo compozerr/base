@@ -11,14 +11,14 @@
         "start": "vite"
     },
     "devDependencies": {
+        "@repo/config": "*",
         "@tanstack/router-plugin": "^1.79.0",
         "@types/react": "^18.3.3",
         "@types/react-dom": "^18.3.0",
         "@vitejs/plugin-react": "^4.3.2",
         "glob": "^11.0.0",
-        "swagger-typescript-api": "^13.0.22",
-        "vite": "^5.4.8",
-        "@repo/config": "*"
+        "openapi-zod-client": "^1.18.2",
+        "vite": "^5.4.8"
     },
     "dependencies": {
         "@repo/template": "*",
