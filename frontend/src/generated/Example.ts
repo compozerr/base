@@ -4,8 +4,8 @@ import { z } from "zod";
 const endpoints = makeApi([
   {
     method: "get",
-    path: "/example",
-    alias: "getExample",
+    path: "/api/v1/example",
+    alias: "getApiv1example",
     requestFormat: "json",
     parameters: [
       {

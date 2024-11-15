@@ -1,24 +1,54 @@
+using System.Collections.Immutable;
+using System.Diagnostics;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Core.Feature;
 
 public static class Features
 {
-    private static Lazy<IReadOnlyList<IFeature>> AllFeatures { get; } = new(GetFeaturesByReflection);
+    private static IReadOnlyList<IFeature>? _allFeatures;
+    private static IReadOnlyList<IFeature> AllFeatures
+    {
+        get
+        {
+            if (_allFeatures is null)
+            {
+                _allFeatures = GetFeaturesByReflection();
+            }
+            return _allFeatures;
+        }
+    }
+
     private static IReadOnlyList<IFeature> GetFeaturesByReflection()
     {
+        var apiAssembly = Assembly.Load(GetCallingAssemblyName());
+        var allReferencedAssemblies = apiAssembly.GetReferencedAssemblies();
+        var allAssemblies = allReferencedAssemblies.Select(Assembly.Load).Append(apiAssembly);
+
         var featureType = typeof(IFeature);
-        var types = Assembly.GetExecutingAssembly().GetTypes()
-            .Where(t => featureType.IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract);
+        var types = allAssemblies.SelectMany(assembly => assembly.GetTypes())
+            .Where(type => featureType.IsAssignableFrom(type) && !type.IsInterface && !type.IsAbstract);
 
         return [.. types.Select(Activator.CreateInstance).Cast<IFeature>()];
     }
 
+    private static string GetCallingAssemblyName()
+    {
+        var stackTrace = new StackTrace();
+        var callingAssembly = stackTrace.GetFrames()
+            .Select(frame => frame.GetMethod()?.DeclaringType?.Assembly)
+            .FirstOrDefault(assembly => assembly?.GetName().Name != "Core");
+
+        return callingAssembly?.GetName().Name ?? throw new InvalidOperationException("Calling assembly not found");
+    }
+
     public static IServiceCollection AddFeatures(this IServiceCollection services)
     {
-        foreach (var feature in AllFeatures.Value)
+        foreach (var feature in AllFeatures)
         {
             feature.ConfigureServices(services);
         }
@@ -28,11 +58,19 @@ public static class Features
 
     public static WebApplication UseFeatures(this WebApplication app)
     {
-        foreach (var feature in AllFeatures.Value)
+        foreach (var feature in AllFeatures)
         {
             feature.ConfigureApp(app);
         }
 
         return app;
+    }
+
+    public static void AppendFeatureRoutes(this IEndpointRouteBuilder routeBuilder)
+    {
+        foreach (var feature in AllFeatures)
+        {
+            feature.AddRoutes(routeBuilder);
+        }
     }
 }
