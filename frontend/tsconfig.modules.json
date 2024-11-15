@@ -1,9 +1,0 @@
-{
-    "compilerOptions": {
-        "paths": {
-            "@template/*": [
-                "../modules/template/frontend/src/*"
-            ]
-        }
-    }
-}

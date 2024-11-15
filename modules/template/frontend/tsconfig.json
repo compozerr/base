@@ -1,12 +1,3 @@
 {
-    "include": ["../../../frontend"],
-    "compilerOptions": {
-        "paths": {
-            "*": ["../../../frontend/node_modules/*"]
-        },
-        "typeRoots": ["../../../node_modules/@types"],
-        "esModuleInterop": true,
-        "strict": true,
-        "jsx": "preserve",
-    }
+    "extends": "@repo/config/react.json"
 }

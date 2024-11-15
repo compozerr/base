@@ -1,7 +1,24 @@
 {
-    "scripts": {
-        "install": "(npm list -g ts-node || npm install -g ts-node) > /dev/null 2>&1 && ts-node scripts/install.ts",
-        "dev": "deno run --allow-all scripts/dev.ts",
-        "deploy": "nbgv tag && git push origin --tags"
-    }
+  "name": "my-turborepo",
+  "private": true,
+  "scripts": {
+    "build": "turbo build",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+
+    "install:dep": "(npm list -g ts-node || npm install -g ts-node) > /dev/null 2>&1 && ts-node scripts/install.ts",
+    "dev": "deno run --allow-all scripts/dev.ts",
+    "deploy": "nbgv tag && git push origin --tags"
+  },
+  "devDependencies": {
+    "prettier": "^3.2.5",
+    "turbo": "^2.3.0",
+    "typescript": "5.5.4"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "packageManager": "npm@10.8.2",
+  "workspaces": [
+    "**/frontend"
+  ]
 }

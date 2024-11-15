@@ -18,9 +18,15 @@ export class AddedModulesService {
 
         for await (const moduleFolder of moduleFolders) {
             if (!moduleFolder.isDirectory) continue;
+            let file;
+            try {
+                file = await Deno.readFile(`${Config.moduleFolderDir}/${moduleFolder.name}/compozerr.json`);
+            }
+            catch (_e) {
+                console.error(`compozerr.json is not found in ${moduleFolder.name}`);
+                continue;
+            }
 
-            const file = await Deno.readFile(`${Config.moduleFolderDir}/${moduleFolder.name}/compozerr.json`);
-            if (!file) throw new Error("compozerr.json not found");
             const decoder = new TextDecoder();
             const compozerr = CompozerrFile.safeParse(JSON.parse(decoder.decode(file)));
 
