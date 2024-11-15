@@ -5,7 +5,7 @@ const endpoints = makeApi([
   {
     method: "get",
     path: "/api/v1/example",
-    alias: "getApiv1example",
+    alias: "GetExample",
     requestFormat: "json",
     parameters: [
       {

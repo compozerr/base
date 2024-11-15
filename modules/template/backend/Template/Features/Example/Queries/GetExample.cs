@@ -12,6 +12,7 @@ public class GetExample : IFeature
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapGet("/example", (string name) => new GetExampleResponse($"Hello, {name}!"))
-           .WithTags(nameof(Example));
+           .WithTags(nameof(Example))
+           .WithName(nameof(GetExample));
     }
 }
