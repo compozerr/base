@@ -1,21 +1,11 @@
-using Core;
-using Core.Helpers;
+using Core.Feature;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddCarter();
-
-builder.Services.AddCore();
+builder.Services.AddFeatures();
 
 var app = builder.Build();
 
-app.MapCarter();
-app.UseCors(AppConstants.CorsPolicy);
-
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseFeatures();
 
 app.Run();
