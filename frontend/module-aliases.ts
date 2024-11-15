@@ -11,7 +11,7 @@ export const getModuleAliases: () => Record<string, string> = () => {
     for (const file of compozerrFiles) {
         const moduleName = file.replace("/compozerr.json", "").split("/").pop();
 
-        aliases[`@${moduleName}`] = path.resolve(path.join(file.replace("compozerr.json", ""), "frontend/src/"));
+        aliases[`@${moduleName}`] = path.join(file.replace("compozerr.json", ""), "frontend/src/");
     }
     console.log({ aliases })
     return aliases;
