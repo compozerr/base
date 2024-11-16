@@ -1,42 +1,37 @@
-FROM node:18-alpine AS base
- 
-FROM base AS builder
-RUN apk update
-RUN apk add --no-cache libc6-compat
-# Set working directory
+# Stage 1: Install turbo globally and prune the frontend
+FROM node:18 AS turbo-stage
+
+# Install turbo globally
+RUN npm install -g turbo
+
+# Copy the project files
 WORKDIR /app
-# Replace <your-major-version> with the major version installed in your repository. For example:
-# RUN yarn global add turbo@^2
-RUN npm i -g turbo@^2
 COPY . .
- 
-# Generate a partial monorepo with a pruned lockfile for a target workspace.
-# Assuming "web" is the name entered in the project's package.json: { name: "web" }
+
+# Prune the frontend for Docker
 RUN turbo prune frontend --docker
- 
-# Add lockfile and package.json's of isolated subworkspace
-FROM base AS installer
-RUN apk update
-RUN apk add --no-cache libc6-compat
+
+# Copy compozerr.json files
+RUN find ./modules -name "compozerr.json" -exec bash -c ' \
+    for file; do \
+        dest="./out/full/${file#./}"; \
+        mkdir -p "$(dirname "$dest")"; \
+        cp "$file" "$dest"; \
+    done' _ {} +
+
+# Stage 2: Build the frontend
+FROM node:18 AS build-stage
+
+# Copy the pruned files
 WORKDIR /app
- 
-# First install the dependencies (as they change less often)
-COPY --from=builder /app/out/json/ .
-RUN npm i
- 
-# Build the project
-COPY --from=builder /app/out/full/ .
+COPY --from=turbo-stage /app/out/full .
+
+# Install dependencies and build the project
+WORKDIR /app/frontend
+RUN npm install
 RUN npm run build
- 
-FROM base AS runner
-WORKDIR /app
- 
-# Don't run production as root
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nextjs
-USER nextjs
- 
-# Automatically leverage output traces to reduce image size
-# https://nextjs.org/docs/advanced-features/output-file-tracing
- 
-CMD npm run serve
+
+EXPOSE 4173
+
+# Serve the application
+CMD ["npm", "run", "serve", "--", "--host"]
