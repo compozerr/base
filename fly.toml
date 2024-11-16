@@ -7,9 +7,10 @@ app = 'frontend-holy-sky-282'
 primary_region = 'fra'
 
 [build]
+dockerfile="Dockerfile.frontend"
 
 [http_service]
-  internal_port = 3000
+  internal_port = 4173
   force_https = true
   auto_stop_machines = 'stop'
   auto_start_machines = true
