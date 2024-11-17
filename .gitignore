@@ -1,7 +1,13 @@
+.DS_Store
+*.local
+*.log*
+
 bin
 obj
 node_modules
+dist
 
 src/frontend/modules/
 .turbo
 .env
+.vscode/*
