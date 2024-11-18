@@ -16,41 +16,47 @@ public static class Features
         {
             if (_allFeatures is null)
             {
-                _allFeatures = GetFeaturesByReflection();
+                _allFeatures = GetFeaturesFromDlls();
             }
             return _allFeatures;
         }
     }
 
-    private static IReadOnlyList<IFeature> GetFeaturesByReflection()
+    private static IReadOnlyList<IFeature> GetFeaturesFromDlls()
     {
-        var apiAssembly = Assembly.Load(GetCallingAssemblyName());
+        // Locate the output directory
+        var outputDirectory = AppDomain.CurrentDomain.BaseDirectory;
 
-        Log.Logger.Information("Loading features from assembly {AssemblyName}", apiAssembly.GetName().Name);
+        // Get all DLL files in the output directory
+        var dllFiles = Directory.GetFiles(outputDirectory, "*.dll");
 
-        var allReferencedAssemblies = apiAssembly.GetReferencedAssemblies();
+        var loadedAssemblies = new List<Assembly>();
 
-        Log.Logger.Information("Found {ReferencedAssembliesCount} referenced assemblies, names: {Names}", allReferencedAssemblies.Length, allReferencedAssemblies.Select(assembly => assembly.Name));
+        foreach (var dllFile in dllFiles)
+        {
+            try
+            {
+                // Load assembly from file
+                var assembly = Assembly.LoadFrom(dllFile);
+                loadedAssemblies.Add(assembly);
 
-        var allAssemblies = allReferencedAssemblies.Select(Assembly.Load).Append(apiAssembly);
+                // Log.Logger.Information("Successfully loaded assembly: {AssemblyName}", assembly.GetName().Name);
+            }
+            catch (Exception ex)
+            {
+                Log.Logger.Warning("Failed to load assembly {DllFile}: {ExceptionMessage}", dllFile, ex.Message);
+            }
+        }
 
+        // Find all types implementing IFeature
         var featureType = typeof(IFeature);
-        var types = allAssemblies.SelectMany(assembly => assembly.GetTypes())
+        var featureTypes = loadedAssemblies.SelectMany(assembly => assembly.GetTypes())
             .Where(type => featureType.IsAssignableFrom(type) && !type.IsInterface && !type.IsAbstract);
 
-        Log.Logger.Information("Found {FeatureCount} features", types.Count());
+        Log.Logger.Information("Found {FeatureCount} features", featureTypes.Count());
 
-        return [.. types.Select(Activator.CreateInstance).Cast<IFeature>()];
-    }
-
-    private static string GetCallingAssemblyName()
-    {
-        var stackTrace = new StackTrace();
-        var callingAssembly = stackTrace.GetFrames()
-            .Select(frame => frame.GetMethod()?.DeclaringType?.Assembly)
-            .FirstOrDefault(assembly => assembly?.GetName().Name != "Core");
-
-        return callingAssembly?.GetName().Name ?? throw new InvalidOperationException("Calling assembly not found");
+        // Instantiate and return features
+        return [.. featureTypes.Select(Activator.CreateInstance).Cast<IFeature>()];
     }
 
     public static WebApplicationBuilder ConfigureFeatures(this WebApplicationBuilder builder)
@@ -77,6 +83,7 @@ public static class Features
     {
         foreach (var feature in AllFeatures)
         {
+            Log.Logger.Information("Configuring feature {Feature}", feature.GetType().Name);
             feature.ConfigureApp(app);
         }
 
