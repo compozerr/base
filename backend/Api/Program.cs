@@ -1,10 +1,12 @@
-using System.Net;
 using Core.Feature;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.ConfigureFeatures();
+Log.Logger = new LoggerConfiguration().WriteTo.Console()
+                                              .CreateLogger();
 
+builder.ConfigureFeatures();
 builder.Services.AddFeatures();
 
 var app = builder.Build();
