@@ -1,10 +1,9 @@
-using System.Collections.Immutable;
 using System.Diagnostics;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 
 namespace Core.Feature;
 
@@ -26,12 +25,20 @@ public static class Features
     private static IReadOnlyList<IFeature> GetFeaturesByReflection()
     {
         var apiAssembly = Assembly.Load(GetCallingAssemblyName());
+
+        Log.Logger.Information("Loading features from assembly {AssemblyName}", apiAssembly.GetName().Name);
+
         var allReferencedAssemblies = apiAssembly.GetReferencedAssemblies();
+
+        Log.Logger.Information("Found {ReferencedAssembliesCount} referenced assemblies, names: {Names}", allReferencedAssemblies.Length, allReferencedAssemblies.Select(assembly => assembly.Name));
+
         var allAssemblies = allReferencedAssemblies.Select(Assembly.Load).Append(apiAssembly);
 
         var featureType = typeof(IFeature);
         var types = allAssemblies.SelectMany(assembly => assembly.GetTypes())
             .Where(type => featureType.IsAssignableFrom(type) && !type.IsInterface && !type.IsAbstract);
+
+        Log.Logger.Information("Found {FeatureCount} features", types.Count());
 
         return [.. types.Select(Activator.CreateInstance).Cast<IFeature>()];
     }
@@ -80,6 +87,8 @@ public static class Features
     {
         foreach (var feature in AllFeatures)
         {
+            Log.Logger.Information("Adding routes for feature {Feature}", feature.GetType().Name);
+
             feature.AddRoutes(routeBuilder);
         }
     }
