@@ -13,8 +13,25 @@ const endpoints = makeApi([
         type: "Header",
         schema: z.string(),
       },
+      {
+        name: "x-app-name",
+        type: "Header",
+        schema: z.string(),
+      },
     ],
     response: z.void(),
+    errors: [
+      {
+        status: 400,
+        description: `Bad Request`,
+        schema: z.void(),
+      },
+      {
+        status: 401,
+        description: `Unauthorized`,
+        schema: z.void(),
+      },
+    ],
   },
 ]);
 

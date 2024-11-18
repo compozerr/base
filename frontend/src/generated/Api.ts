@@ -3,25 +3,23 @@ import { z } from "zod";
 
 const endpoints = makeApi([
   {
-    method: "get",
-    path: "/",
-    alias: "get",
-    requestFormat: "json",
-    response: z.void(),
-  },
-  {
-    method: "get",
-    path: "/example",
-    alias: "getExample",
+    method: "post",
+    path: "/api/v1/docker/push",
+    alias: "postApiv1dockerpush",
     requestFormat: "json",
     parameters: [
       {
-        name: "name",
-        type: "Query",
+        name: "x-api-key",
+        type: "Header",
+        schema: z.string(),
+      },
+      {
+        name: "x-app-name",
+        type: "Header",
         schema: z.string(),
       },
     ],
-    response: z.object({ message: z.string().nullable() }).partial().strict(),
+    response: z.void(),
   },
 ]);
 
