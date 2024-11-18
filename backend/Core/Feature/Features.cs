@@ -89,14 +89,4 @@ public static class Features
 
         return app;
     }
-
-    public static void AppendFeatureRoutes(this IEndpointRouteBuilder routeBuilder)
-    {
-        foreach (var feature in AllFeatures)
-        {
-            Log.Logger.Information("Adding routes for feature {Feature}", feature.GetType().Name);
-
-            feature.AddRoutes(routeBuilder);
-        }
-    }
 }
