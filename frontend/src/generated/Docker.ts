@@ -9,7 +9,7 @@ const endpoints = makeApi([
     requestFormat: "json",
     parameters: [
       {
-        name: "apiKey",
+        name: "x-api-key",
         type: "Header",
         schema: z.string(),
       },

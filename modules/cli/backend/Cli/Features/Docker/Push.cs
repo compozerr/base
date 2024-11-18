@@ -1,3 +1,4 @@
+using Cli.Services;
 using Core.Feature;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -6,13 +7,17 @@ using Microsoft.AspNetCore.Routing;
 
 namespace Cli.Features.Docker;
 
-public class Push : IFeature
+public class Push(IApiKeyService apiKeyService) : IFeature
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPost("/docker/push", async ([FromHeader] string apiKey) =>
+        app.MapPost("/docker/push", async ([FromHeader(Name = "x-api-key")] string apiKey) =>
         {
-            await Task.Delay(1000);
+            if (!await apiKeyService.ValidateApiKeyAsync())
+            {
+                return Results.Unauthorized();
+            }
+
             return Results.Ok("Pushing docker image...");
         })
         .WithTags(nameof(Docker));
