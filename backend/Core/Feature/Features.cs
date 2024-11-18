@@ -46,6 +46,16 @@ public static class Features
         return callingAssembly?.GetName().Name ?? throw new InvalidOperationException("Calling assembly not found");
     }
 
+    public static WebApplicationBuilder ConfigureFeatures(this WebApplicationBuilder builder)
+    {
+        foreach (var feature in AllFeatures)
+        {
+            feature.ConfigureBuilder(builder);
+        }
+
+        return builder;
+    }
+
     public static IServiceCollection AddFeatures(this IServiceCollection services)
     {
         foreach (var feature in AllFeatures)

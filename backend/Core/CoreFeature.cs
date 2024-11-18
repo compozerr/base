@@ -2,6 +2,7 @@ using Carter;
 using Core.Feature;
 using Core.Helpers;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -9,6 +10,17 @@ namespace Core;
 
 public class CoreFeature : IFeature
 {
+    public void ConfigureBuilder(WebApplicationBuilder builder)
+    {
+        if (builder.Environment.IsProduction())
+        {
+            builder.WebHost.ConfigureKestrel(options =>
+            {
+                options.ListenAnyIP(5000);
+            });
+        }
+    }
+
     public void ConfigureApp(WebApplication app)
     {
         app.MapCarter();
