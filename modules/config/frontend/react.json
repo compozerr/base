@@ -5,6 +5,7 @@
   "exclude": ["node_modules", "build", "dist"],
   "compilerOptions": {
     "jsx": "preserve",
-    "moduleResolution": "Bundler"
+    "moduleResolution": "Bundler",
+    "module": "ESNext",
   }
 }
