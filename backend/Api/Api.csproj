@@ -5,6 +5,11 @@
     <ProjectReference Include="..\Core\Core.csproj" />
     <ProjectReference Include="..\..\modules\template\backend\Template\Template.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="../.env">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Carter" Version="8.2.1" />

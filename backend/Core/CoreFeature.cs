@@ -1,6 +1,7 @@
 using Carter;
 using Core.Feature;
 using Core.Helpers;
+using Core.Helpers.Env;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,6 +20,8 @@ public class CoreFeature : IFeature
                 options.ListenAnyIP(5000);
             });
         }
+
+        builder.Configuration.AddEnvFile(".env");
     }
 
     public void ConfigureApp(WebApplication app)
