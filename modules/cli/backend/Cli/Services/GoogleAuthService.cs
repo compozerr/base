@@ -13,7 +13,7 @@ public class GoogleAuthService
 
     public void SetupGoogleCredentials()
     {
-        var serviceAccountJson = _configuration["GoogleCloud:ServiceAccountCredentials"];
+        var serviceAccountJson = _configuration["GOOGLECLOUD_SERVICEACCOUNTCREDENTIALS"];
         File.WriteAllText("/tmp/google-credentials.json", serviceAccountJson);
         Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", "/tmp/google-credentials.json");
     }
