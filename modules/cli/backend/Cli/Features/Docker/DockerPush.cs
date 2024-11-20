@@ -13,6 +13,7 @@ using System.Net.Http.Headers;
 using System.Security.Authentication;
 using System.Text;
 using Google.Apis.Auth.OAuth2;
+using Serilog;
 
 public class DockerPush : ICarterModule
 {
@@ -29,6 +30,7 @@ public class DockerPush : ICarterModule
             try
             {
                 googleAuthService.SetupGoogleCredentials();
+                Log.Logger.Information("Activating service account");
 
                 // Activate service account
                 var process = new Process
@@ -48,8 +50,10 @@ public class DockerPush : ICarterModule
 
                 if (process.ExitCode != 0)
                 {
+                    Log.Logger.Error($"Failed to activate service account {process.StandardError.ReadToEnd()}");
                     return Results.Problem("Failed to activate service account");
                 }
+                Log.Logger.Information("Service account activated");
 
                 var config = GetGoogleCloudConfiguration(configuration);
                 var registryPath = $"europe-west3-docker.pkg.dev/{config.ProjectId}/{config.RepositoryName}/{appName}";
