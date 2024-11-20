@@ -58,6 +58,10 @@ public class DockerPush : ICarterModule
                 var config = GetGoogleCloudConfiguration(configuration);
                 var registryPath = $"europe-west3-docker.pkg.dev/{config.ProjectId}/{config.RepositoryName}/{appName}";
 
+
+                // Authenticate Docker registry
+                await AuthenticateDockerRegistryAsync(config.Region);
+
                 // Load the image from the stream
                 var loadProcess = new Process
                 {
@@ -71,16 +75,39 @@ public class DockerPush : ICarterModule
                         UseShellExecute = false
                     }
                 };
+                Log.Logger.Information("Loading docker image");
+
+                foreach (var header in context.Request.Headers)
+                {
+                    Log.Logger.Information($"Header: {header.Key} = {header.Value}");
+                }
 
                 loadProcess.Start();
-                await context.Request.Body.CopyToAsync(loadProcess.StandardInput.BaseStream);
+                if (!context.Request.Headers.TryGetValue("ContentSize", out var totalBytesString) || !long.TryParse(totalBytesString, out var totalBytes))
+                    throw new InvalidOperationException("ContentSize not found");
+
+                var buffer = new byte[81920 * 64];
+                int bytesRead;
+                long totalRead = 0;
+
+                while ((bytesRead = await context.Request.Body.ReadAsync(buffer, 0, buffer.Length)) > 0)
+                {
+                    await loadProcess.StandardInput.BaseStream.WriteAsync(buffer, 0, bytesRead);
+                    totalRead += bytesRead;
+                    var percentage = Math.Min((double)totalRead / totalBytes * 100, 100);
+                    Log.Logger.Information($"Loading Docker image: {percentage:F2}%");
+                }
+
                 loadProcess.StandardInput.Close();
                 await loadProcess.WaitForExitAsync();
 
                 if (loadProcess.ExitCode != 0)
                 {
+                    Log.Logger.Error("Failed to load Docker image");
                     return Results.Problem("Failed to load Docker image");
                 }
+
+                Log.Logger.Information("Docker image loaded");
 
                 // Tag the image
                 var tagProcess = new Process
@@ -95,13 +122,18 @@ public class DockerPush : ICarterModule
                     }
                 };
 
+                Log.Logger.Information("Tagging Docker image");
+
                 tagProcess.Start();
                 await tagProcess.WaitForExitAsync();
 
                 if (tagProcess.ExitCode != 0)
                 {
+                    Log.Logger.Error("Failed to tag Docker image");
                     return Results.Problem("Failed to tag Docker image");
                 }
+
+                Log.Logger.Information("Docker image tagged");
 
                 // Push the tagged image
                 var pushProcess = new Process
@@ -116,18 +148,23 @@ public class DockerPush : ICarterModule
                     }
                 };
 
+                Log.Logger.Information("Pushing Docker image");
                 pushProcess.Start();
                 await pushProcess.WaitForExitAsync();
 
                 if (pushProcess.ExitCode != 0)
                 {
+                    Log.Logger.Error($"Failed to push Docker image {pushProcess.StandardError.ReadToEnd()}");
                     return Results.Problem("Failed to push Docker image");
                 }
+
+                Log.Logger.Information("Docker image pushed");
 
                 return Results.Ok("Successfully pushed image");
             }
             catch (Exception ex)
             {
+                Log.Logger.Error(ex, "Push error");
                 return Results.Problem($"Push error: {ex.Message}");
             }
         });
@@ -155,7 +192,7 @@ public class DockerPush : ICarterModule
                 RedirectStandardError = true
             }
         };
-
+        Log.Logger.Information("Authenticating Docker registry");
         process.Start();
         await process.WaitForExitAsync();
 
@@ -163,6 +200,8 @@ public class DockerPush : ICarterModule
         {
             throw new AuthenticationException("Docker authentication failed");
         }
+
+        Log.Logger.Information("Docker registry authenticated");
     }
 
     private async Task<bool> RunDockerTagAsync(string localImage, string registryPath)
