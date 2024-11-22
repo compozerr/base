@@ -56,8 +56,7 @@ public class DockerPush : ICarterModule
                 Log.Logger.Information("Service account activated");
 
                 var config = GetGoogleCloudConfiguration(configuration);
-                var registryPath = $"europe-west3-docker.pkg.dev/{config.ProjectId}/{config.RepositoryName}/{appName}";
-
+                var registryPath = $"${config.Region}-docker.pkg.dev/{config.ProjectId}/{config.RepositoryName}/{appName}";
 
                 // Authenticate Docker registry
                 await AuthenticateDockerRegistryAsync(config.Region);
@@ -76,11 +75,6 @@ public class DockerPush : ICarterModule
                     }
                 };
                 Log.Logger.Information("Loading docker image");
-
-                foreach (var header in context.Request.Headers)
-                {
-                    Log.Logger.Information($"Header: {header.Key} = {header.Value}");
-                }
 
                 loadProcess.Start();
                 if (!context.Request.Headers.TryGetValue("ContentSize", out var totalBytesString) || !long.TryParse(totalBytesString, out var totalBytes))
