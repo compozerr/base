@@ -79,12 +79,12 @@ public class DockerPush : ICarterModule
 
     private async static Task<bool> AuthenticateGoogleCloudAsync(IProcessService processService)
     {
-        Log.Logger.Information("Activating service account");
+        Log.Logger.Information("Service account activating");
         var response = await processService.RunProcessAsync($"gcloud auth activate-service-account --key-file {Environment.GetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS")}");
 
-        if (!response.Success)
+        if (!response.Success) 
         {
-            Log.Logger.Error($"Failed to activate service account {response.Output}");
+            Log.Logger.Error($"Service account activation failed {response.Output}");
             return false;
         }
         Log.Logger.Information("Service account activated");
@@ -94,10 +94,11 @@ public class DockerPush : ICarterModule
 
     private async static Task<bool> LoadDockerImageAsync(IProcessService processService, Stream imageStream)
     {
+        Log.Logger.Information("Docker image loading");
         var response = await processService.RunProcessAsync("docker load", imageStream);
         if (!response.Success)
         {
-            Log.Logger.Error($"Failed to load Docker image {response.Output}");
+            Log.Logger.Error($"Docker image failed to load {response.Output}");
             return false;
         }
 
@@ -107,12 +108,12 @@ public class DockerPush : ICarterModule
 
     private async static Task<bool> TagDockerImageAsync(IProcessService processService, string appName, string registryPath)
     {
-        Log.Logger.Information("Tagging Docker image");
+        Log.Logger.Information("Docker image tagging");
         var response = await processService.RunProcessAsync($"docker tag {appName} {registryPath}");
 
         if (!response.Success)
         {
-            Log.Logger.Error($"Failed to tag Docker image {response.Output}");
+            Log.Logger.Error($"Docker image failed to tag {response.Output}");
             return false;
         }
 
@@ -122,12 +123,12 @@ public class DockerPush : ICarterModule
 
     private async static Task<bool> PushDockerImageAsync(IProcessService processService, string registryPath)
     {
-        Log.Logger.Information("Pushing Docker image");
+        Log.Logger.Information("Docker image pushing");
         var response = await processService.RunProcessAsync($"docker push {registryPath}");
 
         if (!response.Success)
         {
-            Log.Logger.Error($"Failed to push Docker image {response.Output}");
+            Log.Logger.Error($"Docker image failed to push {response.Output}");
             return false;
         }
 
