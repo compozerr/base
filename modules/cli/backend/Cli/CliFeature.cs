@@ -22,6 +22,7 @@ public class CliFeature : IFeature
             options.Limits.MaxRequestBodySize = 1024L * 1024L * 2048L; // 2GB
             options.Limits.MinRequestBodyDataRate = new(100, TimeSpan.FromSeconds(10));
         });
+        services.AddSingleton<IProcessService, ProcessService>();
     }
 
     void IFeature.ConfigureBuilder(Microsoft.AspNetCore.Builder.WebApplicationBuilder builder)
