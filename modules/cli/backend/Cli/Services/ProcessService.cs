@@ -53,15 +53,15 @@ public class ProcessService : IProcessService
         return WaitForExitAndGetResponseAsync(process);
     }
 
-    public Task<ProcessResponse> RunProcessAsync(string command, Stream inputStream)
+    public async Task<ProcessResponse> RunProcessAsync(string command, Stream inputStream)
     {
         var process = CreateProcess(command);
         process.StartInfo.RedirectStandardInput = true;
 
         process.Start();
-        inputStream.CopyTo(process.StandardInput.BaseStream);
+        await inputStream.CopyToAsync(process.StandardInput.BaseStream);
         process.StandardInput.Close();
 
-        return WaitForExitAndGetResponseAsync(process);
+        return await WaitForExitAndGetResponseAsync(process);
     }
 }
