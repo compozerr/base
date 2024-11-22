@@ -1,13 +1,13 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Template", "..\modules\template\backend\Template\Template.csproj", "{3A732EB6-3169-408B-B0FD-5D94B418DE25}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{F2850118-E7CF-4EFB-8048-87773B0EE5D7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Core\Core.csproj", "{F2850118-E7CF-4EFB-8048-87773B0EE5D7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api", "Api\Api.csproj", "{48A374D9-B9F7-443A-92AA-0E14B4B7414A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api", "Api\Api.csproj", "{48A374D9-B9F7-443A-92AA-0E14B4B7414A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cli", "..\modules\cli\backend\Cli\Cli.csproj", "{1335DAEE-F81A-4A2F-A9F0-E64B701B2061}"
 EndProject
