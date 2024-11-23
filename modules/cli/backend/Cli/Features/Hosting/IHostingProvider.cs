@@ -1,5 +1,3 @@
-using System.Runtime.ConstrainedExecution;
-
 namespace Cli.Features.Hosting;
 
 public interface IHostingProvider
