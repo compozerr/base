@@ -1,22 +1,31 @@
 on:
-  push:
-    branches:
-      - main
-    tags:
-      - 'v*'
+    push:
+        branches:
+            - main
+        tags:
+            - "v*"
 
 jobs:
-  test:
-    if: github.event.ref == 'refs/heads/main' || github.event.ref == 'refs/tags/*'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Test
-        run: deno test
-  deploy:
-    if: github.event.ref == 'refs/tags/*'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+    test:
+        if: github.event.ref == 'refs/heads/main' || github.event.ref == 'refs/tags/*'
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v3
+
+            - name: Setup .NET
+              uses: actions/setup-dotnet@v1
+              with:
+                  dotnet-version: "9.x"
+
+            - name: Restore
+              run: dotnet restore
+
+            - name: Test
+              run: dotnet test
+    deploy:
+        if: github.event.ref == 'refs/tags/*'
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v3
