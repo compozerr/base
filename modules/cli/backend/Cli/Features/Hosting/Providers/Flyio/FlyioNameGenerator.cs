@@ -4,11 +4,6 @@ using System.Text.RegularExpressions;
 
 namespace Cli.Features.Hosting.Providers.Flyio;
 
-public enum Platform {
-    Backend,
-    Frontend
-}
-
 public interface IFlyioNameGenerator
 {
     public string GenerateName(string appName, Platform platform);

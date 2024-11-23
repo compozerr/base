@@ -2,6 +2,7 @@ using Carter;
 using Cli.Features.GoogleCloud;
 using Cli.Features.Hosting;
 using Cli.Services;
+using Core.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,6 +20,7 @@ public class DockerPush : ICarterModule
             HttpContext context,
             [FromHeader(Name = "x-api-key")] string apiKey,
             [FromHeader(Name = "x-app-name")] string appName,
+            [FromHeader(Name = "x-app-platform")] string platform,
             IApiKeyService apiKeyService,
             IConfiguration configuration,
             IProcessService processService,
@@ -48,7 +50,7 @@ public class DockerPush : ICarterModule
 
                 var hostingProviderInstance = await hostingProvider.GetProviderAsync();
 
-                var deployResponse = await hostingProviderInstance.DeployAsync(new(appName, registryPath));
+                var deployResponse = await hostingProviderInstance.DeployAsync(new(appName, registryPath, platform.ToEnum<Platform>()));
 
                 if (!deployResponse.Success)
                 {

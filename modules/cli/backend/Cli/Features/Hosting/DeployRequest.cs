@@ -1,3 +1,4 @@
+
 namespace Cli.Features.Hosting;
 
-public record DeployRequest(string appName, string RegistryPath);
+public record DeployRequest(string AppName, string RegistryPath, Platform Platform);

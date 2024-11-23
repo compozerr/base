@@ -1,4 +1,5 @@
-﻿using Cli.Features.Hosting.Providers.Flyio;
+﻿using Cli.Features.Hosting;
+using Cli.Features.Hosting.Providers.Flyio;
 
 namespace Cli.Tests.Features.Hosting.Providers.Flyio;
 
@@ -18,8 +19,6 @@ public class FlyioNameGeneratorTests
         // Assert
         Assert.NotNull(name);
         Assert.True(name.Length > 0);
-
-        Console.WriteLine(name);
 
         var parts = name.Split('-');
 

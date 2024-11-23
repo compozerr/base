@@ -7,10 +7,10 @@ public interface IHostingProviderFactory
     public Task<IHostingProvider> GetProviderAsync();
 }
 
-public class HostingProviderFactory : IHostingProviderFactory
+public class HostingProviderFactory(IFlyioNameGenerator flyioNameGenerator) : IHostingProviderFactory
 {
     public Task<IHostingProvider> GetProviderAsync()
     {
-        return Task.FromResult<IHostingProvider>(new FlyioHostingProvider());
+        return Task.FromResult<IHostingProvider>(new FlyioHostingProvider(flyioNameGenerator));
     }
 }
