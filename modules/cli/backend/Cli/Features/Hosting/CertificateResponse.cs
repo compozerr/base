@@ -1,3 +1,3 @@
 namespace Cli.Features.Hosting;
 
-public sealed record CertificateResponse(bool Success, string? Error);
+public sealed record CertifyUrlResponse(bool Success, string? Error);

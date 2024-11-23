@@ -206,7 +206,7 @@ public class FlyioHostingProvider(IFlyioNameGenerator flyioNameGenerator, IProce
         return new DestroyResponse(true, null);
     }
 
-    public async Task<CertificateResponse> CertifyUrlAsync(CertificateRequest request)
+    public async Task<CertifyUrlResponse> CertifyUrlAsync(CertifyUrlRequest request)
     {
         Log.ForContext(nameof(request), request, true)
            .Information($"Certifying url");
@@ -223,10 +223,10 @@ public class FlyioHostingProvider(IFlyioNameGenerator flyioNameGenerator, IProce
         {
             Log.ForContext("output", response.Output)
                .Error("Failed to certify url");
-            return new CertificateResponse(false, "Failed to certify url");
+            return new CertifyUrlResponse(false, "Failed to certify url");
         }
 
         Log.Information("Fly.io app certified");
-        return new CertificateResponse(true, null);
+        return new CertifyUrlResponse(true, null);
     }
 }

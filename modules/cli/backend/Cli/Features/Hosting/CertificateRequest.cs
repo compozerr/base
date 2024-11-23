@@ -1,3 +1,3 @@
 namespace Cli.Features.Hosting;
 
-public sealed record CertificateRequest(string Url, string AppName, Platform Platform);
+public sealed record CertifyUrlRequest(string Url, string AppName, Platform Platform);

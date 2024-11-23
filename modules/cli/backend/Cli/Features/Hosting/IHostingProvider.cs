@@ -6,5 +6,5 @@ public interface IHostingProvider
 {
     public Task<DeployResponse> DeployAsync(DeployRequest request);
     public Task<DestroyResponse> DestroyAsync(DestroyRequest request);
-    public Task<CertificateResponse> CertifyUrlAsync(CertificateRequest request);
+    public Task<CertifyUrlResponse> CertifyUrlAsync(CertifyUrlRequest request);
 }
