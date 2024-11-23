@@ -201,7 +201,7 @@ public class FlyioHostingProvider(
             }
         };
 
-        var updatedJsonString = JsonSerializer.Serialize(updatedJson);
+        var updatedJsonString = JsonSerializer.Serialize(updatedJson, new JsonSerializerOptions { WriteIndented = true });
         await File.WriteAllTextAsync(FlyioJsonFileName, updatedJsonString);
     }
 }
