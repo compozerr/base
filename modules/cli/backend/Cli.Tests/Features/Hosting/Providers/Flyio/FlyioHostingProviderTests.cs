@@ -24,7 +24,7 @@ public class FlyioHostingProviderTests
         _configurationMock.Setup(x => x["FLYIO_ACCESS_TOKEN"]).Returns("token");
 
         _processServiceMock.Setup(x => x.RunProcessAsync(It.IsAny<string>()))
-            .ReturnsAsync(new ProcessResponse(false, string.Empty));
+            .ReturnsAsync(new ProcessResponse(true, string.Empty));
 
         // Arrange
         var generator = new FlyioHostingProvider(_nameGeneratorMock.Object, _processServiceMock.Object, _configurationMock.Object);
@@ -42,6 +42,6 @@ public class FlyioHostingProviderTests
 
         parsedJson.GetProperty("app").GetString().Should().Be("somename");
         parsedJson.GetProperty("primary_region").GetString().Should().Be("fra");
-        parsedJson.GetProperty("build").GetProperty("image").GetString().Should().Be("registry/path");
+        parsedJson.GetProperty("build").GetProperty("image").GetString().Should().Be("registry.fly.io/somename");
     }
 }
