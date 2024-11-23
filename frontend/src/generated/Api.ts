@@ -18,6 +18,11 @@ const endpoints = makeApi([
         type: "Header",
         schema: z.string(),
       },
+      {
+        name: "x-app-platform",
+        type: "Header",
+        schema: z.string(),
+      },
     ],
     response: z.void(),
   },
