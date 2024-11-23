@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using Core.Extensions;
 
 namespace Cli.Services;
 
@@ -14,8 +15,9 @@ public class ProcessService : IProcessService
 {
     private static Process CreateProcess(string command)
     {
-        var fileName = command.Split(" ")[0];
-        var arguments = command[fileName.Length..].Trim();
+        var trimmedCommand = command.RemoveWhitespace();
+        var fileName = trimmedCommand.Split(" ")[0];
+        var arguments = trimmedCommand[fileName.Length..].Trim();
 
         return new Process
         {
