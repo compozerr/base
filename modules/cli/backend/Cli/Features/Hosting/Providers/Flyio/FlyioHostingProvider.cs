@@ -190,4 +190,23 @@ public class FlyioHostingProvider(
 
         return true;
     }
+
+    public async Task<DestroyResponse> DestroyAsync(DestroyRequest request)
+    {
+        Log.Information("Destroying Fly.io app");
+
+        var name = flyioNameGenerator.GenerateName(request.AppName, request.Platform);
+
+        var response = await processService.RunProcessAsync($"fly apps destroy -a {name}");
+
+        if (!response.Success)
+        {
+            Log.ForContext("output", response.Output)
+               .Error("Failed to destroy Fly.io app");
+            return new DestroyResponse(false, "Failed to destroy Fly.io app");
+        }
+
+        Log.Information("Fly.io app destroyed");
+        return new DestroyResponse(true, null);
+    }
 }
