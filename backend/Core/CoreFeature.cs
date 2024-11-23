@@ -26,7 +26,7 @@ public class CoreFeature : IFeature
 
     public void ConfigureApp(WebApplication app)
     {
-        app.MapGroup("api/v1").MapCarter();
+        app.MapGroup("v1").MapCarter();
         app.UseCors(AppConstants.CorsPolicy);
 
         if (app.Environment.IsDevelopment())
