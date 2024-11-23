@@ -15,7 +15,7 @@ public class ProcessService : IProcessService
     private static Process CreateProcess(string command)
     {
         var fileName = command.Split(" ")[0];
-        var arguments = command.Replace(fileName, "").Trim();
+        var arguments = command[fileName.Length..].Trim();
 
         return new Process
         {

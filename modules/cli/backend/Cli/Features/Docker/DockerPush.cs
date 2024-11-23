@@ -26,7 +26,7 @@ public class DockerPush : ICarterModule
             {
                 googleAuthService.SetupGoogleCredentials();
                 var config = GetGoogleCloudConfiguration(configuration);
-                var registryPath = $"${config.Region}-docker.pkg.dev/{config.ProjectId}/{config.RepositoryName}/{appName}";
+                var registryPath = $"{config.Region}-docker.pkg.dev/{config.ProjectId}/{config.RepositoryName}/{appName}";
 
                 if (!await AuthenticateGoogleCloudAsync(processService))
                     return Results.Problem("Failed to authenticate Google Cloud");
