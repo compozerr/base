@@ -1,7 +1,9 @@
 using System.Text.Json;
 using Cli.Features.Hosting;
 using Cli.Features.Hosting.Providers.Flyio;
+using Cli.Services;
 using FluentAssertions;
+using Microsoft.Extensions.Configuration;
 using Moq;
 
 namespace Cli.Tests.Features.Hosting.Providers.Flyio;
@@ -9,6 +11,8 @@ namespace Cli.Tests.Features.Hosting.Providers.Flyio;
 public class FlyioHostingProviderTests
 {
     private readonly Mock<IFlyioNameGenerator> _nameGeneratorMock = new();
+    private readonly Mock<IProcessService> _processServiceMock = new();
+    private readonly Mock<IConfiguration> _configurationMock = new();
 
 
     [Fact]
@@ -16,15 +20,21 @@ public class FlyioHostingProviderTests
     {
         _nameGeneratorMock.Setup(x => x.GenerateName(It.IsAny<string>(), It.IsAny<Platform>()))
             .Returns("somename");
+
+        _configurationMock.Setup(x => x["FLYIO_ACCESS_TOKEN"]).Returns("token");
+
+        _processServiceMock.Setup(x => x.RunProcessAsync(It.IsAny<string>()))
+            .ReturnsAsync(new ProcessResponse(false, string.Empty));
+
         // Arrange
-        var generator = new FlyioHostingProvider(_nameGeneratorMock.Object);
+        var generator = new FlyioHostingProvider(_nameGeneratorMock.Object, _processServiceMock.Object, _configurationMock.Object);
         var deployRequest = new DeployRequest("my-app", "registry/path", Platform.Backend);
 
         var response = await generator.DeployAsync(deployRequest);
 
         Assert.NotNull(response);
         response.Success.Should().BeTrue();
-        
+
         _nameGeneratorMock.Verify(x => x.GenerateName("my-app", Platform.Backend), Times.Once);
 
         var json = File.ReadAllText("flyio.generated.json");
