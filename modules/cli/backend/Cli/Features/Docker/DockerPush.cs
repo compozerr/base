@@ -27,6 +27,11 @@ public class DockerPush : ICarterModule
             GoogleAuthService googleAuthService,
             IHostingProviderFactory hostingProvider) =>
         {
+            if (!await apiKeyService.IsValidApiKeyAsync(apiKey, appName))
+            {
+                return Results.Unauthorized();
+            }
+
             try
             {
                 googleAuthService.SetupGoogleCredentials();
