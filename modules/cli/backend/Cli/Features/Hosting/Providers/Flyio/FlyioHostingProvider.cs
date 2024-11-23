@@ -40,8 +40,10 @@ public class FlyioHostingProvider(
 
     private async Task LaunchFlyAppAsync(DeployRequest deployRequest, string accessToken)
     {
+        Log.Information("Launching Fly.io app");
         await CreateDefaultJsonFileAsync(deployRequest.AppName, deployRequest.RegistryPath, deployRequest.Platform);
-        await processService.RunProcessAsync($@"
+
+        var response = await processService.RunProcessAsync($@"
         fly launch 
             --app {deployRequest.AppName} 
             --config {FlyioJsonFileName}
@@ -49,11 +51,21 @@ public class FlyioHostingProvider(
             --image {deployRequest.RegistryPath}
             --access-token {accessToken} 
             --yes");
+
+        if (!response.Success)
+        {
+            Log.ForContext("output", response.Output)
+               .Error("Failed to launch Fly.io app");
+            return;
+        }
+
+        Log.Information("Fly.io app launched");
     }
 
     private async Task RedeployFlyAppAsync(DeployRequest deployRequest, string accessToken)
     {
-        await processService.RunProcessAsync($@"
+        Log.Information("Redeploying Fly.io app");
+        var response = await processService.RunProcessAsync($@"
             fly deploy 
                 --app {deployRequest.AppName} 
                 --config {FlyioJsonFileName}
@@ -61,6 +73,15 @@ public class FlyioHostingProvider(
                 --image {deployRequest.RegistryPath}
                 --access-token {accessToken} 
                 --yes");
+
+        if (!response.Success)
+        {
+            Log.ForContext("output", response.Output)
+               .Error("Failed to redeploy Fly.io app");
+            return;
+        }
+
+        Log.Information("Fly.io app redeployed");
     }
 
     private async Task<bool> HasBeenDeployedAndSaveConfigAsync(DeployRequest deployRequest, string accessToken)
