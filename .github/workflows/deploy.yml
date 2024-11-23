@@ -18,11 +18,8 @@ jobs:
               with:
                   dotnet-version: "9.x"
 
-            - name: Restore
-              run: dotnet restore
-
             - name: Test
-              run: dotnet test
+              run: dotnet test backend/Base.sln
     deploy:
         if: github.event.ref == 'refs/tags/*'
         runs-on: ubuntu-latest
