@@ -206,7 +206,7 @@ public class FlyioHostingProvider(IFlyioNameGenerator flyioNameGenerator, IProce
         return new DestroyResponse(true, null);
     }
 
-    public async Task<CertificateResponse> CertificateAsync(CertificateRequest request)
+    public async Task<CertificateResponse> CertifyUrlAsync(CertificateRequest request)
     {
         Log.ForContext(nameof(request), request, true)
            .Information($"Certifying url");
