@@ -12,3 +12,4 @@ src/frontend/modules/
 .env
 .vscode/*
 service-account.json
+flyio.generated.json
