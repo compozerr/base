@@ -1,7 +1,9 @@
 using Carter;
 using Core.Feature;
 using Core.Helpers;
+using Core.Helpers.Env;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -9,9 +11,22 @@ namespace Core;
 
 public class CoreFeature : IFeature
 {
+    public void ConfigureBuilder(WebApplicationBuilder builder)
+    {
+        if (builder.Environment.IsProduction())
+        {
+            builder.WebHost.ConfigureKestrel(options =>
+            {
+                options.ListenAnyIP(5000);
+            });
+        }
+
+        builder.Configuration.AddEnvFile(".env");
+    }
+
     public void ConfigureApp(WebApplication app)
     {
-        app.MapCarter();
+        app.MapGroup("v1").MapCarter();
         app.UseCors(AppConstants.CorsPolicy);
 
         if (app.Environment.IsDevelopment())
@@ -39,7 +54,7 @@ public class CoreFeature : IFeature
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen(c =>
         {
-            c.SwaggerDoc("v1", new() { Title = "conpozerr base", Version = "v1" });
+            c.SwaggerDoc("v1", new() { Title = "compozerr base", Version = "v1" });
         });
     }
 }

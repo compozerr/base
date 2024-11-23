@@ -1,3 +1,4 @@
+using Carter;
 using Core.Feature;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -7,7 +8,7 @@ namespace Template.Features.Example.Queries;
 
 public record GetExampleResponse(string Message);
 
-public class GetExample : IFeature
+public class GetExample : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {

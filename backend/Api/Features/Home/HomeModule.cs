@@ -1,14 +1,15 @@
 
-using Core.Feature;
+using Serilog;
 using Template;
 
 namespace Api.Features.Home;
 
-public class HomeModule : IFeature
+public class HomeModule : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/", () => ExampleClass.ExampleMethod())
+        Log.Information("HomeModule Called");
+        app.MapGet("/", (IConfiguration configuration) => $"{ExampleClass.ExampleMethod()} config: {configuration["SOMESECRET"]}")
            .WithTags(nameof(Home));
     }
 }
