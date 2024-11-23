@@ -205,4 +205,28 @@ public class FlyioHostingProvider(IFlyioNameGenerator flyioNameGenerator, IProce
         Log.Information("Fly.io app destroyed");
         return new DestroyResponse(true, null);
     }
+
+    public async Task<CertificateResponse> CertificateAsync(CertificateRequest request)
+    {
+        Log.ForContext(nameof(request), request, true)
+           .Information($"Certifying url");
+
+        var name = flyioNameGenerator.GenerateName(request.AppName, request.Platform);
+
+        var response = await processService.RunProcessAsync($@"
+            fly certs add {request.Url}
+                --app {name}
+                --access-token {accessToken}
+                --yes");
+
+        if (!response.Success)
+        {
+            Log.ForContext("output", response.Output)
+               .Error("Failed to certify url");
+            return new CertificateResponse(false, "Failed to certify url");
+        }
+
+        Log.Information("Fly.io app certified");
+        return new CertificateResponse(true, null);
+    }
 }
