@@ -23,4 +23,5 @@ public class GoogleAuthService(IConfiguration configuration)
 
         Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", GOOGLE_APPLICATION_CREDENTIALS_PATH);
     }
+
 }

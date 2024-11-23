@@ -1,5 +1,6 @@
 using Carter;
 using Cli.Features.GoogleCloud;
+using Cli.Features.Hosting;
 using Cli.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -21,7 +22,8 @@ public class DockerPush : ICarterModule
             IApiKeyService apiKeyService,
             IConfiguration configuration,
             IProcessService processService,
-            GoogleAuthService googleAuthService) =>
+            GoogleAuthService googleAuthService,
+            IHostingProviderFactory hostingProvider) =>
         {
             try
             {
@@ -44,7 +46,16 @@ public class DockerPush : ICarterModule
                 if (!await PushDockerImageAsync(processService, registryPath))
                     return Results.Problem("Failed to push Docker image");
 
-                return Results.Ok("Successfully pushed image");
+                var hostingProviderInstance = await hostingProvider.GetProviderAsync();
+
+                var deployResponse = await hostingProviderInstance.DeployAsync(new(registryPath));
+
+                if (!deployResponse.Success)
+                {
+                    return Results.Problem("Failed to deploy image with message" + deployResponse.Message);
+                }
+
+                return Results.Ok("Successfully pushed image, and deployed with output " + deployResponse.Message);
             }
             catch (Exception ex)
             {
