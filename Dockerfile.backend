@@ -20,6 +20,7 @@ RUN dotnet publish -c Release -o /publish
 FROM mcr.microsoft.com/dotnet/aspnet:9.0
 WORKDIR /app
 
+RUN curl -L https://fly.io/install.sh | sh
 
 # Install necessary packages
 RUN apt-get update && apt-get install -y \
