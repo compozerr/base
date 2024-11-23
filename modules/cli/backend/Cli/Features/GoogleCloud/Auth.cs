@@ -2,14 +2,14 @@ using System.Text.Json;
 using Microsoft.Extensions.Configuration;
 using Serilog;
 
-namespace Cli.Services;
+namespace Cli.Features.GoogleCloud;
 
 public class GoogleAuthService(IConfiguration configuration)
 {
     public void SetupGoogleCredentials()
     {
         const string GOOGLE_APPLICATION_CREDENTIALS_PATH = "/tmp/google-credentials.json";
-        
+
         var serviceAccountRaw = configuration["GOOGLECLOUD_SERVICEACCOUNTCREDENTIALS"];
         if (string.IsNullOrEmpty(serviceAccountRaw))
         {

@@ -1,4 +1,5 @@
 using Carter;
+using Cli.Features.GoogleCloud;
 using Cli.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -82,7 +83,7 @@ public class DockerPush : ICarterModule
         Log.Logger.Information("Service account activating");
         var response = await processService.RunProcessAsync($"gcloud auth activate-service-account --key-file {Environment.GetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS")}");
 
-        if (!response.Success) 
+        if (!response.Success)
         {
             Log.Logger.Error($"Service account activation failed {response.Output}");
             return false;

@@ -4,8 +4,8 @@ import { z } from "zod";
 const endpoints = makeApi([
   {
     method: "post",
-    path: "/api/v1/docker/push",
-    alias: "postApiv1dockerpush",
+    path: "/v1/docker/push",
+    alias: "postV1dockerpush",
     requestFormat: "json",
     parameters: [
       {
