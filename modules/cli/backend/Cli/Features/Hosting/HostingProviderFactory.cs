@@ -1,4 +1,4 @@
-using Cli.Features.Hosting.Providers;
+using Cli.Features.Hosting.Providers.Flyio;
 
 namespace Cli.Features.Hosting;
 

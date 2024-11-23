@@ -48,7 +48,7 @@ public class DockerPush : ICarterModule
 
                 var hostingProviderInstance = await hostingProvider.GetProviderAsync();
 
-                var deployResponse = await hostingProviderInstance.DeployAsync(new(registryPath));
+                var deployResponse = await hostingProviderInstance.DeployAsync(new(appName, registryPath));
 
                 if (!deployResponse.Success)
                 {
