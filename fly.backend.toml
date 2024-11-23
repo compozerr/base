@@ -8,10 +8,6 @@ primary_region = 'fra'
 
 [build]
   dockerfile = 'Dockerfile.backend'
-  
-[mounts]
-  source = 'docker_socket'
-  destination = "/var/run/docker.sock"
 
 [http_service]
   internal_port = 5000
@@ -23,8 +19,3 @@ primary_region = 'fra'
 
 [[vm]]
   size = 'shared-cpu-1x'
-
-[[volumes]]
-  region="fra"
-  name = "docker_socket"
-  size = 1
