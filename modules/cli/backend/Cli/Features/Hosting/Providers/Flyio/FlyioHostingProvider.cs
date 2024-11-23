@@ -14,7 +14,7 @@ public class FlyioHostingProvider(
 
     public async Task<DeployResponse> DeployAsync(DeployRequest deployRequest)
     {
-        var flyioAccessToken = configuration["FLYIO_ACCESS_TOKEN"];
+        var flyioAccessToken = $"'{configuration["FLYIO_ACCESS_TOKEN"]}'";
 
         if (string.IsNullOrEmpty(flyioAccessToken))
         {
