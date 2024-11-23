@@ -1,7 +1,6 @@
 using System.Text.Json;
 using Cli.Services;
 using Microsoft.Extensions.Configuration;
-using Serilog;
 
 namespace Cli.Features.Hosting.Providers.Flyio;
 
@@ -44,7 +43,7 @@ public class FlyioHostingProvider(
             return new DeployResponse(false, "Failed to tag image to Fly.io");
         }
 
-        if (!await CreateDefaultJsonFileAsync(deployRequest.AppName, newTag))
+        if (!await CreateDefaultJsonFileAsync(deployRequest.AppName, newTag, internalPort: deployRequest.Platform == Platform.Backend ? 5000 : 4173))
         {
             return new DeployResponse(false, "Failed to create Fly.io json file");
         }
@@ -150,7 +149,7 @@ public class FlyioHostingProvider(
         return true;
     }
 
-    private async static Task<bool> CreateDefaultJsonFileAsync(string appName, string imageTag)
+    private async static Task<bool> CreateDefaultJsonFileAsync(string appName, string imageTag, int internalPort)
     {
         var updatedJson = new
         {
@@ -162,7 +161,7 @@ public class FlyioHostingProvider(
             },
             http_service = new
             {
-                internal_port = 5000,
+                internal_port = internalPort,
                 force_https = true,
                 auto_stop_machines = false,
                 auto_start_machines = true,
