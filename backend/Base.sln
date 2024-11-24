@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cli", "..\modules\cli\backe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cli.Tests", "..\modules\cli\backend\Cli.Tests\Cli.Tests.csproj", "{32F2D96A-4F31-411B-88FB-DCB21D150940}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Database", "..\modules\database\backend\Database\Database.csproj", "{9084271D-2F1C-425B-8C82-9C6E839EF4FB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{32F2D96A-4F31-411B-88FB-DCB21D150940}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{32F2D96A-4F31-411B-88FB-DCB21D150940}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{32F2D96A-4F31-411B-88FB-DCB21D150940}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9084271D-2F1C-425B-8C82-9C6E839EF4FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9084271D-2F1C-425B-8C82-9C6E839EF4FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9084271D-2F1C-425B-8C82-9C6E839EF4FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9084271D-2F1C-425B-8C82-9C6E839EF4FB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
