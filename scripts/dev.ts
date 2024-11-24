@@ -25,7 +25,7 @@ const commands: Command[] = [
         {
             readyMessage: "Content root path:",
             port: Config.ports.backend,
-            startupTimeoutMs: 10000,
+            startupTimeoutMs: 15000,
             logCallback: (text) => {
                 if (text.includes("Content root path:")) {
                     setTimeout(() => {
