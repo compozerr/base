@@ -1,0 +1,5 @@
+{
+    "dependencies": {},
+    "start": "docker-compose up",
+    "readyMessage": "database system is ready to accept connections"
+}
