@@ -12,7 +12,7 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as UsingModuleComponentImport } from './routes/using-module-component'
-import { Route as LoginImport } from './../../modules/database/frontend/src/routes/login'
+import { Route as LoginImport } from './../../modules/auth/frontend/src/routes/login'
 import { Route as AboutImport } from './routes/about'
 import { Route as IndexImport } from './routes/index'
 import { Route as ExampleIndexImport } from './../../modules/template/frontend/src/routes/example/index'
@@ -173,7 +173,7 @@ export const routeTree = rootRoute
       "filePath": "./about.tsx"
     },
     "/login": {
-      "filePath": "../../../modules/database/frontend/src/routes/login.tsx"
+      "filePath": "../../../modules/auth/frontend/src/routes/login.tsx"
     },
     "/using-module-component": {
       "filePath": "./using-module-component.tsx"
