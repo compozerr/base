@@ -7,12 +7,16 @@ using Template;
 
 namespace Api.Features.Home;
 
-public class HomeModule : ICarterModule
+public class HomeModule : CarterModule
 {
-    public void AddRoutes(IEndpointRouteBuilder app)
+    public HomeModule() : base("/")
     {
-        app.MapGet("/", (IConfiguration configuration) => $"{ExampleClass.ExampleMethod()} config: {configuration["SOMESECRET"]}")
-           .WithTags(nameof(Home));
+        WithTags(nameof(HomeModule));
+    }
+
+    public override void AddRoutes(IEndpointRouteBuilder app)
+    {
+        app.MapGet("/", (IConfiguration configuration) => $"{ExampleClass.ExampleMethod()} config: {configuration["SOMESECRET"]}");
 
         app.MapGet("/users/add", async (IConfiguration configuration, IUserRepository userRepository) =>
         {
@@ -23,8 +27,7 @@ public class HomeModule : ICarterModule
             });
 
             return user;
-        })
-           .WithTags(nameof(Home));
+        });
 
         app.MapGet("/users", async (IConfiguration configuration, IUserRepository userRepository) =>
         {

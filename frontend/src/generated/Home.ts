@@ -91,6 +91,13 @@ const endpoints = makeApi([
     requestFormat: "json",
     response: User,
   },
+  {
+    method: "get",
+    path: "/v1/users",
+    alias: "getV1users",
+    requestFormat: "json",
+    response: z.array(User),
+  },
 ]);
 
 export const HomeApi = new Zodios("http://localhost:1235", endpoints);
