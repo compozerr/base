@@ -59,105 +59,15 @@ export class Command {
 
         return false;
     }
+
     async cleanupPortAsync() {
         if (!this.options?.port?.trim()) return;
-        
-        const maxRetries = 3;
-        const waitBetweenRetries = 1000; // ms
-        
-        for (let attempt = 0; attempt < maxRetries; attempt++) {
-            try {
-                // Use both IPv4 and IPv6 checks with netstat/lsof
-                const checkCommands = [
-                    // Check using lsof (more details)
-                    new Deno.Command("sh", {
-                        args: ["-c", `lsof -i :${this.options.port}`],
-                    }),
-                    // Backup check using netstat
-                    new Deno.Command("sh", {
-                        args: ["-c", `netstat -an | grep LISTEN | grep ${this.options.port}`],
-                    })
-                ];
-                
-                let processFound = false;
-                for (const cmd of checkCommands) {
-                    try {
-                        const result = await cmd.output();
-                        const output = new TextDecoder().decode(result.stdout);
-                        if (output.trim()) {
-                            processFound = true;
-                            // Extract PIDs - this handles both lsof and netstat output formats
-                            const pids = new Set();
-                            output.split('\n').forEach(line => {
-                                const parts = line.trim().split(/\s+/);
-                                if (parts.length >= 2) {
-                                    // For lsof format
-                                    const pid = parts[1];
-                                    if (/^\d+$/.test(pid)) {
-                                        pids.add(pid);
-                                    }
-                                }
-                            });
-    
-                            // Kill processes
-                            for (const pid of pids) {
-                                try {
-                                    // Try SIGTERM first
-                                    const termProcess = new Deno.Command("kill", {
-                                        args: [pid as string],
-                                    });
-                                    await termProcess.output();
-                                    
-                                    // Wait a bit
-                                    await new Promise(resolve => setTimeout(resolve, 500));
-                                    
-                                    // If still running, use SIGKILL
-                                    const checkStillRunning = new Deno.Command("ps", {
-                                        args: ["-p", pid as string],
-                                    });
-                                    const checkResult = await checkStillRunning.output();
-                                    if (new TextDecoder().decode(checkResult.stdout).includes(pid as string)) {
-                                        const killProcess = new Deno.Command("kill", {
-                                            args: ["-9", pid as string],
-                                        });
-                                        await killProcess.output();
-                                    }
-                                } catch {
-                                    // Process might already be gone
-                                }
-                            }
-                        }
-                    } catch {
-                        // Command might fail, continue to next check
-                    }
-                }
-    
-                // Verify port is actually free by trying to bind to it
-                const testBind = new Deno.Command("nc", {
-                    args: ["-z", "-v", "localhost", this.options.port],
-                });
-                
-                try {
-                    await testBind.output();
-                    // If we can still connect, port is not free
-                    if (attempt < maxRetries - 1) {
-                        await new Promise(resolve => setTimeout(resolve, waitBetweenRetries));
-                        continue;
-                    }
-                    throw new Error(`Port ${this.options.port} is still in use after cleanup attempts`);
-                } catch {
-                    // If nc fails to connect, port is free
-                    return;
-                }
-                
-            } catch (error) {
-                if (attempt === maxRetries - 1) {
-                    console.error(`Failed to clean up port ${this.options.port}:`, error);
-                    throw error;
-                }
-                await new Promise(resolve => setTimeout(resolve, waitBetweenRetries));
-            }
-        }
+
+        const process = new Deno.Command("sh", {
+            args: ["-c", `lsof -t -i:${this.options.port} | xargs kill -9`],
+        });
+
+        await process.output();
     }
 
     async spawn() {
