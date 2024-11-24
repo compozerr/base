@@ -2,5 +2,5 @@
     "dependencies": {},
     "start": "docker-compose up",
     "end": "docker-compose down",
-    "readyMessage": "regex:database system is ready to accept connections|Container.*Running"
+    "readyMessage": "regex:database system is ready to accept connections|Attaching to"
 }

@@ -11,7 +11,10 @@ public class DatabaseFeature : IFeature
     {
         services.AddDbContext<AppDbContext>(options =>
         {
-            options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
+            options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"), b =>
+            {
+                b.MigrationsAssembly(typeof(AppDbContext).Assembly.FullName);
+            });
         });
 
         services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
