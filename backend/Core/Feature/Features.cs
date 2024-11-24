@@ -2,6 +2,7 @@ using System.Diagnostics;
 using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 
@@ -69,11 +70,12 @@ public static class Features
         return builder;
     }
 
-    public static IServiceCollection AddFeatures(this IServiceCollection services)
+    public static IServiceCollection AddFeatures(this IServiceCollection services, IConfiguration configuration)
     {
         foreach (var feature in AllFeatures)
         {
             feature.ConfigureServices(services);
+            feature.ConfigureServices(services, configuration);
         }
 
         return services;

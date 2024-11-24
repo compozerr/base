@@ -5,7 +5,7 @@ using Serilog.Sinks.Humio;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.ConfigureFeatures();
-builder.Services.AddFeatures();
+builder.Services.AddFeatures(builder.Configuration);
 
 Log.Logger = new LoggerConfiguration().WriteTo.Console().WriteTo
                                               .HumioSink(new HumioSinkConfiguration
