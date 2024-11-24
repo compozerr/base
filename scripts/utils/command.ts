@@ -43,6 +43,25 @@ export class Command {
         dispatchEvent(new Event("ready"));
     }
 
+    private checkIfReady(text: string): boolean{
+        if(!this.options?.readyMessage) return true;
+
+        if(this.options?.readyMessage?.startsWith("regex:")){
+            const regex = new RegExp(this.options.readyMessage.slice(6));
+            if(regex.test(text)){
+                this.markAsReady();
+                return true;
+            }
+        }
+        
+        if(this.options?.readyMessage && text.includes(this.options.readyMessage)){
+            this.markAsReady();
+            return true;
+        }
+
+        return false;
+    }
+
     async cleanupPortAsync() {
         if (!this.options?.port?.trim()) return;
 
@@ -104,13 +123,13 @@ export class Command {
                         this.logger.errorAsync(text);
                     }
 
-                    if (!this.isReady && this.options?.readyMessage && text.includes(this.options.readyMessage)) {
+                    if (!this.isReady && this.checkIfReady(text)) {
                         const startupTime = new Date().getTime() - this.startupStartTime!.getTime();
                         clearTimeout(startupTimeout);
 
                         await this.options?.afterRunAsync?.();
 
-                        await this.logger.logAsync(`is ready${this.options.port?.trim() ? ` on http://localhost:${this.options.port}` : ""} (took ${startupTime}ms)`);
+                        await this.logger.logAsync(`is ready${this.options?.port?.trim() ? ` on http://localhost:${this.options.port}` : ""} (took ${startupTime}ms)`);
                         this.markAsReady();
                     }
                 }
