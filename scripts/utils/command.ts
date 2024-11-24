@@ -77,6 +77,9 @@ export class Command {
         const handleOutput = async (stream: ReadableStream<Uint8Array> | null, isError = false) => {
             if (!stream) return;
 
+            const isDockerCommand = this.cmd.includes("docker"); // Docker commands log progress into stderr which is not an error
+            const treatAsError = isError && !isDockerCommand;
+
             const reader = stream.getReader();
             try {
                 while (true && !this.isShuttingDown) {
@@ -97,7 +100,7 @@ export class Command {
                         }
                     }
 
-                    if (!this.isReady && isError) {
+                    if (!this.isReady && treatAsError) {
                         this.logger.errorAsync(text);
                     }
 
