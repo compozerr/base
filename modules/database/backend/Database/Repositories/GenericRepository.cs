@@ -1,6 +1,6 @@
 namespace Database.Repositories;
 
-public interface IGenericRepository<TEntity> where TEntity : BaseEntity 
+public interface IGenericRepository<TEntity, TDbContext> where TEntity : BaseEntity  where TDbContext : BaseDbContext
 {
     Task<TEntity?> GetByIdAsync(int id);
     Task<IEnumerable<TEntity>> GetAllAsync();
@@ -9,7 +9,7 @@ public interface IGenericRepository<TEntity> where TEntity : BaseEntity
     Task DeleteAsync(int id);
 }
 
-public class GenericRepository<TEntity, TDbContext>(TDbContext context) : IGenericRepository<TEntity> where TEntity : BaseEntity where TDbContext : BaseDbContext
+public class GenericRepository<TEntity, TDbContext>(TDbContext context) : IGenericRepository<TEntity, TDbContext> where TEntity : BaseEntity where TDbContext : BaseDbContext
 {
     protected readonly TDbContext _context = context;
 

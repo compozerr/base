@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Auth.Repositories;
 
-public interface IUserRepository : IGenericRepository<User>
+public interface IUserRepository : IGenericRepository<User, AuthDbContext>
 {
     Task<User?> GetByEmailAsync(string email);
     Task<IEnumerable<User>> GetUsersWithRolesAsync();
