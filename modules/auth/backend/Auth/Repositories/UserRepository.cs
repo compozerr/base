@@ -1,4 +1,10 @@
-namespace Database.Repositories;
+using Auth.Data;
+using Auth.Models;
+using Database.Data;
+using Database.Repositories;
+using Microsoft.EntityFrameworkCore;
+
+namespace Auth.Repositories;
 
 public interface IUserRepository : IGenericRepository<User>
 {
@@ -6,7 +12,7 @@ public interface IUserRepository : IGenericRepository<User>
     Task<IEnumerable<User>> GetUsersWithRolesAsync();
 }
 
-public class UserRepository(AppDbContext context) : GenericRepository<User>(context), IUserRepository
+public class UserRepository(AuthDbContext context) : GenericRepository<User, AuthDbContext>(context), IUserRepository
 {
     public async Task<User?> GetByEmailAsync(string email)
     {

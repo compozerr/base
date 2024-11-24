@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace Database.Migrations
+namespace Auth.Migrations
 {
     /// <inheritdoc />
     public partial class Initial : Migration
@@ -12,8 +12,12 @@ namespace Database.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.EnsureSchema(
+                name: "auth");
+
             migrationBuilder.CreateTable(
                 name: "roles",
+                schema: "auth",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -30,6 +34,7 @@ namespace Database.Migrations
 
             migrationBuilder.CreateTable(
                 name: "users",
+                schema: "auth",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -47,6 +52,7 @@ namespace Database.Migrations
 
             migrationBuilder.CreateTable(
                 name: "user_roles",
+                schema: "auth",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -62,12 +68,14 @@ namespace Database.Migrations
                     table.ForeignKey(
                         name: "FK_user_roles_roles_RoleId",
                         column: x => x.RoleId,
+                        principalSchema: "auth",
                         principalTable: "roles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_user_roles_users_UserId",
                         column: x => x.UserId,
+                        principalSchema: "auth",
                         principalTable: "users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -75,11 +83,13 @@ namespace Database.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_user_roles_RoleId",
+                schema: "auth",
                 table: "user_roles",
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_user_roles_UserId",
+                schema: "auth",
                 table: "user_roles",
                 column: "UserId");
         }
@@ -88,13 +98,16 @@ namespace Database.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "user_roles");
+                name: "user_roles",
+                schema: "auth");
 
             migrationBuilder.DropTable(
-                name: "roles");
+                name: "roles",
+                schema: "auth");
 
             migrationBuilder.DropTable(
-                name: "users");
+                name: "users",
+                schema: "auth");
         }
     }
 }

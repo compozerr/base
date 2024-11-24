@@ -1,41 +1,36 @@
 namespace Database.Repositories;
 
-public interface IGenericRepository<T> where T : BaseEntity
+public interface IGenericRepository<TEntity> where TEntity : BaseEntity 
 {
-    Task<T?> GetByIdAsync(int id);
-    Task<IEnumerable<T>> GetAllAsync();
-    Task<T> AddAsync(T entity);
-    Task UpdateAsync(T entity);
+    Task<TEntity?> GetByIdAsync(int id);
+    Task<IEnumerable<TEntity>> GetAllAsync();
+    Task<TEntity> AddAsync(TEntity entity);
+    Task UpdateAsync(TEntity entity);
     Task DeleteAsync(int id);
 }
 
-public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
+public class GenericRepository<TEntity, TDbContext>(TDbContext context) : IGenericRepository<TEntity> where TEntity : BaseEntity where TDbContext : BaseDbContext
 {
-    protected readonly AppDbContext _context;
+    protected readonly TDbContext _context = context;
 
-    public GenericRepository(AppDbContext context)
+    public virtual async Task<TEntity?> GetByIdAsync(int id)
     {
-        _context = context;
+        return await _context.Set<TEntity>().FindAsync(id);
     }
 
-    public virtual async Task<T?> GetByIdAsync(int id)
+    public virtual async Task<IEnumerable<TEntity>> GetAllAsync()
     {
-        return await _context.Set<T>().FindAsync(id);
+        return await _context.Set<TEntity>().ToListAsync();
     }
 
-    public virtual async Task<IEnumerable<T>> GetAllAsync()
+    public virtual async Task<TEntity> AddAsync(TEntity entity)
     {
-        return await _context.Set<T>().ToListAsync();
-    }
-
-    public virtual async Task<T> AddAsync(T entity)
-    {
-        await _context.Set<T>().AddAsync(entity);
+        await _context.Set<TEntity>().AddAsync(entity);
         await _context.SaveChangesAsync();
         return entity;
     }
 
-    public virtual async Task UpdateAsync(T entity)
+    public virtual async Task UpdateAsync(TEntity entity)
     {
         _context.Entry(entity).State = EntityState.Modified;
         await _context.SaveChangesAsync();
@@ -43,8 +38,8 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
 
     public virtual async Task DeleteAsync(int id)
     {
-        var entity = await GetByIdAsync(id) ?? throw new Exception($"{typeof(T).Name} with id {id} not found");
-        _context.Set<T>().Remove(entity);
+        var entity = await GetByIdAsync(id) ?? throw new Exception($"{typeof(TEntity).Name} with id {id} not found");
+        _context.Set<TEntity>().Remove(entity);
         await _context.SaveChangesAsync();
     }
 }

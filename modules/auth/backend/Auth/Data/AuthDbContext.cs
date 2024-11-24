@@ -1,6 +1,10 @@
-namespace Database.Data;
 
-public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
+using Auth.Models;
+using Database.Data;
+using Microsoft.EntityFrameworkCore;
+
+namespace Auth.Data;
+public class AuthDbContext(DbContextOptions<AuthDbContext> options) : BaseDbContext(options, "auth")
 {
     public DbSet<User> Users { get; set; } = null!;
     public DbSet<Role> Roles { get; set; } = null!;
@@ -43,30 +47,5 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
                 .HasForeignKey(d => d.RoleId)
                 .OnDelete(DeleteBehavior.Cascade);
         });
-    }
-
-    public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
-    {
-        var entries = ChangeTracker
-            .Entries()
-            .Where(e => e.Entity is BaseEntity && (
-                e.State == EntityState.Added
-                || e.State == EntityState.Modified));
-
-        foreach (var entityEntry in entries)
-        {
-            var entity = (BaseEntity)entityEntry.Entity;
-
-            if (entityEntry.State == EntityState.Added)
-            {
-                entity.CreatedAt = DateTime.UtcNow;
-            }
-            else
-            {
-                entity.UpdatedAt = DateTime.UtcNow;
-            }
-        }
-
-        return base.SaveChangesAsync(cancellationToken);
     }
 }

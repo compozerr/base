@@ -1,4 +1,6 @@
-namespace Database.Models;
+using Database.Models;
+
+namespace Auth.Models;
 
 public class User : BaseEntity
 {
