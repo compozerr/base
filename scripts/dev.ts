@@ -57,6 +57,7 @@ for (const module of modulesWithStartCommands) {
             readyMessage: module.config.readyMessage,
             port: module.config.port,
             startupTimeoutMs: module.config.startupTimeoutMs,
+            endCommand: module.config.end
         }
     ));
 }

@@ -8,6 +8,7 @@ interface CommandOptions {
     beforeRunAsync?: () => Promise<void>;
     afterRunAsync?: () => Promise<void>;
     silent?: boolean;
+    endCommand?: string;
 }
 
 export class Command {
@@ -128,6 +129,14 @@ export class Command {
         this.markAsShuttingDown();
 
         if (!this.process) return;
+
+        if (this.options?.endCommand) {
+
+            const process = new Deno.Command("sh", {
+                args: ["-c", this.options.endCommand],
+            });
+            process.outputSync();
+        }
 
         try {
             this.process.kill("SIGTERM");
