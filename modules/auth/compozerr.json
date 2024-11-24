@@ -1,0 +1,5 @@
+{
+    "frontend": {
+        "routeDir": "frontend/src/routes"
+    }
+}

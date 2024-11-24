@@ -12,6 +12,7 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as UsingModuleComponentImport } from './routes/using-module-component'
+import { Route as LoginImport } from './../../modules/database/frontend/src/routes/login'
 import { Route as AboutImport } from './routes/about'
 import { Route as IndexImport } from './routes/index'
 import { Route as ExampleIndexImport } from './../../modules/template/frontend/src/routes/example/index'
@@ -21,6 +22,12 @@ import { Route as ExampleIndexImport } from './../../modules/template/frontend/s
 const UsingModuleComponentRoute = UsingModuleComponentImport.update({
   id: '/using-module-component',
   path: '/using-module-component',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const LoginRoute = LoginImport.update({
+  id: '/login',
+  path: '/login',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -60,6 +67,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutImport
       parentRoute: typeof rootRoute
     }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginImport
+      parentRoute: typeof rootRoute
+    }
     '/using-module-component': {
       id: '/using-module-component'
       path: '/using-module-component'
@@ -82,6 +96,7 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/login': typeof LoginRoute
   '/using-module-component': typeof UsingModuleComponentRoute
   '/example': typeof ExampleIndexRoute
 }
@@ -89,6 +104,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/login': typeof LoginRoute
   '/using-module-component': typeof UsingModuleComponentRoute
   '/example': typeof ExampleIndexRoute
 }
@@ -97,22 +113,30 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/login': typeof LoginRoute
   '/using-module-component': typeof UsingModuleComponentRoute
   '/example/': typeof ExampleIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/using-module-component' | '/example'
+  fullPaths: '/' | '/about' | '/login' | '/using-module-component' | '/example'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/using-module-component' | '/example'
-  id: '__root__' | '/' | '/about' | '/using-module-component' | '/example/'
+  to: '/' | '/about' | '/login' | '/using-module-component' | '/example'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/login'
+    | '/using-module-component'
+    | '/example/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  LoginRoute: typeof LoginRoute
   UsingModuleComponentRoute: typeof UsingModuleComponentRoute
   ExampleIndexRoute: typeof ExampleIndexRoute
 }
@@ -120,6 +144,7 @@ export interface RootRouteChildren {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  LoginRoute: LoginRoute,
   UsingModuleComponentRoute: UsingModuleComponentRoute,
   ExampleIndexRoute: ExampleIndexRoute,
 }
@@ -136,6 +161,7 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/about",
+        "/login",
         "/using-module-component",
         "/example/"
       ]
@@ -145,6 +171,9 @@ export const routeTree = rootRoute
     },
     "/about": {
       "filePath": "./about.tsx"
+    },
+    "/login": {
+      "filePath": "../../../modules/database/frontend/src/routes/login.tsx"
     },
     "/using-module-component": {
       "filePath": "./using-module-component.tsx"
