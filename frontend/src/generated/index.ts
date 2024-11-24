@@ -1,3 +1,3 @@
-export { ApiApi } from "./Api";
+export { DockerApi } from "./Docker";
 export { ExampleApi } from "./Example";
 export { HomeModuleApi } from "./HomeModule";

@@ -11,9 +11,13 @@ using Microsoft.Extensions.Configuration;
 
 namespace Cli.Features.Docker;
 
-public class DockerPush : ICarterModule
+public class DockerPush : CarterModule
 {
-    public void AddRoutes(IEndpointRouteBuilder app)
+    public DockerPush() : base("/")
+    {
+        WithTags(nameof(Docker));
+    }
+    public override void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapPost("/docker/push", async (
             HttpContext context,

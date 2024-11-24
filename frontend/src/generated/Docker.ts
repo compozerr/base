@@ -28,7 +28,7 @@ const endpoints = makeApi([
   },
 ]);
 
-export const ApiApi = new Zodios("http://localhost:1235", endpoints);
+export const DockerApi = new Zodios("http://localhost:1235", endpoints);
 
 export function createApiClient(baseUrl: string, options?: ZodiosOptions) {
   return new Zodios(baseUrl, endpoints, options);
