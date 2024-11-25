@@ -8,12 +8,15 @@ namespace Template.Features.Example.Queries;
 
 public record GetExampleResponse(string Message);
 
-public class GetExample : ICarterModule
+public class GetExample : CarterModule
 {
-    public void AddRoutes(IEndpointRouteBuilder app)
+    public GetExample() : base("/")
     {
-        app.MapGet("/example", (string name) => new GetExampleResponse($"Hello, {name}!"))
-           .WithTags(nameof(Example))
-           .WithName(nameof(GetExample));
+        WithTags(nameof(Example));
+    }
+
+    public override void AddRoutes(IEndpointRouteBuilder app)
+    {
+        app.MapGet("/example", (string name) => new GetExampleResponse($"Hello, {name}!"));
     }
 }
