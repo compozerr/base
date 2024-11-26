@@ -150,7 +150,7 @@ export class Command {
         this.markAsShuttingDown();
 
         if (!this.process) {
-            console.log(`${this.label} process already terminated.`);
+            console.log(`${this.label} process has already been terminated.`);
             return Promise.resolve();
         }
 
@@ -168,7 +168,7 @@ export class Command {
             console.log(`${this.label} process terminated.`);
         } catch (error) {
             if (error instanceof TypeError && error.message === "Child process has already terminated") {
-                console.log(`${this.label} process already terminated.`);
+                console.log(`${this.label} process has already been terminated.`);
                 return Promise.resolve();
             }
 
