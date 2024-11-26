@@ -1,4 +1,5 @@
 import { Logger } from "./logger.ts";
+import { LogStack } from "./logstack.ts";
 
 interface CommandOptions {
     readyMessage?: string;
@@ -20,6 +21,8 @@ export class Command {
     private label: string;
     private logger: Logger;
 
+    private logStack: LogStack;
+
     private isShuttingDown = false;
     private startupStartTime?: Date = undefined;
 
@@ -32,6 +35,7 @@ export class Command {
 
         this.label = name?.toUpperCase() ?? "";
         this.logger = new Logger(this.label, this.options.silent);
+        this.logStack = new LogStack(this.label, 10);
     }
 
     markAsShuttingDown() {
@@ -77,6 +81,8 @@ export class Command {
         const startupTimeout = setTimeout(() => {
             if (!this.isReady) {
                 this.logger.errorAsync(`Process startup took too long (more than ${this.options?.startupTimeoutMs}ms). Terminating all processes...`);
+
+                this.logger.errorAsync(`LogStack before termination:\n\n${this.logStack.getStackAsString()}`);
                 Command.terminateAllCallback?.();
             }
 
@@ -106,6 +112,8 @@ export class Command {
 
                     const text = decoder.decode(value);
 
+                    this.logStack.push(text);
+
                     if (this.isReady || Deno.args.includes("--verbose")) {
                         if (this.options?.logCallback) {
                             this.options.logCallback(text);
@@ -119,7 +127,7 @@ export class Command {
                     }
 
                     if (!this.isReady && treatAsError) {
-                        this.logger.errorAsync(text);
+                        await this.logger.errorAsync(`Logstack:\n\n${this.logStack.getStackAsString()}`);
                     }
 
                     if (!this.isReady && this.checkIfReady(text)) {
