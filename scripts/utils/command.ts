@@ -72,7 +72,6 @@ export class Command {
         const process = new Deno.Command("sh", {
             args: ["-c", `lsof -t -i:${this.options.port} | xargs kill -9`],
         });
-
         await process.output();
     }
 
@@ -159,7 +158,7 @@ export class Command {
         return output.success;
     }
 
-    async terminateAsync(): Promise<void> {
+    terminateAsync(): Promise<void> {
         this.markAsShuttingDown();
 
         if (!this.process) {
@@ -172,13 +171,15 @@ export class Command {
             const process = new Deno.Command("sh", {
                 args: ["-c", this.options.endCommand],
             });
-            await process.output();
+            
+            process.outputSync();
         }
 
         try {
             this.process.kill("SIGKILL");
-            await this.process.status;
+            this.process.status;
             console.log(`${this.label} process terminated.`);
+            return Promise.resolve();
         } catch (error) {
             if (error instanceof TypeError && error.message === "Child process has already terminated") {
                 console.log(`${this.label} process has already been terminated.`);

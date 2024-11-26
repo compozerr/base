@@ -26,7 +26,7 @@ const commands: Command[] = [
         {
             readyMessage: "Content root path:",
             port: Config.ports.backend,
-            startupTimeoutMs: 20000,
+            startupTimeoutMs: 30000,
             logCallback: (text) => {
                 if (text.includes("Content root path:")) {
                     setTimeout(() => {
@@ -45,11 +45,11 @@ const cleanupAsync = async () => {
     if (isCleaningUp) return;
     isCleaningUp = true;
     await logger.logAsync("\nShutting down...\n");
-    await Promise.all(commands.map(command => command.terminateAsync()));
+    await Promise.all(commands.map(async command => await command.terminateAsync()));
 
     await logger.logAsync("Cleaning up ports...\n");
-    await Promise.all(commands.map(command => command.cleanupPortAsync()));
-    await logger.logAsync("Exiting...");
+    await Promise.all(commands.map(async command => await command.cleanupPortAsync()));
+    console.log("Cleaning up ports done");
     Deno.exit(0);
 };
 
