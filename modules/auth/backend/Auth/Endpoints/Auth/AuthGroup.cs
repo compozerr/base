@@ -1,7 +1,7 @@
 using Carter;
 using Microsoft.AspNetCore.Routing;
 
-namespace Auth.AuthEndpoints;
+namespace Auth.Endpoints.Auth;
 
 public class AuthGroup : CarterModule
 {

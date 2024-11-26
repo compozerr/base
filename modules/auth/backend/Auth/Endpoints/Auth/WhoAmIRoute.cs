@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 
-namespace Auth.AuthEndpoints;
+namespace Auth.Endpoints.Auth;
 
 public static class WhoAmIRoute
 {
