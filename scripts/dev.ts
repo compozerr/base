@@ -38,9 +38,16 @@ const commands: Command[] = [
     )
 ];
 
+let isCleaningUp = false;
+
 const cleanupAsync = async () => {
+    if (isCleaningUp) return;
+    isCleaningUp = true;
     await logger.logAsync("\nShutting down...\n");
     commands.forEach(command => command.terminate());
+    await logger.logAsync("Cleaning up ports...");
+    await Promise.all(commands.map(command => command.cleanupPortAsync()));
+    await logger.logAsync("Exiting...");
     Deno.exit(0);
 };
 
@@ -72,7 +79,6 @@ await (new Command("clear")).spawn();
 
 await logger.logAsync("Starting services...\n");
 
-await Promise.all(commands.map(command => command.cleanupPortAsync()));
 await Promise.all(commands.map(command => command.spawn()));
 
 cleanupAsync();
