@@ -16,6 +16,7 @@ const commands: Command[] = [
         {
             readyMessage: "press h + enter to show help",
             port: Config.ports.frontend,
+            startupTimeoutMs: 10000,
             beforeRunAsync: () => beforeRunFrontendAsync(moduleService)
         }
     ),
@@ -25,7 +26,7 @@ const commands: Command[] = [
         {
             readyMessage: "Content root path:",
             port: Config.ports.backend,
-            startupTimeoutMs: 15000,
+            startupTimeoutMs: 20000,
             logCallback: (text) => {
                 if (text.includes("Content root path:")) {
                     setTimeout(() => {
