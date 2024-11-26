@@ -45,10 +45,8 @@ const cleanupAsync = async () => {
     if (isCleaningUp) return;
     isCleaningUp = true;
     await logger.logAsync("\nShutting down...\n");
-    commands.forEach(command => command.terminate());
+    await Promise.all(commands.map(command => command.terminateAsync()));
 
-    await new Promise(resolve => setTimeout(resolve, 500));
-    
     await logger.logAsync("Cleaning up ports...");
     await Promise.all(commands.map(command => command.cleanupPortAsync()));
     await logger.logAsync("Exiting...");
@@ -75,7 +73,7 @@ for (const module of modulesWithStartCommands) {
 
 addEventListener("ready", async () => {
     if (commands.every(command => command.isReady)) {
-        await logger.logAsync("All services are ready\n");
+        await logger.logAsync("\nAll services are ready\n");
     }
 });
 

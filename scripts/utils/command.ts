@@ -35,6 +35,7 @@ export class Command {
     }
 
     markAsShuttingDown() {
+        this.isReady = false;
         this.isShuttingDown = true;
     }
 
@@ -43,17 +44,17 @@ export class Command {
         dispatchEvent(new Event("ready"));
     }
 
-    private checkIfReady(text: string): boolean{
-        if(!this.options?.readyMessage) return true;
+    private checkIfReady(text: string): boolean {
+        if (!this.options?.readyMessage) return true;
 
-        if(this.options?.readyMessage?.startsWith("regex:")){
+        if (this.options?.readyMessage?.startsWith("regex:")) {
             const regex = new RegExp(this.options.readyMessage.slice(6));
-            if(regex.test(text)){
+            if (regex.test(text)) {
                 return true;
             }
         }
-        
-        if(this.options?.readyMessage && text.includes(this.options.readyMessage)){
+
+        if (this.options?.readyMessage && text.includes(this.options.readyMessage)) {
             return true;
         }
 
@@ -145,29 +146,34 @@ export class Command {
         return output.success;
     }
 
-    terminate() {
+    async terminateAsync(): Promise<void> {
         this.markAsShuttingDown();
 
-        if (!this.process) return;
+        if (!this.process) {
+            console.log(`${this.label} process already terminated.`);
+            return Promise.resolve();
+        }
 
         if (this.options?.endCommand) {
 
             const process = new Deno.Command("sh", {
                 args: ["-c", this.options.endCommand],
             });
-            process.outputSync();
+            await process.output();
         }
 
         try {
-            this.process.kill("SIGTERM");
+            this.process.kill("SIGKILL");
+            await this.process.status;
+            console.log(`${this.label} process terminated.`);
         } catch (error) {
             if (error instanceof TypeError && error.message === "Child process has already terminated") {
                 console.log(`${this.label} process already terminated.`);
-                return;
+                return Promise.resolve();
             }
 
             console.error(`Error terminating ${this.label} process: ${error}`);
+            return Promise.reject();
         }
-        console.log(`${this.label} process terminated.`);
     }
 }
