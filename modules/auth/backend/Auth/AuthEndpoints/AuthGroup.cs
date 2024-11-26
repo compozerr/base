@@ -5,7 +5,7 @@ namespace Auth.AuthEndpoints;
 
 public class AuthGroup : CarterModule
 {
-    public AuthGroup()
+    public AuthGroup() : base("/auth")
     {
         WithTags(nameof(Auth));
     }
@@ -14,6 +14,7 @@ public class AuthGroup : CarterModule
     {
         app.AddLoginRoute();
         app.AddLogoutRoute();
+        app.AddWhoAmIRoute();
     }
 
 }

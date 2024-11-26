@@ -15,8 +15,9 @@ public static class GithubAuthProvider
         builder.Services.AddRequiredConfigurationOptions<GithubOptions>("Auth:Github");
 
         var githubOptions = builder.Services.BuildServiceProvider().GetRequiredService<IOptions<GithubOptions>>();
-
-        return builder.AddGitHub(options => {
+        
+        return builder.AddGitHub(options =>
+        {
             options.ClientId = githubOptions.Value.ClientId;
             options.ClientSecret = githubOptions.Value.ClientSecret;
 

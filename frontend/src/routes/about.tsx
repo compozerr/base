@@ -7,7 +7,7 @@ export const Route = createFileRoute('/about')({
 })
 
 function AboutComponent() {
-  ExampleApi.GetExample({ queries: { name: 'World' } }).then((response) => {
+  ExampleApi.getV1example({ queries: { name: 'World' } }).then((response) => {
     console.log(response.message)
   });
   
