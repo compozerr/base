@@ -2,6 +2,7 @@ using Carter;
 using Core.Feature;
 using Core.Helpers;
 using Core.Helpers.Env;
+using Core.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -39,6 +40,8 @@ public class CoreFeature : IFeature
     public void ConfigureServices(IServiceCollection services)
     {
         AddWebApiConfig(services);
+        
+        services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
     }
 
     private static void AddWebApiConfig(IServiceCollection services)
