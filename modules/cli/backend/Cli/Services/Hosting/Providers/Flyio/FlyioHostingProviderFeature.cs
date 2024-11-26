@@ -1,7 +1,7 @@
 using Core.Feature;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Cli.Features.Hosting.Providers.Flyio;
+namespace Cli.Services.Hosting.Providers.Flyio;
 
 public class FlyioHostingProviderFeature : IFeature
 {

@@ -2,7 +2,7 @@ using System.Text.Json;
 using Cli.Services;
 using Microsoft.Extensions.Configuration;
 
-namespace Cli.Features.Hosting.Providers.Flyio;
+namespace Cli.Services.Hosting.Providers.Flyio;
 
 public class FlyioHostingProvider(IFlyioNameGenerator flyioNameGenerator, IProcessService processService, IConfiguration configuration) : IHostingProvider
 {

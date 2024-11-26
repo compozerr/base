@@ -2,7 +2,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace Cli.Features.Hosting.Providers.Flyio;
+namespace Cli.Services.Hosting.Providers.Flyio;
 
 public interface IFlyioNameGenerator
 {

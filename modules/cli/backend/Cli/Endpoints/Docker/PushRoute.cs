@@ -1,7 +1,7 @@
 using Carter;
-using Cli.Features.GoogleCloud;
-using Cli.Features.Hosting;
 using Cli.Services;
+using Cli.Services.GoogleCloud;
+using Cli.Services.Hosting;
 using Core.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -11,13 +11,9 @@ using Microsoft.Extensions.Configuration;
 
 namespace Cli.Features.Docker;
 
-public class DockerPush : CarterModule
+public static class PushRoute
 {
-    public DockerPush() : base("/")
-    {
-        WithTags(nameof(Docker));
-    }
-    public override void AddRoutes(IEndpointRouteBuilder app)
+    public static void AddPushRoute(this IEndpointRouteBuilder app)
     {
         app.MapPost("/docker/push", async (
             HttpContext context,

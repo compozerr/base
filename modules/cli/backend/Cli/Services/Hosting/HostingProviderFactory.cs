@@ -1,8 +1,7 @@
-using Cli.Features.Hosting.Providers.Flyio;
-using Cli.Services;
+using Cli.Services.Hosting.Providers.Flyio;
 using Microsoft.Extensions.Configuration;
 
-namespace Cli.Features.Hosting;
+namespace Cli.Services.Hosting;
 
 public interface IHostingProviderFactory
 {

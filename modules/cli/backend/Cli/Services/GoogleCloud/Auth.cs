@@ -1,8 +1,7 @@
 using System.Text.Json;
 using Microsoft.Extensions.Configuration;
-using Serilog;
 
-namespace Cli.Features.GoogleCloud;
+namespace Cli.Services.GoogleCloud;
 
 public class GoogleAuthService(IConfiguration configuration)
 {

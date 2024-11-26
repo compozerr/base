@@ -1,4 +1,4 @@
-namespace Cli.Features.Hosting;
+namespace Cli.Services.Hosting;
 
 public interface IHostingProvider
 {

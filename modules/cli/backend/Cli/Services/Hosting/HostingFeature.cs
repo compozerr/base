@@ -1,7 +1,7 @@
 using Core.Feature;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Cli.Features.Hosting;
+namespace Cli.Services.Hosting;
 
 public class HostingFeature : IFeature
 {
