@@ -35,6 +35,7 @@ export class Command {
 
         this.label = name?.toUpperCase() ?? "";
         this.logger = new Logger(this.label, this.options.silent);
+
         this.logStack = new LogStack(this.label, 10);
     }
 
@@ -119,7 +120,7 @@ export class Command {
                             this.options.logCallback(text);
                         }
 
-                        if (!isError) {
+                        if (!treatAsError) {
                             await this.logger.logAsync(text);
                         } else {
                             await this.logger.errorAsync(text);
@@ -137,6 +138,10 @@ export class Command {
                         await this.options?.afterRunAsync?.();
 
                         await this.logger.logAsync(`is ready${this.options?.port?.trim() ? ` on http://localhost:${this.options.port}` : ""} (took ${startupTime}ms)`);
+
+                        this.logger.setCanLog(false); //Should not log anymore before all services are ready
+                        addEventListener("all-services-ready", () => this.logger.setCanLog(true));
+
                         this.markAsReady();
                     }
                 }

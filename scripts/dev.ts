@@ -74,6 +74,7 @@ for (const module of modulesWithStartCommands) {
 addEventListener("ready", async () => {
     if (commands.every(command => command.isReady)) {
         await logger.logAsync("\nAll services are ready\n");
+        dispatchEvent(new Event("all-services-ready"));
     }
 });
 
