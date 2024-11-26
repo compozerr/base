@@ -47,7 +47,7 @@ const cleanupAsync = async () => {
     await logger.logAsync("\nShutting down...\n");
     await Promise.all(commands.map(command => command.terminateAsync()));
 
-    await logger.logAsync("Cleaning up ports...");
+    await logger.logAsync("Cleaning up ports...\n");
     await Promise.all(commands.map(command => command.cleanupPortAsync()));
     await logger.logAsync("Exiting...");
     Deno.exit(0);
