@@ -3,6 +3,7 @@ using Auth.Models;
 using Auth.Repositories;
 using Database.Models;
 using Database.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Template;
 
 namespace Api.Features.Home;
@@ -12,11 +13,12 @@ public class HomeModule : CarterModule
     public HomeModule() : base("/")
     {
         WithTags(nameof(HomeModule));
+        RequireAuthorization("admin");
     }
 
     public override void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/", (IConfiguration configuration) => $"{ExampleClass.ExampleMethod()} config: {configuration["SOMESECRET"]}");
+        app.MapGet("/", [Authorize](IConfiguration configuration) => $"{ExampleClass.ExampleMethod()} config: {configuration["SOMESECRET"]}");
 
         app.MapGet("/users/add", async (IConfiguration configuration, IUserRepository userRepository) =>
         {

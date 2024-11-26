@@ -1,5 +1,4 @@
 using Core.Feature;
-using Serilog;
 using Serilog.Sinks.Humio;
 
 var builder = WebApplication.CreateBuilder(args);

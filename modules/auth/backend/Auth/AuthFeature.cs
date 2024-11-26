@@ -1,6 +1,13 @@
-﻿using Auth.Data;
+﻿using System.Net.Http.Json;
+using System.Security.Claims;
+using System.Text.Json;
+using AspNet.Security.OAuth.GitHub;
+using Auth.AuthProviders;
+using Auth.Data;
 using Auth.Repositories;
 using Core.Feature;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,6 +26,19 @@ public class AuthFeature : IFeature
            });
        });
 
-       services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IUserRepository, UserRepository>();
+
+        services.AddAuthentication(options =>
+        {
+            options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            options.DefaultChallengeScheme = GitHubAuthenticationDefaults.AuthenticationScheme;
+        })
+        .AddGithubAuthProvider()
+        .AddCookie();
+
+        services.AddAuthorization();
+
+        services.AddAuthorizationBuilder()
+            .AddPolicy("admin", policy => policy.RequireRole("admin"));
     }
 }
