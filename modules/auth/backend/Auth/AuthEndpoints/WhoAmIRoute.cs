@@ -12,14 +12,13 @@ public static class WhoAmIRoute
     {
         app.MapGet("/whoami", [Authorize] (ClaimsPrincipal user) =>
         {
-            var claims = user.Claims
-        .GroupBy(c => c.Type)
-        .ToDictionary(
-            g => g.Key.Split('/').Last(), // Get the last part of the claim type
-            g => g.Count() == 1
-                ? (object)g.First().Value
-                : g.Select(c => c.Value).ToList()
-        );
+            var claims = user.Claims.GroupBy(c => c.Type)
+                                .ToDictionary(
+                                    g => g.Key.Split('/').Last(), // Get the last part of the claim type
+                                    g => g.Count() == 1
+                                        ? (object)g.First().Value
+                                        : g.Select(c => c.Value).ToList()
+                                );
 
             // GitHub-specific claims with friendly names
             var githubClaims = new

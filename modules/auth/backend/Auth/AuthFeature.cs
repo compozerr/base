@@ -30,7 +30,10 @@ public class AuthFeature : IFeature
             options.DefaultChallengeScheme = GitHubAuthenticationDefaults.AuthenticationScheme;
         })
         .AddGithubAuthProvider()
-        .AddCookie();
+        .AddCookie(options =>
+        {
+            options.AccessDeniedPath = "/access-denied";
+        });
 
         services.AddAuthorization();
 

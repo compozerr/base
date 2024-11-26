@@ -11,6 +11,7 @@ public static class LoginRoute
 {
     public static void AddLoginRoute(this IEndpointRouteBuilder app)
     {
+        //When going directly to the login page, the user will be redirected to the home page after logging in
         app.MapGet("/login", async (HttpContext context, IDateTimeProvider dateTimeProvider) =>
         {
             try
@@ -27,7 +28,7 @@ public static class LoginRoute
 
                 var properties = new AuthenticationProperties
                 {
-                    RedirectUri = string.IsNullOrEmpty(returnUrl) ? "/dashboard" : returnUrl,
+                    RedirectUri = string.IsNullOrEmpty(returnUrl) ? "/" : returnUrl,
                     IsPersistent = true,
                     ExpiresUtc = dateTimeProvider.UtcNow.AddDays(7),
                     Items =
