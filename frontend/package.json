@@ -10,6 +10,9 @@
         "serve": "vite preview",
         "start": "vite"
     },
+    "exports": {
+        "./routeTree.gen": "./src/routeTree.gen.ts"
+    },
     "devDependencies": {
         "@repo/config": "*",
         "@tanstack/router-plugin": "^1.79.0",
