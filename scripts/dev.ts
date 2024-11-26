@@ -46,6 +46,9 @@ const cleanupAsync = async () => {
     isCleaningUp = true;
     await logger.logAsync("\nShutting down...\n");
     commands.forEach(command => command.terminate());
+
+    await new Promise(resolve => setTimeout(resolve, 500));
+    
     await logger.logAsync("Cleaning up ports...");
     await Promise.all(commands.map(command => command.cleanupPortAsync()));
     await logger.logAsync("Exiting...");
