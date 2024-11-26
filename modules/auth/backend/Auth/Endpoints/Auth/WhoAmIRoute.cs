@@ -8,9 +8,9 @@ namespace Auth.Endpoints.Auth;
 
 public static class WhoAmIRoute
 {
-    public static void AddWhoAmIRoute(this IEndpointRouteBuilder app)
+    public static RouteHandlerBuilder AddWhoAmIRoute(this IEndpointRouteBuilder app)
     {
-        app.MapGet("/whoami", [Authorize] (ClaimsPrincipal user) =>
+        return app.MapGet("/whoami", [Authorize] (ClaimsPrincipal user) =>
         {
             var claims = user.Claims.GroupBy(c => c.Type)
                                 .ToDictionary(

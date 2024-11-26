@@ -9,13 +9,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 
-namespace Cli.Features.Docker;
+namespace Cli.Endpoints.Docker;
 
 public static class PushRoute
 {
-    public static void AddPushRoute(this IEndpointRouteBuilder app)
+    public static RouteHandlerBuilder AddPushRoute(this IEndpointRouteBuilder app)
     {
-        app.MapPost("/docker/push", async (
+        return app.MapPost("/docker/push", async (
             HttpContext context,
             [FromHeader(Name = "x-api-key")] string apiKey,
             [FromHeader(Name = "x-app-name")] string appName,

@@ -7,9 +7,9 @@ namespace Auth.Endpoints.Auth;
 
 public static class LogoutRoute
 {
-    public static void AddLogoutRoute(this IEndpointRouteBuilder app)
+    public static RouteHandlerBuilder AddLogoutRoute(this IEndpointRouteBuilder app)
     {
-        app.MapGet("/logout", async (HttpContext context) =>
+        return app.MapGet("/logout", async (HttpContext context) =>
         {
             await context.SignOutAsync();
             return Results.Ok();

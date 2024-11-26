@@ -9,10 +9,10 @@ namespace Auth.Endpoints.Auth;
 
 public static class LoginRoute
 {
-    public static void AddLoginRoute(this IEndpointRouteBuilder app)
+    public static RouteHandlerBuilder AddLoginRoute(this IEndpointRouteBuilder app)
     {
         //When going directly to the login page, the user will be redirected to the home page after logging in
-        app.MapGet("/login", async (HttpContext context, IDateTimeProvider dateTimeProvider) =>
+        return app.MapGet("/login", async (HttpContext context, IDateTimeProvider dateTimeProvider) =>
         {
             try
             {

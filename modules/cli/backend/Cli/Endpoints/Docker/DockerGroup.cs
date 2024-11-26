@@ -1,5 +1,4 @@
 using Carter;
-using Cli.Features.Docker;
 using Microsoft.AspNetCore.Routing;
 
 namespace Cli.Endpoints.Docker;
