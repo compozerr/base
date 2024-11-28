@@ -9,6 +9,7 @@
   <ItemGroup>
     <ProjectReference Include="../../../../backend/Core/Core.csproj" />
     <ProjectReference Include="../../../database/backend/Database/Database.csproj" />
+    <ProjectReference Include="../Auth.Abstractions/Auth.Abstractions.csproj" />
   </ItemGroup>
 
   <ItemGroup>

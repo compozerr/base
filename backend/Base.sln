@@ -1,4 +1,4 @@
-
+﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
@@ -16,6 +16,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Database", "..\modules\database\backend\Database\Database.csproj", "{9084271D-2F1C-425B-8C82-9C6E839EF4FB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auth", "..\modules\auth\backend\Auth\Auth.csproj", "{E6B0C345-800C-40E9-9CC5-4681CC37A6C9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Abstractions", "Core.Abstractions\Core.Abstractions.csproj", "{14FA9218-ED25-45BD-A411-0CEA7774300D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auth.Abstractions", "..\modules\auth\backend\Auth.Abstractions\Auth.Abstractions.csproj", "{65955BBF-9598-42F1-BA46-BDA4F1A5BFEB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +55,14 @@ Global
 		{E6B0C345-800C-40E9-9CC5-4681CC37A6C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E6B0C345-800C-40E9-9CC5-4681CC37A6C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E6B0C345-800C-40E9-9CC5-4681CC37A6C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14FA9218-ED25-45BD-A411-0CEA7774300D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14FA9218-ED25-45BD-A411-0CEA7774300D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14FA9218-ED25-45BD-A411-0CEA7774300D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14FA9218-ED25-45BD-A411-0CEA7774300D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{65955BBF-9598-42F1-BA46-BDA4F1A5BFEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65955BBF-9598-42F1-BA46-BDA4F1A5BFEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65955BBF-9598-42F1-BA46-BDA4F1A5BFEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65955BBF-9598-42F1-BA46-BDA4F1A5BFEB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

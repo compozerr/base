@@ -1,6 +1,12 @@
+using Core.Abstractions;
+using Database.Models;
+
 namespace Database.Repositories;
 
-public interface IGenericRepository<TEntity, TDbContext> where TEntity : BaseEntity  where TDbContext : BaseDbContext
+public interface IGenericRepository<TEntity, TEntityId, TDbContext>
+    where TEntity : BaseEntity<TEntityId>
+    where TEntityId : IdBase<TEntityId>, IId<TEntityId>
+    where TDbContext : BaseDbContext
 {
     Task<TEntity?> GetByIdAsync(int id);
     Task<IEnumerable<TEntity>> GetAllAsync();
@@ -9,7 +15,10 @@ public interface IGenericRepository<TEntity, TDbContext> where TEntity : BaseEnt
     Task DeleteAsync(int id);
 }
 
-public class GenericRepository<TEntity, TDbContext>(TDbContext context) : IGenericRepository<TEntity, TDbContext> where TEntity : BaseEntity where TDbContext : BaseDbContext
+public class GenericRepository<TEntity, TEntityId, TDbContext>(TDbContext context) : IGenericRepository<TEntity, TEntityId, TDbContext>
+    where TEntity : BaseEntity<TEntityId>
+    where TEntityId : IdBase<TEntityId>, IId<TEntityId>
+    where TDbContext : BaseDbContext
 {
     protected readonly TDbContext _context = context;
 
