@@ -2,7 +2,9 @@ using Carter;
 using Core.Feature;
 using Core.Helpers;
 using Core.Helpers.Env;
+using Core.MediatR;
 using Core.Services;
+using FluentValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -40,8 +42,12 @@ public class CoreFeature : IFeature
     public void ConfigureServices(IServiceCollection services)
     {
         AddWebApiConfig(services);
-        
+
+        services.AddValidatorsFromAssemblyContaining(typeof(CoreFeature));
+
+        services.UseMediatR();
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
+        services.AddSingleton<ILinks, Links>();
     }
 
     private static void AddWebApiConfig(IServiceCollection services)
