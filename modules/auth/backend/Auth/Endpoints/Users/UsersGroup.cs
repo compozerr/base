@@ -1,4 +1,3 @@
-using System.Reflection.Metadata;
 using Microsoft.AspNetCore.Builder;
 
 namespace Auth.Endpoints.Users;
