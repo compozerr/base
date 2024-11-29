@@ -15,7 +15,7 @@ public static class PushRoute
 {
     public static RouteHandlerBuilder AddPushRoute(this IEndpointRouteBuilder app)
     {
-        return app.MapPost("/docker/push", async (
+        return app.MapPost("/push", async (
             HttpContext context,
             [FromHeader(Name = "x-api-key")] string apiKey,
             [FromHeader(Name = "x-app-name")] string appName,

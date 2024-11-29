@@ -1,6 +1,5 @@
-using Cli.Features.Docker;
-using Cli.Features.GoogleCloud;
 using Cli.Services;
+using Cli.Services.GoogleCloud;
 using Core.Feature;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
@@ -12,10 +11,6 @@ public class CliFeature : IFeature
 {
     void IFeature.ConfigureServices(IServiceCollection services)
     {
-        services.AddHttpClient(nameof(DockerPush), client =>
-        {
-            client.BaseAddress = new("https://europe-west3-docker.pkg.dev");
-        });
         services.AddSingleton<IApiKeyService, ApiKeyService>();
         services.AddSingleton<GoogleAuthService>();
         services.Configure<KestrelServerOptions>(options =>
