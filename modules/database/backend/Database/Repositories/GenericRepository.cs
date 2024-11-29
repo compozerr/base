@@ -4,7 +4,7 @@ using Database.Models;
 namespace Database.Repositories;
 
 public interface IGenericRepository<TEntity, TEntityId, TDbContext>
-    where TEntity : BaseEntity<TEntityId>
+    where TEntity : BaseEntityWithId<TEntityId>
     where TEntityId : IdBase<TEntityId>, IId<TEntityId>
     where TDbContext : BaseDbContext
 {
@@ -16,7 +16,7 @@ public interface IGenericRepository<TEntity, TEntityId, TDbContext>
 }
 
 public class GenericRepository<TEntity, TEntityId, TDbContext>(TDbContext context) : IGenericRepository<TEntity, TEntityId, TDbContext>
-    where TEntity : BaseEntity<TEntityId>
+    where TEntity : BaseEntityWithId<TEntityId>
     where TEntityId : IdBase<TEntityId>, IId<TEntityId>
     where TDbContext : BaseDbContext
 {

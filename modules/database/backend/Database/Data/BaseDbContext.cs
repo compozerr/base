@@ -1,3 +1,5 @@
+using Database.Models;
+
 namespace Database.Data;
 
 

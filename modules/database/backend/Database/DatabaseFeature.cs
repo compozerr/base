@@ -9,6 +9,6 @@ public class DatabaseFeature : IFeature
 {
     void IFeature.ConfigureServices(IServiceCollection services, IConfiguration configuration)
     {
-        services.AddScoped(typeof(IGenericRepository<,>), typeof(GenericRepository<,>));
+        services.AddScoped(typeof(IGenericRepository<,,>), typeof(GenericRepository<,,>));
     }
 }
