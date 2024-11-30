@@ -60,8 +60,6 @@ public class BaseEntityWithIdEntityTypeConfigurator<TId, TEntity> : IEntityTypeC
 {
     public void Configure(EntityTypeBuilder<TEntity> builder)
     {
-        builder.ToTable(typeof(TEntity).Name);
-
         builder.Property(x => x.Id)
             .HasConversion(new IdValueConverter<TId>())
             .IsRequired();
