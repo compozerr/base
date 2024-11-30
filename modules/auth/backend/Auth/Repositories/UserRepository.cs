@@ -28,10 +28,9 @@ public class UserRepository(AuthDbContext context) : GenericRepository<User, Use
 
     public async Task<IEnumerable<User>> GetUsersWithRolesAsync()
     {
-        // return await _context.Users
-        //     .Include(u => u.UserRoles)
-        //     .ThenInclude(ur => ur.Role)
-        //     .ToListAsync();
-        throw new NotImplementedException();
+        return await _context.Users
+            .Include(u => u.UserRoles)
+            .ThenInclude(ur => ur.Role)
+            .ToListAsync();
     }
 }
