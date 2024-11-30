@@ -1,6 +1,5 @@
 using Auth.Repositories;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Routing;
 
 namespace Auth.Endpoints.Users;
 

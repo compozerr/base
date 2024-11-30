@@ -1,3 +1,4 @@
+using Auth.Endpoints.Users.Create;
 using Microsoft.AspNetCore.Builder;
 
 namespace Auth.Endpoints.Users;
@@ -14,7 +15,7 @@ public class UsersGroup : CarterModule
     public override void AddRoutes(IEndpointRouteBuilder app)
     {
         app.AddUsersRoute().RequireAuthorization("users:read");
-        // app.AddCreateUserRoute();
+        app.AddCreateUserRoute();
         // app.AddUpdateUserRoute();
         // app.AddDeleteUserRoute();
     }
