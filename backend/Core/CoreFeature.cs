@@ -47,7 +47,9 @@ public class CoreFeature : IFeature
 
         services.UseMediatR();
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
-        services.AddSingleton<ILinks, Links>();
+        
+        services.AddScoped<ILinks, Links>()
+                .AddHttpContextAccessor();
     }
 
     private static void AddWebApiConfig(IServiceCollection services)
