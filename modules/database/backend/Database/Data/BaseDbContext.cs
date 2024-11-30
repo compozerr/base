@@ -18,6 +18,7 @@ public abstract class BaseDbContext : DbContext
         {
             modelBuilder.HasDefaultSchema(_schema);
         }
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(BaseDbContext).Assembly);
         base.OnModelCreating(modelBuilder);
     }
 

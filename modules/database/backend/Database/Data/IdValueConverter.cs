@@ -1,7 +1,7 @@
 using Core.Abstractions;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace Auth.Data;
+namespace Database.Data;
 
 public class IdValueConverter<TId> : ValueConverter<TId, Guid>
     where TId : IdBase<TId>, IId<TId>
