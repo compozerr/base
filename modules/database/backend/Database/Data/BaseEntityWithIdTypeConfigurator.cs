@@ -3,21 +3,12 @@ using System.Reflection;
 using Core.Abstractions;
 using Core.Extensions;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Database.Data;
 
 public static class BaseEntityWithIdEntityTypeConfigurator
 {
-    public static BaseEntityWithIdEntityTypeConfigurator<TId, TEntity> Create<TId, TEntity>()
-        where TId : IdBase<TId>, IId<TId>
-        where TEntity : BaseEntityWithId<TId>
-        => new();
-
-    public static void Configure<TId, TEntity>(EntityTypeBuilder<TEntity> builder)
-        where TId : IdBase<TId>, IId<TId>
-        where TEntity : BaseEntityWithId<TId>
-        => Create<TId, TEntity>().Configure(builder);
-
     public static void ConfigureAllInAssembly(Assembly assembly, ModelBuilder modelBuilder)
     {
         var types = assembly.GetTypes();
@@ -38,7 +29,7 @@ public static class BaseEntityWithIdEntityTypeConfigurator
 
             if (configurator != null)
             {
-                var configureMethod = configuratorType.GetMethod(nameof(Configure));
+                var configureMethod = configuratorType.GetMethod("Configure");
 
                 var builderType = typeof(EntityTypeBuilder<>).MakeGenericType(concreteEntityType);
 
@@ -69,5 +60,28 @@ public class BaseEntityWithIdEntityTypeConfigurator<TId, TEntity> : IEntityTypeC
             .IsRequired();
 
         builder.HasKey(x => x.Id);
+
+        // Get all properties of the entity
+        var properties = typeof(TEntity).GetProperties();
+
+        foreach (var property in properties)
+        {
+            var propertyType = property.PropertyType;
+
+            if (propertyType.GetInterfaces()
+                    .Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IId<>)) &&
+                propertyType.BaseType?.IsGenericType == true &&
+                propertyType.BaseType.GetGenericTypeDefinition() == typeof(IdBase<>))
+            {
+                var converterType = typeof(IdValueConverter<>).MakeGenericType(propertyType);
+                var converter = Activator.CreateInstance(converterType);
+
+                var propertyBuilder = builder.Property(property.PropertyType, property.Name);
+
+                typeof(PropertyBuilder)
+                    .GetMethod(nameof(PropertyBuilder.HasConversion), [typeof(ValueConverter)])!
+                    .Invoke(propertyBuilder, [converter]);
+            }
+        }
     }
 }
