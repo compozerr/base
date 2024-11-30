@@ -1,6 +1,4 @@
-using System.Net.Http.Json;
 using System.Security.Claims;
-using System.Text.Json;
 using Core.Extensions;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.DependencyInjection;
