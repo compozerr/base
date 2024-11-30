@@ -8,14 +8,16 @@ public class CreateUserCommandHandler(AuthDbContext authDbContext) : ICommandHan
 {
     public async Task<CreateUserResponse> Handle(CreateUserCommand command, CancellationToken cancellationToken = default)
     {
-        var user = await authDbContext.AddAsync(new User
+        var user = new User
         {
             Email = command.Email,
             AvatarUrl = command.AvatarUrl
-        }, cancellationToken);
+        };
+
+        var addedUser = await authDbContext.AddAsync(user, cancellationToken);
 
         await authDbContext.SaveChangesAsync(cancellationToken);
 
-        return new CreateUserResponse(user.Entity.Id);
+        return new CreateUserResponse(addedUser.Entity.Id);
     }
 }
