@@ -1,7 +1,10 @@
 using Core.Feature;
+using Core.MediatR;
 using Serilog.Sinks.Humio;
 
 var builder = WebApplication.CreateBuilder(args);
+
+Features.RegisterConfigureCallback<RegisterMediatrServicesFeatureConfigureCallback>();
 
 builder.ConfigureFeatures();
 builder.Services.AddFeatures(builder.Configuration);
