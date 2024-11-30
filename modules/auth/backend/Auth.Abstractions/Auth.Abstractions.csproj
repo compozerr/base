@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="../../../../backend/Core.Abstractions/Core.Abstractions.csproj" />
+    <ProjectReference Include="../../../../backend/Core/Core.csproj" />
   </ItemGroup>
 
 </Project>

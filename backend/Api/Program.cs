@@ -5,6 +5,7 @@ using Serilog.Sinks.Humio;
 var builder = WebApplication.CreateBuilder(args);
 
 Features.RegisterConfigureCallback<RegisterMediatrServicesFeatureConfigureCallback>();
+Features.RegisterConfigureCallback<AssembliesFeatureConfigureCallback>();
 
 builder.ConfigureFeatures();
 builder.Services.AddFeatures(builder.Configuration);

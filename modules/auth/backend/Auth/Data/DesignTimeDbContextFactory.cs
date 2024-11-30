@@ -1,6 +1,7 @@
 
 using Auth.Data;
 using Core.Extensions;
+using Core.Feature;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
@@ -16,6 +17,9 @@ public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<AuthDbCont
         
         // Create DbContextOptionsBuilder
         var builder = new DbContextOptionsBuilder<AuthDbContext>();
+
+        Features.RegisterConfigureCallback<AssembliesFeatureConfigureCallback>();
+        Features.ConfigureCallbacks();
 
         var connectionString = configuration.GetConnectionString("DefaultConnection");
         

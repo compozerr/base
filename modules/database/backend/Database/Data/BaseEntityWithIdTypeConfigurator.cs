@@ -1,6 +1,7 @@
 
 using System.Reflection;
 using Core.Abstractions;
+using Core.Extensions;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Database.Data;
@@ -53,6 +54,9 @@ public static class BaseEntityWithIdEntityTypeConfigurator
             }
         }
     }
+
+    public static void ConfigureAllInAssemblies(IEnumerable<Assembly> assemblies, ModelBuilder modelBuilder)
+        => assemblies.Apply(assembly => ConfigureAllInAssembly(assembly, modelBuilder));
 }
 public class BaseEntityWithIdEntityTypeConfigurator<TId, TEntity> : IEntityTypeConfiguration<TEntity>
     where TId : IdBase<TId>, IId<TId>

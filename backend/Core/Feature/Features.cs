@@ -69,6 +69,11 @@ public static class Features
         return builder;
     }
 
+    public static void ConfigureCallbacks()
+    {
+        AllFeatures.Apply(f => _callbacks.Apply(c => c.Configure(f.GetType())));
+    }
+
     public static IServiceCollection AddFeatures(this IServiceCollection services, IConfiguration configuration)
     {
         AllFeatures.Apply(f => f.ConfigureServices(services));

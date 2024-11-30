@@ -1,3 +1,4 @@
+using Core.Feature;
 using Database.Models;
 
 namespace Database.Data;
@@ -18,7 +19,8 @@ public abstract class BaseDbContext : DbContext
         {
             modelBuilder.HasDefaultSchema(_schema);
         }
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(BaseDbContext).Assembly);
+        
+        BaseEntityWithIdEntityTypeConfigurator.ConfigureAllInAssemblies(AssembliesFeatureConfigureCallback.AllDifferentAssemblies, modelBuilder);
         base.OnModelCreating(modelBuilder);
     }
 
