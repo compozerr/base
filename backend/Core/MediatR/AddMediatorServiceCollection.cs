@@ -9,5 +9,7 @@ public static class AddMediatorServiceCollection
                                 {
                                     c.Lifetime = ServiceLifetime.Scoped;
                                     c.RegisterServicesFromAssemblyContaining(typeof(ServiceCollectionExtensions));
+
+                                    c.AddOpenBehavior(typeof(ValidationPipelineBehavior<,>));
                                 });
 }
