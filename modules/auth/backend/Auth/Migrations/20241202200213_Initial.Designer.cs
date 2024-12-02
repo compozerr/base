@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Auth.Migrations
 {
     [DbContext(typeof(AuthDbContext))]
-    [Migration("20241202063107_Removed roles and userrole relational table")]
-    partial class Removedrolesanduserrolerelationaltable
+    [Migration("20241202200213_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -42,12 +42,12 @@ namespace Auth.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.PrimitiveCollection<string[]>("UserRoles")
+                    b.PrimitiveCollection<string[]>("Roles")
                         .IsRequired()
                         .HasColumnType("text[]");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 

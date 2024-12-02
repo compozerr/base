@@ -7,5 +7,5 @@ public class User : BaseEntityWithId<UserId>
     public string Email { get; set; } = string.Empty;
     public string AvatarUrl { get; set; } = string.Empty;
 
-    public ICollection<string> UserRoles { get; set; } = [];
+    public ICollection<string> Roles { get; set; } = [];
 }

@@ -39,12 +39,12 @@ namespace Auth.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.PrimitiveCollection<string[]>("UserRoles")
+                    b.PrimitiveCollection<string[]>("Roles")
                         .IsRequired()
                         .HasColumnType("text[]");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
