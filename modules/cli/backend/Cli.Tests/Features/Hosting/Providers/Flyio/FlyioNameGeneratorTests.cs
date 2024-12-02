@@ -1,5 +1,6 @@
-﻿using Cli.Features.Hosting;
-using Cli.Features.Hosting.Providers.Flyio;
+﻿
+using Cli.Services.Hosting;
+using Cli.Services.Hosting.Providers.Flyio;
 
 namespace Cli.Tests.Features.Hosting.Providers.Flyio;
 

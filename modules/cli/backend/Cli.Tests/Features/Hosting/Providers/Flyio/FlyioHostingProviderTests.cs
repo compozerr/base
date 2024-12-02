@@ -1,7 +1,7 @@
 using System.Text.Json;
-using Cli.Features.Hosting;
-using Cli.Features.Hosting.Providers.Flyio;
 using Cli.Services;
+using Cli.Services.Hosting;
+using Cli.Services.Hosting.Providers.Flyio;
 using FluentAssertions;
 using Microsoft.Extensions.Configuration;
 using Moq;
