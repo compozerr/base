@@ -31,12 +31,6 @@ public class CoreFeature : IFeature
     {
         app.MapGroup("v1").MapCarter();
         app.UseCors(AppConstants.CorsPolicy);
-
-        if (app.Environment.IsDevelopment())
-        {
-            app.UseSwagger();
-            app.UseSwaggerUI();
-        }
     }
 
     public void ConfigureServices(IServiceCollection services)
@@ -47,7 +41,7 @@ public class CoreFeature : IFeature
 
         services.UseMediatR();
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
-        
+
         services.AddScoped<ILinks, Links>()
                 .AddHttpContextAccessor();
     }
@@ -63,9 +57,6 @@ public class CoreFeature : IFeature
         });
 
         services.AddEndpointsApiExplorer();
-        services.AddSwaggerGen(c =>
-        {
-            c.SwaggerDoc("v1", new() { Title = "compozerr base", Version = "v1" });
-        });
+        
     }
 }
