@@ -1,4 +1,3 @@
-using Auth.Abstractions;
 using Auth.Data;
 using Auth.Models;
 using Database.Repositories;
@@ -8,14 +7,14 @@ namespace Auth.Repositories;
 
 public interface IUserRepository : IGenericRepository<User, UserId, AuthDbContext>
 {
-    Task<User?> GetByEmailAsync(string email);
+    Task<User?> GetByEmailAsync(string email, CancellationToken cancellationToken = default);
 }
 
 public class UserRepository(AuthDbContext context) : GenericRepository<User, UserId, AuthDbContext>(context), IUserRepository
 {
-    public async Task<User?> GetByEmailAsync(string email)
+    public async Task<User?> GetByEmailAsync(string email, CancellationToken cancellationToken = default)
     {
         return await _context.Users
-            .FirstOrDefaultAsync(u => u.Email == email);
+            .FirstOrDefaultAsync(u => u.Email == email, cancellationToken);
     }
 }

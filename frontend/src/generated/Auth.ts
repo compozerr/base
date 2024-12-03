@@ -23,6 +23,13 @@ const endpoints = makeApi([
     requestFormat: "json",
     response: z.void(),
   },
+  {
+    method: "get",
+    path: "/v1/auth/signin-github",
+    alias: "getV1authsigninGithub",
+    requestFormat: "json",
+    response: z.void(),
+  },
 ]);
 
 export const AuthApi = new Zodios("http://localhost:1235", endpoints);

@@ -1,5 +1,4 @@
 using Core.Abstractions;
-using Database.Models;
 
 namespace Database.Repositories;
 

@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.Build.Utilities;
+using Serilog;
 
 namespace Auth.Endpoints.Auth;
 
@@ -39,6 +41,15 @@ public static class LoginRoute
                 };
 
                 await context.ChallengeAsync(GitHubAuthenticationDefaults.AuthenticationScheme, properties);
+
+                Log.ForContext("ReturnUrl", returnUrl)
+                   .ForContext("LoginTime", dateTimeProvider.UtcNow)
+                   .ForContext("User", context.User.Identity?.Name)
+                   .ForContext("State", properties.Items["state"])
+                   .ForContext("IsPersistent", properties.IsPersistent)
+                   .ForContext("ExpiresUtc", properties.ExpiresUtc)
+                   .ForContext("RedirectUri", properties.RedirectUri)
+                   .Information("Login request processed successfully");
 
                 return Results.Empty;
             }
