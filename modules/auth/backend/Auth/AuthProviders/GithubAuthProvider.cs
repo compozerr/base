@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using AspNet.Security.OAuth.GitHub;
+using Auth.Endpoints.Auth;
 using Auth.Endpoints.Users.Create;
 using Core.Extensions;
 using MediatR;
@@ -41,30 +42,14 @@ public static class GithubAuthProvider
             {
                 OnTicketReceived = async context =>
                 {
-                    var mediator = context.HttpContext.RequestServices.GetRequiredService<IMediator>();
-
                     Log.ForContext("User", context.Principal!.Identity?.Name)
                        .Information("Received GitHub authentication ticket");
 
-                    await AddUser(mediator, context.Principal!);
+                    var mediator = context.HttpContext.RequestServices.GetRequiredService<IMediator>();
+
+                    await mediator.Send(new UserAuthenticatedCommand(context.Principal));
                 },
             };
         });
-    }
-
-    public static async Task AddUser(IMediator mediator, ClaimsPrincipal principal)
-    {
-        var email = principal.FindFirst(ClaimTypes.Email)?.Value;
-        var avatarUrl = principal.FindFirst("urn:github:avatar")?.Value;
-
-        if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(avatarUrl))
-            return;
-
-        var command = new CreateUserCommand(
-            Email: email,
-            AvatarUrl: avatarUrl
-        );
-
-        await mediator.Send(command);
     }
 }

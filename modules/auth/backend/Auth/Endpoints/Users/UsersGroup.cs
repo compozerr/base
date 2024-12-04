@@ -1,4 +1,3 @@
-using Auth.Endpoints.Users.Create;
 using Microsoft.AspNetCore.Builder;
 
 namespace Auth.Endpoints.Users;

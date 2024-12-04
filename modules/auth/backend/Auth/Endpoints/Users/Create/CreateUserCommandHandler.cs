@@ -10,6 +10,7 @@ public class CreateUserCommandHandler(AuthDbContext authDbContext) : ICommandHan
     {
         var user = new User
         {
+            Name = command.Name,
             Email = command.Email,
             AvatarUrl = command.AvatarUrl
         };

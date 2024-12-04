@@ -11,6 +11,7 @@ public class CreateUserCommandValidator : AbstractValidator<CreateUserCommand>
         var scope = scopeFactory.CreateScope();
         var userRepository = scope.ServiceProvider.GetRequiredService<IUserRepository>();
 
+        RuleFor(x => x.Name).NotEmpty();
         RuleFor(x => x.Email).NotEmpty().EmailAddress();
         RuleFor(x => x.AvatarUrl).NotEmpty();
         RuleFor(x => x.Email).MustAsync(async (email, cancellationToken) =>
