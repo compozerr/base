@@ -3,8 +3,6 @@ using Core.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
-using Microsoft.Build.Utilities;
 using Serilog;
 
 namespace Auth.Endpoints.Auth;
@@ -13,8 +11,7 @@ public static class LoginRoute
 {
     public static RouteHandlerBuilder AddLoginRoute(this IEndpointRouteBuilder app)
     {
-        //When going directly to the login page, the user will be redirected to the home page after logging in
-        return app.MapGet("/login", async (HttpContext context, IDateTimeProvider dateTimeProvider) =>
+        return app.MapGet("/login", (HttpContext context, IDateTimeProvider dateTimeProvider) =>
         {
             try
             {
@@ -40,18 +37,15 @@ public static class LoginRoute
                     }
                 };
 
-                await context.ChallengeAsync(GitHubAuthenticationDefaults.AuthenticationScheme, properties);
-
                 Log.ForContext("ReturnUrl", returnUrl)
                    .ForContext("LoginTime", dateTimeProvider.UtcNow)
-                   .ForContext("User", context.User.Identity?.Name)
                    .ForContext("State", properties.Items["state"])
                    .ForContext("IsPersistent", properties.IsPersistent)
                    .ForContext("ExpiresUtc", properties.ExpiresUtc)
                    .ForContext("RedirectUri", properties.RedirectUri)
                    .Information("Login request processed successfully");
 
-                return Results.Empty;
+                return Results.Challenge(properties, [GitHubAuthenticationDefaults.AuthenticationScheme]);
             }
             catch (Exception ex)
             {

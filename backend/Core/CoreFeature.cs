@@ -37,8 +37,6 @@ public class CoreFeature : IFeature
     {
         AddWebApiConfig(services);
 
-        services.AddValidatorsFromAssemblyContaining(typeof(CoreFeature));
-
         services.UseMediatR();
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
 

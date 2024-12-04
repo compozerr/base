@@ -16,7 +16,6 @@ public class AuthGroup : CarterModule
         app.AddLoginRoute();
         app.AddLogoutRoute();
         app.AddWhoAmIRoute();
-        app.AddGitHubCallbackRoute();
     }
 
 }

@@ -1,15 +1,6 @@
 import { makeApi, Zodios, type ZodiosOptions } from "@zodios/core";
 import { z } from "zod";
 
-const CreateUserRequest = z
-  .object({ email: z.string().nullable(), avatarUrl: z.string().nullable() })
-  .partial()
-  .strict();
-
-export const schemas = {
-  CreateUserRequest,
-};
-
 const endpoints = makeApi([
   {
     method: "get",
@@ -17,20 +8,6 @@ const endpoints = makeApi([
     alias: "getV1users",
     requestFormat: "json",
     response: z.array(User),
-  },
-  {
-    method: "post",
-    path: "/v1/users",
-    alias: "postV1users",
-    requestFormat: "json",
-    parameters: [
-      {
-        name: "body",
-        type: "Body",
-        schema: CreateUserRequest,
-      },
-    ],
-    response: z.void(),
   },
 ]);
 

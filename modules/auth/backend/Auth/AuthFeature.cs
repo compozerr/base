@@ -39,5 +39,7 @@ public class AuthFeature : IFeature
 
         services.AddAuthorizationBuilder()
                 .AddPolicy("admin", policy => policy.RequireRole("admin"));
+
+        
     }
 }

@@ -4,6 +4,7 @@ using Auth.Endpoints.Users.Create;
 using Core.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.OAuth;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
@@ -35,64 +36,35 @@ public static class GithubAuthProvider
             options.ClaimActions.MapJsonKey("urn:github:avatar", "avatar_url");
 
             options.SaveTokens = true;
+
+            options.Events = new OAuthEvents
+            {
+                OnTicketReceived = async context =>
+                {
+                    var mediator = context.HttpContext.RequestServices.GetRequiredService<IMediator>();
+
+                    Log.ForContext("User", context.Principal!.Identity?.Name)
+                       .Information("Received GitHub authentication ticket");
+
+                    await AddUser(mediator, context.Principal!);
+                },
+            };
         });
     }
 
-    public static RouteHandlerBuilder AddGitHubCallbackRoute(this IEndpointRouteBuilder app)
+    public static async Task AddUser(IMediator mediator, ClaimsPrincipal principal)
     {
-        return app.MapGet("/signin-github", async (
-            HttpContext context,
-            IMediator mediator) =>
-        {
-            try
-            {
-                // Get the authentication result
-                var result = await context.AuthenticateAsync(GitHubAuthenticationDefaults.AuthenticationScheme);
+        var email = principal.FindFirst(ClaimTypes.Email)?.Value;
+        var avatarUrl = principal.FindFirst("urn:github:avatar")?.Value;
 
-                if (!result?.Succeeded ?? true)
-                {
-                    return Results.Unauthorized();
-                }
+        if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(avatarUrl))
+            return;
 
-                // Extract user info from GitHub claims
-                var email = result?.Principal?.FindFirst(ClaimTypes.Email)?.Value;
-                var avatarUrl = result?.Principal?.FindFirst("urn:github:avatar")?.Value;
+        var command = new CreateUserCommand(
+            Email: email,
+            AvatarUrl: avatarUrl
+        );
 
-                if (string.IsNullOrEmpty(email))
-                {
-                    return Results.BadRequest("Email not provided by GitHub");
-                }
-
-                // Create user command
-                var command = new CreateUserCommand(
-                    Email: email,
-                    AvatarUrl: avatarUrl ?? string.Empty
-                );
-
-                // Send command to create user
-                var response = await mediator.Send(command);
-
-                Log.ForContext("UserId", response.Id)
-                   .ForContext("Email", email)
-                   .Information("User created successfully after GitHub authentication");
-
-                // Sign in the user
-                if (result?.Principal != null)
-                    await context.SignInAsync(result.Principal);
-
-                // Redirect to the return URL from the authentication properties
-                var returnUrl = result?.Properties?.RedirectUri ?? "/";
-                return Results.Redirect(returnUrl);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex, "Error processing GitHub callback");
-                return Results.Problem(
-                    title: "Authentication Failed",
-                    detail: "Unable to process GitHub authentication",
-                    statusCode: 500
-                );
-            }
-        });
+        await mediator.Send(command);
     }
 }

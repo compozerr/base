@@ -15,7 +15,6 @@ public class UsersGroup : CarterModule
     public override void AddRoutes(IEndpointRouteBuilder app)
     {
         app.AddUsersRoute().RequireAuthorization("users:read");
-        app.AddCreateUserRoute();
         // app.AddUpdateUserRoute();
         // app.AddDeleteUserRoute();
     }
