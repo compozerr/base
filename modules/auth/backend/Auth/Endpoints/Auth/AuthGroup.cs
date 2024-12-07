@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Builder;
+
 namespace Auth.Endpoints.Auth;
 
 public class AuthGroup : CarterModule
@@ -10,7 +12,8 @@ public class AuthGroup : CarterModule
     public override void AddRoutes(IEndpointRouteBuilder app)
     {
         app.AddLoginRoute();
-        app.AddLogoutRoute();
-        app.AddWhoAmIRoute();
+        app.AddLogoutRoute().RequireAuthorization();
+        app.AddWhoAmIRoute().RequireAuthorization();
+        app.AddMeRoute().RequireAuthorization();
     }
 }

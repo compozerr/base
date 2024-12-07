@@ -10,7 +10,7 @@ public static class WhoAmIRoute
 {
     public static RouteHandlerBuilder AddWhoAmIRoute(this IEndpointRouteBuilder app)
     {
-        return app.MapGet("/whoami", [Authorize] (ClaimsPrincipal user) =>
+        return app.MapGet("/whoami", (ClaimsPrincipal user) =>
         {
             var claims = user.Claims.GroupBy(c => c.Type)
                                 .ToDictionary(

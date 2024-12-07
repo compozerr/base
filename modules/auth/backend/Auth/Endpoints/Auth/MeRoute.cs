@@ -1,5 +1,4 @@
 using System.Security.Claims;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 
 namespace Auth.Endpoints.Auth;
@@ -8,7 +7,7 @@ public static class MeRoute
 {
     public static RouteHandlerBuilder AddMeRoute(this IEndpointRouteBuilder app)
     {
-        return app.MapGet("/me", [Authorize] (ClaimsPrincipal user) =>
+        return app.MapGet("/me", (ClaimsPrincipal user) =>
         {
             var userId = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var email = user.FindFirst(ClaimTypes.Email)?.Value;
