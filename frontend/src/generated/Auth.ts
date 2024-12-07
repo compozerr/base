@@ -1,6 +1,20 @@
 import { makeApi, Zodios, type ZodiosOptions } from "@zodios/core";
 import { z } from "zod";
 
+const MeResponse = z
+  .object({
+    userId: z.string().uuid(),
+    name: z.string().nullable(),
+    email: z.string().nullable(),
+    avatarUrl: z.string().nullable(),
+  })
+  .partial()
+  .strict();
+
+export const schemas = {
+  MeResponse,
+};
+
 const endpoints = makeApi([
   {
     method: "get",
@@ -22,6 +36,13 @@ const endpoints = makeApi([
     alias: "getV1authwhoami",
     requestFormat: "json",
     response: z.void(),
+  },
+  {
+    method: "get",
+    path: "/v1/auth/me",
+    alias: "getV1authme",
+    requestFormat: "json",
+    response: MeResponse,
   },
 ]);
 
