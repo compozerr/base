@@ -2,16 +2,16 @@ using Auth.Repositories;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Auth.Endpoints.Users.Create;
+namespace Auth.Endpoints.Users.Update;
 
-public class CreateUserCommandValidator : AbstractValidator<CreateUserCommand>
+public class UpdateUserCommandValidator : AbstractValidator<UpdateUserCommand>
 {
-    public CreateUserCommandValidator(IServiceScopeFactory scopeFactory)
+    public UpdateUserCommandValidator(IServiceScopeFactory scopeFactory)
     {
         var scope = scopeFactory.CreateScope();
         var userRepository = scope.ServiceProvider.GetRequiredService<IUserRepository>();
 
-        RuleFor(x => x.AuthProviderUserId).NotEmpty();
+        RuleFor(x => x.UserId).NotEmpty();
         RuleFor(x => x.Name).NotEmpty();
         RuleFor(x => x.Email).NotEmpty().EmailAddress();
         RuleFor(x => x.AvatarUrl).NotEmpty();

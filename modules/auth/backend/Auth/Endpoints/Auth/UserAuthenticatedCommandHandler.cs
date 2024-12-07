@@ -1,6 +1,8 @@
 using System.Security.Claims;
 using Auth.Endpoints.Users.Create;
+using Auth.Endpoints.Users.Update;
 using Auth.Repositories;
+using Core.Extensions;
 using Core.MediatR;
 using MediatR;
 
@@ -16,21 +18,41 @@ public class UserAuthenticatedCommandHandler(
 
         var email = principal.FindFirst(ClaimTypes.Email)?.Value;
         var avatarUrl = principal.FindFirst("urn:github:avatar")?.Value;
+        var authProviderUserId = principal.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        var name = principal.Identity?.Name ?? email;
 
         ArgumentException.ThrowIfNullOrEmpty(email, nameof(email));
         ArgumentException.ThrowIfNullOrEmpty(avatarUrl, nameof(avatarUrl));
+        ArgumentException.ThrowIfNullOrEmpty(authProviderUserId, nameof(authProviderUserId));
+        ArgumentException.ThrowIfNullOrEmpty(name, nameof(name));
 
-        if (await userRepository.ExistsByEmailAsync(email, cancellationToken))
-            return (await userRepository.GetByEmailAsync(email, cancellationToken))!.Id;
+        if (await userRepository.ExistsByAuthProviderUserIdAsync(authProviderUserId, cancellationToken))
+        {
+            var user = await userRepository.GetByAuthProviderUserIdAsync(authProviderUserId, cancellationToken);
+            user.ThrowIfNull("User not found");
 
-        var command = new CreateUserCommand(
-            Name: principal.Identity?.Name ?? email,
-            Email: email,
-            AvatarUrl: avatarUrl
-        );
+            var command = new UpdateUserCommand(
+                UserId: user.Id,
+                Name: name,
+                Email: email,
+                AvatarUrl: avatarUrl
+            );
 
-        var createdUserResponse = await mediator.Send(command, cancellationToken);
+            var updatedUserResponse = await mediator.Send(command, cancellationToken);
+            return updatedUserResponse.Id;
+        }
+        else
+        {
+            var command = new CreateUserCommand(
+                AuthProviderUserId: principal.FindFirst(ClaimTypes.NameIdentifier)!.Value,
+                Name: name,
+                Email: email,
+                AvatarUrl: avatarUrl
+            );
 
-        return createdUserResponse.Id;
+            var createdUserResponse = await mediator.Send(command, cancellationToken);
+
+            return createdUserResponse.Id;
+        }
     }
 }

@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
 namespace Core.Extensions;
@@ -5,7 +6,7 @@ namespace Core.Extensions;
 public static class ObjectExtensions
 {
     public static T ThrowIfNull<T>(
-           this T? value,
+           [NotNull] this T? value,
            string? paramName = null,
            bool argumentValidation = false,
            [CallerArgumentExpression(nameof(value))] string callerExpression = "",
