@@ -7,7 +7,6 @@ namespace Auth.Repositories;
 
 public interface IUserRepository : IGenericRepository<User, UserId, AuthDbContext>
 {
-    Task<User?> GetByEmailAsync(string email, CancellationToken cancellationToken = default);
     Task<bool> ExistsByEmailAsync(string email, CancellationToken cancellationToken = default);
     Task<User?> GetByAuthProviderUserIdAsync(string authProviderUserId, CancellationToken cancellationToken = default);
     Task<bool> ExistsByAuthProviderUserIdAsync(string authProviderUserId, CancellationToken cancellationToken = default);
@@ -15,9 +14,6 @@ public interface IUserRepository : IGenericRepository<User, UserId, AuthDbContex
 
 public class UserRepository(AuthDbContext context) : GenericRepository<User, UserId, AuthDbContext>(context), IUserRepository
 {
-    public Task<User?> GetByEmailAsync(string email, CancellationToken cancellationToken = default)
-        => _context.Users.FirstOrDefaultAsync(u => u.Email == email, cancellationToken);
-
     public Task<bool> ExistsByEmailAsync(string email, CancellationToken cancellationToken = default)
         => _context.Users.AnyAsync(u => u.Email == email, cancellationToken);
 

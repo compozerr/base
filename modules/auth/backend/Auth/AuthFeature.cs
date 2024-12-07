@@ -2,6 +2,7 @@
 using Auth.AuthProviders;
 using Auth.Data;
 using Auth.Repositories;
+using Auth.Services;
 using Core.Feature;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
@@ -41,6 +42,8 @@ public class AuthFeature : IFeature
 
         services.AddAuthorizationBuilder()
                 .AddPolicy("admin", policy => policy.RequireRole("admin"));
+
+        services.AddTransient<ICurrentUserAccessor, CurrentUserAccessor>();
     }
 
     void IFeature.ConfigureApp(WebApplication app)

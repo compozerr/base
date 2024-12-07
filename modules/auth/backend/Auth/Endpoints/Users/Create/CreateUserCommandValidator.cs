@@ -17,8 +17,8 @@ public class CreateUserCommandValidator : AbstractValidator<CreateUserCommand>
         RuleFor(x => x.AvatarUrl).NotEmpty();
         RuleFor(x => x.Email).MustAsync(async (email, cancellationToken) =>
         {
-            var user = await userRepository.GetByEmailAsync(email, cancellationToken);
-            return user is null;
+            var userWithEmailAlreadyExists = await userRepository.ExistsByEmailAsync(email, cancellationToken);
+            return !userWithEmailAlreadyExists;
         }).WithMessage("User with this email already exists");
     }
 }

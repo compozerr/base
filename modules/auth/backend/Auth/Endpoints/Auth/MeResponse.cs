@@ -1,7 +1,7 @@
 namespace Auth.Endpoints.Auth;
 
 internal sealed record MeResponse(
-    UserId Id,
+    Guid UserId,
     string Name,
     string Email,
     string AvatarUrl);

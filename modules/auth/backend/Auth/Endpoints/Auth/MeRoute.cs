@@ -1,4 +1,7 @@
 using System.Security.Claims;
+using Auth.Repositories;
+using Auth.Services;
+using Core.Extensions;
 using Microsoft.AspNetCore.Builder;
 
 namespace Auth.Endpoints.Auth;
@@ -7,23 +10,21 @@ public static class MeRoute
 {
     public static RouteHandlerBuilder AddMeRoute(this IEndpointRouteBuilder app)
     {
-        return app.MapGet("/me", (ClaimsPrincipal user) =>
+        return app.MapGet("/me", async (
+            ICurrentUserAccessor currentUserAccessor,
+            IUserRepository userRepository) =>
         {
-            var userId = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var email = user.FindFirst(ClaimTypes.Email)?.Value;
-            var name = user.Identity?.Name ?? email;
-            var avatarUrl = user.FindFirst("urn:github:avatar")?.Value;
+            var userId = currentUserAccessor.CurrentUserId;
+            userId.ThrowIfNull(nameof(userId));
 
-            ArgumentException.ThrowIfNullOrEmpty(userId, nameof(userId));
-            ArgumentException.ThrowIfNullOrEmpty(email, nameof(email));
-            ArgumentException.ThrowIfNullOrEmpty(name, nameof(name));
-            ArgumentException.ThrowIfNullOrEmpty(avatarUrl, nameof(avatarUrl));
+            var user = await userRepository.GetByIdAsync(userId);
+            user.ThrowIfNull(nameof(user));
 
             return new MeResponse(
-                UserId.Parse(userId),
-                name,
-                email,
-                avatarUrl);
+                user.Id.Value,
+                user.Name,
+                user.Email,
+                user.AvatarUrl);
         });
     }
 }
