@@ -15,7 +15,7 @@ public abstract record IdBase<TSelf> : IParsable<TSelf>, IComparable<TSelf>
     public sealed override string ToString()
         => Value.ToString();
 
-    public static TSelf Parse(string s, IFormatProvider? provider) => TSelf.Create(Guid.Parse(s));
+    public static TSelf Parse(string s, IFormatProvider? provider = null) => TSelf.Create(Guid.Parse(s));
     public static bool TryParse(string? s, IFormatProvider? provider, out TSelf result)
     {
         if (Guid.TryParse(s, out var guid))

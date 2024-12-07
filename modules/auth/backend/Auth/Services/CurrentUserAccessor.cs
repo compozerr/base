@@ -25,7 +25,7 @@ public class CurrentUserAccessor(IHttpContextAccessor httpContextAccessor) : ICu
                 if (subject is null)
                     return null;
 
-                return UserId.Parse(subject, null);
+                return UserId.Parse(subject);
             }
         }
     }
