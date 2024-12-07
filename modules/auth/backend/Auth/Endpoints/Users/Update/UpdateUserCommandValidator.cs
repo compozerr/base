@@ -15,10 +15,5 @@ public class UpdateUserCommandValidator : AbstractValidator<UpdateUserCommand>
         RuleFor(x => x.Name).NotEmpty();
         RuleFor(x => x.Email).NotEmpty().EmailAddress();
         RuleFor(x => x.AvatarUrl).NotEmpty();
-        RuleFor(x => x.Email).MustAsync(async (email, cancellationToken) =>
-        {
-            var user = await userRepository.GetByEmailAsync(email, cancellationToken);
-            return user is null;
-        }).WithMessage("User with this email already exists");
     }
 }
