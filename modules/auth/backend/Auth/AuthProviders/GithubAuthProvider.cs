@@ -47,7 +47,13 @@ public static class GithubAuthProvider
 
                     var mediator = context.HttpContext.RequestServices.GetRequiredService<IMediator>();
 
-                    await mediator.Send(new UserAuthenticatedCommand(context.Principal));
+                    var userId = await mediator.Send(new UserAuthenticatedCommand(context.Principal));
+
+                    var identity = (ClaimsIdentity)context.Principal.Identity!;
+                    identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, userId.ToString()));
+
+                    Log.ForContext("UserId", userId)
+                       .Information("User authenticated successfully");
                 },
             };
         });

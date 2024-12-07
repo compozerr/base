@@ -7,11 +7,11 @@ public interface IGenericRepository<TEntity, TEntityId, TDbContext>
     where TEntityId : IdBase<TEntityId>, IId<TEntityId>
     where TDbContext : BaseDbContext
 {
-    Task<TEntity?> GetByIdAsync(int id);
+    Task<TEntity?> GetByIdAsync(TEntityId id);
     Task<IEnumerable<TEntity>> GetAllAsync();
     Task<TEntity> AddAsync(TEntity entity);
     Task UpdateAsync(TEntity entity);
-    Task DeleteAsync(int id);
+    Task DeleteAsync(TEntityId id);
 }
 
 public class GenericRepository<TEntity, TEntityId, TDbContext>(TDbContext context) : IGenericRepository<TEntity, TEntityId, TDbContext>
@@ -21,7 +21,7 @@ public class GenericRepository<TEntity, TEntityId, TDbContext>(TDbContext contex
 {
     protected readonly TDbContext _context = context;
 
-    public virtual async Task<TEntity?> GetByIdAsync(int id)
+    public virtual async Task<TEntity?> GetByIdAsync(TEntityId id)
     {
         return await _context.Set<TEntity>().FindAsync(id);
     }
@@ -44,7 +44,7 @@ public class GenericRepository<TEntity, TEntityId, TDbContext>(TDbContext contex
         await _context.SaveChangesAsync();
     }
 
-    public virtual async Task DeleteAsync(int id)
+    public virtual async Task DeleteAsync(TEntityId id)
     {
         var entity = await GetByIdAsync(id) ?? throw new Exception($"{typeof(TEntity).Name} with id {id} not found");
         _context.Set<TEntity>().Remove(entity);

@@ -1,7 +1,3 @@
-using Auth.AuthProviders;
-using Carter;
-using Microsoft.AspNetCore.Routing;
-
 namespace Auth.Endpoints.Auth;
 
 public class AuthGroup : CarterModule
@@ -17,5 +13,4 @@ public class AuthGroup : CarterModule
         app.AddLogoutRoute();
         app.AddWhoAmIRoute();
     }
-
 }
