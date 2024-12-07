@@ -50,6 +50,7 @@ public static class GithubAuthProvider
                     var userId = await mediator.Send(new UserAuthenticatedCommand(context.Principal));
 
                     var identity = (ClaimsIdentity)context.Principal.Identity!;
+                    identity.RemoveClaim(identity.FindFirst(ClaimTypes.NameIdentifier));
                     identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, userId.ToString()));
 
                     Log.ForContext("UserId", userId)
