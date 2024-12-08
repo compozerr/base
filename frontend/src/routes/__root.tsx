@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import { Outlet, createRootRouteWithContext } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/router-devtools'
-import { AuthContextType } from '../auth-mock'
+import type { AuthContextType } from '../auth-mock'
 
 interface RouterContext {
   auth: AuthContextType
@@ -19,3 +19,5 @@ function RootComponent() {
     </>
   )
 }
+
+export type { RouterContext }
