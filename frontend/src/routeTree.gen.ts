@@ -17,7 +17,7 @@ import { Route as AboutImport } from './routes/about'
 import { Route as AuthImport } from './../../modules/auth/frontend/src/routes/_auth'
 import { Route as IndexImport } from './routes/index'
 import { Route as ExampleIndexImport } from './../../modules/template/frontend/src/routes/example/index'
-import { Route as AuthdashboardImport } from './../../modules/auth/frontend/src/routes/_auth.dashboard'
+import { Route as AuthDashboardImport } from './../../modules/auth/frontend/src/routes/_auth/dashboard'
 
 // Create/Update Routes
 
@@ -56,7 +56,7 @@ const ExampleIndexRoute = ExampleIndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const AuthdashboardRoute = AuthdashboardImport.update({
+const AuthDashboardRoute = AuthDashboardImport.update({
   id: '/dashboard',
   path: '/dashboard',
   getParentRoute: () => AuthRoute,
@@ -105,7 +105,7 @@ declare module '@tanstack/react-router' {
       id: '/_auth/dashboard'
       path: '/dashboard'
       fullPath: '/dashboard'
-      preLoaderRoute: typeof AuthdashboardImport
+      preLoaderRoute: typeof AuthDashboardImport
       parentRoute: typeof AuthImport
     }
     '/example/': {
@@ -121,11 +121,11 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 interface AuthRouteChildren {
-  AuthdashboardRoute: typeof AuthdashboardRoute
+  AuthDashboardRoute: typeof AuthDashboardRoute
 }
 
 const AuthRouteChildren: AuthRouteChildren = {
-  AuthdashboardRoute: AuthdashboardRoute,
+  AuthDashboardRoute: AuthDashboardRoute,
 }
 
 const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
@@ -136,7 +136,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/login': typeof LoginRoute
   '/using-module-component': typeof UsingModuleComponentRoute
-  '/dashboard': typeof AuthdashboardRoute
+  '/dashboard': typeof AuthDashboardRoute
   '/example': typeof ExampleIndexRoute
 }
 
@@ -146,7 +146,7 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/login': typeof LoginRoute
   '/using-module-component': typeof UsingModuleComponentRoute
-  '/dashboard': typeof AuthdashboardRoute
+  '/dashboard': typeof AuthDashboardRoute
   '/example': typeof ExampleIndexRoute
 }
 
@@ -157,7 +157,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/login': typeof LoginRoute
   '/using-module-component': typeof UsingModuleComponentRoute
-  '/_auth/dashboard': typeof AuthdashboardRoute
+  '/_auth/dashboard': typeof AuthDashboardRoute
   '/example/': typeof ExampleIndexRoute
 }
 
@@ -247,7 +247,7 @@ export const routeTree = rootRoute
       "filePath": "./using-module-component.tsx"
     },
     "/_auth/dashboard": {
-      "filePath": "../../../modules/auth/frontend/src/routes/_auth.dashboard.tsx",
+      "filePath": "../../../modules/auth/frontend/src/routes/_auth/dashboard.tsx",
       "parent": "/_auth"
     },
     "/example/": {

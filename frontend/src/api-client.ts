@@ -13,4 +13,6 @@ const httpClient = new HttpClient((url, requestInit) => {
 
 const adapter = new FetchRequestAdapter(authProvider, undefined, undefined, httpClient);
 
+adapter.baseUrl = import.meta.env.VITE_BACKEND_URL;
+
 export const apiClient = createApiClient(adapter);

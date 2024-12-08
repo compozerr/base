@@ -1,9 +1,7 @@
 import * as React from 'react'
 import { createFileRoute, redirect } from '@tanstack/react-router'
-import { AuthApi } from '../../../../../frontend/src/generated'
 import { z } from 'zod'
 import { useAuth } from '../../../../../frontend/src/auth'
-import { AuthService } from '../auth/auth-service'
 
 const fallback = '/dashboard' as const
 
