@@ -24,6 +24,7 @@ public static class GithubAuthProvider
 
         return builder.AddGitHub(options =>
         {
+            options.CallbackPath = "/v1/auth/signin-github";
             options.ClientId = githubOptions.Value.ClientId;
             options.ClientSecret = githubOptions.Value.ClientSecret;
 
@@ -39,6 +40,27 @@ public static class GithubAuthProvider
 
             options.Events = new OAuthEvents
             {
+                OnRedirectToAuthorizationEndpoint = context =>
+                {
+                    // Only redirect if this is the initial login attempt
+                    if (context.Request.Path == "/v1/auth/login")
+                    {
+                        context.Response.Redirect(context.RedirectUri);
+                    }
+                    else
+                    {
+                        context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                    }
+                    return Task.CompletedTask;
+                },
+                OnAccessDenied = context =>
+                {
+                    Log.ForContext("User", context.HttpContext.User.Identity?.Name)
+                       .Information("Access denied");
+
+                    context.Response.StatusCode = StatusCodes.Status403Forbidden;
+                    return Task.CompletedTask;
+                },
                 OnTicketReceived = async context =>
                 {
                     Log.ForContext("User", context.Principal!.Identity?.Name)

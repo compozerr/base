@@ -20,9 +20,15 @@ const AuthContext = React.createContext<AuthContext | null>(null)
 const key = 'tanstack.auth.user.id'
 
 async function fetchAndSetUser(setUser: React.Dispatch<React.SetStateAction<AuthUser | null>>) {
-    const response = await apiClient.v1.auth.me.get();
+    let response = null;
+
+    try {
+        response = await apiClient.v1.auth.me.get();
+    } catch (e) { }
+
     if (!response) {
         setUser(null);
+        setStoredUser(null);
         return;
     }
 
