@@ -1,9 +1,8 @@
 import ReactDOM from 'react-dom/client'
 import { RouterProvider, createRouter } from '@tanstack/react-router'
 import { routeTree } from './routeTree.gen'
-import { AuthProvider, useAuth } from './auth'
+import { useDynamicAuth } from './hooks/use-dynamic-auth'
 
-// Set up a Router instance
 const router = createRouter({
   routeTree,
   defaultPreload: 'intent',
@@ -12,25 +11,43 @@ const router = createRouter({
   }
 })
 
-// Register things for typesafety
 declare module '@tanstack/react-router' {
   interface Register {
     router: typeof router
   }
 }
+const App = () => {
+  const { authComponents, isLoading, error } = useDynamicAuth();
 
-const InnerApp = () => {
-  const auth = useAuth();
-  return <RouterProvider router={router} context={{ auth }} />
-}
+  if (isLoading) {
+    return null;
+  }
 
-const rootElement = document.getElementById('app')!
+  if (error) {
+    return <div>Error loading auth: {error.message}</div>;
+  }
 
-if (!rootElement.innerHTML) {
-  const root = ReactDOM.createRoot(rootElement)
-  root.render(
+  if (!authComponents) {
+    return <div>Failed to load auth components</div>;
+  }
+
+  const { AuthProvider } = authComponents;
+
+  const InnerApp = () => {
+    const auth = authComponents.useAuth();
+    return <RouterProvider router={router} context={{ auth }} />;
+  };
+
+  return (
     <AuthProvider>
       <InnerApp />
     </AuthProvider>
-  )
+  );
+};
+
+const rootElement = document.getElementById('app')!;
+
+if (!rootElement?.innerHTML) {
+  const root = ReactDOM.createRoot(rootElement)
+  root.render(<App />)
 }
