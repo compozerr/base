@@ -12,13 +12,9 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as UsingModuleComponentImport } from './routes/using-module-component'
-import { Route as LoginImport } from './../../modules/auth/frontend/src/routes/login'
 import { Route as AboutImport } from './routes/about'
-import { Route as AuthImport } from './../../modules/auth/frontend/src/routes/_auth'
 import { Route as IndexImport } from './routes/index'
 import { Route as ExampleIndexImport } from './../../modules/template/frontend/src/routes/example/index'
-import { Route as AuthLogoutImport } from './../../modules/auth/frontend/src/routes/_auth/logout'
-import { Route as AuthDashboardImport } from './../../modules/auth/frontend/src/routes/_auth/dashboard'
 
 // Create/Update Routes
 
@@ -28,20 +24,9 @@ const UsingModuleComponentRoute = UsingModuleComponentImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const LoginRoute = LoginImport.update({
-  id: '/login',
-  path: '/login',
-  getParentRoute: () => rootRoute,
-} as any)
-
 const AboutRoute = AboutImport.update({
   id: '/about',
   path: '/about',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const AuthRoute = AuthImport.update({
-  id: '/_auth',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -57,18 +42,6 @@ const ExampleIndexRoute = ExampleIndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const AuthLogoutRoute = AuthLogoutImport.update({
-  id: '/logout',
-  path: '/logout',
-  getParentRoute: () => AuthRoute,
-} as any)
-
-const AuthDashboardRoute = AuthDashboardImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
-  getParentRoute: () => AuthRoute,
-} as any)
-
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -80,25 +53,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
-    '/_auth': {
-      id: '/_auth'
-      path: ''
-      fullPath: ''
-      preLoaderRoute: typeof AuthImport
-      parentRoute: typeof rootRoute
-    }
     '/about': {
       id: '/about'
       path: '/about'
       fullPath: '/about'
       preLoaderRoute: typeof AboutImport
-      parentRoute: typeof rootRoute
-    }
-    '/login': {
-      id: '/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof LoginImport
       parentRoute: typeof rootRoute
     }
     '/using-module-component': {
@@ -107,20 +66,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/using-module-component'
       preLoaderRoute: typeof UsingModuleComponentImport
       parentRoute: typeof rootRoute
-    }
-    '/_auth/dashboard': {
-      id: '/_auth/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof AuthDashboardImport
-      parentRoute: typeof AuthImport
-    }
-    '/_auth/logout': {
-      id: '/_auth/logout'
-      path: '/logout'
-      fullPath: '/logout'
-      preLoaderRoute: typeof AuthLogoutImport
-      parentRoute: typeof AuthImport
     }
     '/example/': {
       id: '/example/'
@@ -134,100 +79,47 @@ declare module '@tanstack/react-router' {
 
 // Create and export the route tree
 
-interface AuthRouteChildren {
-  AuthDashboardRoute: typeof AuthDashboardRoute
-  AuthLogoutRoute: typeof AuthLogoutRoute
-}
-
-const AuthRouteChildren: AuthRouteChildren = {
-  AuthDashboardRoute: AuthDashboardRoute,
-  AuthLogoutRoute: AuthLogoutRoute,
-}
-
-const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
-
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '': typeof AuthRouteWithChildren
   '/about': typeof AboutRoute
-  '/login': typeof LoginRoute
   '/using-module-component': typeof UsingModuleComponentRoute
-  '/dashboard': typeof AuthDashboardRoute
-  '/logout': typeof AuthLogoutRoute
   '/example': typeof ExampleIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '': typeof AuthRouteWithChildren
   '/about': typeof AboutRoute
-  '/login': typeof LoginRoute
   '/using-module-component': typeof UsingModuleComponentRoute
-  '/dashboard': typeof AuthDashboardRoute
-  '/logout': typeof AuthLogoutRoute
   '/example': typeof ExampleIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
-  '/_auth': typeof AuthRouteWithChildren
   '/about': typeof AboutRoute
-  '/login': typeof LoginRoute
   '/using-module-component': typeof UsingModuleComponentRoute
-  '/_auth/dashboard': typeof AuthDashboardRoute
-  '/_auth/logout': typeof AuthLogoutRoute
   '/example/': typeof ExampleIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths:
-    | '/'
-    | ''
-    | '/about'
-    | '/login'
-    | '/using-module-component'
-    | '/dashboard'
-    | '/logout'
-    | '/example'
+  fullPaths: '/' | '/about' | '/using-module-component' | '/example'
   fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/'
-    | ''
-    | '/about'
-    | '/login'
-    | '/using-module-component'
-    | '/dashboard'
-    | '/logout'
-    | '/example'
-  id:
-    | '__root__'
-    | '/'
-    | '/_auth'
-    | '/about'
-    | '/login'
-    | '/using-module-component'
-    | '/_auth/dashboard'
-    | '/_auth/logout'
-    | '/example/'
+  to: '/' | '/about' | '/using-module-component' | '/example'
+  id: '__root__' | '/' | '/about' | '/using-module-component' | '/example/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AuthRoute: typeof AuthRouteWithChildren
   AboutRoute: typeof AboutRoute
-  LoginRoute: typeof LoginRoute
   UsingModuleComponentRoute: typeof UsingModuleComponentRoute
   ExampleIndexRoute: typeof ExampleIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AuthRoute: AuthRouteWithChildren,
   AboutRoute: AboutRoute,
-  LoginRoute: LoginRoute,
   UsingModuleComponentRoute: UsingModuleComponentRoute,
   ExampleIndexRoute: ExampleIndexRoute,
 }
@@ -243,9 +135,7 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/_auth",
         "/about",
-        "/login",
         "/using-module-component",
         "/example/"
       ]
@@ -253,29 +143,11 @@ export const routeTree = rootRoute
     "/": {
       "filePath": "./index.tsx"
     },
-    "/_auth": {
-      "filePath": "../../../modules/auth/frontend/src/routes/_auth.tsx",
-      "children": [
-        "/_auth/dashboard",
-        "/_auth/logout"
-      ]
-    },
     "/about": {
       "filePath": "./about.tsx"
     },
-    "/login": {
-      "filePath": "../../../modules/auth/frontend/src/routes/login.tsx"
-    },
     "/using-module-component": {
       "filePath": "./using-module-component.tsx"
-    },
-    "/_auth/dashboard": {
-      "filePath": "../../../modules/auth/frontend/src/routes/_auth/dashboard.tsx",
-      "parent": "/_auth"
-    },
-    "/_auth/logout": {
-      "filePath": "../../../modules/auth/frontend/src/routes/_auth/logout.tsx",
-      "parent": "/_auth"
     },
     "/example/": {
       "filePath": "../../../modules/template/frontend/src/routes/example/index.tsx"
