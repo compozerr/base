@@ -8,6 +8,6 @@ public static class ExampleRoute
 {
     public static RouteHandlerBuilder AddExampleRoute(this IEndpointRouteBuilder app)
     {
-        return app.MapGet("/", (string name, IExampleService exampleService) => new GetExampleResponse($"Hello, {exampleService.GetExampleName()}!"));
+        return app.MapGet("/", (string name, IExampleService exampleService) => new GetExampleResponse($"Hello, {exampleService.GetObfuscatedName(name)}!"));
     }
 }
