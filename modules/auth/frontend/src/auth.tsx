@@ -17,7 +17,7 @@ export interface AuthContext {
 
 const AuthContext = React.createContext<AuthContext | null>(null)
 
-const key = 'tanstack.auth.user.id'
+const key = 'auth.user'
 
 async function fetchAndSetUser(setUser: React.Dispatch<React.SetStateAction<AuthUser | null>>) {
     let response = null;
