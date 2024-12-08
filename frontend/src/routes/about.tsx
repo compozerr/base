@@ -12,7 +12,7 @@ function AboutComponent() {
   });
 
   return (
-    <div className="p-2">
+    <div>
       <h3>About</h3>
       <h1>{import.meta.env.VITE_SOMETHING}</h1>
     </div>
