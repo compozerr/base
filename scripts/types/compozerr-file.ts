@@ -2,7 +2,8 @@ import { z } from "npm:zod";
 import { Config } from "../config.ts";
 
 export const CompozerrFile = z.object({
-    dependencies: z.record(z.string()),
+    name: z.string(),
+    dependencies: z.record(z.string()).optional(),
     start: z.string().optional(),
     startupTimeoutMs: z.number().optional(),
     readyMessage: z.string().optional(),

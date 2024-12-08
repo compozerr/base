@@ -1,6 +1,7 @@
 {
+    "name": "auth",
     "dependencies": {},
     "frontend": {
-        "routeDir": "frontend/src/routes"
+        "routesDir": "frontend/src/routes"
     }
 }

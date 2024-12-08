@@ -15,13 +15,13 @@ const getModulesPhysicalRoutes: () => VirtualPhysicalRoute[] = () => {
 
     for (const file of compozerrFiles) {
         const fileText = fs.readFileSync(file, "utf8");
-        const compozerr = JSON.parse(fileText) as { frontend?: { routeDir?: string, routePrefix?: string } };
+        const compozerr = JSON.parse(fileText) as { frontend?: { routesDir?: string, routePrefix?: string } };
 
-        if (!compozerr.frontend?.routeDir) continue;
+        if (!compozerr.frontend?.routesDir) continue;
 
         routes.push({
             type: "physical",
-            directory: path.join("../../", file.replace("compozerr.json", ""), compozerr.frontend?.routeDir),
+            directory: path.join("../../", file.replace("compozerr.json", ""), compozerr.frontend?.routesDir),
             pathPrefix: compozerr?.frontend?.routePrefix ?? "",
         });
     }

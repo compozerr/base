@@ -1,3 +1,9 @@
 {
-    "name": "web"
+    "name": "web",
+    "dependencies": {
+        "template": "latest",
+        "database": "latest",
+        "auth": "latest",
+        "cli": "latest"
+    }
 }

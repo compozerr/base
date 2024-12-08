@@ -1,4 +1,5 @@
 {
+    "name": "cli",
     "dependencies": {
         "database": "latest"
     }
