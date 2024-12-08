@@ -1,9 +1,11 @@
 import * as React from 'react'
+import { AuthApi } from './generated';
 
 export type AuthUser = {
     id: string;
     email: string;
     name: string;
+    avatarUrl: string;
 }
 
 export interface AuthContext {
@@ -17,8 +19,26 @@ const AuthContext = React.createContext<AuthContext | null>(null)
 
 const key = 'tanstack.auth.user.id'
 
-function getStoredUser() {
-    return JSON.parse(localStorage.getItem(key) || 'null') as AuthUser | null
+async function fetchAndSetUser(setUser: React.Dispatch<React.SetStateAction<AuthUser | null>>) {
+    const response = await AuthApi.getV1authme();
+
+    const user: AuthUser = {
+        id: response.id!,
+        email: response.email!,
+        name: response.name!,
+        avatarUrl: response.avatarUrl!,
+    }
+
+    setUser(user)
+    setStoredUser(user)
+}
+
+export function getStoredUser(): AuthUser | null {
+    const storedUser = localStorage.getItem(key)
+    if (storedUser) {
+        return JSON.parse(storedUser)
+    }
+    return null
 }
 
 function setStoredUser(user: AuthUser | null) {
@@ -34,26 +54,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const isAuthenticated = !!user
 
     const logout = React.useCallback(async () => {
-        // const response = await AuthApi.logout()
+        await AuthApi.getV1authlogout()
 
         setStoredUser(null)
         setUser(null)
     }, [])
 
     const login = React.useCallback(async () => {
-        // const response = await AuthApi.login()
-        const user = {
-            id: '1',
-            email: 'abc@emal.com',
-            name: 'abc',
-        }
-
-        setStoredUser(user)
-        setUser(user)
+        await AuthApi.getV1authlogin()
     }, [])
 
     React.useEffect(() => {
-        setUser(getStoredUser())
+        fetchAndSetUser(setUser);
     }, [])
 
     return (

@@ -17,14 +17,6 @@ public static class LoginRoute
             {
                 var returnUrl = context.Request.Query["returnUrl"].ToString();
 
-                if (!string.IsNullOrEmpty(returnUrl))
-                {
-                    if (!returnUrl.StartsWith('/') || returnUrl.Contains("//"))
-                    {
-                        return Results.BadRequest("Invalid return URL");
-                    }
-                }
-
                 var properties = new AuthenticationProperties
                 {
                     RedirectUri = string.IsNullOrEmpty(returnUrl) ? "/" : returnUrl,
