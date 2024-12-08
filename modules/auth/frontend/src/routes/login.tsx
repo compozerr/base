@@ -24,8 +24,7 @@ function RouteComponent() {
   const [error, setError] = React.useState<Error | null>(null)
   const auth = useAuth()
   React.useEffect(() => {
-    const search = new URLSearchParams(window.location.search)
-    location.href = AuthService.getLoginHref(search.get('redirect') || fallback)
+    auth.login();
   }, [])
 
 

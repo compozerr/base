@@ -1,6 +1,6 @@
 {
   "descriptionHash": "B8D4CD019662CF36CB7D590613E21C61B857048830A9736492227A81DCFB76EBEC001933D9F5B2951451F51F9E236A10FE647AD5E7662588F0CF6BC39579CE0F",
-  "descriptionLocation": "../../../backend/Api/Api.json",
+  "descriptionLocation": "http://localhost:1235/swagger/v1/swagger.json",
   "lockFileVersion": "1.0.0",
   "kiotaVersion": "1.21.0",
   "clientClassName": "ApiClient",

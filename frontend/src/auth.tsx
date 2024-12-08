@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { AuthApi } from './generated';
+import { apiClient } from './api-client';
 
 export type AuthUser = {
     id: string;
@@ -20,7 +20,11 @@ const AuthContext = React.createContext<AuthContext | null>(null)
 const key = 'tanstack.auth.user.id'
 
 async function fetchAndSetUser(setUser: React.Dispatch<React.SetStateAction<AuthUser | null>>) {
-    const response = await AuthApi.getV1authme();
+    const response = await apiClient.v1.auth.me.get();
+    if (!response) {
+        setUser(null);
+        return;
+    }
 
     const user: AuthUser = {
         id: response.id!,
@@ -54,14 +58,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const isAuthenticated = !!user
 
     const logout = React.useCallback(async () => {
-        await AuthApi.getV1authlogout()
+        await apiClient.v1.auth.logout.get();
 
         setStoredUser(null)
         setUser(null)
     }, [])
 
     const login = React.useCallback(async () => {
-        await AuthApi.getV1authlogin()
+        const loginUrl = apiClient.v1.auth.login.toGetRequestInformation().URL;
+
+        const search = new URLSearchParams(window.location.search)
+        location.href = loginUrl + '?returnUrl=' + encodeURIComponent(search.get('redirect') || '/')
     }, [])
 
     React.useEffect(() => {
