@@ -1,6 +1,13 @@
 import { makeApi, Zodios, type ZodiosOptions } from "@zodios/core";
 import { z } from "zod";
 
+const User = z.object({
+  id: z.string(),
+  name: z.string(),
+  email: z.string(),
+  avatarUrl: z.string(),
+});
+
 const endpoints = makeApi([
   {
     method: "get",
