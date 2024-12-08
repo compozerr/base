@@ -4,9 +4,9 @@ using Core.Helpers;
 using Core.Helpers.Env;
 using Core.MediatR;
 using Core.Services;
-using FluentValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -33,9 +33,9 @@ public class CoreFeature : IFeature
         app.UseCors(AppConstants.CorsPolicy);
     }
 
-    public void ConfigureServices(IServiceCollection services)
+    public void ConfigureServices(IServiceCollection services, IConfiguration configuration)
     {
-        AddWebApiConfig(services);
+        AddWebApiConfig(services, configuration);
 
         services.UseMediatR();
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
@@ -44,17 +44,22 @@ public class CoreFeature : IFeature
                 .AddHttpContextAccessor();
     }
 
-    private static void AddWebApiConfig(IServiceCollection services)
+    private static void AddWebApiConfig(IServiceCollection services, IConfiguration configuration)
     {
         services.AddCarter();
 
         services.AddCors(options =>
         {
             options.AddPolicy(name: AppConstants.CorsPolicy,
-                builder => { builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader(); });
+                builder =>
+                {
+                    builder.WithOrigins(configuration["Cors:AllowedOrigins"]!.Split(";"))
+                           .AllowAnyMethod()
+                           .AllowAnyHeader()
+                           .AllowCredentials();
+                });
         });
 
         services.AddEndpointsApiExplorer();
-        
     }
 }
