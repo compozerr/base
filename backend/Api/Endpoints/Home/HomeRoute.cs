@@ -1,7 +1,7 @@
 
 using Template;
 
-namespace Api.Features.Home;
+namespace Api.Endpoints.Home;
 
 public static class HomeRoute
 {
