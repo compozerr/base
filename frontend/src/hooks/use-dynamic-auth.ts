@@ -1,11 +1,15 @@
 import { useState, useEffect } from 'react';
 import type { AuthContextType } from '../auth-mock';
 
-
 async function loadAuth() {
     try {
-        // Try to import the real auth implementation
-        const { AuthProvider, useAuth } = await import('../../../modules/auth/frontend/src/auth');
+        // Use a dynamic import with a URL that Vite can resolve at build time
+        const moduleUrl = new URL(
+            '../../../modules/auth/frontend/src/auth',
+            import.meta.url
+        ).href;
+        
+        const { AuthProvider, useAuth } = await import(/* @vite-ignore */moduleUrl);
         console.log('Auth module loaded');
         return { AuthProvider, useAuth };
     } catch (error) {
@@ -14,7 +18,6 @@ async function loadAuth() {
         return { AuthProvider, useAuth };
     }
 }
-
 /**
  * Custom hook to dynamically load authentication components. If not included auth module, it will use the mock auth. 
  *

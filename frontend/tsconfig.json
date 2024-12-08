@@ -1,4 +1,4 @@
 {
     "extends": "@repo/config/react.json",
-    "include": ["src", "vite-env.d.ts", "../modules/auth/frontend/src/auth.tsx"],
+    "include": ["src", "vite-env.d.ts"],
 }

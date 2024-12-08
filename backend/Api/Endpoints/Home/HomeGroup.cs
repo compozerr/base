@@ -1,5 +1,5 @@
 
-namespace Api.Features.Home;
+namespace Api.Endpoints.Home;
 
 public class HomeGroup : CarterModule
 {
