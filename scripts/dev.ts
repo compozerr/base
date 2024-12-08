@@ -4,6 +4,9 @@ import { Command } from "./utils/command.ts";
 import { Logger } from "./utils/logger.ts";
 import { beforeRunFrontendAsync } from "./utils/frontend/before-run-frontend.ts";
 import { afterRunBackendAsync } from "./utils/backend/after-run-backend.ts";
+import { exportCompozerrSchemaAsync } from "./utils/compozerr-file-schema-generator.ts";
+
+await exportCompozerrSchemaAsync();
 
 const logger = new Logger("", false, "WHITE");
 const moduleService = new AddedModulesService();
