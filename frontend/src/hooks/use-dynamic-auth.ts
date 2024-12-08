@@ -1,6 +1,19 @@
 import { useState, useEffect } from 'react';
-import { loadAuth } from '../auth-loader';
 import type { AuthContextType } from '../auth';
+
+
+async function loadAuth() {
+    try {
+        // Try to import the real auth implementation
+        const { AuthProvider, useAuth } = await import('../../../modules/auth/frontend/src/auth');
+        console.log('Auth module loaded');
+        return { AuthProvider, useAuth };
+    } catch (error) {
+        const { AuthProvider, useAuth } = await import('../auth');
+        console.warn('Auth module not added', error);
+        return { AuthProvider, useAuth };
+    }
+}
 
 export function useDynamicAuth() {
     const [authComponents, setAuthComponents] = useState<{
@@ -18,6 +31,7 @@ export function useDynamicAuth() {
                 setIsLoading(false);
             })
             .catch(err => {
+                console.error("Error loading auth components", err);
                 setError(err);
                 setIsLoading(false);
             });

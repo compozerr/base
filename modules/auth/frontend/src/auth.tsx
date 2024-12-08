@@ -1,25 +1,13 @@
 import * as React from 'react'
 import { apiClient } from '../../../../frontend/src/api-client';
+import { AuthContextType, AuthUserType } from '../../../../frontend/src/auth';
 
-export type AuthUser = {
-    id: string;
-    email: string;
-    name: string;
-    avatarUrl: string;
-}
 
-export interface AuthContext {
-    isAuthenticated: boolean
-    login: () => Promise<void>
-    logout: () => Promise<void>
-    user: AuthUser | null
-}
-
-const AuthContext = React.createContext<AuthContext | null>(null)
+const AuthContext = React.createContext<AuthContextType | null>(null)
 
 const key = 'auth.user'
 
-async function fetchAndSetUser(setUser: React.Dispatch<React.SetStateAction<AuthUser | null>>) {
+async function fetchAndSetUser(setUser: React.Dispatch<React.SetStateAction<AuthUserType | null>>) {
     let response = null;
 
     try {
@@ -32,7 +20,7 @@ async function fetchAndSetUser(setUser: React.Dispatch<React.SetStateAction<Auth
         return;
     }
 
-    const user: AuthUser = {
+    const user: AuthUserType = {
         id: response.id!,
         email: response.email!,
         name: response.name!,
@@ -43,7 +31,7 @@ async function fetchAndSetUser(setUser: React.Dispatch<React.SetStateAction<Auth
     setStoredUser(user)
 }
 
-export function getStoredUser(): AuthUser | null {
+export function getStoredUser(): AuthUserType | null {
     const storedUser = localStorage.getItem(key)
     if (storedUser) {
         return JSON.parse(storedUser)
@@ -51,7 +39,7 @@ export function getStoredUser(): AuthUser | null {
     return null
 }
 
-function setStoredUser(user: AuthUser | null) {
+function setStoredUser(user: AuthUserType | null) {
     if (user) {
         localStorage.setItem(key, JSON.stringify(user))
     } else {
@@ -60,7 +48,7 @@ function setStoredUser(user: AuthUser | null) {
 }
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-    const [user, setUser] = React.useState<AuthUser | null>(getStoredUser())
+    const [user, setUser] = React.useState<AuthUserType | null>(getStoredUser())
     const isAuthenticated = !!user
 
     const logout = React.useCallback(async () => {
@@ -74,6 +62,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     const login = React.useCallback(async () => {
         const loginUrl = apiClient.v1.auth.login.toGetRequestInformation().URL;
+
+        console.log('loginUrl', loginUrl)
 
         const search = new URLSearchParams(window.location.search)
         location.href = loginUrl + '?returnUrl=' + encodeURIComponent(search.get('redirect') || '/')

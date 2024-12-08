@@ -1,9 +1,16 @@
 import { createContext, useContext, ReactNode } from 'react';
 
+export type AuthUserType = {
+  id: string;
+  email: string;
+  name: string;
+  avatarUrl: string;
+};
+
 export interface AuthContextType {
   isAuthenticated: boolean;
-  user: null | { id: string; name?: string };
-  login: (credentials: { username: string; password: string }) => Promise<void>;
+  user: AuthUserType | null;
+  login: () => Promise<void>;
   logout: () => Promise<void>;
 }
 
