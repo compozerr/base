@@ -62,6 +62,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
         setStoredUser(null)
         setUser(null)
+
+        window.location.href = '/'
     }, [])
 
     const login = React.useCallback(async () => {

@@ -24,7 +24,6 @@ public static class GithubAuthProvider
 
         return builder.AddGitHub(options =>
         {
-            options.CallbackPath = "/v1/auth/signin-github";
             options.ClientId = githubOptions.Value.ClientId;
             options.ClientSecret = githubOptions.Value.ClientSecret;
 
