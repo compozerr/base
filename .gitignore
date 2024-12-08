@@ -10,5 +10,4 @@ dist
 src/frontend/modules/
 .turbo
 .env
-.vscode/*
 service-account.json

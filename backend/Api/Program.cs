@@ -1,11 +1,15 @@
 using Core.Feature;
-using Serilog;
+using Core.MediatR;
 using Serilog.Sinks.Humio;
 
 var builder = WebApplication.CreateBuilder(args);
 
+Features.RegisterConfigureCallback<RegisterMediatrServicesFeatureConfigureCallback>();
+Features.RegisterConfigureCallback<RegisterValidatorsInAssemblyFeatureConfigureCallback>();
+Features.RegisterConfigureCallback<AssembliesFeatureConfigureCallback>();
+
 builder.ConfigureFeatures();
-builder.Services.AddFeatures();
+builder.Services.AddFeatures(builder.Configuration);
 
 Log.Logger = new LoggerConfiguration().WriteTo.Console().WriteTo
                                               .HumioSink(new HumioSinkConfiguration
@@ -14,7 +18,7 @@ Log.Logger = new LoggerConfiguration().WriteTo.Console().WriteTo
                                                   Tags = new Dictionary<string, string>
                                                   {
                                                       {"system", "compozerr"},
-                                                      {"platform", "base"},
+                                                      {"platform", "web"},
                                                       {"environment", builder.Environment.EnvironmentName}
                                                   },
                                                   Url = "https://cloud.community.humio.com",

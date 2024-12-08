@@ -7,7 +7,25 @@ internal class EnvConfigurationProvider(FileConfigurationSource source) : FileCo
     {
         foreach (var item in EnvReader.Load(stream))
         {
-            Data[item.Key] = item.Value;
+            var key = ConvertToObjectAndPascalCase(item.Key);
+            Data[key] = item.Value;
         }
+    }
+
+    private static string ConvertToObjectAndPascalCase(string key)
+    {
+        var sections = key.Split("__");
+
+        for (int i = 0; i < sections.Length; i++)
+        {
+            var words = sections[i].Split('_')
+                                 .Select(word => word.ToLower())
+                                 .Select(word => char.ToUpperInvariant(word[0]) + word[1..])
+                                 .ToArray();
+
+            sections[i] = string.Join("", words);
+        }
+
+        return string.Join(ConfigurationPath.KeyDelimiter, sections);
     }
 }

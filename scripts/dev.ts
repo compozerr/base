@@ -4,6 +4,9 @@ import { Command } from "./utils/command.ts";
 import { Logger } from "./utils/logger.ts";
 import { beforeRunFrontendAsync } from "./utils/frontend/before-run-frontend.ts";
 import { afterRunBackendAsync } from "./utils/backend/after-run-backend.ts";
+import { exportCompozerrSchemaAsync } from "./utils/compozerr-file-schema-generator.ts";
+
+await exportCompozerrSchemaAsync();
 
 const logger = new Logger("", false, "WHITE");
 const moduleService = new AddedModulesService();
@@ -16,6 +19,7 @@ const commands: Command[] = [
         {
             readyMessage: "press h + enter to show help",
             port: Config.ports.frontend,
+            startupTimeoutMs: 10000,
             beforeRunAsync: () => beforeRunFrontendAsync(moduleService)
         }
     ),
@@ -25,7 +29,7 @@ const commands: Command[] = [
         {
             readyMessage: "Content root path:",
             port: Config.ports.backend,
-            startupTimeoutMs: 10000,
+            startupTimeoutMs: 30000,
             logCallback: (text) => {
                 if (text.includes("Content root path:")) {
                     setTimeout(() => {
@@ -38,9 +42,17 @@ const commands: Command[] = [
     )
 ];
 
+let isCleaningUp = false;
+
 const cleanupAsync = async () => {
+    if (isCleaningUp) return;
+    isCleaningUp = true;
     await logger.logAsync("\nShutting down...\n");
-    commands.forEach(command => command.terminate());
+    await Promise.all(commands.map(async command => await command.terminateAsync()));
+
+    await logger.logAsync("Cleaning up ports...\n");
+    await Promise.all(commands.map(async command => await command.cleanupPortAsync()));
+    console.log("Cleaning up ports done");
     Deno.exit(0);
 };
 
@@ -57,13 +69,15 @@ for (const module of modulesWithStartCommands) {
             readyMessage: module.config.readyMessage,
             port: module.config.port,
             startupTimeoutMs: module.config.startupTimeoutMs,
+            endCommand: module.config.end
         }
     ));
 }
 
 addEventListener("ready", async () => {
     if (commands.every(command => command.isReady)) {
-        await logger.logAsync("All services are ready\n");
+        await logger.logAsync("\nAll services are ready\n");
+        dispatchEvent(new Event("all-services-ready"));
     }
 });
 
@@ -71,7 +85,6 @@ await (new Command("clear")).spawn();
 
 await logger.logAsync("Starting services...\n");
 
-await Promise.all(commands.map(command => command.cleanupPortAsync()));
 await Promise.all(commands.map(command => command.spawn()));
 
 cleanupAsync();

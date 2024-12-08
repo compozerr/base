@@ -10,6 +10,9 @@
         "serve": "vite preview",
         "start": "vite"
     },
+    "exports": {
+        "./routeTree.gen": "./src/routeTree.gen.ts"
+    },
     "devDependencies": {
         "@repo/config": "*",
         "@tanstack/router-plugin": "^1.79.0",
@@ -21,6 +24,7 @@
         "vite": "^5.4.8"
     },
     "dependencies": {
+        "@microsoft/kiota-bundle": "^1.0.0-preview.77",
         "@repo/template": "*",
         "@tanstack/react-router": "^1.79.0",
         "@tanstack/router-devtools": "^1.79.0",

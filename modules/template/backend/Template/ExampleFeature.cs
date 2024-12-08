@@ -1,8 +1,14 @@
 using Core.Feature;
+using Microsoft.Extensions.DependencyInjection;
+using Template.Services;
 
 namespace Template;
 
-public class ExampleFeature : IFeature{
+public class ExampleFeature : IFeature
+{
 
-    // public void ConfigureServices
+    void IFeature.ConfigureServices(IServiceCollection services)
+    {
+        services.AddSingleton<IExampleService, ExampleService>();
+    }
 }

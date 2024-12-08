@@ -1,7 +1,7 @@
-using System.Diagnostics;
 using System.Reflection;
+using Core.Extensions;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 
@@ -21,6 +21,8 @@ public static class Features
             return _allFeatures;
         }
     }
+
+    private static readonly List<IFeatureConfigureCallback> _callbacks = new();
 
     private static IReadOnlyList<IFeature> GetFeaturesFromDlls()
     {
@@ -61,32 +63,42 @@ public static class Features
 
     public static WebApplicationBuilder ConfigureFeatures(this WebApplicationBuilder builder)
     {
-        foreach (var feature in AllFeatures)
-        {
-            feature.ConfigureBuilder(builder);
-        }
+        AllFeatures.Apply(f => f.ConfigureBuilder(builder));
+        AllFeatures.Apply(f => _callbacks.Apply(c => c.Configure(f.GetType(), builder)));
 
         return builder;
     }
 
-    public static IServiceCollection AddFeatures(this IServiceCollection services)
+    public static void ConfigureCallbacks()
     {
-        foreach (var feature in AllFeatures)
-        {
-            feature.ConfigureServices(services);
-        }
+        AllFeatures.Apply(f => _callbacks.Apply(c => c.Configure(f.GetType())));
+    }
+
+    public static IServiceCollection AddFeatures(this IServiceCollection services, IConfiguration configuration)
+    {
+        AllFeatures.Apply(f => f.ConfigureServices(services));
+        AllFeatures.Apply(f => f.ConfigureServices(services, configuration));
 
         return services;
     }
 
     public static WebApplication UseFeatures(this WebApplication app)
     {
-        foreach (var feature in AllFeatures)
+        AllFeatures.Apply(f =>
         {
-            Log.Logger.Information("Configuring feature {Feature}", feature.GetType().Name);
-            feature.ConfigureApp(app);
-        }
+            Log.Logger.Information("Configuring feature {Feature}", f.GetType().Name);
+            f.ConfigureApp(app);
+        });
+
+        AllFeatures.Apply(f => _callbacks.Apply(c => c.Configure(f.GetType(), app)));
 
         return app;
     }
+
+    public static void RegisterConfigureCallback(IFeatureConfigureCallback callback)
+        => _callbacks.Add(callback);
+
+    public static void RegisterConfigureCallback<TCallback>()
+        where TCallback : IFeatureConfigureCallback, new()
+        => RegisterConfigureCallback(new TCallback());
 }
