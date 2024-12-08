@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { createFileRoute } from '@tanstack/react-router'
-import { useAuth } from '../../../../../../frontend/src/auth'
+import { useAuth } from '../../auth'
 
 export const Route = createFileRoute('/_auth/logout')({
     component: RouteComponent,

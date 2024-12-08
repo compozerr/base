@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { createFileRoute, redirect } from '@tanstack/react-router'
 import { z } from 'zod'
-import { useAuth } from '../../../../../frontend/src/auth'
+import { useAuth } from '../auth'
 
 const fallback = '/dashboard' as const
 
@@ -21,10 +21,7 @@ function RouteComponent() {
   const [loading, setLoading] = React.useState(true)
   const [error, setError] = React.useState<Error | null>(null)
   const auth = useAuth()
-  React.useEffect(() => {
-    auth.login();
-  }, [])
-
+  auth.login();
 
   return (
     <div className="p-2 h-full">

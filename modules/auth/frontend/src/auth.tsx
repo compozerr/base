@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { apiClient } from '../../../../frontend/src/api-client';
-import { AuthContextType, AuthUserType } from '../../../../frontend/src/auth';
+import { AuthContextType, AuthUserType } from '../../../../frontend/src/auth-mock';
 
 
 const AuthContext = React.createContext<AuthContextType | null>(null)

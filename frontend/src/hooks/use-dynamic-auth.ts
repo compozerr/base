@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import type { AuthContextType } from '../auth';
+import type { AuthContextType } from '../auth-mock';
 
 
 async function loadAuth() {
@@ -9,12 +9,20 @@ async function loadAuth() {
         console.log('Auth module loaded');
         return { AuthProvider, useAuth };
     } catch (error) {
-        const { AuthProvider, useAuth } = await import('../auth');
+        const { AuthProvider, useAuth } = await import('../auth-mock');
         console.warn('Auth module not added', error);
         return { AuthProvider, useAuth };
     }
 }
 
+/**
+ * Custom hook to dynamically load authentication components. If not included auth module, it will use the mock auth. 
+ *
+ * @returns An object containing:
+ * - `authComponents`: The dynamically loaded authentication components, or `null` if not yet loaded.
+ * - `isLoading`: A boolean indicating whether the authentication components are currently being loaded.
+ * - `error`: An error object if there was an error loading the authentication components, or `null` if no error occurred.
+ */
 export function useDynamicAuth() {
     const [authComponents, setAuthComponents] = useState<{
         AuthProvider: React.ComponentType<{ children: React.ReactNode }>;
