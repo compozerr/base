@@ -2,5 +2,5 @@ namespace Auth.Models;
 
 public enum Provider
 {
-    GitHub
+    GitHub = 1
 }
