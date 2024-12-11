@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using Auth.Data;
 using Auth.Models;
 using Database.Repositories;
@@ -18,7 +19,8 @@ public class UserRepository(AuthDbContext context) : GenericRepository<User, Use
         => _context.Users.AnyAsync(u => u.Email == email, cancellationToken);
 
     public Task<User?> GetByAuthProviderUserIdAsync(string authProviderUserId, CancellationToken cancellationToken = default)
-        => _context.Users.FirstOrDefaultAsync(u => u.Logins.Any(ul => ul.ProviderUserId == authProviderUserId), cancellationToken);
+        => _context.Users.Include(u => u.Logins)
+                         .FirstOrDefaultAsync(u => u.Logins.Any(ul => ul.ProviderUserId == authProviderUserId), cancellationToken);
 
     public async Task<bool> ExistsByAuthProviderUserIdAsync(string authProviderUserId, CancellationToken cancellationToken = default)
         => await GetByAuthProviderUserIdAsync(authProviderUserId, cancellationToken) is not null;
