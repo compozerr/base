@@ -1,12 +1,9 @@
 using System.Security.Claims;
-using AspNet.Security.OAuth.GitHub;
-using Auth.Endpoints.Auth;
-using Auth.Endpoints.Users.Create;
+using Auth.Endpoints.Auth.UserAuthenticated;
 using Core.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OAuth;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -29,7 +26,7 @@ public static class GithubAuthProvider
             options.ClientSecret = githubOptions.Value.ClientSecret;
 
             options.Scope.Add("user:email");
-            options.Scope.Add("read:org");
+            options.Scope.Add("admin:org");
 
             options.ClaimActions.MapJsonKey(ClaimTypes.Email, "email");
             options.ClaimActions.MapJsonKey("urn:github:name", "name");
@@ -68,7 +65,9 @@ public static class GithubAuthProvider
 
                     var mediator = context.HttpContext.RequestServices.GetRequiredService<IMediator>();
 
-                    var userId = await mediator.Send(new UserAuthenticatedCommand(context.Principal));
+                    var userId = await mediator.Send(new UserAuthenticatedCommand(
+                        context.Principal,
+                        new(context.Properties)));
 
                     var identity = (ClaimsIdentity)context.Principal.Identity!;
                     identity.RemoveClaim(identity.FindFirst(ClaimTypes.NameIdentifier));

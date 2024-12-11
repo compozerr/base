@@ -6,13 +6,15 @@ using Core.Extensions;
 using Core.MediatR;
 using MediatR;
 
-namespace Auth.Endpoints.Auth;
+namespace Auth.Endpoints.Auth.UserAuthenticated;
 
 public class UserAuthenticatedCommandHandler(
     IUserRepository userRepository,
     IMediator mediator) : ICommandHandler<UserAuthenticatedCommand, UserId>
 {
-    public async Task<UserId> Handle(UserAuthenticatedCommand userAuthenticatedCommand, CancellationToken cancellationToken = default)
+    public async Task<UserId> Handle(
+        UserAuthenticatedCommand userAuthenticatedCommand,
+        CancellationToken cancellationToken = default)
     {
         var principal = userAuthenticatedCommand.ClaimsPrincipal;
 
@@ -20,11 +22,14 @@ public class UserAuthenticatedCommandHandler(
         var avatarUrl = principal.FindFirst("urn:github:avatar")?.Value;
         var authProviderUserId = principal.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         var name = principal.Identity?.Name ?? email;
+        var accessToken = userAuthenticatedCommand.GithubAuthenticationProperties?.GetAccessToken();
+        var expiresAt = userAuthenticatedCommand.GithubAuthenticationProperties?.GetExpiresAt() ?? throw new ArgumentNullException(nameof(userAuthenticatedCommand), "ExpiresAt is required");
 
         ArgumentException.ThrowIfNullOrEmpty(email, nameof(email));
         ArgumentException.ThrowIfNullOrEmpty(avatarUrl, nameof(avatarUrl));
         ArgumentException.ThrowIfNullOrEmpty(authProviderUserId, nameof(authProviderUserId));
         ArgumentException.ThrowIfNullOrEmpty(name, nameof(name));
+        ArgumentException.ThrowIfNullOrEmpty(accessToken, nameof(accessToken));
 
         if (await userRepository.ExistsByAuthProviderUserIdAsync(authProviderUserId, cancellationToken))
         {
