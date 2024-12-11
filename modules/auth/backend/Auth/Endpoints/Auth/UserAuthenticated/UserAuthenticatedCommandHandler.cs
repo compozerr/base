@@ -1,6 +1,8 @@
 using System.Security.Claims;
+using Auth.Endpoints.UserLogins.Create;
 using Auth.Endpoints.Users.Create;
 using Auth.Endpoints.Users.Update;
+using Auth.Models;
 using Auth.Repositories;
 using Core.Extensions;
 using Core.MediatR;
@@ -31,6 +33,8 @@ public class UserAuthenticatedCommandHandler(
         ArgumentException.ThrowIfNullOrEmpty(name, nameof(name));
         ArgumentException.ThrowIfNullOrEmpty(accessToken, nameof(accessToken));
 
+        UserId userId;
+
         if (await userRepository.ExistsByAuthProviderUserIdAsync(authProviderUserId, cancellationToken))
         {
             var user = await userRepository.GetByAuthProviderUserIdAsync(authProviderUserId, cancellationToken);
@@ -44,7 +48,7 @@ public class UserAuthenticatedCommandHandler(
             );
 
             var updatedUserResponse = await mediator.Send(command, cancellationToken);
-            return updatedUserResponse.Id;
+            userId = updatedUserResponse.Id;
         }
         else
         {
@@ -57,7 +61,19 @@ public class UserAuthenticatedCommandHandler(
 
             var createdUserResponse = await mediator.Send(command, cancellationToken);
 
-            return createdUserResponse.Id;
+            userId = createdUserResponse.Id;
         }
+
+        var createUserLoginCommand = new CreateUserLoginCommand(
+            UserId: userId,
+            Provider: Provider.GitHub,
+            ProviderUserId: authProviderUserId,
+            AccessToken: accessToken,
+            ExpiresAt: expiresAt
+        );
+
+        await mediator.Send(createUserLoginCommand, cancellationToken);
+
+        return userId;
     }
 }

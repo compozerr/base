@@ -18,8 +18,8 @@ public class UserRepository(AuthDbContext context) : GenericRepository<User, Use
         => _context.Users.AnyAsync(u => u.Email == email, cancellationToken);
 
     public Task<User?> GetByAuthProviderUserIdAsync(string authProviderUserId, CancellationToken cancellationToken = default)
-        => _context.Users.FirstOrDefaultAsync(u => u.AuthProviderUserId == authProviderUserId, cancellationToken);
+        => _context.Users.FirstOrDefaultAsync(u => u.Logins.Any(ul => ul.ProviderUserId == authProviderUserId), cancellationToken);
 
-    public Task<bool> ExistsByAuthProviderUserIdAsync(string authProviderUserId, CancellationToken cancellationToken = default)
-        => _context.Users.AnyAsync(u => u.AuthProviderUserId == authProviderUserId, cancellationToken);
+    public async Task<bool> ExistsByAuthProviderUserIdAsync(string authProviderUserId, CancellationToken cancellationToken = default)
+        => await GetByAuthProviderUserIdAsync(authProviderUserId, cancellationToken) is not null;
 }

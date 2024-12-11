@@ -9,4 +9,6 @@ public class User : BaseEntityWithId<UserId>
     public string AvatarUrl { get; set; } = string.Empty;
 
     public ICollection<string> Roles { get; set; } = [];
+
+    public ICollection<UserLogin> Logins { get; set; } = [];
 }
