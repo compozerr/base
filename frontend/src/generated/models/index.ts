@@ -41,6 +41,24 @@ export function createUserIdFromDiscriminatorValue(parseNode: ParseNode | undefi
     return deserializeIntoUserId;
 }
 /**
+ * Creates a new instance of the appropriate class based on discriminator value
+ * @param parseNode The parse node to use to read the discriminator value and create the object
+ * @returns {UserLogin}
+ */
+// @ts-ignore
+export function createUserLoginFromDiscriminatorValue(parseNode: ParseNode | undefined) : ((instance?: Parsable) => Record<string, (node: ParseNode) => void>) {
+    return deserializeIntoUserLogin;
+}
+/**
+ * Creates a new instance of the appropriate class based on discriminator value
+ * @param parseNode The parse node to use to read the discriminator value and create the object
+ * @returns {UserLoginId}
+ */
+// @ts-ignore
+export function createUserLoginIdFromDiscriminatorValue(parseNode: ParseNode | undefined) : ((instance?: Parsable) => Record<string, (node: ParseNode) => void>) {
+    return deserializeIntoUserLoginId;
+}
+/**
  * The deserialization information for the current model
  * @returns {Record<string, (node: ParseNode) => void>}
  */
@@ -70,11 +88,11 @@ export function deserializeIntoMeResponse(meResponse: Partial<MeResponse> | unde
 // @ts-ignore
 export function deserializeIntoUser(user: Partial<User> | undefined = {}) : Record<string, (node: ParseNode) => void> {
     return {
-        "authProviderUserId": n => { user.authProviderUserId = n.getStringValue(); },
         "avatarUrl": n => { user.avatarUrl = n.getStringValue(); },
         "createdAt": n => { user.createdAt = n.getDateValue(); },
         "email": n => { user.email = n.getStringValue(); },
         "id": n => { user.id = n.getObjectValue<UserId>(createUserIdFromDiscriminatorValue); },
+        "logins": n => { user.logins = n.getCollectionOfObjectValues<UserLogin>(createUserLoginFromDiscriminatorValue); },
         "name": n => { user.name = n.getStringValue(); },
         "roles": n => { user.roles = n.getCollectionOfPrimitiveValues<string>(); },
         "updatedAt": n => { user.updatedAt = n.getDateValue(); },
@@ -88,6 +106,31 @@ export function deserializeIntoUser(user: Partial<User> | undefined = {}) : Reco
 export function deserializeIntoUserId(userId: Partial<UserId> | undefined = {}) : Record<string, (node: ParseNode) => void> {
     return {
         "value": n => { userId.value = n.getGuidValue(); },
+    }
+}
+/**
+ * The deserialization information for the current model
+ * @returns {Record<string, (node: ParseNode) => void>}
+ */
+// @ts-ignore
+export function deserializeIntoUserLogin(userLogin: Partial<UserLogin> | undefined = {}) : Record<string, (node: ParseNode) => void> {
+    return {
+        "createdAt": n => { userLogin.createdAt = n.getDateValue(); },
+        "id": n => { userLogin.id = n.getObjectValue<UserLoginId>(createUserLoginIdFromDiscriminatorValue); },
+        "provider": n => { userLogin.provider = n.getNumberValue(); },
+        "providerUserId": n => { userLogin.providerUserId = n.getStringValue(); },
+        "updatedAt": n => { userLogin.updatedAt = n.getDateValue(); },
+        "userId": n => { userLogin.userId = n.getObjectValue<UserId>(createUserIdFromDiscriminatorValue); },
+    }
+}
+/**
+ * The deserialization information for the current model
+ * @returns {Record<string, (node: ParseNode) => void>}
+ */
+// @ts-ignore
+export function deserializeIntoUserLoginId(userLoginId: Partial<UserLoginId> | undefined = {}) : Record<string, (node: ParseNode) => void> {
+    return {
+        "value": n => { userLoginId.value = n.getGuidValue(); },
     }
 }
 export interface GetExampleResponse extends Parsable {
@@ -144,11 +187,11 @@ export function serializeMeResponse(writer: SerializationWriter, meResponse: Par
 // @ts-ignore
 export function serializeUser(writer: SerializationWriter, user: Partial<User> | undefined | null = {}) : void {
     if (user) {
-        writer.writeStringValue("authProviderUserId", user.authProviderUserId);
         writer.writeStringValue("avatarUrl", user.avatarUrl);
         writer.writeDateValue("createdAt", user.createdAt);
         writer.writeStringValue("email", user.email);
         writer.writeObjectValue<UserId>("id", user.id, serializeUserId);
+        writer.writeCollectionOfObjectValues<UserLogin>("logins", user.logins, serializeUserLogin);
         writer.writeStringValue("name", user.name);
         writer.writeCollectionOfPrimitiveValues<string>("roles", user.roles);
         writer.writeDateValue("updatedAt", user.updatedAt);
@@ -163,11 +206,31 @@ export function serializeUserId(writer: SerializationWriter, userId: Partial<Use
     if (userId) {
     }
 }
+/**
+ * Serializes information the current object
+ * @param writer Serialization writer to use to serialize this model
+ */
+// @ts-ignore
+export function serializeUserLogin(writer: SerializationWriter, userLogin: Partial<UserLogin> | undefined | null = {}) : void {
+    if (userLogin) {
+        writer.writeDateValue("createdAt", userLogin.createdAt);
+        writer.writeObjectValue<UserLoginId>("id", userLogin.id, serializeUserLoginId);
+        writer.writeNumberValue("provider", userLogin.provider);
+        writer.writeStringValue("providerUserId", userLogin.providerUserId);
+        writer.writeDateValue("updatedAt", userLogin.updatedAt);
+        writer.writeObjectValue<UserId>("userId", userLogin.userId, serializeUserId);
+    }
+}
+/**
+ * Serializes information the current object
+ * @param writer Serialization writer to use to serialize this model
+ */
+// @ts-ignore
+export function serializeUserLoginId(writer: SerializationWriter, userLoginId: Partial<UserLoginId> | undefined | null = {}) : void {
+    if (userLoginId) {
+    }
+}
 export interface User extends Parsable {
-    /**
-     * The authProviderUserId property
-     */
-    authProviderUserId?: string | null;
     /**
      * The avatarUrl property
      */
@@ -185,6 +248,10 @@ export interface User extends Parsable {
      */
     id?: UserId | null;
     /**
+     * The logins property
+     */
+    logins?: UserLogin[] | null;
+    /**
      * The name property
      */
     name?: string | null;
@@ -198,6 +265,38 @@ export interface User extends Parsable {
     updatedAt?: Date | null;
 }
 export interface UserId extends Parsable {
+    /**
+     * The value property
+     */
+    value?: Guid | null;
+}
+export interface UserLogin extends Parsable {
+    /**
+     * The createdAt property
+     */
+    createdAt?: Date | null;
+    /**
+     * The id property
+     */
+    id?: UserLoginId | null;
+    /**
+     * The provider property
+     */
+    provider?: number | null;
+    /**
+     * The providerUserId property
+     */
+    providerUserId?: string | null;
+    /**
+     * The updatedAt property
+     */
+    updatedAt?: Date | null;
+    /**
+     * The userId property
+     */
+    userId?: UserId | null;
+}
+export interface UserLoginId extends Parsable {
     /**
      * The value property
      */
