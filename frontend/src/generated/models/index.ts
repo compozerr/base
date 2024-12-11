@@ -89,13 +89,13 @@ export function deserializeIntoMeResponse(meResponse: Partial<MeResponse> | unde
 export function deserializeIntoUser(user: Partial<User> | undefined = {}) : Record<string, (node: ParseNode) => void> {
     return {
         "avatarUrl": n => { user.avatarUrl = n.getStringValue(); },
-        "createdAt": n => { user.createdAt = n.getDateValue(); },
+        "createdAtUtc": n => { user.createdAtUtc = n.getDateValue(); },
         "email": n => { user.email = n.getStringValue(); },
         "id": n => { user.id = n.getObjectValue<UserId>(createUserIdFromDiscriminatorValue); },
         "logins": n => { user.logins = n.getCollectionOfObjectValues<UserLogin>(createUserLoginFromDiscriminatorValue); },
         "name": n => { user.name = n.getStringValue(); },
         "roles": n => { user.roles = n.getCollectionOfPrimitiveValues<string>(); },
-        "updatedAt": n => { user.updatedAt = n.getDateValue(); },
+        "updatedAtUtc": n => { user.updatedAtUtc = n.getDateValue(); },
     }
 }
 /**
@@ -115,11 +115,11 @@ export function deserializeIntoUserId(userId: Partial<UserId> | undefined = {}) 
 // @ts-ignore
 export function deserializeIntoUserLogin(userLogin: Partial<UserLogin> | undefined = {}) : Record<string, (node: ParseNode) => void> {
     return {
-        "createdAt": n => { userLogin.createdAt = n.getDateValue(); },
+        "createdAtUtc": n => { userLogin.createdAtUtc = n.getDateValue(); },
         "id": n => { userLogin.id = n.getObjectValue<UserLoginId>(createUserLoginIdFromDiscriminatorValue); },
         "provider": n => { userLogin.provider = n.getNumberValue(); },
         "providerUserId": n => { userLogin.providerUserId = n.getStringValue(); },
-        "updatedAt": n => { userLogin.updatedAt = n.getDateValue(); },
+        "updatedAtUtc": n => { userLogin.updatedAtUtc = n.getDateValue(); },
         "userId": n => { userLogin.userId = n.getObjectValue<UserId>(createUserIdFromDiscriminatorValue); },
     }
 }
@@ -188,13 +188,13 @@ export function serializeMeResponse(writer: SerializationWriter, meResponse: Par
 export function serializeUser(writer: SerializationWriter, user: Partial<User> | undefined | null = {}) : void {
     if (user) {
         writer.writeStringValue("avatarUrl", user.avatarUrl);
-        writer.writeDateValue("createdAt", user.createdAt);
+        writer.writeDateValue("createdAtUtc", user.createdAtUtc);
         writer.writeStringValue("email", user.email);
         writer.writeObjectValue<UserId>("id", user.id, serializeUserId);
         writer.writeCollectionOfObjectValues<UserLogin>("logins", user.logins, serializeUserLogin);
         writer.writeStringValue("name", user.name);
         writer.writeCollectionOfPrimitiveValues<string>("roles", user.roles);
-        writer.writeDateValue("updatedAt", user.updatedAt);
+        writer.writeDateValue("updatedAtUtc", user.updatedAtUtc);
     }
 }
 /**
@@ -213,11 +213,11 @@ export function serializeUserId(writer: SerializationWriter, userId: Partial<Use
 // @ts-ignore
 export function serializeUserLogin(writer: SerializationWriter, userLogin: Partial<UserLogin> | undefined | null = {}) : void {
     if (userLogin) {
-        writer.writeDateValue("createdAt", userLogin.createdAt);
+        writer.writeDateValue("createdAtUtc", userLogin.createdAtUtc);
         writer.writeObjectValue<UserLoginId>("id", userLogin.id, serializeUserLoginId);
         writer.writeNumberValue("provider", userLogin.provider);
         writer.writeStringValue("providerUserId", userLogin.providerUserId);
-        writer.writeDateValue("updatedAt", userLogin.updatedAt);
+        writer.writeDateValue("updatedAtUtc", userLogin.updatedAtUtc);
         writer.writeObjectValue<UserId>("userId", userLogin.userId, serializeUserId);
     }
 }
@@ -236,9 +236,9 @@ export interface User extends Parsable {
      */
     avatarUrl?: string | null;
     /**
-     * The createdAt property
+     * The createdAtUtc property
      */
-    createdAt?: Date | null;
+    createdAtUtc?: Date | null;
     /**
      * The email property
      */
@@ -260,9 +260,9 @@ export interface User extends Parsable {
      */
     roles?: string[] | null;
     /**
-     * The updatedAt property
+     * The updatedAtUtc property
      */
-    updatedAt?: Date | null;
+    updatedAtUtc?: Date | null;
 }
 export interface UserId extends Parsable {
     /**
@@ -272,9 +272,9 @@ export interface UserId extends Parsable {
 }
 export interface UserLogin extends Parsable {
     /**
-     * The createdAt property
+     * The createdAtUtc property
      */
-    createdAt?: Date | null;
+    createdAtUtc?: Date | null;
     /**
      * The id property
      */
@@ -288,9 +288,9 @@ export interface UserLogin extends Parsable {
      */
     providerUserId?: string | null;
     /**
-     * The updatedAt property
+     * The updatedAtUtc property
      */
-    updatedAt?: Date | null;
+    updatedAtUtc?: Date | null;
     /**
      * The userId property
      */
