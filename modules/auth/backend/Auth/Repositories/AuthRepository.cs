@@ -32,7 +32,7 @@ public sealed class AuthRepository(AuthDbContext context) : IAuthRepository
                 Provider = provider,
                 ProviderUserId = providerUserId,
                 AccessToken = accessToken,
-                ExpiresAt = expiresAt
+                ExpiresAtUtc = expiresAt
             },
             _ => throw new ArgumentOutOfRangeException(nameof(provider))
         };

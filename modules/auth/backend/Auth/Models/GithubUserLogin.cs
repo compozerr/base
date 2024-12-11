@@ -8,5 +8,5 @@ public class GithubUserLogin : UserLogin
     }
 
     public required string AccessToken { get; set; }
-    public required DateTime ExpiresAt { get; set; }
+    public required DateTime ExpiresAtUtc { get; set; }
 }

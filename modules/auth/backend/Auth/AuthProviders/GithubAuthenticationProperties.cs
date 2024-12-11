@@ -8,5 +8,11 @@ public sealed class GithubAuthenticationProperties(AuthenticationProperties? aut
         => authenticationProperties?.GetTokenValue("access_token");
 
     public DateTime? GetExpiresAt()
-        => DateTime.TryParse(authenticationProperties?.GetString(".expires"), out var expiresAt) ? expiresAt : null;
+        => DateTime.TryParse(
+            authenticationProperties?.GetString(".expires"),
+            null,
+            System.Globalization.DateTimeStyles.AdjustToUniversal,
+            out var expiresAt)
+            ? expiresAt
+            : null;
 }
