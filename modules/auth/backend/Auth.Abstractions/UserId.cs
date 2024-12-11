@@ -1,5 +1,3 @@
-using Core.Abstractions;
-
 namespace Auth.Abstractions;
 
 public sealed record UserId : IdBase<UserId>, IId<UserId>
