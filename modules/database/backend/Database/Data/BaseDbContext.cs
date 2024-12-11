@@ -38,11 +38,11 @@ public abstract class BaseDbContext : DbContext
 
             if (entityEntry.State == EntityState.Added)
             {
-                entity.CreatedAt = DateTime.UtcNow;
+                entity.CreatedAtUtc = DateTime.UtcNow;
             }
             else
             {
-                entity.UpdatedAt = DateTime.UtcNow;
+                entity.UpdatedAtUtc = DateTime.UtcNow;
             }
         }
 
