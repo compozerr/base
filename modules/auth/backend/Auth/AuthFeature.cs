@@ -26,8 +26,6 @@ public class AuthFeature : IFeature
            });
        });
 
-        services.AddScoped<IUserRepository, UserRepository>();
-
         services.AddAuthentication(options =>
         {
             options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
@@ -54,6 +52,8 @@ public class AuthFeature : IFeature
         services.AddAuthorizationBuilder()
                 .AddPolicy("admin", policy => policy.RequireRole("admin"));
 
+        services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IAuthRepository, AuthRepository>();
         services.AddTransient<ICurrentUserAccessor, CurrentUserAccessor>();
     }
 
