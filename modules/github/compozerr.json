@@ -1,0 +1,7 @@
+{
+    "name": "github",
+    "dependencies": {
+        "auth": "latest",
+        "database": "latest"
+    }
+}
