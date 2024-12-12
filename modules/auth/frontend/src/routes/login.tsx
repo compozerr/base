@@ -21,8 +21,10 @@ function RouteComponent() {
   const [loading, setLoading] = React.useState(true)
   const [error, setError] = React.useState<Error | null>(null)
   const auth = useAuth()
-  auth.login();
-
+  React.useEffect(() => {
+    auth.login();
+  }, [auth])
+  
   return (
     <div className="p-2 h-full">
       {loading && <p>Loading...</p>}

@@ -1,10 +1,11 @@
 
-using Auth.Data;
 using Core.Extensions;
 using Core.Feature;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
+
+namespace Auth.Data;
 
 public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<AuthDbContext>
 {
@@ -14,7 +15,7 @@ public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<AuthDbCont
         // Build configuration
         var configuration = new ConfigurationBuilder().AddAppSettings()
                                                       .Build();
-        
+
         // Create DbContextOptionsBuilder
         var builder = new DbContextOptionsBuilder<AuthDbContext>();
 
@@ -22,7 +23,7 @@ public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<AuthDbCont
         Features.ConfigureCallbacks();
 
         var connectionString = configuration.GetConnectionString("DefaultConnection");
-        
+
         builder.UseNpgsql(connectionString, b =>
             b.MigrationsAssembly(typeof(AuthDbContext).Assembly.FullName));
 

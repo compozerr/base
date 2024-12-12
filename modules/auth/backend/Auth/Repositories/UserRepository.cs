@@ -1,4 +1,3 @@
-using System.Runtime.CompilerServices;
 using Auth.Data;
 using Auth.Models;
 using Database.Repositories;
