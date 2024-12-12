@@ -42,6 +42,8 @@ public class CoreFeature : IFeature
 
         services.AddScoped<ILinks, Links>()
                 .AddHttpContextAccessor();
+
+        services.AddTransient<IMyServerUrlAccessor, MyServerUrlAccessor>();
     }
 
     private static void AddWebApiConfig(IServiceCollection services, IConfiguration configuration)
