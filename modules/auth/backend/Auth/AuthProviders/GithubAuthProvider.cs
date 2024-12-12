@@ -26,7 +26,6 @@ public static class GithubAuthProvider
             options.ClientSecret = githubOptions.Value.ClientSecret;
 
             options.Scope.Add("user:email");
-            options.Scope.Add("admin:org");
 
             options.ClaimActions.MapJsonKey(ClaimTypes.Email, "email");
             options.ClaimActions.MapJsonKey("urn:github:name", "name");
