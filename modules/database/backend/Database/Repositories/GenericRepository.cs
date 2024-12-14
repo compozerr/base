@@ -5,7 +5,7 @@ namespace Database.Repositories;
 public interface IGenericRepository<TEntity, TEntityId, TDbContext>
     where TEntity : BaseEntityWithId<TEntityId>
     where TEntityId : IdBase<TEntityId>, IId<TEntityId>
-    where TDbContext : BaseDbContext
+    where TDbContext : BaseDbContext<TDbContext>
 {
     ValueTask<TEntity?> GetByIdAsync(TEntityId id, CancellationToken cancellationToken = default);
     Task<List<TEntity>> GetAllAsync(CancellationToken cancellationToken = default);
@@ -17,7 +17,7 @@ public interface IGenericRepository<TEntity, TEntityId, TDbContext>
 public class GenericRepository<TEntity, TEntityId, TDbContext>(TDbContext context) : IGenericRepository<TEntity, TEntityId, TDbContext>
     where TEntity : BaseEntityWithId<TEntityId>
     where TEntityId : IdBase<TEntityId>, IId<TEntityId>
-    where TDbContext : BaseDbContext
+    where TDbContext : BaseDbContext<TDbContext>
 {
     public virtual ValueTask<TEntity?> GetByIdAsync(TEntityId id, CancellationToken cancellationToken = default)
         => context.Set<TEntity>().FindAsync([id], cancellationToken);

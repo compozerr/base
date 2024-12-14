@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Github.Data;
 
-public class GithubDbContext(DbContextOptions<GithubDbContext> options) : BaseDbContext(options, "github")
+public class GithubDbContext(DbContextOptions<GithubDbContext> options) : BaseDbContext<GithubDbContext>(options, "github")
 {
     public DbSet<Installation> Installations => Set<Installation>();
 

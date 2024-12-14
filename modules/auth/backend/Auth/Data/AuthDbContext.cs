@@ -5,7 +5,7 @@ using Database.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace Auth.Data;
-public class AuthDbContext(DbContextOptions<AuthDbContext> options) : BaseDbContext(options, "auth")
+public class AuthDbContext(DbContextOptions<AuthDbContext> options) : BaseDbContext<AuthDbContext>(options, "auth")
 {
     public DbSet<User> Users => Set<User>();
     public DbSet<UserLogin> UserLogins => Set<UserLogin>();
