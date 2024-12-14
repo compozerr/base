@@ -2,6 +2,7 @@ using System.Net.Http.Json;
 using System.Web;
 using Core.Helpers;
 using Github.Endpoints.Installation.Upsert;
+using Github.Helpers;
 using Github.Options;
 using Github.Services;
 using MediatR;
@@ -12,13 +13,11 @@ using Microsoft.Extensions.Options;
 
 namespace Github.Endpoints.Installation;
 
-public sealed record CallbackResponse(string AccessToken, string TokenType, string Scope);
-
 public static class InstallationCallbackRoute
 {
     public const string Route = "callback";
 
-    public static string CallbackPath => $"{GithubGroup.Route}/${InstallationGroup.Route}/${Route}";
+    public static string CallbackPath => $"v1/{GithubGroup.Route}/{InstallationGroup.Route}/{Route}";
 
     public static RouteHandlerBuilder AddInstallationCallbackRoute(this IEndpointRouteBuilder app)
     {
@@ -58,15 +57,16 @@ public static class InstallationCallbackRoute
                 return Results.BadRequest();
             }
 
-            var content = await response.Content.ReadFromJsonAsync<CallbackResponse>(new System.Text.Json.JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true,
-            }, cancellationToken);
+            var rawResponse = await response.Content.ReadAsStringAsync(cancellationToken);
 
-            if (content is null)
+            var deserializedResponse = AccessTokenCallbackResponseParser.ParseResponse(rawResponse);
+
+            if(!deserializedResponse.IsSuccess)
             {
                 return Results.BadRequest();
             }
+
+            var content = deserializedResponse.Success!;
 
             var mediatr = context.RequestServices.GetRequiredService<IMediator>();
 

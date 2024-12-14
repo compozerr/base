@@ -8,6 +8,8 @@ import { DockerRequestBuilderNavigationMetadata, type DockerRequestBuilder } fro
 // @ts-ignore
 import { ExampleRequestBuilderRequestsMetadata, type ExampleRequestBuilder } from './example/index.js';
 // @ts-ignore
+import { GithubRequestBuilderNavigationMetadata, type GithubRequestBuilder } from './github/index.js';
+// @ts-ignore
 import { type UsersRequestBuilder, UsersRequestBuilderRequestsMetadata } from './users/index.js';
 // @ts-ignore
 import { type BaseRequestBuilder, type KeysToExcludeForNavigationMetadata, type NavigationMetadata, type Parsable, type ParsableFactory, type RequestConfiguration, type RequestInformation, type RequestsMetadata } from '@microsoft/kiota-abstractions';
@@ -28,6 +30,10 @@ export interface V1RequestBuilder extends BaseRequestBuilder<V1RequestBuilder> {
      * The example property
      */
     get example(): ExampleRequestBuilder;
+    /**
+     * The github property
+     */
+    get github(): GithubRequestBuilder;
     /**
      * The users property
      */
@@ -59,6 +65,9 @@ export const V1RequestBuilderNavigationMetadata: Record<Exclude<keyof V1RequestB
     },
     example: {
         requestsMetadata: ExampleRequestBuilderRequestsMetadata,
+    },
+    github: {
+        navigationMetadata: GithubRequestBuilderNavigationMetadata,
     },
     users: {
         requestsMetadata: UsersRequestBuilderRequestsMetadata,
