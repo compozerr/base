@@ -5,7 +5,6 @@ using Github.Options;
 using Github.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.Extensions.Options;
 
 namespace Github.Endpoints.Installation;
