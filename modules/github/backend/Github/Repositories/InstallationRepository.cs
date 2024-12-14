@@ -10,20 +10,19 @@ namespace Github.Repositories;
 public interface IInstallationRepository : IGenericRepository<Installation, InstallationId, GithubDbContext>
 {
     Task<List<Installation>> GetInstallationsByUserIdAsync(UserId userId, CancellationToken cancellationToken = default);
-    Task<InstallationId> AddInstallationAsync(UserId userId, string accessToken, string scope, CancellationToken cancellationToken = default);
+    Task<InstallationId> AddInstallationAsync(UserId userId, string accessToken, CancellationToken cancellationToken = default);
 }
 
 public class InstallationRepository(GithubDbContext context) : GenericRepository<Installation, InstallationId, GithubDbContext>(context), IInstallationRepository
 {
     private readonly GithubDbContext _context = context;
 
-    public async Task<InstallationId> AddInstallationAsync(UserId userId, string accessToken, string scope, CancellationToken cancellationToken = default)
+    public async Task<InstallationId> AddInstallationAsync(UserId userId, string accessToken, CancellationToken cancellationToken = default)
     {
         var installation = new Installation
         {
             UserId = userId,
-            AccessToken = accessToken,
-            Scope = scope
+            AccessToken = accessToken
         };
 
         var addedInstallation = await AddAsync(installation, cancellationToken);

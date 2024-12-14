@@ -6,5 +6,4 @@ namespace Github.Endpoints.Installation.Upsert;
 
 public sealed record UpsertInstallationCommand(
     UserId UserId,
-    string AccessToken,
-    string Scope) : ICommand<InstallationId>;
+    string AccessToken) : ICommand<InstallationId>;

@@ -1,9 +1,8 @@
 namespace Github.Helpers;
 
-using System.Runtime.ConstrainedExecution;
 using System.Web;
 
-public record GithubAccessTokenSuccessResponse(string AccessToken, string TokenType, string Scope);
+public record GithubAccessTokenSuccessResponse(string AccessToken);
 public record GithubAccessTokenErrorResponse(string Error, string ErrorDescription, string ErrorUri);
 public class GitHubAccessTokenResponse
 {
@@ -26,9 +25,7 @@ public static class AccessTokenCallbackResponseParser
         if (parsed["error"] == null)
         {
             response.Success = new GithubAccessTokenSuccessResponse(
-                AccessToken: parsed["access_token"] ?? throw new ArgumentException("access_token is required"),
-                TokenType: parsed["token_type"] ?? throw new ArgumentException("token_type is required"),
-                Scope: parsed["scope"] ?? throw new ArgumentException("scope is required")
+                AccessToken: parsed["access_token"] ?? throw new ArgumentException("access_token is required")
             );
         }
         else

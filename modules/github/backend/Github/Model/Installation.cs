@@ -1,4 +1,5 @@
 using Auth.Abstractions;
+using Auth.Models;
 using Database.Models;
 using Github.Abstractions;
 
@@ -8,5 +9,4 @@ public class Installation : BaseEntityWithId<InstallationId>
 {
     public required UserId UserId { get; set; }
     public required string AccessToken { get; set; }
-    public required string Scope { get; set; }
 }

@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using Serilog;
 
 namespace Github.Endpoints.Installation;
 
@@ -61,8 +62,12 @@ public static class InstallationCallbackRoute
 
             var deserializedResponse = AccessTokenCallbackResponseParser.ParseResponse(rawResponse);
 
-            if(!deserializedResponse.IsSuccess)
+            if (!deserializedResponse.IsSuccess)
             {
+                Log.ForContext("RawResponse", rawResponse)
+                   .ForContext(nameof(deserializedResponse), deserializedResponse, true)
+                   .Error("Failed to parse access token response");
+
                 return Results.BadRequest();
             }
 
@@ -70,7 +75,7 @@ public static class InstallationCallbackRoute
 
             var mediatr = context.RequestServices.GetRequiredService<IMediator>();
 
-            var upsertInstallationCommand = new UpsertInstallationCommand(deserializedState.UserId, content.AccessToken, content.Scope);
+            var upsertInstallationCommand = new UpsertInstallationCommand(deserializedState.UserId, content.AccessToken);
 
             var installationId = await mediatr.Send(upsertInstallationCommand, cancellationToken);
 
