@@ -4,7 +4,9 @@ namespace Github.Endpoints;
 
 public class GithubGroup : CarterModule
 {
-    public GithubGroup() : base("/github")
+    public const string Route = "github";
+
+    public GithubGroup() : base(Route)
     {
         WithTags(nameof(Github));
     }

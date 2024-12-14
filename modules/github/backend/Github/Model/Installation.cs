@@ -8,5 +8,5 @@ public class Installation : BaseEntityWithId<InstallationId>
 {
     public required UserId UserId { get; set; }
     public required string AccessToken { get; set; }
-    public DateTime ExpiresAtUtc { get; set; }
+    public required string Scope { get; set; }
 }

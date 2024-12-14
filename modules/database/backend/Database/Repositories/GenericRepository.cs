@@ -7,11 +7,11 @@ public interface IGenericRepository<TEntity, TEntityId, TDbContext>
     where TEntityId : IdBase<TEntityId>, IId<TEntityId>
     where TDbContext : BaseDbContext
 {
-    Task<TEntity?> GetByIdAsync(TEntityId id);
-    Task<IEnumerable<TEntity>> GetAllAsync();
-    Task<TEntity> AddAsync(TEntity entity);
-    Task UpdateAsync(TEntity entity);
-    Task DeleteAsync(TEntityId id);
+    ValueTask<TEntity?> GetByIdAsync(TEntityId id, CancellationToken cancellationToken = default);
+    Task<List<TEntity>> GetAllAsync(CancellationToken cancellationToken = default);
+    Task<TEntity> AddAsync(TEntity entity, CancellationToken cancellationToken = default);
+    Task UpdateAsync(TEntity entity, CancellationToken cancellationToken = default);
+    Task DeleteAsync(TEntityId id, CancellationToken cancellationToken = default);
 }
 
 public class GenericRepository<TEntity, TEntityId, TDbContext>(TDbContext context) : IGenericRepository<TEntity, TEntityId, TDbContext>
@@ -19,35 +19,29 @@ public class GenericRepository<TEntity, TEntityId, TDbContext>(TDbContext contex
     where TEntityId : IdBase<TEntityId>, IId<TEntityId>
     where TDbContext : BaseDbContext
 {
-    protected readonly TDbContext _context = context;
+    public virtual ValueTask<TEntity?> GetByIdAsync(TEntityId id, CancellationToken cancellationToken = default)
+        => context.Set<TEntity>().FindAsync([id], cancellationToken);
 
-    public virtual async Task<TEntity?> GetByIdAsync(TEntityId id)
-    {
-        return await _context.Set<TEntity>().FindAsync(id);
-    }
+    public virtual Task<List<TEntity>> GetAllAsync(CancellationToken cancellationToken = default)
+        => context.Set<TEntity>().ToListAsync(cancellationToken);
 
-    public virtual async Task<IEnumerable<TEntity>> GetAllAsync()
+    public virtual async Task<TEntity> AddAsync(TEntity entity, CancellationToken cancellationToken = default)
     {
-        return await _context.Set<TEntity>().ToListAsync();
-    }
-
-    public virtual async Task<TEntity> AddAsync(TEntity entity)
-    {
-        await _context.Set<TEntity>().AddAsync(entity);
-        await _context.SaveChangesAsync();
+        await context.Set<TEntity>().AddAsync(entity, cancellationToken);
+        await context.SaveChangesAsync(cancellationToken);
         return entity;
     }
 
-    public virtual async Task UpdateAsync(TEntity entity)
+    public virtual async Task UpdateAsync(TEntity entity, CancellationToken cancellationToken = default)
     {
-        _context.Entry(entity).State = EntityState.Modified;
-        await _context.SaveChangesAsync();
+        context.Entry(entity).State = EntityState.Modified;
+        await context.SaveChangesAsync(cancellationToken);
     }
 
-    public virtual async Task DeleteAsync(TEntityId id)
+    public virtual async Task DeleteAsync(TEntityId id, CancellationToken cancellationToken = default)
     {
-        var entity = await GetByIdAsync(id) ?? throw new Exception($"{typeof(TEntity).Name} with id {id} not found");
-        _context.Set<TEntity>().Remove(entity);
-        await _context.SaveChangesAsync();
+        var entity = await GetByIdAsync(id, cancellationToken) ?? throw new Exception($"{typeof(TEntity).Name} with id {id} not found");
+        context.Set<TEntity>().Remove(entity);
+        await context.SaveChangesAsync(cancellationToken);
     }
 }

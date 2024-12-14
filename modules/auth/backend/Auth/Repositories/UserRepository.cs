@@ -14,6 +14,8 @@ public interface IUserRepository : IGenericRepository<User, UserId, AuthDbContex
 
 public class UserRepository(AuthDbContext context) : GenericRepository<User, UserId, AuthDbContext>(context), IUserRepository
 {
+    private readonly AuthDbContext _context = context;
+
     public Task<bool> ExistsByEmailAsync(string email, CancellationToken cancellationToken = default)
         => _context.Users.AnyAsync(u => u.Email == email, cancellationToken);
 

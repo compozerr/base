@@ -21,6 +21,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Abstractions", "Core.A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auth.Abstractions", "..\modules\auth\backend\Auth.Abstractions\Auth.Abstractions.csproj", "{65955BBF-9598-42F1-BA46-BDA4F1A5BFEB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Github", "..\modules\github\backend\Github\Github.csproj", "{700858BD-C3B6-4C33-B83D-7AD9A655E4D0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Github.Abstractions", "..\modules\github\backend\Github.Abstractions\Github.Abstractions.csproj", "{EDCB879E-FC07-4AD9-9271-94E751DF015F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +67,14 @@ Global
 		{65955BBF-9598-42F1-BA46-BDA4F1A5BFEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{65955BBF-9598-42F1-BA46-BDA4F1A5BFEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{65955BBF-9598-42F1-BA46-BDA4F1A5BFEB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{700858BD-C3B6-4C33-B83D-7AD9A655E4D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{700858BD-C3B6-4C33-B83D-7AD9A655E4D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{700858BD-C3B6-4C33-B83D-7AD9A655E4D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{700858BD-C3B6-4C33-B83D-7AD9A655E4D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EDCB879E-FC07-4AD9-9271-94E751DF015F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDCB879E-FC07-4AD9-9271-94E751DF015F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDCB879E-FC07-4AD9-9271-94E751DF015F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDCB879E-FC07-4AD9-9271-94E751DF015F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

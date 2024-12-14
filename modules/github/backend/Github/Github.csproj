@@ -19,6 +19,7 @@
   <ItemGroup>
     <ProjectReference Include="../../../../backend/Core/Core.csproj" />
     <ProjectReference Include="../../../auth/backend/Auth.Abstractions/Auth.Abstractions.csproj" />
+    <ProjectReference Include="../../../auth/backend/Auth/Auth.csproj" />
     <ProjectReference Include="../../../database/backend/Database/Database.csproj" />
     <ProjectReference Include="../Github.Abstractions/Github.Abstractions.csproj" />
   </ItemGroup>
