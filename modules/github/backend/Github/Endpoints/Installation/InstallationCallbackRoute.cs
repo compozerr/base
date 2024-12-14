@@ -1,5 +1,4 @@
 using System.Net.Http.Json;
-using System.Security.Cryptography.Pkcs;
 using System.Web;
 using Core.Helpers;
 using Github.Endpoints.Installation.Upsert;
@@ -10,7 +9,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json.Serialization;
 
 namespace Github.Endpoints.Installation;
 

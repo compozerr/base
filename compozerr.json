@@ -4,6 +4,7 @@
         "template": "latest",
         "database": "latest",
         "auth": "latest",
-        "cli": "latest"
+        "cli": "latest",
+        "github": "latest"
     }
 }
