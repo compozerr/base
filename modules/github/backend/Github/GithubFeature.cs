@@ -26,6 +26,7 @@ public class GithubFeature : IFeature
 
         services.AddRequiredConfigurationOptions<GithubAppOptions>("Github:GithubApp");
         services.AddSingleton<IStateService, StateService>();
+        services.AddSingleton<IGithubJsonWebTokenService, GithubJsonWebTokenService>();
         services.AddScoped<IInstallationRepository, InstallationRepository>();
         services.AddDataProtection();
         services.AddHttpClient();
