@@ -14,6 +14,8 @@ public static class InstallationGroup
 
         installationGroup.AddInstallationCallbackRoute();
 
+        installationGroup.AddPlaygroundRoute();
+
         return installationGroup;
     }
 }

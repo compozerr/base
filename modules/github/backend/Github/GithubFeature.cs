@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Octokit;
 
 namespace Github;
 
@@ -28,8 +29,10 @@ public class GithubFeature : IFeature
         services.AddSingleton<IStateService, StateService>();
         services.AddSingleton<IGithubJsonWebTokenService, GithubJsonWebTokenService>();
         services.AddScoped<IInstallationRepository, InstallationRepository>();
+        services.AddScoped<IGithubService, GithubService>();
         services.AddDataProtection();
         services.AddHttpClient();
+
     }
 
     void IFeature.ConfigureApp(WebApplication app)

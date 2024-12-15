@@ -6,6 +6,8 @@ import { CallbackRequestBuilderRequestsMetadata, type CallbackRequestBuilder } f
 // @ts-ignore
 import { GetInstallationAuthorizeUrlRequestBuilderRequestsMetadata, type GetInstallationAuthorizeUrlRequestBuilder } from './getInstallationAuthorizeUrl/index.js';
 // @ts-ignore
+import { PlaygroundRequestBuilderRequestsMetadata, type PlaygroundRequestBuilder } from './playground/index.js';
+// @ts-ignore
 import { type BaseRequestBuilder, type KeysToExcludeForNavigationMetadata, type NavigationMetadata } from '@microsoft/kiota-abstractions';
 
 /**
@@ -20,6 +22,10 @@ export interface InstallationRequestBuilder extends BaseRequestBuilder<Installat
      * The getInstallationAuthorizeUrl property
      */
     get getInstallationAuthorizeUrl(): GetInstallationAuthorizeUrlRequestBuilder;
+    /**
+     * The playground property
+     */
+    get playground(): PlaygroundRequestBuilder;
 }
 /**
  * Uri template for the request builder.
@@ -34,6 +40,9 @@ export const InstallationRequestBuilderNavigationMetadata: Record<Exclude<keyof 
     },
     getInstallationAuthorizeUrl: {
         requestsMetadata: GetInstallationAuthorizeUrlRequestBuilderRequestsMetadata,
+    },
+    playground: {
+        requestsMetadata: PlaygroundRequestBuilderRequestsMetadata,
     },
 };
 /* tslint:enable */

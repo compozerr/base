@@ -18,8 +18,10 @@ public static class GetInstallationAuthorizeUrlRoute
             IOptions<GithubAppOptions> options,
             IMyServerUrlAccessor myServerUrlAccessor,
             ICurrentUserAccessor userAccessor,
+            IGithubJsonWebTokenService jwtService,
             IStateService stateService) =>
         {
+
             var uriBuilder = new UriBuilder("https://github.com/login/oauth/authorize");
 
             var query = HttpUtility.ParseQueryString(uriBuilder.Query);
