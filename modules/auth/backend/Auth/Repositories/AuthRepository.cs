@@ -16,8 +16,7 @@ public interface IAuthRepository
 }
 
 public sealed class AuthRepository(
-    AuthDbContext context,
-    IDateTimeProvider dateTimeProvider) : IAuthRepository
+    AuthDbContext context) : IAuthRepository
 {
     public async Task<UserLoginId> UpsertUserLoginAsync(
         UserId userId,
@@ -49,7 +48,6 @@ public sealed class AuthRepository(
         {
             userLogin.Id = existingUserLogin.Id;
             userLogin.CreatedAtUtc = existingUserLogin.CreatedAtUtc;
-            userLogin.UpdatedAtUtc = dateTimeProvider.UtcNow;
             context.Entry(existingUserLogin).CurrentValues.SetValues(userLogin);
         }
 
