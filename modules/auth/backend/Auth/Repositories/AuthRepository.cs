@@ -36,7 +36,7 @@ public sealed class AuthRepository(AuthDbContext context) : IAuthRepository
 
         var existingUserLogin = await context.UserLogins.FindAsync(userId);
 
-        if (userLogin is null)
+        if (existingUserLogin is null)
         {
             context.UserLogins.Add(userLogin);
         }
