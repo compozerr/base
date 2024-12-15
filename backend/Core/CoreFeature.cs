@@ -44,6 +44,8 @@ public class CoreFeature : IFeature
                 .AddHttpContextAccessor();
 
         services.AddTransient<IMyServerUrlAccessor, MyServerUrlAccessor>();
+
+        services.AddSingleton<IJsonWebTokenService, JsonWebTokenService>();
     }
 
     private static void AddWebApiConfig(IServiceCollection services, IConfiguration configuration)
