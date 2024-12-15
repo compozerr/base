@@ -25,7 +25,6 @@ public class UserAuthenticatedCommandHandler(
         var authProviderUserId = principal.FindFirst(ClaimTypes.NameIdentifier)!.Value;
         var name = principal.Identity?.Name ?? email;
         var accessToken = userAuthenticatedCommand.GithubAuthenticationProperties?.GetAccessToken();
-        var expiresAt = userAuthenticatedCommand.GithubAuthenticationProperties?.GetExpiresAt() ?? throw new ArgumentNullException(nameof(userAuthenticatedCommand), "ExpiresAt is required");
 
         ArgumentException.ThrowIfNullOrEmpty(email, nameof(email));
         ArgumentException.ThrowIfNullOrEmpty(avatarUrl, nameof(avatarUrl));
@@ -62,12 +61,11 @@ public class UserAuthenticatedCommandHandler(
             userId = createdUserResponse.Id;
         }
 
-        var createUserLoginCommand = new CreateUserLoginCommand(
+        var createUserLoginCommand = new UpsertUserLoginCommand(
             UserId: userId,
             Provider: Provider.GitHub,
             ProviderUserId: authProviderUserId,
-            AccessToken: accessToken,
-            ExpiresAt: expiresAt
+            AccessToken: accessToken
         );
 
         await mediator.Send(createUserLoginCommand, cancellationToken);

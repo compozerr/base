@@ -5,12 +5,6 @@ namespace Github.Options;
 public sealed class GithubAppOptions
 {
     [Required]
-    public required string ClientId { get; init; }
-
-    [Required]
-    public required string ClientSecret { get; init; }
-
-    [Required]
     public required string AppId { get; init; }
 
     [Required]

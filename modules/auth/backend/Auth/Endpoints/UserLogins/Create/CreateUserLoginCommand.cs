@@ -3,9 +3,8 @@ using Core.MediatR;
 
 namespace Auth.Endpoints.UserLogins.Create;
 
-public sealed record CreateUserLoginCommand(
+public sealed record UpsertUserLoginCommand(
     UserId UserId,
     Provider Provider,
     string ProviderUserId,
-    string AccessToken,
-    DateTime ExpiresAt) : ICommand<UserLoginId>;
+    string AccessToken) : ICommand<UserLoginId>;

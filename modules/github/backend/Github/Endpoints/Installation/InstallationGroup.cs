@@ -9,10 +9,8 @@ public static class InstallationGroup
     {
         var installationGroup = app.MapGroup(Route);
 
-        installationGroup.AddGetInstallationAuthorizeUrlRoute()
+        installationGroup.AddGetInstallAppUrlRoute()
                          .RequireAuthorization();
-
-        installationGroup.AddInstallationCallbackRoute();
 
         installationGroup.AddPlaygroundRoute();
 

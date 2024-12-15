@@ -10,6 +10,7 @@ public interface IUserRepository : IGenericRepository<User, UserId, AuthDbContex
     Task<bool> ExistsByEmailAsync(string email, CancellationToken cancellationToken = default);
     Task<User?> GetByAuthProviderUserIdAsync(string authProviderUserId, CancellationToken cancellationToken = default);
     Task<bool> ExistsByAuthProviderUserIdAsync(string authProviderUserId, CancellationToken cancellationToken = default);
+    Task<User?> GetUserWithLoginsAsync(UserId userId, CancellationToken cancellationToken = default);
 }
 
 public class UserRepository(AuthDbContext context) : GenericRepository<User, UserId, AuthDbContext>(context), IUserRepository
@@ -25,4 +26,8 @@ public class UserRepository(AuthDbContext context) : GenericRepository<User, Use
 
     public async Task<bool> ExistsByAuthProviderUserIdAsync(string authProviderUserId, CancellationToken cancellationToken = default)
         => await GetByAuthProviderUserIdAsync(authProviderUserId, cancellationToken) is not null;
+
+    public Task<User?> GetUserWithLoginsAsync(UserId userId, CancellationToken cancellationToken = default)
+        => _context.Users.Include(u => u.Logins)
+                         .FirstOrDefaultAsync(u => u.Id == userId, cancellationToken);
 }

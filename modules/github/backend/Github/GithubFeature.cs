@@ -2,14 +2,12 @@ using Core.Extensions;
 using Core.Feature;
 using Github.Data;
 using Github.Options;
-using Github.Repositories;
 using Github.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Octokit;
 
 namespace Github;
 
@@ -28,11 +26,9 @@ public class GithubFeature : IFeature
         services.AddRequiredConfigurationOptions<GithubAppOptions>("Github:GithubApp");
         services.AddSingleton<IStateService, StateService>();
         services.AddSingleton<IGithubJsonWebTokenService, GithubJsonWebTokenService>();
-        services.AddScoped<IInstallationRepository, InstallationRepository>();
         services.AddScoped<IGithubService, GithubService>();
         services.AddDataProtection();
         services.AddHttpClient();
-
     }
 
     void IFeature.ConfigureApp(WebApplication app)

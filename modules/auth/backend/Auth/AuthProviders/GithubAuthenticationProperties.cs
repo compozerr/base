@@ -6,13 +6,4 @@ public sealed class GithubAuthenticationProperties(AuthenticationProperties? aut
 {
     public string? GetAccessToken()
         => authenticationProperties?.GetTokenValue("access_token");
-
-    public DateTime? GetExpiresAt()
-        => DateTime.TryParse(
-            authenticationProperties?.GetString(".expires"),
-            null,
-            System.Globalization.DateTimeStyles.AdjustToUniversal,
-            out var expiresAt)
-            ? expiresAt
-            : null;
 }

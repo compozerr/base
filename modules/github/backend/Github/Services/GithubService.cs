@@ -1,5 +1,5 @@
 using Auth.Abstractions;
-using Github.Repositories;
+using Auth.Repositories;
 using Octokit;
 
 namespace Github.Services;
@@ -10,41 +10,42 @@ public interface IGithubService
     Task<IGitHubClient?> GetUserClient(UserId userId);
 }
 
-public sealed class GithubService : IGithubService
+public sealed class GithubService(
+    IGithubJsonWebTokenService jwtService,
+    IUserRepository userRepository) : IGithubService
 {
-    private readonly IInstallationRepository _installationRepository;
-    private readonly IGitHubClient _client;
-    public GithubService(IGithubJsonWebTokenService jwtService, IInstallationRepository installationRepository)
-    {
-        var token = jwtService.CreateToken();
-        _client = new GitHubClient(new ProductHeaderValue("compozerr"))
-        {
-            Credentials = new Credentials(token, AuthenticationType.Bearer)
-        };
-        _installationRepository = installationRepository;
-    }
-
     public IGitHubClient GetClient()
     {
-        return _client;
+        var token = jwtService.CreateToken();
+        var client = GetGithubClientWithCredentials(new Credentials(token, AuthenticationType.Bearer));
+
+        return client;
     }
 
     public async Task<IGitHubClient?> GetUserClient(UserId userId)
     {
-        var installations = await _installationRepository.GetInstallationsByUserIdAsync(userId);
+        var user = await userRepository.GetUserWithLoginsAsync(userId);
 
-        var accessToken = installations.OrderByDescending(x => x.CreatedAtUtc).FirstOrDefault()?.AccessToken;
+        if (user is null)
+            return null;
+
+        var accessToken = (user.Logins.FirstOrDefault(l => l.Provider == Auth.Models.Provider.GitHub) as Auth.Models.GithubUserLogin)!.AccessToken;
 
         if (accessToken is null)
-        {
             return null;
-        }
 
-        var userClient = new GitHubClient(new ProductHeaderValue("compozerr"))
-        {
-            Credentials = new Credentials(accessToken, AuthenticationType.Oauth)
-        };
+        var userClient = GetGithubClientWithCredentials(new Credentials(accessToken, AuthenticationType.Oauth));
 
         return userClient;
+    }
+
+    private static GitHubClient GetGithubClientWithCredentials(Credentials credentials)
+    {
+        var client = new GitHubClient(new ProductHeaderValue("compozerr"))
+        {
+            Credentials = credentials
+        };
+
+        return client;
     }
 }
