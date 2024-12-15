@@ -1,5 +1,7 @@
 using Auth.Data;
 using Auth.Models;
+using Core.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace Auth.Repositories;
 
@@ -13,7 +15,9 @@ public interface IAuthRepository
         CancellationToken cancellationToken = default);
 }
 
-public sealed class AuthRepository(AuthDbContext context) : IAuthRepository
+public sealed class AuthRepository(
+    AuthDbContext context,
+    IDateTimeProvider dateTimeProvider) : IAuthRepository
 {
     public async Task<UserLoginId> UpsertUserLoginAsync(
         UserId userId,
@@ -34,7 +38,8 @@ public sealed class AuthRepository(AuthDbContext context) : IAuthRepository
             _ => throw new ArgumentOutOfRangeException(nameof(provider))
         };
 
-        var existingUserLogin = await context.UserLogins.FindAsync(userId);
+        var existingUserLogin = await context.UserLogins.Where(uL => uL.UserId == userId && uL.Provider == provider)
+                                                        .FirstOrDefaultAsync(cancellationToken);
 
         if (existingUserLogin is null)
         {
@@ -42,6 +47,9 @@ public sealed class AuthRepository(AuthDbContext context) : IAuthRepository
         }
         else
         {
+            userLogin.Id = existingUserLogin.Id;
+            userLogin.CreatedAtUtc = existingUserLogin.CreatedAtUtc;
+            userLogin.UpdatedAtUtc = dateTimeProvider.UtcNow;
             context.Entry(existingUserLogin).CurrentValues.SetValues(userLogin);
         }
 
