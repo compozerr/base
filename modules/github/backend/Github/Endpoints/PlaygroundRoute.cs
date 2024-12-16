@@ -1,7 +1,9 @@
 using Auth.Abstractions;
+using Auth.Services;
 using Github.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Octokit;
 
 namespace Github.Endpoints.Installation;
 
@@ -10,10 +12,10 @@ public static class PlaygroundRoute
     public const string Route = "playground";
     public static RouteHandlerBuilder AddPlaygroundRoute(this IEndpointRouteBuilder app)
     {
-        return app.MapGet(Route, async (IGithubService githubService) =>
+        return app.MapGet(Route, async (IGithubService githubService, ICurrentUserAccessor currentUserAccessor) =>
         {
 
-            var client = await githubService.GetUserClient(UserId.Parse("2e60160d-ed5d-4cfd-9bb0-999560193b51"));
+            var client = await githubService.GetUserClient(currentUserAccessor.CurrentUserId!);
 
             if (client is null)
             {
@@ -23,6 +25,14 @@ public static class PlaygroundRoute
             var repositories = await client.Repository.GetAllForCurrent();
             var installations = await client.GitHubApps.GetAllInstallationsForCurrentUser();
 
+            var newRepository = new NewRepository("compozerr-playground")
+            {
+                Private = false,
+                Description = "Playground repository for Compozerr",
+                AutoInit = true
+            };
+
+            var response = await client.Repository.Create(newRepository);
 
 
             return Results.Ok();

@@ -1,4 +1,5 @@
 using Github.Endpoints.Installation;
+using Microsoft.AspNetCore.Builder;
 
 namespace Github.Endpoints;
 
@@ -13,6 +14,7 @@ public class GithubGroup : CarterModule
 
     public override void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.AddInstallationGroup();
+        app.AddGetInstallAppUrlRoute();
+        app.AddPlaygroundRoute().RequireAuthorization();
     }
 }
