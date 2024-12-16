@@ -16,6 +16,15 @@ export function createGetExampleResponseFromDiscriminatorValue(parseNode: ParseN
 /**
  * Creates a new instance of the appropriate class based on discriminator value
  * @param parseNode The parse node to use to read the discriminator value and create the object
+ * @returns {IDomainEvent}
+ */
+// @ts-ignore
+export function createIDomainEventFromDiscriminatorValue(parseNode: ParseNode | undefined) : ((instance?: Parsable) => Record<string, (node: ParseNode) => void>) {
+    return deserializeIntoIDomainEvent;
+}
+/**
+ * Creates a new instance of the appropriate class based on discriminator value
+ * @param parseNode The parse node to use to read the discriminator value and create the object
  * @returns {MeResponse}
  */
 // @ts-ignore
@@ -73,6 +82,15 @@ export function deserializeIntoGetExampleResponse(getExampleResponse: Partial<Ge
  * @returns {Record<string, (node: ParseNode) => void>}
  */
 // @ts-ignore
+export function deserializeIntoIDomainEvent(iDomainEvent: Partial<IDomainEvent> | undefined = {}) : Record<string, (node: ParseNode) => void> {
+    return {
+    }
+}
+/**
+ * The deserialization information for the current model
+ * @returns {Record<string, (node: ParseNode) => void>}
+ */
+// @ts-ignore
 export function deserializeIntoMeResponse(meResponse: Partial<MeResponse> | undefined = {}) : Record<string, (node: ParseNode) => void> {
     return {
         "avatarUrl": n => { meResponse.avatarUrl = n.getStringValue(); },
@@ -90,6 +108,7 @@ export function deserializeIntoUser(user: Partial<User> | undefined = {}) : Reco
     return {
         "avatarUrl": n => { user.avatarUrl = n.getStringValue(); },
         "createdAtUtc": n => { user.createdAtUtc = n.getDateValue(); },
+        "domainEvents": n => { user.domainEvents = n.getCollectionOfObjectValues<IDomainEvent>(createIDomainEventFromDiscriminatorValue); },
         "email": n => { user.email = n.getStringValue(); },
         "id": n => { user.id = n.getObjectValue<UserId>(createUserIdFromDiscriminatorValue); },
         "logins": n => { user.logins = n.getCollectionOfObjectValues<UserLogin>(createUserLoginFromDiscriminatorValue); },
@@ -116,6 +135,7 @@ export function deserializeIntoUserId(userId: Partial<UserId> | undefined = {}) 
 export function deserializeIntoUserLogin(userLogin: Partial<UserLogin> | undefined = {}) : Record<string, (node: ParseNode) => void> {
     return {
         "createdAtUtc": n => { userLogin.createdAtUtc = n.getDateValue(); },
+        "domainEvents": n => { userLogin.domainEvents = n.getCollectionOfObjectValues<IDomainEvent>(createIDomainEventFromDiscriminatorValue); },
         "id": n => { userLogin.id = n.getObjectValue<UserLoginId>(createUserLoginIdFromDiscriminatorValue); },
         "provider": n => { userLogin.provider = n.getNumberValue(); },
         "providerUserId": n => { userLogin.providerUserId = n.getStringValue(); },
@@ -138,6 +158,8 @@ export interface GetExampleResponse extends Parsable {
      * The message property
      */
     message?: string | null;
+}
+export interface IDomainEvent extends Parsable {
 }
 export interface MeResponse extends Parsable {
     /**
@@ -165,6 +187,15 @@ export interface MeResponse extends Parsable {
 export function serializeGetExampleResponse(writer: SerializationWriter, getExampleResponse: Partial<GetExampleResponse> | undefined | null = {}) : void {
     if (getExampleResponse) {
         writer.writeStringValue("message", getExampleResponse.message);
+    }
+}
+/**
+ * Serializes information the current object
+ * @param writer Serialization writer to use to serialize this model
+ */
+// @ts-ignore
+export function serializeIDomainEvent(writer: SerializationWriter, iDomainEvent: Partial<IDomainEvent> | undefined | null = {}) : void {
+    if (iDomainEvent) {
     }
 }
 /**
@@ -240,6 +271,10 @@ export interface User extends Parsable {
      */
     createdAtUtc?: Date | null;
     /**
+     * The domainEvents property
+     */
+    domainEvents?: IDomainEvent[] | null;
+    /**
      * The email property
      */
     email?: string | null;
@@ -275,6 +310,10 @@ export interface UserLogin extends Parsable {
      * The createdAtUtc property
      */
     createdAtUtc?: Date | null;
+    /**
+     * The domainEvents property
+     */
+    domainEvents?: IDomainEvent[] | null;
     /**
      * The id property
      */
