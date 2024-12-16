@@ -27,6 +27,6 @@ public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<AuthDbCont
         builder.UseNpgsql(connectionString, b =>
             b.MigrationsAssembly(typeof(AuthDbContext).Assembly.FullName));
 
-        return new AuthDbContext(builder.Options);
+        return new AuthDbContext(builder.Options, null!);
     }
 }

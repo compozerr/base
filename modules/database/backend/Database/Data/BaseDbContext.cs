@@ -1,24 +1,22 @@
+using Core.Extensions;
 using Core.Feature;
+using MediatR;
 
 namespace Database.Data;
 
 
-public abstract class BaseDbContext<TDbContext> : DbContext where TDbContext : DbContext
+public abstract class BaseDbContext<TDbContext>(
+    string schema,
+    DbContextOptions options,
+    IMediator mediator) : DbContext(options) where TDbContext : DbContext
 {
-    protected readonly string _schema;
-
-    protected BaseDbContext(DbContextOptions options, string schema) : base(options)
-    {
-        _schema = schema;
-    }
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
 
-        if (!string.IsNullOrEmpty(_schema))
+        if (!string.IsNullOrEmpty(schema))
         {
-            modelBuilder.HasDefaultSchema(_schema);
+            modelBuilder.HasDefaultSchema(schema);
         }
 
         BaseEntityWithIdEntityTypeConfigurator.ConfigureAllInAssemblies(AssembliesFeatureConfigureCallback.AllDifferentAssemblies, modelBuilder);
@@ -47,7 +45,7 @@ public abstract class BaseDbContext<TDbContext> : DbContext where TDbContext : D
         }
     }
 
-    public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
         var entries = ChangeTracker
             .Entries()
@@ -69,6 +67,24 @@ public abstract class BaseDbContext<TDbContext> : DbContext where TDbContext : D
             }
         }
 
-        return base.SaveChangesAsync(cancellationToken);
+        await DispatchDomainEventsAsync(cancellationToken);
+
+        return await base.SaveChangesAsync(cancellationToken);
+    }
+
+    private async Task DispatchDomainEventsAsync(CancellationToken cancellationToken = default)
+    {
+        var entries = ChangeTracker.Entries<BaseEntity>()
+                                   .Select(e => e.Entity)
+                                   .Where(e => e.DomainEvents.Count > 0)
+                                   .ToArray();
+
+        foreach (var entity in entries)
+        {
+            var events = entity.DomainEvents.ToArray();
+            entity.DomainEvents.Clear();
+
+            await events.ApplyAsync(domainEvent => mediator.Publish(domainEvent, cancellationToken));
+        }
     }
 }

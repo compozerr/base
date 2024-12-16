@@ -26,6 +26,6 @@ public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<GithubDbCo
         builder.UseNpgsql(connectionString, b =>
             b.MigrationsAssembly(typeof(GithubDbContext).Assembly.FullName));
 
-        return new GithubDbContext(builder.Options);
+        return new GithubDbContext(builder.Options, null!);
     }
 }
