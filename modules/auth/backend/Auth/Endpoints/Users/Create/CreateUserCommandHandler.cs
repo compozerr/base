@@ -15,6 +15,8 @@ public class CreateUserCommandHandler(AuthDbContext authDbContext) : ICommandHan
             AvatarUrl = command.AvatarUrl
         };
 
+        user.QueueDomainEvent(new UserCreatedEvent(user.Id));
+
         var addedUser = await authDbContext.AddAsync(user, cancellationToken);
 
         await authDbContext.SaveChangesAsync(cancellationToken);
