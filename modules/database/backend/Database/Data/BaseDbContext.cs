@@ -67,9 +67,11 @@ public abstract class BaseDbContext<TDbContext>(
             }
         }
 
+        var changes = await base.SaveChangesAsync(cancellationToken);
+
         await DispatchDomainEventsAsync(cancellationToken);
 
-        return await base.SaveChangesAsync(cancellationToken);
+        return changes;
     }
 
     private async Task DispatchDomainEventsAsync(CancellationToken cancellationToken = default)
