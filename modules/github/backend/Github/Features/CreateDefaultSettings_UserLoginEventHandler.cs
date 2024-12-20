@@ -9,9 +9,9 @@ namespace Github.Features;
 
 public sealed class CreateDefaultSettings_UserCreatedEventHandler(
     GithubDbContext dbContext,
-    IGithubService githubService) : IDomainEventHandler<UserCreatedEvent>
+    IGithubService githubService) : IDomainEventHandler<FirstUserLoginEvent>
 {
-    public async Task Handle(UserCreatedEvent notification, CancellationToken cancellationToken)
+    public async Task Handle(FirstUserLoginEvent notification, CancellationToken cancellationToken)
     {
         var userClient = await githubService.GetUserClient(notification.UserId);
 

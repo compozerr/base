@@ -41,6 +41,7 @@ public sealed class AuthRepository(
 
         if (existingUserLogin is null)
         {
+            userLogin.QueueDomainEvent(new FirstUserLoginEvent(userId));
             context.UserLogins.Add(userLogin);
         }
         else
