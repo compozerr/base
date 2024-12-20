@@ -13,7 +13,7 @@ public sealed class CreateDefaultSettings_UserCreatedEventHandler(
 {
     public async Task Handle(FirstUserLoginEvent notification, CancellationToken cancellationToken)
     {
-        var userClient = await githubService.GetUserClient(notification.UserId);
+        var userClient = githubService.GetUserClientByAccessToken(notification.AccessToken);
 
         if (userClient is null)
         {

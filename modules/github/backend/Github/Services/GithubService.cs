@@ -8,6 +8,7 @@ public interface IGithubService
 {
     IGitHubClient GetClient();
     Task<IGitHubClient?> GetUserClient(UserId userId);
+    IGitHubClient? GetUserClientByAccessToken(string userAccessToken);
 }
 
 public sealed class GithubService(
@@ -35,6 +36,13 @@ public sealed class GithubService(
             return null;
 
         var userClient = GetGithubClientWithCredentials(new Credentials(accessToken, AuthenticationType.Oauth));
+
+        return userClient;
+    }
+
+    public IGitHubClient? GetUserClientByAccessToken(string userAccessToken)
+    {
+        var userClient = GetGithubClientWithCredentials(new Credentials(userAccessToken, AuthenticationType.Oauth));
 
         return userClient;
     }
