@@ -3,7 +3,6 @@ using Core.Abstractions;
 using Github.Data;
 using Github.Models;
 using Github.Services;
-using Octokit;
 using Serilog;
 
 namespace Github.Features;

@@ -18,8 +18,8 @@ public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<GithubDbCo
         // Create DbContextOptionsBuilder
         var builder = new DbContextOptionsBuilder<GithubDbContext>();
 
-        Features.RegisterConfigureCallback<AssembliesFeatureConfigureCallback>();
-        Features.ConfigureCallbacks();
+        Core.Feature.Features.RegisterConfigureCallback<AssembliesFeatureConfigureCallback>();
+        Core.Feature.Features.ConfigureCallbacks();
 
         var connectionString = configuration.GetConnectionString("DefaultConnection");
 
