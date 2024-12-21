@@ -4,6 +4,8 @@
 // @ts-ignore
 import { GetInstallAppUrlRequestBuilderRequestsMetadata, type GetInstallAppUrlRequestBuilder } from './getInstallAppUrl/index.js';
 // @ts-ignore
+import { GetInstalledOrganizationsRequestBuilderRequestsMetadata, type GetInstalledOrganizationsRequestBuilder } from './getInstalledOrganizations/index.js';
+// @ts-ignore
 import { PlaygroundRequestBuilderRequestsMetadata, type PlaygroundRequestBuilder } from './playground/index.js';
 // @ts-ignore
 import { type BaseRequestBuilder, type KeysToExcludeForNavigationMetadata, type NavigationMetadata } from '@microsoft/kiota-abstractions';
@@ -16,6 +18,10 @@ export interface GithubRequestBuilder extends BaseRequestBuilder<GithubRequestBu
      * The getInstallAppUrl property
      */
     get getInstallAppUrl(): GetInstallAppUrlRequestBuilder;
+    /**
+     * The getInstalledOrganizations property
+     */
+    get getInstalledOrganizations(): GetInstalledOrganizationsRequestBuilder;
     /**
      * The playground property
      */
@@ -31,6 +37,9 @@ export const GithubRequestBuilderUriTemplate = "{+baseurl}/v1/github";
 export const GithubRequestBuilderNavigationMetadata: Record<Exclude<keyof GithubRequestBuilder, KeysToExcludeForNavigationMetadata>, NavigationMetadata> = {
     getInstallAppUrl: {
         requestsMetadata: GetInstallAppUrlRequestBuilderRequestsMetadata,
+    },
+    getInstalledOrganizations: {
+        requestsMetadata: GetInstalledOrganizationsRequestBuilderRequestsMetadata,
     },
     playground: {
         requestsMetadata: PlaygroundRequestBuilderRequestsMetadata,

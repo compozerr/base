@@ -36,7 +36,7 @@ public sealed class CreateDefaultSettings_UserCreatedEventHandler(
         var settings = new GithubUserSettings
         {
             UserId = notification.UserId,
-            SelectedOrganization = organization.Id.ToString(),
+            SelectedOrganizationId = organization.Id.ToString(),
         };
 
         await dbContext.AddAsync(settings, cancellationToken);

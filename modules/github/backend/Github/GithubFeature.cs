@@ -2,6 +2,7 @@ using Core.Extensions;
 using Core.Feature;
 using Github.Data;
 using Github.Options;
+using Github.Repositories;
 using Github.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
@@ -19,14 +20,17 @@ public class GithubFeature : IFeature
        {
            options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"), b =>
            {
-               b.MigrationsAssembly(typeof(GithubDbContext).Assembly.FullName);
+               b.MigrationsAssembly(typeof(GithubDbContext).Assembly.FullName); 
+
            });
        });
 
         services.AddRequiredConfigurationOptions<GithubAppOptions>("Github:GithubApp");
         services.AddSingleton<IStateService, StateService>();
+        
         services.AddSingleton<IGithubJsonWebTokenService, GithubJsonWebTokenService>();
         services.AddScoped<IGithubService, GithubService>();
+        services.AddScoped<IGithubUserSettingsRepository, GithubUserSettingsRepository>();
         services.AddDataProtection();
         services.AddHttpClient();
     }
