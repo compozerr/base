@@ -18,7 +18,7 @@ public sealed class CreateDefaultSettings_UserCreatedEventHandler(
         if (userClient is null)
         {
             Log.ForContext(nameof(notification), notification, true)
-               .Error("Failed to create default settings for user {UserId}", notification.UserId);
+               .Error("Failed to create default settings for user {UserId}, userClient is null", notification.UserId);
             return;
         }
 
@@ -26,17 +26,10 @@ public sealed class CreateDefaultSettings_UserCreatedEventHandler(
 
         var organization = organizations.FirstOrDefault();
 
-        if (organization is null)
-        {
-            Log.ForContext(nameof(notification), notification, true)
-               .Error("Failed to create default settings for user {UserId}", notification.UserId);
-            return;
-        }
-
         var settings = new GithubUserSettings
         {
             UserId = notification.UserId,
-            SelectedOrganizationId = organization.Id.ToString(),
+            SelectedOrganizationId = organization?.Id.ToString(),
         };
 
         await dbContext.AddAsync(settings, cancellationToken);

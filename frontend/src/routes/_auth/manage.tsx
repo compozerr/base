@@ -44,7 +44,7 @@ function RouteComponent() {
                     <option key={org.id} value={org.id!}>{org.name}</option>
                 ))}
                 <option value="install">
-                    <a href={installAppUrl!}>Install the app</a>
+                    <a href={installAppUrl!} target='_blank'>Install the app</a>
                 </option>
             </select>
         )}
