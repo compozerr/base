@@ -39,7 +39,7 @@ public sealed class GithubUserSettingsRepository(
             throw new ArgumentNullException();
         }
 
-        settings.SelectedOrganizationId = selectedOrganizationId;
+        settings.SelectedInstallationId = selectedOrganizationId;
 
         await _context.SaveChangesAsync();
 

@@ -15,7 +15,9 @@ public class GithubGroup : CarterModule
     public override void AddRoutes(IEndpointRouteBuilder app)
     {
         app.AddGetInstallAppUrlRoute();
-        app.AddGetInstalledOrganizationsRoute().RequireAuthorization();
+        app.AddGetInstallatonsRoute().RequireAuthorization();
+        app.AddSetDefaultOrganizationRoute().RequireAuthorization();
+        
         app.AddPlaygroundRoute().RequireAuthorization();
     }
 }

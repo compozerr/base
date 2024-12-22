@@ -3,7 +3,6 @@ using Core.Abstractions;
 using Github.Data;
 using Github.Models;
 using Github.Services;
-using Serilog;
 
 namespace Github.Features;
 
@@ -13,17 +12,17 @@ public sealed class CreateDefaultSettings_UserCreatedEventHandler(
 {
     public async Task Handle(FirstUserLoginEvent notification, CancellationToken cancellationToken)
     {
-        string? selectedOrganizationId = null;
+        string? selectedInstallationId = null;
 
         var userInstallations = await githubService.GetInstallationsForUserByAccessTokenAsync(notification.AccessToken);
 
         if (userInstallations.Count > 0)
-            selectedOrganizationId = userInstallations[0].OrganizationId;
+            selectedInstallationId = userInstallations[0].InstallationId;
 
         var settings = new GithubUserSettings
         {
             UserId = notification.UserId,
-            SelectedOrganizationId = selectedOrganizationId
+            SelectedInstallationId = selectedInstallationId
         };
 
         await dbContext.AddAsync(settings, cancellationToken);

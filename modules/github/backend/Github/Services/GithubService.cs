@@ -6,7 +6,7 @@ using Serilog;
 
 namespace Github.Services;
 
-public record InstallationDto(string OrganizationId, string Name, AccountType? AccountType);
+public record InstallationDto(string InstallationId, string Name, AccountType? AccountType);
 
 public interface IGithubService
 {
@@ -97,8 +97,10 @@ public sealed class GithubService(
     {
         var userInstallations = await userClient.GitHubApps.GetAllInstallationsForCurrentUser();
 
-        return userInstallations.Installations.Select(userInstallation => new InstallationDto(userInstallation.Account.Id.ToString(), userInstallation.Account.Login, userInstallation.Account.Type))
-                                              .ToList();
+        return userInstallations.Installations.Select(userInstallation => new InstallationDto(
+            userInstallation.Id.ToString(),
+            userInstallation.Account.Login,
+            userInstallation.Account.Type)).ToList();
     }
 
     private async Task<GithubUserLogin?> GetUserLoginAsync(UserId userId)
@@ -108,6 +110,6 @@ public sealed class GithubService(
         if (user is null)
             return null;
 
-        return (user.Logins.FirstOrDefault(l => l.Provider == Auth.Models.Provider.GitHub) as Auth.Models.GithubUserLogin)!;
+        return (user.Logins.FirstOrDefault(l => l.Provider == Provider.GitHub) as GithubUserLogin)!;
     }
 }
