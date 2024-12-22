@@ -11,11 +11,14 @@ public static class LoginRoute
 {
     public static RouteHandlerBuilder AddLoginRoute(this IEndpointRouteBuilder app)
     {
-        return app.MapGet("/login", (HttpContext context, IDateTimeProvider dateTimeProvider) =>
+        return app.MapGet("/login", (
+            HttpContext context,
+            IDateTimeProvider dateTimeProvider) =>
         {
             try
             {
                 var returnUrl = context.Request.Query["returnUrl"].ToString();
+                var optionalSessionId = context.Request.Query["sessionId"].ToString();
 
                 var properties = new AuthenticationProperties
                 {
@@ -29,12 +32,18 @@ public static class LoginRoute
                     }
                 };
 
+                if (!string.IsNullOrEmpty(optionalSessionId))
+                {
+                    properties.Items["session_id"] = optionalSessionId;
+                }
+
                 Log.ForContext("ReturnUrl", returnUrl)
                    .ForContext("LoginTime", dateTimeProvider.UtcNow)
                    .ForContext("State", properties.Items["state"])
                    .ForContext("IsPersistent", properties.IsPersistent)
                    .ForContext("ExpiresUtc", properties.ExpiresUtc)
                    .ForContext("RedirectUri", properties.RedirectUri)
+                   .ForContext("SessionId", optionalSessionId)
                    .Information("Login request processed successfully");
 
                 return Results.Challenge(properties, [GitHubAuthenticationDefaults.AuthenticationScheme]);

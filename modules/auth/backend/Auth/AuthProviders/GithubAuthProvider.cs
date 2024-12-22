@@ -73,7 +73,7 @@ public static class GithubAuthProvider
                     identity.RemoveClaim(identity.FindFirst(ClaimTypes.NameIdentifier));
                     identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, userId.ToString()));
 
-                    if (context.Properties?.Items.TryGetValue("sessionId", out var nonNullSessionId) ?? false)
+                    if (context.Properties?.Items.TryGetValue("session_id", out var nonNullSessionId) ?? false)
                     {
                         var accessToken = context.Properties.GetTokenValue("access_token")!;
                         var expiresAtUtc = context.Properties.ExpiresUtc!.Value.UtcDateTime;

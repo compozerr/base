@@ -55,6 +55,7 @@ public class AuthFeature : IFeature
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IAuthRepository, AuthRepository>();
         services.AddTransient<ICurrentUserAccessor, CurrentUserAccessor>();
+        services.AddSingleton<IStateService, StateService>();
     }
 
     void IFeature.ConfigureApp(WebApplication app)

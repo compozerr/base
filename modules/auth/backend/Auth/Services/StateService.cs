@@ -1,7 +1,7 @@
 using System.Text.Json;
 using Microsoft.AspNetCore.DataProtection;
 
-namespace Github.Services;
+namespace Auth.Services;
 
 public interface IStateService
 {
