@@ -1,3 +1,4 @@
+using System.Globalization;
 using Auth.Abstractions;
 using Core.MediatR;
 using Microsoft.AspNetCore.SignalR;
@@ -21,7 +22,7 @@ public class LoggedInWithSessionIdCommandHandler(
         await hubContext.Clients.Client(command.SessionId).SendAsync(CliAuthHub.AuthSuccessKey, new
         {
             token = command.Token,
-            expiresAtUtc = command.ExpiresAtUtc
+            expiresAtUtc = command.ExpiresAtUtc.ToString("s", CultureInfo.InvariantCulture)
         }, cancellationToken);
     }
 }
