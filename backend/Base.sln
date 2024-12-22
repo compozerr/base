@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Github", "..\modules\github
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Github.Abstractions", "..\modules\github\backend\Github.Abstractions\Github.Abstractions.csproj", "{EDCB879E-FC07-4AD9-9271-94E751DF015F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cli.Auth", "..\modules\cli\backend\Cli.Auth\Cli.Auth.csproj", "{90F81A69-8E09-46D3-ABAC-3CCA3D484364}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +77,10 @@ Global
 		{EDCB879E-FC07-4AD9-9271-94E751DF015F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EDCB879E-FC07-4AD9-9271-94E751DF015F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EDCB879E-FC07-4AD9-9271-94E751DF015F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90F81A69-8E09-46D3-ABAC-3CCA3D484364}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90F81A69-8E09-46D3-ABAC-3CCA3D484364}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90F81A69-8E09-46D3-ABAC-3CCA3D484364}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90F81A69-8E09-46D3-ABAC-3CCA3D484364}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
