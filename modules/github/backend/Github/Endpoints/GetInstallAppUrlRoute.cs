@@ -7,6 +7,6 @@ public static class GetInstallAppUrlRoute
     public const string Route = "get-install-app-url";
     public static RouteHandlerBuilder AddGetInstallAppUrlRoute(this IEndpointRouteBuilder app)
     {
-        return app.MapGet(Route, () => "https://github.com/apps/compozerr/installations/select_target");
+        return app.MapGet(Route, () => new { InstallUrl = "https://github.com/apps/compozerr/installations/select_target" });
     }
 }

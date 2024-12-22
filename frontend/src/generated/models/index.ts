@@ -61,6 +61,15 @@ export function createSetDefaultInstallationRequestFromDiscriminatorValue(parseN
 /**
  * Creates a new instance of the appropriate class based on discriminator value
  * @param parseNode The parse node to use to read the discriminator value and create the object
+ * @returns {StringF__AnonymousType0}
+ */
+// @ts-ignore
+export function createStringF__AnonymousType0FromDiscriminatorValue(parseNode: ParseNode | undefined) : ((instance?: Parsable) => Record<string, (node: ParseNode) => void>) {
+    return deserializeIntoStringF__AnonymousType0;
+}
+/**
+ * Creates a new instance of the appropriate class based on discriminator value
+ * @param parseNode The parse node to use to read the discriminator value and create the object
  * @returns {User}
  */
 // @ts-ignore
@@ -157,6 +166,16 @@ export function deserializeIntoMeResponse(meResponse: Partial<MeResponse> | unde
 export function deserializeIntoSetDefaultInstallationRequest(setDefaultInstallationRequest: Partial<SetDefaultInstallationRequest> | undefined = {}) : Record<string, (node: ParseNode) => void> {
     return {
         "installationId": n => { setDefaultInstallationRequest.installationId = n.getStringValue(); },
+    }
+}
+/**
+ * The deserialization information for the current model
+ * @returns {Record<string, (node: ParseNode) => void>}
+ */
+// @ts-ignore
+export function deserializeIntoStringF__AnonymousType0(stringF__AnonymousType0: Partial<StringF__AnonymousType0> | undefined = {}) : Record<string, (node: ParseNode) => void> {
+    return {
+        "installUrl": n => { stringF__AnonymousType0.installUrl = n.getStringValue(); },
     }
 }
 /**
@@ -333,6 +352,16 @@ export function serializeSetDefaultInstallationRequest(writer: SerializationWrit
  * @param writer Serialization writer to use to serialize this model
  */
 // @ts-ignore
+export function serializeStringF__AnonymousType0(writer: SerializationWriter, stringF__AnonymousType0: Partial<StringF__AnonymousType0> | undefined | null = {}) : void {
+    if (stringF__AnonymousType0) {
+        writer.writeStringValue("installUrl", stringF__AnonymousType0.installUrl);
+    }
+}
+/**
+ * Serializes information the current object
+ * @param writer Serialization writer to use to serialize this model
+ */
+// @ts-ignore
 export function serializeUser(writer: SerializationWriter, user: Partial<User> | undefined | null = {}) : void {
     if (user) {
         writer.writeStringValue("avatarUrl", user.avatarUrl);
@@ -383,6 +412,12 @@ export interface SetDefaultInstallationRequest extends Parsable {
      * The installationId property
      */
     installationId?: string | null;
+}
+export interface StringF__AnonymousType0 extends Parsable {
+    /**
+     * The installUrl property
+     */
+    installUrl?: string | null;
 }
 export interface User extends Parsable {
     /**

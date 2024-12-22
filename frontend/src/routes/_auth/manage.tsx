@@ -19,7 +19,7 @@ function RouteComponent() {
             apiClient.v1.github.getInstalledOrganizations.get()
         ]).then(([urlResult, orgsResult]) => {
             if (urlResult.status === 'fulfilled') {
-                setInstallAppUrl(urlResult.value!)
+                setInstallAppUrl(urlResult.value?.installUrl!)
             } else {
                 setError(JSON.stringify(urlResult.reason))
             }
