@@ -11,18 +11,20 @@ public class LoggedInWithSessionIdCommandHandler(
 {
     public async Task Handle(LoggedInWithSessionIdCommand command, CancellationToken cancellationToken = default)
     {
-        if (!CliAuthHub.HasConnectionWithSessionId(command.SessionId))
+        var connectionId = CliAuthHub.GetConnectionIdFromSessionId(command.SessionId);
+
+        if (string.IsNullOrEmpty(connectionId))
         {
             Log.ForContext(nameof(command.SessionId), command.SessionId)
-               .Warning("No session with given sessionId was found");
+               .Warning("No connection with given sessionId was found");
 
             throw new InvalidOperationException("Session not found");
         }
 
-        await hubContext.Clients.Client(command.SessionId).SendAsync(CliAuthHub.AuthSuccessKey, new
+        await hubContext.Clients.Client(connectionId).SendAsync(CliAuthHub.AuthSuccessKey, new
         {
             token = command.Token,
-            expiresAtUtc = command.ExpiresAtUtc.ToString("s", CultureInfo.InvariantCulture)
+            expiresAtUtc = command.ExpiresAtUtc.ToString("o", CultureInfo.InvariantCulture)
         }, cancellationToken);
     }
 }

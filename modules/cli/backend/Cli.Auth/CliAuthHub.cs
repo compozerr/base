@@ -9,8 +9,8 @@ public sealed class CliAuthHub : Hub
 
     private static readonly Dictionary<string, string> _sessions = new();
 
-    public static bool HasConnectionWithSessionId(string sessionId)
-        => _sessions.TryGetValue(sessionId, out _);
+    public static string? GetConnectionIdFromSessionId(string sessionId)
+        => _sessions.TryGetValue(sessionId, out var connectionId) ? connectionId : null;
 
     public Task InitializeSession(string sessionId)
     {
