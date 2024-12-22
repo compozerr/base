@@ -52,11 +52,11 @@ export function createMeResponseFromDiscriminatorValue(parseNode: ParseNode | un
 /**
  * Creates a new instance of the appropriate class based on discriminator value
  * @param parseNode The parse node to use to read the discriminator value and create the object
- * @returns {SetDefaultOrganizationRequest}
+ * @returns {SetDefaultInstallationRequest}
  */
 // @ts-ignore
-export function createSetDefaultOrganizationRequestFromDiscriminatorValue(parseNode: ParseNode | undefined) : ((instance?: Parsable) => Record<string, (node: ParseNode) => void>) {
-    return deserializeIntoSetDefaultOrganizationRequest;
+export function createSetDefaultInstallationRequestFromDiscriminatorValue(parseNode: ParseNode | undefined) : ((instance?: Parsable) => Record<string, (node: ParseNode) => void>) {
+    return deserializeIntoSetDefaultInstallationRequest;
 }
 /**
  * Creates a new instance of the appropriate class based on discriminator value
@@ -154,9 +154,9 @@ export function deserializeIntoMeResponse(meResponse: Partial<MeResponse> | unde
  * @returns {Record<string, (node: ParseNode) => void>}
  */
 // @ts-ignore
-export function deserializeIntoSetDefaultOrganizationRequest(setDefaultOrganizationRequest: Partial<SetDefaultOrganizationRequest> | undefined = {}) : Record<string, (node: ParseNode) => void> {
+export function deserializeIntoSetDefaultInstallationRequest(setDefaultInstallationRequest: Partial<SetDefaultInstallationRequest> | undefined = {}) : Record<string, (node: ParseNode) => void> {
     return {
-        "installationId": n => { setDefaultOrganizationRequest.installationId = n.getStringValue(); },
+        "installationId": n => { setDefaultInstallationRequest.installationId = n.getStringValue(); },
     }
 }
 /**
@@ -323,9 +323,9 @@ export function serializeMeResponse(writer: SerializationWriter, meResponse: Par
  * @param writer Serialization writer to use to serialize this model
  */
 // @ts-ignore
-export function serializeSetDefaultOrganizationRequest(writer: SerializationWriter, setDefaultOrganizationRequest: Partial<SetDefaultOrganizationRequest> | undefined | null = {}) : void {
-    if (setDefaultOrganizationRequest) {
-        writer.writeStringValue("installationId", setDefaultOrganizationRequest.installationId);
+export function serializeSetDefaultInstallationRequest(writer: SerializationWriter, setDefaultInstallationRequest: Partial<SetDefaultInstallationRequest> | undefined | null = {}) : void {
+    if (setDefaultInstallationRequest) {
+        writer.writeStringValue("installationId", setDefaultInstallationRequest.installationId);
     }
 }
 /**
@@ -378,7 +378,7 @@ export function serializeUserLoginId(writer: SerializationWriter, userLoginId: P
     if (userLoginId) {
     }
 }
-export interface SetDefaultOrganizationRequest extends Parsable {
+export interface SetDefaultInstallationRequest extends Parsable {
     /**
      * The installationId property
      */

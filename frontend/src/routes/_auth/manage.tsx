@@ -34,8 +34,10 @@ function RouteComponent() {
         });
     }, []);
 
-    const onSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const onChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const installationId = e.target.value;
+
+        console.log({installationId});
 
         if (!installationId) return;
 
@@ -50,7 +52,7 @@ function RouteComponent() {
             {installAppUrl && <a href={installAppUrl} target="_blank">Install the app</a>}
             <br />
             {organizations && (
-                <select className="form-select mt-2" onSelect={onSelect}>
+                <select className="form-select mt-2" onChange={onChange}>
                     {organizations.installations!.map(org => (
                         <option key={org.installationId} value={org.installationId!}>{org.name}</option>
                     ))}
