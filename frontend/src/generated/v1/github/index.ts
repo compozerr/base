@@ -8,6 +8,8 @@ import { GetInstalledOrganizationsRequestBuilderRequestsMetadata, type GetInstal
 // @ts-ignore
 import { PlaygroundRequestBuilderRequestsMetadata, type PlaygroundRequestBuilder } from './playground/index.js';
 // @ts-ignore
+import { SetDeafultOrganizationRequestBuilderRequestsMetadata, type SetDeafultOrganizationRequestBuilder } from './setDeafultOrganization/index.js';
+// @ts-ignore
 import { type BaseRequestBuilder, type KeysToExcludeForNavigationMetadata, type NavigationMetadata } from '@microsoft/kiota-abstractions';
 
 /**
@@ -26,6 +28,10 @@ export interface GithubRequestBuilder extends BaseRequestBuilder<GithubRequestBu
      * The playground property
      */
     get playground(): PlaygroundRequestBuilder;
+    /**
+     * The setDeafultOrganization property
+     */
+    get setDeafultOrganization(): SetDeafultOrganizationRequestBuilder;
 }
 /**
  * Uri template for the request builder.
@@ -43,6 +49,9 @@ export const GithubRequestBuilderNavigationMetadata: Record<Exclude<keyof Github
     },
     playground: {
         requestsMetadata: PlaygroundRequestBuilderRequestsMetadata,
+    },
+    setDeafultOrganization: {
+        requestsMetadata: SetDeafultOrganizationRequestBuilderRequestsMetadata,
     },
 };
 /* tslint:enable */

@@ -16,11 +16,11 @@ export function createGetExampleResponseFromDiscriminatorValue(parseNode: ParseN
 /**
  * Creates a new instance of the appropriate class based on discriminator value
  * @param parseNode The parse node to use to read the discriminator value and create the object
- * @returns {GetInstalledOrganizationsResponse}
+ * @returns {GetInstallationsResponse}
  */
 // @ts-ignore
-export function createGetInstalledOrganizationsResponseFromDiscriminatorValue(parseNode: ParseNode | undefined) : ((instance?: Parsable) => Record<string, (node: ParseNode) => void>) {
-    return deserializeIntoGetInstalledOrganizationsResponse;
+export function createGetInstallationsResponseFromDiscriminatorValue(parseNode: ParseNode | undefined) : ((instance?: Parsable) => Record<string, (node: ParseNode) => void>) {
+    return deserializeIntoGetInstallationsResponse;
 }
 /**
  * Creates a new instance of the appropriate class based on discriminator value
@@ -34,6 +34,15 @@ export function createIDomainEventFromDiscriminatorValue(parseNode: ParseNode | 
 /**
  * Creates a new instance of the appropriate class based on discriminator value
  * @param parseNode The parse node to use to read the discriminator value and create the object
+ * @returns {InstallationDto}
+ */
+// @ts-ignore
+export function createInstallationDtoFromDiscriminatorValue(parseNode: ParseNode | undefined) : ((instance?: Parsable) => Record<string, (node: ParseNode) => void>) {
+    return deserializeIntoInstallationDto;
+}
+/**
+ * Creates a new instance of the appropriate class based on discriminator value
+ * @param parseNode The parse node to use to read the discriminator value and create the object
  * @returns {MeResponse}
  */
 // @ts-ignore
@@ -43,11 +52,11 @@ export function createMeResponseFromDiscriminatorValue(parseNode: ParseNode | un
 /**
  * Creates a new instance of the appropriate class based on discriminator value
  * @param parseNode The parse node to use to read the discriminator value and create the object
- * @returns {OrganizationDto}
+ * @returns {SetDefaultOrganizationRequest}
  */
 // @ts-ignore
-export function createOrganizationDtoFromDiscriminatorValue(parseNode: ParseNode | undefined) : ((instance?: Parsable) => Record<string, (node: ParseNode) => void>) {
-    return deserializeIntoOrganizationDto;
+export function createSetDefaultOrganizationRequestFromDiscriminatorValue(parseNode: ParseNode | undefined) : ((instance?: Parsable) => Record<string, (node: ParseNode) => void>) {
+    return deserializeIntoSetDefaultOrganizationRequest;
 }
 /**
  * Creates a new instance of the appropriate class based on discriminator value
@@ -100,10 +109,10 @@ export function deserializeIntoGetExampleResponse(getExampleResponse: Partial<Ge
  * @returns {Record<string, (node: ParseNode) => void>}
  */
 // @ts-ignore
-export function deserializeIntoGetInstalledOrganizationsResponse(getInstalledOrganizationsResponse: Partial<GetInstalledOrganizationsResponse> | undefined = {}) : Record<string, (node: ParseNode) => void> {
+export function deserializeIntoGetInstallationsResponse(getInstallationsResponse: Partial<GetInstallationsResponse> | undefined = {}) : Record<string, (node: ParseNode) => void> {
     return {
-        "installations": n => { getInstalledOrganizationsResponse.installations = n.getCollectionOfObjectValues<OrganizationDto>(createOrganizationDtoFromDiscriminatorValue); },
-        "selectedInstallationId": n => { getInstalledOrganizationsResponse.selectedInstallationId = n.getStringValue(); },
+        "installations": n => { getInstallationsResponse.installations = n.getCollectionOfObjectValues<InstallationDto>(createInstallationDtoFromDiscriminatorValue); },
+        "selectedInstallationId": n => { getInstallationsResponse.selectedInstallationId = n.getStringValue(); },
     }
 }
 /**
@@ -113,6 +122,18 @@ export function deserializeIntoGetInstalledOrganizationsResponse(getInstalledOrg
 // @ts-ignore
 export function deserializeIntoIDomainEvent(iDomainEvent: Partial<IDomainEvent> | undefined = {}) : Record<string, (node: ParseNode) => void> {
     return {
+    }
+}
+/**
+ * The deserialization information for the current model
+ * @returns {Record<string, (node: ParseNode) => void>}
+ */
+// @ts-ignore
+export function deserializeIntoInstallationDto(installationDto: Partial<InstallationDto> | undefined = {}) : Record<string, (node: ParseNode) => void> {
+    return {
+        "installationId": n => { installationDto.installationId = n.getStringValue(); },
+        "name": n => { installationDto.name = n.getStringValue(); },
+        "type": n => { installationDto.type = n.getStringValue(); },
     }
 }
 /**
@@ -133,10 +154,9 @@ export function deserializeIntoMeResponse(meResponse: Partial<MeResponse> | unde
  * @returns {Record<string, (node: ParseNode) => void>}
  */
 // @ts-ignore
-export function deserializeIntoOrganizationDto(organizationDto: Partial<OrganizationDto> | undefined = {}) : Record<string, (node: ParseNode) => void> {
+export function deserializeIntoSetDefaultOrganizationRequest(setDefaultOrganizationRequest: Partial<SetDefaultOrganizationRequest> | undefined = {}) : Record<string, (node: ParseNode) => void> {
     return {
-        "name": n => { organizationDto.name = n.getStringValue(); },
-        "organizationId": n => { organizationDto.organizationId = n.getStringValue(); },
+        "installationId": n => { setDefaultOrganizationRequest.installationId = n.getStringValue(); },
     }
 }
 /**
@@ -199,17 +219,31 @@ export interface GetExampleResponse extends Parsable {
      */
     message?: string | null;
 }
-export interface GetInstalledOrganizationsResponse extends Parsable {
+export interface GetInstallationsResponse extends Parsable {
     /**
      * The installations property
      */
-    installations?: OrganizationDto[] | null;
+    installations?: InstallationDto[] | null;
     /**
      * The selectedInstallationId property
      */
     selectedInstallationId?: string | null;
 }
 export interface IDomainEvent extends Parsable {
+}
+export interface InstallationDto extends Parsable {
+    /**
+     * The installationId property
+     */
+    installationId?: string | null;
+    /**
+     * The name property
+     */
+    name?: string | null;
+    /**
+     * The type property
+     */
+    type?: string | null;
 }
 export interface MeResponse extends Parsable {
     /**
@@ -229,16 +263,6 @@ export interface MeResponse extends Parsable {
      */
     name?: string | null;
 }
-export interface OrganizationDto extends Parsable {
-    /**
-     * The name property
-     */
-    name?: string | null;
-    /**
-     * The organizationId property
-     */
-    organizationId?: string | null;
-}
 /**
  * Serializes information the current object
  * @param writer Serialization writer to use to serialize this model
@@ -254,10 +278,10 @@ export function serializeGetExampleResponse(writer: SerializationWriter, getExam
  * @param writer Serialization writer to use to serialize this model
  */
 // @ts-ignore
-export function serializeGetInstalledOrganizationsResponse(writer: SerializationWriter, getInstalledOrganizationsResponse: Partial<GetInstalledOrganizationsResponse> | undefined | null = {}) : void {
-    if (getInstalledOrganizationsResponse) {
-        writer.writeCollectionOfObjectValues<OrganizationDto>("installations", getInstalledOrganizationsResponse.installations, serializeOrganizationDto);
-        writer.writeStringValue("selectedInstallationId", getInstalledOrganizationsResponse.selectedInstallationId);
+export function serializeGetInstallationsResponse(writer: SerializationWriter, getInstallationsResponse: Partial<GetInstallationsResponse> | undefined | null = {}) : void {
+    if (getInstallationsResponse) {
+        writer.writeCollectionOfObjectValues<InstallationDto>("installations", getInstallationsResponse.installations, serializeInstallationDto);
+        writer.writeStringValue("selectedInstallationId", getInstallationsResponse.selectedInstallationId);
     }
 }
 /**
@@ -267,6 +291,18 @@ export function serializeGetInstalledOrganizationsResponse(writer: Serialization
 // @ts-ignore
 export function serializeIDomainEvent(writer: SerializationWriter, iDomainEvent: Partial<IDomainEvent> | undefined | null = {}) : void {
     if (iDomainEvent) {
+    }
+}
+/**
+ * Serializes information the current object
+ * @param writer Serialization writer to use to serialize this model
+ */
+// @ts-ignore
+export function serializeInstallationDto(writer: SerializationWriter, installationDto: Partial<InstallationDto> | undefined | null = {}) : void {
+    if (installationDto) {
+        writer.writeStringValue("installationId", installationDto.installationId);
+        writer.writeStringValue("name", installationDto.name);
+        writer.writeStringValue("type", installationDto.type);
     }
 }
 /**
@@ -287,10 +323,9 @@ export function serializeMeResponse(writer: SerializationWriter, meResponse: Par
  * @param writer Serialization writer to use to serialize this model
  */
 // @ts-ignore
-export function serializeOrganizationDto(writer: SerializationWriter, organizationDto: Partial<OrganizationDto> | undefined | null = {}) : void {
-    if (organizationDto) {
-        writer.writeStringValue("name", organizationDto.name);
-        writer.writeStringValue("organizationId", organizationDto.organizationId);
+export function serializeSetDefaultOrganizationRequest(writer: SerializationWriter, setDefaultOrganizationRequest: Partial<SetDefaultOrganizationRequest> | undefined | null = {}) : void {
+    if (setDefaultOrganizationRequest) {
+        writer.writeStringValue("installationId", setDefaultOrganizationRequest.installationId);
     }
 }
 /**
@@ -342,6 +377,12 @@ export function serializeUserLogin(writer: SerializationWriter, userLogin: Parti
 export function serializeUserLoginId(writer: SerializationWriter, userLoginId: Partial<UserLoginId> | undefined | null = {}) : void {
     if (userLoginId) {
     }
+}
+export interface SetDefaultOrganizationRequest extends Parsable {
+    /**
+     * The installationId property
+     */
+    installationId?: string | null;
 }
 export interface User extends Parsable {
     /**
