@@ -2,16 +2,15 @@ using Auth.Services;
 using Github.Repositories;
 using Github.Services;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
 using Serilog;
 
 namespace Github.Endpoints;
 
-public sealed record InstallationDto(string Id, string Name);
+public sealed record OrganizationDto(string OrganizationId, string Name);
 
 public sealed record GetInstalledOrganizationsResponse(
-    string SelectedInstallationId,
-    List<InstallationDto> Installations
+    string? SelectedInstallationId,
+    List<OrganizationDto> Installations
 );
 
 public static class GetInstalledOrganizationsRoute
@@ -30,39 +29,36 @@ public static class GetInstalledOrganizationsRoute
     {
         var userId = currentUserAccessor.CurrentUserId!;
 
-        var userClient = await githubService.GetUserClient(userId);
-        ArgumentNullException.ThrowIfNull(userClient);
-
-        var installations = await userClient.Organization.GetAllForCurrent();
+        var organizationsForUser = await githubService.GetInstallationsForUserAsync(userId);
 
         var githubUserSettings = await githubUserSettingsRepository.GetOrDefaultByUserIdAsync(userId);
         ArgumentNullException.ThrowIfNull(githubUserSettings);
 
         var selectedOrganizationId = githubUserSettings.SelectedOrganizationId;
 
-        if (installations.Count == 0)
+        if (organizationsForUser.Count == 0)
         {
             Log.ForContext(nameof(userId), userId)
-               .Information("No installations found for user");
+               .Information("No organizations found for user");
 
             return new GetInstalledOrganizationsResponse(selectedOrganizationId, []);
         }
 
-        var hasSelectedOrganizationInInstallationsList = installations.Select(i => i.Id.ToString())
-                                                                      .Contains(githubUserSettings.SelectedOrganizationId);
-                                                                      
+        var hasSelectedOrganizationInInstallationsList = organizationsForUser.Select(i => i.OrganizationId)
+                                                                             .Contains(githubUserSettings.SelectedOrganizationId);
+
         var hasSelectedOrganization = !string.IsNullOrEmpty(selectedOrganizationId);
 
         if (!hasSelectedOrganizationInInstallationsList || !hasSelectedOrganization)
         {
             selectedOrganizationId = await githubUserSettingsRepository.SetSelectedOrganizationForUserAsync(
                 userId,
-                installations[0].Id.ToString());
+                organizationsForUser[0].OrganizationId);
         }
 
         return new GetInstalledOrganizationsResponse(
             selectedOrganizationId,
-            installations.Select(i => new InstallationDto(i.Id.ToString(), i.Name))
+            organizationsForUser.Select(i => new OrganizationDto(i.OrganizationId, i.Name))
                          .ToList()
         );
     }

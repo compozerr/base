@@ -13,41 +13,41 @@ function RouteComponent() {
     const [installAppUrl, setInstallAppUrl] = React.useState<string | null>(null)
     const [organizations, setOrganizations] = React.useState<GetInstalledOrganizationsResponse | null>(null)
 
-    Promise.allSettled([
-        apiClient.v1.github.getInstallAppUrl.get(),
-        apiClient.v1.github.getInstalledOrganizations.get()
-    ]).then(([urlResult, orgsResult]) => {
-        if (urlResult.status === 'fulfilled') {
-            setInstallAppUrl(urlResult.value!)
-        } else {
-            setError(JSON.stringify(urlResult.reason))
-        }
-        
-        if (orgsResult.status === 'fulfilled') {
-            setOrganizations(orgsResult.value!)
-        } else {
-            setError('Error getting organizations')
-        }
-    }).finally(() => {
-        setIsLoading(false)
-    });
+    React.useEffect(() => {
+        Promise.allSettled([
+            apiClient.v1.github.getInstallAppUrl.get(),
+            apiClient.v1.github.getInstalledOrganizations.get()
+        ]).then(([urlResult, orgsResult]) => {
+            if (urlResult.status === 'fulfilled') {
+                setInstallAppUrl(urlResult.value!)
+            } else {
+                setError(JSON.stringify(urlResult.reason))
+            }
+
+            if (orgsResult.status === 'fulfilled') {
+                setOrganizations(orgsResult.value!)
+            } else {
+                setError('Error getting organizations')
+            }
+        }).finally(() => {
+            setIsLoading(false)
+        });
+    }, []);
 
     return (
         <div>
             {isLoading && <p>Loading...</p>}
             {error && <p>Error: {error}</p>}
-            
-            {installAppUrl && <a href={installAppUrl}>Install the app</a>}
-        {organizations && (
-            <select className="form-select mt-2">
-                {organizations.installations!.map(org => (
-                    <option key={org.id} value={org.id!}>{org.name}</option>
-                ))}
-                <option value="install">
-                    <a href={installAppUrl!} target='_blank'>Install the app</a>
-                </option>
-            </select>
-        )}
+
+            {installAppUrl && <a href={installAppUrl} target="_blank">Install the app</a>}
+            <br/>
+            {organizations && (
+                <select className="form-select mt-2">
+                    {organizations.installations!.map(org => (
+                        <option key={org.organizationId} value={org.organizationId!}>{org.name}</option>
+                    ))}
+                </select>
+            )}
         </div>
     );
 }

@@ -13,23 +13,17 @@ public sealed class CreateDefaultSettings_UserCreatedEventHandler(
 {
     public async Task Handle(FirstUserLoginEvent notification, CancellationToken cancellationToken)
     {
-        var userClient = githubService.GetUserClientByAccessToken(notification.AccessToken);
+        string? selectedOrganizationId = null;
 
-        if (userClient is null)
-        {
-            Log.ForContext(nameof(notification), notification, true)
-               .Error("Failed to create default settings for user {UserId}, userClient is null", notification.UserId);
-            return;
-        }
+        var userInstallations = await githubService.GetInstallationsForUserByAccessTokenAsync(notification.AccessToken);
 
-        var organizations = await userClient.Organization.GetAllForCurrent();
-
-        var organization = organizations.FirstOrDefault();
+        if (userInstallations.Count > 0)
+            selectedOrganizationId = userInstallations[0].OrganizationId;
 
         var settings = new GithubUserSettings
         {
             UserId = notification.UserId,
-            SelectedOrganizationId = organization?.Id.ToString(),
+            SelectedOrganizationId = selectedOrganizationId
         };
 
         await dbContext.AddAsync(settings, cancellationToken);
