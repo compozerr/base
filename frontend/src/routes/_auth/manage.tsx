@@ -11,21 +11,23 @@ function RouteComponent() {
     const [isLoading, setIsLoading] = React.useState(true)
     const [error, setError] = React.useState<string | null>(null)
     const [installAppUrl, setInstallAppUrl] = React.useState<string | null>(null)
-    const [organizations, setOrganizations] = React.useState<GetInstallationsResponse | null>(null)
+    const [installations, setInstallations] = React.useState<GetInstallationsResponse["installations"] | null>(null)
+    const [selectedInstallation, setSelectedInstallation] = React.useState<string>('')
 
     React.useEffect(() => {
         Promise.allSettled([
             apiClient.v1.github.getInstallAppUrl.get(),
             apiClient.v1.github.getInstalledOrganizations.get()
-        ]).then(([urlResult, orgsResult]) => {
+        ]).then(([urlResult, installationsResult]) => {
             if (urlResult.status === 'fulfilled') {
                 setInstallAppUrl(urlResult.value?.installUrl!)
             } else {
                 setError(JSON.stringify(urlResult.reason))
             }
 
-            if (orgsResult.status === 'fulfilled') {
-                setOrganizations(orgsResult.value!)
+            if (installationsResult.status === 'fulfilled') {
+                setInstallations(installationsResult.value?.installations!)
+                setSelectedInstallation(installationsResult.value?.selectedInstallationId!)
             } else {
                 setError('Error getting organizations')
             }
@@ -36,11 +38,9 @@ function RouteComponent() {
 
     const onChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const installationId = e.target.value;
-
-        console.log({installationId});
+        setSelectedInstallation(installationId);
 
         if (!installationId) return;
-
         apiClient.v1.github.setDeafultOrganization.post({ installationId });
     }
 
@@ -51,10 +51,10 @@ function RouteComponent() {
 
             {installAppUrl && <a href={installAppUrl} target="_blank">Install the app</a>}
             <br />
-            {organizations && (
-                <select className="form-select mt-2" onChange={onChange}>
-                    {organizations.installations!.map(org => (
-                        <option key={org.installationId} value={org.installationId!}>{org.name}</option>
+            {installations && (
+                <select className="form-select mt-2" onChange={onChange} value={selectedInstallation}>
+                    {installations!.map(i => (
+                        <option key={i.installationId} value={i.installationId!}>{i.name}</option>
                     ))}
                 </select>
             )}
