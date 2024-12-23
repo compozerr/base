@@ -12,7 +12,8 @@ function RouteComponent() {
     const [error, setError] = React.useState<string | null>(null)
     const [installAppUrl, setInstallAppUrl] = React.useState<string | null>(null)
     const [installations, setInstallations] = React.useState<GetInstallationsResponse["installations"] | null>(null)
-    const [selectedInstallation, setSelectedInstallation] = React.useState<string>('')
+    const [selectedProjectsInstallationId, setSelectedProjectsInstallationId] = React.useState<string>('')
+    const [selectedModulesInstallationId, setSelectedModulesInstallationId] = React.useState<string>('')
 
     React.useEffect(() => {
         Promise.allSettled([
@@ -27,7 +28,8 @@ function RouteComponent() {
 
             if (installationsResult.status === 'fulfilled') {
                 setInstallations(installationsResult.value?.installations!)
-                setSelectedInstallation(installationsResult.value?.selectedInstallationId!)
+                setSelectedProjectsInstallationId(installationsResult.value?.selectedProjectsInstallationId!)
+                setSelectedModulesInstallationId(installationsResult.value?.selectedModulesInstallationId!)
             } else {
                 setError('Error getting organizations')
             }
@@ -36,12 +38,20 @@ function RouteComponent() {
         });
     }, []);
 
-    const onChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const onChangeProjects = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const installationId = e.target.value;
-        setSelectedInstallation(installationId);
+        setSelectedProjectsInstallationId(installationId);
 
         if (!installationId) return;
-        apiClient.v1.github.setDeafultOrganization.post({ installationId });
+        apiClient.v1.github.setDeafultOrganization.post({ installationId, type: 1 });
+    }
+
+    const onChangeModules = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const installationId = e.target.value;
+        setSelectedModulesInstallationId(installationId);
+
+        if (!installationId) return;
+        apiClient.v1.github.setDeafultOrganization.post({ installationId, type: 2 });
     }
 
     return (
@@ -51,8 +61,19 @@ function RouteComponent() {
 
             {installAppUrl && <a href={installAppUrl} target="_blank">Install the app</a>}
             <br />
+            <h3>Default project organization</h3>
             {installations && (
-                <select className="form-select mt-2" onChange={onChange} value={selectedInstallation}>
+                <select className="form-select mt-2" onChange={onChangeProjects} value={selectedProjectsInstallationId}>
+                    {installations!.map(i => (
+                        <option key={i.installationId} value={i.installationId!}>{i.name}</option>
+                    ))}
+                </select>
+            )}
+            <br />
+
+            <h3>Default modules organization</h3>
+            {installations && (
+                <select className="form-select mt-2" onChange={onChangeModules} value={selectedModulesInstallationId}>
                     {installations!.map(i => (
                         <option key={i.installationId} value={i.installationId!}>{i.name}</option>
                     ))}
