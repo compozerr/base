@@ -35,6 +35,7 @@ public static class LoginRoute
                 if (!string.IsNullOrEmpty(optionalSessionId))
                 {
                     properties.Items["session_id"] = optionalSessionId;
+                    properties.RedirectUri = $"/v1/auth/{CloseWindowMessageRoute.Route}";
                 }
 
                 Log.ForContext("ReturnUrl", returnUrl)

@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using Auth.Endpoints.Auth.UserAuthenticated;
 using Core.Extensions;
+using Core.Services;
 using MediatR;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OAuth;
@@ -17,7 +18,10 @@ public static class GithubAuthProvider
     {
         builder.Services.AddRequiredConfigurationOptions<GithubOptions>("Auth:Github");
 
-        var githubOptions = builder.Services.BuildServiceProvider().GetRequiredService<IOptions<GithubOptions>>();
+        var serviceProvider = builder.Services.BuildServiceProvider();
+
+        var githubOptions = serviceProvider.GetRequiredService<IOptions<GithubOptions>>();
+        var jwtService = serviceProvider.GetRequiredService<IJsonWebTokenService>();
 
         return builder.AddGitHub(options =>
         {
@@ -75,8 +79,8 @@ public static class GithubAuthProvider
 
                     if (context.Properties?.Items.TryGetValue("session_id", out var nonNullSessionId) ?? false)
                     {
-                        var accessToken = context.Properties.GetTokenValue("access_token")!;
                         var expiresAtUtc = context.Properties.ExpiresUtc!.Value.UtcDateTime;
+                        var accessToken = jwtService.CreateToken(context.Principal, expiresAtUtc);
 
                         await mediator.Send(new LoggedInWithSessionIdCommand(nonNullSessionId!, accessToken, expiresAtUtc));
                     }

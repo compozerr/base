@@ -12,6 +12,7 @@ public class AuthGroup : CarterModule
     public override void AddRoutes(IEndpointRouteBuilder app)
     {
         app.AddLoginRoute();
+        app.AddCloseWindowMessageRoute();
         app.AddLogoutRoute().RequireAuthorization();
         app.AddWhoAmIRoute().RequireAuthorization();
         app.AddMeRoute().RequireAuthorization();
