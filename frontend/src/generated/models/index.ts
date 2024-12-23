@@ -121,7 +121,8 @@ export function deserializeIntoGetExampleResponse(getExampleResponse: Partial<Ge
 export function deserializeIntoGetInstallationsResponse(getInstallationsResponse: Partial<GetInstallationsResponse> | undefined = {}) : Record<string, (node: ParseNode) => void> {
     return {
         "installations": n => { getInstallationsResponse.installations = n.getCollectionOfObjectValues<InstallationDto>(createInstallationDtoFromDiscriminatorValue); },
-        "selectedInstallationId": n => { getInstallationsResponse.selectedInstallationId = n.getStringValue(); },
+        "selectedModulesInstallationId": n => { getInstallationsResponse.selectedModulesInstallationId = n.getStringValue(); },
+        "selectedProjectsInstallationId": n => { getInstallationsResponse.selectedProjectsInstallationId = n.getStringValue(); },
     }
 }
 /**
@@ -166,6 +167,7 @@ export function deserializeIntoMeResponse(meResponse: Partial<MeResponse> | unde
 export function deserializeIntoSetDefaultInstallationRequest(setDefaultInstallationRequest: Partial<SetDefaultInstallationRequest> | undefined = {}) : Record<string, (node: ParseNode) => void> {
     return {
         "installationId": n => { setDefaultInstallationRequest.installationId = n.getStringValue(); },
+        "type": n => { setDefaultInstallationRequest.type = n.getNumberValue(); },
     }
 }
 /**
@@ -244,9 +246,13 @@ export interface GetInstallationsResponse extends Parsable {
      */
     installations?: InstallationDto[] | null;
     /**
-     * The selectedInstallationId property
+     * The selectedModulesInstallationId property
      */
-    selectedInstallationId?: string | null;
+    selectedModulesInstallationId?: string | null;
+    /**
+     * The selectedProjectsInstallationId property
+     */
+    selectedProjectsInstallationId?: string | null;
 }
 export interface IDomainEvent extends Parsable {
 }
@@ -300,7 +306,8 @@ export function serializeGetExampleResponse(writer: SerializationWriter, getExam
 export function serializeGetInstallationsResponse(writer: SerializationWriter, getInstallationsResponse: Partial<GetInstallationsResponse> | undefined | null = {}) : void {
     if (getInstallationsResponse) {
         writer.writeCollectionOfObjectValues<InstallationDto>("installations", getInstallationsResponse.installations, serializeInstallationDto);
-        writer.writeStringValue("selectedInstallationId", getInstallationsResponse.selectedInstallationId);
+        writer.writeStringValue("selectedModulesInstallationId", getInstallationsResponse.selectedModulesInstallationId);
+        writer.writeStringValue("selectedProjectsInstallationId", getInstallationsResponse.selectedProjectsInstallationId);
     }
 }
 /**
@@ -345,6 +352,7 @@ export function serializeMeResponse(writer: SerializationWriter, meResponse: Par
 export function serializeSetDefaultInstallationRequest(writer: SerializationWriter, setDefaultInstallationRequest: Partial<SetDefaultInstallationRequest> | undefined | null = {}) : void {
     if (setDefaultInstallationRequest) {
         writer.writeStringValue("installationId", setDefaultInstallationRequest.installationId);
+        writer.writeNumberValue("type", setDefaultInstallationRequest.type);
     }
 }
 /**
@@ -412,6 +420,10 @@ export interface SetDefaultInstallationRequest extends Parsable {
      * The installationId property
      */
     installationId?: string | null;
+    /**
+     * The type property
+     */
+    type?: number | null;
 }
 export interface StringF__AnonymousType0 extends Parsable {
     /**

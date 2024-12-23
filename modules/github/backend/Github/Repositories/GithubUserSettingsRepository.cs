@@ -2,6 +2,7 @@ using Auth.Abstractions;
 using Database.Repositories;
 using Github.Abstractions;
 using Github.Data;
+using Github.Endpoints.SetDefaultInstallationId;
 using Github.Models;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
@@ -13,7 +14,8 @@ public interface IGithubUserSettingsRepository
     Task<GithubUserSettings?> GetOrDefaultByUserIdAsync(UserId userId);
     Task<string> SetSelectedOrganizationForUserAsync(
         UserId userId,
-        string selectedOrganizationId);
+        string selectedInstallationId,
+        DefaultInstallationIdSelectionType defaultInstallationIdSelectionType);
 }
 
 public sealed class GithubUserSettingsRepository(
@@ -27,7 +29,8 @@ public sealed class GithubUserSettingsRepository(
 
     public async Task<string> SetSelectedOrganizationForUserAsync(
         UserId userId,
-        string selectedOrganizationId)
+        string selectedInstallationId,
+        DefaultInstallationIdSelectionType defaultInstallationIdSelectionType)
     {
         var settings = await GetOrDefaultByUserIdAsync(userId);
 
@@ -39,10 +42,23 @@ public sealed class GithubUserSettingsRepository(
             throw new ArgumentNullException();
         }
 
-        settings.SelectedInstallationId = selectedOrganizationId;
+        switch (defaultInstallationIdSelectionType)
+        {
+            case DefaultInstallationIdSelectionType.Projects:
+                settings.SelectedProjectsInstallationId = selectedInstallationId;
+                break;
+            case DefaultInstallationIdSelectionType.Modules:
+                settings.SelectedModulesInstallationId = selectedInstallationId;
+                break;
+            default:
+                Log.ForContext(nameof(userId), userId)
+                   .Error("No DefaultInstallationIdSelectionType was provided");
+
+                throw new ArgumentNullException(nameof(defaultInstallationIdSelectionType));
+        }
 
         await _context.SaveChangesAsync();
 
-        return selectedOrganizationId;
+        return selectedInstallationId;
     }
 }

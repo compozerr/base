@@ -11,7 +11,8 @@ namespace Github.Endpoints;
 public sealed record InstallationDto(string InstallationId, string Name, string? Type);
 
 public sealed record GetInstallationsResponse(
-    string? SelectedInstallationId,
+    string? SelectedProjectsInstallationId,
+    string? SelectedModulesInstallationId,
     List<InstallationDto> Installations
 );
 
@@ -37,32 +38,59 @@ public static class GetInstallationsRoute
         var githubUserSettings = await githubUserSettingsRepository.GetOrDefaultByUserIdAsync(userId);
         ArgumentNullException.ThrowIfNull(githubUserSettings);
 
-        var selectedOrganizationId = githubUserSettings.SelectedInstallationId;
+        var selectedProjectsInstallationId = githubUserSettings.SelectedProjectsInstallationId;
+        var selectedModulesInstallationId = githubUserSettings.SelectedModulesInstallationId;
 
         if (organizationsForUser.Count == 0)
         {
             Log.ForContext(nameof(userId), userId)
                .Information("No organizations found for user");
 
-            return new GetInstallationsResponse(selectedOrganizationId, []);
+            return new GetInstallationsResponse(
+                selectedProjectsInstallationId,
+                selectedModulesInstallationId,
+                []);
         }
 
-        var hasSelectedOrganizationInInstallationsList = organizationsForUser.Select(i => i.InstallationId)
-                                                                             .Contains(githubUserSettings.SelectedInstallationId);
+        //Check for project
+        var hasSelectedProjectsInstallationIdInInstallationsList = organizationsForUser.Select(i => i.InstallationId)
+                                                                                      .Contains(githubUserSettings.SelectedProjectsInstallationId);
 
-        var hasSelectedOrganization = !string.IsNullOrEmpty(selectedOrganizationId);
+        var hasSelectedProjectsInstallationId = !string.IsNullOrEmpty(selectedProjectsInstallationId);
 
-        if (!hasSelectedOrganizationInInstallationsList || !hasSelectedOrganization)
+        if (!hasSelectedProjectsInstallationIdInInstallationsList || !hasSelectedProjectsInstallationId)
         {
-            selectedOrganizationId = organizationsForUser[0].InstallationId;
+            selectedProjectsInstallationId = organizationsForUser[0].InstallationId;
 
-            await mediator.Send(new SetDefaultInstallationIdCommand(userId, selectedOrganizationId));
+            await mediator.Send(
+                new SetDefaultInstallationIdCommand(
+                    userId,
+                    selectedProjectsInstallationId,
+                    DefaultInstallationIdSelectionType.Projects));
+        }
+
+        //Check for module
+        var hasSelectedModulesInstallationIdInInstallationsList = organizationsForUser.Select(i => i.InstallationId)
+                                                                                      .Contains(githubUserSettings.SelectedModulesInstallationId);
+
+        var hasSelectedModulesInstallationId = !string.IsNullOrEmpty(selectedModulesInstallationId);
+
+        if (!hasSelectedModulesInstallationIdInInstallationsList || !hasSelectedModulesInstallationId)
+        {
+            selectedModulesInstallationId = organizationsForUser[0].InstallationId;
+
+            await mediator.Send(
+                new SetDefaultInstallationIdCommand(
+                    userId,
+                    selectedModulesInstallationId,
+                    DefaultInstallationIdSelectionType.Modules));
         }
 
         return new GetInstallationsResponse(
-            selectedOrganizationId,
+            selectedProjectsInstallationId,
+            selectedModulesInstallationId,
             organizationsForUser.Select(i => new InstallationDto(i.InstallationId, i.Name, i.AccountType.ToString()))
-                         .ToList()
+                                .ToList()
         );
     }
 }

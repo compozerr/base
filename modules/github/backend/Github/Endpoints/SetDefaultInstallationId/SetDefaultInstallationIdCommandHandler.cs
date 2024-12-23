@@ -9,5 +9,6 @@ public class SetDefaultInstallationIdCommandHandler(
     public Task Handle(SetDefaultInstallationIdCommand command, CancellationToken cancellationToken = default)
         => githubUserSettingsRepository.SetSelectedOrganizationForUserAsync(
             command.UserId,
-            command.InstallationId);
+            command.InstallationId,
+            command.DefaultInstallationIdSelectionType);
 }

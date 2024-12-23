@@ -7,5 +7,6 @@ namespace Github.Models;
 public sealed class GithubUserSettings : BaseEntityWithId<GithubUserSettingsId>
 {
     public required UserId UserId { get; set; }
-    public required string? SelectedInstallationId { get; set; }
+    public required string? SelectedProjectsInstallationId { get; set; }
+    public required string? SelectedModulesInstallationId { get; set; }
 }

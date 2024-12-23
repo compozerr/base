@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace Github.Endpoints;
 
-public sealed record SetDefaultInstallationRequest(string InstallationId);
+public sealed record SetDefaultInstallationRequest(string InstallationId, DefaultInstallationIdSelectionType Type);
 
 public static class SetDefaultInstallationRoute
 {
@@ -26,12 +26,17 @@ public static class SetDefaultInstallationRoute
 
             var installations = await githubService.GetInstallationsForUserAsync(userId);
 
-            if (!installations.Select(i => i.InstallationId).Contains(request.InstallationId))
+            if (!installations.Select(i => i.InstallationId)
+                              .Contains(request.InstallationId))
             {
                 return TypedResults.NotFound();
             }
 
-            await mediator.Send(new SetDefaultInstallationIdCommand(userId, request.InstallationId));
+            await mediator.Send(
+                new SetDefaultInstallationIdCommand(
+                    userId,
+                    request.InstallationId,
+                    request.Type));
 
             return TypedResults.Ok();
         });

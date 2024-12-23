@@ -3,4 +3,13 @@ using Core.MediatR;
 
 namespace Github.Endpoints.SetDefaultInstallationId;
 
-public record SetDefaultInstallationIdCommand(UserId UserId, string InstallationId) : ICommand;
+public enum DefaultInstallationIdSelectionType
+{
+    Projects = 1,
+    Modules = 2
+}
+
+public record SetDefaultInstallationIdCommand(
+    UserId UserId,
+    string InstallationId,
+    DefaultInstallationIdSelectionType DefaultInstallationIdSelectionType) : ICommand;
