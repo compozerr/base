@@ -8,7 +8,7 @@ public class CreateUserCommandValidator : AbstractValidator<CreateUserCommand>
 {
     public CreateUserCommandValidator(IServiceScopeFactory scopeFactory)
     {
-        using var scope = scopeFactory.CreateScope();
+        var scope = scopeFactory.CreateScope();
         var userRepository = scope.ServiceProvider.GetRequiredService<IUserRepository>();
 
         RuleFor(x => x.Name).NotEmpty();

@@ -9,7 +9,7 @@ public sealed class CreateRepoCommandValidator : AbstractValidator<CreateRepoCom
 {
     public CreateRepoCommandValidator(IServiceScopeFactory scopeFactory)
     {
-        using var scope = scopeFactory.CreateScope();
+        var scope = scopeFactory.CreateScope();
         var githubService = scope.ServiceProvider.GetRequiredService<IGithubService>();
         var currentUserAccessor = scope.ServiceProvider.GetRequiredService<ICurrentUserAccessor>();
 

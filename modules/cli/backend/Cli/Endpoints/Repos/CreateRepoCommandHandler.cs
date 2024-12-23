@@ -10,12 +10,28 @@ public sealed record CreateRepoCommandHandler(
 {
     public async Task<CreateRepoResponse> Handle(CreateRepoCommand command, CancellationToken cancellationToken = default)
     {
-        var (installationClient, _) = await GithubService.GetInstallationClientByUserDefaultAsync(
-            CurrentUserAccessor.CurrentUserId!,
+        var userId = CurrentUserAccessor.CurrentUserId!;
+
+        var (installationClient, installationId) = await GithubService.GetInstallationClientByUserDefaultAsync(
+            userId,
             command.Type);
 
-        var response = await installationClient.Repository.Create(new(command.Name) { Private = true });
+        var userInstallations = await GithubService.GetInstallationsForUserAsync(userId);
 
-        return new CreateRepoResponse(response.Url);
+        var currentInstallation = userInstallations.Single(userInstallation => userInstallation.InstallationId == installationId);
+
+        // var userClient = await GithubService.GetUserClient(CurrentUserAccessor.CurrentUserId!);
+
+        var response = await installationClient!.Repository.Generate(
+            "compozerr",
+            "base",
+            new(command.Name)
+            {
+                Private = true,
+                Description = "Created by compozerr.com",
+                Owner = currentInstallation.Name
+            });
+
+        return new CreateRepoResponse(response.HtmlUrl);
     }
 }
