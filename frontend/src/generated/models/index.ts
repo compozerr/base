@@ -52,6 +52,15 @@ export function createMeResponseFromDiscriminatorValue(parseNode: ParseNode | un
 /**
  * Creates a new instance of the appropriate class based on discriminator value
  * @param parseNode The parse node to use to read the discriminator value and create the object
+ * @returns {RepositoryDto}
+ */
+// @ts-ignore
+export function createRepositoryDtoFromDiscriminatorValue(parseNode: ParseNode | undefined) : ((instance?: Parsable) => Record<string, (node: ParseNode) => void>) {
+    return deserializeIntoRepositoryDto;
+}
+/**
+ * Creates a new instance of the appropriate class based on discriminator value
+ * @param parseNode The parse node to use to read the discriminator value and create the object
  * @returns {SetDefaultInstallationRequest}
  */
 // @ts-ignore
@@ -157,6 +166,17 @@ export function deserializeIntoMeResponse(meResponse: Partial<MeResponse> | unde
         "email": n => { meResponse.email = n.getStringValue(); },
         "id": n => { meResponse.id = n.getGuidValue(); },
         "name": n => { meResponse.name = n.getStringValue(); },
+    }
+}
+/**
+ * The deserialization information for the current model
+ * @returns {Record<string, (node: ParseNode) => void>}
+ */
+// @ts-ignore
+export function deserializeIntoRepositoryDto(repositoryDto: Partial<RepositoryDto> | undefined = {}) : Record<string, (node: ParseNode) => void> {
+    return {
+        "name": n => { repositoryDto.name = n.getStringValue(); },
+        "ownedByInstallationId": n => { repositoryDto.ownedByInstallationId = n.getStringValue(); },
     }
 }
 /**
@@ -288,6 +308,16 @@ export interface MeResponse extends Parsable {
      */
     name?: string | null;
 }
+export interface RepositoryDto extends Parsable {
+    /**
+     * The name property
+     */
+    name?: string | null;
+    /**
+     * The ownedByInstallationId property
+     */
+    ownedByInstallationId?: string | null;
+}
 /**
  * Serializes information the current object
  * @param writer Serialization writer to use to serialize this model
@@ -342,6 +372,17 @@ export function serializeMeResponse(writer: SerializationWriter, meResponse: Par
         writer.writeStringValue("email", meResponse.email);
         writer.writeGuidValue("id", meResponse.id);
         writer.writeStringValue("name", meResponse.name);
+    }
+}
+/**
+ * Serializes information the current object
+ * @param writer Serialization writer to use to serialize this model
+ */
+// @ts-ignore
+export function serializeRepositoryDto(writer: SerializationWriter, repositoryDto: Partial<RepositoryDto> | undefined | null = {}) : void {
+    if (repositoryDto) {
+        writer.writeStringValue("name", repositoryDto.name);
+        writer.writeStringValue("ownedByInstallationId", repositoryDto.ownedByInstallationId);
     }
 }
 /**

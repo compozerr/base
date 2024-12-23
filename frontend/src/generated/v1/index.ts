@@ -4,7 +4,7 @@
 // @ts-ignore
 import { AuthRequestBuilderNavigationMetadata, type AuthRequestBuilder } from './auth/index.js';
 // @ts-ignore
-import { DockerRequestBuilderNavigationMetadata, type DockerRequestBuilder } from './docker/index.js';
+import { CliRequestBuilderNavigationMetadata, type CliRequestBuilder } from './cli/index.js';
 // @ts-ignore
 import { ExampleRequestBuilderRequestsMetadata, type ExampleRequestBuilder } from './example/index.js';
 // @ts-ignore
@@ -23,9 +23,9 @@ export interface V1RequestBuilder extends BaseRequestBuilder<V1RequestBuilder> {
      */
     get auth(): AuthRequestBuilder;
     /**
-     * The docker property
+     * The cli property
      */
-    get docker(): DockerRequestBuilder;
+    get cli(): CliRequestBuilder;
     /**
      * The example property
      */
@@ -60,8 +60,8 @@ export const V1RequestBuilderNavigationMetadata: Record<Exclude<keyof V1RequestB
     auth: {
         navigationMetadata: AuthRequestBuilderNavigationMetadata,
     },
-    docker: {
-        navigationMetadata: DockerRequestBuilderNavigationMetadata,
+    cli: {
+        navigationMetadata: CliRequestBuilderNavigationMetadata,
     },
     example: {
         requestsMetadata: ExampleRequestBuilderRequestsMetadata,

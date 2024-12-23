@@ -17,6 +17,8 @@
 
   <ItemGroup>
     <ProjectReference Include="../../../../backend/Core/Core.csproj" />
+    <ProjectReference Include="../../../auth/backend/Auth/Auth.csproj" />
+    <ProjectReference Include="../../../github/backend/Github/Github.csproj" />
   </ItemGroup>
 
 </Project>

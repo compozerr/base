@@ -1,12 +1,15 @@
 using Auth.Abstractions;
 using Auth.Models;
 using Auth.Repositories;
+using Github.Endpoints.SetDefaultInstallationId;
+using Github.Repositories;
 using Octokit;
 using Serilog;
 
 namespace Github.Services;
 
 public record InstallationDto(string InstallationId, string Name, AccountType? AccountType);
+public record RepositoryDto(string OwnedByInstallationId, string Name);
 
 public interface IGithubService
 {
@@ -14,14 +17,21 @@ public interface IGithubService
     Task<IGitHubClient?> GetUserClient(UserId userId);
     IGitHubClient? GetUserClientByAccessToken(string userAccessToken);
     IGitHubClient? GetInstallationClientByAccessToken(string installationAccessToken);
+    Task<IGitHubClient?> GetInstallationClientByInstallationIdAsync(string installationId);
     Task<IReadOnlyList<InstallationDto>> GetInstallationsForUserAsync(UserId userId);
     Task<IReadOnlyList<InstallationDto>> GetInstallationsForUserByAccessTokenAsync(string userAccessToken);
+    Task<IReadOnlyList<RepositoryDto>> GetRepositoriesByUserDefaultId(
+        UserId userId,
+        DefaultInstallationIdSelectionType defaultInstallationIdSelectionType);
 }
 
 public sealed class GithubService(
     IGithubJsonWebTokenService jwtService,
-    IUserRepository userRepository) : IGithubService
+    IUserRepository userRepository,
+    IGithubUserSettingsRepository githubUserSettingsRepository) : IGithubService
 {
+    private readonly Dictionary<string, (string, DateTimeOffset)> _installationTokensCache = [];
+
     public IGitHubClient GetClient()
     {
         var token = jwtService.CreateToken();
@@ -54,6 +64,31 @@ public sealed class GithubService(
         var installationClient = GetGithubClientWithCredentials(new Credentials(installationAccessToken, AuthenticationType.Bearer));
 
         return installationClient;
+    }
+
+    private async Task<string> GetOrCreateInstallationTokenFromInstallationIdAsync(string installationId)
+    {
+        if (_installationTokensCache.TryGetValue(installationId, out var tokenInfo))
+        {
+            var (token, expiration) = tokenInfo;
+
+            if (expiration > DateTimeOffset.Now)
+                return token;
+        }
+
+        var client = GetClient();
+        var installationToken = await client.GitHubApps.CreateInstallationToken(int.Parse(installationId));
+
+        _installationTokensCache[installationId] = (installationToken.Token, installationToken.ExpiresAt);
+
+        return installationToken.Token;
+    }
+
+    public async Task<IGitHubClient?> GetInstallationClientByInstallationIdAsync(string installationId)
+    {
+        var installationAccessToken = await GetOrCreateInstallationTokenFromInstallationIdAsync(installationId);
+
+        return GetInstallationClientByAccessToken(installationAccessToken);
     }
 
     private static GitHubClient GetGithubClientWithCredentials(Credentials credentials)
@@ -111,5 +146,48 @@ public sealed class GithubService(
             return null;
 
         return (user.Logins.FirstOrDefault(l => l.Provider == Provider.GitHub) as GithubUserLogin)!;
+    }
+
+    public async Task<IReadOnlyList<RepositoryDto>> GetRepositoriesByUserDefaultId(
+        UserId userId,
+        DefaultInstallationIdSelectionType defaultInstallationIdSelectionType)
+    {
+        var userSettings = await githubUserSettingsRepository.GetOrDefaultByUserIdAsync(userId);
+
+        string? installationId = "";
+
+        switch (defaultInstallationIdSelectionType)
+        {
+            case DefaultInstallationIdSelectionType.Projects:
+                installationId = userSettings!.SelectedProjectsInstallationId;
+                break;
+            case DefaultInstallationIdSelectionType.Modules:
+                installationId = userSettings!.SelectedModulesInstallationId;
+                break;
+        }
+
+        if (string.IsNullOrEmpty(installationId))
+        {
+            Log.ForContext(nameof(userId), userId)
+               .ForContext(nameof(defaultInstallationIdSelectionType), defaultInstallationIdSelectionType)
+               .Error("No installationId found for user");
+
+            throw new ArgumentNullException(nameof(installationId), "No installationId found for user");
+        }
+
+        var installationClient = await GetInstallationClientByInstallationIdAsync(installationId);
+
+        if (installationClient is null)
+        {
+            Log.ForContext(nameof(installationId), installationId)
+               .Error("Failed to get installationClient");
+
+            throw new ArgumentNullException(nameof(installationClient), "Failed to get installationClient with the given installationId");
+        }
+
+        var repos = await installationClient.Repository.GetAllForCurrent();
+
+        return repos.Select(r => new RepositoryDto(installationId, r.Name))
+                    .ToList();
     }
 }

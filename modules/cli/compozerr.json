@@ -1,6 +1,8 @@
 {
     "name": "cli",
     "dependencies": {
-        "database": "latest"
+        "database": "latest",
+        "auth": "latest",
+        "github": "latest"
     }
 }

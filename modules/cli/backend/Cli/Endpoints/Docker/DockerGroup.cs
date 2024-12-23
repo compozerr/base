@@ -1,17 +1,19 @@
 using Carter;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 
 namespace Cli.Endpoints.Docker;
 
-public class DockerGroup : CarterModule
+public static class DockerGroup
 {
-    public DockerGroup() : base("/docker")
-    {
-        WithTags(nameof(Docker));
-    }
+    public const string Route = "docker";
 
-    public override void AddRoutes(IEndpointRouteBuilder app)
+    public static RouteGroupBuilder AddDockerGroup(this IEndpointRouteBuilder app)
     {
-        app.AddPushRoute();
+        var group = app.MapGroup(Route);
+        
+        group.AddPushRoute();
+
+        return group;
     }
 }
