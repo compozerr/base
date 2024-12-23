@@ -4,7 +4,7 @@
 // @ts-ignore
 import { DockerRequestBuilderNavigationMetadata, type DockerRequestBuilder } from './docker/index.js';
 // @ts-ignore
-import { ReposRequestBuilderNavigationMetadata, type ReposRequestBuilder } from './repos/index.js';
+import { ReposRequestBuilderRequestsMetadata, type ReposRequestBuilder } from './repos/index.js';
 // @ts-ignore
 import { type BaseRequestBuilder, type KeysToExcludeForNavigationMetadata, type NavigationMetadata } from '@microsoft/kiota-abstractions';
 
@@ -33,7 +33,7 @@ export const CliRequestBuilderNavigationMetadata: Record<Exclude<keyof CliReques
         navigationMetadata: DockerRequestBuilderNavigationMetadata,
     },
     repos: {
-        navigationMetadata: ReposRequestBuilderNavigationMetadata,
+        requestsMetadata: ReposRequestBuilderRequestsMetadata,
     },
 };
 /* tslint:enable */

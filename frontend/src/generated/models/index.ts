@@ -7,6 +7,15 @@ import { type Guid, type Parsable, type ParseNode, type SerializationWriter } fr
 /**
  * Creates a new instance of the appropriate class based on discriminator value
  * @param parseNode The parse node to use to read the discriminator value and create the object
+ * @returns {CreateRepoRequest}
+ */
+// @ts-ignore
+export function createCreateRepoRequestFromDiscriminatorValue(parseNode: ParseNode | undefined) : ((instance?: Parsable) => Record<string, (node: ParseNode) => void>) {
+    return deserializeIntoCreateRepoRequest;
+}
+/**
+ * Creates a new instance of the appropriate class based on discriminator value
+ * @param parseNode The parse node to use to read the discriminator value and create the object
  * @returns {GetExampleResponse}
  */
 // @ts-ignore
@@ -48,6 +57,16 @@ export function createInstallationDtoFromDiscriminatorValue(parseNode: ParseNode
 // @ts-ignore
 export function createMeResponseFromDiscriminatorValue(parseNode: ParseNode | undefined) : ((instance?: Parsable) => Record<string, (node: ParseNode) => void>) {
     return deserializeIntoMeResponse;
+}
+export interface CreateRepoRequest extends Parsable {
+    /**
+     * The name property
+     */
+    name?: string | null;
+    /**
+     * The type property
+     */
+    type?: number | null;
 }
 /**
  * Creates a new instance of the appropriate class based on discriminator value
@@ -111,6 +130,17 @@ export function createUserLoginFromDiscriminatorValue(parseNode: ParseNode | und
 // @ts-ignore
 export function createUserLoginIdFromDiscriminatorValue(parseNode: ParseNode | undefined) : ((instance?: Parsable) => Record<string, (node: ParseNode) => void>) {
     return deserializeIntoUserLoginId;
+}
+/**
+ * The deserialization information for the current model
+ * @returns {Record<string, (node: ParseNode) => void>}
+ */
+// @ts-ignore
+export function deserializeIntoCreateRepoRequest(createRepoRequest: Partial<CreateRepoRequest> | undefined = {}) : Record<string, (node: ParseNode) => void> {
+    return {
+        "name": n => { createRepoRequest.name = n.getStringValue(); },
+        "type": n => { createRepoRequest.type = n.getNumberValue(); },
+    }
 }
 /**
  * The deserialization information for the current model
@@ -317,6 +347,17 @@ export interface RepositoryDto extends Parsable {
      * The ownedByInstallationId property
      */
     ownedByInstallationId?: string | null;
+}
+/**
+ * Serializes information the current object
+ * @param writer Serialization writer to use to serialize this model
+ */
+// @ts-ignore
+export function serializeCreateRepoRequest(writer: SerializationWriter, createRepoRequest: Partial<CreateRepoRequest> | undefined | null = {}) : void {
+    if (createRepoRequest) {
+        writer.writeStringValue("name", createRepoRequest.name);
+        writer.writeNumberValue("type", createRepoRequest.type);
+    }
 }
 /**
  * Serializes information the current object

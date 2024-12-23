@@ -11,6 +11,7 @@ public class CliGroup : CarterModule
     public CliGroup() : base("cli")
     {
         RequireAuthorization();
+        WithTags(nameof(Cli));
     }
 
     public override void AddRoutes(IEndpointRouteBuilder app)

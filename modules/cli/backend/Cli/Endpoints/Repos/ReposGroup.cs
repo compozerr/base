@@ -13,6 +13,7 @@ public static class ReposGroup
         var group = app.MapGroup(Route);
 
         group.AddGetReposForInstallationRoute();
+        group.AddCreateRepoRoute();
 
         return group;
     }

@@ -20,7 +20,8 @@ public interface IGithubService
     Task<IGitHubClient?> GetInstallationClientByInstallationIdAsync(string installationId);
     Task<IReadOnlyList<InstallationDto>> GetInstallationsForUserAsync(UserId userId);
     Task<IReadOnlyList<InstallationDto>> GetInstallationsForUserByAccessTokenAsync(string userAccessToken);
-    Task<IReadOnlyList<RepositoryDto>> GetRepositoriesByUserDefaultId(
+    Task<(IGitHubClient, string)> GetInstallationClientByUserDefaultAsync(UserId userId, DefaultInstallationIdSelectionType type);
+    Task<IReadOnlyList<RepositoryDto>> GetRepositoriesByUserDefaultIdAsync(
         UserId userId,
         DefaultInstallationIdSelectionType defaultInstallationIdSelectionType);
 }
@@ -77,6 +78,7 @@ public sealed class GithubService(
         }
 
         var client = GetClient();
+
         var installationToken = await client.GitHubApps.CreateInstallationToken(int.Parse(installationId));
 
         _installationTokensCache[installationId] = (installationToken.Token, installationToken.ExpiresAt);
@@ -148,15 +150,13 @@ public sealed class GithubService(
         return (user.Logins.FirstOrDefault(l => l.Provider == Provider.GitHub) as GithubUserLogin)!;
     }
 
-    public async Task<IReadOnlyList<RepositoryDto>> GetRepositoriesByUserDefaultId(
-        UserId userId,
-        DefaultInstallationIdSelectionType defaultInstallationIdSelectionType)
+    public async Task<(IGitHubClient, string)> GetInstallationClientByUserDefaultAsync(UserId userId, DefaultInstallationIdSelectionType type)
     {
         var userSettings = await githubUserSettingsRepository.GetOrDefaultByUserIdAsync(userId);
 
         string? installationId = "";
 
-        switch (defaultInstallationIdSelectionType)
+        switch (type)
         {
             case DefaultInstallationIdSelectionType.Projects:
                 installationId = userSettings!.SelectedProjectsInstallationId;
@@ -169,7 +169,7 @@ public sealed class GithubService(
         if (string.IsNullOrEmpty(installationId))
         {
             Log.ForContext(nameof(userId), userId)
-               .ForContext(nameof(defaultInstallationIdSelectionType), defaultInstallationIdSelectionType)
+               .ForContext(nameof(type), type)
                .Error("No installationId found for user");
 
             throw new ArgumentNullException(nameof(installationId), "No installationId found for user");
@@ -185,9 +185,29 @@ public sealed class GithubService(
             throw new ArgumentNullException(nameof(installationClient), "Failed to get installationClient with the given installationId");
         }
 
-        var repos = await installationClient.Repository.GetAllForCurrent();
+        return (installationClient, installationId);
+    }
 
-        return repos.Select(r => new RepositoryDto(installationId, r.Name))
-                    .ToList();
+    public async Task<IReadOnlyList<RepositoryDto>> GetRepositoriesByUserDefaultIdAsync(
+        UserId userId,
+        DefaultInstallationIdSelectionType defaultInstallationIdSelectionType)
+    {
+        var (installationClient, installationId) = await GetInstallationClientByUserDefaultAsync(userId, defaultInstallationIdSelectionType);
+
+        try
+        {
+            var reposResponse = await installationClient.GitHubApps.Installation.GetAllRepositoriesForCurrent();
+
+            return reposResponse.Repositories.Select(r => new RepositoryDto(installationId, r.Name))
+                                             .ToList();
+        }
+        catch (ForbiddenException exception)
+        {
+            Log.ForContext(nameof(installationId), installationId)
+               .ForContext(nameof(exception), exception)
+               .Warning("Installation does not have access to get repos");
+
+            return [];
+        }
     }
 }

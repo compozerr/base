@@ -8,7 +8,7 @@ namespace Cli.Endpoints.Repos;
 
 public static class GetReposForInstallationRoute
 {
-    public const string Route = "get-repos-for-installation";
+    public const string Route = "/";
 
     public static RouteHandlerBuilder AddGetReposForInstallationRoute(this IEndpointRouteBuilder app)
     {
@@ -19,5 +19,5 @@ public static class GetReposForInstallationRoute
         DefaultInstallationIdSelectionType type,
         ICurrentUserAccessor currentUserAccessor,
         IGithubService githubService)
-        => githubService.GetRepositoriesByUserDefaultId(currentUserAccessor.CurrentUserId!, type);
+        => githubService.GetRepositoriesByUserDefaultIdAsync(currentUserAccessor.CurrentUserId!, type);
 }
