@@ -13,6 +13,10 @@ public sealed class CreateRepoCommandValidator : AbstractValidator<CreateRepoCom
         var githubService = scope.ServiceProvider.GetRequiredService<IGithubService>();
         var currentUserAccessor = scope.ServiceProvider.GetRequiredService<ICurrentUserAccessor>();
 
+        RuleFor(x => x.Name)
+            .Matches(@"^[a-z0-9]+(?:(?:(?:[._]|__|[-]*)[a-z0-9]+)+)?$")
+            .WithMessage("Repository name must adhere to the pattern [a-z0-9]+(?:(?:(?:[._]|__|[-]*)[a-z0-9]+)+)?");
+
         RuleFor(x => x.Name).MustAsync(async (command, name, cancellationToken) =>
         {
             var reposForCurrentUser = await githubService.GetRepositoriesByUserDefaultIdAsync(
