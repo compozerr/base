@@ -12,15 +12,16 @@ public sealed record CreateRepoCommandHandler(
     {
         var userId = CurrentUserAccessor.CurrentUserId!;
 
-        var (installationClient, installationId) = await GithubService.GetInstallationClientByUserDefaultAsync(
+        var clientResponse = await GithubService.GetInstallationClientByUserDefaultAsync(
             userId,
             command.Type);
 
         var userInstallations = await GithubService.GetInstallationsForUserAsync(userId);
 
-        var currentInstallation = userInstallations.Single(userInstallation => userInstallation.InstallationId == installationId);
+        var currentInstallation = userInstallations.Single(
+            userInstallation => userInstallation.InstallationId == clientResponse.InstallationId);
 
-        var response = await installationClient!.Repository.Generate(
+        var response = await clientResponse.InstallationClient.Repository.Generate(
             "compozerr",
             "base",
             new(command.Name)
@@ -30,6 +31,12 @@ public sealed record CreateRepoCommandHandler(
                 Owner = currentInstallation.Name
             });
 
-        return new CreateRepoResponse(response.HtmlUrl);
+        var cloneUrl = $"https://x-access-token:{clientResponse.InstallationToken}@github.com/{response.FullName}.git";
+        var gitUrl = $"https://github.com/{response.FullName}.git";
+
+        return new CreateRepoResponse(
+            cloneUrl,
+            gitUrl,
+            response.Name);
     }
 }

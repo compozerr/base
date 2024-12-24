@@ -1,5 +1,4 @@
 using Github.Endpoints.SetDefaultInstallationId;
-using Github.Services;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
@@ -17,7 +16,7 @@ public static class CreateRepoRoute
         return app.MapPost(Route, ExecuteAsync);
     }
 
-    public static Task ExecuteAsync(
+    public static Task<CreateRepoResponse> ExecuteAsync(
         CreateRepoRequest createRepoRequest,
         IMediator mediator)
         => mediator.Send(

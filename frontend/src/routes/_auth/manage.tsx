@@ -14,11 +14,13 @@ function RouteComponent() {
     const [installations, setInstallations] = React.useState<GetInstallationsResponse["installations"] | null>(null)
     const [selectedProjectsInstallationId, setSelectedProjectsInstallationId] = React.useState<string>('')
     const [selectedModulesInstallationId, setSelectedModulesInstallationId] = React.useState<string>('')
+    // const [avatarUrl, setAvatarUrl] = React.useState<string | null>(null);
 
     React.useEffect(() => {
         Promise.allSettled([
             apiClient.v1.github.getInstallAppUrl.get(),
-            apiClient.v1.github.getInstalledOrganizations.get()
+            apiClient.v1.github.getInstalledOrganizations.get(),
+            // apiClient.v1.auth.me.get()
         ]).then(([urlResult, installationsResult]) => {
             if (urlResult.status === 'fulfilled') {
                 setInstallAppUrl(urlResult.value?.installUrl!)
@@ -33,6 +35,10 @@ function RouteComponent() {
             } else {
                 setError('Error getting organizations')
             }
+
+            // if (meResult.status === "fulfilled") {
+            //     setAvatarUrl(meResult.value?.avatarUrl!);
+            // }
         }).finally(() => {
             setIsLoading(false)
         });
@@ -58,6 +64,8 @@ function RouteComponent() {
         <div>
             {isLoading && <p>Loading...</p>}
             {error && <p>Error: {error}</p>}
+
+            {/* {avatarUrl && <img style={{ height: "20px", width: "20px", borderRadius: "100px", position: "absolute", right: "20px", top: "20px" }} src={avatarUrl} alt="avatar" />} */}
 
             {installAppUrl && <a href={installAppUrl} target="_blank">Install the app</a>}
             <br />

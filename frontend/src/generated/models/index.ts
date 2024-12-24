@@ -16,6 +16,15 @@ export function createCreateRepoRequestFromDiscriminatorValue(parseNode: ParseNo
 /**
  * Creates a new instance of the appropriate class based on discriminator value
  * @param parseNode The parse node to use to read the discriminator value and create the object
+ * @returns {CreateRepoResponse}
+ */
+// @ts-ignore
+export function createCreateRepoResponseFromDiscriminatorValue(parseNode: ParseNode | undefined) : ((instance?: Parsable) => Record<string, (node: ParseNode) => void>) {
+    return deserializeIntoCreateRepoResponse;
+}
+/**
+ * Creates a new instance of the appropriate class based on discriminator value
+ * @param parseNode The parse node to use to read the discriminator value and create the object
  * @returns {GetExampleResponse}
  */
 // @ts-ignore
@@ -67,6 +76,20 @@ export interface CreateRepoRequest extends Parsable {
      * The type property
      */
     type?: number | null;
+}
+export interface CreateRepoResponse extends Parsable {
+    /**
+     * The cloneUrl property
+     */
+    cloneUrl?: string | null;
+    /**
+     * The gitUrl property
+     */
+    gitUrl?: string | null;
+    /**
+     * The repoName property
+     */
+    repoName?: string | null;
 }
 /**
  * Creates a new instance of the appropriate class based on discriminator value
@@ -140,6 +163,18 @@ export function deserializeIntoCreateRepoRequest(createRepoRequest: Partial<Crea
     return {
         "name": n => { createRepoRequest.name = n.getStringValue(); },
         "type": n => { createRepoRequest.type = n.getNumberValue(); },
+    }
+}
+/**
+ * The deserialization information for the current model
+ * @returns {Record<string, (node: ParseNode) => void>}
+ */
+// @ts-ignore
+export function deserializeIntoCreateRepoResponse(createRepoResponse: Partial<CreateRepoResponse> | undefined = {}) : Record<string, (node: ParseNode) => void> {
+    return {
+        "cloneUrl": n => { createRepoResponse.cloneUrl = n.getStringValue(); },
+        "gitUrl": n => { createRepoResponse.gitUrl = n.getStringValue(); },
+        "repoName": n => { createRepoResponse.repoName = n.getStringValue(); },
     }
 }
 /**
@@ -357,6 +392,18 @@ export function serializeCreateRepoRequest(writer: SerializationWriter, createRe
     if (createRepoRequest) {
         writer.writeStringValue("name", createRepoRequest.name);
         writer.writeNumberValue("type", createRepoRequest.type);
+    }
+}
+/**
+ * Serializes information the current object
+ * @param writer Serialization writer to use to serialize this model
+ */
+// @ts-ignore
+export function serializeCreateRepoResponse(writer: SerializationWriter, createRepoResponse: Partial<CreateRepoResponse> | undefined | null = {}) : void {
+    if (createRepoResponse) {
+        writer.writeStringValue("cloneUrl", createRepoResponse.cloneUrl);
+        writer.writeStringValue("gitUrl", createRepoResponse.gitUrl);
+        writer.writeStringValue("repoName", createRepoResponse.repoName);
     }
 }
 /**
