@@ -20,8 +20,6 @@ public sealed record CreateRepoCommandHandler(
 
         var currentInstallation = userInstallations.Single(userInstallation => userInstallation.InstallationId == installationId);
 
-        // var userClient = await GithubService.GetUserClient(CurrentUserAccessor.CurrentUserId!);
-
         var response = await installationClient!.Repository.Generate(
             "compozerr",
             "base",
