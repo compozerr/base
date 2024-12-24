@@ -7,6 +7,7 @@ import {
   useRouter,
 } from '@tanstack/react-router'
 import { useAuth } from '../auth'
+import { apiClient } from '../../../../../frontend/src/api-client'
 
 export const Route = createFileRoute('/_auth')({
   beforeLoad: ({ context }) => {
@@ -26,6 +27,7 @@ function AuthLayout() {
   const router = useRouter()
   const navigate = Route.useNavigate()
   const auth = useAuth()
+  const [avartarUrl, setAvatarUrl] = React.useState<string | null>(null);
 
   const handleLogout = () => {
     if (window.confirm('Are you sure you want to logout?')) {
@@ -36,6 +38,12 @@ function AuthLayout() {
       })
     }
   }
+
+  React.useEffect(() => {
+    apiClient.v1.auth.me.get().then((res) => {
+      setAvatarUrl(res?.avatarUrl!);
+    });
+  }, []);
 
   return (
     <div className="p-2 h-full">
@@ -59,6 +67,10 @@ function AuthLayout() {
             Logout
           </button>
         </li>
+        {avartarUrl && (
+          <li>
+            <img src={avartarUrl} alt="avatar" style={{ height: "50px", width: "50px", borderRadius: "25px", marginLeft: "5px" }} />
+          </li>)}
       </ul>
       <hr />
       <Outlet />
