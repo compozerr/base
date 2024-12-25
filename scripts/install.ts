@@ -1,4 +1,6 @@
 import { exec } from "child_process";
+import path from "path";
+import fs from "fs";
 
 //#region Helper functions
 const executeCommandAsync = (command: string) => {
@@ -82,6 +84,23 @@ const installFrontendDependenciesAsync = async () => {
 }
 //#endregion
 
+//#region Initial setup
+const createEnvFileIfNotExistsAsync = async () => {
+    try {
+        const envPath = path.join(__dirname, '../backend/.env');
+        const envExamplePath = path.join(__dirname, '../backend/.env.example');
+
+        if (!fs.existsSync(envPath)) {
+            fs.copyFileSync(envExamplePath, envPath);
+            console.log('backend/.env copied from backend/.env.example');
+        }
+    } catch (error) {
+        console.error("Error creating .env file");
+        throw error;
+    }
+}
+//#endregion
+
 (async function main() {
     console.log("Installing all dependencies...");
 
@@ -91,6 +110,8 @@ const installFrontendDependenciesAsync = async () => {
     await installDotnetToolIfNotExistsAsync("microsoft.openapi.kiota");
 
     await installFrontendDependenciesAsync();
+
+    await createEnvFileIfNotExistsAsync();
 
     console.log("All dependencies installed!");
 })();
