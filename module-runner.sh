@@ -22,28 +22,37 @@ process_module() {
     fi
 }
 
-# Function for cleanup
+# Function for cleanup that ensures completion
 cleanup() {
+    # First echo to ensure this function is being called
     echo "Starting cleanup process..."
     
-    # Execute end commands in reverse order
+    # Execute end commands with explicit feedback
     find /app/modules -type f -name "compozerr.json" | sort -r | while read -r file; do
         module_dir=$(dirname "$file")
         if [ -f "$module_dir/compozerr.json" ]; then
             end_cmd=$(jq -r '.end' "$module_dir/compozerr.json")
             if [ "$end_cmd" != "null" ] && [ -n "$end_cmd" ]; then
                 echo "Executing end command in $module_dir: $end_cmd"
-                (cd "$module_dir" && eval "$end_cmd")
+                cd "$module_dir"
+                # Run command and wait for completion
+                eval "$end_cmd"
+                echo "Finished end command in $module_dir"
+                cd - || true
             fi
         fi
     done
     
-    # Ensure we exit after cleanup
-    exit 0
+    echo "Cleanup complete, exiting..."
+    # Force exit to ensure we don't hang
+    kill -9 $$
 }
 
-# Set up trap for cleanup before doing anything else
-trap cleanup SIGTERM SIGINT SIGQUIT
+# Set up traps for multiple signals
+trap cleanup SIGTERM SIGINT SIGQUIT EXIT
+
+# Store our PID
+echo $$ > /tmp/module-runner.pid
 
 # Find and process all compozerr.json files
 find /app/modules -type f -name "compozerr.json" | while read -r file; do
@@ -51,7 +60,9 @@ find /app/modules -type f -name "compozerr.json" | while read -r file; do
     process_module "$module_dir"
 done
 
-# Wait for signals in a way that allows trap to work
+echo "All modules started, waiting for signals..."
+
+# Wait loop that checks if we're being shut down
 while true; do
-    sleep 1 & wait $!
+    sleep 1
 done

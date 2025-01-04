@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   frontend:
     build:
@@ -28,6 +26,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
       - app-network
+    stop_grace_period: 30s
 
 networks:
   app-network:
