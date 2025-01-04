@@ -26,7 +26,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
       - app-network
-    stop_grace_period: 30s
+    stop_grace_period: 20s
 
 networks:
   app-network:

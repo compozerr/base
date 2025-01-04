@@ -7,6 +7,9 @@ RUN apk add --no-cache jq docker-cli docker-compose
 COPY module-runner.sh /app/
 RUN chmod +x /app/module-runner.sh
 
+COPY wrapper.sh /app/
+RUN chmod +x /app/wrapper.sh
+
 # Create a temporary directory for module handling
 RUN mkdir -p /app/modules
 
@@ -22,4 +25,4 @@ RUN for dir in /tmp/modules/*/; do \
 done && \
     rm -rf /tmp/modules
 
-CMD ["/app/module-runner.sh"]
+CMD ["/app/wrapper.sh"]
