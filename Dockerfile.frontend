@@ -1,58 +1,40 @@
-# Stage 1: Install turbo globally and prune the frontend
-FROM node:18 AS turbo-stage
-
-# Install turbo globally
-RUN npm install -g turbo
-
-# Copy the project files
-WORKDIR /app
-COPY . .
-
-# Prune the frontend for Docker
-RUN turbo prune frontend --docker
-
-# Copy entire frontend directories from modules that have compozerr.json
-RUN for module in $(find ./modules -name "compozerr.json" -exec dirname {} \;); do \
-    if [ -d "$module/frontend" ]; then \
-        echo "Copying frontend from $module"; \
-        mkdir -p "./out/full/modules/$(basename $module)"; \
-        cp -r "$module/frontend" "./out/full/modules/$(basename $module)/"; \
-    fi \
-done
-
-# Copy root package.json with workspaces config
-RUN cp package.json ./out/full/
-
-# Stage 2: Build the frontend
+# Stage 1: Build stage
 FROM node:18 AS build-stage
 
 # Set working directory
 WORKDIR /app
 
-# Copy the pruned files and module files
-COPY --from=turbo-stage /app/out/full/ .
-COPY --from=turbo-stage /app/out/json/ .
+# Copy root configuration files
+COPY package.json package-lock.json turbo.json ./
 
-# Install dependencies (including workspace packages)
+# Copy frontend directory
+COPY frontend ./frontend
+
+# Create modules directory
+RUN mkdir -p modules
+
+# Copy only frontend folders from modules while maintaining structure
+COPY modules/*/frontend ./modules/*/frontend
+
+# Install dependencies
 RUN npm install
 
-# Build the frontend
-WORKDIR /app/frontend
+# Build using turbo
 RUN turbo build
 
-# Stage 3: Production stage
+# Stage 2: Production stage
 FROM node:18-alpine
 
 WORKDIR /app
 
-# Copy the workspace configuration
-COPY --from=turbo-stage /app/out/full/package.json /app/package.json
-COPY --from=build-stage /app/frontend/dist /app/dist
-COPY --from=build-stage /app/frontend/package.json /app/frontend/package.json
-COPY --from=turbo-stage /app/out/full/modules /app/modules
+# Copy necessary files for serving
+COPY --from=build-stage /app/frontend/dist ./frontend/dist
+COPY --from=build-stage /app/frontend/package.json ./frontend/package.json
 
-# Install only the production dependencies while maintaining workspace structure
-RUN npm install --omit=dev
+# Install vite globally for serving
+RUN npm install -g vite
+
+WORKDIR /app/frontend
 
 EXPOSE 5173
 
