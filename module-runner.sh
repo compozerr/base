@@ -22,18 +22,12 @@ process_module() {
     fi
 }
 
-# Find and process all compozerr.json files
-find /app/modules -type f -name "compozerr.json" | while read -r file; do
-    module_dir=$(dirname "$file")
-    process_module "$module_dir"
-done
-
-# Handle shutdown gracefully
+# Function for cleanup
 cleanup() {
-    echo "Shutting down services..."
+    echo "Starting cleanup process..."
     
-    # Execute end commands
-    find /app/modules -type f -name "compozerr.json" | while read -r file; do
+    # Execute end commands in reverse order
+    find /app/modules -type f -name "compozerr.json" | sort -r | while read -r file; do
         module_dir=$(dirname "$file")
         if [ -f "$module_dir/compozerr.json" ]; then
             end_cmd=$(jq -r '.end' "$module_dir/compozerr.json")
@@ -43,10 +37,21 @@ cleanup() {
             fi
         fi
     done
+    
+    # Ensure we exit after cleanup
+    exit 0
 }
 
-# Set up trap for cleanup
-trap cleanup SIGTERM SIGINT
+# Set up trap for cleanup before doing anything else
+trap cleanup SIGTERM SIGINT SIGQUIT
 
-# Keep container running
-tail -f /dev/null
+# Find and process all compozerr.json files
+find /app/modules -type f -name "compozerr.json" | while read -r file; do
+    module_dir=$(dirname "$file")
+    process_module "$module_dir"
+done
+
+# Wait for signals in a way that allows trap to work
+while true; do
+    sleep 1 & wait $!
+done
