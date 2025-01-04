@@ -28,5 +28,25 @@ find /app/modules -type f -name "compozerr.json" | while read -r file; do
     process_module "$module_dir"
 done
 
+# Handle shutdown gracefully
+cleanup() {
+    echo "Shutting down services..."
+    
+    # Execute end commands
+    find /app/modules -type f -name "compozerr.json" | while read -r file; do
+        module_dir=$(dirname "$file")
+        if [ -f "$module_dir/compozerr.json" ]; then
+            end_cmd=$(jq -r '.end' "$module_dir/compozerr.json")
+            if [ "$end_cmd" != "null" ] && [ -n "$end_cmd" ]; then
+                echo "Executing end command in $module_dir: $end_cmd"
+                (cd "$module_dir" && eval "$end_cmd")
+            fi
+        fi
+    done
+}
+
+# Set up trap for cleanup
+trap cleanup SIGTERM SIGINT
+
 # Keep container running
 tail -f /dev/null
