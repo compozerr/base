@@ -9,11 +9,12 @@ WORKDIR /app/backend
 
 # Restore dependencies
 RUN dotnet restore
-RUN dotnet add package Microsoft.Build.Utilities.Core
 
-# Build the application
-RUN dotnet publish -c Release -o out --self-contained true
-
+# Build the application with specific runtime
+RUN dotnet publish ./Api/Api.csproj \
+    -c Release \
+    -o out 
+    
 # Use a lightweight runtime image for production
 FROM mcr.microsoft.com/dotnet/aspnet:9.0
 WORKDIR /app
@@ -23,8 +24,6 @@ COPY --from=build /app/backend/out .
 
 # Ensure correct permissions
 RUN chmod +x ./Api.dll
-
-ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false
 
 # Expose the port your app runs on (default for minimal APIs is 5000/5001)
 EXPOSE 5000
