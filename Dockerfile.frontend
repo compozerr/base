@@ -1,6 +1,7 @@
 # Stage 1: Build stage
 FROM node:18 AS build-stage
 
+RUN npm install -g turbo
 # Set working directory
 WORKDIR /app
 
