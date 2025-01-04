@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    ports:
+      - "1234:4173"
+    networks:
+      - app-network
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    ports:
+      - "1235:1235"
+    networks:
+      - app-network
+
+  # module-runner:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile.modules
+  #   volumes:
+  #     - ./modules:/app/modules
+  #   networks:
+  #     - app-network
+
+networks:
+  app-network:
+    driver: bridge

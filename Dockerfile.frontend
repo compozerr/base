@@ -11,27 +11,49 @@ COPY . .
 # Prune the frontend for Docker
 RUN turbo prune frontend --docker
 
-# Copy compozerr.json files
-RUN find ./modules -name "compozerr.json" -exec bash -c ' \
-    for file; do \
-        dest="./out/full/${file#./}"; \
-        mkdir -p "$(dirname "$dest")"; \
-        cp "$file" "$dest"; \
-    done' _ {} +
+# Copy entire frontend directories from modules that have compozerr.json
+RUN for module in $(find ./modules -name "compozerr.json" -exec dirname {} \;); do \
+    if [ -d "$module/frontend" ]; then \
+        echo "Copying frontend from $module"; \
+        mkdir -p "./out/full/modules/$(basename $module)"; \
+        cp -r "$module/frontend" "./out/full/modules/$(basename $module)/"; \
+    fi \
+done
+
+# Copy root package.json with workspaces config
+RUN cp package.json ./out/full/
 
 # Stage 2: Build the frontend
 FROM node:18 AS build-stage
 
-# Copy the pruned files
+# Set working directory
 WORKDIR /app
-COPY --from=turbo-stage /app/out/full .
 
-# Install dependencies and build the project
-WORKDIR /app/frontend
+# Copy the pruned files and module files
+COPY --from=turbo-stage /app/out/full/ .
+COPY --from=turbo-stage /app/out/json/ .
+
+# Install dependencies (including workspace packages)
 RUN npm install
-RUN npm run build
 
-EXPOSE 4173
+# Build the frontend
+WORKDIR /app/frontend
+RUN turbo build
 
-# Serve the application
-CMD ["npm", "run", "serve", "--", "--host"]
+# Stage 3: Production stage
+FROM node:18-alpine
+
+WORKDIR /app
+
+# Copy the workspace configuration
+COPY --from=turbo-stage /app/out/full/package.json /app/package.json
+COPY --from=build-stage /app/frontend/dist /app/dist
+COPY --from=build-stage /app/frontend/package.json /app/frontend/package.json
+COPY --from=turbo-stage /app/out/full/modules /app/modules
+
+# Install only the production dependencies while maintaining workspace structure
+RUN npm install --omit=dev
+
+EXPOSE 5173
+
+CMD ["vite", "serve", "--host"]

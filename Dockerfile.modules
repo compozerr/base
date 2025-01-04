@@ -1,0 +1,13 @@
+FROM node:18-alpine
+
+WORKDIR /app
+RUN apk add --no-cache jq docker-cli docker-compose
+
+# Copy the script that will process the modules
+COPY module-runner.sh /app/
+RUN chmod +x /app/module-runner.sh
+
+# Copy modules directory
+COPY modules/ /app/modules/
+
+CMD ["/app/module-runner.sh"]
