@@ -19,14 +19,15 @@ services:
     networks:
       - app-network
 
-  # module-runner:
-  #   build:
-  #     context: .
-  #     dockerfile: Dockerfile.modules
-  #   volumes:
-  #     - ./modules:/app/modules
-  #   networks:
-  #     - app-network
+  module-runner:
+    build:
+      context: .
+      dockerfile: Dockerfile.modules
+    volumes:
+      - ./modules:/app/modules
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - app-network
 
 networks:
   app-network:

@@ -7,32 +7,19 @@ RUN apk add --no-cache jq docker-cli docker-compose
 COPY module-runner.sh /app/
 RUN chmod +x /app/module-runner.sh
 
-# Create a temporary directory for module filtering
-WORKDIR /tmp/modules
+# Create a temporary directory for module handling
+RUN mkdir -p /app/modules
 
-# Copy all compozerr.json files first
-COPY modules/*/compozerr.json ./
-
-# Create script to filter and copy modules with start command
-RUN echo '#!/bin/sh\n\
-for dir in */; do \
+# Copy modules directory and filter based on start command
+COPY modules/ /tmp/modules/
+RUN for dir in /tmp/modules/*/; do \
     if [ -f "${dir}compozerr.json" ]; then \
         if jq -e ".start" "${dir}compozerr.json" > /dev/null 2>&1; then \
-            echo "Module ${dir%/} has start command"; \
-            mkdir -p "/app/modules/${dir%/}"; \
-            cp -r "/tmp/source/modules/${dir%/}" "/app/modules/"; \
+            echo "Copying module $(basename ${dir})"; \
+            cp -r "$dir" "/app/modules/"; \
         fi \
     fi \
-done' > copy-modules.sh && chmod +x copy-modules.sh
-
-# Copy source modules to temporary location
-COPY modules/ /tmp/source/modules/
-
-# Run the copy script
-RUN ./copy-modules.sh
-
-# Clean up temporary files
-WORKDIR /app
-RUN rm -rf /tmp/modules /tmp/source
+done && \
+    rm -rf /tmp/modules
 
 CMD ["/app/module-runner.sh"]
