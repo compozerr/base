@@ -3,28 +3,24 @@ import type { AuthContextType } from '../auth-mock';
 
 async function loadAuth() {
     try {
-        // Use a dynamic import with a URL that Vite can resolve at build time
-        const moduleUrl = new URL(
-            '../../../modules/auth/frontend/src/auth',
-            import.meta.url
-        ).href;
-        
-        const { AuthProvider, useAuth } = await import(/* @vite-ignore */moduleUrl);
+        // Instead of constructing URL, use direct import with explicit path
+        const { AuthProvider, useAuth } = await import('../../../modules/auth/frontend/src/auth');
         console.log('Auth module loaded');
         return { AuthProvider, useAuth };
     } catch (error) {
+        console.warn('Auth module not added, falling back to mock', error);
         const { AuthProvider, useAuth } = await import('../auth-mock');
-        console.warn('Auth module not added', error);
         return { AuthProvider, useAuth };
     }
 }
 /**
- * Custom hook to dynamically load authentication components. If not included auth module, it will use the mock auth. 
+ * Custom hook to dynamically load authentication components.
+ * Falls back to mock auth if the auth module is not available.
  *
- * @returns An object containing:
- * - `authComponents`: The dynamically loaded authentication components, or `null` if not yet loaded.
- * - `isLoading`: A boolean indicating whether the authentication components are currently being loaded.
- * - `error`: An error object if there was an error loading the authentication components, or `null` if no error occurred.
+ * @returns {Object} An object containing:
+ * - `authComponents`: The loaded authentication components, or `null` if not yet loaded
+ * - `isLoading`: Boolean indicating if components are being loaded
+ * - `error`: Error object if loading failed, or `null` if successful
  */
 export function useDynamicAuth() {
     const [authComponents, setAuthComponents] = useState<{
@@ -36,16 +32,29 @@ export function useDynamicAuth() {
     const [error, setError] = useState<Error | null>(null);
 
     useEffect(() => {
-        loadAuth()
-            .then(components => {
-                setAuthComponents(components);
-                setIsLoading(false);
-            })
-            .catch(err => {
-                console.error("Error loading auth components", err);
-                setError(err);
-                setIsLoading(false);
-            });
+        let mounted = true;
+
+        const loadComponents = async () => {
+            try {
+                const components = await loadAuth();
+                if (mounted) {
+                    setAuthComponents(components);
+                    setIsLoading(false);
+                }
+            } catch (err) {
+                if (mounted) {
+                    console.error("Error loading auth components:", err);
+                    setError(err instanceof Error ? err : new Error(String(err)));
+                    setIsLoading(false);
+                }
+            }
+        };
+
+        loadComponents();
+
+        return () => {
+            mounted = false;
+        };
     }, []);
 
     return {
