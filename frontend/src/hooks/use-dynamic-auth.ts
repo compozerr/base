@@ -3,8 +3,9 @@ import type { AuthContextType } from '../auth-mock';
 
 async function loadAuth() {
     try {
+        const moduleUrl = new URL('../../../modules/auth/frontend/src/auth').href;
         // Instead of constructing URL, use direct import with explicit path
-        const { AuthProvider, useAuth } = await import('../../../modules/auth/frontend/src/auth');
+        const { AuthProvider, useAuth } = await import(/* @vite-ignore */moduleUrl);
         console.log('Auth module loaded');
         return { AuthProvider, useAuth };
     } catch (error) {
