@@ -10,4 +10,13 @@ public static class EnumerableExtensions
         foreach (var item in items)
             action(item);
     }
+
+    public static async Task ApplyAsync<T>(this IEnumerable<T>? items, Func<T, Task> action)
+    {
+        if (items == null)
+            return;
+
+        foreach (var item in items)
+            await action(item);
+    }
 }

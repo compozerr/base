@@ -28,6 +28,9 @@ public abstract record IdBase<TSelf> : IParsable<TSelf>, IComparable<TSelf>
         return false;
     }
 
+    public static bool TryParse(string? s, out TSelf result)
+        => TryParse(s, null, out result);
+
     public int CompareTo(TSelf? other)
     {
         if (other is null)

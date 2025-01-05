@@ -1,8 +1,10 @@
 using Carter;
+using Core.Extensions;
 using Core.Feature;
 using Core.Helpers;
 using Core.Helpers.Env;
 using Core.MediatR;
+using Core.Options;
 using Core.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -42,6 +44,13 @@ public class CoreFeature : IFeature
 
         services.AddScoped<ILinks, Links>()
                 .AddHttpContextAccessor();
+
+        services.AddTransient<IMyServerUrlAccessor, MyServerUrlAccessor>();
+
+        services.AddRequiredConfigurationOptions<JwtOptions>("Jwt");
+
+        services.AddSingleton<IJsonWebTokenService, JsonWebTokenService>();
+
     }
 
     private static void AddWebApiConfig(IServiceCollection services, IConfiguration configuration)
