@@ -1,35 +1,36 @@
-import { Brain, Cloud, Shield, Zap } from "lucide-react"
+import { Boxes, PuzzleIcon, Rocket, Database } from "lucide-react"
 
 const features = [
   {
-    name: "AI-Powered Analytics",
-    description: "Harness the power of machine learning to derive actionable insights from your data.",
-    icon: Brain,
+    name: "Modular Full-Stack Templates",
+    description: "Build your project faster with ready-to-use full-stack modules combining frontend and backend implementations.",
+    icon: PuzzleIcon,
   },
   {
-    name: "Cloud-Native Architecture",
-    description: "Scalable, resilient, and efficient solutions built for the modern cloud ecosystem.",
-    icon: Cloud,
+    name: "Community Marketplace",
+    description: "Access a growing ecosystem of community-built modules, from authentication to payment systems.",
+    icon: Boxes,
   },
   {
-    name: "Enterprise-Grade Security",
-    description: "State-of-the-art security measures to protect your most valuable assets.",
-    icon: Shield,
+    name: "Instant Project Setup",
+    description: "Start your project in minutes by selecting and combining the modules you need, no configuration hassle.",
+    icon: Rocket,
   },
   {
-    name: "High-Performance Systems",
-    description: "Optimized for speed and efficiency, our solutions deliver unparalleled performance.",
-    icon: Zap,
+    name: "Pre-built Integrations",
+    description: "Choose from various integrated solutions including auth, database, Stripe, and more - all working seamlessly together.",
+    icon: Database,
   },
 ]
 
+// Rest of the component remains the same, just update the title and subtitle
 export default function Features() {
   return (
     <section className="container space-y-16 py-24 md:py-32">
       <div className="mx-auto max-w-[58rem] text-center">
-        <h2 className="font-bold text-3xl leading-[1.1] sm:text-3xl md:text-5xl">Cutting-Edge Solutions</h2>
+        <h2 className="font-bold text-3xl leading-[1.1] sm:text-3xl md:text-5xl">Build Faster, Build Better</h2>
         <p className="mt-4 text-muted-foreground sm:text-lg">
-          Discover how Amane Soft can transform your business with our innovative technologies.
+          Choose the modules you need and start building your full-stack application in minutes.
         </p>
       </div>
       <div className="mx-auto grid max-w-5xl grid-cols-1 gap-8 md:grid-cols-2">

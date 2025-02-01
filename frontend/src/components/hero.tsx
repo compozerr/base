@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button"
 import { ArrowRight } from "lucide-react"
+import { CopyCommand } from "./copy-command"
 
 export default function Hero() {
   return (
@@ -10,12 +11,10 @@ export default function Hero() {
           <br />
           compozerr
         </h1>
-        <p className="mx-auto max-w-[42rem] leading-normal text-muted-foreground sm:text-xl sm:leading-8">
-          Empowering businesses with cutting-edge software solutions. From AI-driven analytics to seamless cloud
-          integrations, we're shaping the future of technology.
-        </p>
+        <br/>
+        <CopyCommand />
       </div>
-      <div className="flex gap-4">
+      <div className="flex gap-4 pt-4">
         <Button size="lg">
           Explore Solutions
           <ArrowRight className="ml-2 h-4 w-4" />
@@ -23,6 +22,11 @@ export default function Hero() {
         <Button variant="outline" size="lg">
           Schedule a Demo
         </Button>
+      </div>
+      <div className="mx-auto mt-16 max-w-[42rem]">
+        <p className="leading-normal text-muted-foreground sm:text-xl sm:leading-8">
+          Compozerr revolutionizes project initialization by offering full-stack, modular templates. Download precisely what you need - from authentication and database implementations to payment integrations. Each module comes complete with both frontend and backend code, allowing you to build production-ready applications faster than ever before.
+        </p>
       </div>
     </section>
   )
