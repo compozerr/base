@@ -16,20 +16,29 @@
     "devDependencies": {
         "@repo/config": "*",
         "@tanstack/router-plugin": "^1.79.0",
+        "@types/node": "^22.13.0",
         "@types/react": "^18.3.3",
         "@types/react-dom": "^18.3.0",
         "@vitejs/plugin-react": "^4.3.2",
+        "autoprefixer": "^10.4.20",
         "glob": "^11.0.0",
         "openapi-zod-client": "^1.18.2",
+        "postcss": "^8.5.1",
+        "tailwindcss": "^3.4.17",
         "vite": "^5.4.8"
     },
     "dependencies": {
-        "@repo/auth": "*",
         "@microsoft/kiota-bundle": "^1.0.0-preview.77",
+        "@repo/auth": "*",
         "@repo/template": "*",
         "@tanstack/react-router": "^1.79.0",
         "@tanstack/router-devtools": "^1.79.0",
+        "class-variance-authority": "^0.7.1",
+        "clsx": "^2.1.1",
+        "lucide-react": "^0.474.0",
         "react": "^18.3.1",
-        "react-dom": "^18.3.1"
+        "react-dom": "^18.3.1",
+        "tailwind-merge": "^3.0.1",
+        "tailwindcss-animate": "^1.0.7"
     }
 }
