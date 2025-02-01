@@ -29,6 +29,7 @@
     },
     "dependencies": {
         "@microsoft/kiota-bundle": "^1.0.0-preview.77",
+        "@radix-ui/react-avatar": "^1.1.2",
         "@radix-ui/react-slot": "^1.1.1",
         "@repo/auth": "*",
         "@repo/template": "*",
@@ -41,6 +42,7 @@
         "next-themes": "^0.4.4",
         "react": "^18.3.1",
         "react-dom": "^18.3.1",
+        "recharts": "^2.15.1",
         "tailwind-merge": "^3.0.1",
         "tailwindcss-animate": "^1.0.7"
     }

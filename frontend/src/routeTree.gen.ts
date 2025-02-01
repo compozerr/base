@@ -19,7 +19,7 @@ import { Route as IndexImport } from './routes/index'
 import { Route as ExampleIndexImport } from './../../modules/template/frontend/src/routes/example/index'
 import { Route as AuthManageImport } from './routes/_auth/manage'
 import { Route as AuthLogoutImport } from './../../modules/auth/frontend/src/routes/_auth/logout'
-import { Route as AuthDashboardImport } from './../../modules/auth/frontend/src/routes/_auth/dashboard'
+import { Route as AuthDashboardImport } from './routes/_auth/dashboard'
 
 // Create/Update Routes
 
@@ -293,7 +293,7 @@ export const routeTree = rootRoute
       "filePath": "./using-module-component.tsx"
     },
     "/_auth/dashboard": {
-      "filePath": "../../../modules/auth/frontend/src/routes/_auth/dashboard.tsx",
+      "filePath": "./_auth/dashboard.tsx",
       "parent": "/_auth"
     },
     "/_auth/logout": {

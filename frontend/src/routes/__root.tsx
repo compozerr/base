@@ -19,11 +19,7 @@ function InnerRootComponent() {
     <>
       <Navbar />
 
-      <hr />
-
-      <div className='p-2'>
-        <Outlet />
-      </div>
+      <Outlet />
       <TanStackRouterDevtools position="bottom-right" />
     </>
   )
