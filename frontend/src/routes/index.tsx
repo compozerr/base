@@ -1,10 +1,11 @@
 import * as React from 'react'
 import { createFileRoute } from '@tanstack/react-router'
-import Header from '@/components/header'
 import Hero from '@/components/hero'
 import Features from '@/components/features'
 import Footer from '@/components/footer'
-import Testimonials from '@/components/testimonials'
+import CTA from '@/components/cta'
+import Navbar from '@/components/navbar'
+import MouseMoveEffect from '@/components/mouse-move-effect'
 
 export const Route = createFileRoute('/')({
   component: HomeComponent,
@@ -12,14 +13,24 @@ export const Route = createFileRoute('/')({
 
 function HomeComponent() {
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900">
-      <Header />
-      <main>
-        <Hero />
-        <Features />
-        <Testimonials />
-      </main>
-      <Footer />
-    </div>
+    <>
+      <MouseMoveEffect />
+
+      <div className="relative min-h-screen">
+        {/* Background gradients */}
+        <div className="pointer-events-none fixed inset-0">
+          <div className="absolute inset-0 bg-gradient-to-b from-background via-background/90 to-background" />
+          <div className="absolute right-0 top-0 h-[500px] w-[500px] bg-blue-500/10 blur-[100px]" />
+          <div className="absolute bottom-0 left-0 h-[500px] w-[500px] bg-purple-500/10 blur-[100px]" />
+        </div>
+
+        <div className="relative z-10">
+          <Hero />
+          <Features />
+          <CTA />
+          <Footer />
+        </div>
+      </div>
+    </>
   )
 }
