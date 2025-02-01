@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { createFileRoute, redirect } from '@tanstack/react-router'
 import { z } from 'zod'
-import { useAuth } from '../auth'
+import { useAuth } from '@/hooks/use-dynamic-auth'
 
 const fallback = '/dashboard' as const
 

@@ -6,8 +6,8 @@ import {
   redirect,
   useRouter,
 } from '@tanstack/react-router'
-import { useAuth } from '../auth'
 import { apiClient } from '../../../../../frontend/src/api-client'
+import { useAuth } from '@/hooks/use-dynamic-auth'
 
 export const Route = createFileRoute('/_auth')({
   beforeLoad: ({ context }) => {

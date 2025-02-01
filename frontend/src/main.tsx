@@ -35,7 +35,7 @@ const App = () => {
   const { AuthProvider } = authComponents;
 
   const InnerApp = () => {
-    const auth = authComponents.useAuth();
+    const auth = authComponents.useDynamicAuth();
     return <RouterProvider router={router} context={{ auth }} />;
   };
 

@@ -80,7 +80,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     )
 }
 
-export function useAuth() {
+export function useDynamicAuth() {
     const context = React.useContext(AuthContext)
     if (!context) {
         throw new Error('useAuth must be used within an AuthProvider')

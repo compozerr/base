@@ -1,15 +1,21 @@
 import React from 'react';
 import StyledLink from "./styled-link";
+import { useAuth } from '@/hooks/use-dynamic-auth';
 
 interface Props {
 
 }
 
 const LoginButton: React.FC<Props> = (props) => {
+   const { user } = useAuth();
+
    return (
       <div>
-         <StyledLink href="/login" variant="default" size="sm"
-         >Login</StyledLink>
+         {user
+            ? <StyledLink href="/dashboard" variant="default" size="sm"
+            >Dashboard</StyledLink>
+            : <StyledLink href="/login" variant="default" size="sm"
+            >Login</StyledLink>}
       </div>
    );
 }
