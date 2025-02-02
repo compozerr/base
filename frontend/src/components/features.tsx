@@ -115,7 +115,7 @@ function FeatureCard({ feature }: { feature: (typeof features)[0] }) {
         rotateX,
         rotateY,
       }}
-      className="group relative overflow-hidden rounded-lg border bg-background p-8 transition-all duration-200"
+      className="group relative overflow-hidden rounded-lg border bg-background p-8 transition-all duration-200  flex flex-col justify-between"
       initial={{ scale: 1 }}
       whileHover={{ scale: 1.02, transition: { duration: 0.2 } }}
     >

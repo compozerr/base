@@ -3,8 +3,6 @@ import { createFileRoute } from '@tanstack/react-router'
 import Hero from '@/components/hero'
 import Features from '@/components/features'
 import Footer from '@/components/footer'
-import CTA from '@/components/cta'
-import Navbar from '@/components/navbar'
 import MouseMoveEffect from '@/components/mouse-move-effect'
 
 export const Route = createFileRoute('/')({
@@ -28,7 +26,6 @@ function HomeComponent() {
           
           <Hero />
           <Features />
-          <CTA />
           <Footer />
         </div>
       </div>

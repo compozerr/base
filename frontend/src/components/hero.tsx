@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button"
 import { ArrowRight } from "lucide-react"
 import { CopyCommand } from "./copy-command"
+import StyledLink from "./styled-link"
 
 export default function Hero() {
   return (
@@ -15,12 +16,12 @@ export default function Hero() {
         <CopyCommand />
       </div>
       <div className="flex gap-4 pt-4">
-        <Button size="lg">
-          Explore Solutions
+        <StyledLink href="/docs" size="lg">
+          Documentation
           <ArrowRight className="ml-2 h-4 w-4" />
-        </Button>
+        </StyledLink>
         <Button variant="outline" size="lg">
-          Schedule a Demo
+          Watch demo
         </Button>
       </div>
       <div className="mx-auto mt-16 max-w-[42rem]">
