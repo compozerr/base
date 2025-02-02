@@ -1,5 +1,6 @@
 {
     "name": "docs",
     "start": "npm run dev",
-    "port": "1236"
+    "port": "1236",
+    "readyMessage": "regex:client .* compiled successfully"
 }
