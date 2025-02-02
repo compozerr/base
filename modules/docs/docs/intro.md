@@ -24,7 +24,13 @@ compozerr leverages cutting-edge technologies to provide a robust full-stack dev
 
 > 💡 This powerful combination creates a **modern**, _scalable_, and fully type-safe development ecosystem. The Swagger endpoints are automatically converted into type-safe API clients, ensuring end-to-end type safety in your web applications.
 
-
+🔌 **Plug and Play Modules**
+- Community-driven package library
+- Each package is a self-contained full-stack module
+- Optional frontend and backend implementations
+- Simple module creation and deployment
+- Easy integration using the [compozerr cli](https://compozerr.com)
+- Share your modules with the community
 
 ## Getting Started
 
