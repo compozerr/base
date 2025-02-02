@@ -3,9 +3,28 @@ slug: /
 sidebar_position: 1
 ---
 
-# Tutorial Intro
+# Introduction
 
-Let's discover **Docusaurus in less than 5 minutes**.
+Let's discover **compozerr in less than 5 minutes**.
+
+## What is it?
+
+compozerr leverages cutting-edge technologies to provide a robust full-stack development experience:
+
+🚀 **Backend**
+- Built on `.NET 9`'s minimal API approach
+- Delivers lightweight & high-performance HTTP services
+- Exposes Swagger/OpenAPI endpoints for API documentation
+
+⚛️ **Frontend**
+- `React` with [Tanstack Router](https://tanstack.com/router)
+- Type-safe architecture with auto-generated API clients
+- Efficient client-side routing
+- Seamless data fetching with [Tanstack Query](https://tanstack.com/query) hooks
+
+> 💡 This powerful combination creates a **modern**, _scalable_, and fully type-safe development ecosystem. The Swagger endpoints are automatically converted into type-safe API clients, ensuring end-to-end type safety in your web applications.
+
+
 
 ## Getting Started
 
