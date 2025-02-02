@@ -32,42 +32,39 @@ compozerr leverages cutting-edge technologies to provide a robust full-stack dev
 - Easy integration using the [compozerr cli](https://compozerr.com)
 - Share your modules with the community
 
-## Getting Started
 
-Get started by **creating a new site**.
+## Getting started
 
-Or **try Docusaurus immediately** with **[docusaurus.new](https://docusaurus.new)**.
+### Prerequisites 💻
+Before you begin, ensure you have the following installed:
+- [Node.js](https://nodejs.org/)
+- [.NET](https://dotnet.microsoft.com/download)
 
-### What you'll need
+### Quick Start Guide 🚀
 
-- [Node.js](https://nodejs.org/en/download/) version 18.0 or above:
-  - When installing Node.js, you are recommended to check all checkboxes related to dependencies.
+Follow these simple steps to get started with compozerr:
 
-## Generate a new site
-
-Generate a new Docusaurus site using the **classic template**.
-
-The classic template will automatically be added to your project after you run the command:
-
+1. **Install the CLI** 🛠️
 ```bash
-npm init docusaurus@latest my-website classic
+/bin/bash -c "$(curl -fsSL https://compozerr.com/install.sh)"
 ```
 
-You can type this command into Command Prompt, Powershell, Terminal, or any other integrated terminal of your code editor.
-
-The command also installs all necessary dependencies you need to run Docusaurus.
-
-## Start your site
-
-Run the development server:
-
+2. **Authenticate** 🔑
 ```bash
-cd my-website
-npm run start
+compozerr login
 ```
 
-The `cd` command changes the directory you're working with. In order to work with your newly created Docusaurus site, you'll need to navigate the terminal there.
+3. **Create Your Project** 📂
+```bash
+compozerr new project my-project
+```
 
-The `npm run start` command builds your website locally and serves it through a development server, ready for you to view at http://localhost:3000/.
+4. **Launch Development** ▶️
+Press `F5` in your IDE to start the development environment
 
-Open `docs/intro.md` (this page) and edit some lines: the site **reloads automatically** and displays your changes.
+5. **Deploy to Production** 🌐
+```bash
+compozerr deploy project
+```
+
+> 💡 Each step takes just a few seconds to complete. You'll have your first compozerr project up and running in no time!
