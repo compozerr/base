@@ -31,7 +31,7 @@ function RouteComponent() {
     return (
         <div className="min-h-screen bg-black text-white">
             <div className="grid lg:grid-cols-[280px_1fr]">
-                <aside className="border-r bg-background/50 backdrop-blur flex flex-col justify-between">
+                <aside className="fixed top-0 bottom-0 w-[280px] border-r bg-background/50 backdrop-blur flex flex-col justify-between max-h-screen">
                     <div>
                         <div className="flex h-16 items-center gap-4 border-b px-6">
                             <img src={user?.avatarUrl} alt={`${user?.name}-avatar`} className="h-10 w-10 rounded-full" />
@@ -80,7 +80,7 @@ function RouteComponent() {
                         </Button>
                     </nav>
                 </aside>
-                <main className="p-6">
+                <main className="p-6 pl-[300px] overflow-y-auto w-screen">
                     <div className="mb-6 flex items-center justify-between">
                         <div className="space-y-1">
                             <h1 className="text-2xl font-bold">Microservices Overview</h1>

@@ -4,6 +4,7 @@ import Hero from '@/components/hero'
 import Features from '@/components/features'
 import Footer from '@/components/footer'
 import MouseMoveEffect from '@/components/mouse-move-effect'
+import Navbar from '@/components/navbar'
 
 export const Route = createFileRoute('/')({
   component: HomeComponent,
@@ -23,7 +24,7 @@ function HomeComponent() {
         </div>
 
         <div className="relative z-10">
-          
+          <Navbar />
           <Hero />
           <Features />
           <Footer />
