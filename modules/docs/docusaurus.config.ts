@@ -48,7 +48,12 @@ const config: Config = {
   ],
 
   themeConfig: {
-
+    // algolia: {
+    //   apiKey: 'YOUR_ALGOLIA_API_KEY',
+    //   indexName: 'YOUR_INDEX_NAME',
+    //   appId: 'YOUR_APP_ID',
+    //   contextualSearch: true,
+    // },
     navbar: {
       title: 'compozerr'
     },
