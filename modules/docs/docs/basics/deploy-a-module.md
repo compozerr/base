@@ -1,5 +1,5 @@
 ---
-sidebar_position: 1
+sidebar_position: 40
 ---
 
 # Deploy a module
@@ -15,3 +15,7 @@ compozerr deploy module <name>
 ```
 
 This command will build the module and deploy it to the community registry, making it available for others to use. If you already deployed the module, this command will update the existing version.
+
+:::warning Requires login
+This command requires you to be [logged in](./login.md) to your compozerr account.
+:::
