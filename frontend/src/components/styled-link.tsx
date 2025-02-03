@@ -9,7 +9,7 @@ type Props = ButtonProps & React.AnchorHTMLAttributes<HTMLAnchorElement> & {
 
 const StyledLink: React.FC<Props> = (props) => {
     return (
-        <Link href="/login"
+        <Link href={props.href}
             className={cn(buttonVariants({ variant: props.variant, size: props.size, className: props.className }))}
         >{props.children}</Link>
     );
