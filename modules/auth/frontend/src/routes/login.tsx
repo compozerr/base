@@ -26,7 +26,7 @@ function RouteComponent() {
   }, [auth])
   
   return (
-    <div className="p-2 h-full">
+    <div className="p-2 h-full justify-center items-center">
       {loading && <p>Loading...</p>}
       {error && <p>Error: {error.message}</p>}
     </div>
