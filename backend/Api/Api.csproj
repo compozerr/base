@@ -9,6 +9,7 @@
     <ProjectReference Include="..\Core\Core.csproj" />
     <ProjectReference Include="..\..\modules\template\backend\Template\Template.csproj" />
     <ProjectReference Include="..\Api.Abstractions\Api.Abstractions.csproj" />
+    <ProjectReference Include="..\Api.Data\Api.Data.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Include="../.env">
@@ -18,10 +19,6 @@
 
   <ItemGroup>
     <PackageReference Include="Carter" Version="9.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.0">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
     <PackageReference Include="Serilog" Version="4.1.0" />
     <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
     <PackageReference Include="Serilog.Sinks.Humio" Version="2.0.1" />

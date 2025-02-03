@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cli.Auth", "..\modules\cli\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api.Abstractions", "Api.Abstractions\Api.Abstractions.csproj", "{315553B2-2915-446E-81C0-944CBF039527}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api.Data", "Api.Data\Api.Data.csproj", "{02C77853-FCB6-40E1-9FBE-1290FE3277BF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,6 +89,10 @@ Global
 		{315553B2-2915-446E-81C0-944CBF039527}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{315553B2-2915-446E-81C0-944CBF039527}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{315553B2-2915-446E-81C0-944CBF039527}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02C77853-FCB6-40E1-9FBE-1290FE3277BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02C77853-FCB6-40E1-9FBE-1290FE3277BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02C77853-FCB6-40E1-9FBE-1290FE3277BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02C77853-FCB6-40E1-9FBE-1290FE3277BF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
