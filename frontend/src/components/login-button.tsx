@@ -14,7 +14,7 @@ const LoginButton: React.FC<Props> = (props) => {
          {user
             ? <StyledLink href="/dashboard" variant="default" size="sm"
             >Dashboard</StyledLink>
-            : <StyledLink href="/login?redirect=/dashboard" variant="default" size="sm"
+            : <StyledLink href={`/login?redirect=${location.origin}/dashboard`} variant="default" size="sm"
             >Login</StyledLink>}
       </div>
    );
