@@ -8,6 +8,7 @@
     <ProjectReference Include="..\..\modules\cli\backend\Cli\Cli.csproj" />
     <ProjectReference Include="..\Core\Core.csproj" />
     <ProjectReference Include="..\..\modules\template\backend\Template\Template.csproj" />
+    <ProjectReference Include="..\Api.Abstractions\Api.Abstractions.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Include="../.env">
