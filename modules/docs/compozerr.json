@@ -2,5 +2,6 @@
     "name": "docs",
     "start": "npm run dev",
     "port": "1236",
-    "readyMessage": "regex:client .* compiled successfully"
+    "readyMessage": "regex:client .* compiled successfully",
+    "startupTimeoutMs": 10000
 }
