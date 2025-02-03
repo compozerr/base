@@ -1,9 +1,6 @@
 using Auth.Services;
-using Github.Services;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Routing;
 
-namespace Cli.Endpoints.Deployment;
+namespace Api.Endpoints.Deployment;
 
 public static class DeployProjectRoute
 {
@@ -14,7 +11,7 @@ public static class DeployProjectRoute
         return app.MapPost(Route, ExecuteAsync);
     }
 
-    public static Task<IReadOnlyList<RepositoryDto>> ExecuteAsync(
+    public static Task ExecuteAsync(
         ICurrentUserAccessor currentUserAccessor)
         => throw new NotImplementedException();
 }

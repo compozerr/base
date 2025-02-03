@@ -1,8 +1,4 @@
-using Carter;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Routing;
-
-namespace Cli.Endpoints.Deployment;
+namespace Api.Endpoints.Deployment;
 
 public static class DeploymentGroup
 {

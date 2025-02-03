@@ -1,11 +1,8 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Routing;
-
-namespace Cli.Endpoints.Deployment;
+namespace Api.Endpoints.Deployment;
 
 public static class DeployModuleRoute
 {
-    public const string Route = "Modules";
+    public const string Route = "/modules";
 
     public static RouteHandlerBuilder AddDeployModuleRoute(this IEndpointRouteBuilder app)
     {
