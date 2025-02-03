@@ -1,41 +1,19 @@
-import { AnonymousAuthenticationProvider, ParseNodeFactory, ParseNodeFactoryRegistry, type SerializationWriterFactory } from "@microsoft/kiota-abstractions";
-import { FetchRequestAdapter, HeadersInspectionHandler, KiotaClientFactory, ParametersNameDecodingHandler, RedirectHandler, RetryHandler, UserAgentHandler } from "@microsoft/kiota-http-fetchlibrary";
-import { createApiClient } from "./generated/apiClient";
-import { JsonParseNodeFactory, JsonSerializationWriterFactory } from "@microsoft/kiota-serialization-json";
-import {
-    SerializationWriterFactoryRegistry
-} from "@microsoft/kiota-abstractions/dist/es/src/serialization/serializationWriterFactoryRegistry";
+import { createAPIClient } from "./generated";
+import { OperationSchema, requestFn, RequestFnInfo, RequestFnOptions } from "@openapi-qraft/react";
+import { QueryClient } from "@tanstack/react-query";
 
-const authProvider = new AnonymousAuthenticationProvider();
+export const queryClient = new QueryClient();
 
-const localParseNodeFactory: ParseNodeFactoryRegistry = new ParseNodeFactoryRegistry();
-const jsonParseNodeFactory: ParseNodeFactory = new JsonParseNodeFactory();
-localParseNodeFactory.contentTypeAssociatedFactories.set(jsonParseNodeFactory.getValidContentType(), jsonParseNodeFactory);
+export const apiBaseUrl = import.meta.env.VITE_BACKEND_URL;
 
-const localSerializationWriterFactory: SerializationWriterFactoryRegistry = new SerializationWriterFactoryRegistry();
-const jsonSerializer: SerializationWriterFactory = new JsonSerializationWriterFactory();
-
-localSerializationWriterFactory.contentTypeAssociatedFactories.set(jsonSerializer.getValidContentType(), jsonSerializer);
-
-const http = KiotaClientFactory.create((url, requestInit) => {
-    return fetch(url, {
-        ...requestInit,
-        credentials: 'include',
-    });
-}, [
-    new RetryHandler(),
-    new RedirectHandler(),
-    new ParametersNameDecodingHandler(),
-    new UserAgentHandler(),
-    new HeadersInspectionHandler()
-]);
-
-const adapter = new FetchRequestAdapter(
-    authProvider,
-    localParseNodeFactory,
-    localSerializationWriterFactory,
-    http);
-
-adapter.baseUrl = import.meta.env.VITE_BACKEND_URL;
-
-export const apiClient = createApiClient(adapter);
+export const api = createAPIClient({
+    requestFn: (schema: OperationSchema, requestInfo: RequestFnInfo, options?: RequestFnOptions) => {
+        return requestFn(
+            schema,
+            { ...requestInfo, credentials: "include" },
+            { ...options }
+        );
+    },
+    queryClient,
+    baseUrl: apiBaseUrl
+});

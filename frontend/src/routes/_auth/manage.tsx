@@ -1,64 +1,41 @@
 import * as React from 'react'
 import { createFileRoute } from '@tanstack/react-router'
-import { apiClient } from '../../api-client'
-import { GetInstallationsResponse } from '../../generated/models'
+import { api } from '../../api-client'
+import { useCallback, useEffect, useMemo } from 'react'
 
 export const Route = createFileRoute('/_auth/manage')({
     component: RouteComponent,
 })
 
 function RouteComponent() {
-    const [isLoading, setIsLoading] = React.useState(true)
-    const [error, setError] = React.useState<string | null>(null)
-    const [installAppUrl, setInstallAppUrl] = React.useState<string | null>(null)
-    const [installations, setInstallations] = React.useState<GetInstallationsResponse["installations"] | null>(null)
+    const { data: appUrlData, isLoading: appUrlLoading, error: appUrlError } = api.v1.getGithubGetInstallAppUrl.useQuery()
+    const { data: installationsData, isLoading: installationsLoading, error: installationsError } = api.v1.getGithubGetInstalledOrganizations.useQuery()
+
+    const isLoading = appUrlLoading || installationsLoading
+    const error = (appUrlError as Error)?.message || (installationsError as Error)?.message || null;
+
+    const installAppUrl = appUrlData?.installUrl || null
+
     const [selectedProjectsInstallationId, setSelectedProjectsInstallationId] = React.useState<string>('')
-    const [selectedModulesInstallationId, setSelectedModulesInstallationId] = React.useState<string>('')
-    // const [avatarUrl, setAvatarUrl] = React.useState<string | null>(null);
+    const [selectedModulesInstallationId, setSelectedModulesInstallationId] = React.useState<string>('')    
 
-    React.useEffect(() => {
-        Promise.allSettled([
-            apiClient.v1.github.getInstallAppUrl.get(),
-            apiClient.v1.github.getInstalledOrganizations.get(),
-            // apiClient.v1.auth.me.get()
-        ]).then(([urlResult, installationsResult]) => {
-            if (urlResult.status === 'fulfilled') {
-                setInstallAppUrl(urlResult.value?.installUrl!)
-            } else {
-                setError(JSON.stringify(urlResult.reason))
-            }
+    const defaultOrganizationMutation = api.v1.postGithubSetDeafultOrganization.useMutation();
 
-            if (installationsResult.status === 'fulfilled') {
-                setInstallations(installationsResult.value?.installations!)
-                setSelectedProjectsInstallationId(installationsResult.value?.selectedProjectsInstallationId!)
-                setSelectedModulesInstallationId(installationsResult.value?.selectedModulesInstallationId!)
-            } else {
-                setError('Error getting organizations')
-            }
+    const installations = useMemo(() => installationsData?.installations || [], [installationsData])
 
-            // if (meResult.status === "fulfilled") {
-            //     setAvatarUrl(meResult.value?.avatarUrl!);
-            // }
-        }).finally(() => {
-            setIsLoading(false)
-        });
-    }, []);
+    useEffect(() => {
+        if (!installationsData) return;
 
-    const onChangeProjects = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const installationId = e.target.value;
-        setSelectedProjectsInstallationId(installationId);
+        setSelectedProjectsInstallationId(installationsData.selectedProjectsInstallationId!)
+        setSelectedModulesInstallationId(installationsData.selectedModulesInstallationId!)
+    }, [installationsData])
 
-        if (!installationId) return;
-        apiClient.v1.github.setDeafultOrganization.post({ installationId, type: 1 });
-    }
-
-    const onChangeModules = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const installationId = e.target.value;
-        setSelectedModulesInstallationId(installationId);
-
-        if (!installationId) return;
-        apiClient.v1.github.setDeafultOrganization.post({ installationId, type: 2 });
-    }
+    const handleDefaultOrganizationChange = useCallback((installationId: string, type: 1 | 2) => {
+        setSelectedProjectsInstallationId(installationId)
+        if (installationId) {
+            defaultOrganizationMutation.mutate({ body: { installationId, type: type } })
+        }
+    }, [defaultOrganizationMutation])
 
     return (
         <div>
@@ -71,7 +48,7 @@ function RouteComponent() {
             <br />
             <h3>Default project organization</h3>
             {installations && (
-                <select className="form-select mt-2" onChange={onChangeProjects} value={selectedProjectsInstallationId}>
+                <select className="form-select mt-2" onChange={(e) => handleDefaultOrganizationChange(e.target.value, 1)} value={selectedProjectsInstallationId}>
                     {installations!.map(i => (
                         <option key={i.installationId} value={i.installationId!}>{i.name}</option>
                     ))}
@@ -81,7 +58,7 @@ function RouteComponent() {
 
             <h3>Default modules organization</h3>
             {installations && (
-                <select className="form-select mt-2" onChange={onChangeModules} value={selectedModulesInstallationId}>
+                <select className="form-select mt-2" onChange={(e) => handleDefaultOrganizationChange(e.target.value, 2)} value={selectedModulesInstallationId}>
                     {installations!.map(i => (
                         <option key={i.installationId} value={i.installationId!}>{i.name}</option>
                     ))}

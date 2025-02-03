@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { apiClient } from '../../../../frontend/src/api-client';
+import { api, apiBaseUrl } from '../../../../frontend/src/api-client';
 import { AuthContextType, AuthUserType } from '../../../../frontend/src/auth-mock';
 
 
@@ -11,7 +11,7 @@ async function fetchAndSetUser(setUser: React.Dispatch<React.SetStateAction<Auth
     let response = null;
 
     try {
-        response = await apiClient.v1.auth.me.get();
+        response = await api.v1.getAuthMe.fetchQuery();
     } catch (e) { }
 
     if (!response) {
@@ -52,7 +52,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const isAuthenticated = !!user
 
     const logout = React.useCallback(async () => {
-        await apiClient.v1.auth.logout.get();
+        await api.v1.getAuthLogout.fetchQuery();
 
         setStoredUser(null)
         setUser(null)
@@ -61,7 +61,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }, [])
 
     const login = React.useCallback(async () => {
-        const loginUrl = apiClient.v1.auth.login.toGetRequestInformation().URL;
+        const loginUrl = `${apiBaseUrl}${api.v1.getAuthLogin.getQueryKey()[0].url}`
 
         console.log('loginUrl', loginUrl)
 
