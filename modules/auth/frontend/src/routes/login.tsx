@@ -18,17 +18,15 @@ export const Route = createFileRoute('/login')({
 })
 
 function RouteComponent() {
-  const [loading, setLoading] = React.useState(true)
-  const [error, setError] = React.useState<Error | null>(null)
   const auth = useAuth()
+
   React.useEffect(() => {
     auth.login();
   }, [auth])
-  
+
   return (
     <div className="p-2 h-full justify-center items-center">
-      {loading && <p>Loading...</p>}
-      {error && <p>Error: {error.message}</p>}
+      {<p>Loading...</p>}
     </div>
   )
 }
