@@ -69,16 +69,11 @@ function RouteComponent() {
             <CardDescription>Manage your GitHub app installation and organization settings.</CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
-            {isLoading ? (
-              <div className="space-y-2">
-                <Skeleton className="h-4 w-[250px]" />
-                <Skeleton className="h-4 w-[200px]" />
-              </div>
-            ) : error ? (
+            {error ? (
               <p className="text-destructive">Error: {error}</p>
             ) : (
               <>
-                {installAppUrl && (
+                {isLoading ? <Skeleton className="h-[38px] w-[170px] pb-2" /> : installAppUrl && (
                   <Button asChild variant="outline" className="w-full sm:w-auto">
                     <a href={installAppUrl} target="_blank" rel="noopener noreferrer">
                       <Github className="h-4 w-4" />
@@ -103,7 +98,7 @@ function RouteComponent() {
                         </Tooltip>
                       </TooltipProvider>
                     </div>
-                    <Select
+                    {isLoading ? <Skeleton className="h-10 w-1/2" /> : <Select
                       value={selectedProjectsInstallationId}
                       onValueChange={(value) => handleDefaultOrganizationChange(value, 1)}
                     >
@@ -117,7 +112,7 @@ function RouteComponent() {
                           </SelectItem>
                         ))}
                       </SelectContent>
-                    </Select>
+                    </Select>}
                   </div>
                   <div className="space-y-2">
                     <div className="flex items-center gap-1">
@@ -135,7 +130,7 @@ function RouteComponent() {
                         </Tooltip>
                       </TooltipProvider>
                     </div>
-                    <Select
+                    {isLoading ? <Skeleton className="h-10 w-1/2" /> : <Select
                       value={selectedModulesInstallationId}
                       onValueChange={(value) => handleDefaultOrganizationChange(value, 2)}
                     >
@@ -149,7 +144,7 @@ function RouteComponent() {
                           </SelectItem>
                         ))}
                       </SelectContent>
-                    </Select>
+                    </Select>}
                   </div>
                 </div>
               </>
