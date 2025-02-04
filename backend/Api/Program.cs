@@ -1,4 +1,6 @@
 using Api.Options;
+using Api.Repositories;
+using Api.Services;
 using Core.Extensions;
 using Core.Feature;
 using Core.MediatR;
@@ -12,6 +14,10 @@ Features.RegisterConfigureCallback<AssembliesFeatureConfigureCallback>();
 
 builder.ConfigureFeatures();
 builder.Services.AddFeatures(builder.Configuration);
+builder.Services.AddSingleton<IEncryptionService, EncryptionService>();
+builder.Services.AddSingleton<IHashService, HashService>();
+builder.Services.AddSingleton<IServerRepository, ServerRepository>();
+builder.Services.AddSingleton<IServerService, ServerService>();
 
 builder.Services.AddRequiredConfigurationOptions<EncryptionOptions>("Encryption");
 
