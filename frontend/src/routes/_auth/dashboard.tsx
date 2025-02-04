@@ -52,7 +52,7 @@ function RouteComponent() {
                             <img
                                 src={user?.avatarUrl}
                                 alt={`${user?.name}-avatar`}
-                                className="h-10 w-10 rounded-full"
+                                className="h-8 w-8 rounded-full"
                             />
                             <span className="font-bold">Hi, {user?.name}</span>
                         </div>
