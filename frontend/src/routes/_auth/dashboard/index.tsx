@@ -15,8 +15,8 @@ function RouteComponent() {
   return (<main>
     <div className="mb-6 flex items-center justify-between">
       <div className="space-y-1">
-        <h1 className="text-3xl font-bold">Microservices Overview</h1>
-        <div className="text-sm text-muted-foreground">
+        <h1 className="text-3xl font-bold mb-2">Microservices Overview</h1>
+        <div className="text-muted-foreground">
           Aug 13, 2023 - Aug 18, 2023
         </div>
       </div>
