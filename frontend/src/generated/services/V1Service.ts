@@ -3501,7 +3501,7 @@ type PostServersSchema = {
     url: "/v1/servers";
 };
 type PostServersParameters = {};
-type PostServersData = unknown;
+type PostServersData = paths["/v1/servers"]["post"]["responses"]["200"]["content"]["text/plain"];
 type PostServersError = unknown;
 type PostServersBody = undefined;
 type PutServersSchema = {

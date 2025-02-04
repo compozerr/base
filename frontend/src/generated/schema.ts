@@ -498,7 +498,9 @@ export interface paths {
                     headers: {
                         [name: string]: unknown;
                     };
-                    content?: never;
+                    content: {
+                        "text/plain": string;
+                    };
                 };
             };
         };

@@ -11,6 +11,6 @@ public static class CreateNewServerRoute
         return app.MapPost(Route, ExecuteAsync);
     }
 
-    public static Task ExecuteAsync(IServerService serverService)
+    public static Task<string> ExecuteAsync(IServerService serverService)
         => serverService.CreateNewServer();
 }

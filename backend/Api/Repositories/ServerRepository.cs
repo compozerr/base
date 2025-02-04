@@ -20,30 +20,19 @@ public sealed class ServerRepository(
 {
     public async Task<Secret> AddNewServer(string hashedSecret)
     {
-        using var transaction = await context.Database.BeginTransactionAsync();
-
         var secret = new Secret
         {
             Value = hashedSecret
         };
 
-        context.Secrets.Add(secret);
-        await context.SaveChangesAsync();
-
         var server = new Server
         {
-            Ip = string.Empty,
-            LocationId = null!,
-            MachineId = string.Empty,
-            Ram = string.Empty,
-            VCpu = string.Empty,
-            SecretId = secret.Id
+            SecretId = secret.Id,
+            Secret = secret
         };
 
         context.Servers.Add(server);
         await context.SaveChangesAsync();
-
-        await transaction.CommitAsync();
 
         return secret;
     }
