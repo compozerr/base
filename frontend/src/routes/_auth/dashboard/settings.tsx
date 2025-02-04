@@ -1,6 +1,8 @@
 import * as React from 'react'
 import { createFileRoute } from '@tanstack/react-router'
 import { api } from '@/api-client'
+import StyledLink from '@/components/styled-link'
+import { Download } from 'lucide-react'
 
 export const Route = createFileRoute('/_auth/dashboard/settings')({
   component: RouteComponent,
@@ -67,14 +69,12 @@ function RouteComponent() {
       {isLoading && <p>Loading...</p>}
       {error && <p>Error: {error}</p>}
 
-      {/* {avatarUrl && <img style={{ height: "20px", width: "20px", borderRadius: "100px", position: "absolute", right: "20px", top: "20px" }} src={avatarUrl} alt="avatar" />} */}
-
       {installAppUrl && (
-        <a href={installAppUrl} target="_blank">
-          Install the app
-        </a>
+        <StyledLink type="button" href={installAppUrl} target="_blank">
+          Install the app <Download />
+        </StyledLink>
       )}
-      <br />
+      
       <h3>Default project organization</h3>
       {installations && (
         <select
