@@ -14,6 +14,7 @@ import {
     Settings,
     Server,
     LogOut,
+    FileText,
 } from 'lucide-react'
 import * as React from 'react'
 import {
@@ -80,6 +81,14 @@ function RouteComponent() {
                     </div>
 
                     <nav className="px-2 py-2">
+                        <Button
+                            onClick={() => open("https://docs.compozerr.com", "_blank")}
+                            variant="ghost"
+                            className="w-full justify-start gap-2"
+                        >
+                            <FileText className="h-4 w-4" />
+                            Documentation
+                        </Button>
                         <Button
                             onClick={handleLogout}
                             variant="ghost"

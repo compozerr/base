@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button"
-import { ArrowRight } from "lucide-react"
+import { ArrowRight, FileText } from "lucide-react"
 import { CopyCommand } from "./copy-command"
 import StyledLink from "./styled-link"
 
@@ -17,8 +17,8 @@ export default function Hero() {
       </div>
       <div className="flex gap-4 pt-4">
         <StyledLink href="/docs" size="lg">
+          <FileText className="h-4 w-4" />
           Documentation
-          <ArrowRight className="ml-2 h-4 w-4" />
         </StyledLink>
         <Button variant="outline" size="lg">
           Watch demo
