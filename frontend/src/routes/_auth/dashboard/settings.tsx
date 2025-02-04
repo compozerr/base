@@ -81,7 +81,7 @@ function RouteComponent() {
                 {installAppUrl && (
                   <Button asChild variant="outline" className="w-full sm:w-auto">
                     <a href={installAppUrl} target="_blank" rel="noopener noreferrer">
-                      <Github className="mr-2 h-4 w-4" />
+                      <Github className="h-4 w-4" />
                       Install GitHub App
                     </a>
                   </Button>
