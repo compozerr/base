@@ -1,8 +1,12 @@
 import * as React from 'react'
 import { createFileRoute } from '@tanstack/react-router'
 import { api } from '@/api-client'
-import StyledLink from '@/components/styled-link'
-import { Download } from 'lucide-react'
+import { Github, CircleHelp } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'
+import { Skeleton } from '@/components/ui/skeleton'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 
 export const Route = createFileRoute('/_auth/dashboard/settings')({
   component: RouteComponent,
@@ -21,40 +25,31 @@ function RouteComponent() {
   } = api.v1.getGithubGetInstalledOrganizations.useQuery()
 
   const isLoading = appUrlLoading || installationsLoading
-  const error =
-    (appUrlError as Error)?.message ||
-    (installationsError as Error)?.message ||
-    null
+  const error = (appUrlError as Error)?.message || (installationsError as Error)?.message || null
 
   const installAppUrl = appUrlData?.installUrl || null
 
-  const [selectedProjectsInstallationId, setSelectedProjectsInstallationId] =
-    React.useState<string>('')
-  const [selectedModulesInstallationId, setSelectedModulesInstallationId] =
-    React.useState<string>('')
+  const [selectedProjectsInstallationId, setSelectedProjectsInstallationId] = React.useState<string>("")
+  const [selectedModulesInstallationId, setSelectedModulesInstallationId] = React.useState<string>("")
 
-  const defaultOrganizationMutation =
-    api.v1.postGithubSetDeafultOrganization.useMutation()
+  const defaultOrganizationMutation = api.v1.postGithubSetDeafultOrganization.useMutation()
 
-  const installations = React.useMemo(
-    () => installationsData?.installations || [],
-    [installationsData],
-  )
+  const installations = React.useMemo(() => installationsData?.installations || [], [installationsData])
 
   React.useEffect(() => {
     if (!installationsData) return
 
-    setSelectedProjectsInstallationId(
-      installationsData.selectedProjectsInstallationId!,
-    )
-    setSelectedModulesInstallationId(
-      installationsData.selectedModulesInstallationId!,
-    )
+    setSelectedProjectsInstallationId(installationsData.selectedProjectsInstallationId!)
+    setSelectedModulesInstallationId(installationsData.selectedModulesInstallationId!)
   }, [installationsData])
 
   const handleDefaultOrganizationChange = React.useCallback(
     (installationId: string, type: 1 | 2) => {
-      setSelectedProjectsInstallationId(installationId)
+      if (type === 1) {
+        setSelectedProjectsInstallationId(installationId)
+      } else {
+        setSelectedModulesInstallationId(installationId)
+      }
       if (installationId) {
         defaultOrganizationMutation.mutate({
           body: { installationId, type: type },
@@ -65,46 +60,124 @@ function RouteComponent() {
   )
 
   return (
-    <div>
-      {isLoading && <p>Loading...</p>}
-      {error && <p>Error: {error}</p>}
+    <div className="container mx-auto py-10">
+      <h1 className="text-3xl font-bold mb-6">Settings</h1>
+      <div className="space-y-6">
+        <Card>
+          <CardHeader>
+            <CardTitle>GitHub Integration</CardTitle>
+            <CardDescription>Manage your GitHub app installation and organization settings.</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            {isLoading ? (
+              <div className="space-y-2">
+                <Skeleton className="h-4 w-[250px]" />
+                <Skeleton className="h-4 w-[200px]" />
+              </div>
+            ) : error ? (
+              <p className="text-destructive">Error: {error}</p>
+            ) : (
+              <>
+                {installAppUrl && (
+                  <Button asChild variant="outline" className="w-full sm:w-auto">
+                    <a href={installAppUrl} target="_blank" rel="noopener noreferrer">
+                      <Github className="mr-2 h-4 w-4" />
+                      Install GitHub App
+                    </a>
+                  </Button>
+                )}
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-1">
+                      <label htmlFor="projects-org" className="text-sm font-medium">
+                        Default Project Organization
+                      </label>
+                      <TooltipProvider>
+                        <Tooltip delayDuration={0}>
+                          <TooltipTrigger asChild>
+                            <CircleHelp className='h-4 w-4' />
+                          </TooltipTrigger>
+                          <TooltipContent className="w-64">
+                            Select the default organization for managing and storing your projects.
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                    </div>
+                    <Select
+                      value={selectedProjectsInstallationId}
+                      onValueChange={(value) => handleDefaultOrganizationChange(value, 1)}
+                    >
+                      <SelectTrigger id="projects-org" className='w-1/2'>
+                        <SelectValue placeholder="Select organization" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {installations.map((i) => (
+                          <SelectItem key={i.installationId} value={i.installationId!}>
+                            {i.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-1">
+                      <label htmlFor="modules-org" className="text-sm font-medium">
+                        Default Modules Organization
+                      </label>
+                      <TooltipProvider>
+                        <Tooltip delayDuration={0}>
+                          <TooltipTrigger asChild>
+                            <CircleHelp className='h-4 w-4' />
+                          </TooltipTrigger>
+                          <TooltipContent className="w-64">
+                            Select the default organization for managing and storing your modules.
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                    </div>
+                    <Select
+                      value={selectedModulesInstallationId}
+                      onValueChange={(value) => handleDefaultOrganizationChange(value, 2)}
+                    >
+                      <SelectTrigger className="w-1/2" id="modules-org">
+                        <SelectValue placeholder="Select organization" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {installations.map((i) => (
+                          <SelectItem key={i.installationId} value={i.installationId!}>
+                            {i.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+              </>
+            )}
+          </CardContent>
+        </Card>
 
-      {installAppUrl && (
-        <StyledLink type="button" href={installAppUrl} target="_blank">
-          Install the app <Download />
-        </StyledLink>
-      )}
-      
-      <h3>Default project organization</h3>
-      {installations && (
-        <select
-          className="form-select mt-2"
-          onChange={(e) => handleDefaultOrganizationChange(e.target.value, 1)}
-          value={selectedProjectsInstallationId}
-        >
-          {installations!.map((i) => (
-            <option key={i.installationId} value={i.installationId!}>
-              {i.name}
-            </option>
-          ))}
-        </select>
-      )}
-      <br />
+        <Card>
+          <CardHeader>
+            <CardTitle>Account Settings</CardTitle>
+            <CardDescription>Manage your account preferences and personal information.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p className="text-muted-foreground">Account settings coming soon...</p>
+          </CardContent>
+        </Card>
 
-      <h3>Default modules organization</h3>
-      {installations && (
-        <select
-          className="form-select mt-2"
-          onChange={(e) => handleDefaultOrganizationChange(e.target.value, 2)}
-          value={selectedModulesInstallationId}
-        >
-          {installations!.map((i) => (
-            <option key={i.installationId} value={i.installationId!}>
-              {i.name}
-            </option>
-          ))}
-        </select>
-      )}
-    </div>
+        <Card>
+          <CardHeader>
+            <CardTitle>Notification Preferences</CardTitle>
+            <CardDescription>Control how and when you receive notifications.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p className="text-muted-foreground">Notification settings coming soon...</p>
+          </CardContent>
+        </Card>
+      </div >
+    </div >
   )
 }
+
