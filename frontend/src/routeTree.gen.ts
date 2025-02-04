@@ -17,9 +17,11 @@ import { Route as AboutImport } from './routes/about'
 import { Route as AuthImport } from './../../modules/auth/frontend/src/routes/_auth'
 import { Route as IndexImport } from './routes/index'
 import { Route as ExampleIndexImport } from './../../modules/template/frontend/src/routes/example/index'
-import { Route as AuthManageImport } from './routes/_auth/manage'
 import { Route as AuthLogoutImport } from './../../modules/auth/frontend/src/routes/_auth/logout'
 import { Route as AuthDashboardImport } from './routes/_auth/dashboard'
+import { Route as AuthDashboardIndexImport } from './routes/_auth/dashboard/index'
+import { Route as AuthDashboardSettingsImport } from './routes/_auth/dashboard/settings'
+import { Route as AuthDashboardServicesImport } from './routes/_auth/dashboard/services'
 
 // Create/Update Routes
 
@@ -58,12 +60,6 @@ const ExampleIndexRoute = ExampleIndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const AuthManageRoute = AuthManageImport.update({
-  id: '/manage',
-  path: '/manage',
-  getParentRoute: () => AuthRoute,
-} as any)
-
 const AuthLogoutRoute = AuthLogoutImport.update({
   id: '/logout',
   path: '/logout',
@@ -74,6 +70,24 @@ const AuthDashboardRoute = AuthDashboardImport.update({
   id: '/dashboard',
   path: '/dashboard',
   getParentRoute: () => AuthRoute,
+} as any)
+
+const AuthDashboardIndexRoute = AuthDashboardIndexImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthDashboardRoute,
+} as any)
+
+const AuthDashboardSettingsRoute = AuthDashboardSettingsImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AuthDashboardRoute,
+} as any)
+
+const AuthDashboardServicesRoute = AuthDashboardServicesImport.update({
+  id: '/services',
+  path: '/services',
+  getParentRoute: () => AuthDashboardRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -129,13 +143,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthLogoutImport
       parentRoute: typeof AuthImport
     }
-    '/_auth/manage': {
-      id: '/_auth/manage'
-      path: '/manage'
-      fullPath: '/manage'
-      preLoaderRoute: typeof AuthManageImport
-      parentRoute: typeof AuthImport
-    }
     '/example/': {
       id: '/example/'
       path: '/example'
@@ -143,21 +150,56 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ExampleIndexImport
       parentRoute: typeof rootRoute
     }
+    '/_auth/dashboard/services': {
+      id: '/_auth/dashboard/services'
+      path: '/services'
+      fullPath: '/dashboard/services'
+      preLoaderRoute: typeof AuthDashboardServicesImport
+      parentRoute: typeof AuthDashboardImport
+    }
+    '/_auth/dashboard/settings': {
+      id: '/_auth/dashboard/settings'
+      path: '/settings'
+      fullPath: '/dashboard/settings'
+      preLoaderRoute: typeof AuthDashboardSettingsImport
+      parentRoute: typeof AuthDashboardImport
+    }
+    '/_auth/dashboard/': {
+      id: '/_auth/dashboard/'
+      path: '/'
+      fullPath: '/dashboard/'
+      preLoaderRoute: typeof AuthDashboardIndexImport
+      parentRoute: typeof AuthDashboardImport
+    }
   }
 }
 
 // Create and export the route tree
 
+interface AuthDashboardRouteChildren {
+  AuthDashboardServicesRoute: typeof AuthDashboardServicesRoute
+  AuthDashboardSettingsRoute: typeof AuthDashboardSettingsRoute
+  AuthDashboardIndexRoute: typeof AuthDashboardIndexRoute
+}
+
+const AuthDashboardRouteChildren: AuthDashboardRouteChildren = {
+  AuthDashboardServicesRoute: AuthDashboardServicesRoute,
+  AuthDashboardSettingsRoute: AuthDashboardSettingsRoute,
+  AuthDashboardIndexRoute: AuthDashboardIndexRoute,
+}
+
+const AuthDashboardRouteWithChildren = AuthDashboardRoute._addFileChildren(
+  AuthDashboardRouteChildren,
+)
+
 interface AuthRouteChildren {
-  AuthDashboardRoute: typeof AuthDashboardRoute
+  AuthDashboardRoute: typeof AuthDashboardRouteWithChildren
   AuthLogoutRoute: typeof AuthLogoutRoute
-  AuthManageRoute: typeof AuthManageRoute
 }
 
 const AuthRouteChildren: AuthRouteChildren = {
-  AuthDashboardRoute: AuthDashboardRoute,
+  AuthDashboardRoute: AuthDashboardRouteWithChildren,
   AuthLogoutRoute: AuthLogoutRoute,
-  AuthManageRoute: AuthManageRoute,
 }
 
 const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
@@ -168,10 +210,12 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/login': typeof LoginRoute
   '/using-module-component': typeof UsingModuleComponentRoute
-  '/dashboard': typeof AuthDashboardRoute
+  '/dashboard': typeof AuthDashboardRouteWithChildren
   '/logout': typeof AuthLogoutRoute
-  '/manage': typeof AuthManageRoute
   '/example': typeof ExampleIndexRoute
+  '/dashboard/services': typeof AuthDashboardServicesRoute
+  '/dashboard/settings': typeof AuthDashboardSettingsRoute
+  '/dashboard/': typeof AuthDashboardIndexRoute
 }
 
 export interface FileRoutesByTo {
@@ -180,10 +224,11 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/login': typeof LoginRoute
   '/using-module-component': typeof UsingModuleComponentRoute
-  '/dashboard': typeof AuthDashboardRoute
   '/logout': typeof AuthLogoutRoute
-  '/manage': typeof AuthManageRoute
   '/example': typeof ExampleIndexRoute
+  '/dashboard/services': typeof AuthDashboardServicesRoute
+  '/dashboard/settings': typeof AuthDashboardSettingsRoute
+  '/dashboard': typeof AuthDashboardIndexRoute
 }
 
 export interface FileRoutesById {
@@ -193,10 +238,12 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/login': typeof LoginRoute
   '/using-module-component': typeof UsingModuleComponentRoute
-  '/_auth/dashboard': typeof AuthDashboardRoute
+  '/_auth/dashboard': typeof AuthDashboardRouteWithChildren
   '/_auth/logout': typeof AuthLogoutRoute
-  '/_auth/manage': typeof AuthManageRoute
   '/example/': typeof ExampleIndexRoute
+  '/_auth/dashboard/services': typeof AuthDashboardServicesRoute
+  '/_auth/dashboard/settings': typeof AuthDashboardSettingsRoute
+  '/_auth/dashboard/': typeof AuthDashboardIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -209,8 +256,10 @@ export interface FileRouteTypes {
     | '/using-module-component'
     | '/dashboard'
     | '/logout'
-    | '/manage'
     | '/example'
+    | '/dashboard/services'
+    | '/dashboard/settings'
+    | '/dashboard/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -218,10 +267,11 @@ export interface FileRouteTypes {
     | '/about'
     | '/login'
     | '/using-module-component'
-    | '/dashboard'
     | '/logout'
-    | '/manage'
     | '/example'
+    | '/dashboard/services'
+    | '/dashboard/settings'
+    | '/dashboard'
   id:
     | '__root__'
     | '/'
@@ -231,8 +281,10 @@ export interface FileRouteTypes {
     | '/using-module-component'
     | '/_auth/dashboard'
     | '/_auth/logout'
-    | '/_auth/manage'
     | '/example/'
+    | '/_auth/dashboard/services'
+    | '/_auth/dashboard/settings'
+    | '/_auth/dashboard/'
   fileRoutesById: FileRoutesById
 }
 
@@ -279,8 +331,7 @@ export const routeTree = rootRoute
       "filePath": "../../../modules/auth/frontend/src/routes/_auth.tsx",
       "children": [
         "/_auth/dashboard",
-        "/_auth/logout",
-        "/_auth/manage"
+        "/_auth/logout"
       ]
     },
     "/about": {
@@ -294,18 +345,31 @@ export const routeTree = rootRoute
     },
     "/_auth/dashboard": {
       "filePath": "./_auth/dashboard.tsx",
-      "parent": "/_auth"
+      "parent": "/_auth",
+      "children": [
+        "/_auth/dashboard/services",
+        "/_auth/dashboard/settings",
+        "/_auth/dashboard/"
+      ]
     },
     "/_auth/logout": {
       "filePath": "../../../modules/auth/frontend/src/routes/_auth/logout.tsx",
       "parent": "/_auth"
     },
-    "/_auth/manage": {
-      "filePath": "./_auth/manage.tsx",
-      "parent": "/_auth"
-    },
     "/example/": {
       "filePath": "../../../modules/template/frontend/src/routes/example/index.tsx"
+    },
+    "/_auth/dashboard/services": {
+      "filePath": "./_auth/dashboard/services.tsx",
+      "parent": "/_auth/dashboard"
+    },
+    "/_auth/dashboard/settings": {
+      "filePath": "./_auth/dashboard/settings.tsx",
+      "parent": "/_auth/dashboard"
+    },
+    "/_auth/dashboard/": {
+      "filePath": "./_auth/dashboard/index.tsx",
+      "parent": "/_auth/dashboard"
     }
   }
 }
