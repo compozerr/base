@@ -12,10 +12,10 @@ export const Route = createFileRoute('/_auth/dashboard/')({
 })
 
 function RouteComponent() {
-  return (<>
+  return (<main>
     <div className="mb-6 flex items-center justify-between">
       <div className="space-y-1">
-        <h1 className="text-2xl font-bold">Microservices Overview</h1>
+        <h1 className="text-3xl font-bold">Microservices Overview</h1>
         <div className="text-sm text-muted-foreground">
           Aug 13, 2023 - Aug 18, 2023
         </div>
@@ -68,5 +68,5 @@ function RouteComponent() {
     <div className="mt-6">
       <ServicesTable />
     </div>
-  </>)
+  </main>)
 }
