@@ -14,10 +14,10 @@ Features.RegisterConfigureCallback<AssembliesFeatureConfigureCallback>();
 
 builder.ConfigureFeatures();
 builder.Services.AddFeatures(builder.Configuration);
-builder.Services.AddSingleton<IEncryptionService, EncryptionService>();
-builder.Services.AddSingleton<IHashService, HashService>();
-builder.Services.AddSingleton<IServerRepository, ServerRepository>();
-builder.Services.AddSingleton<IServerService, ServerService>();
+builder.Services.AddScoped<IEncryptionService, EncryptionService>();
+builder.Services.AddScoped<IHashService, HashService>();
+builder.Services.AddScoped<IServerRepository, ServerRepository>();
+builder.Services.AddScoped<IServerService, ServerService>();
 
 builder.Services.AddRequiredConfigurationOptions<EncryptionOptions>("Encryption");
 

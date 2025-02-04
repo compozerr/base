@@ -454,6 +454,60 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/servers": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["UpdateServerRequest"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1": {
         parameters: {
             query?: never;
@@ -578,6 +632,14 @@ export interface components {
         };
         "String<>f__AnonymousType0": {
             installUrl?: string | null;
+        };
+        UpdateServerRequest: {
+            secret?: string | null;
+            isoCountryCode?: string | null;
+            machineId?: string | null;
+            ram?: string | null;
+            vCpu?: string | null;
+            ip?: string | null;
         };
         User: {
             /** Format: date-time */

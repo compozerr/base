@@ -25,12 +25,12 @@ public class AuthFeature : IFeature
         IConfiguration configuration)
     {
         services.AddDbContext<AuthDbContext>(options =>
-       {
-           options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"), b =>
-           {
-               b.MigrationsAssembly(typeof(AuthDbContext).Assembly.FullName);
-           });
-       });
+        {
+            options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"), b =>
+            {
+                b.MigrationsAssembly(typeof(AuthDbContext).Assembly.FullName);
+            });
+        });
 
         services.AddAuthentication(options =>
         {
