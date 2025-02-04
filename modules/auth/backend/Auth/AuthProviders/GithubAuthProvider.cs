@@ -1,5 +1,7 @@
 using System.Security.Claims;
+using Auth.Data;
 using Auth.Endpoints.Auth.UserAuthenticated;
+using Auth.Repositories;
 using Core.Extensions;
 using Core.Services;
 using MediatR;
@@ -77,6 +79,11 @@ public static class GithubAuthProvider
                     identity.RemoveClaim(identity.FindFirst(ClaimTypes.NameIdentifier));
                     identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, userId.ToString()));
 
+                    await AddRolesForUser(
+                        context.HttpContext.RequestServices.GetRequiredService<IUserRepository>(),
+                        userId,
+                        identity);
+
                     if (context.Properties?.Items.TryGetValue("session_id", out var nonNullSessionId) ?? false)
                     {
                         var expiresAtUtc = context.Properties.ExpiresUtc!.Value.UtcDateTime;
@@ -90,5 +97,15 @@ public static class GithubAuthProvider
                 },
             };
         });
+    }
+
+    private static async Task AddRolesForUser(IUserRepository userRepository, UserId userId, ClaimsIdentity claimsIdentity)
+    {
+        var user = await userRepository.GetByIdAsync(userId) ?? throw new Exception("User not found");
+
+        foreach (var userRole in user.Roles)
+        {
+            claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, userRole));
+        }
     }
 }
