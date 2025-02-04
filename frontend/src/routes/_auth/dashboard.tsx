@@ -24,6 +24,7 @@ import {
     useRouter,
 } from '@tanstack/react-router'
 import { useAuth } from '@/hooks/use-dynamic-auth'
+import { getLink } from '@/links'
 
 export const Route = createFileRoute('/_auth/dashboard')({
     component: RouteComponent,
@@ -82,7 +83,7 @@ function RouteComponent() {
 
                     <nav className="px-2 py-2">
                         <Button
-                            onClick={() => open("https://docs.compozerr.com", "_blank")}
+                            onClick={() => open(getLink("documentation"), "_blank")}
                             variant="ghost"
                             className="w-full justify-start gap-2"
                         >

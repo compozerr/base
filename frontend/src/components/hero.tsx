@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button"
 import { ArrowRight, FileText } from "lucide-react"
 import { CopyCommand } from "./copy-command"
 import StyledLink from "./styled-link"
+import { getLink } from "@/links"
 
 export default function Hero() {
   return (
@@ -12,14 +13,14 @@ export default function Hero() {
           <br />
           compozerr
         </h1>
-        <br/>
+        <br />
         <CopyCommand />
       </div>
       <div className="flex gap-4 pt-4">
-        <StyledLink href="/docs" size="lg">
+        <Button onClick={() => open(getLink("documentation"), "_blank")} size="lg">
           <FileText className="h-4 w-4" />
           Documentation
-        </StyledLink>
+        </Button>
         <Button variant="outline" size="lg">
           Watch demo
         </Button>
