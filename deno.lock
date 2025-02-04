@@ -1,0 +1,81 @@
+{
+  "version": "4",
+  "specifiers": {
+    "jsr:@std/assert@*": "1.0.7",
+    "jsr:@std/internal@^1.0.5": "1.0.5"
+  },
+  "jsr": {
+    "@std/assert@1.0.7": {
+      "integrity": "64ce9fac879e0b9f3042a89b3c3f8ccfc9c984391af19e2087513a79d73e28c3",
+      "dependencies": [
+        "jsr:@std/internal"
+      ]
+    },
+    "@std/internal@1.0.5": {
+      "integrity": "54a546004f769c1ac9e025abd15a76b6671ddc9687e2313b67376125650dc7ba"
+    }
+  },
+  "workspace": {
+    "packageJson": {
+      "dependencies": [
+        "npm:prettier@^3.2.5",
+        "npm:turbo@^2.3.0",
+        "npm:typescript@5.5.4"
+      ]
+    },
+    "members": {
+      "frontend": {
+        "packageJson": {
+          "dependencies": [
+            "npm:@openapi-qraft/cli@^2.0.1",
+            "npm:@openapi-qraft/react@^2.0.1",
+            "npm:@radix-ui/react-avatar@^1.1.2",
+            "npm:@radix-ui/react-slot@^1.1.1",
+            "npm:@repo/auth@*",
+            "npm:@repo/config@*",
+            "npm:@repo/template@*",
+            "npm:@tanstack/react-query-devtools@^5.66.0",
+            "npm:@tanstack/react-query@^5.66.0",
+            "npm:@tanstack/react-router@^1.79.0",
+            "npm:@tanstack/router-devtools@^1.79.0",
+            "npm:@tanstack/router-plugin@^1.79.0",
+            "npm:@types/node@^22.13.0",
+            "npm:@types/react-dom@^18.3.0",
+            "npm:@types/react@^18.3.3",
+            "npm:@vitejs/plugin-react@^4.3.2",
+            "npm:autoprefixer@^10.4.20",
+            "npm:class-variance-authority@~0.7.1",
+            "npm:clsx@^2.1.1",
+            "npm:framer-motion@^12.0.6",
+            "npm:glob@11",
+            "npm:lucide-react@0.474",
+            "npm:next-themes@~0.4.4",
+            "npm:openapi-zod-client@^1.18.2",
+            "npm:postcss@^8.5.1",
+            "npm:react-dom@^18.3.1",
+            "npm:react@^18.3.1",
+            "npm:recharts@^2.15.1",
+            "npm:tailwind-merge@^3.0.1",
+            "npm:tailwindcss-animate@^1.0.7",
+            "npm:tailwindcss@^3.4.17",
+            "npm:vite@^5.4.8"
+          ]
+        }
+      },
+      "modules/auth/frontend": {
+        "packageJson": {
+          "dependencies": [
+            "npm:@repo/config@*"
+          ]
+        }
+      },
+      "modules/template/frontend": {
+        "packageJson": {
+          "dependencies": [
+            "npm:@repo/config@*"
+          ]
+        }
+      }
+    }
+  }
+}
