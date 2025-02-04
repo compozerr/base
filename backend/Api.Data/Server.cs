@@ -2,7 +2,7 @@ namespace Api.Data;
 
 public class Server : BaseEntityWithId<ServerId>
 {
-    public LocationId LocationId { get; set; } = null!;
+    public LocationId? LocationId { get; set; }
     public SecretId SecretId { get; set; } = null!;
     public required string MachineId { get; set; } // cat /etc/machine-id
     public required string Ram { get; set; }

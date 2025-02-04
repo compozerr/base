@@ -20,6 +20,16 @@ public sealed class ServerRepository(
 {
     public async Task<Secret> AddNewServer(string hashedSecret)
     {
+        using var transaction = await context.Database.BeginTransactionAsync();
+
+        var secret = new Secret
+        {
+            Value = hashedSecret
+        };
+
+        context.Secrets.Add(secret);
+        await context.SaveChangesAsync();
+
         var server = new Server
         {
             Ip = string.Empty,
@@ -27,16 +37,15 @@ public sealed class ServerRepository(
             MachineId = string.Empty,
             Ram = string.Empty,
             VCpu = string.Empty,
-            Secret = new Secret
-            {
-                Value = hashedSecret
-            }
+            SecretId = secret.Id
         };
 
         context.Servers.Add(server);
         await context.SaveChangesAsync();
 
-        return server.Secret;
+        await transaction.CommitAsync();
+
+        return secret;
     }
 
     public async Task UpdateServer(string hashedSecret, string isoCountryCode, string machineId, string ram, string vCpu, string ip)
