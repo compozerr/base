@@ -1,4 +1,5 @@
 using Api.Data;
+using Api.Endpoints.Server;
 using Microsoft.EntityFrameworkCore;
 
 namespace Api.Repositories;
@@ -42,7 +43,7 @@ public sealed class ServerRepository(
         var server = await context.Servers
                                   .Include(s => s.Secret)
                                   .Where(s => s.Secret!.Value == hashedSecret)
-                                  .FirstOrDefaultAsync() ?? throw new ArgumentException("Server not found");
+                                  .FirstOrDefaultAsync() ?? throw new ServerNotFoundException();
         server.Ip = ip;
         server.MachineId = machineId;
         server.Ram = ram;
