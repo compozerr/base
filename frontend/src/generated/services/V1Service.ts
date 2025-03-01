@@ -3512,7 +3512,7 @@ type PutServersSchema = {
     ];
 };
 type PutServersParameters = {};
-type PutServersData = unknown;
+type PutServersData = paths["/v1/servers"]["put"]["responses"]["200"]["content"]["application/json"];
 type PutServersError = unknown;
 type PutServersBody = NonNullable<paths["/v1/servers"]["put"]["requestBody"]>["content"]["application/json"];
 type GetSchema = {

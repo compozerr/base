@@ -1,10 +1,12 @@
+using Api.Abstractions;
 using Api.Data;
 using Api.Endpoints.Server;
+using Database.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace Api.Repositories;
 
-public interface IServerRepository
+public interface IServerRepository : IGenericRepository<Server, ServerId, ApiDbContext>
 {
     public Task<Secret> AddNewServer(string hashedSecret);
     public Task<Server> UpdateServer(
@@ -17,8 +19,9 @@ public interface IServerRepository
 }
 
 public sealed class ServerRepository(
-    ApiDbContext context) : IServerRepository
+    ApiDbContext context) : GenericRepository<Server, ServerId, ApiDbContext>(context), IServerRepository
 {
+    private readonly ApiDbContext _context = context;
     public async Task<Secret> AddNewServer(string hashedSecret)
     {
         var secret = new Secret
@@ -32,15 +35,15 @@ public sealed class ServerRepository(
             Secret = secret
         };
 
-        context.Servers.Add(server);
-        await context.SaveChangesAsync();
+        _context.Servers.Add(server);
+        await _context.SaveChangesAsync();
 
         return secret;
     }
 
     public async Task<Server> UpdateServer(string hashedSecret, string isoCountryCode, string machineId, string ram, string vCpu, string ip)
     {
-        var server = await context.Servers
+        var server = await _context.Servers
                                   .Include(s => s.Secret)
                                   .Where(s => s.Secret!.Value == hashedSecret)
                                   .FirstOrDefaultAsync() ?? throw new ServerNotFoundException();
@@ -49,7 +52,7 @@ public sealed class ServerRepository(
         server.Ram = ram;
         server.VCpu = vCpu;
 
-        var location = await context.Locations.Where(l => l.IsoCountryCode == isoCountryCode)
+        var location = await _context.Locations.Where(l => l.IsoCountryCode == isoCountryCode)
                                               .FirstOrDefaultAsync();
 
         if (location is null)
@@ -59,12 +62,12 @@ public sealed class ServerRepository(
                 IsoCountryCode = isoCountryCode
             };
 
-            context.Locations.Add(location);
+            _context.Locations.Add(location);
         }
 
         server.Location = location;
 
-        await context.SaveChangesAsync();
+        await _context.SaveChangesAsync();
 
         return server;
     }

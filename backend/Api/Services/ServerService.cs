@@ -15,12 +15,13 @@ public interface IServerService
         string vCpu,
         string ip);
 
-    Task StorePrivateKeyAsync(ServerId serverId, byte[] key);
+    Task<string> CreateAndStorePrivateKeyAsync(ServerId serverId);
 }
 
 public class ServerService(
     IHashService hashService,
-    IServerRepository serverRepository) : IServerService
+    IServerRepository serverRepository,
+    ICryptoService cryptoService) : IServerService
 {
     private static string GenerateNewSecret()
     {
@@ -37,12 +38,8 @@ public class ServerService(
         return newSecret;
     }
 
-    public async Task StorePrivateKeyAsync(ServerId serverId, byte[] key)
-    {
-        var path = Path.Combine("privateKeys", serverId.ToString());
-        Directory.CreateDirectory(Path.GetDirectoryName(path)!);
-        await File.WriteAllBytesAsync(path, key);
-    }
+    public Task<string> CreateAndStorePrivateKeyAsync(ServerId serverId)
+        => cryptoService.CreateAndStorePrivateKeyAsync(serverId.Value.ToString());
 
     public async Task<ServerId> UpdateServer(
         string secret,

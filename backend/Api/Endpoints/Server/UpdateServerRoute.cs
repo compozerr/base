@@ -24,14 +24,10 @@ public static class UpdateServerRoute
                 request.VCpu,
                 request.Ip);
 
-            using var rsa = RSA.Create(2048);
-            var privateKey = rsa.ExportRSAPrivateKey();
-            await serverService.StorePrivateKeyAsync(
-                serverId,
-                privateKey);
 
-            var publicKey = Convert.ToBase64String(rsa.ExportSubjectPublicKeyInfo());
-            return new(true, $"-----BEGIN PUBLIC KEY-----\n{publicKey}\n-----END PUBLIC KEY-----");
+            var publicKeyBase64 = await serverService.CreateAndStorePrivateKeyAsync(serverId);
+
+            return new(true, publicKeyBase64);
         }
         catch (ServerNotFoundException)
         {

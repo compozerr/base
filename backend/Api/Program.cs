@@ -19,6 +19,10 @@ builder.Services.AddScoped<IHashService, HashService>();
 builder.Services.AddScoped<IServerRepository, ServerRepository>();
 builder.Services.AddScoped<IServerService, ServerService>();
 
+builder.Services.AddHttpClient();
+builder.Services.AddSingleton<ICryptoService, CryptoService>();
+builder.Services.AddTransient<IChildServerHttpClientFactory, ChildServerHttpClientFactory>();
+
 builder.Services.AddRequiredConfigurationOptions<EncryptionOptions>("Encryption");
 
 Log.Logger = new LoggerConfiguration().WriteTo.Console().WriteTo

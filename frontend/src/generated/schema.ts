@@ -480,7 +480,9 @@ export interface paths {
                     headers: {
                         [name: string]: unknown;
                     };
-                    content?: never;
+                    content: {
+                        "application/json": components["schemas"]["UpdateServerResponse"];
+                    };
                 };
             };
         };
@@ -642,6 +644,10 @@ export interface components {
             ram?: string | null;
             vCpu?: string | null;
             ip?: string | null;
+        };
+        UpdateServerResponse: {
+            success?: boolean;
+            pemPublicKey?: string | null;
         };
         User: {
             /** Format: date-time */
