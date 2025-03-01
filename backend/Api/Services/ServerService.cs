@@ -1,3 +1,5 @@
+using Api.Abstractions;
+using Api.Data;
 using Api.Repositories;
 
 namespace Api.Services;
@@ -5,13 +7,15 @@ namespace Api.Services;
 public interface IServerService
 {
     Task<string> CreateNewServer();
-    Task UpdateServer(
+    Task<ServerId> UpdateServer(
         string secret,
         string isoCountryCode,
         string machineId,
         string ram,
         string vCpu,
         string ip);
+
+    Task StorePrivateKeyAsync(ServerId serverId, byte[] key);
 }
 
 public class ServerService(
@@ -33,7 +37,14 @@ public class ServerService(
         return newSecret;
     }
 
-    public async Task UpdateServer(
+    public async Task StorePrivateKeyAsync(ServerId serverId, byte[] key)
+    {
+        var path = Path.Combine("privateKeys", serverId.ToString());
+        Directory.CreateDirectory(Path.GetDirectoryName(path)!);
+        await File.WriteAllBytesAsync(path, key);
+    }
+
+    public async Task<ServerId> UpdateServer(
         string secret,
         string isoCountryCode,
         string machineId,
@@ -43,6 +54,8 @@ public class ServerService(
     {
         var hashedSecret = hashService.Hash(secret);
 
-        await serverRepository.UpdateServer(hashedSecret, isoCountryCode, machineId, ram, vCpu, ip);
+        var server = await serverRepository.UpdateServer(hashedSecret, isoCountryCode, machineId, ram, vCpu, ip);
+
+        return server.Id;
     }
 }

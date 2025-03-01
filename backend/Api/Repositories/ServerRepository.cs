@@ -7,7 +7,7 @@ namespace Api.Repositories;
 public interface IServerRepository
 {
     public Task<Secret> AddNewServer(string hashedSecret);
-    public Task UpdateServer(
+    public Task<Server> UpdateServer(
         string secret,
         string isoCountryCode,
         string machineId,
@@ -38,7 +38,7 @@ public sealed class ServerRepository(
         return secret;
     }
 
-    public async Task UpdateServer(string hashedSecret, string isoCountryCode, string machineId, string ram, string vCpu, string ip)
+    public async Task<Server> UpdateServer(string hashedSecret, string isoCountryCode, string machineId, string ram, string vCpu, string ip)
     {
         var server = await context.Servers
                                   .Include(s => s.Secret)
@@ -65,5 +65,7 @@ public sealed class ServerRepository(
         server.Location = location;
 
         await context.SaveChangesAsync();
+
+        return server;
     }
 }
