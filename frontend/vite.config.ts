@@ -8,4 +8,7 @@ export default defineConfig({
   plugins: [TanStackRouterVite({
     virtualRouteConfig: getVirtualRouteConfig(),
   }), react()],
+  server:{
+    host: true
+  }
 })
