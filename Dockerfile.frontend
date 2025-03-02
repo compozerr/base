@@ -10,20 +10,18 @@ RUN npm ci
 # Build the frontend
 RUN turbo build
 
-# Stage 3: Production stage
+# Production stage
 FROM node:18-alpine
 
 WORKDIR /app
 
-# Copy necessary files for serving
-COPY --from=builder /app/frontend/dist ./frontend/dist
-COPY --from=builder /app/frontend/package.json ./frontend/package.json
+# Copy built files
+COPY --from=builder /app/frontend/dist ./dist
 
-# Install vite globally for serving
-RUN npm install -g vite
-
-WORKDIR /app/frontend/dist
+# Install http-server
+RUN npm install -g http-server
 
 EXPOSE 5173
 
-CMD ["vite", "serve", "--host", "0.0.0.0", "--port", "5173", "--strictPort"]
+# Serve static files
+CMD ["http-server", "dist", "-p", "5173", "--cors"]
