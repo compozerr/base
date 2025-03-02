@@ -12,6 +12,8 @@ public class ApiDbContext(
     public DbSet<Location> Locations => Set<Location>();
     public DbSet<Module> Modules => Set<Module>();
     public DbSet<Project> Projects => Set<Project>();
+    public DbSet<ProjectEnvironment> ProjectEnvironments => Set<ProjectEnvironment>();
+    public DbSet<ProjectEnvironmentVariable> ProjectEnvironmentVariables => Set<ProjectEnvironmentVariable>();
     public DbSet<Server> Servers => Set<Server>();
     public DbSet<Secret> Secrets => Set<Secret>();
 

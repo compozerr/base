@@ -7,7 +7,8 @@ namespace Api.Repositories;
 
 public interface IProjectRepository : IGenericRepository<Project, ProjectId, ApiDbContext>
 {
-    public Task<Project> UpdateProjectEnvironmentVariables(KeyValuePair<string, string> pairs);
+    public Task<ProjectId> UpsertProjectEnvironmentAsync(ProjectId projectId, string branch, KeyValuePair<string, string>[] pairs);
+    public Task<ProjectEnvironment?> GetProjectEnvironmentByBranchAsync(ProjectId projectId, string branch);
 }
 
 public sealed class ProjectRepository(
@@ -15,8 +16,46 @@ public sealed class ProjectRepository(
 {
     private readonly ApiDbContext _context = context;
 
-    public Task<Project> UpdateProjectEnvironmentVariables(KeyValuePair<string, string> pairs)
+    public Task<ProjectEnvironment?> GetProjectEnvironmentByBranchAsync(ProjectId projectId, string branch)
+        => _context.ProjectEnvironments
+                .Include(x => x.ProjectEnvironmentVariables)
+                .SingleOrDefaultAsync(x => x.Branches.Contains(branch) && x.ProjectId == projectId);
+
+    public async Task<ProjectId> UpsertProjectEnvironmentAsync(ProjectId projectId, string branch, KeyValuePair<string, string>[] pairs)
     {
-        throw new NotImplementedException();
+        var environment = await GetProjectEnvironmentByBranchAsync(projectId, branch);
+
+        environment ??= new ProjectEnvironment
+        {
+            Branches = [branch],
+            ProjectId = projectId
+        };
+
+        var variables = environment.ProjectEnvironmentVariables ?? [];
+
+        foreach (var pair in pairs)
+        {
+            var variable = variables.SingleOrDefault(x => x.Key == pair.Key);
+
+            if (variable is null)
+            {
+                variables.Add(new ProjectEnvironmentVariable
+                {
+                    Key = pair.Key,
+                    Value = pair.Value,
+
+                });
+            }
+            else
+            {
+                variable.Value = pair.Value;
+            }
+        }
+
+        _context.ProjectEnvironments.Update(environment);
+
+        await _context.SaveChangesAsync();
+
+        return projectId;
     }
 }
