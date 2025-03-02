@@ -9,6 +9,6 @@ export default defineConfig({
     virtualRouteConfig: getVirtualRouteConfig(),
   }), react()],
   server:{
-    host: true
+    host: "0.0.0.0"
   }
 })
