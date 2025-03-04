@@ -23,7 +23,6 @@ public static class GithubAuthProvider
         var serviceProvider = builder.Services.BuildServiceProvider();
 
         var githubOptions = serviceProvider.GetRequiredService<IOptions<GithubOptions>>();
-        var jwtService = serviceProvider.GetRequiredService<IJsonWebTokenService>();
 
         return builder.AddGitHub(options =>
         {
@@ -86,6 +85,7 @@ public static class GithubAuthProvider
 
                     if (context.Properties?.Items.TryGetValue("session_id", out var nonNullSessionId) ?? false)
                     {
+                        var jwtService = context.HttpContext.RequestServices.GetRequiredService<IJsonWebTokenService>();
                         var expiresAtUtc = context.Properties.ExpiresUtc!.Value.UtcDateTime;
                         var accessToken = jwtService.CreateToken(context.Principal, expiresAtUtc);
 
