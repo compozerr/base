@@ -20,13 +20,13 @@ public class GithubFeature : IFeature
        {
            options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"), b =>
            {
-               b.MigrationsAssembly(typeof(GithubDbContext).Assembly.FullName); 
+               b.MigrationsAssembly(typeof(GithubDbContext).Assembly.FullName);
 
            });
        });
 
         services.AddRequiredConfigurationOptions<GithubAppOptions>("Github:GithubApp");
-        
+
         services.AddSingleton<IGithubJsonWebTokenService, GithubJsonWebTokenService>();
         services.AddScoped<IGithubService, GithubService>();
         services.AddScoped<IGithubUserSettingsRepository, GithubUserSettingsRepository>();
@@ -36,12 +36,9 @@ public class GithubFeature : IFeature
 
     void IFeature.ConfigureApp(WebApplication app)
     {
-        if (app.Environment.IsDevelopment())
-        {
-            using var scope = app.Services.CreateScope();
-            var context = scope.ServiceProvider.GetRequiredService<GithubDbContext>();
+        using var scope = app.Services.CreateScope();
+        var context = scope.ServiceProvider.GetRequiredService<GithubDbContext>();
 
-            context.Database.Migrate();
-        }
+        context.Database.Migrate();
     }
 }

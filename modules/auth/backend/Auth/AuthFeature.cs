@@ -87,12 +87,9 @@ public class AuthFeature : IFeature
 
     void IFeature.ConfigureApp(WebApplication app)
     {
-        if (app.Environment.IsDevelopment())
-        {
-            using var scope = app.Services.CreateScope();
-            var context = scope.ServiceProvider.GetRequiredService<AuthDbContext>();
+        using var scope = app.Services.CreateScope();
+        var context = scope.ServiceProvider.GetRequiredService<AuthDbContext>();
 
-            context.Database.Migrate();
-        }
+        context.Database.Migrate();
     }
 }
