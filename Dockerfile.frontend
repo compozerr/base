@@ -10,18 +10,20 @@ RUN npm ci
 # Build the frontend
 RUN turbo build
 
-# Production stage
+# Stage 2: Production stage
 FROM node:18-alpine
 
 WORKDIR /app
 
-# Copy built files
-COPY --from=builder /app/frontend/dist ./dist
+# Copy necessary files for serving
+COPY --from=builder /app/frontend/dist ./frontend/dist
 
-# Install http-server
-RUN npm install -g http-server
+# Install serve globally for serving static content with SPA support
+RUN npm install -g serve
+
+WORKDIR /app
 
 EXPOSE 5173
 
-# Serve static files
-CMD ["http-server", "dist", "-p", "5173", "--cors"]
+# Use serve with SPA mode (-s flag) to handle client-side routing
+CMD ["serve", "-s", "frontend/dist", "-l", "5173"]
