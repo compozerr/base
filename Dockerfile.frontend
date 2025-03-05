@@ -10,20 +10,20 @@ RUN npm ci
 # Build the frontend
 RUN turbo build
 
-# Stage 3: Production stage
+# Stage 2: Production stage
 FROM node:18-alpine
 
 WORKDIR /app
 
 # Copy necessary files for serving
 COPY --from=builder /app/frontend/dist ./frontend/dist
-COPY --from=builder /app/frontend/package.json ./frontend/package.json
 
-# Install vite globally for serving
-RUN npm install -g vite
+# Install serve globally for serving static content with SPA support
+RUN npm install -g serve
 
-WORKDIR /app/frontend/dist
+WORKDIR /app
 
 EXPOSE 5173
 
-CMD ["vite", "serve", "--host", "0.0.0.0", "--port", "5173", "--strictPort"]
+# Use serve with SPA mode (-s flag) to handle client-side routing
+CMD ["serve", "-s", "frontend/dist", "-l", "5173"]
