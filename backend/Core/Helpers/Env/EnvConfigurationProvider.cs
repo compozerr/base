@@ -8,7 +8,7 @@ internal class EnvConfigurationProvider(FileConfigurationSource source) : FileCo
         foreach (var item in EnvReader.Load(stream))
         {
             var key = ConvertToObjectAndPascalCase(item.Key);
-            Data[key] = item.Value;
+            Data[key] = item.Value.Trim('"');
         }
     }
 
