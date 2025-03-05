@@ -9,6 +9,8 @@ services:
       - POSTGRES_PASSWORD=mysecretpassword
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app-network
 
 volumes:
   postgres_data:
