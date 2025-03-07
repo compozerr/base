@@ -1,26 +1,73 @@
 FROM node:18-alpine
 
 WORKDIR /app
-RUN apk add --no-cache jq docker-cli docker-compose curl grep bash
+RUN apk add --no-cache jq docker-cli docker-compose
 
-# Copy our module management scripts
-COPY module-manager.sh /app/
-RUN chmod +x /app/module-manager.sh
+# Copy the script that will process the modules
+COPY module-runner.sh /app/
+RUN chmod +x /app/module-runner.sh
 
-# Create directory for module handling
+# Create a temporary directory for module handling
 RUN mkdir -p /app/modules
 
-# Create the wrapper script for startup and shutdown
-RUN printf '#!/bin/bash\n\
-\n\
-echo "Starting module manager..."\n\
-\n\
-# Start all modules\n\
-/app/module-manager.sh start\n\
-while true; do\n\
-    sleep 60\n\
-done\n' > /app/entrypoint.sh
+# Copy modules directory and filter based on start command
+COPY modules/ /tmp/modules/
+RUN for dir in /tmp/modules/*/; do \
+    if [ -f "${dir}compozerr.json" ]; then \
+        if jq -e ".start" "${dir}compozerr.json" > /dev/null 2>&1; then \
+            echo "Copying module $(basename ${dir})"; \
+            cp -r "$dir" "/app/modules/"; \
+        fi \
+    fi \
+done && \
+    rm -rf /tmp/modules
 
-RUN chmod +x /app/entrypoint.sh
+FROM node:18-alpine
 
-ENTRYPOINT ["/app/entrypoint.sh"]
+WORKDIR /app
+RUN apk add --no-cache jq docker-cli docker-compose
+
+# Copy the script that will process the modules
+COPY module-runner.sh /app/
+RUN chmod +x /app/module-runner.sh
+
+# Copy modules directory
+COPY modules/ /app/modules/
+RUN printf '#!/bin/sh\n\
+\n\
+# Start the module runner in the background\n\
+/app/module-runner.sh & \n\
+RUNNER_PID=$!\n\
+\n\
+# Function to handle shutdown\n\
+shutdown() {\n\
+    echo "Wrapper received shutdown signal, starting cleanup..."\n\
+    \n\
+    # Find and execute end commands\n\
+    find /app/modules -type f -name "compozerr.json" | sort -r | while read -r file; do\n\
+        module_dir=$(dirname "$file")\n\
+        if [ -f "$module_dir/compozerr.json" ]; then\n\
+            end_cmd=$(jq -r ".end" "$module_dir/compozerr.json")\n\
+            if [ "$end_cmd" != "null" ] && [ -n "$end_cmd" ]; then\n\
+                echo "Executing end command in $module_dir: $end_cmd"\n\
+                (cd "$module_dir" && eval "$end_cmd")\n\
+            fi\n\
+        fi\n\
+    done\n\
+    \n\
+    # Kill the module runner if its still running\n\
+    if kill -0 $RUNNER_PID 2>/dev/null; then\n\
+        kill $RUNNER_PID\n\
+    fi\n\
+    \n\
+    echo "Cleanup complete"\n\
+    exit 0\n\
+}\n\
+\n\
+# Set up signal handlers\n\
+trap shutdown SIGTERM SIGINT SIGQUIT\n\
+\n\
+# Wait for the module runner\n\
+wait $RUNNER_PID\n' > /app/wrapper.sh && chmod +x /app/wrapper.sh
+    
+ENTRYPOINT ["/app/wrapper.sh"]
