@@ -5,6 +5,7 @@ services:
       dockerfile: Dockerfile.frontend
     ports:
       - "1234:5173"
+    restart: always
     networks:
       - app-network
 
@@ -14,6 +15,7 @@ services:
       dockerfile: Dockerfile.backend
     ports:
       - "1235:5000"
+    restart: always
     networks:
       - app-network
 
@@ -24,6 +26,7 @@ services:
     volumes:
       - ./modules:/app/modules
       - /var/run/docker.sock:/var/run/docker.sock
+    restart: always
     networks:
       - app-network
     stop_grace_period: 20s
