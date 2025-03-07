@@ -12,3 +12,4 @@ src/frontend/modules/
 .env
 service-account.json
 flyio.generated.json
+docker-compose.generated.yml
