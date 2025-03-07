@@ -22,6 +22,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.frontend
+    restart: always
     ports:
       - "1234:5173"
     networks:
@@ -31,6 +32,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.backend
+    restart: always
     ports:
       - "1235:5000"
     networks:
@@ -40,6 +42,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.modules
+    restart: always
     volumes:
       - ./modules:/app/modules
       - /var/run/docker.sock:/var/run/docker.sock
