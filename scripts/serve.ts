@@ -13,7 +13,12 @@ const modulesWithDockerComposeFile = await moduleService.getModulesWithDockerCom
 for (const module of modulesWithDockerComposeFile) {
     const relativePathToDockerComposeFile = path.join("modules", module.name, module.config.dockerComposeFile!);
     dockerComposeFiles.push(relativePathToDockerComposeFile);
-    moduleComposeContexts[module.name] = path.join("modules", module.name)
+
+    const dockerFilePath = module.config.dockerComposeFile!;
+    const lastSlashIndex = dockerFilePath.lastIndexOf('/');
+    const relativeContextPath = lastSlashIndex === -1 ? "." : dockerFilePath.substring(0, lastSlashIndex)
+    
+    moduleComposeContexts[module.name] = path.join("modules", module.name, relativeContextPath)
 }
 
 const moduleComposeContextsEnvironmentVars = Object.entries(moduleComposeContexts).map(([name, path]) => `COMPOSE_${name.toUpperCase()}_CONTEXT=${path}`).join(" ");
