@@ -1,11 +1,11 @@
-import { exec } from "child_process";
+const { exec } = require("child_process");
 
 console.log("Installing dependencies...");
 
 let denoInstalled = true;
 
 //Check if deno is installed
-exec("deno --version", (error, stdout, stderr) => {
+exec("deno --version", (error: any, stdout: string, stderr: string) => {
     if (error) {
         denoInstalled = false;
         return;
@@ -28,7 +28,7 @@ if (!denoInstalled) {
 let nbgvInstalled = true;
 
 //Check if nbgv is installed
-exec("dotnet tool list -g | findstr nbgv", (error, stdout, stderr) => {
+exec("dotnet tool list -g | findstr nbgv", (error: any, stdout: string, stderr: string) => {
     if (error) {
         nbgvInstalled = false;
         return;
@@ -40,7 +40,7 @@ if (!nbgvInstalled) {
     exec("dotnet tool install nbgv");
 }
 
-exec("npm install", (error, stdout, stderr) => {
+exec("npm install", (error: any, stdout: any, stderr: any) => {
     if (error) {
         console.error("Error installing frontend dependencies");
         return;
