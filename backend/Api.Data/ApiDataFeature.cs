@@ -1,4 +1,5 @@
 using Core.Feature;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,5 +17,13 @@ public class ApiDataFeature : IFeature
                 b.MigrationsAssembly(typeof(ApiDbContext).Assembly.FullName);
             });
         });
+    }
+
+    void IFeature.ConfigureApp(WebApplication app)
+    {
+        using var scope = app.Services.CreateScope();
+        var context = scope.ServiceProvider.GetRequiredService<ApiDbContext>();
+
+        context.Database.Migrate();
     }
 }
