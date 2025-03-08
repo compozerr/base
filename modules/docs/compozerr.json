@@ -1,6 +1,6 @@
 {
     "name": "docs",
-    "start": "docker network inspect app-network >/dev/null 2>&1 || docker network create app-network && docker-compose up",
+    "start": "docker-compose up",
     "port": "1236",
     "readyMessage": "regex:client .* compiled successfully",
     "startupTimeoutMs": 50000

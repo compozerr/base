@@ -6,8 +6,6 @@ services:
     ports:
       - "1234:5173"
     restart: always
-    networks:
-      - app-network
 
   backend:
     build:
@@ -16,36 +14,6 @@ services:
     ports:
       - "1235:5000"
     restart: always
-    networks:
-      - app-network
-
-  db:
-    image: postgres:15
-    ports:
-      - "5432:5432"
-    environment:
-      - POSTGRES_DB=myapp
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=mysecretpassword
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    restart: always
-    networks:
-      - app-network
-
-  docs:
-    build:
-      context: .
-      dockerfile: modules/docs/Dockerfile
-    ports:
-      - "1236:1236"
-    networks:
-      - app-network
 
 volumes:
   postgres_data:
-  
-networks:
-  app-network:
-    driver: bridge
-    external: false

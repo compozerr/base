@@ -5,10 +5,3 @@ services:
       dockerfile: Dockerfile
     ports:
       - "1236:1236"
-    networks:
-      - app-network
-
-networks:
-  default:
-    name: app-network
-    external: true

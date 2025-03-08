@@ -1,7 +1,7 @@
 {
     "name": "database",
     "dependencies": {},
-    "start": "docker network inspect app-network >/dev/null 2>&1 || docker network create app-network && docker-compose up",
+    "start": "docker-compose up",
     "end": "docker-compose down",
     "readyMessage": "regex:database system is ready to accept connections|Attaching to"
 }

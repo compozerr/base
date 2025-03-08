@@ -17,9 +17,10 @@ WORKDIR /app
 # Install serve globally for serving static content with SPA support
 RUN npm install -g serve
 
-WORKDIR /app
+# Copy built files from builder stage
+COPY --from=builder /app/build ./build
 
 EXPOSE 1236
 
 # Use serve with SPA mode (-s flag) to handle client-side routing
-CMD ["npm", "run", "serve"]
+CMD ["serve", "-s", "build", "-l", "1236"]

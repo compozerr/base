@@ -10,13 +10,6 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     restart: always
-    networks:
-      - app-network
 
 volumes:
   postgres_data:
-
-networks:
-  default:
-    name: app-network
-    external: true
