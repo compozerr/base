@@ -55,4 +55,9 @@ export class AddedModulesService {
         const modules = await this.getAllAddedModulesAsync();
         return modules.filter(module => module.config.start?.trim());
     }
+
+    async getModulesWithDockerComposeFileAsync() {
+        const modules = await this.getAllAddedModulesAsync();
+        return modules.filter(module => module.config.dockerComposeFile?.trim())
+    }
 }

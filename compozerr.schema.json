@@ -44,6 +44,9 @@
         "alias": "@/*",
         "srcDir": "frontend/src"
       }
+    },
+    "dockerComposeFile": {
+      "type": "string"
     }
   },
   "required": [

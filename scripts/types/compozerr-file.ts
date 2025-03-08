@@ -14,6 +14,7 @@ export const CompozerrFile = z.object({
         routesDir: z.string().optional(),
         routePrefix: z.string().optional(),
     }).optional().default(Config.defaults.frontend),
+    dockerComposeFile: z.string().optional()
 });
 
 export type CompozerrFile = z.infer<typeof CompozerrFile>;

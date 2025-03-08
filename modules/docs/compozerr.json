@@ -1,7 +1,9 @@
 {
     "name": "docs",
     "start": "docker-compose up",
+    "end": "docker-compose down",
+    "dockerComposeFile": "docker-compose.yml",
     "port": "1236",
-    "readyMessage": "regex:client .* compiled successfully",
+    "readyMessage": "Accepting connections at",
     "startupTimeoutMs": 50000
 }
