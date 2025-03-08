@@ -25,5 +25,9 @@ console.log({ upCommand })
 
 const process = new Command(upCommand);
 
+Deno.addSignalListener("SIGINT", async () => {
+    await process.terminateAsync()
+});
+
 await process.spawn();
 
