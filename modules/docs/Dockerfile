@@ -14,9 +14,6 @@ FROM node:18-alpine
 
 WORKDIR /app
 
-# Copy necessary files for serving
-COPY --from=builder /app/dist ./dist
-
 # Install serve globally for serving static content with SPA support
 RUN npm install -g serve
 
