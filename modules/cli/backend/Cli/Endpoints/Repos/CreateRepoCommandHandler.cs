@@ -37,7 +37,9 @@ public sealed record CreateRepoCommandHandler(
         var cloneUrl = $"https://x-access-token:{clientResponse.InstallationToken}@github.com/{response.FullName}.git";
         var gitUrl = $"https://github.com/{response.FullName}.git";
 
-        var createProjectResponse = await Mediator.Send(new CreateProjectCommand(command.Name, gitUrl));
+        var createProjectResponse = await Mediator.Send(
+            new CreateProjectCommand(command.Name, gitUrl),
+            cancellationToken);
 
         return new CreateRepoResponse(
             cloneUrl,
