@@ -1,4 +1,5 @@
 {
+    "type": "module",
     "name": "cli",
     "dependencies": {
         "database": "latest",

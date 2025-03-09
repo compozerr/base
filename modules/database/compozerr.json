@@ -1,4 +1,5 @@
 {
+    "type": "module",
     "name": "database",
     "dependencies": {},
     "start": "docker-compose up",

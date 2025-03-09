@@ -1,6 +1,16 @@
 {
   "type": "object",
   "properties": {
+    "id": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "project",
+        "module"
+      ]
+    },
     "name": {
       "type": "string"
     },
@@ -50,6 +60,7 @@
     }
   },
   "required": [
+    "type",
     "name"
   ],
   "additionalProperties": false,

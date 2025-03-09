@@ -1,4 +1,5 @@
 {
+    "type": "project",
     "name": "web",
     "dependencies": {
         "template": "latest",

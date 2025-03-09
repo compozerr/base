@@ -2,6 +2,8 @@ import { z } from "npm:zod";
 import { Config } from "../config.ts";
 
 export const CompozerrFile = z.object({
+    id: z.string().optional(),
+    type: z.enum(["project", "module"]),
     name: z.string(),
     dependencies: z.record(z.string()).optional(),
     start: z.string().optional(),
@@ -15,6 +17,14 @@ export const CompozerrFile = z.object({
         routePrefix: z.string().optional(),
     }).optional().default(Config.defaults.frontend),
     dockerComposeFile: z.string().optional()
+}).superRefine((data, ctx) => {
+    if (data.type === "project" && !data.id) {
+        ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: "Project must have an id",
+            path: ["id"]
+        });
+    }
 });
 
 export type CompozerrFile = z.infer<typeof CompozerrFile>;
