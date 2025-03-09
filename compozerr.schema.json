@@ -1,6 +1,16 @@
 {
   "type": "object",
   "properties": {
+    "id": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "project",
+        "module"
+      ]
+    },
     "name": {
       "type": "string"
     },
@@ -44,9 +54,13 @@
         "alias": "@/*",
         "srcDir": "frontend/src"
       }
+    },
+    "dockerComposeFile": {
+      "type": "string"
     }
   },
   "required": [
+    "type",
     "name"
   ],
   "additionalProperties": false,
