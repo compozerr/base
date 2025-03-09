@@ -2660,198 +2660,6 @@ export interface V1Service {
             error: GetGithubPlaygroundError;
         };
     };
-    postServers: {
-        /**/
-        getMutationKey(parameters: PostServersParameters | void): ServiceOperationMutationKey<PostServersSchema, PostServersParameters>;
-        /**
-         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
-         * Handles loading state, optimistic updates, and error handling.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
-         * @example Mutation with predefined parameters, e.g., for updating
-         * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postServers.useMutation({})
-         * mutate(body);
-         * ```
-         * @example Mutation without predefined parameters, e.g., for creating
-         * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postServers.useMutation()
-         * mutate({
-         *     body: bodyPayload
-         * });
-         * ```
-         */
-        useMutation<TVariables extends PostServersBody, TContext = unknown>(parameters: PostServersParameters, options?: ServiceOperationUseMutationOptions<PostServersSchema, PostServersData, PostServersParameters, TVariables, PostServersError, TContext>): UseMutationResult<PostServersData, PostServersError | Error, AreAllOptional<TVariables> extends true ? TVariables | void : TVariables, TContext>;
-        /**
-         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
-         * Handles loading state, optimistic updates, and error handling.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
-         * @example Mutation with predefined parameters, e.g., for updating
-         * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postServers.useMutation({})
-         * mutate(body);
-         * ```
-         * @example Mutation without predefined parameters, e.g., for creating
-         * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postServers.useMutation()
-         * mutate({
-         *     body: bodyPayload
-         * });
-         * ```
-         */
-        useMutation<TVariables extends MutationVariables<PostServersBody, PostServersParameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<PostServersSchema, PostServersData, PostServersParameters, TVariables, PostServersError, TContext>): UseMutationResult<PostServersData, PostServersError | Error, TVariables, TContext>;
-        /**
-         * Returns the count of currently in-progress mutations.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
-         * @example Check how many mutations are currently in progress for the specified service method.
-         * ```ts
-         * const postServersTotal = qraft.v1Service.postServers.useIsMutating()
-         * ```
-         * @example Check how many mutations are currently in progress with the specified parameters.
-         * ```ts
-         * const postServersTotal = qraft.v1Service.postServers.useIsMutating({
-         *     parameters: {}
-         * })
-         * ```
-         */
-        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<PostServersBody, PostServersData, PostServersParameters, PostServersError, TContext> | MutationFiltersByMutationKey<PostServersSchema, PostServersBody, PostServersData, PostServersParameters, PostServersError, TContext>): number;
-        /**/
-        isMutating<TContext>(filters?: MutationFiltersByParameters<PostServersBody, PostServersData, PostServersParameters, PostServersError, TContext> | MutationFiltersByMutationKey<PostServersSchema, PostServersBody, PostServersData, PostServersParameters, PostServersError, TContext>): number;
-        /**/
-        (options: ServiceOperationMutationFnOptions<PostServersBody, PostServersParameters>, client?: (schema: PostServersSchema, options: ServiceOperationMutationFnOptions<PostServersBody, PostServersParameters>) => Promise<RequestFnResponse<PostServersData, PostServersError>>): Promise<RequestFnResponse<PostServersData, PostServersError>>;
-        /**
-         * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
-         * @example Get all variables of all running mutations.
-         * ```ts
-         * const postServersPendingMutationVariables = qraft.v1Service.postServers.useMutationState({
-         *     filters: {
-         *         status: "pending"
-         *     },
-         *     select: mutation => mutation.state.variables
-         * })
-         * ```
-         * @example Get all data for specific mutations via the `parameters`.
-         * ```ts
-         * const postServersMutationData = qraft.v1Service.postServers.useMutationState({
-         *     filters: {
-         *         parameters: {}
-         *     },
-         *     select: mutation => mutation.state.data
-         * })
-         * ```
-         */
-        useMutationState<TContext = unknown, TResult = MutationState<PostServersData, PostServersError, MutationVariables<PostServersBody, PostServersParameters>, TContext>>(options?: {
-            filters?: MutationFiltersByParameters<PostServersBody, PostServersData, PostServersParameters, PostServersError, TContext> | MutationFiltersByMutationKey<PostServersSchema, PostServersBody, PostServersData, PostServersParameters, PostServersError, TContext>;
-            select?: (mutation: Mutation<PostServersData, PostServersError, MutationVariables<PostServersBody, PostServersParameters>, TContext>) => TResult;
-        }): Array<TResult>;
-        schema: PostServersSchema;
-        types: {
-            parameters: PostServersParameters;
-            data: PostServersData;
-            error: PostServersError;
-            body: PostServersBody;
-        };
-    };
-    putServers: {
-        /**/
-        getMutationKey(parameters: PutServersParameters | void): ServiceOperationMutationKey<PutServersSchema, PutServersParameters>;
-        /**
-         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
-         * Handles loading state, optimistic updates, and error handling.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
-         * @example Mutation with predefined parameters, e.g., for updating
-         * ```ts
-         * const { mutate, isPending } = qraft.v1Service.putServers.useMutation({})
-         * mutate(body);
-         * ```
-         * @example Mutation without predefined parameters, e.g., for creating
-         * ```ts
-         * const { mutate, isPending } = qraft.v1Service.putServers.useMutation()
-         * mutate({
-         *     body: bodyPayload
-         * });
-         * ```
-         */
-        useMutation<TVariables extends PutServersBody, TContext = unknown>(parameters: PutServersParameters, options?: ServiceOperationUseMutationOptions<PutServersSchema, PutServersData, PutServersParameters, TVariables, PutServersError, TContext>): UseMutationResult<PutServersData, PutServersError | Error, AreAllOptional<TVariables> extends true ? TVariables | void : TVariables, TContext>;
-        /**
-         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
-         * Handles loading state, optimistic updates, and error handling.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
-         * @example Mutation with predefined parameters, e.g., for updating
-         * ```ts
-         * const { mutate, isPending } = qraft.v1Service.putServers.useMutation({})
-         * mutate(body);
-         * ```
-         * @example Mutation without predefined parameters, e.g., for creating
-         * ```ts
-         * const { mutate, isPending } = qraft.v1Service.putServers.useMutation()
-         * mutate({
-         *     body: bodyPayload
-         * });
-         * ```
-         */
-        useMutation<TVariables extends MutationVariables<PutServersBody, PutServersParameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<PutServersSchema, PutServersData, PutServersParameters, TVariables, PutServersError, TContext>): UseMutationResult<PutServersData, PutServersError | Error, TVariables, TContext>;
-        /**
-         * Returns the count of currently in-progress mutations.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
-         * @example Check how many mutations are currently in progress for the specified service method.
-         * ```ts
-         * const putServersTotal = qraft.v1Service.putServers.useIsMutating()
-         * ```
-         * @example Check how many mutations are currently in progress with the specified parameters.
-         * ```ts
-         * const putServersTotal = qraft.v1Service.putServers.useIsMutating({
-         *     parameters: {}
-         * })
-         * ```
-         */
-        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<PutServersBody, PutServersData, PutServersParameters, PutServersError, TContext> | MutationFiltersByMutationKey<PutServersSchema, PutServersBody, PutServersData, PutServersParameters, PutServersError, TContext>): number;
-        /**/
-        isMutating<TContext>(filters?: MutationFiltersByParameters<PutServersBody, PutServersData, PutServersParameters, PutServersError, TContext> | MutationFiltersByMutationKey<PutServersSchema, PutServersBody, PutServersData, PutServersParameters, PutServersError, TContext>): number;
-        /**/
-        (options: ServiceOperationMutationFnOptions<PutServersBody, PutServersParameters>, client?: (schema: PutServersSchema, options: ServiceOperationMutationFnOptions<PutServersBody, PutServersParameters>) => Promise<RequestFnResponse<PutServersData, PutServersError>>): Promise<RequestFnResponse<PutServersData, PutServersError>>;
-        /**
-         * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
-         * @example Get all variables of all running mutations.
-         * ```ts
-         * const putServersPendingMutationVariables = qraft.v1Service.putServers.useMutationState({
-         *     filters: {
-         *         status: "pending"
-         *     },
-         *     select: mutation => mutation.state.variables
-         * })
-         * ```
-         * @example Get all data for specific mutations via the `parameters`.
-         * ```ts
-         * const putServersMutationData = qraft.v1Service.putServers.useMutationState({
-         *     filters: {
-         *         parameters: {}
-         *     },
-         *     select: mutation => mutation.state.data
-         * })
-         * ```
-         */
-        useMutationState<TContext = unknown, TResult = MutationState<PutServersData, PutServersError, MutationVariables<PutServersBody, PutServersParameters>, TContext>>(options?: {
-            filters?: MutationFiltersByParameters<PutServersBody, PutServersData, PutServersParameters, PutServersError, TContext> | MutationFiltersByMutationKey<PutServersSchema, PutServersBody, PutServersData, PutServersParameters, PutServersError, TContext>;
-            select?: (mutation: Mutation<PutServersData, PutServersError, MutationVariables<PutServersBody, PutServersParameters>, TContext>) => TResult;
-        }): Array<TResult>;
-        schema: PutServersSchema;
-        types: {
-            parameters: PutServersParameters;
-            data: PutServersData;
-            error: PutServersError;
-            body: PutServersBody;
-        };
-    };
     get: {
         /**/
         cancelQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetSchema, GetData, TInfinite, GetParameters, GetError> | QueryFiltersByQueryKey<GetSchema, GetData, TInfinite, GetParameters, GetError>, options?: CancelOptions): Promise<void>;
@@ -3060,6 +2868,198 @@ export interface V1Service {
             parameters: GetParameters;
             data: GetData;
             error: GetError;
+        };
+    };
+    postServers: {
+        /**/
+        getMutationKey(parameters: PostServersParameters | void): ServiceOperationMutationKey<PostServersSchema, PostServersParameters>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.postServers.useMutation({})
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.postServers.useMutation()
+         * mutate({
+         *     body: bodyPayload
+         * });
+         * ```
+         */
+        useMutation<TVariables extends PostServersBody, TContext = unknown>(parameters: PostServersParameters, options?: ServiceOperationUseMutationOptions<PostServersSchema, PostServersData, PostServersParameters, TVariables, PostServersError, TContext>): UseMutationResult<PostServersData, PostServersError | Error, AreAllOptional<TVariables> extends true ? TVariables | void : TVariables, TContext>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.postServers.useMutation({})
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.postServers.useMutation()
+         * mutate({
+         *     body: bodyPayload
+         * });
+         * ```
+         */
+        useMutation<TVariables extends MutationVariables<PostServersBody, PostServersParameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<PostServersSchema, PostServersData, PostServersParameters, TVariables, PostServersError, TContext>): UseMutationResult<PostServersData, PostServersError | Error, TVariables, TContext>;
+        /**
+         * Returns the count of currently in-progress mutations.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
+         * @example Check how many mutations are currently in progress for the specified service method.
+         * ```ts
+         * const postServersTotal = qraft.v1Service.postServers.useIsMutating()
+         * ```
+         * @example Check how many mutations are currently in progress with the specified parameters.
+         * ```ts
+         * const postServersTotal = qraft.v1Service.postServers.useIsMutating({
+         *     parameters: {}
+         * })
+         * ```
+         */
+        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<PostServersBody, PostServersData, PostServersParameters, PostServersError, TContext> | MutationFiltersByMutationKey<PostServersSchema, PostServersBody, PostServersData, PostServersParameters, PostServersError, TContext>): number;
+        /**/
+        isMutating<TContext>(filters?: MutationFiltersByParameters<PostServersBody, PostServersData, PostServersParameters, PostServersError, TContext> | MutationFiltersByMutationKey<PostServersSchema, PostServersBody, PostServersData, PostServersParameters, PostServersError, TContext>): number;
+        /**/
+        (options: ServiceOperationMutationFnOptions<PostServersBody, PostServersParameters>, client?: (schema: PostServersSchema, options: ServiceOperationMutationFnOptions<PostServersBody, PostServersParameters>) => Promise<RequestFnResponse<PostServersData, PostServersError>>): Promise<RequestFnResponse<PostServersData, PostServersError>>;
+        /**
+         * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
+         * @example Get all variables of all running mutations.
+         * ```ts
+         * const postServersPendingMutationVariables = qraft.v1Service.postServers.useMutationState({
+         *     filters: {
+         *         status: "pending"
+         *     },
+         *     select: mutation => mutation.state.variables
+         * })
+         * ```
+         * @example Get all data for specific mutations via the `parameters`.
+         * ```ts
+         * const postServersMutationData = qraft.v1Service.postServers.useMutationState({
+         *     filters: {
+         *         parameters: {}
+         *     },
+         *     select: mutation => mutation.state.data
+         * })
+         * ```
+         */
+        useMutationState<TContext = unknown, TResult = MutationState<PostServersData, PostServersError, MutationVariables<PostServersBody, PostServersParameters>, TContext>>(options?: {
+            filters?: MutationFiltersByParameters<PostServersBody, PostServersData, PostServersParameters, PostServersError, TContext> | MutationFiltersByMutationKey<PostServersSchema, PostServersBody, PostServersData, PostServersParameters, PostServersError, TContext>;
+            select?: (mutation: Mutation<PostServersData, PostServersError, MutationVariables<PostServersBody, PostServersParameters>, TContext>) => TResult;
+        }): Array<TResult>;
+        schema: PostServersSchema;
+        types: {
+            parameters: PostServersParameters;
+            data: PostServersData;
+            error: PostServersError;
+            body: PostServersBody;
+        };
+    };
+    putServers: {
+        /**/
+        getMutationKey(parameters: PutServersParameters | void): ServiceOperationMutationKey<PutServersSchema, PutServersParameters>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.putServers.useMutation({})
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.putServers.useMutation()
+         * mutate({
+         *     body: bodyPayload
+         * });
+         * ```
+         */
+        useMutation<TVariables extends PutServersBody, TContext = unknown>(parameters: PutServersParameters, options?: ServiceOperationUseMutationOptions<PutServersSchema, PutServersData, PutServersParameters, TVariables, PutServersError, TContext>): UseMutationResult<PutServersData, PutServersError | Error, AreAllOptional<TVariables> extends true ? TVariables | void : TVariables, TContext>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.putServers.useMutation({})
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.putServers.useMutation()
+         * mutate({
+         *     body: bodyPayload
+         * });
+         * ```
+         */
+        useMutation<TVariables extends MutationVariables<PutServersBody, PutServersParameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<PutServersSchema, PutServersData, PutServersParameters, TVariables, PutServersError, TContext>): UseMutationResult<PutServersData, PutServersError | Error, TVariables, TContext>;
+        /**
+         * Returns the count of currently in-progress mutations.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
+         * @example Check how many mutations are currently in progress for the specified service method.
+         * ```ts
+         * const putServersTotal = qraft.v1Service.putServers.useIsMutating()
+         * ```
+         * @example Check how many mutations are currently in progress with the specified parameters.
+         * ```ts
+         * const putServersTotal = qraft.v1Service.putServers.useIsMutating({
+         *     parameters: {}
+         * })
+         * ```
+         */
+        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<PutServersBody, PutServersData, PutServersParameters, PutServersError, TContext> | MutationFiltersByMutationKey<PutServersSchema, PutServersBody, PutServersData, PutServersParameters, PutServersError, TContext>): number;
+        /**/
+        isMutating<TContext>(filters?: MutationFiltersByParameters<PutServersBody, PutServersData, PutServersParameters, PutServersError, TContext> | MutationFiltersByMutationKey<PutServersSchema, PutServersBody, PutServersData, PutServersParameters, PutServersError, TContext>): number;
+        /**/
+        (options: ServiceOperationMutationFnOptions<PutServersBody, PutServersParameters>, client?: (schema: PutServersSchema, options: ServiceOperationMutationFnOptions<PutServersBody, PutServersParameters>) => Promise<RequestFnResponse<PutServersData, PutServersError>>): Promise<RequestFnResponse<PutServersData, PutServersError>>;
+        /**
+         * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
+         * @example Get all variables of all running mutations.
+         * ```ts
+         * const putServersPendingMutationVariables = qraft.v1Service.putServers.useMutationState({
+         *     filters: {
+         *         status: "pending"
+         *     },
+         *     select: mutation => mutation.state.variables
+         * })
+         * ```
+         * @example Get all data for specific mutations via the `parameters`.
+         * ```ts
+         * const putServersMutationData = qraft.v1Service.putServers.useMutationState({
+         *     filters: {
+         *         parameters: {}
+         *     },
+         *     select: mutation => mutation.state.data
+         * })
+         * ```
+         */
+        useMutationState<TContext = unknown, TResult = MutationState<PutServersData, PutServersError, MutationVariables<PutServersBody, PutServersParameters>, TContext>>(options?: {
+            filters?: MutationFiltersByParameters<PutServersBody, PutServersData, PutServersParameters, PutServersError, TContext> | MutationFiltersByMutationKey<PutServersSchema, PutServersBody, PutServersData, PutServersParameters, PutServersError, TContext>;
+            select?: (mutation: Mutation<PutServersData, PutServersError, MutationVariables<PutServersBody, PutServersParameters>, TContext>) => TResult;
+        }): Array<TResult>;
+        schema: PutServersSchema;
+        types: {
+            parameters: PutServersParameters;
+            data: PutServersData;
+            error: PutServersError;
+            body: PutServersBody;
         };
     };
     getUsers: {
@@ -3367,6 +3367,12 @@ export const v1Service: {
             url: "/v1/github/playground";
         };
     };
+    get: {
+        schema: {
+            method: "get";
+            url: "/v1";
+        };
+    };
     postServers: {
         schema: {
             method: "post";
@@ -3380,12 +3386,6 @@ export const v1Service: {
             mediaType: [
                 "application/json"
             ];
-        };
-    };
-    get: {
-        schema: {
-            method: "get";
-            url: "/v1";
         };
     };
     getUsers: {
@@ -3482,6 +3482,12 @@ export const v1Service: {
             url: "/v1/github/playground"
         }
     },
+    get: {
+        schema: {
+            method: "get",
+            url: "/v1"
+        }
+    },
     postServers: {
         schema: {
             method: "post",
@@ -3493,12 +3499,6 @@ export const v1Service: {
             method: "put",
             url: "/v1/servers",
             mediaType: ["application/json"]
-        }
-    },
-    get: {
-        schema: {
-            method: "get",
-            url: "/v1"
         }
     },
     getUsers: {
@@ -3619,6 +3619,13 @@ type GetGithubPlaygroundSchema = {
 type GetGithubPlaygroundParameters = undefined;
 type GetGithubPlaygroundData = unknown;
 type GetGithubPlaygroundError = unknown;
+type GetSchema = {
+    method: "get";
+    url: "/v1";
+};
+type GetParameters = undefined;
+type GetData = paths["/v1"]["get"]["responses"]["200"]["content"]["text/plain"];
+type GetError = unknown;
 type PostServersSchema = {
     method: "post";
     url: "/v1/servers";
@@ -3638,13 +3645,6 @@ type PutServersParameters = {};
 type PutServersData = paths["/v1/servers"]["put"]["responses"]["200"]["content"]["application/json"];
 type PutServersError = unknown;
 type PutServersBody = NonNullable<paths["/v1/servers"]["put"]["requestBody"]>["content"]["application/json"];
-type GetSchema = {
-    method: "get";
-    url: "/v1";
-};
-type GetParameters = undefined;
-type GetData = paths["/v1"]["get"]["responses"]["200"]["content"]["text/plain"];
-type GetError = unknown;
 type GetUsersSchema = {
     method: "get";
     url: "/v1/users";
