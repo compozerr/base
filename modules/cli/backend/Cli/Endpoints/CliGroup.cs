@@ -1,5 +1,6 @@
 using Carter;
 using Cli.Endpoints.Docker;
+using Cli.Endpoints.Projects;
 using Cli.Endpoints.Repos;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
@@ -18,5 +19,6 @@ public class CliGroup : CarterModule
     {
         app.AddDockerGroup();
         app.AddReposGroup();
+        app.AddProjectsGroup();
     }
 }

@@ -1,12 +1,15 @@
 using Auth.Services;
+using Cli.Endpoints.Projects;
 using Core.MediatR;
 using Github.Services;
+using MediatR;
 
 namespace Cli.Endpoints.Repos;
 
 public sealed record CreateRepoCommandHandler(
     IGithubService GithubService,
-    ICurrentUserAccessor CurrentUserAccessor) : ICommandHandler<CreateRepoCommand, CreateRepoResponse>
+    ICurrentUserAccessor CurrentUserAccessor,
+    IMediator Mediator) : ICommandHandler<CreateRepoCommand, CreateRepoResponse>
 {
     public async Task<CreateRepoResponse> Handle(CreateRepoCommand command, CancellationToken cancellationToken = default)
     {
@@ -34,9 +37,12 @@ public sealed record CreateRepoCommandHandler(
         var cloneUrl = $"https://x-access-token:{clientResponse.InstallationToken}@github.com/{response.FullName}.git";
         var gitUrl = $"https://github.com/{response.FullName}.git";
 
+        var createProjectResponse = await Mediator.Send(new CreateProjectCommand(command.Name, gitUrl));
+
         return new CreateRepoResponse(
             cloneUrl,
             gitUrl,
-            response.Name);
+            response.Name,
+            createProjectResponse.ProjectId);
     }
 }
