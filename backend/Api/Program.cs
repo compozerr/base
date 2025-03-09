@@ -1,5 +1,5 @@
+using Api.Data.Repositories;
 using Api.Options;
-using Api.Repositories;
 using Api.Services;
 using Core.Extensions;
 using Core.Feature;
@@ -17,6 +17,7 @@ builder.Services.AddFeatures(builder.Configuration);
 builder.Services.AddScoped<IEncryptionService, EncryptionService>();
 builder.Services.AddScoped<IHashService, HashService>();
 builder.Services.AddScoped<IServerRepository, ServerRepository>();
+builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
 builder.Services.AddScoped<IServerService, ServerService>();
 
 builder.Services.AddHttpClient();

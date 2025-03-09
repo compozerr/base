@@ -1,6 +1,6 @@
 using Api.Abstractions;
-using Api.Endpoints.Server;
-using Api.Repositories;
+using Api.Abstractions.Exceptions;
+using Api.Data.Repositories;
 
 namespace Api.Services;
 
