@@ -45,6 +45,6 @@ public sealed record CreateRepoCommandHandler(
             cloneUrl,
             gitUrl,
             response.Name,
-            createProjectResponse.ProjectId);
+            createProjectResponse.ProjectId.Value.ToString());
     }
 }

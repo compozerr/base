@@ -6,4 +6,4 @@ public sealed record CreateRepoResponse(
     string CloneUrl,
     string GitUrl,
     string RepoName,
-    ProjectId ProjectId);
+    string ProjectId);
