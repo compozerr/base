@@ -640,7 +640,7 @@ export interface components {
             cloneUrl?: string | null;
             gitUrl?: string | null;
             repoName?: string | null;
-            projectId?: components["schemas"]["ProjectId"];
+            projectId?: string | null;
         };
         /**
          * Format: int32
