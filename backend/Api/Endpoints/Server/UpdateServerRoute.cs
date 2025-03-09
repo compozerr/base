@@ -1,4 +1,4 @@
-using System.Security.Cryptography;
+using Api.Abstractions.Exceptions;
 using Api.Services;
 
 namespace Api.Endpoints.Server;

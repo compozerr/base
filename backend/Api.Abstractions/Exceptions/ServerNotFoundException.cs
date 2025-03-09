@@ -1,3 +1,3 @@
-namespace Api.Endpoints.Server;
+namespace Api.Abstractions.Exceptions;
 
 public sealed class ServerNotFoundException : Exception;

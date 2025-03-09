@@ -1,10 +1,8 @@
-using Api.Abstractions;
-using Api.Data;
-using Api.Endpoints.Server;
+using Api.Abstractions.Exceptions;
 using Database.Repositories;
 using Microsoft.EntityFrameworkCore;
 
-namespace Api.Repositories;
+namespace Api.Data.Repositories;
 
 public interface IServerRepository : IGenericRepository<Server, ServerId, ApiDbContext>
 {

@@ -1,14 +1,14 @@
-using Api.Abstractions;
-using Api.Data;
+using Auth.Abstractions;
 using Database.Repositories;
 using Microsoft.EntityFrameworkCore;
 
-namespace Api.Repositories;
+namespace Api.Data.Repositories;
 
 public interface IProjectRepository : IGenericRepository<Project, ProjectId, ApiDbContext>
 {
     public Task<ProjectId> UpsertProjectEnvironmentAsync(ProjectId projectId, string branch, KeyValuePair<string, string>[] pairs);
     public Task<ProjectEnvironment?> GetProjectEnvironmentByBranchAsync(ProjectId projectId, string branch);
+    public Task<List<Project>> GetProjectsForUserAsync(UserId userId);
 }
 
 public sealed class ProjectRepository(
@@ -20,6 +20,11 @@ public sealed class ProjectRepository(
         => _context.ProjectEnvironments
                 .Include(x => x.ProjectEnvironmentVariables)
                 .SingleOrDefaultAsync(x => x.Branches.Contains(branch) && x.ProjectId == projectId);
+
+    public Task<List<Project>> GetProjectsForUserAsync(UserId userId)
+        => _context.Projects
+                .Where(x => x.UserId == userId)
+                .ToListAsync();
 
     public async Task<ProjectId> UpsertProjectEnvironmentAsync(ProjectId projectId, string branch, KeyValuePair<string, string>[] pairs)
     {
