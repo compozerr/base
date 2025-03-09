@@ -1561,6 +1561,102 @@ export interface V1Service {
             body: PostCliReposBody;
         };
     };
+    postCliProjects: {
+        /**/
+        getMutationKey(parameters: PostCliProjectsParameters | void): ServiceOperationMutationKey<PostCliProjectsSchema, PostCliProjectsParameters>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.postCliProjects.useMutation({})
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.postCliProjects.useMutation()
+         * mutate({
+         *     body: bodyPayload
+         * });
+         * ```
+         */
+        useMutation<TVariables extends PostCliProjectsBody, TContext = unknown>(parameters: PostCliProjectsParameters, options?: ServiceOperationUseMutationOptions<PostCliProjectsSchema, PostCliProjectsData, PostCliProjectsParameters, TVariables, PostCliProjectsError, TContext>): UseMutationResult<PostCliProjectsData, PostCliProjectsError | Error, AreAllOptional<TVariables> extends true ? TVariables | void : TVariables, TContext>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.postCliProjects.useMutation({})
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.postCliProjects.useMutation()
+         * mutate({
+         *     body: bodyPayload
+         * });
+         * ```
+         */
+        useMutation<TVariables extends MutationVariables<PostCliProjectsBody, PostCliProjectsParameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<PostCliProjectsSchema, PostCliProjectsData, PostCliProjectsParameters, TVariables, PostCliProjectsError, TContext>): UseMutationResult<PostCliProjectsData, PostCliProjectsError | Error, TVariables, TContext>;
+        /**
+         * Returns the count of currently in-progress mutations.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
+         * @example Check how many mutations are currently in progress for the specified service method.
+         * ```ts
+         * const postCliProjectsTotal = qraft.v1Service.postCliProjects.useIsMutating()
+         * ```
+         * @example Check how many mutations are currently in progress with the specified parameters.
+         * ```ts
+         * const postCliProjectsTotal = qraft.v1Service.postCliProjects.useIsMutating({
+         *     parameters: {}
+         * })
+         * ```
+         */
+        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<PostCliProjectsBody, PostCliProjectsData, PostCliProjectsParameters, PostCliProjectsError, TContext> | MutationFiltersByMutationKey<PostCliProjectsSchema, PostCliProjectsBody, PostCliProjectsData, PostCliProjectsParameters, PostCliProjectsError, TContext>): number;
+        /**/
+        isMutating<TContext>(filters?: MutationFiltersByParameters<PostCliProjectsBody, PostCliProjectsData, PostCliProjectsParameters, PostCliProjectsError, TContext> | MutationFiltersByMutationKey<PostCliProjectsSchema, PostCliProjectsBody, PostCliProjectsData, PostCliProjectsParameters, PostCliProjectsError, TContext>): number;
+        /**/
+        (options: ServiceOperationMutationFnOptions<PostCliProjectsBody, PostCliProjectsParameters>, client?: (schema: PostCliProjectsSchema, options: ServiceOperationMutationFnOptions<PostCliProjectsBody, PostCliProjectsParameters>) => Promise<RequestFnResponse<PostCliProjectsData, PostCliProjectsError>>): Promise<RequestFnResponse<PostCliProjectsData, PostCliProjectsError>>;
+        /**
+         * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
+         * @example Get all variables of all running mutations.
+         * ```ts
+         * const postCliProjectsPendingMutationVariables = qraft.v1Service.postCliProjects.useMutationState({
+         *     filters: {
+         *         status: "pending"
+         *     },
+         *     select: mutation => mutation.state.variables
+         * })
+         * ```
+         * @example Get all data for specific mutations via the `parameters`.
+         * ```ts
+         * const postCliProjectsMutationData = qraft.v1Service.postCliProjects.useMutationState({
+         *     filters: {
+         *         parameters: {}
+         *     },
+         *     select: mutation => mutation.state.data
+         * })
+         * ```
+         */
+        useMutationState<TContext = unknown, TResult = MutationState<PostCliProjectsData, PostCliProjectsError, MutationVariables<PostCliProjectsBody, PostCliProjectsParameters>, TContext>>(options?: {
+            filters?: MutationFiltersByParameters<PostCliProjectsBody, PostCliProjectsData, PostCliProjectsParameters, PostCliProjectsError, TContext> | MutationFiltersByMutationKey<PostCliProjectsSchema, PostCliProjectsBody, PostCliProjectsData, PostCliProjectsParameters, PostCliProjectsError, TContext>;
+            select?: (mutation: Mutation<PostCliProjectsData, PostCliProjectsError, MutationVariables<PostCliProjectsBody, PostCliProjectsParameters>, TContext>) => TResult;
+        }): Array<TResult>;
+        schema: PostCliProjectsSchema;
+        types: {
+            parameters: PostCliProjectsParameters;
+            data: PostCliProjectsData;
+            error: PostCliProjectsError;
+            body: PostCliProjectsBody;
+        };
+    };
     getExample: {
         /**/
         cancelQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetExampleSchema, GetExampleData, TInfinite, GetExampleParameters, GetExampleError> | QueryFiltersByQueryKey<GetExampleSchema, GetExampleData, TInfinite, GetExampleParameters, GetExampleError>, options?: CancelOptions): Promise<void>;
@@ -3229,6 +3325,15 @@ export const v1Service: {
             ];
         };
     };
+    postCliProjects: {
+        schema: {
+            method: "post";
+            url: "/v1/cli/projects";
+            mediaType: [
+                "application/json"
+            ];
+        };
+    };
     getExample: {
         schema: {
             method: "get";
@@ -3336,6 +3441,13 @@ export const v1Service: {
         schema: {
             method: "post",
             url: "/v1/cli/repos",
+            mediaType: ["application/json"]
+        }
+    },
+    postCliProjects: {
+        schema: {
+            method: "post",
+            url: "/v1/cli/projects",
             mediaType: ["application/json"]
         }
     },
@@ -3457,6 +3569,17 @@ type PostCliReposParameters = {};
 type PostCliReposData = paths["/v1/cli/repos"]["post"]["responses"]["200"]["content"]["application/json"];
 type PostCliReposError = unknown;
 type PostCliReposBody = NonNullable<paths["/v1/cli/repos"]["post"]["requestBody"]>["content"]["application/json"];
+type PostCliProjectsSchema = {
+    method: "post";
+    url: "/v1/cli/projects";
+    mediaType: [
+        "application/json"
+    ];
+};
+type PostCliProjectsParameters = {};
+type PostCliProjectsData = paths["/v1/cli/projects"]["post"]["responses"]["200"]["content"]["application/json"];
+type PostCliProjectsError = unknown;
+type PostCliProjectsBody = NonNullable<paths["/v1/cli/projects"]["post"]["requestBody"]>["content"]["application/json"];
 type GetExampleSchema = {
     method: "get";
     url: "/v1/example";

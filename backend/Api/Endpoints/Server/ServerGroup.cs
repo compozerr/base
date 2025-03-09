@@ -5,7 +5,7 @@ public class ServerGroup : CarterModule
 {
     public ServerGroup() : base("/servers")
     {
-        WithTags(nameof(Home));
+        WithTags(nameof(Server));
         RequireAuthorization("admin");
     }
 

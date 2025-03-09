@@ -270,6 +270,45 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/cli/projects": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["CreateProjectRequest"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["CreateProjectResponse"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/example": {
         parameters: {
             query?: never;
@@ -586,6 +625,13 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        CreateProjectRequest: {
+            repoName?: string | null;
+            repoUrl?: string | null;
+        };
+        CreateProjectResponse: {
+            projectId?: components["schemas"]["ProjectId"];
+        };
         CreateRepoRequest: {
             name?: string | null;
             type?: components["schemas"]["DefaultInstallationIdSelectionType"];
@@ -621,6 +667,8 @@ export interface components {
             email?: string | null;
             avatarUrl?: string | null;
         };
+        /** Format: uuid */
+        ProjectId: string;
         /**
          * Format: int32
          * @enum {integer}
