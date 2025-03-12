@@ -1,7 +1,7 @@
 using Api.Abstractions;
 using Core.MediatR;
 
-namespace Cli.Endpoints.Projects.Deployment;
+namespace Cli.Endpoints.Projects.Deployments;
 
 public sealed record DeployProjectCommand(
     ProjectId ProjectId,

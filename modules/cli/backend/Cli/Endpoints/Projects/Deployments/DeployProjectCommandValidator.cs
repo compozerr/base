@@ -3,7 +3,7 @@ using Auth.Services;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Cli.Endpoints.Projects.Deployment;
+namespace Cli.Endpoints.Projects.Deployments;
 
 public sealed class DeployProjectCommandValidator : AbstractValidator<DeployProjectCommand>
 {

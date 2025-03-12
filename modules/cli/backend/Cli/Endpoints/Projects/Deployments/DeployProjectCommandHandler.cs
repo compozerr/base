@@ -6,7 +6,7 @@ using Core.MediatR;
 using Core.Services;
 using Database.Extensions;
 
-namespace Cli.Endpoints.Projects.Deployment;
+namespace Cli.Endpoints.Projects.Deployments;
 
 public sealed record DeployProjectCommandHandler(
     IDeploymentRepository DeploymentRepository,
@@ -35,7 +35,7 @@ public sealed record DeployProjectCommandHandler(
             return new DeployProjectResponse(frontendPath.ToString());
         }
 
-        var newDeployment = new Api.Data.Deployment
+        var newDeployment = new Deployment
         {
             ProjectId = command.ProjectId,
             CommitHash = command.CommitHash,
