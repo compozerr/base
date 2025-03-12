@@ -8,18 +8,21 @@ namespace Cli.Endpoints.Projects;
 
 public sealed record CreateProjectCommandHandler(
     IProjectRepository ProjectRepository,
-    ICurrentUserAccessor CurrentUserAccessor) : ICommandHandler<CreateProjectCommand, CreateProjectResponse>
+    ICurrentUserAccessor CurrentUserAccessor,
+    ILocationRepository LocationRepository) : ICommandHandler<CreateProjectCommand, CreateProjectResponse>
 {
     public async Task<CreateProjectResponse> Handle(CreateProjectCommand command, CancellationToken cancellationToken = default)
     {
         var userId = CurrentUserAccessor.CurrentUserId!;
+
+        var location = await LocationRepository.GetLocationByIso(command.LocationIso);
 
         var newProject = new Project
         {
             Name = command.RepoName,
             RepoUri = new Uri(command.RepoUrl),
             UserId = userId,
-            LocationId = command.LocationId
+            LocationId = location.Id
         };
 
         newProject.QueueDomainEvent<ProjectCreatedEvent>();

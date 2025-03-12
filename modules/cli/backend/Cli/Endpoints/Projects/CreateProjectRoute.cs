@@ -1,11 +1,10 @@
-using Github.Endpoints.SetDefaultInstallationId;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 
 namespace Cli.Endpoints.Projects;
 
-public record CreateProjectRequest(string RepoName, string RepoUrl);
+public record CreateProjectRequest(string RepoName, string RepoUrl, string LocationIso);
 
 public static class CreateProjectRoute
 {
@@ -22,5 +21,6 @@ public static class CreateProjectRoute
         => mediator.Send(
             new CreateProjectCommand(
                 createProjectRequest.RepoName,
-                createProjectRequest.RepoUrl));
+                createProjectRequest.RepoUrl,
+                createProjectRequest.LocationIso));
 }
