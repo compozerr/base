@@ -1,0 +1,36 @@
+{
+	// Place your global snippets here. Each snippet is defined under a snippet name and has a scope, prefix, body and 
+	// description. Add comma separated ids of the languages where the snippet is applicable in the scope field. If scope 
+	// is left empty or omitted, the snippet gets applied to all languages. The prefix is what is 
+	// used to trigger the snippet and the body will be expanded and inserted. Possible variables are: 
+	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. 
+	// Placeholders with the same ids are connected.
+	// Example:
+	"New MinimalApi Route": {
+		"scope": "csharp",
+		"prefix": "rr",
+		"body": [
+			"using Microsoft.AspNetCore.Builder;",
+			"using Microsoft.AspNetCore.Routing;",
+			"",
+			"namespace $3;",
+			"",
+			"public static class ${1:routeName}Route",
+			"{",
+			"\tpublic const string Route = \"$2\";",
+			"",
+			"\tpublic static RouteHandlerBuilder Add${1:routeName}Route(this IEndpointRouteBuilder app)",
+			"\t{",
+			"\t\treturn app.MapGet(Route, ExecuteAsync);",
+			"\t}",
+			"",
+			"\tpublic static Task ExecuteAsync($0)",
+			"\t{",
+			"\t\treturn Task.CompletedTask;",
+			"\t}",
+			"}",
+			"",
+		],
+		"description": "Add minimal api route"
+	}
+}
