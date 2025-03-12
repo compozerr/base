@@ -12,7 +12,7 @@ public abstract class BaseEntity
     public List<IDomainEvent> DomainEvents { get; } = [];
 
     public void QueueDomainEvent(IDomainEvent domainEvent)
-     => DomainEvents.Add(domainEvent);
+      => DomainEvents.Add(domainEvent);
 }
 
 public abstract class BaseEntityWithId<TId> : BaseEntity where TId : IdBase<TId>, IId<TId>
