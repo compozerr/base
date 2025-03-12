@@ -2,6 +2,7 @@ using Api.Data;
 using Api.Data.Repositories;
 using Auth.Services;
 using Core.MediatR;
+using Database.Extensions;
 
 namespace Cli.Endpoints.Projects;
 
@@ -13,12 +14,17 @@ public sealed record CreateProjectCommandHandler(
     {
         var userId = CurrentUserAccessor.CurrentUserId!;
 
-        var project = await ProjectRepository.AddAsync(new Api.Data.Project
+        var newProject = new Project
         {
             Name = command.RepoName,
             RepoUri = new Uri(command.RepoUrl),
             UserId = userId,
-        }, cancellationToken);
+            LocationId = command.LocationId
+        };
+
+        newProject.QueueDomainEvent<ProjectCreatedEvent>();
+
+        var project = await ProjectRepository.AddAsync(newProject, cancellationToken);
 
         return new CreateProjectResponse(project.Id);
     }
