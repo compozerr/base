@@ -1,4 +1,5 @@
 using Auth.Abstractions;
+using Auth.Services;
 using Database.Repositories;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,10 +10,12 @@ public interface IProjectRepository : IGenericRepository<Project, ProjectId, Api
     public Task<ProjectId> UpsertProjectEnvironmentAsync(ProjectId projectId, string branch, KeyValuePair<string, string>[] pairs);
     public Task<ProjectEnvironment?> GetProjectEnvironmentByBranchAsync(ProjectId projectId, string branch);
     public Task<List<Project>> GetProjectsForUserAsync(UserId userId);
+    public Task<List<Project>> GetProjectsForUserAsync();
 }
 
 public sealed class ProjectRepository(
-    ApiDbContext context) : GenericRepository<Project, ProjectId, ApiDbContext>(context), IProjectRepository
+    ApiDbContext context,
+    ICurrentUserAccessor currentUserAccessor) : GenericRepository<Project, ProjectId, ApiDbContext>(context), IProjectRepository
 {
     private readonly ApiDbContext _context = context;
 
@@ -25,6 +28,13 @@ public sealed class ProjectRepository(
         => _context.Projects
                 .Where(x => x.UserId == userId)
                 .ToListAsync();
+
+    public Task<List<Project>> GetProjectsForUserAsync()
+    {
+        var userId = currentUserAccessor.CurrentUserId!;
+
+        return GetProjectsForUserAsync(userId);
+    }
 
     public async Task<ProjectId> UpsertProjectEnvironmentAsync(ProjectId projectId, string branch, KeyValuePair<string, string>[] pairs)
     {

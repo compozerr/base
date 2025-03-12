@@ -12,6 +12,8 @@ public static class ProjectsGroup
         var group = app.MapGroup(Route);
 
         group.AddCreateProjectRoute();
+        group.AddGetProjectRoute();
+        group.AddGetProjectByRepoUrlRoute();
 
         return group;
     }
