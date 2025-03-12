@@ -51,6 +51,7 @@ public class CoreFeature : IFeature
 
         services.AddSingleton<IJsonWebTokenService, JsonWebTokenService>();
 
+        services.AddSingleton<IFrontendLocation, FrontendLocation>();
     }
 
     private static void AddWebApiConfig(IServiceCollection services, IConfiguration configuration)
