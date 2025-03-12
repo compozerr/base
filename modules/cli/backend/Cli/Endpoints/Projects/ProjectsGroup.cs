@@ -1,3 +1,4 @@
+using Cli.Endpoints.Projects.Deployments;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 
@@ -10,6 +11,8 @@ public static class ProjectsGroup
     public static RouteGroupBuilder AddProjectsGroup(this IEndpointRouteBuilder app)
     {
         var group = app.MapGroup(Route);
+
+        group.AddDeploymentsGroup();
 
         group.AddCreateProjectRoute();
         group.AddGetProjectRoute();
