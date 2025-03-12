@@ -7,6 +7,8 @@ public class Project : BaseEntityWithId<ProjectId>
     public required string Name { get; set; }
     public required Uri RepoUri { get; set; }
     public required UserId UserId { get; set; }
+    public required LocationId LocationId { get; set; }
+    public ServerId? ServerId { get; set; }
 
     public virtual ICollection<ProjectEnvironment>? ProjectEnvironments { get; set; }
 }
