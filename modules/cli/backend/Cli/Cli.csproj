@@ -22,6 +22,7 @@
     <ProjectReference Include="../../../../backend/Core/Core.csproj" />
     <ProjectReference Include="../../../auth/backend/Auth/Auth.csproj" />
     <ProjectReference Include="../../../github/backend/Github/Github.csproj" />
+    <ProjectReference Include="..\..\..\..\backend\Api.Hosting\Api.Hosting.csproj" />
   </ItemGroup>
 
 </Project>
