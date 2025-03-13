@@ -1,7 +1,7 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Api.Services;
+namespace Api.Hosting.Services;
 
 public interface ICryptoService
 {

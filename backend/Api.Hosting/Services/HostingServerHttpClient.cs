@@ -1,6 +1,6 @@
 using Api.Data;
 
-namespace Api.Services;
+namespace Api.Hosting.Services;
 
 public class HostingServerHttpClient(
     HttpClient httpClient,

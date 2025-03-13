@@ -22,10 +22,6 @@ builder.Services.AddScoped<IDeploymentRepository, DeploymentRepository>();
 builder.Services.AddScoped<ILocationRepository, LocationRepository>();
 builder.Services.AddScoped<IServerService, ServerService>();
 
-builder.Services.AddHttpClient();
-builder.Services.AddSingleton<ICryptoService, CryptoService>();
-builder.Services.AddTransient<IHostingServerHttpClientFactory, HostingServerHttpClientFactory>();
-
 builder.Services.AddRequiredConfigurationOptions<EncryptionOptions>("Encryption");
 
 Log.Logger = new LoggerConfiguration().WriteTo.Console().WriteTo

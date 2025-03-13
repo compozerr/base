@@ -2,7 +2,7 @@ using Api.Abstractions;
 using Api.Abstractions.Exceptions;
 using Api.Data.Repositories;
 
-namespace Api.Services;
+namespace Api.Hosting.Services;
 
 public interface IHostingServerHttpClientFactory
 {

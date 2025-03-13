@@ -10,6 +10,7 @@
     <ProjectReference Include="..\..\modules\template\backend\Template\Template.csproj" />
     <ProjectReference Include="..\Api.Abstractions\Api.Abstractions.csproj" />
     <ProjectReference Include="..\Api.Data\Api.Data.csproj" />
+    <ProjectReference Include="..\Api.Hosting\Api.Hosting.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Include="../.env">
