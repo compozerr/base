@@ -24,7 +24,7 @@ builder.Services.AddScoped<IServerService, ServerService>();
 
 builder.Services.AddHttpClient();
 builder.Services.AddSingleton<ICryptoService, CryptoService>();
-builder.Services.AddTransient<IChildServerHttpClientFactory, ChildServerHttpClientFactory>();
+builder.Services.AddTransient<IHostingServerHttpClientFactory, HostingServerHttpClientFactory>();
 
 builder.Services.AddRequiredConfigurationOptions<EncryptionOptions>("Encryption");
 

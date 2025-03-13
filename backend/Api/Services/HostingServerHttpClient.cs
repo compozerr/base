@@ -1,11 +1,8 @@
-using System.Security.Cryptography;
-using System.Text;
-using Api.Abstractions;
 using Api.Data;
 
 namespace Api.Services;
 
-public class ChildServerHttpClient(
+public class HostingServerHttpClient(
     HttpClient httpClient,
     Server server,
     ICryptoService cryptoService)
