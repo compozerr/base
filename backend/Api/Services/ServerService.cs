@@ -1,5 +1,6 @@
 using Api.Abstractions;
 using Api.Data.Repositories;
+using Api.Hosting.Services;
 
 namespace Api.Services;
 
