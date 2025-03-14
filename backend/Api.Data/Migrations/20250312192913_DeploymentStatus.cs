@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Api.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class deploymentstatus : Migration
+    public partial class DeploymentStatus : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

@@ -14,7 +14,7 @@ namespace Api.Data.Migrations
 {
     [DbContext(typeof(ApiDbContext))]
     [Migration("20250312192913_deployment status")]
-    partial class deploymentstatus
+    partial class DeploymentStatus
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
