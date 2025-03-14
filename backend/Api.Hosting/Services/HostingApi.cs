@@ -43,7 +43,7 @@ public sealed class HostingApi(
 
         var deployResponse = await HttpClient.PostAsync("/projects/deploy", JsonContent.Create(new
         {
-            projectId = projectId.Value,
+            projectId = projectId.Value.ToString(),
             accessToken,
             repoName,
             commitHash,

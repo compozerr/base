@@ -11,6 +11,7 @@ namespace Cli.Endpoints.Projects.Deployments;
 public sealed record DeployProjectCommandHandler(
     IDeploymentRepository DeploymentRepository,
     ICurrentUserAccessor CurrentUserAccessor,
+    IProjectRepository ProjectRepository,
     IFrontendLocation FrontendLocation) : ICommandHandler<DeployProjectCommand, DeployProjectResponse>
 {
     public async Task<DeployProjectResponse> Handle(DeployProjectCommand command, CancellationToken cancellationToken = default)
@@ -35,9 +36,14 @@ public sealed record DeployProjectCommandHandler(
             return new DeployProjectResponse(frontendPath.ToString());
         }
 
+        var project = await ProjectRepository.GetByIdAsync(
+            command.ProjectId,
+            cancellationToken);
+
         var newDeployment = new Deployment
         {
             ProjectId = command.ProjectId,
+            Project = project,
             CommitHash = command.CommitHash,
             UserId = userId,
             Status = DeploymentStatus.Queued
