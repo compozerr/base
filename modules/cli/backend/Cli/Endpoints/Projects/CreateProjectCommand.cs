@@ -1,4 +1,3 @@
-using Api.Abstractions;
 using Core.MediatR;
 
 namespace Cli.Endpoints.Projects;

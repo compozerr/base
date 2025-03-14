@@ -5,4 +5,5 @@ namespace Cli.Endpoints.Repos;
 
 public sealed record CreateRepoCommand(
     string Name,
-    DefaultInstallationIdSelectionType Type) : ICommand<CreateRepoResponse>;
+    DefaultInstallationIdSelectionType Type,
+    string LocationIsoCode) : ICommand<CreateRepoResponse>;

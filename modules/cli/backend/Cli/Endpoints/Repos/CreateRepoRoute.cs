@@ -5,7 +5,10 @@ using Microsoft.AspNetCore.Routing;
 
 namespace Cli.Endpoints.Repos;
 
-public record CreateRepoRequest(string Name, DefaultInstallationIdSelectionType Type);
+public record CreateRepoRequest(
+    string Name,
+    DefaultInstallationIdSelectionType Type,
+    string LocationIsoCode);
 
 public static class CreateRepoRoute
 {
@@ -22,5 +25,6 @@ public static class CreateRepoRoute
         => mediator.Send(
             new CreateRepoCommand(
                 createRepoRequest.Name,
-                createRepoRequest.Type));
+                createRepoRequest.Type,
+                createRepoRequest.LocationIsoCode));
 }

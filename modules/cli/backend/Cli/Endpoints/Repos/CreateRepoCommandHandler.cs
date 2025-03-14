@@ -38,7 +38,10 @@ public sealed record CreateRepoCommandHandler(
         var gitUrl = $"https://github.com/{response.FullName}.git";
 
         var createProjectResponse = await Mediator.Send(
-            new CreateProjectCommand(command.Name, gitUrl),
+            new CreateProjectCommand(
+                command.Name,
+                gitUrl,
+                command.LocationIsoCode),
             cancellationToken);
 
         return new CreateRepoResponse(
