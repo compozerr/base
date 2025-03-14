@@ -31,7 +31,8 @@ public sealed class ServerRepository(
         var server = new Server
         {
             SecretId = secret.Id,
-            Secret = secret
+            Secret = secret,
+            ServerVisibility = ServerVisibility.Public,
         };
 
         _context.Servers.Add(server);
