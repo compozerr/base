@@ -1,3 +1,4 @@
+using Api.Data.Repositories;
 using Auth.Services;
 using FluentValidation;
 using Github.Services;
@@ -12,6 +13,7 @@ public sealed class CreateRepoCommandValidator : AbstractValidator<CreateRepoCom
         var scope = scopeFactory.CreateScope();
         var githubService = scope.ServiceProvider.GetRequiredService<IGithubService>();
         var currentUserAccessor = scope.ServiceProvider.GetRequiredService<ICurrentUserAccessor>();
+        var locationRepository = scope.ServiceProvider.GetRequiredService<ILocationRepository>();
 
         RuleFor(x => x.Name)
             .Matches(@"^[a-z0-9]+(?:(?:(?:[._]|__|[-]*)[a-z0-9]+)+)?$")
@@ -24,6 +26,13 @@ public sealed class CreateRepoCommandValidator : AbstractValidator<CreateRepoCom
                 command.Type);
 
             return !reposForCurrentUser.Any(r => r.Name == name);
+        });
+
+        RuleFor(x => x.LocationIsoCode).MustAsync(async (command, locationIsoCode, cancellationToken) =>
+        {
+            var availableLocationIsoCodes = await locationRepository.GetUniquePublicLocationIsoCodes();
+
+            return availableLocationIsoCodes.Contains(locationIsoCode);
         });
     }
 }
