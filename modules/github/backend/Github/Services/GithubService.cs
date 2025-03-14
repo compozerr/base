@@ -33,6 +33,7 @@ public interface IGithubService
     Task<IReadOnlyList<RepositoryDto>> GetRepositoriesByUserDefaultIdAsync(
         UserId userId,
         DefaultInstallationIdSelectionType defaultInstallationIdSelectionType);
+    Task<GithubUserLogin?> GetUserLoginAsync(UserId userId);
 }
 
 public sealed class GithubService(
@@ -152,7 +153,7 @@ public sealed class GithubService(
             userInstallation.Account.Type)).ToList();
     }
 
-    private async Task<GithubUserLogin?> GetUserLoginAsync(UserId userId)
+    public async Task<GithubUserLogin?> GetUserLoginAsync(UserId userId)
     {
         var user = await userRepository.GetUserWithLoginsAsync(userId);
 

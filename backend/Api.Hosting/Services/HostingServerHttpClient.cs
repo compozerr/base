@@ -7,6 +7,8 @@ public class HostingServerHttpClient(
     Server server,
     ICryptoService cryptoService)
 {
+    public string BaseDomain => httpClient.BaseAddress!.ToString();
+    
     public async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request)
     {
         string content = "";

@@ -1,13 +1,16 @@
+using Api.Abstractions.Exceptions;
 using Api.Hosting.Services;
 using Core.Abstractions;
 
 namespace Cli.Endpoints.Projects.Deployments;
 
 public sealed class StartDeployment_DeploymentQueuedEventHandler(
-    IHostingServerHttpClientFactory hostingServerHttpClientFactory) : IDomainEventHandler<DeploymentQueuedEvent>
+    IHostingApiFactory hostingApiFactory) : IDomainEventHandler<DeploymentQueuedEvent>
 {
-    public Task Handle(DeploymentQueuedEvent notification, CancellationToken cancellationToken)
+    public async Task Handle(DeploymentQueuedEvent notification, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var api = await hostingApiFactory.GetHostingApiAsync(notification.Entity.Project?.ServerId ?? throw new ServerNotFoundException());
+
+        await api.DeployAsync(notification.Entity);
     }
 }
