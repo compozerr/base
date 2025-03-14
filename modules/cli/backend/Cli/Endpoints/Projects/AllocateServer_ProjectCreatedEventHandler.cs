@@ -9,22 +9,32 @@ public sealed class AllocateServer_ProjectCreatedEventHandler(
 {
     public async Task Handle(ProjectCreatedEvent notification, CancellationToken cancellationToken)
     {
-        notification.Entity.ServerId = await GetBestServerInLocationAsync(notification.Entity.LocationId);
+        var bestServerInLocationResponse = await GetBestServerInLocationAsync(notification.Entity.LocationId);
+        notification.Entity.ServerId = bestServerInLocationResponse.ServerId;
+
+        if (bestServerInLocationResponse.ChangedToLocationId is { } changedToLocationId)
+            notification.Entity.LocationId = changedToLocationId;
     }
 
-    private async Task<ServerId> GetBestServerInLocationAsync(LocationId locationId)
+    private sealed record BestServerInLocationResponse(ServerId ServerId, LocationId? ChangedToLocationId);
+
+    private async Task<BestServerInLocationResponse> GetBestServerInLocationAsync(LocationId locationId)
     {
         // TODO: Implement better load balancing when more servers available
-        var serversOnLocation = await serverRepository.GetServersByLocationId(locationId);
+        var serversOnLocation = (await serverRepository.GetServersByLocationId(locationId)).Where(x => x.ServerVisibility == Api.Data.ServerVisibility.Public).ToList();
 
         if (serversOnLocation.Count == 0)
         {
             Log.ForContext(nameof(locationId), locationId)
                .Fatal("No servers on given locationId, just giving the first server available");
 
-            return (await serverRepository.GetAllAsync()).First().Id;
+            var firstServer = (await serverRepository.GetAllAsync()).First(x => x.ServerVisibility == Api.Data.ServerVisibility.Public);
+
+            return new(firstServer.Id, firstServer.LocationId);
         }
 
-        return serversOnLocation.First().Id;
+        var firstServerOnLocation = serversOnLocation.First();
+
+        return new(firstServerOnLocation.Id, null);
     }
 }
