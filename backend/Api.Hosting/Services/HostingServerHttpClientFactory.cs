@@ -11,12 +11,15 @@ public interface IHostingServerHttpClientFactory
 
 public class HostingServerHttpClientFactory(
     IServerRepository serverRepository,
-    HttpClient httpClient,
+    IHttpClientFactory httpClientFactory,
     ICryptoService cryptoService) : IHostingServerHttpClientFactory
 {
     public async Task<HostingServerHttpClient> GetHostingServerHttpClientAsync(ServerId serverId)
     {
         var server = await serverRepository.GetByIdAsync(serverId) ?? throw new ServerNotFoundException();
+
+        var httpClient = httpClientFactory.CreateClient(nameof(HostingServerHttpClient));
+        httpClient.BaseAddress = new Uri(server.ApiDomain);
 
         return new HostingServerHttpClient(
             httpClient,

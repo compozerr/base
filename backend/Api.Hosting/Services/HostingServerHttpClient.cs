@@ -7,11 +7,6 @@ public class HostingServerHttpClient(
     Server server,
     ICryptoService cryptoService)
 {
-    private string SignRequest(string content)
-    {
-        return cryptoService.SignStringWithKey(content, server.Id.Value.ToString());
-    }
-
     public async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request)
     {
         string content = "";
@@ -54,5 +49,10 @@ public class HostingServerHttpClient(
     {
         var request = new HttpRequestMessage(HttpMethod.Delete, url);
         return await SendAsync(request);
+    }
+
+    private string SignRequest(string content)
+    {
+        return cryptoService.SignStringWithKey(content, server.Id.Value.ToString());
     }
 }
