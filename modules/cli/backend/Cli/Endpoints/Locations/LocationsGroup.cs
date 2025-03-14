@@ -5,7 +5,7 @@ namespace Cli.Endpoints.Locations;
 
 public static class LocationsGroup
 {
-    public const string Route = "Locations";
+    public const string Route = "locations";
 
     public static RouteGroupBuilder AddLocationsGroup(this IEndpointRouteBuilder app)
     {
