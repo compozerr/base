@@ -6,6 +6,7 @@ namespace Api.Data.Repositories;
 public interface ILocationRepository : IGenericRepository<Location, LocationId, ApiDbContext>
 {
     Task<Location> GetLocationByIso(string iso);
+    Task<List<string>> GetUniquePublicLocationIsoCodes();
 };
 
 public sealed class LocationRepository(
@@ -15,4 +16,18 @@ public sealed class LocationRepository(
 
     public Task<Location> GetLocationByIso(string iso)
         => _context.Locations.SingleAsync(x => x.IsoCountryCode == iso);
+
+    public async Task<List<string>> GetUniquePublicLocationIsoCodes()
+    {
+        var uniquePublicServerLocations = await _context.Servers
+            .Where(x => x.ServerVisibility == ServerVisibility.Public && x.LocationId != null)
+            .Select(x => x.LocationId)
+            .Distinct()
+            .ToListAsync();
+
+        return await _context.Locations
+            .Where(x => uniquePublicServerLocations.Contains(x.Id))
+            .Select(x => x.IsoCountryCode)
+            .ToListAsync();
+    }
 };
