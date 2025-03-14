@@ -13,7 +13,9 @@ public interface IServerService
         string machineId,
         string ram,
         string vCpu,
-        string ip);
+        string ip,
+        string hostName,
+        string apiDomain);
 
     Task<string> CreateAndStorePrivateKeyAsync(ServerId serverId);
 }
@@ -47,11 +49,21 @@ public class ServerService(
         string machineId,
         string ram,
         string vCpu,
-        string ip)
+        string ip,
+        string hostName,
+        string apiDomain)
     {
         var hashedSecret = hashService.Hash(secret);
 
-        var server = await serverRepository.UpdateServer(hashedSecret, isoCountryCode, machineId, ram, vCpu, ip);
+        var server = await serverRepository.UpdateServer(
+            hashedSecret,
+            isoCountryCode,
+            machineId,
+            ram,
+            vCpu,
+            ip,
+            hostName,
+            apiDomain);
 
         return server.Id;
     }

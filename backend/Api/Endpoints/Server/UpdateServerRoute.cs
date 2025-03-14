@@ -12,7 +12,9 @@ public static class UpdateServerRoute
         return app.MapPut(Route, ExecuteAsync);
     }
 
-    public static async Task<UpdateServerResponse> ExecuteAsync(UpdateServerRequest request, IServerService serverService)
+    public static async Task<UpdateServerResponse> ExecuteAsync(
+        UpdateServerRequest request,
+        IServerService serverService)
     {
         try
         {
@@ -22,8 +24,9 @@ public static class UpdateServerRoute
                 request.MachineId,
                 request.Ram,
                 request.VCpu,
-                request.Ip);
-
+                request.Ip,
+                request.HostName,
+                request.ApiDomain);
 
             var publicKeyBase64 = await serverService.CreateAndStorePrivateKeyAsync(serverId);
 

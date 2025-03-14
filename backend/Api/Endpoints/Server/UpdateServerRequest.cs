@@ -6,4 +6,6 @@ public sealed record UpdateServerRequest(
     string MachineId,
     string Ram,
     string VCpu,
-    string Ip);
+    string Ip,
+    string HostName,
+    string ApiDomain);

@@ -13,7 +13,9 @@ public interface IServerRepository : IGenericRepository<Server, ServerId, ApiDbC
         string machineId,
         string ram,
         string vCpu,
-        string ip);
+        string ip,
+        string hostName,
+        string apiDomain);
     public Task<List<Server>> GetServersByLocationId(LocationId locationId);
 }
 
@@ -44,7 +46,15 @@ public sealed class ServerRepository(
     public Task<List<Server>> GetServersByLocationId(LocationId locationId)
         => _context.Servers.Where(s => s.LocationId == locationId).ToListAsync();
 
-    public async Task<Server> UpdateServer(string hashedSecret, string isoCountryCode, string machineId, string ram, string vCpu, string ip)
+    public async Task<Server> UpdateServer(
+        string hashedSecret,
+        string isoCountryCode,
+        string machineId,
+        string ram,
+        string vCpu,
+        string ip,
+        string hostName,
+        string apiDomain)
     {
         var server = await _context.Servers
                                   .Include(s => s.Secret)
@@ -54,6 +64,8 @@ public sealed class ServerRepository(
         server.MachineId = machineId;
         server.Ram = ram;
         server.VCpu = vCpu;
+        server.HostName = hostName;
+        server.ApiDomain = apiDomain;
 
         var location = await _context.Locations.Where(l => l.IsoCountryCode == isoCountryCode)
                                               .FirstOrDefaultAsync();
