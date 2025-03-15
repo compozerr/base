@@ -859,6 +859,8 @@ export interface components {
             ram?: string | null;
             vCpu?: string | null;
             ip?: string | null;
+            hostName?: string | null;
+            apiDomain?: string | null;
         };
         UpdateServerResponse: {
             success?: boolean;
