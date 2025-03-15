@@ -16,10 +16,13 @@ const executeCommandAsync = (command: string) => {
     });
 }
 
-const hasDotnetToolAsync = async (command: string) => {
-    try {
-        await executeCommandAsync(`dotnet tool list -g | grep ${command} || echo "${command} not installed" >&2`)
-        return true;
+let denoInstalled = true;
+
+//Check if deno is installed
+exec("deno --version", (error: any, stdout: string, stderr: string) => {
+    if (error) {
+        denoInstalled = false;
+        return;
     }
     catch {
         return false;
@@ -49,9 +52,11 @@ const installDotnetToolIfNotExistsAsync = async (command: string) => {
 const installDenoIfNotExistsAsync = async () => {
     let denoInstalled = true;
 
-    try {
-        //Check if deno is installed
-        await executeCommandAsync("deno --version");
+//Check if nbgv is installed
+exec("dotnet tool list -g | findstr nbgv", (error: any, stdout: string, stderr: string) => {
+    if (error) {
+        nbgvInstalled = false;
+        return;
     }
     catch {
         denoInstalled = false;
@@ -71,13 +76,8 @@ const installDenoIfNotExistsAsync = async () => {
 }
 //#endregion
 
-//#region Install frontned dependencies
-const installFrontendDependenciesAsync = async () => {
-    try {
-        await executeCommandAsync("npm install");
-        console.log("Frontend dependencies installed");
-    }
-    catch (error) {
+exec("npm install", (error: any, stdout: any, stderr: any) => {
+    if (error) {
         console.error("Error installing frontend dependencies");
         throw error;
     }

@@ -1,19 +1,22 @@
 import { useState, useEffect } from 'react';
 import type { AuthContextType } from '../auth-mock';
+import React from 'react';
 
 async function loadAuth() {
     try {
-        const moduleUrl = new URL('../../../modules/auth/frontend/src/auth').href;
         // Instead of constructing URL, use direct import with explicit path
-        const { AuthProvider, useAuth } = await import(/* @vite-ignore */moduleUrl);
+        const { AuthProvider, useDynamicAuth } = await import('../../../modules/auth/frontend/src/auth');
         console.log('Auth module loaded');
-        return { AuthProvider, useAuth };
+        return { AuthProvider, useDynamicAuth };
     } catch (error) {
         console.warn('Auth module not added, falling back to mock', error);
-        const { AuthProvider, useAuth } = await import('../auth-mock');
-        return { AuthProvider, useAuth };
+        const { AuthProvider, useDynamicAuth } = await import('../auth-mock');
+        return { AuthProvider, useDynamicAuth };
     }
 }
+
+let useAuth: () => AuthContextType;
+
 /**
  * Custom hook to dynamically load authentication components.
  * Falls back to mock auth if the auth module is not available.
@@ -26,7 +29,7 @@ async function loadAuth() {
 export function useDynamicAuth() {
     const [authComponents, setAuthComponents] = useState<{
         AuthProvider: React.ComponentType<{ children: React.ReactNode }>;
-        useAuth: () => AuthContextType;
+        useDynamicAuth: () => AuthContextType;
     } | null>(null);
 
     const [isLoading, setIsLoading] = useState(true);
@@ -40,6 +43,7 @@ export function useDynamicAuth() {
                 const components = await loadAuth();
                 if (mounted) {
                     setAuthComponents(components);
+                    useAuth = components.useDynamicAuth;
                     setIsLoading(false);
                 }
             } catch (err) {
@@ -64,3 +68,5 @@ export function useDynamicAuth() {
         error
     };
 }
+
+export { useAuth };

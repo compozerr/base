@@ -14,21 +14,43 @@
         "./routeTree.gen": "./src/routeTree.gen.ts"
     },
     "devDependencies": {
+        "@openapi-qraft/cli": "^2.0.1",
         "@repo/config": "*",
         "@tanstack/router-plugin": "^1.79.0",
+        "@types/node": "^22.13.0",
         "@types/react": "^18.3.3",
         "@types/react-dom": "^18.3.0",
         "@vitejs/plugin-react": "^4.3.2",
+        "autoprefixer": "^10.4.20",
         "glob": "^11.0.0",
         "openapi-zod-client": "^1.18.2",
-        "vite": "^5.4.8"
+        "postcss": "^8.5.1",
+        "tailwindcss": "^3.4.17",
+        "vite": "^5.4.14"
     },
     "dependencies": {
-        "@microsoft/kiota-bundle": "^1.0.0-preview.77",
+        "@openapi-qraft/react": "^2.0.1",
+        "@radix-ui/react-avatar": "^1.1.2",
+        "@radix-ui/react-dropdown-menu": "^2.1.5",
+        "@radix-ui/react-select": "^2.1.5",
+        "@radix-ui/react-slot": "^1.1.1",
+        "@radix-ui/react-tooltip": "^1.1.7",
+        "@reduxjs/toolkit": "^2.5.1",
+        "@repo/auth": "*",
         "@repo/template": "*",
-        "@tanstack/react-router": "^1.79.0",
+        "@tanstack/react-query": "^5.66.0",
+        "@tanstack/react-query-devtools": "^5.66.0",
+        "@tanstack/react-router": "^1.99.6",
         "@tanstack/router-devtools": "^1.79.0",
+        "class-variance-authority": "^0.7.1",
+        "clsx": "^2.1.1",
+        "framer-motion": "^12.0.6",
+        "lucide-react": "^0.474.0",
+        "next-themes": "^0.4.4",
         "react": "^18.3.1",
-        "react-dom": "^18.3.1"
+        "react-dom": "^18.3.1",
+        "recharts": "^2.15.1",
+        "tailwind-merge": "^3.0.1",
+        "tailwindcss-animate": "^1.0.7"
     }
 }

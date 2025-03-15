@@ -1,4 +1,10 @@
 {
     "extends": "@repo/config/react.json",
     "include": ["src", "vite-env.d.ts"],
+    "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "@/*": ["./src/*"]
+        }
+    }
 }
