@@ -15,16 +15,6 @@ const execPromise = promisify(exec);
         console.log("Deno is already installed");
     }
 
-    //Check if nbgv is installed
-    const { stderr: nbgvError } = await execPromise("dotnet tool list -g | findstr nbgv");
-
-    if (nbgvError) {
-        console.log("nbgv is not installed, installing...");
-        exec("dotnet tool install nbgv");
-    } else {
-        console.log("nbgv is already installed");
-    }
-
     const { stderr: npmIError } = await execPromise("npm install");
 
     if (npmIError) {
