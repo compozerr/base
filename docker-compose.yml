@@ -18,5 +18,4 @@ services:
       - private_keys_data:/app/privateKeys
 
 volumes:
-  postgres_data:
   private_keys_data:
