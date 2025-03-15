@@ -7,12 +7,13 @@ const execPromise = promisify(exec);
 
 (async () => {
     //Check if deno is installed
-    const { stderr: denoError } = await execPromise("deno --version");
+    try {
+        await execPromise("deno --version");
 
-    if (denoError) {
-        await execPromise("npm i -g deno");
-    } else {
         console.log("Deno is already installed");
+    } catch {
+        console.log("Deno not installed, installing now...")
+        await execPromise("npm i -g deno");
     }
 
     const { stderr: npmIError } = await execPromise("npm install");
