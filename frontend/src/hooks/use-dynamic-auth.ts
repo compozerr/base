@@ -5,6 +5,7 @@ import React from 'react';
 async function loadAuth() {
     try {
         // Instead of constructing URL, use direct import with explicit path
+        //@ts-ignore
         const { AuthProvider, useDynamicAuth } = await import('../../../modules/auth/frontend/src/auth');
         console.log('Auth module loaded');
         return { AuthProvider, useDynamicAuth };

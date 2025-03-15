@@ -14,9 +14,3 @@ services:
     ports:
       - "1235:5000"
     restart: always
-    volumes:
-      - private_keys_data:/app/privateKeys
-
-volumes:
-      - app-network
-  private_keys_data:
