@@ -1,50 +1,35 @@
 import { exec } from "child_process";
+import { promisify } from 'util';
 
 console.log("Installing dependencies...");
 
-let denoInstalled = true;
+const execPromise = promisify(exec);
 
-//Check if deno is installed
-exec("deno --version", (error: any, stdout: string, stderr: string) => {
-    if (error) {
-        denoInstalled = false;
-        return;
-    }
-});
+(async () => {
+    //Check if deno is installed
+    const { stderr: denoError } = await execPromise("deno --version");
 
-if (!denoInstalled) {
-    //if windows
-    if (process.platform === "win32") {
-        console.log("Deno is not installed, installing...");
-        exec("iwr https://deno.land/x/install/install.ps1 -useb | iex");
-    } else if (process.platform === "linux" || process.platform === "darwin") {
-        console.log("Deno is not installed, installing...");
-        exec("curl -fsSL https://deno.land/x/install/install.sh | sh");
+    if (denoError) {
+        await execPromise("npm i -g deno");
     } else {
-        console.error("Unsupported platform");
+        console.log("Deno is already installed");
     }
-}
 
-let nbgvInstalled = true;
+    //Check if nbgv is installed
+    const { stderr: nbgvError } = await execPromise("dotnet tool list -g | findstr nbgv");
 
-//Check if nbgv is installed
-exec("dotnet tool list -g | findstr nbgv", (error: any, stdout: string, stderr: string) => {
-    if (error) {
-        nbgvInstalled = false;
-        return;
+    if (nbgvError) {
+        console.log("nbgv is not installed, installing...");
+        exec("dotnet tool install nbgv");
+    } else {
+        console.log("nbgv is already installed");
     }
-});
 
-if (!nbgvInstalled) {
-    console.log("nbgv is not installed, installing...");
-    exec("dotnet tool install nbgv");
-}
+    const { stderr: npmIError } = await execPromise("npm install");
 
-exec("npm install", (error: any, stdout: any, stderr: any) => {
-    if (error) {
-        console.error("Error installing frontend dependencies");
-        return;
+    if (npmIError) {
+        console.error("Error installing dependencies", npmIError);
+    } else {
+        console.log("Dependencies installed!");
     }
-});
-
-console.log("Dependencies installed!");
+})()
