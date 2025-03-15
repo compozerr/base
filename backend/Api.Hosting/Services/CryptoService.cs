@@ -38,7 +38,7 @@ public sealed class CryptoService : ICryptoService
         var keyPath = Path.Combine(PRIVATE_KEYS_LOCATION, location);
         if (!File.Exists(keyPath))
         {
-            throw new FileNotFoundException($"Private key not found for location: {location}");
+            throw new FileNotFoundException($"Private key not found for server: {location}");
         }
         return File.ReadAllBytes(keyPath);
     }
