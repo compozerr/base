@@ -30,12 +30,14 @@ function InnerRootComponent() {
   return (
     <>
       <Outlet />
-      <TanStackRouterDevtools position="bottom-left" />
       <ReactQueryDevtools initialIsOpen />
       {showDevtools && (
-        <React.Suspense fallback={null}>
-          <ReactQueryDevtoolsProduction />
-        </React.Suspense>
+        <>
+          <TanStackRouterDevtools position="bottom-left" />
+          <React.Suspense fallback={null}>
+            <ReactQueryDevtoolsProduction />
+          </React.Suspense>
+        </>
       )}
     </>
   )
