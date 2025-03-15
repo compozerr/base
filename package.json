@@ -7,7 +7,7 @@
     "install:dep": "(npm list -g tsx || npm install -g tsx) > /dev/null 2>&1 && tsx scripts/install.ts",
     "dev": "deno run --allow-all scripts/dev.ts",
     "serve": "deno run --allow-all scripts/serve.ts",
-    "deploy": "nbgv tag && git push origin --tags"
+    "deploy": "compozerr deploy project"
   },
   "devDependencies": {
     "prettier": "^3.2.5",
