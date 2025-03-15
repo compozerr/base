@@ -8,7 +8,8 @@ public static class CreateNewServerRoute
 
     public static RouteHandlerBuilder AddCreateNewServerRoute(this IEndpointRouteBuilder app)
     {
-        return app.MapPost(Route, ExecuteAsync);
+        return app.MapPost(Route, ExecuteAsync)
+                  .RequireAuthorization("admin");
     }
 
     public static Task<string> ExecuteAsync(IServerService serverService)
