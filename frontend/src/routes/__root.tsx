@@ -4,6 +4,7 @@ import { TanStackRouterDevtools } from '@tanstack/router-devtools'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import type { AuthContextType } from '../auth-mock'
 import React from 'react'
+import { ThemeProvider } from '@/components/theme-provider'
 
 interface RouterContext {
   auth: AuthContextType
@@ -68,7 +69,15 @@ function InnerRootComponent() {
       <div className='p-2'>
         <Outlet />
       </div>
-      <TanStackRouterDevtools position="bottom-right" />
+      <ReactQueryDevtools initialIsOpen />
+      {showDevtools && (
+        <>
+          <TanStackRouterDevtools position="bottom-left" />
+          <React.Suspense fallback={null}>
+            <ReactQueryDevtoolsProduction />
+          </React.Suspense>
+        </>
+      )}
     </>
   )
 }
