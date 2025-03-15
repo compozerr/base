@@ -42,7 +42,7 @@ public sealed class HostingApi(
             Log.ForContext("BaseDomain", HttpClient.BaseDomain)
                .ForContext(nameof(deployment.Project), deployment?.Project)
                .Error("Deployment failed: RepoUri is null");
-               
+
             throw new Exception("RepoUri is null");
         }
 
@@ -50,21 +50,32 @@ public sealed class HostingApi(
         var commitHash = deployment.CommitHash;
         var projectId = deployment.ProjectId;
 
-        var deployResponse = await HttpClient.PostAsync("/projects/deploy", JsonContent.Create(new
+        try
         {
-            projectId = projectId.Value.ToString(),
-            accessToken,
-            repoName,
-            commitHash,
-        }));
+            var deployResponse = await HttpClient.PostAsync("/projects/deploy", JsonContent.Create(new
+            {
+                projectId = projectId.Value.ToString(),
+                accessToken,
+                repoName,
+                commitHash,
+            }));
 
-        if (!deployResponse.IsSuccessStatusCode)
+            if (!deployResponse.IsSuccessStatusCode)
+            {
+                Log.ForContext("BaseDomain", HttpClient.BaseDomain)
+                   .ForContext(nameof(repoName), repoName)
+                   .ForContext(nameof(commitHash), commitHash)
+                   .ForContext(nameof(projectId), projectId)
+                   .Error("Deployment failed: {response}", await deployResponse.Content.ReadAsStringAsync());
+            }
+        }
+        catch (Exception ex)
         {
             Log.ForContext("BaseDomain", HttpClient.BaseDomain)
                .ForContext(nameof(repoName), repoName)
                .ForContext(nameof(commitHash), commitHash)
                .ForContext(nameof(projectId), projectId)
-               .Error("Deployment failed: {response}", await deployResponse.Content.ReadAsStringAsync());
+               .Error(ex, "Deployment failed");
         }
     }
 }
