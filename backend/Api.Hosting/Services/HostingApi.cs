@@ -37,7 +37,16 @@ public sealed class HostingApi(
         if (userLogin is not { AccessToken: { } accessToken })
             throw new Exception("User access token is null");
 
-        var repoName = deployment.Project?.RepoUri.ToString();
+        if (deployment?.Project?.RepoUri is null)
+        {
+            Log.ForContext("BaseDomain", HttpClient.BaseDomain)
+               .ForContext(nameof(deployment.Project), deployment?.Project)
+               .Error("Deployment failed: RepoUri is null");
+               
+            throw new Exception("RepoUri is null");
+        }
+
+        var repoName = RepoUri.Parse(deployment.Project.RepoUri).RepoName;
         var commitHash = deployment.CommitHash;
         var projectId = deployment.ProjectId;
 
