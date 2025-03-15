@@ -4,7 +4,7 @@
   "scripts": {
     "build": "turbo build",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "install:dep": "(npm list -g ts-node || npm install -g ts-node) > /dev/null 2>&1 && ts-node scripts/install.ts",
+    "install:dep": "(npm list -g tsx || npm install -g tsx) > /dev/null 2>&1 && tsx scripts/install.ts",
     "dev": "deno run --allow-all scripts/dev.ts",
     "serve": "deno run --allow-all scripts/serve.ts",
     "deploy": "nbgv tag && git push origin --tags"
