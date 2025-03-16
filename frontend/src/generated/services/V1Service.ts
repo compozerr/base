@@ -4322,7 +4322,7 @@ type PostCliProjectsProjectIdDeploymentsSchema = {
     ];
 };
 type PostCliProjectsProjectIdDeploymentsParameters = paths["/v1/cli/projects/{projectId}/deployments"]["post"]["parameters"];
-type PostCliProjectsProjectIdDeploymentsData = unknown;
+type PostCliProjectsProjectIdDeploymentsData = paths["/v1/cli/projects/{projectId}/deployments"]["post"]["responses"]["200"]["content"]["application/json"];
 type PostCliProjectsProjectIdDeploymentsError = unknown;
 type PostCliProjectsProjectIdDeploymentsBody = NonNullable<paths["/v1/cli/projects/{projectId}/deployments"]["post"]["requestBody"]>["content"]["application/json"];
 type PostCliProjectsSchema = {

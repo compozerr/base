@@ -299,7 +299,9 @@ export interface paths {
                     headers: {
                         [name: string]: unknown;
                     };
-                    content?: never;
+                    content: {
+                        "application/json": components["schemas"]["DeployProjectResponse"];
+                    };
                 };
             };
         };
@@ -802,6 +804,9 @@ export interface components {
          * @enum {integer}
          */
         DefaultInstallationIdSelectionType: 1 | 2;
+        DeployProjectResponse: {
+            statusUrl?: string | null;
+        };
         GetExampleResponse: {
             message?: string | null;
         };
