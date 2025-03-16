@@ -3,22 +3,20 @@ using Api.Hosting.Endpoints.Deployments;
 using Carter;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Api.Hosting.Endpoints;
 
 public class HostingGroup : CarterModule
 {
-    private readonly IServerRepository _serverRepository;
-
-    public HostingGroup(IServerRepository serverRepository) : base("hosting")
+    public HostingGroup() : base("hosting")
     {
-        _serverRepository = serverRepository;
         WithTags(nameof(Hosting));
     }
 
-    private async Task<bool> HasValidApiKey(string apiKey)
+    private async Task<bool> HasValidApiKey(string apiKey, IServerRepository serverRepository)
     {
-        var server = await _serverRepository.GetServerOrDefaultByTokenAsync(apiKey);
+        var server = await serverRepository.GetServerOrDefaultByTokenAsync(apiKey);
 
         return server is { };
     }
@@ -27,7 +25,9 @@ public class HostingGroup : CarterModule
     {
         var httpContext = context.HttpContext;
 
-        if (!httpContext.Request.Headers.TryGetValue("x-api-key", out var apiKeyValues) || !await HasValidApiKey(apiKeyValues.ToString()))
+        var serverRepository = httpContext.RequestServices.GetRequiredService<IServerRepository>();
+
+        if (!httpContext.Request.Headers.TryGetValue("x-api-key", out var apiKeyValues) || !await HasValidApiKey(apiKeyValues.ToString(), serverRepository))
         {
             return Results.Unauthorized();
         }

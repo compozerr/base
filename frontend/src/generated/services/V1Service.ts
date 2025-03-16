@@ -3559,6 +3559,124 @@ export interface V1Service {
             error: GetError;
         };
     };
+    putHostingDeploymentsDeploymentIdStatus: {
+        /**/
+        getMutationKey(parameters: PutHostingDeploymentsDeploymentIdStatusParameters | void): ServiceOperationMutationKey<PutHostingDeploymentsDeploymentIdStatusSchema, PutHostingDeploymentsDeploymentIdStatusParameters>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.putHostingDeploymentsDeploymentIdStatus.useMutation({
+         *     path: {
+         *         deploymentId: deploymentId
+         *     }
+         * })
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.putHostingDeploymentsDeploymentIdStatus.useMutation()
+         * mutate({
+         *     body: bodyPayload,
+         *     path: {
+         *         deploymentId: deploymentId
+         *     }
+         * });
+         * ```
+         */
+        useMutation<TVariables extends PutHostingDeploymentsDeploymentIdStatusBody, TContext = unknown>(parameters: PutHostingDeploymentsDeploymentIdStatusParameters, options?: ServiceOperationUseMutationOptions<PutHostingDeploymentsDeploymentIdStatusSchema, PutHostingDeploymentsDeploymentIdStatusData, PutHostingDeploymentsDeploymentIdStatusParameters, TVariables, PutHostingDeploymentsDeploymentIdStatusError, TContext>): UseMutationResult<PutHostingDeploymentsDeploymentIdStatusData, PutHostingDeploymentsDeploymentIdStatusError | Error, AreAllOptional<TVariables> extends true ? TVariables | void : TVariables, TContext>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.putHostingDeploymentsDeploymentIdStatus.useMutation({
+         *     path: {
+         *         deploymentId: deploymentId
+         *     }
+         * })
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.putHostingDeploymentsDeploymentIdStatus.useMutation()
+         * mutate({
+         *     body: bodyPayload,
+         *     path: {
+         *         deploymentId: deploymentId
+         *     }
+         * });
+         * ```
+         */
+        useMutation<TVariables extends MutationVariables<PutHostingDeploymentsDeploymentIdStatusBody, PutHostingDeploymentsDeploymentIdStatusParameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<PutHostingDeploymentsDeploymentIdStatusSchema, PutHostingDeploymentsDeploymentIdStatusData, PutHostingDeploymentsDeploymentIdStatusParameters, TVariables, PutHostingDeploymentsDeploymentIdStatusError, TContext>): UseMutationResult<PutHostingDeploymentsDeploymentIdStatusData, PutHostingDeploymentsDeploymentIdStatusError | Error, TVariables, TContext>;
+        /**
+         * Returns the count of currently in-progress mutations.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
+         * @example Check how many mutations are currently in progress for the specified service method.
+         * ```ts
+         * const putHostingDeploymentsDeploymentIdStatusTotal = qraft.v1Service.putHostingDeploymentsDeploymentIdStatus.useIsMutating()
+         * ```
+         * @example Check how many mutations are currently in progress with the specified parameters.
+         * ```ts
+         * const putHostingDeploymentsDeploymentIdStatusTotal = qraft.v1Service.putHostingDeploymentsDeploymentIdStatus.useIsMutating({
+         *     parameters: {
+         *         path: {
+         *             deploymentId: deploymentId
+         *         }
+         *     }
+         * })
+         * ```
+         */
+        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<PutHostingDeploymentsDeploymentIdStatusBody, PutHostingDeploymentsDeploymentIdStatusData, PutHostingDeploymentsDeploymentIdStatusParameters, PutHostingDeploymentsDeploymentIdStatusError, TContext> | MutationFiltersByMutationKey<PutHostingDeploymentsDeploymentIdStatusSchema, PutHostingDeploymentsDeploymentIdStatusBody, PutHostingDeploymentsDeploymentIdStatusData, PutHostingDeploymentsDeploymentIdStatusParameters, PutHostingDeploymentsDeploymentIdStatusError, TContext>): number;
+        /**/
+        isMutating<TContext>(filters?: MutationFiltersByParameters<PutHostingDeploymentsDeploymentIdStatusBody, PutHostingDeploymentsDeploymentIdStatusData, PutHostingDeploymentsDeploymentIdStatusParameters, PutHostingDeploymentsDeploymentIdStatusError, TContext> | MutationFiltersByMutationKey<PutHostingDeploymentsDeploymentIdStatusSchema, PutHostingDeploymentsDeploymentIdStatusBody, PutHostingDeploymentsDeploymentIdStatusData, PutHostingDeploymentsDeploymentIdStatusParameters, PutHostingDeploymentsDeploymentIdStatusError, TContext>): number;
+        /**/
+        (options: ServiceOperationMutationFnOptions<PutHostingDeploymentsDeploymentIdStatusBody, PutHostingDeploymentsDeploymentIdStatusParameters>, client?: (schema: PutHostingDeploymentsDeploymentIdStatusSchema, options: ServiceOperationMutationFnOptions<PutHostingDeploymentsDeploymentIdStatusBody, PutHostingDeploymentsDeploymentIdStatusParameters>) => Promise<RequestFnResponse<PutHostingDeploymentsDeploymentIdStatusData, PutHostingDeploymentsDeploymentIdStatusError>>): Promise<RequestFnResponse<PutHostingDeploymentsDeploymentIdStatusData, PutHostingDeploymentsDeploymentIdStatusError>>;
+        /**
+         * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
+         * @example Get all variables of all running mutations.
+         * ```ts
+         * const putHostingDeploymentsDeploymentIdStatusPendingMutationVariables = qraft.v1Service.putHostingDeploymentsDeploymentIdStatus.useMutationState({
+         *     filters: {
+         *         status: "pending"
+         *     },
+         *     select: mutation => mutation.state.variables
+         * })
+         * ```
+         * @example Get all data for specific mutations via the `parameters`.
+         * ```ts
+         * const putHostingDeploymentsDeploymentIdStatusMutationData = qraft.v1Service.putHostingDeploymentsDeploymentIdStatus.useMutationState({
+         *     filters: {
+         *         parameters: {
+         *             path: {
+         *                 deploymentId: deploymentId
+         *             }
+         *         }
+         *     },
+         *     select: mutation => mutation.state.data
+         * })
+         * ```
+         */
+        useMutationState<TContext = unknown, TResult = MutationState<PutHostingDeploymentsDeploymentIdStatusData, PutHostingDeploymentsDeploymentIdStatusError, MutationVariables<PutHostingDeploymentsDeploymentIdStatusBody, PutHostingDeploymentsDeploymentIdStatusParameters>, TContext>>(options?: {
+            filters?: MutationFiltersByParameters<PutHostingDeploymentsDeploymentIdStatusBody, PutHostingDeploymentsDeploymentIdStatusData, PutHostingDeploymentsDeploymentIdStatusParameters, PutHostingDeploymentsDeploymentIdStatusError, TContext> | MutationFiltersByMutationKey<PutHostingDeploymentsDeploymentIdStatusSchema, PutHostingDeploymentsDeploymentIdStatusBody, PutHostingDeploymentsDeploymentIdStatusData, PutHostingDeploymentsDeploymentIdStatusParameters, PutHostingDeploymentsDeploymentIdStatusError, TContext>;
+            select?: (mutation: Mutation<PutHostingDeploymentsDeploymentIdStatusData, PutHostingDeploymentsDeploymentIdStatusError, MutationVariables<PutHostingDeploymentsDeploymentIdStatusBody, PutHostingDeploymentsDeploymentIdStatusParameters>, TContext>) => TResult;
+        }): Array<TResult>;
+        schema: PutHostingDeploymentsDeploymentIdStatusSchema;
+        types: {
+            parameters: PutHostingDeploymentsDeploymentIdStatusParameters;
+            data: PutHostingDeploymentsDeploymentIdStatusData;
+            error: PutHostingDeploymentsDeploymentIdStatusError;
+            body: PutHostingDeploymentsDeploymentIdStatusBody;
+        };
+    };
     postServers: {
         /**/
         getMutationKey(parameters: PostServersParameters | void): ServiceOperationMutationKey<PostServersSchema, PostServersParameters>;
@@ -4092,6 +4210,15 @@ export const v1Service: {
             url: "/v1";
         };
     };
+    putHostingDeploymentsDeploymentIdStatus: {
+        schema: {
+            method: "put";
+            url: "/v1/hosting/deployments/{deploymentId}/status";
+            mediaType: [
+                "application/json"
+            ];
+        };
+    };
     postServers: {
         schema: {
             method: "post";
@@ -4231,6 +4358,13 @@ export const v1Service: {
         schema: {
             method: "get",
             url: "/v1"
+        }
+    },
+    putHostingDeploymentsDeploymentIdStatus: {
+        schema: {
+            method: "put",
+            url: "/v1/hosting/deployments/{deploymentId}/status",
+            mediaType: ["application/json"]
         }
     },
     postServers: {
@@ -4407,6 +4541,17 @@ type GetSchema = {
 type GetParameters = undefined;
 type GetData = paths["/v1"]["get"]["responses"]["200"]["content"]["text/plain"];
 type GetError = unknown;
+type PutHostingDeploymentsDeploymentIdStatusSchema = {
+    method: "put";
+    url: "/v1/hosting/deployments/{deploymentId}/status";
+    mediaType: [
+        "application/json"
+    ];
+};
+type PutHostingDeploymentsDeploymentIdStatusParameters = paths["/v1/hosting/deployments/{deploymentId}/status"]["put"]["parameters"];
+type PutHostingDeploymentsDeploymentIdStatusData = unknown;
+type PutHostingDeploymentsDeploymentIdStatusError = unknown;
+type PutHostingDeploymentsDeploymentIdStatusBody = NonNullable<paths["/v1/hosting/deployments/{deploymentId}/status"]["put"]["requestBody"]>["content"]["application/json"];
 type PostServersSchema = {
     method: "post";
     url: "/v1/servers";

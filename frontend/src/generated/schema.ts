@@ -680,6 +680,45 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/hosting/deployments/{deploymentId}/status": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    deploymentId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["ChangeDeploymentStatusRequest"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/servers": {
         parameters: {
             query?: never;
@@ -777,6 +816,9 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        ChangeDeploymentStatusRequest: {
+            status?: string | null;
+        };
         CreateDeploymentRequest: {
             commitHash?: string | null;
         };
