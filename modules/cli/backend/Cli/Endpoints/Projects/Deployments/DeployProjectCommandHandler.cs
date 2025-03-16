@@ -42,6 +42,7 @@ public sealed record DeployProjectCommandHandler(
 
         var newDeployment = new Deployment
         {
+            Id = DeploymentId.CreateNew(),
             ProjectId = command.ProjectId,
             Project = project,
             CommitHash = command.CommitHash,

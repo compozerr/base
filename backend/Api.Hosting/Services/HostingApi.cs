@@ -68,6 +68,7 @@ public sealed class HostingApi(
                 accessToken,
                 repoName,
                 commitHash,
+                deploymentId = deployment.Id.Value.ToString()
             }));
 
             if (!deployResponse.IsSuccessStatusCode)
