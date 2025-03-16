@@ -3,7 +3,6 @@ using Cli.Endpoints.Docker;
 using Cli.Endpoints.Locations;
 using Cli.Endpoints.Projects;
 using Cli.Endpoints.Repos;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 
 namespace Cli.Endpoints;
