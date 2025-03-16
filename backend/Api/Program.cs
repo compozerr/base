@@ -4,7 +4,12 @@ using Api.Services;
 using Core.Extensions;
 using Core.Feature;
 using Core.MediatR;
+using Microsoft.AspNetCore.Diagnostics;
+using Serilog;
+using Serilog.Context;
+using Serilog.Events;
 using Serilog.Sinks.Humio;
+using System.Diagnostics;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,22 +28,40 @@ builder.Services.AddScoped<IServerService, ServerService>();
 
 builder.Services.AddRequiredConfigurationOptions<EncryptionOptions>("Encryption");
 
-Log.Logger = new LoggerConfiguration().WriteTo.Console().WriteTo
-                                              .HumioSink(new HumioSinkConfiguration
-                                              {
-                                                  IngestToken = builder.Configuration["HUMIOINGESTTOKEN"],
-                                                  Tags = new Dictionary<string, string>
-                                                  {
-                                                      {"system", "compozerr"},
-                                                      {"platform", "web"},
-                                                      {"environment", builder.Environment.EnvironmentName}
-                                                  },
-                                                  Url = "https://cloud.community.humio.com",
-                                              })
-                                              .CreateLogger();
+// Configure Serilog
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Information()
+    .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+    .Enrich.FromLogContext()
+    .WriteTo.Console()
+    .WriteTo.HumioSink(new HumioSinkConfiguration
+    {
+        IngestToken = builder.Configuration["HUMIOINGESTTOKEN"],
+        Tags = new Dictionary<string, string>
+        {
+            {"system", "compozerr"},
+            {"platform", "web"},
+            {"environment", builder.Environment.EnvironmentName}
+        },
+        Url = "https://cloud.community.humio.com",
+    })
+    .CreateLogger();
 
 var app = builder.Build();
 
 app.UseFeatures();
 
-app.Run();
+Log.Information("Application starting up");
+
+try
+{
+    app.Run();
+}
+catch (Exception ex)
+{
+    Log.Fatal(ex, "Application terminated unexpectedly");
+}
+finally
+{
+    Log.CloseAndFlush();
+}

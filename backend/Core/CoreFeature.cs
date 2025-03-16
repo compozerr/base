@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Carter;
 using Core.Extensions;
 using Core.Feature;
@@ -7,10 +8,13 @@ using Core.MediatR;
 using Core.Options;
 using Core.Services;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Serilog;
 
 namespace Core;
 
@@ -27,12 +31,61 @@ public class CoreFeature : IFeature
         }
 
         builder.Configuration.AddEnvFile(".env");
+
+        builder.Host.UseSerilog();
     }
 
     public void ConfigureApp(WebApplication app)
     {
         app.MapGroup("v1").MapCarter();
         app.UseCors(AppConstants.CorsPolicy);
+
+        // Add middleware to log API requests
+        app.UseSerilogRequestLogging(options =>
+        {
+            options.MessageTemplate = "HTTP {RequestMethod} {RequestPath} responded {StatusCode} in {Elapsed:0.0000}ms";
+
+            // Customize the logging level based on status code
+            options.GetLevel = (httpContext, elapsed, ex) =>
+            {
+                if (ex != null || httpContext.Response.StatusCode > 499)
+                    return LogEventLevel.Error;
+                if (httpContext.Response.StatusCode > 399)
+                    return LogEventLevel.Warning;
+
+                return LogEventLevel.Information;
+            };
+
+            // Attach additional properties to the request log
+            options.EnrichDiagnosticContext = (diagnosticContext, httpContext) =>
+            {
+                diagnosticContext.Set("RequestHost", httpContext.Request.Host.Value ?? "unknown");
+                diagnosticContext.Set("RequestScheme", httpContext.Request.Scheme);
+                diagnosticContext.Set("RemoteIpAddress", httpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown");
+            };
+        });
+
+        // Add global exception handler
+        app.UseExceptionHandler(exceptionHandlerApp =>
+        {
+            exceptionHandlerApp.Run(async context =>
+            {
+                context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+                context.Response.ContentType = "application/json";
+
+                var exceptionHandlerPathFeature = context.Features.Get<IExceptionHandlerPathFeature>();
+                var exception = exceptionHandlerPathFeature?.Error;
+
+                // Log the exception
+                Log.Error(exception, "Unhandled exception occurred: {Message}", exception?.Message);
+
+                await context.Response.WriteAsJsonAsync(new
+                {
+                    error = "An unexpected error occurred",
+                    traceId = Activity.Current?.Id ?? context.TraceIdentifier
+                });
+            });
+        });
     }
 
     public void ConfigureServices(IServiceCollection services, IConfiguration configuration)
