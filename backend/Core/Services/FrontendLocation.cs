@@ -11,7 +11,7 @@ public sealed class FrontendLocation(IConfiguration configuration) : IFrontendLo
 {
     public Uri GetFromPath(string path)
     {
-        var frontendBaseUrl = configuration["FRONTEND_URL"] ?? throw new InvalidOperationException("FRONTEND_URL is not set");
+        var frontendBaseUrl = configuration["FrontendUrl"] ?? throw new InvalidOperationException("FRONTEND_URL is not set");
 
         var uri = new UriBuilder(frontendBaseUrl) { Path = path };
 

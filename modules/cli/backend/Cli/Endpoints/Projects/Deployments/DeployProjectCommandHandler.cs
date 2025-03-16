@@ -51,7 +51,13 @@ public sealed record DeployProjectCommandHandler(
 
         newDeployment.QueueDomainEvent<DeploymentQueuedEvent>();
 
+        Log.ForContext(nameof(newDeployment), newDeployment)
+           .Information("Deployment queued");
+
         var deployment = await DeploymentRepository.AddAsync(newDeployment, cancellationToken);
+
+        Log.ForContext(nameof(newDeployment), newDeployment)
+           .Information("Deployment domain events executed and sending response");
 
         return new DeployProjectResponse(GetStatusUrl(deployment.ProjectId, deployment.Id));
     }
