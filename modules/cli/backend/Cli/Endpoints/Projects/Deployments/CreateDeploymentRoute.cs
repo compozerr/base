@@ -16,7 +16,7 @@ public static class CreateDeploymentRoute
         return app.MapPost(Route, ExecuteAsync);
     }
 
-    public static Task ExecuteAsync(Guid projectId, CreateDeploymentRequest request, IMediator mediator)
+    public static Task<DeployProjectResponse> ExecuteAsync(Guid projectId, CreateDeploymentRequest request, IMediator mediator)
         => mediator.Send(
             new DeployProjectCommand(
                 ProjectId.Create(projectId),
