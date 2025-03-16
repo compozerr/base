@@ -10,6 +10,7 @@ public class Project : BaseEntityWithId<ProjectId>
     public required LocationId LocationId { get; set; }
     public ServerId? ServerId { get; set; }
 
+    public virtual Server? Server { get; set; }
     public virtual ICollection<ProjectEnvironment>? ProjectEnvironments { get; set; }
     public virtual ICollection<Domain>? Domains { get; set; }
 }

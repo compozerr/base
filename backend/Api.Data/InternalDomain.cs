@@ -9,5 +9,5 @@ public sealed class InternalDomain : Domain
 
     public required string Subdomain { get; set; } = string.Empty;
 
-    public string Value => $"{Subdomain}.{Server!.HostName}.sites.compozerr.com";
+    public string Value => $"{Subdomain}.{Project!.Server!.HostName}.sites.compozerr.com";
 }
