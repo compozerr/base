@@ -1,10 +1,8 @@
 using Api.Data.Repositories;
 using Api.Hosting.Endpoints.Deployments;
 using Carter;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
-using Microsoft.IdentityModel.Tokens;
 
 namespace Api.Hosting.Endpoints;
 
