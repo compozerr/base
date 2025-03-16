@@ -1,3 +1,4 @@
+using Api.Data.Services;
 using Core.Feature;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
@@ -17,6 +18,8 @@ public class ApiDataFeature : IFeature
                 b.MigrationsAssembly(typeof(ApiDbContext).Assembly.FullName);
             });
         });
+
+        services.AddSingleton<IHashService, HashService>();
     }
 
     void IFeature.ConfigureApp(WebApplication app)

@@ -21,7 +21,6 @@ public interface IServerService
 }
 
 public class ServerService(
-    IHashService hashService,
     IServerRepository serverRepository,
     ICryptoService cryptoService) : IServerService
 {
@@ -33,9 +32,8 @@ public class ServerService(
     public async Task<string> CreateNewServer()
     {
         var newSecret = GenerateNewSecret();
-        var hashedSecret = hashService.Hash(newSecret);
 
-        await serverRepository.AddNewServer(hashedSecret);
+        await serverRepository.AddNewServer(newSecret);
 
         return newSecret;
     }
@@ -53,10 +51,8 @@ public class ServerService(
         string hostName,
         string apiDomain)
     {
-        var hashedSecret = hashService.Hash(secret);
-
         var server = await serverRepository.UpdateServer(
-            hashedSecret,
+            secret,
             isoCountryCode,
             machineId,
             ram,

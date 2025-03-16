@@ -1,7 +1,7 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Api.Services;
+namespace Api.Data.Services;
 
 public interface IHashService
 {
