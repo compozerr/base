@@ -11,6 +11,7 @@ public interface IProjectRepository : IGenericRepository<Project, ProjectId, Api
     public Task<ProjectEnvironment?> GetProjectEnvironmentByBranchAsync(ProjectId projectId, string branch);
     public Task<List<Project>> GetProjectsForUserAsync(UserId userId);
     public Task<List<Project>> GetProjectsForUserAsync();
+    public Task<Project> GetProjectByIdWithDomainsAsync(ProjectId projectId);
 }
 
 public sealed class ProjectRepository(
@@ -18,6 +19,13 @@ public sealed class ProjectRepository(
     ICurrentUserAccessor currentUserAccessor) : GenericRepository<Project, ProjectId, ApiDbContext>(context), IProjectRepository
 {
     private readonly ApiDbContext _context = context;
+
+    public Task<Project> GetProjectByIdWithDomainsAsync(ProjectId projectId)
+        => _context.Projects
+            .Include(x => x.Domains)
+                .ThenInclude(d => d.Project)
+                    .ThenInclude(p => p.Server)
+            .SingleOrDefaultAsync(x => x.Id == projectId);
 
     public Task<ProjectEnvironment?> GetProjectEnvironmentByBranchAsync(ProjectId projectId, string branch)
         => _context.ProjectEnvironments

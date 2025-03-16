@@ -1,5 +1,6 @@
 using Api.Data.Repositories;
 using Api.Hosting.Endpoints.Deployments;
+using Api.Hosting.Endpoints.Projects;
 using Carter;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
@@ -38,5 +39,6 @@ public class HostingGroup : CarterModule
     public override void AddRoutes(IEndpointRouteBuilder app)
     {
         app.AddDeploymentsGroup().AddEndpointFilter(ApiKeyMiddleware);
+        app.AddProjectsGroup().AddEndpointFilter(ApiKeyMiddleware);
     }
 }
