@@ -86,7 +86,7 @@ public static class Features
     {
         AllFeatures.Apply(f =>
         {
-            Log.Logger.Information("Configuring feature {Feature}", f.GetType().Name);
+            Log.Logger.Verbose("Configuring feature {Feature}", f.GetType().Name);
             f.ConfigureApp(app);
         });
 
