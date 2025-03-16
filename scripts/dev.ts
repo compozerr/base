@@ -27,11 +27,11 @@ const commands: Command[] = [
         `cd backend && export DOTNET_WATCH_RESTART_ON_RUDE_EDIT=1 && dotnet watch run --project Api --urls http://localhost:${Config.ports.backend}`,
         "backend",
         {
-            readyMessage: "Content root path:",
+            readyMessage: "Application starting up",
             port: Config.ports.backend,
             startupTimeoutMs: 30000,
             logCallback: (text) => {
-                if (text.includes("Content root path:")) {
+                if (text.includes("Application starting up")) {
                     setTimeout(() => {
                         logger.logAsync("Click 'F5' to reattach the debugger\n", "RED");
                     }, 1000);

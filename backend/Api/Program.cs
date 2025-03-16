@@ -51,4 +51,17 @@ var app = builder.Build();
 
 app.UseFeatures();
 
-app.Run();
+Log.Information("Application starting up");
+
+try
+{
+    app.Run();
+}
+catch (Exception ex)
+{
+    Log.Fatal(ex, "Application terminated unexpectedly");
+}
+finally
+{
+    Log.CloseAndFlush();
+}
