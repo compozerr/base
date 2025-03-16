@@ -32,6 +32,7 @@ public sealed class AllocateDomains_ProjectCreatedEventHandler : IDomainEventHan
         => new()
         {
             ProjectId = projectId,
+            ServiceName = "Frontend",
             Port = "1234",
             Subdomain = $"{hash}",
         };
@@ -40,6 +41,7 @@ public sealed class AllocateDomains_ProjectCreatedEventHandler : IDomainEventHan
         => new()
         {
             ProjectId = projectId,
+            ServiceName = "Backend",
             Port = "1235",
             Subdomain = $"api.{hash}",
         };
