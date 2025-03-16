@@ -50,6 +50,16 @@ public sealed class HostingApi(
         var commitHash = deployment.CommitHash;
         var projectId = deployment.ProjectId;
 
+        var loggerWithContext = Log.ForContext("BaseDomain", HttpClient.BaseDomain)
+                                   .ForContext(nameof(repoName), repoName)
+                                   .ForContext(nameof(commitHash), commitHash)
+                                   .ForContext(nameof(projectId), projectId);
+
+
+        loggerWithContext.Information("Sending deploy command to server");
+
+        var deploymentStatus = DeploymentStatus.Deploying;
+
         try
         {
             var deployResponse = await HttpClient.PostAsync("/projects/deploy", JsonContent.Create(new
@@ -62,20 +72,20 @@ public sealed class HostingApi(
 
             if (!deployResponse.IsSuccessStatusCode)
             {
-                Log.ForContext("BaseDomain", HttpClient.BaseDomain)
-                   .ForContext(nameof(repoName), repoName)
-                   .ForContext(nameof(commitHash), commitHash)
-                   .ForContext(nameof(projectId), projectId)
-                   .Error("Deployment failed: {response}", await deployResponse.Content.ReadAsStringAsync());
+                loggerWithContext.Error("Deployment failed: {response}", await deployResponse.Content.ReadAsStringAsync());
+
+                deploymentStatus = DeploymentStatus.Failed;
             }
         }
         catch (Exception ex)
         {
-            Log.ForContext("BaseDomain", HttpClient.BaseDomain)
-               .ForContext(nameof(repoName), repoName)
-               .ForContext(nameof(commitHash), commitHash)
-               .ForContext(nameof(projectId), projectId)
-               .Error(ex, "Deployment failed");
+            loggerWithContext.Error(ex, "Deployment failed");
+
+            deploymentStatus = DeploymentStatus.Failed;
         }
+
+        loggerWithContext.Information("Deployment status: {status}", deploymentStatus);
+
+        deployment.Status = deploymentStatus;
     }
 }
