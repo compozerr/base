@@ -17,6 +17,8 @@ public interface IServerRepository : IGenericRepository<Server, ServerId, ApiDbC
         string hostName,
         string apiDomain);
     public Task<List<Server>> GetServersByLocationId(LocationId locationId);
+
+    public Task<Server?> GetServerOrDefaultByTokenAsync(string token);
 }
 
 public sealed class ServerRepository(
@@ -42,6 +44,10 @@ public sealed class ServerRepository(
 
         return secret;
     }
+
+    public Task<Server?> GetServerOrDefaultByTokenAsync(string token)
+        => _context.Servers.Include(x => x.Secret)
+                           .SingleOrDefaultAsync(x => x.Secret != null && x.Secret.Value == token);
 
     public Task<List<Server>> GetServersByLocationId(LocationId locationId)
         => _context.Servers.Where(s => s.LocationId == locationId).ToListAsync();
