@@ -1,4 +1,5 @@
 
+using Api.Data.Configurations;
 using Database.Data;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -20,6 +21,8 @@ public class ApiDbContext(
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+
+        modelBuilder.ApplyConfiguration(new DomainConfiguration());
 
         modelBuilder.Entity<Server>()
             .HasOne(s => s.Secret)
