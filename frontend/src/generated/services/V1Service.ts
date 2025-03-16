@@ -3677,6 +3677,271 @@ export interface V1Service {
             body: PutHostingDeploymentsDeploymentIdStatusBody;
         };
     };
+    getHostingProjectsProjectIdDomains: {
+        /**/
+        cancelQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetHostingProjectsProjectIdDomainsSchema, GetHostingProjectsProjectIdDomainsData, TInfinite, GetHostingProjectsProjectIdDomainsParameters, GetHostingProjectsProjectIdDomainsError> | QueryFiltersByQueryKey<GetHostingProjectsProjectIdDomainsSchema, GetHostingProjectsProjectIdDomainsData, TInfinite, GetHostingProjectsProjectIdDomainsParameters, GetHostingProjectsProjectIdDomainsError>, options?: CancelOptions): Promise<void>;
+        /**/
+        getQueryKey(parameters: GetHostingProjectsProjectIdDomainsParameters): ServiceOperationQueryKey<GetHostingProjectsProjectIdDomainsSchema, GetHostingProjectsProjectIdDomainsParameters>;
+        /**
+         * Performs asynchronous data fetching, manages loading states and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
+         * @example Query with parameters
+         * ```ts
+         * const { data, isLoading } = qraft.v1Service.getHostingProjectsProjectIdDomains.useQuery({
+         *     path: {
+         *         projectId: projectId
+         *     }
+         * })
+         * ```
+         */
+        useQuery<TData = GetHostingProjectsProjectIdDomainsData>(parameters: ServiceOperationQueryKey<GetHostingProjectsProjectIdDomainsSchema, GetHostingProjectsProjectIdDomainsParameters> | (GetHostingProjectsProjectIdDomainsParameters), options?: Omit<UndefinedInitialDataOptions<GetHostingProjectsProjectIdDomainsData, GetHostingProjectsProjectIdDomainsError, TData, ServiceOperationQueryKey<GetHostingProjectsProjectIdDomainsSchema, GetHostingProjectsProjectIdDomainsParameters>>, "queryKey">): UseQueryResult<TData, GetHostingProjectsProjectIdDomainsError | Error>;
+        /**
+         * Performs asynchronous data fetching, manages loading states and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
+         * @example Query with parameters
+         * ```ts
+         * const { data, isLoading } = qraft.v1Service.getHostingProjectsProjectIdDomains.useQuery({
+         *     path: {
+         *         projectId: projectId
+         *     }
+         * })
+         * ```
+         */
+        useQuery<TData = GetHostingProjectsProjectIdDomainsData>(parameters: ServiceOperationQueryKey<GetHostingProjectsProjectIdDomainsSchema, GetHostingProjectsProjectIdDomainsParameters> | (GetHostingProjectsProjectIdDomainsParameters), options: Omit<DefinedInitialDataOptions<GetHostingProjectsProjectIdDomainsData, GetHostingProjectsProjectIdDomainsError, TData, ServiceOperationQueryKey<GetHostingProjectsProjectIdDomainsSchema, GetHostingProjectsProjectIdDomainsParameters>>, "queryKey">): DefinedUseQueryResult<TData, GetHostingProjectsProjectIdDomainsError | Error>;
+        /**/
+        fetchInfiniteQuery<TPageParam extends GetHostingProjectsProjectIdDomainsParameters>(options: ServiceOperationFetchInfiniteQueryOptions<GetHostingProjectsProjectIdDomainsSchema, GetHostingProjectsProjectIdDomainsData, GetHostingProjectsProjectIdDomainsParameters, TPageParam, GetHostingProjectsProjectIdDomainsError>): Promise<OperationInfiniteData<GetHostingProjectsProjectIdDomainsData, GetHostingProjectsProjectIdDomainsParameters>>;
+        /**/
+        prefetchInfiniteQuery<TPageParam extends GetHostingProjectsProjectIdDomainsParameters>(options: ServiceOperationFetchInfiniteQueryOptions<GetHostingProjectsProjectIdDomainsSchema, GetHostingProjectsProjectIdDomainsData, GetHostingProjectsProjectIdDomainsParameters, TPageParam, GetHostingProjectsProjectIdDomainsError>): Promise<void>;
+        /**/
+        ensureInfiniteQueryData<TPageParam extends GetHostingProjectsProjectIdDomainsParameters>(options: ServiceOperationEnsureInfiniteQueryDataOptions<GetHostingProjectsProjectIdDomainsSchema, GetHostingProjectsProjectIdDomainsData, GetHostingProjectsProjectIdDomainsParameters, TPageParam, GetHostingProjectsProjectIdDomainsError>): Promise<OperationInfiniteData<GetHostingProjectsProjectIdDomainsData, GetHostingProjectsProjectIdDomainsParameters>>;
+        /**/
+        fetchQuery(options: ServiceOperationFetchQueryOptions<GetHostingProjectsProjectIdDomainsSchema, GetHostingProjectsProjectIdDomainsData, GetHostingProjectsProjectIdDomainsParameters, GetHostingProjectsProjectIdDomainsError>): Promise<GetHostingProjectsProjectIdDomainsData>;
+        /**/
+        prefetchQuery(options: ServiceOperationFetchQueryOptions<GetHostingProjectsProjectIdDomainsSchema, GetHostingProjectsProjectIdDomainsData, GetHostingProjectsProjectIdDomainsParameters, GetHostingProjectsProjectIdDomainsError>): Promise<void>;
+        /**/
+        ensureQueryData(options: ServiceOperationEnsureQueryDataOptions<GetHostingProjectsProjectIdDomainsSchema, GetHostingProjectsProjectIdDomainsData, GetHostingProjectsProjectIdDomainsParameters, GetHostingProjectsProjectIdDomainsError>): Promise<GetHostingProjectsProjectIdDomainsData>;
+        /**/
+        getInfiniteQueryData(parameters: ServiceOperationInfiniteQueryKey<GetHostingProjectsProjectIdDomainsSchema, GetHostingProjectsProjectIdDomainsParameters> | (GetHostingProjectsProjectIdDomainsParameters)): OperationInfiniteData<GetHostingProjectsProjectIdDomainsData, GetHostingProjectsProjectIdDomainsParameters> | undefined;
+        /**/
+        getQueriesData<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetHostingProjectsProjectIdDomainsSchema, GetHostingProjectsProjectIdDomainsData, TInfinite, GetHostingProjectsProjectIdDomainsParameters, GetHostingProjectsProjectIdDomainsError> | QueryFiltersByQueryKey<GetHostingProjectsProjectIdDomainsSchema, GetHostingProjectsProjectIdDomainsData, TInfinite, GetHostingProjectsProjectIdDomainsParameters, GetHostingProjectsProjectIdDomainsError>): TInfinite extends true ? Array<[
+            queryKey: ServiceOperationInfiniteQueryKey<GetHostingProjectsProjectIdDomainsSchema, GetHostingProjectsProjectIdDomainsParameters>,
+            data: NoInfer<OperationInfiniteData<GetHostingProjectsProjectIdDomainsData, GetHostingProjectsProjectIdDomainsParameters>> | undefined
+        ]> : Array<[
+            queryKey: ServiceOperationQueryKey<GetHostingProjectsProjectIdDomainsSchema, GetHostingProjectsProjectIdDomainsParameters>,
+            data: GetHostingProjectsProjectIdDomainsData | undefined
+        ]>;
+        /**/
+        getQueryData(parameters: ServiceOperationQueryKey<GetHostingProjectsProjectIdDomainsSchema, GetHostingProjectsProjectIdDomainsParameters> | (GetHostingProjectsProjectIdDomainsParameters)): GetHostingProjectsProjectIdDomainsData | undefined;
+        /**/
+        getQueryState(parameters: ServiceOperationQueryKey<GetHostingProjectsProjectIdDomainsSchema, GetHostingProjectsProjectIdDomainsParameters> | (GetHostingProjectsProjectIdDomainsParameters)): QueryState<GetHostingProjectsProjectIdDomainsData, GetHostingProjectsProjectIdDomainsError> | undefined;
+        /**/
+        getInfiniteQueryState(parameters: GetHostingProjectsProjectIdDomainsParameters | ServiceOperationInfiniteQueryKey<GetHostingProjectsProjectIdDomainsSchema, GetHostingProjectsProjectIdDomainsParameters>): QueryState<OperationInfiniteData<GetHostingProjectsProjectIdDomainsData, GetHostingProjectsProjectIdDomainsParameters>, GetHostingProjectsProjectIdDomainsError> | undefined;
+        /**/
+        invalidateQueries<TInfinite extends boolean = false>(filters?: InvalidateQueryFilters<GetHostingProjectsProjectIdDomainsSchema, GetHostingProjectsProjectIdDomainsData, TInfinite, GetHostingProjectsProjectIdDomainsParameters, GetHostingProjectsProjectIdDomainsError>, options?: InvalidateOptions): Promise<void>;
+        /**/
+        isFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetHostingProjectsProjectIdDomainsSchema, GetHostingProjectsProjectIdDomainsData, TInfinite, GetHostingProjectsProjectIdDomainsParameters, GetHostingProjectsProjectIdDomainsError> | QueryFiltersByQueryKey<GetHostingProjectsProjectIdDomainsSchema, GetHostingProjectsProjectIdDomainsData, TInfinite, GetHostingProjectsProjectIdDomainsParameters, GetHostingProjectsProjectIdDomainsError>): number;
+        /**/
+        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: QueryFnOptionsByQueryKey<GetHostingProjectsProjectIdDomainsSchema, GetHostingProjectsProjectIdDomainsParameters, TMeta, TSignal> | (QueryFnOptionsByParameters<GetHostingProjectsProjectIdDomainsParameters, TMeta, TSignal>), client?: (schema: GetHostingProjectsProjectIdDomainsSchema, options: {
+            parameters: GetHostingProjectsProjectIdDomainsParameters;
+            signal?: TSignal;
+            meta?: TMeta;
+        }) => Promise<RequestFnResponse<GetHostingProjectsProjectIdDomainsData, GetHostingProjectsProjectIdDomainsError>>): Promise<RequestFnResponse<GetHostingProjectsProjectIdDomainsData, GetHostingProjectsProjectIdDomainsError>>;
+        /**/
+        refetchQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetHostingProjectsProjectIdDomainsSchema, GetHostingProjectsProjectIdDomainsData, TInfinite, GetHostingProjectsProjectIdDomainsParameters, GetHostingProjectsProjectIdDomainsError> | QueryFiltersByQueryKey<GetHostingProjectsProjectIdDomainsSchema, GetHostingProjectsProjectIdDomainsData, TInfinite, GetHostingProjectsProjectIdDomainsParameters, GetHostingProjectsProjectIdDomainsError>, options?: RefetchOptions): Promise<void>;
+        /**/
+        removeQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetHostingProjectsProjectIdDomainsSchema, GetHostingProjectsProjectIdDomainsData, TInfinite, GetHostingProjectsProjectIdDomainsParameters, GetHostingProjectsProjectIdDomainsError> | QueryFiltersByQueryKey<GetHostingProjectsProjectIdDomainsSchema, GetHostingProjectsProjectIdDomainsData, TInfinite, GetHostingProjectsProjectIdDomainsParameters, GetHostingProjectsProjectIdDomainsError>): void;
+        /**/
+        resetQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetHostingProjectsProjectIdDomainsSchema, GetHostingProjectsProjectIdDomainsData, TInfinite, GetHostingProjectsProjectIdDomainsParameters, GetHostingProjectsProjectIdDomainsError> | QueryFiltersByQueryKey<GetHostingProjectsProjectIdDomainsSchema, GetHostingProjectsProjectIdDomainsData, TInfinite, GetHostingProjectsProjectIdDomainsParameters, GetHostingProjectsProjectIdDomainsError>, options?: ResetOptions): Promise<void>;
+        /**/
+        setInfiniteQueryData(parameters: GetHostingProjectsProjectIdDomainsParameters | ServiceOperationInfiniteQueryKey<GetHostingProjectsProjectIdDomainsSchema, GetHostingProjectsProjectIdDomainsParameters>, updater: Updater<NoInfer<OperationInfiniteData<GetHostingProjectsProjectIdDomainsData, GetHostingProjectsProjectIdDomainsParameters>> | undefined, NoInfer<OperationInfiniteData<GetHostingProjectsProjectIdDomainsData, GetHostingProjectsProjectIdDomainsParameters>> | undefined>, options?: SetDataOptions): OperationInfiniteData<GetHostingProjectsProjectIdDomainsData, GetHostingProjectsProjectIdDomainsParameters> | undefined;
+        /**/
+        setQueriesData<TInfinite extends boolean = false>(filters: QueryFiltersByParameters<GetHostingProjectsProjectIdDomainsSchema, GetHostingProjectsProjectIdDomainsData, TInfinite, GetHostingProjectsProjectIdDomainsParameters, GetHostingProjectsProjectIdDomainsError> | QueryFiltersByQueryKey<GetHostingProjectsProjectIdDomainsSchema, GetHostingProjectsProjectIdDomainsData, TInfinite, GetHostingProjectsProjectIdDomainsParameters, GetHostingProjectsProjectIdDomainsError>, updater: Updater<NoInfer<GetHostingProjectsProjectIdDomainsData> | undefined, NoInfer<GetHostingProjectsProjectIdDomainsData> | undefined>, options?: SetDataOptions): Array<GetHostingProjectsProjectIdDomainsData | undefined>;
+        /**/
+        setQueryData(parameters: (GetHostingProjectsProjectIdDomainsParameters) | ServiceOperationQueryKey<GetHostingProjectsProjectIdDomainsSchema, GetHostingProjectsProjectIdDomainsParameters>, updater: Updater<NoInfer<GetHostingProjectsProjectIdDomainsData> | undefined, NoInfer<GetHostingProjectsProjectIdDomainsData> | undefined>, options?: SetDataOptions): GetHostingProjectsProjectIdDomainsData | undefined;
+        /**/
+        getInfiniteQueryKey(parameters: GetHostingProjectsProjectIdDomainsParameters): ServiceOperationInfiniteQueryKey<GetHostingProjectsProjectIdDomainsSchema, GetHostingProjectsProjectIdDomainsParameters>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useInfiniteQuery|`useInfiniteQuery(...)` documentation}
+         *
+         * @example Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getHostingProjectsProjectIdDomains.useInfiniteQuery({
+         *     path: {
+         *         projectId: projectId
+         *     }
+         * }, {
+         *     initialPageParam: {},
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useInfiniteQuery<TPageParam extends GetHostingProjectsProjectIdDomainsParameters, TData = GetHostingProjectsProjectIdDomainsData>(parameters: ServiceOperationInfiniteQueryKey<GetHostingProjectsProjectIdDomainsSchema, GetHostingProjectsProjectIdDomainsParameters> | (GetHostingProjectsProjectIdDomainsParameters), options: Omit<UndefinedInitialDataInfiniteOptions<GetHostingProjectsProjectIdDomainsData, GetHostingProjectsProjectIdDomainsError, OperationInfiniteData<TData, GetHostingProjectsProjectIdDomainsParameters>, ServiceOperationInfiniteQueryKey<GetHostingProjectsProjectIdDomainsSchema, GetHostingProjectsProjectIdDomainsParameters>, PartialParameters<TPageParam>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<GetHostingProjectsProjectIdDomainsData, PartialParameters<TPageParam>>): UseInfiniteQueryResult<OperationInfiniteData<TData, GetHostingProjectsProjectIdDomainsParameters>, GetHostingProjectsProjectIdDomainsError | Error>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useInfiniteQuery|`useInfiniteQuery(...)` documentation}
+         *
+         * @example Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getHostingProjectsProjectIdDomains.useInfiniteQuery({
+         *     path: {
+         *         projectId: projectId
+         *     }
+         * }, {
+         *     initialPageParam: {},
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useInfiniteQuery<TPageParam extends GetHostingProjectsProjectIdDomainsParameters, TData = GetHostingProjectsProjectIdDomainsData>(parameters: ServiceOperationInfiniteQueryKey<GetHostingProjectsProjectIdDomainsSchema, GetHostingProjectsProjectIdDomainsParameters> | (GetHostingProjectsProjectIdDomainsParameters), options: Omit<DefinedInitialDataInfiniteOptions<GetHostingProjectsProjectIdDomainsData, GetHostingProjectsProjectIdDomainsError, OperationInfiniteData<TData, GetHostingProjectsProjectIdDomainsParameters>, ServiceOperationInfiniteQueryKey<GetHostingProjectsProjectIdDomainsSchema, GetHostingProjectsProjectIdDomainsParameters>, PartialParameters<TPageParam>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<GetHostingProjectsProjectIdDomainsData, PartialParameters<TPageParam>>): DefinedUseInfiniteQueryResult<OperationInfiniteData<TData, GetHostingProjectsProjectIdDomainsParameters>, GetHostingProjectsProjectIdDomainsError | Error>;
+        /**
+         * Monitors the number of queries currently fetching, matching the provided filters.
+         * Useful for creating loading indicators or performing actions based on active requests.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsFetching|`useIsFetching(...)` documentation}
+         * @example Checks the total number of queries fetching from the specified service method,
+         * both normal and infinite. If no parameters are provided, no filtering is applied.
+         * ```ts
+         * const getHostingProjectsProjectIdDomainsTotal = qraft.v1Service.getHostingProjectsProjectIdDomains.useIsFetching()
+         * ```
+         * @example Checks the number of normal queries fetching with the specified parameters.
+         * ```ts
+         * const getHostingProjectsProjectIdDomainsByParametersTotal = qraft.v1Service.getHostingProjectsProjectIdDomains.useIsFetching({
+         *     infinite: false,
+         *     parameters: {
+         *         path: {
+         *             projectId: projectId
+         *         }
+         *     }
+         * })
+         * ```
+         */
+        useIsFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetHostingProjectsProjectIdDomainsSchema, GetHostingProjectsProjectIdDomainsData, TInfinite, GetHostingProjectsProjectIdDomainsParameters, GetHostingProjectsProjectIdDomainsError> | QueryFiltersByQueryKey<GetHostingProjectsProjectIdDomainsSchema, GetHostingProjectsProjectIdDomainsData, TInfinite, GetHostingProjectsProjectIdDomainsParameters, GetHostingProjectsProjectIdDomainsError>): number;
+        /**
+         * Allows you to execute multiple asynchronous data fetching operations concurrently. This is especially useful for managing complex data dependencies in parallel.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
+         * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
+         * ```ts
+         * const getHostingProjectsProjectIdDomainsResults = qraft.v1Service.getHostingProjectsProjectIdDomains.useQueries({
+         *     queries: [
+         *         {
+         *             path: {
+         *                 projectId: projectId1
+         *             }
+         *         },
+         *         {
+         *             path: {
+         *                 projectId: projectId2
+         *             }
+         *         }
+         *     ]
+         * });
+         * getHostingProjectsProjectIdDomainsResults.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
+         * ```
+         * @example Combined results. Only the data will be returned.
+         * ```ts
+         * const getHostingProjectsProjectIdDomainsCombinedResults = qraft.v1Service.getHostingProjectsProjectIdDomains.useQueries({
+         *     combine: results => results.map(result => result.data),
+         *     queries: [
+         *         {
+         *             path: {
+         *                 projectId: projectId1
+         *             }
+         *         },
+         *         {
+         *             path: {
+         *                 projectId: projectId2
+         *             }
+         *         }
+         *     ]
+         * });
+         * getHostingProjectsProjectIdDomainsCombinedResults.forEach(data => console.log({ data }));
+         * ```
+         */
+        useQueries<T extends Array<UseQueryOptionsForUseQueries<GetHostingProjectsProjectIdDomainsSchema, GetHostingProjectsProjectIdDomainsParameters, GetHostingProjectsProjectIdDomainsData, GetHostingProjectsProjectIdDomainsError>>, TCombinedResult = Array<UseQueryResult<GetHostingProjectsProjectIdDomainsData, GetHostingProjectsProjectIdDomainsError>>>(options: {
+            queries: T;
+            combine?: (results: Array<UseQueryResult<GetHostingProjectsProjectIdDomainsData, GetHostingProjectsProjectIdDomainsError>>) => TCombinedResult;
+        }): TCombinedResult;
+        /**/
+        getQueryKey(parameters: GetHostingProjectsProjectIdDomainsParameters): ServiceOperationQueryKey<GetHostingProjectsProjectIdDomainsSchema, GetHostingProjectsProjectIdDomainsParameters>;
+        /**
+         * Performs asynchronous data fetching, manages loading states and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
+         * @example Query with parameters
+         * ```ts
+         * const { data, isLoading } = qraft.v1Service.getHostingProjectsProjectIdDomains.useQuery({
+         *     path: {
+         *         projectId: projectId
+         *     }
+         * })
+         * ```
+         */
+        useQuery<TData = GetHostingProjectsProjectIdDomainsData>(parameters: ServiceOperationQueryKey<GetHostingProjectsProjectIdDomainsSchema, GetHostingProjectsProjectIdDomainsParameters> | (GetHostingProjectsProjectIdDomainsParameters), options?: Omit<UndefinedInitialDataOptions<GetHostingProjectsProjectIdDomainsData, GetHostingProjectsProjectIdDomainsError, TData, ServiceOperationQueryKey<GetHostingProjectsProjectIdDomainsSchema, GetHostingProjectsProjectIdDomainsParameters>>, "queryKey">): UseQueryResult<TData, GetHostingProjectsProjectIdDomainsError | Error>;
+        /**
+         * Performs asynchronous data fetching, manages loading states and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
+         * @example Query with parameters
+         * ```ts
+         * const { data, isLoading } = qraft.v1Service.getHostingProjectsProjectIdDomains.useQuery({
+         *     path: {
+         *         projectId: projectId
+         *     }
+         * })
+         * ```
+         */
+        useQuery<TData = GetHostingProjectsProjectIdDomainsData>(parameters: ServiceOperationQueryKey<GetHostingProjectsProjectIdDomainsSchema, GetHostingProjectsProjectIdDomainsParameters> | (GetHostingProjectsProjectIdDomainsParameters), options: Omit<DefinedInitialDataOptions<GetHostingProjectsProjectIdDomainsData, GetHostingProjectsProjectIdDomainsError, TData, ServiceOperationQueryKey<GetHostingProjectsProjectIdDomainsSchema, GetHostingProjectsProjectIdDomainsParameters>>, "queryKey">): DefinedUseQueryResult<TData, GetHostingProjectsProjectIdDomainsError | Error>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         * It functions similarly to `useInfiniteQuery`, but with added support for React Suspense.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseInfiniteQuery|`useSuspenseInfiniteQuery(...)` documentation}
+         *
+         * @example Suspense Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getHostingProjectsProjectIdDomains.useSuspenseInfiniteQuery({
+         *     path: {
+         *         projectId: projectId
+         *     }
+         * }, {
+         *     initialPageParam: {},
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useSuspenseInfiniteQuery<TPageParam extends GetHostingProjectsProjectIdDomainsParameters, TData = GetHostingProjectsProjectIdDomainsData>(parameters: ServiceOperationInfiniteQueryKey<GetHostingProjectsProjectIdDomainsSchema, GetHostingProjectsProjectIdDomainsParameters> | (GetHostingProjectsProjectIdDomainsParameters), options: Omit<UseSuspenseInfiniteQueryOptions<GetHostingProjectsProjectIdDomainsData, GetHostingProjectsProjectIdDomainsError, OperationInfiniteData<TData, GetHostingProjectsProjectIdDomainsParameters>, GetHostingProjectsProjectIdDomainsData, ServiceOperationInfiniteQueryKey<GetHostingProjectsProjectIdDomainsSchema, GetHostingProjectsProjectIdDomainsParameters>, PartialParameters<TPageParam>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<GetHostingProjectsProjectIdDomainsData, PartialParameters<TPageParam>>): UseSuspenseInfiniteQueryResult<OperationInfiniteData<TData, GetHostingProjectsProjectIdDomainsParameters>, GetHostingProjectsProjectIdDomainsError | Error>;
+        /**/
+        useSuspenseQueries<T extends Array<UseQueryOptionsForUseSuspenseQuery<GetHostingProjectsProjectIdDomainsSchema, GetHostingProjectsProjectIdDomainsParameters, GetHostingProjectsProjectIdDomainsData, GetHostingProjectsProjectIdDomainsError>>, TCombinedResult = Array<UseSuspenseQueryResult<GetHostingProjectsProjectIdDomainsData, GetHostingProjectsProjectIdDomainsError>>>(options: {
+            queries: T;
+            combine?: (results: Array<WithOptional<UseSuspenseQueryResult<GetHostingProjectsProjectIdDomainsData, GetHostingProjectsProjectIdDomainsError>, "data">>) => TCombinedResult;
+        }): TCombinedResult;
+        /**/
+        useSuspenseQuery<TData = GetHostingProjectsProjectIdDomainsData>(parameters: ServiceOperationQueryKey<GetHostingProjectsProjectIdDomainsSchema, GetHostingProjectsProjectIdDomainsParameters> | (GetHostingProjectsProjectIdDomainsParameters), options?: Omit<UseSuspenseQueryOptions<GetHostingProjectsProjectIdDomainsData, GetHostingProjectsProjectIdDomainsError, TData, ServiceOperationQueryKey<GetHostingProjectsProjectIdDomainsSchema, GetHostingProjectsProjectIdDomainsParameters>>, "queryKey">): UseSuspenseQueryResult<TData, GetHostingProjectsProjectIdDomainsError | Error>;
+        schema: GetHostingProjectsProjectIdDomainsSchema;
+        types: {
+            parameters: GetHostingProjectsProjectIdDomainsParameters;
+            data: GetHostingProjectsProjectIdDomainsData;
+            error: GetHostingProjectsProjectIdDomainsError;
+        };
+    };
     postServers: {
         /**/
         getMutationKey(parameters: PostServersParameters | void): ServiceOperationMutationKey<PostServersSchema, PostServersParameters>;
@@ -4219,6 +4484,12 @@ export const v1Service: {
             ];
         };
     };
+    getHostingProjectsProjectIdDomains: {
+        schema: {
+            method: "get";
+            url: "/v1/hosting/projects/{projectId}/domains";
+        };
+    };
     postServers: {
         schema: {
             method: "post";
@@ -4365,6 +4636,12 @@ export const v1Service: {
             method: "put",
             url: "/v1/hosting/deployments/{deploymentId}/status",
             mediaType: ["application/json"]
+        }
+    },
+    getHostingProjectsProjectIdDomains: {
+        schema: {
+            method: "get",
+            url: "/v1/hosting/projects/{projectId}/domains"
         }
     },
     postServers: {
@@ -4549,9 +4826,16 @@ type PutHostingDeploymentsDeploymentIdStatusSchema = {
     ];
 };
 type PutHostingDeploymentsDeploymentIdStatusParameters = paths["/v1/hosting/deployments/{deploymentId}/status"]["put"]["parameters"];
-type PutHostingDeploymentsDeploymentIdStatusData = unknown;
+type PutHostingDeploymentsDeploymentIdStatusData = paths["/v1/hosting/deployments/{deploymentId}/status"]["put"]["responses"]["200"]["content"]["application/json"];
 type PutHostingDeploymentsDeploymentIdStatusError = unknown;
 type PutHostingDeploymentsDeploymentIdStatusBody = NonNullable<paths["/v1/hosting/deployments/{deploymentId}/status"]["put"]["requestBody"]>["content"]["application/json"];
+type GetHostingProjectsProjectIdDomainsSchema = {
+    method: "get";
+    url: "/v1/hosting/projects/{projectId}/domains";
+};
+type GetHostingProjectsProjectIdDomainsParameters = paths["/v1/hosting/projects/{projectId}/domains"]["get"]["parameters"];
+type GetHostingProjectsProjectIdDomainsData = paths["/v1/hosting/projects/{projectId}/domains"]["get"]["responses"]["200"]["content"]["application/json"];
+type GetHostingProjectsProjectIdDomainsError = unknown;
 type PostServersSchema = {
     method: "post";
     url: "/v1/servers";

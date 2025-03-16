@@ -708,10 +708,49 @@ export interface paths {
                     headers: {
                         [name: string]: unknown;
                     };
-                    content?: never;
+                    content: {
+                        "application/json": components["schemas"]["ChangeDeploymentStatusResponse"];
+                    };
                 };
             };
         };
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/hosting/projects/{projectId}/domains": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    projectId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["DomainDto"][];
+                    };
+                };
+            };
+        };
+        put?: never;
         post?: never;
         delete?: never;
         options?: never;
@@ -819,6 +858,9 @@ export interface components {
         ChangeDeploymentStatusRequest: {
             status?: string | null;
         };
+        ChangeDeploymentStatusResponse: {
+            success?: boolean;
+        };
         CreateDeploymentRequest: {
             commitHash?: string | null;
         };
@@ -848,6 +890,11 @@ export interface components {
         DefaultInstallationIdSelectionType: 1 | 2;
         DeployProjectResponse: {
             statusUrl?: string | null;
+        };
+        DomainDto: {
+            serviceName?: string | null;
+            port?: string | null;
+            value?: string | null;
         };
         GetExampleResponse: {
             message?: string | null;
