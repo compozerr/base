@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Routing;
 namespace Api.Hosting.Endpoints.Deployments;
 
 public sealed record ChangeDeploymentStatusRequest(string Status);
+public sealed record ChangeDeploymentStatusResponse(bool Success);
 
 public static class ChangeDeploymentStatusRoute
 {
@@ -17,7 +18,7 @@ public static class ChangeDeploymentStatusRoute
         return app.MapPut(Route, ExecuteAsync);
     }
 
-    public static async Task ExecuteAsync(
+    public static async Task<ChangeDeploymentStatusResponse> ExecuteAsync(
         Guid deploymentId,
         ChangeDeploymentStatusRequest request,
         IDeploymentRepository deploymentRepository)
@@ -31,5 +32,7 @@ public static class ChangeDeploymentStatusRoute
         deployment.Status = deploymentStatus;
 
         await deploymentRepository.UpdateAsync(deployment);
+
+        return new(true);
     }
 }
