@@ -56,7 +56,9 @@ public sealed class HostingApi(
                                    .ForContext(nameof(projectId), projectId);
 
 
-        loggerWithContext.Information("Sending deploy command to server");
+        loggerWithContext.ForContext("OperationId", Guid.NewGuid())
+                         .ForContext("Timestamp", DateTime.UtcNow)
+                         .Information("Sending deploy command to server");
 
         var deploymentStatus = DeploymentStatus.Deploying;
 
