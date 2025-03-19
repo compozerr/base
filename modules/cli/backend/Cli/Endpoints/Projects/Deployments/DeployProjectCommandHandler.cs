@@ -64,5 +64,5 @@ public sealed record DeployProjectCommandHandler(
     }
 
     private string GetStatusUrl(ProjectId projectId, DeploymentId deploymentId)
-        => FrontendLocation.GetFromPath($"projects/{projectId.Value}/deployments/${deploymentId.Value}").ToString();
+        => FrontendLocation.GetFromPath($"projects/{projectId.Value}/deployments/{deploymentId.Value}").ToString();
 }
