@@ -23,4 +23,20 @@ const execPromise = promisify(exec);
     } else {
         console.log("Dependencies installed!");
     }
+
+    // Check and copy .env files if they don't exist
+    const envPaths = ['./backend', './frontend'];
+    for (const path of envPaths) {
+        try {
+            const { stdout } = await execPromise(`[ ! -f ${path}/.env ] && cp ${path}/.env.example ${path}/.env || echo "exists"`);
+            if (stdout.includes('exists')) {
+                console.log(`${path}/.env already exists`);
+            } else {
+                console.log(`Created ${path}/.env from example`);
+            }
+        } catch (error) {
+            console.error(`Error handling .env in ${path}:`, error);
+        }
+    }
+    
 })()
