@@ -10,7 +10,7 @@ public sealed record GetProjectEnvironmentResponse(List<ProjectEnvironmentVariab
 
 public static class GetProjectEnvironmentRoute
 {
-    public const string Route = "{branch}";
+    public const string Route = "";
 
     public static RouteHandlerBuilder AddGetProjectEnvironmentRoute(this IEndpointRouteBuilder app)
     {
@@ -24,7 +24,7 @@ public static class GetProjectEnvironmentRoute
         IDefaultEnvironmentVariablesAppender variablesAppender)
     {
         var projectIdConverted = ProjectId.Create(projectId);
-        
+
         var environment = await projectRepository.GetProjectEnvironmentByBranchAsync(
             projectIdConverted,
             branch);
