@@ -32,6 +32,10 @@ public sealed class DefaultEnvironmentVariablesAppender(IProjectRepository proje
             current.AddIfNotFound(new(SystemType.Frontend, "VITE_BACKEND_URL", $"https://{backendUrl}"));
         }
 
+        current.AddIfNotFound(new(SystemType.Backend, "JWT__KEY", Guid.NewGuid().ToString()));
+        current.AddIfNotFound(new(SystemType.Backend, "JWT__ISSUER", "compozerr"));
+        current.AddIfNotFound(new(SystemType.Backend, "JWT__AUDIENCE", "compozerr"));
+
         return current;
     }
 }
