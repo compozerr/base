@@ -7,7 +7,7 @@ namespace Api.Data.Repositories;
 
 public interface IProjectRepository : IGenericRepository<Project, ProjectId, ApiDbContext>
 {
-    public Task<ProjectId> UpsertProjectEnvironmentAsync(ProjectId projectId, string branch, KeyValuePair<string, string>[] pairs);
+    public Task<ProjectId> UpsertProjectEnvironmentAsync(ProjectId projectId, string branch, ProjectEnvironmentVariableDto[] pairs);
     public Task<ProjectEnvironment?> GetProjectEnvironmentByBranchAsync(ProjectId projectId, string branch);
     public Task<List<Project>> GetProjectsForUserAsync(UserId userId);
     public Task<List<Project>> GetProjectsForUserAsync();
@@ -43,7 +43,7 @@ public sealed class ProjectRepository(
         return GetProjectsForUserAsync(userId);
     }
 
-    public async Task<ProjectId> UpsertProjectEnvironmentAsync(ProjectId projectId, string branch, KeyValuePair<string, string>[] pairs)
+    public async Task<ProjectId> UpsertProjectEnvironmentAsync(ProjectId projectId, string branch, ProjectEnvironmentVariableDto[] pairs)
     {
         var environment = await GetProjectEnvironmentByBranchAsync(projectId, branch);
 
@@ -63,9 +63,9 @@ public sealed class ProjectRepository(
             {
                 variables.Add(new ProjectEnvironmentVariable
                 {
+                    SystemType = pair.SystemType,
                     Key = pair.Key,
                     Value = pair.Value,
-
                 });
             }
             else
