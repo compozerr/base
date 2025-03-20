@@ -24,12 +24,12 @@ public sealed class DefaultEnvironmentVariablesAppender(IProjectRepository proje
 
         if (frontendUrl is { })
         {
-            current.AddIfNotFound(new(SystemType.Backend, "FRONTEND_URL", frontendUrl));
+            current.AddIfNotFound(new(SystemType.Backend, "FRONTEND_URL", $"https://{frontendUrl}"));
         }
 
         if (backendUrl is { })
         {
-            current.AddIfNotFound(new(SystemType.Frontend, "VITE_BACKEND_URL", backendUrl));
+            current.AddIfNotFound(new(SystemType.Frontend, "VITE_BACKEND_URL", $"https://{backendUrl}"));
         }
 
         return current;
