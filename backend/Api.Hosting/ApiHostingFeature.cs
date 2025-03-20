@@ -1,4 +1,5 @@
-﻿using Api.Hosting.Services;
+﻿using Api.Hosting.Endpoints.Projects.ProjectEnvironment;
+using Api.Hosting.Services;
 using Core.Feature;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -12,5 +13,6 @@ public class ApiHostingFeature : IFeature
         services.AddSingleton<ICryptoService, CryptoService>();
         services.AddTransient<IHostingServerHttpClientFactory, HostingServerHttpClientFactory>();
         services.AddTransient<IHostingApiFactory, HostingApiFactory>();
+        services.AddScoped<IDefaultEnvironmentVariablesAppender, DefaultEnvironmentVariablesAppender>();
     }
 }

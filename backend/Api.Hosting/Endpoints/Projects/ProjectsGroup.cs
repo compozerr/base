@@ -1,4 +1,5 @@
 using Api.Hosting.Endpoints.Projects.ProjectDomains;
+using Api.Hosting.Endpoints.Projects.ProjectEnvironment;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 
@@ -13,6 +14,7 @@ public static class ProjectsGroup
         var group = app.MapGroup(Route);
 
         group.AddProjectDomainsGroup();
+        group.AddProjectEnvironmentGroup();
 
         return group;
     }
