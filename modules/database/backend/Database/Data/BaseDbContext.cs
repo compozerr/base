@@ -49,7 +49,7 @@ public abstract class BaseDbContext<TDbContext>(
     {
         var entries = ChangeTracker
             .Entries()
-            .Where(e => e.Entity is BaseEntity && (
+            .Where(e => (e.Entity is BaseEntity || e.Entity.GetType().IsSubclassOf(typeof(BaseEntity))) && (
                 e.State == EntityState.Added
                 || e.State == EntityState.Modified));
 
