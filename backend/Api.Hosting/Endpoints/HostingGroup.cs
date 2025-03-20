@@ -15,14 +15,14 @@ public class HostingGroup : CarterModule
         WithTags(nameof(Hosting));
     }
 
-    private async Task<bool> HasValidApiKey(string apiKey, IServerRepository serverRepository)
+    private static async Task<bool> HasValidApiKey(string apiKey, IServerRepository serverRepository)
     {
         var server = await serverRepository.GetServerOrDefaultByTokenAsync(apiKey);
 
         return server is { };
     }
 
-    public async ValueTask<object?> ApiKeyMiddleware(EndpointFilterInvocationContext context, EndpointFilterDelegate next)
+    public static async ValueTask<object?> ApiKeyMiddleware(EndpointFilterInvocationContext context, EndpointFilterDelegate next)
     {
         var httpContext = context.HttpContext;
 
