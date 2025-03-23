@@ -25,6 +25,7 @@ public sealed class DefaultEnvironmentVariablesAppender(IProjectRepository proje
         if (frontendUrl is { })
         {
             current.AddIfNotFound(new(SystemType.Backend, "FRONTEND_URL", $"https://{frontendUrl}"));
+            current.AddIfNotFound(new(SystemType.Backend, "CORS__ALLOWED_ORIGINS", $"https://{frontendUrl}"));
         }
 
         if (backendUrl is { })
