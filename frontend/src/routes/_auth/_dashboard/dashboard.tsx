@@ -1,10 +1,8 @@
-import * as React from 'react'
-import { createFileRoute } from '@tanstack/react-router'
 import { MetricsCard } from '@/components/metrics-card'
-import { ServicesTable } from '@/components/services-table'
 import { StatsChart } from '@/components/stats-chart'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
+import { createFileRoute } from '@tanstack/react-router'
 import { ChevronDown } from 'lucide-react'
 
 export const Route = createFileRoute('/_auth/_dashboard/dashboard')({
@@ -67,7 +65,6 @@ function RouteComponent() {
         <StatsChart />
       </Card>
       <div className="mt-6">
-        <ServicesTable />
       </div>
     </main>
   )

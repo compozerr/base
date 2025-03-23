@@ -856,7 +856,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": components["schemas"]["GetProjectResponse"][];
+                        "application/json": components["schemas"]["GetProjectsResponse"];
                     };
                 };
             };
@@ -1022,6 +1022,8 @@ export interface components {
             variables?: components["schemas"]["ProjectEnvironmentVariableDto"][] | null;
         };
         GetProjectResponse: {
+            /** Format: uuid */
+            id?: string;
             name?: string | null;
             repoName?: string | null;
             state?: components["schemas"]["State"];
@@ -1029,6 +1031,15 @@ export interface components {
             vCpuHours?: number;
             /** Format: date-time */
             startDate?: string;
+        };
+        GetProjectsResponse: {
+            /** Format: int32 */
+            totalProjectsCount?: number;
+            /** Format: int32 */
+            runningProjectsCount?: number;
+            /** Format: double */
+            totalVCpuHours?: number;
+            projects?: components["schemas"]["GetProjectResponse"][] | null;
         };
         IDomainEvent: Record<string, never>;
         InstallationDto: {

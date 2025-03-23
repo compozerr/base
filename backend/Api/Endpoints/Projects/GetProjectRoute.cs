@@ -6,6 +6,7 @@ using Auth.Services;
 namespace Api.Endpoints.Projects;
 
 public sealed record GetProjectResponse(
+    Guid Id,
     string Name,
     string RepoName,
     State State,
@@ -36,6 +37,7 @@ public static class GetProjectRoute
         }
 
         return new GetProjectResponse(
+            project.Id.Value,
             project.Name,
             RepoUri.Parse(project.RepoUri).RepoName,
             State.Running,

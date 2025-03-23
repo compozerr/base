@@ -13,19 +13,18 @@ import {
 } from '@/components/ui/select'
 import { Formatter } from '@/lib/formatter'
 import { getLink } from '@/links'
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, useRouter } from '@tanstack/react-router'
 import { MoreVertical, Pause, Play, Plus, RotateCw, Search } from 'lucide-react'
 
 
 export const Route = createFileRoute('/_auth/_dashboard/projects/')({
     component: RouteComponent,
-    loader: () => {
-        return api.v1.getProjects.fetchQuery()
-    },
+    loader: () => api.v1.getProjects.fetchQuery(),
 })
 
 function RouteComponent() {
-    const projects = Route.useLoaderData();
+    const projectsData = Route.useLoaderData();
+    const router = useRouter();
 
     return (
         <div className="mx-auto">
@@ -37,9 +36,9 @@ function RouteComponent() {
             </header>
 
             <div className="grid gap-6 md:grid-cols-3 mb-8">
-                <DashboardCard title="Total Services" value="3" />
-                <DashboardCard title="Running Services" value="1" />
-                <DashboardCard title="Total vCPU Hours" value="246.4" />
+                <DashboardCard title="Total Projects" value={projectsData.totalProjectsCount!.toString()} />
+                <DashboardCard title="Running Projects" value={projectsData.runningProjectsCount!.toString()} />
+                <DashboardCard title="Total vCPU Hours" value={projectsData.totalVCpuHours!.toFixed(2)} />
             </div>
 
             <div className="bg-card rounded-lg shadow-sm p-6">
@@ -47,14 +46,14 @@ function RouteComponent() {
                     <div className="flex items-center w-full md:w-auto">
                         <div className="relative max-w-sm mr-2">
                             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                            <Input placeholder="Search services..." className="pl-9" />
+                            <Input placeholder="Search projects..." className="pl-9" />
                         </div>
                         <Select defaultValue="all">
                             <SelectTrigger className="w-[180px]">
                                 <SelectValue placeholder="Filter by status" />
                             </SelectTrigger>
                             <SelectContent>
-                                <SelectItem value="all">All Services</SelectItem>
+                                <SelectItem value="all">All Projects</SelectItem>
                                 <SelectItem value="running">Running</SelectItem>
                                 <SelectItem value="stopped">Stopped</SelectItem>
                                 <SelectItem value="starting">Starting</SelectItem>
@@ -65,7 +64,11 @@ function RouteComponent() {
                         <Plus className="mr-2 h-4 w-4" /> Add New Service
                     </Button>
                 </div>
-                <DataTable isLoading={false} data={projects} columns={[
+                <DataTable onRowClick={(row) => {
+                    if (!row.id) return;
+
+                    router.navigate({ to: `/projects/${row.id}` });
+                }} isLoading={false} data={projectsData.projects} columns={[
                     {
                         accessorKey: 'name',
                         header: 'Project',

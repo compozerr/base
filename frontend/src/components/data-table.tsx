@@ -7,9 +7,10 @@ interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
   isLoading: boolean
+  onRowClick?: (row: TData) => void | Promise<void>
 }
 
-export function DataTable<TData, TValue>({ columns, data, isLoading }: DataTableProps<TData, TValue>) {
+export function DataTable<TData, TValue>({ columns, data, isLoading, onRowClick }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
     columns,
@@ -34,7 +35,9 @@ export function DataTable<TData, TValue>({ columns, data, isLoading }: DataTable
           <TableBody>
             {isLoading ? <LoadingRows colCount={table.getAllColumns().length} /> : table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
+                <TableRow key={row.id} data-state={row.getIsSelected() && "selected"} onClick={
+                  onRowClick ? () => onRowClick(row.original) : undefined
+                } className={onRowClick ? "hover:cursor-pointer" : ""}>
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id} className="px-2 py-2">
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}

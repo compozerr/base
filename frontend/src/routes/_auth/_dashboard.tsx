@@ -1,30 +1,19 @@
 import { Button } from '@/components/ui/button'
-import { Card } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { MetricsCard } from '@/components/metrics-card'
-import { StatsChart } from '@/components/stats-chart'
-import { ServicesTable } from '@/components/services-table'
-import {
-  BarChart3,
-  ChevronDown,
-  Globe,
-  Home,
-  LayoutDashboard,
-  LifeBuoy,
-  Settings,
-  Server,
-  LogOut,
-  FileText,
-} from 'lucide-react'
-import * as React from 'react'
+import { useAuth } from '@/hooks/use-dynamic-auth'
+import { getLink } from '@/links'
 import {
   createFileRoute,
   Outlet,
   useNavigate,
   useRouter,
 } from '@tanstack/react-router'
-import { useAuth } from '@/hooks/use-dynamic-auth'
-import { getLink } from '@/links'
+import {
+  FileText,
+  Home,
+  LayoutDashboard,
+  LogOut,
+  Settings
+} from 'lucide-react'
 
 export const Route = createFileRoute('/_auth/_dashboard')({
   component: RouteComponent,
