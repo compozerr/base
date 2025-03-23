@@ -1,6 +1,9 @@
 
-import * as React from 'react'
-import { createFileRoute } from '@tanstack/react-router'
+import { api } from '@/api-client'
+import { DataTable } from '@/components/data-table'
+import { Button } from '@/components/ui/button'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
+import { Input } from '@/components/ui/input'
 import {
     Select,
     SelectContent,
@@ -8,18 +11,22 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select'
-import { ServicesTable } from '@/components/services-table'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Search, Plus } from 'lucide-react'
+import { Formatter } from '@/lib/formatter'
 import { getLink } from '@/links'
+import { createFileRoute } from '@tanstack/react-router'
+import { MoreVertical, Pause, Play, Plus, RotateCw, Search } from 'lucide-react'
 
 
 export const Route = createFileRoute('/_auth/_dashboard/projects/')({
     component: RouteComponent,
+    loader: () => {
+        return api.v1.getProjects.fetchQuery()
+    },
 })
 
 function RouteComponent() {
+    const projects = Route.useLoaderData();
+
     return (
         <div className="mx-auto">
             <header className="mb-8">
@@ -58,7 +65,88 @@ function RouteComponent() {
                         <Plus className="mr-2 h-4 w-4" /> Add New Service
                     </Button>
                 </div>
-                <ServicesTable />
+                <DataTable isLoading={false} data={projects} columns={[
+                    {
+                        accessorKey: 'name',
+                        header: 'Project',
+                        cell: ({ row }) => {
+                            return <div className="flex items-center gap-2">
+
+                                <div>
+                                    <div className="font-medium">{row.original.name}</div>
+                                    <div className="text-xs text-muted-foreground">{row.original.repoName}</div>
+                                </div>
+                            </div>
+                        }
+                    },
+                    {
+                        accessorKey: "state",
+                        header: "State",
+                        cell: ({ row }) => {
+                            const state = row.original.state === 1 ? "Running" : row.original.state === 2 ? "Stopped" : "Starting"
+
+                            return (<span
+                                className={`inline-flex items-center rounded-full px-2 py-1 text-xs ${state === "Running"
+                                    ? "bg-green-500/10 text-green-500"
+                                    : state === "Stopped"
+                                        ? "bg-red-500/10 text-red-500"
+                                        : "bg-yellow-500/10 text-yellow-500"
+                                    }`}
+                            >
+                                {state}
+                            </span>)
+                        }
+                    },
+                    {
+                        accessorKey: "vCpuHours",
+                        header: "vCPU Hours",
+                        cell: ({ row }) => <span>{row.original.vCpuHours?.toFixed(2)}</span>
+                    },
+                    {
+                        accessorKey: "startDate",
+                        header: "Start date",
+                        cell: ({ row }) => <span>{Formatter.fromDate(row.original.startDate)}</span>
+                    },
+                    {
+                        accessorKey: "",
+                        header: "Actions",
+                        cell: ({ row }) => {
+                            const state = row.original.state === 1 ? "Running" : row.original.state === 2 ? "Stopped" : "Starting"
+
+                            return (
+                                <div className="flex gap-2">
+                                    {state === "Running" ? (
+                                        <Button size="sm" variant="ghost">
+                                            <Pause className="h-4 w-4" />
+                                        </Button>
+                                    ) : state === "Stopped" ? (
+                                        <Button size="sm" variant="ghost">
+                                            <Play className="h-4 w-4" />
+                                        </Button>
+                                    ) : (
+                                        <Button size="sm" variant="ghost">
+                                            <RotateCw className="h-4 w-4" />
+                                        </Button>
+                                    )}
+                                    <DropdownMenu>
+                                        <DropdownMenuTrigger asChild>
+                                            <Button variant="ghost" size="sm">
+                                                <MoreVertical className="h-4 w-4" />
+                                            </Button>
+                                        </DropdownMenuTrigger>
+                                        <DropdownMenuContent align="end">
+                                            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                                            <DropdownMenuItem>View Details</DropdownMenuItem>
+                                            <DropdownMenuItem>Edit Service</DropdownMenuItem>
+                                            <DropdownMenuSeparator />
+                                            <DropdownMenuItem className="text-red-600">Delete Service</DropdownMenuItem>
+                                        </DropdownMenuContent>
+                                    </DropdownMenu>
+                                </div>
+                            )
+                        }
+                    }
+                ]} />
             </div>
         </div>
     )

@@ -797,6 +797,78 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/projects/{projectId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    projectId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["GetProjectResponse"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/projects": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["GetProjectResponse"][];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/servers": {
         parameters: {
             query?: never;
@@ -949,6 +1021,15 @@ export interface components {
         GetProjectEnvironmentResponse: {
             variables?: components["schemas"]["ProjectEnvironmentVariableDto"][] | null;
         };
+        GetProjectResponse: {
+            name?: string | null;
+            repoName?: string | null;
+            state?: components["schemas"]["State"];
+            /** Format: double */
+            vCpuHours?: number;
+            /** Format: date-time */
+            startDate?: string;
+        };
         IDomainEvent: Record<string, never>;
         InstallationDto: {
             installationId?: string | null;
@@ -990,6 +1071,11 @@ export interface components {
             installationId?: string | null;
             type?: components["schemas"]["DefaultInstallationIdSelectionType"];
         };
+        /**
+         * Format: int32
+         * @enum {integer}
+         */
+        State: 0 | 1 | 2 | 3;
         "String<>f__AnonymousType0": {
             installUrl?: string | null;
         };
