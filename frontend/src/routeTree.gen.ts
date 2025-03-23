@@ -18,10 +18,10 @@ import { Route as AuthImport } from './../../modules/auth/frontend/src/routes/_a
 import { Route as IndexImport } from './routes/index'
 import { Route as ExampleIndexImport } from './../../modules/template/frontend/src/routes/example/index'
 import { Route as AuthLogoutImport } from './../../modules/auth/frontend/src/routes/_auth/logout'
-import { Route as AuthDashboardImport } from './routes/_auth/dashboard'
-import { Route as AuthDashboardIndexImport } from './routes/_auth/dashboard/index'
-import { Route as AuthDashboardSettingsImport } from './routes/_auth/dashboard/settings'
-import { Route as AuthDashboardServicesImport } from './routes/_auth/dashboard/services'
+import { Route as AuthDashboardImport } from './routes/_auth/_dashboard'
+import { Route as AuthDashboardSettingsImport } from './routes/_auth/_dashboard/settings'
+import { Route as AuthDashboardProjectsImport } from './routes/_auth/_dashboard/projects'
+import { Route as AuthDashboardDashboardImport } from './routes/_auth/_dashboard/dashboard'
 
 // Create/Update Routes
 
@@ -67,15 +67,8 @@ const AuthLogoutRoute = AuthLogoutImport.update({
 } as any)
 
 const AuthDashboardRoute = AuthDashboardImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
+  id: '/_dashboard',
   getParentRoute: () => AuthRoute,
-} as any)
-
-const AuthDashboardIndexRoute = AuthDashboardIndexImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => AuthDashboardRoute,
 } as any)
 
 const AuthDashboardSettingsRoute = AuthDashboardSettingsImport.update({
@@ -84,9 +77,15 @@ const AuthDashboardSettingsRoute = AuthDashboardSettingsImport.update({
   getParentRoute: () => AuthDashboardRoute,
 } as any)
 
-const AuthDashboardServicesRoute = AuthDashboardServicesImport.update({
-  id: '/services',
-  path: '/services',
+const AuthDashboardProjectsRoute = AuthDashboardProjectsImport.update({
+  id: '/projects',
+  path: '/projects',
+  getParentRoute: () => AuthDashboardRoute,
+} as any)
+
+const AuthDashboardDashboardRoute = AuthDashboardDashboardImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
   getParentRoute: () => AuthDashboardRoute,
 } as any)
 
@@ -129,10 +128,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UsingModuleComponentImport
       parentRoute: typeof rootRoute
     }
-    '/_auth/dashboard': {
-      id: '/_auth/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
+    '/_auth/_dashboard': {
+      id: '/_auth/_dashboard'
+      path: ''
+      fullPath: ''
       preLoaderRoute: typeof AuthDashboardImport
       parentRoute: typeof AuthImport
     }
@@ -150,25 +149,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ExampleIndexImport
       parentRoute: typeof rootRoute
     }
-    '/_auth/dashboard/services': {
-      id: '/_auth/dashboard/services'
-      path: '/services'
-      fullPath: '/dashboard/services'
-      preLoaderRoute: typeof AuthDashboardServicesImport
+    '/_auth/_dashboard/dashboard': {
+      id: '/_auth/_dashboard/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AuthDashboardDashboardImport
       parentRoute: typeof AuthDashboardImport
     }
-    '/_auth/dashboard/settings': {
-      id: '/_auth/dashboard/settings'
+    '/_auth/_dashboard/projects': {
+      id: '/_auth/_dashboard/projects'
+      path: '/projects'
+      fullPath: '/projects'
+      preLoaderRoute: typeof AuthDashboardProjectsImport
+      parentRoute: typeof AuthDashboardImport
+    }
+    '/_auth/_dashboard/settings': {
+      id: '/_auth/_dashboard/settings'
       path: '/settings'
-      fullPath: '/dashboard/settings'
+      fullPath: '/settings'
       preLoaderRoute: typeof AuthDashboardSettingsImport
-      parentRoute: typeof AuthDashboardImport
-    }
-    '/_auth/dashboard/': {
-      id: '/_auth/dashboard/'
-      path: '/'
-      fullPath: '/dashboard/'
-      preLoaderRoute: typeof AuthDashboardIndexImport
       parentRoute: typeof AuthDashboardImport
     }
   }
@@ -177,15 +176,15 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 interface AuthDashboardRouteChildren {
-  AuthDashboardServicesRoute: typeof AuthDashboardServicesRoute
+  AuthDashboardDashboardRoute: typeof AuthDashboardDashboardRoute
+  AuthDashboardProjectsRoute: typeof AuthDashboardProjectsRoute
   AuthDashboardSettingsRoute: typeof AuthDashboardSettingsRoute
-  AuthDashboardIndexRoute: typeof AuthDashboardIndexRoute
 }
 
 const AuthDashboardRouteChildren: AuthDashboardRouteChildren = {
-  AuthDashboardServicesRoute: AuthDashboardServicesRoute,
+  AuthDashboardDashboardRoute: AuthDashboardDashboardRoute,
+  AuthDashboardProjectsRoute: AuthDashboardProjectsRoute,
   AuthDashboardSettingsRoute: AuthDashboardSettingsRoute,
-  AuthDashboardIndexRoute: AuthDashboardIndexRoute,
 }
 
 const AuthDashboardRouteWithChildren = AuthDashboardRoute._addFileChildren(
@@ -206,29 +205,28 @@ const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '': typeof AuthRouteWithChildren
+  '': typeof AuthDashboardRouteWithChildren
   '/about': typeof AboutRoute
   '/login': typeof LoginRoute
   '/using-module-component': typeof UsingModuleComponentRoute
-  '/dashboard': typeof AuthDashboardRouteWithChildren
   '/logout': typeof AuthLogoutRoute
   '/example': typeof ExampleIndexRoute
-  '/dashboard/services': typeof AuthDashboardServicesRoute
-  '/dashboard/settings': typeof AuthDashboardSettingsRoute
-  '/dashboard/': typeof AuthDashboardIndexRoute
+  '/dashboard': typeof AuthDashboardDashboardRoute
+  '/projects': typeof AuthDashboardProjectsRoute
+  '/settings': typeof AuthDashboardSettingsRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '': typeof AuthRouteWithChildren
+  '': typeof AuthDashboardRouteWithChildren
   '/about': typeof AboutRoute
   '/login': typeof LoginRoute
   '/using-module-component': typeof UsingModuleComponentRoute
   '/logout': typeof AuthLogoutRoute
   '/example': typeof ExampleIndexRoute
-  '/dashboard/services': typeof AuthDashboardServicesRoute
-  '/dashboard/settings': typeof AuthDashboardSettingsRoute
-  '/dashboard': typeof AuthDashboardIndexRoute
+  '/dashboard': typeof AuthDashboardDashboardRoute
+  '/projects': typeof AuthDashboardProjectsRoute
+  '/settings': typeof AuthDashboardSettingsRoute
 }
 
 export interface FileRoutesById {
@@ -238,12 +236,12 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/login': typeof LoginRoute
   '/using-module-component': typeof UsingModuleComponentRoute
-  '/_auth/dashboard': typeof AuthDashboardRouteWithChildren
+  '/_auth/_dashboard': typeof AuthDashboardRouteWithChildren
   '/_auth/logout': typeof AuthLogoutRoute
   '/example/': typeof ExampleIndexRoute
-  '/_auth/dashboard/services': typeof AuthDashboardServicesRoute
-  '/_auth/dashboard/settings': typeof AuthDashboardSettingsRoute
-  '/_auth/dashboard/': typeof AuthDashboardIndexRoute
+  '/_auth/_dashboard/dashboard': typeof AuthDashboardDashboardRoute
+  '/_auth/_dashboard/projects': typeof AuthDashboardProjectsRoute
+  '/_auth/_dashboard/settings': typeof AuthDashboardSettingsRoute
 }
 
 export interface FileRouteTypes {
@@ -254,12 +252,11 @@ export interface FileRouteTypes {
     | '/about'
     | '/login'
     | '/using-module-component'
-    | '/dashboard'
     | '/logout'
     | '/example'
-    | '/dashboard/services'
-    | '/dashboard/settings'
-    | '/dashboard/'
+    | '/dashboard'
+    | '/projects'
+    | '/settings'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -269,9 +266,9 @@ export interface FileRouteTypes {
     | '/using-module-component'
     | '/logout'
     | '/example'
-    | '/dashboard/services'
-    | '/dashboard/settings'
     | '/dashboard'
+    | '/projects'
+    | '/settings'
   id:
     | '__root__'
     | '/'
@@ -279,12 +276,12 @@ export interface FileRouteTypes {
     | '/about'
     | '/login'
     | '/using-module-component'
-    | '/_auth/dashboard'
+    | '/_auth/_dashboard'
     | '/_auth/logout'
     | '/example/'
-    | '/_auth/dashboard/services'
-    | '/_auth/dashboard/settings'
-    | '/_auth/dashboard/'
+    | '/_auth/_dashboard/dashboard'
+    | '/_auth/_dashboard/projects'
+    | '/_auth/_dashboard/settings'
   fileRoutesById: FileRoutesById
 }
 
@@ -330,7 +327,7 @@ export const routeTree = rootRoute
     "/_auth": {
       "filePath": "../../../modules/auth/frontend/src/routes/_auth.tsx",
       "children": [
-        "/_auth/dashboard",
+        "/_auth/_dashboard",
         "/_auth/logout"
       ]
     },
@@ -343,13 +340,13 @@ export const routeTree = rootRoute
     "/using-module-component": {
       "filePath": "./using-module-component.tsx"
     },
-    "/_auth/dashboard": {
-      "filePath": "./_auth/dashboard.tsx",
+    "/_auth/_dashboard": {
+      "filePath": "./_auth/_dashboard.tsx",
       "parent": "/_auth",
       "children": [
-        "/_auth/dashboard/services",
-        "/_auth/dashboard/settings",
-        "/_auth/dashboard/"
+        "/_auth/_dashboard/dashboard",
+        "/_auth/_dashboard/projects",
+        "/_auth/_dashboard/settings"
       ]
     },
     "/_auth/logout": {
@@ -359,17 +356,17 @@ export const routeTree = rootRoute
     "/example/": {
       "filePath": "../../../modules/template/frontend/src/routes/example/index.tsx"
     },
-    "/_auth/dashboard/services": {
-      "filePath": "./_auth/dashboard/services.tsx",
-      "parent": "/_auth/dashboard"
+    "/_auth/_dashboard/dashboard": {
+      "filePath": "./_auth/_dashboard/dashboard.tsx",
+      "parent": "/_auth/_dashboard"
     },
-    "/_auth/dashboard/settings": {
-      "filePath": "./_auth/dashboard/settings.tsx",
-      "parent": "/_auth/dashboard"
+    "/_auth/_dashboard/projects": {
+      "filePath": "./_auth/_dashboard/projects.tsx",
+      "parent": "/_auth/_dashboard"
     },
-    "/_auth/dashboard/": {
-      "filePath": "./_auth/dashboard/index.tsx",
-      "parent": "/_auth/dashboard"
+    "/_auth/_dashboard/settings": {
+      "filePath": "./_auth/_dashboard/settings.tsx",
+      "parent": "/_auth/_dashboard"
     }
   }
 }
