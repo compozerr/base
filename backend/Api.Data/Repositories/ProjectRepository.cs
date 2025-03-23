@@ -1,3 +1,4 @@
+using System.IO.Compression;
 using Auth.Abstractions;
 using Auth.Services;
 using Database.Repositories;
@@ -33,6 +34,7 @@ public sealed class ProjectRepository(
 
     public Task<List<Project>> GetProjectsForUserAsync(UserId userId)
         => _context.Projects
+                .Include(x=>x.Domains)
                 .Where(x => x.UserId == userId)
                 .ToListAsync();
 

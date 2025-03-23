@@ -1031,6 +1031,8 @@ export interface components {
             vCpuHours?: number;
             /** Format: date-time */
             startDate?: string;
+            domains?: string[] | null;
+            primaryDomain?: string | null;
         };
         GetProjectsResponse: {
             /** Format: int32 */

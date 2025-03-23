@@ -9,4 +9,6 @@ public class Domain : BaseEntityWithId<DomainId>
     public required string Port { get; set; }
 
     public virtual Project? Project { get; set; }
+
+    public virtual string GetValue => string.Empty;
 }

@@ -30,7 +30,10 @@ public static class GetProjectsRoute
                 RepoUri.Parse(p.RepoUri).RepoName,
                 State.Running,
                 0.5m,
-                p.UpdatedAtUtc ?? DateTime.Now))];
+                p.UpdatedAtUtc ?? DateTime.Now,
+                [.. p.Domains?.Select(x => x.GetValue) ?? []],
+                p.Domains!.FirstOrDefault()?.GetValue ?? "Unknown")
+            )];
 
         var totalProjectsCount = projectsDto.Count;
         var runningProjectsCount = projectsDto.Sum(x => x.State == State.Running ? 1 : 0);

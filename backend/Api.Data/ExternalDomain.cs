@@ -8,4 +8,6 @@ public sealed class ExternalDomain : Domain
     }
 
     public required string Value { get; set; }
+
+    public override string GetValue => Value;
 }

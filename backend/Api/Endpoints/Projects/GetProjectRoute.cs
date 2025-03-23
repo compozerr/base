@@ -11,7 +11,9 @@ public sealed record GetProjectResponse(
     string RepoName,
     State State,
     decimal VCpuHours,
-    DateTime StartDate);
+    DateTime StartDate,
+    List<string> Domains,
+    string? PrimaryDomain);
 
 public static class GetProjectRoute
 {
@@ -29,7 +31,7 @@ public static class GetProjectRoute
     {
         var projectIdConverted = ProjectId.Create(projectId);
 
-        var project = await projectRepository.GetByIdAsync(projectIdConverted) ?? throw new ArgumentException("Project not found");
+        var project = await projectRepository.GetProjectByIdWithDomainsAsync(projectIdConverted) ?? throw new ArgumentException("Project not found");
 
         if (project.UserId != currentUserAccessor.CurrentUserId)
         {
@@ -42,6 +44,9 @@ public static class GetProjectRoute
             RepoUri.Parse(project.RepoUri).RepoName,
             State.Running,
             0.5m,
-            project.UpdatedAtUtc ?? DateTime.Now);
+            project.UpdatedAtUtc ?? DateTime.Now,
+            [.. project.Domains?.Select(x => x.GetValue) ?? []],
+            project.Domains!.FirstOrDefault()?.GetValue
+        );
     }
 }
