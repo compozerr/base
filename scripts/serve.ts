@@ -24,7 +24,7 @@ for (const module of modulesWithDockerComposeFile) {
 const moduleComposeContextsEnvironmentVars = Object.entries(moduleComposeContexts).map(([name, path]) => `COMPOSE_${name.toUpperCase()}_CONTEXT=${path}`).join(" ");
 
 const commandFlags = `-f ${dockerComposeFiles.join(" -f ")}`
-const upCommand = `${moduleComposeContextsEnvironmentVars} docker-compose ${commandFlags} up --force-recreate${Deno.args.includes("--no-build") ? "" : " --build"}${Deno.args.includes("-d") ? " -d" : ""}`;
+const upCommand = `${moduleComposeContextsEnvironmentVars} docker-compose ${commandFlags} up${Deno.args.includes("--no-build") ? "" : " --build"}${Deno.args.includes("-d") ? " -d" : ""}`;
 
 console.log({ upCommand })
 
