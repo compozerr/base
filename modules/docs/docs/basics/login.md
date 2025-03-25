@@ -2,7 +2,7 @@
 sidebar_position: 1
 ---
 
-# Logging in
+# Login
 
 To use the `compozerr` CLI, you need to be logged in to your compozerr account. This allows you to deploy your projects and modules, as well as access other features.
 

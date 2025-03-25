@@ -1,10 +1,9 @@
 {
     "type": "module",
     "name": "docs",
-    "start": "docker-compose up",
-    "end": "docker-compose down",
+    "start": "npm run dev",
     "dockerComposeFile": "docker-compose.yml",
     "port": "1236",
-    "readyMessage": "Accepting connections at",
+    "readyMessage": "Docusaurus website is running at",
     "startupTimeoutMs": 50000
 }
