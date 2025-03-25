@@ -869,6 +869,81 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/projects/{projectId}/deployments": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    projectId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["GetDeploymentResponse"][];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/projects/{projectId}/deployments/{deploymentId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    projectId: string;
+                    deploymentId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["GetDeploymentResponse"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/servers": {
         parameters: {
             query?: never;
@@ -1002,10 +1077,28 @@ export interface components {
         DeployProjectResponse: {
             statusUrl?: string | null;
         };
+        /**
+         * Format: int32
+         * @enum {integer}
+         */
+        DeploymentStatus: 0 | 1 | 2 | 3 | 4;
         DomainDto: {
             serviceName?: string | null;
             port?: string | null;
             value?: string | null;
+        };
+        GetDeploymentResponse: {
+            /** Format: uuid */
+            id?: string;
+            status?: components["schemas"]["DeploymentStatus"];
+            environment?: string | null;
+            branch?: string | null;
+            commitHash?: string | null;
+            commitMessage?: string | null;
+            /** Format: date-time */
+            createdAt?: string;
+            creator?: string | null;
+            isCurrent?: boolean;
         };
         GetExampleResponse: {
             message?: string | null;

@@ -7,12 +7,17 @@ namespace Api.Data.Repositories;
 public interface IDeploymentRepository : IGenericRepository<Deployment, DeploymentId, ApiDbContext>
 {
     public Task<List<Deployment>> GetDeploymentsForUserAsync(UserId userId);
+    public Task<List<Deployment>> GetByProjectIdAsync(ProjectId projectId);
 }
 
 public sealed class DeploymentRepository(
     ApiDbContext context) : GenericRepository<Deployment, DeploymentId, ApiDbContext>(context), IDeploymentRepository
 {
     private readonly ApiDbContext _context = context;
+
+    public Task<List<Deployment>> GetByProjectIdAsync(ProjectId projectId)
+        => _context.Deployments.Where(x => x.ProjectId == projectId)
+                               .ToListAsync();
 
     public Task<List<Deployment>> GetDeploymentsForUserAsync(UserId userId)
         => _context.Deployments

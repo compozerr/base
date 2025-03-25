@@ -88,7 +88,7 @@ function RouteComponent() {
                             const key = parts[0]?.trim()
                             const value = parts.slice(1).join("=").trim()
                             // Assume variables with "KEY", "SECRET", "PASSWORD", or "TOKEN" are secrets
-                            if(!key) return;
+                            if (!key) return;
                             const isSecret = /key|secret|password|token/i.test(key)
                             newVars.push({ key, value, isSecret })
                         }
@@ -136,7 +136,7 @@ function RouteComponent() {
                             <Separator className="my-4" />
 
                             <div className="space-y-4">
-                                <h3 className="text-lg font-medium">Project Status</h3>
+                                <h3 className="text-lg font-medium">Deployment</h3>
                                 <div className="flex items-center justify-between">
                                     <div className="space-y-0.5">
                                         <Label htmlFor="auto-deploy">Auto Deploy</Label>
@@ -146,13 +146,6 @@ function RouteComponent() {
                                     </div>
                                     <Switch id="auto-deploy" defaultChecked />
                                 </div>
-                                <div className="flex items-center justify-between">
-                                    <div className="space-y-0.5">
-                                        <Label htmlFor="preview-deployments">Preview Deployments</Label>
-                                        <p className="text-sm text-muted-foreground">Create preview deployments for pull requests.</p>
-                                    </div>
-                                    <Switch id="preview-deployments" defaultChecked />
-                                </div>
                             </div>
                         </CardContent>
                         <CardFooter>
@@ -160,7 +153,7 @@ function RouteComponent() {
                         </CardFooter>
                     </Card>
 
-                    <Card>
+                    {/* <Card>
                         <CardHeader>
                             <CardTitle>Danger Zone</CardTitle>
                             <CardDescription>Irreversible and destructive actions.</CardDescription>
@@ -184,7 +177,7 @@ function RouteComponent() {
                                 <Button variant="destructive">Delete</Button>
                             </div>
                         </CardContent>
-                    </Card>
+                    </Card> */}
                 </TabsContent>
 
                 <TabsContent value="environment" className="space-y-4 mt-6">
