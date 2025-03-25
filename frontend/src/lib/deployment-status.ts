@@ -1,9 +1,9 @@
 export enum DeploymentStatus {
-    Unknown = 0,
-    Deploying = 1,
-    Completed = 2,
-    Queued = 3,
-    Failed = 4
+    Unknown = "Unknown",
+    Deploying = "Deploying",
+    Completed = "Completed",
+    Queued = "Queued",
+    Failed = "Failed"
 }
 
 export function getDeploymentStatusFromNumber(stateNum?: number): DeploymentStatus {

@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useTimeAgo } from '@/hooks/useTimeAgo'
 import { DeploymentStatus, getDeploymentStatusFromNumber } from "@/lib/deployment-status"
+import { Formatter } from "@/lib/formatter"
 import { createFileRoute, useRouter } from '@tanstack/react-router'
 import { motion } from "framer-motion"
 import {
@@ -119,12 +120,12 @@ function RouteComponent() {
                     {deployments.map((deployment) => {
                         const timeAgo = useTimeAgo(deployment.createdAt!);
                         return (
-                            <div key={deployment.id} className="flex items-center justify-between py-4 px-4 border-b hover:bg-muted/50">
+                            <div key={deployment.id} className="flex items-center justify-between py-4 px-4 border-b bg-muted/50 hover:bg-muted/70">
                                 <div className="flex-1 min-w-0">
                                     <div className="flex items-center">
                                         <div className="min-w-0 flex-1">
-                                            <div className="flex items-center gap-2">
-                                                <span className="font-mono text-sm">{deployment.id}</span>
+                                            <div className="flex items-start flex-col">
+                                                <span className="font-mono text-sm">{deployment.id?.substring(0, 8)}</span>
                                                 {deployment.environment === "Production" && (
                                                     <div className="flex items-center">
                                                         {deployment.isCurrent && (
@@ -146,26 +147,26 @@ function RouteComponent() {
                                 <div className="flex items-center gap-2 flex-1">
                                     <div className="flex items-center">
                                         {getStatusDot(getDeploymentStatusFromNumber(deployment.status))}
-                                        <span>{deployment.status}</span>
+                                        <span>{getDeploymentStatusFromNumber(deployment.status)}</span>
                                     </div>
                                     <div className="text-sm text-muted-foreground">{timeAgo}</div>
                                 </div>
 
-                                <div className="flex items-center gap-2 flex-1 flex-col">
+                                <div className="flex items-start flex-1 flex-col">
                                     <div className="flex items-center gap-1">
-                                        <GitBranchIcon className="h-4 w-4 text-muted-foreground" />
+                                        <GitBranchIcon className="h-4 w-4 py-[2px] text-muted-foreground" />
                                         <span>{deployment.branch}</span>
                                     </div>
                                     <div className="flex items-center gap-1 text-sm text-muted-foreground">
                                         <GitCommitIcon className="h-4 w-4" />
-                                        <span className="font-mono">{deployment.commitHash}</span>
+                                        <span className="font-mono">{deployment.commitHash?.substring(0, 6)}</span>
                                         <span>{deployment.commitMessage}</span>
                                     </div>
                                 </div>
 
                                 <div className="flex items-center gap-4">
-                                    <div className="text-sm text-muted-foreground text-right">
-                                        <div>{deployment.createdAt}</div>
+                                    <div className="text-sm text-muted-foreground text-right flex flex-col">
+                                        <div>{Formatter.fromDate(deployment.createdAt, "long")}</div>
                                         <div>by {deployment.creator}</div>
                                     </div>
 

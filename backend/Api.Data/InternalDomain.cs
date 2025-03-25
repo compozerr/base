@@ -9,7 +9,7 @@ public sealed class InternalDomain : Domain
 
     public required string Subdomain { get; set; } = string.Empty;
 
-    public string Value => $"{Subdomain}.sites.{Project!.Server!.HostName}.compozerr.com";
+    public string Value => $"{Subdomain}.sites.{Project?.Server?.HostName}.compozerr.com";
 
     public override string GetValue => Value;
 }
