@@ -13,7 +13,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useTimeAgo } from '@/hooks/useTimeAgo'
 import { DeploymentStatus, getDeploymentStatusFromNumber } from "@/lib/deployment-status"
 import { Formatter } from "@/lib/formatter"
-import { createFileRoute, useRouter } from '@tanstack/react-router'
+import { createFileRoute, useParams, useRouter } from '@tanstack/react-router'
 import { motion } from "framer-motion"
 import {
     CalendarIcon,
@@ -35,6 +35,7 @@ export const Route = createFileRoute(
 
 function RouteComponent() {
     const router = useRouter();
+    const { projectId } = Route.useParams();
     const deployments = Route.useLoaderData();
 
     const getStatusDot = (status: DeploymentStatus) => {
@@ -120,7 +121,10 @@ function RouteComponent() {
                     {deployments.map((deployment) => {
                         const timeAgo = useTimeAgo(deployment.createdAt!);
                         return (
-                            <div key={deployment.id} className="flex items-center justify-between py-4 px-4 border-b bg-muted/50 hover:bg-muted/70">
+                            <div key={deployment.id} className="flex items-center justify-between py-4 px-4 border-b bg-muted/50 hover:bg-muted/70 hover:cursor-pointer" 
+                                onClick={() => {
+                                    router.navigate({ to: `/projects/${projectId}/deployments/${deployment.id}` })
+                                }}>
                                 <div className="flex-1 min-w-0">
                                     <div className="flex items-center">
                                         <div className="min-w-0 flex-1">
