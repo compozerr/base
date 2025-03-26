@@ -1052,6 +1052,7 @@ export interface components {
             commitMessage?: string | null;
             commitAuthor?: string | null;
             commitBranch?: string | null;
+            commitEmail?: string | null;
         };
         CreateProjectRequest: {
             repoName?: string | null;

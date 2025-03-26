@@ -12,6 +12,7 @@ public class Deployment : BaseEntityWithId<DeploymentId>
     public required string CommitMessage { get; set; }
     public required string CommitAuthor { get; set; }
     public required string CommitBranch { get; set; }
+    public required string CommitEmail { get; set; }
     
     public required DeploymentStatus Status { get; set; }
 

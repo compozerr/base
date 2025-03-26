@@ -51,6 +51,7 @@ public sealed record DeployProjectCommandHandler(
             CommitMessage = command.CommitMessage,
             CommitAuthor = command.CommitAuthor,
             CommitBranch = command.CommitBranch,
+            CommitEmail = command.CommitEmail,
             UserId = userId,
             Status = DeploymentStatus.Queued
         };

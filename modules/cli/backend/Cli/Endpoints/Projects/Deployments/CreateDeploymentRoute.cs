@@ -9,7 +9,8 @@ public sealed record CreateDeploymentRequest(
     string CommitHash,
     string CommitMessage,
     string CommitAuthor,
-    string CommitBranch);
+    string CommitBranch,
+    string CommitEmail);
 
 public static class CreateDeploymentRoute
 {
@@ -27,5 +28,6 @@ public static class CreateDeploymentRoute
                 request.CommitHash,
                 request.CommitMessage,
                 request.CommitAuthor,
-                request.CommitBranch));
+                request.CommitBranch,
+                request.CommitEmail));
 }

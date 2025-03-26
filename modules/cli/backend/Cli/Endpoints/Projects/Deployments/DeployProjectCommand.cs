@@ -8,4 +8,5 @@ public sealed record DeployProjectCommand(
     string CommitHash,
     string CommitMessage,
     string CommitAuthor,
-    string CommitBranch) : ICommand<DeployProjectResponse>;
+    string CommitBranch,
+    string CommitEmail) : ICommand<DeployProjectResponse>;
