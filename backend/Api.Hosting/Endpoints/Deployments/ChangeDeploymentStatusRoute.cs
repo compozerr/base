@@ -1,5 +1,6 @@
 using Api.Abstractions;
 using Api.Data;
+using Api.Data.Extensions;
 using Api.Data.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
@@ -30,6 +31,7 @@ public static class ChangeDeploymentStatusRoute
         var deployment = await deploymentRepository.GetByIdAsync(DeploymentId.Create(deploymentId)) ?? throw new ArgumentException("Deployment not found");
 
         deployment.Status = deploymentStatus;
+        deployment.BuildDuration = deployment.GetBuildDuration();
 
         await deploymentRepository.UpdateAsync(deployment);
 
