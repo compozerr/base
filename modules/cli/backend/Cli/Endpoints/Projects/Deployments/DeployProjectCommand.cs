@@ -5,4 +5,7 @@ namespace Cli.Endpoints.Projects.Deployments;
 
 public sealed record DeployProjectCommand(
     ProjectId ProjectId,
-    string CommitHash) : ICommand<DeployProjectResponse>;
+    string CommitHash,
+    string CommitMessage,
+    string CommitAuthor,
+    string CommitBranch) : ICommand<DeployProjectResponse>;

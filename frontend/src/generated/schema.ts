@@ -1049,6 +1049,9 @@ export interface components {
         };
         CreateDeploymentRequest: {
             commitHash?: string | null;
+            commitMessage?: string | null;
+            commitAuthor?: string | null;
+            commitBranch?: string | null;
         };
         CreateProjectRequest: {
             repoName?: string | null;
@@ -1098,7 +1101,7 @@ export interface components {
             commitMessage?: string | null;
             /** Format: date-time */
             createdAt?: string;
-            creator?: string | null;
+            author?: string | null;
             isCurrent?: boolean;
             /** Format: date-span */
             buildDuration?: string;

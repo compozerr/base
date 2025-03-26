@@ -16,7 +16,7 @@ public sealed record GetDeploymentResponse(
     string CommitHash,
     string CommitMessage,
     DateTime CreatedAt,
-    string Creator,
+    string Author,
     bool IsCurrent,
     TimeSpan BuildDuration,
     string Region,
@@ -49,22 +49,20 @@ public static class GetDeploymentsRoute
         var userDeployments = deployments.Where(x => x.UserId == currentUserAccessor.CurrentUserId)
                                          .ToList();
 
-        var current = userDeployments.Where(x => x.Status == DeploymentStatus.Completed)
-                                     .OrderByDescending(x => x.CreatedAtUtc)
-                                     .FirstOrDefault();
+        var currentDeploymentId = await deploymentRepository.GetCurrentDeploymentId();
 
         return [..userDeployments.Select(x => new GetDeploymentResponse(
             x.Id.Value,
             x.Project?.Domains?.GetPrimary()?.GetValue ?? "unknown",
             x.Status,
             "Production",
-            "main",
+            x.CommitBranch,
             x.CommitHash,
-            "CommitMessage",
+            x.CommitMessage,
             x.CreatedAtUtc,
-            "Creator",
-            current != null && current == x,
-            TimeSpan.FromMinutes(2),
+            x.CommitAuthor,
+            x.Id == currentDeploymentId,
+            x.GetBuildDuration(),
             x.Project?.Server?.Location?.IsoCountryCode ?? "unknown",
             []
         ))];

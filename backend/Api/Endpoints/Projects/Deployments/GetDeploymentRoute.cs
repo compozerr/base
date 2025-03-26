@@ -19,11 +19,12 @@ public static class GetDeploymentRoute
         Guid projectId,
         Guid deploymentId,
         ICurrentUserAccessor currentUserAccessor,
-        IDeploymentRepository deploymentRepository,
-        IProjectRepository projectRepository)
+        IDeploymentRepository deploymentRepository)
     {
         var projectIdConverted = ProjectId.Create(projectId);
         var deploymentIdConverted = DeploymentId.Create(deploymentId);
+
+        var currentDeploymentId = await deploymentRepository.GetCurrentDeploymentId();
 
         var deployment = await deploymentRepository.GetByIdAsync(
             deploymentIdConverted,
@@ -49,13 +50,13 @@ public static class GetDeploymentRoute
             deployment.Project?.Domains?.GetPrimary()?.GetValue ?? "unknown",
             deployment.Status,
             "Production",
-            "main",
+            deployment.CommitBranch,
             deployment.CommitHash,
-            "CommitMessage",
+            deployment.CommitMessage,
             deployment.CreatedAtUtc,
-            "Creator",
-            false,
-            TimeSpan.FromMinutes(2),
+            deployment.CommitAuthor,
+            deployment.Id == currentDeploymentId,
+            deployment.GetBuildDuration(),
             deployment.Project?.Server?.Location?.IsoCountryCode ?? "unknown",
             []);
     }

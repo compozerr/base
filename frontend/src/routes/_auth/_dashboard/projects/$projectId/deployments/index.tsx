@@ -158,7 +158,7 @@ function RouteComponent() {
                                 <div className="flex items-center gap-4">
                                     <div className="text-sm text-muted-foreground text-right flex flex-col">
                                         <div>{Formatter.fromDate(deployment.createdAt, "long")}</div>
-                                        <div>by {deployment.creator}</div>
+                                        <div>by {deployment.author}</div>
                                     </div>
 
                                     <DropdownMenu>

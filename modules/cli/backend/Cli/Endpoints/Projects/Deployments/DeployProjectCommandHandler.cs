@@ -14,7 +14,9 @@ public sealed record DeployProjectCommandHandler(
     IProjectRepository ProjectRepository,
     IFrontendLocation FrontendLocation) : ICommandHandler<DeployProjectCommand, DeployProjectResponse>
 {
-    public async Task<DeployProjectResponse> Handle(DeployProjectCommand command, CancellationToken cancellationToken = default)
+    public async Task<DeployProjectResponse> Handle(
+        DeployProjectCommand command,
+        CancellationToken cancellationToken = default)
     {
         var userId = CurrentUserAccessor.CurrentUserId!;
 
@@ -46,6 +48,9 @@ public sealed record DeployProjectCommandHandler(
             ProjectId = command.ProjectId,
             Project = project,
             CommitHash = command.CommitHash,
+            CommitMessage = command.CommitMessage,
+            CommitAuthor = command.CommitAuthor,
+            CommitBranch = command.CommitBranch,
             UserId = userId,
             Status = DeploymentStatus.Queued
         };

@@ -172,8 +172,8 @@ function RouteComponent() {
                             <div className="font-medium">{deployment.commitMessage}</div>
                         </div>
                         <div className="flex justify-between items-center">
-                            <div className="text-sm text-muted-foreground">Creator</div>
-                            <div className="font-medium">{deployment.creator}</div>
+                            <div className="text-sm text-muted-foreground">Author</div>
+                            <div className="font-medium">{deployment.author}</div>
                         </div>
                     </CardContent>
                 </Card>

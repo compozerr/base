@@ -5,7 +5,11 @@ using Microsoft.AspNetCore.Routing;
 
 namespace Cli.Endpoints.Projects.Deployments;
 
-public sealed record CreateDeploymentRequest(string CommitHash);
+public sealed record CreateDeploymentRequest(
+    string CommitHash,
+    string CommitMessage,
+    string CommitAuthor,
+    string CommitBranch);
 
 public static class CreateDeploymentRoute
 {
@@ -20,5 +24,8 @@ public static class CreateDeploymentRoute
         => mediator.Send(
             new DeployProjectCommand(
                 ProjectId.Create(projectId),
-                request.CommitHash));
+                request.CommitHash,
+                request.CommitMessage,
+                request.CommitAuthor,
+                request.CommitBranch));
 }

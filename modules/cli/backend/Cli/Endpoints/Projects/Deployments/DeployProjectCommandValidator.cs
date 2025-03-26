@@ -20,5 +20,9 @@ public sealed class DeployProjectCommandValidator : AbstractValidator<DeployProj
 
             return projectsForCurrentUser.Any(r => r.Id == projectId);
         });
+
+        RuleFor(x => x.CommitAuthor).NotEmpty().MaximumLength(255);
+        RuleFor(x => x.CommitHash).NotEmpty().MaximumLength(255);
+        RuleFor(x => x.CommitBranch).NotEmpty().MaximumLength(255);
     }
 }
