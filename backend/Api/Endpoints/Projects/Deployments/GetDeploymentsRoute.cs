@@ -47,6 +47,7 @@ public static class GetDeploymentsRoute
                         .ThenInclude(x => x.Location));
 
         var userDeployments = deployments.Where(x => x.UserId == currentUserAccessor.CurrentUserId)
+                                         .OrderByDescending(x=>x.CreatedAtUtc)
                                          .ToList();
 
         var currentDeploymentId = await deploymentRepository.GetCurrentDeploymentId();
