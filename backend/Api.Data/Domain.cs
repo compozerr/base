@@ -7,6 +7,7 @@ public class Domain : BaseEntityWithId<DomainId>
 
     public required string ServiceName { get; set; }
     public required string Port { get; set; }
+    public bool IsPrimary { get; set; } = false;
 
     public virtual Project? Project { get; set; }
 

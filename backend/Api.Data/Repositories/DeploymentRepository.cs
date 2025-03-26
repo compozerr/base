@@ -8,6 +8,7 @@ public interface IDeploymentRepository : IGenericRepository<Deployment, Deployme
 {
     public Task<List<Deployment>> GetDeploymentsForUserAsync(UserId userId);
     public Task<List<Deployment>> GetByProjectIdAsync(ProjectId projectId);
+    public Task<List<Deployment>> GetByProjectIdAsync(ProjectId projectId, Func<IQueryable<Deployment>, IQueryable<Deployment>> includeBuilder);
 }
 
 public sealed class DeploymentRepository(
@@ -23,4 +24,8 @@ public sealed class DeploymentRepository(
         => _context.Deployments
                 .Where(x => x.UserId == userId)
                 .ToListAsync();
+
+    public Task<List<Deployment>> GetByProjectIdAsync(ProjectId projectId, Func<IQueryable<Deployment>, IQueryable<Deployment>> includeBuilder)
+        => includeBuilder(_context.Deployments.Where(x => x.ProjectId == projectId))
+            .ToListAsync();
 }

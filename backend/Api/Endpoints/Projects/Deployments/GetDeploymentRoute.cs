@@ -1,6 +1,8 @@
 using Api.Abstractions;
+using Api.Data.Extensions;
 using Api.Data.Repositories;
 using Auth.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace Api.Endpoints.Projects.Deployments;
 
@@ -17,13 +19,20 @@ public static class GetDeploymentRoute
         Guid projectId,
         Guid deploymentId,
         ICurrentUserAccessor currentUserAccessor,
-        IDeploymentRepository deploymentRepository
-        )
+        IDeploymentRepository deploymentRepository,
+        IProjectRepository projectRepository)
     {
         var projectIdConverted = ProjectId.Create(projectId);
         var deploymentIdConverted = DeploymentId.Create(deploymentId);
 
-        var deployment = await deploymentRepository.GetByIdAsync(deploymentIdConverted);
+        var deployment = await deploymentRepository.GetByIdAsync(
+            deploymentIdConverted,
+            x => x
+                .Include(x => x.Project!)
+                    .ThenInclude(x => x.Domains)
+                .Include(x => x.Project!)
+                    .ThenInclude(x => x.Server!)
+                        .ThenInclude(x => x.Location));
 
         if (deployment is not { ProjectId: not null } || deployment.ProjectId != projectIdConverted)
         {
@@ -37,6 +46,7 @@ public static class GetDeploymentRoute
 
         return new GetDeploymentResponse(
             deployment.Id.Value,
+            deployment.Project?.Domains?.GetPrimary()?.GetValue ?? "unknown",
             deployment.Status,
             "Production",
             "main",
@@ -44,6 +54,9 @@ public static class GetDeploymentRoute
             "CommitMessage",
             deployment.CreatedAtUtc,
             "Creator",
-            false);
+            false,
+            TimeSpan.FromMinutes(2),
+            deployment.Project?.Server?.Location?.IsoCountryCode ?? "unknown",
+            []);
     }
 }
