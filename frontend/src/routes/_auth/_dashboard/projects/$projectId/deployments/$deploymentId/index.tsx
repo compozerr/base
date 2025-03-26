@@ -26,12 +26,9 @@ export const Route = createFileRoute(
 })
 
 function RouteComponent() {
-    const params = Route.useParams();
     const deployment = Route.useLoaderData();
 
     const router = useRouter()
-    const deploymentId = params.deploymentId
-
 
     const copyToClipboard = (text: string) => {
         navigator.clipboard
@@ -67,7 +64,7 @@ function RouteComponent() {
                     <Button variant="ghost" size="icon" onClick={() => router.history.back()}>
                         <ArrowLeft className="h-4 w-4" />
                     </Button>
-                    <h2 className="text-2xl font-bold">Deployment {deployment.id}</h2>
+                    <h2 className="text-2xl font-bold">Deployment {deployment.id?.substring(0, 8)}</h2>
                     {deployment.isCurrent && (
                         <Badge
                             variant="outline"

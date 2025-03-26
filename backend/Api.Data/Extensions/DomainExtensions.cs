@@ -6,6 +6,8 @@ public static class DomainExtensions
     {
         if (domains is null) return null;
 
-        return domains.FirstOrDefault(x => x.IsPrimary) ?? domains.FirstOrDefault();
+        return domains.FirstOrDefault(x => x.IsPrimary && x.ServiceName == "Frontend") ?? domains
+                      .FirstOrDefault(x => x.ServiceName == "Frontend") ?? domains
+                      .FirstOrDefault();
     }
 }

@@ -1,4 +1,5 @@
 using Api.Abstractions;
+using Api.Data.Extensions;
 using Api.Data.Repositories;
 using Api.Hosting.Services;
 using Auth.Services;
@@ -46,7 +47,7 @@ public static class GetProjectRoute
             0.5m,
             project.UpdatedAtUtc ?? DateTime.Now,
             [.. project.Domains?.Select(x => x.GetValue) ?? []],
-            project.Domains!.FirstOrDefault()?.GetValue
+            project.Domains!.GetPrimary()?.GetValue
         );
     }
 }
