@@ -1,8 +1,7 @@
 import { Button } from "@/components/ui/button"
-import { ArrowRight, FileText } from "lucide-react"
-import { CopyCommand } from "./copy-command"
-import StyledLink from "./styled-link"
 import { getLink } from "@/links"
+import { FileText } from "lucide-react"
+import { CopyCommand } from "./copy-command"
 
 export default function Hero() {
   return (

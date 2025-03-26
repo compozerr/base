@@ -14,7 +14,7 @@ import { getDeploymentStatusFromNumber } from '@/lib/deployment-status';
 import { getStatusDot } from '@/lib/deployment-status-component';
 import { Formatter } from '@/lib/formatter';
 import { createFileRoute, useRouter } from '@tanstack/react-router';
-import { ArrowLeft, Calendar, Clock, Copy, ExternalLink, GitBranch, GitCommit, MoreVertical } from "lucide-react";
+import { ArrowLeft, Calendar, Clock, ExternalLink, GitBranch, GitCommit, MoreVertical } from "lucide-react";
 
 export const Route = createFileRoute(
     '/_auth/_dashboard/projects/$projectId/deployments/$deploymentId/',

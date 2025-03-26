@@ -1,23 +1,10 @@
-import * as React from 'react'
-import { createFileRoute } from '@tanstack/react-router'
-import { useState, useEffect } from "react"
-import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Skeleton } from "@/components/ui/skeleton"
-import { ExternalLink, Globe } from "lucide-react"
-import { Route as RootRoute } from "../$projectId";
+import { Card, CardContent } from "@/components/ui/card"
 import { Formatter } from '@/lib/formatter'
 import { getProjectStateFromNumber, ProjectState } from '@/lib/project-state'
-
-interface ProjectData {
-    id: string
-    name: string
-    repoName: string
-    state: "Active" | "Inactive" | "Paused" | "Archived"
-    vCpuHours: number
-    startDate: string
-    primaryDomain: string
-}
+import { createFileRoute } from '@tanstack/react-router'
+import { ExternalLink, Globe } from "lucide-react"
+import { Route as RootRoute } from "../$projectId"
 
 export const Route = createFileRoute('/_auth/_dashboard/projects/$projectId/')({
     component: RouteComponent,
