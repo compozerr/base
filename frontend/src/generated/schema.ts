@@ -1090,6 +1090,7 @@ export interface components {
         GetDeploymentResponse: {
             /** Format: uuid */
             id?: string;
+            url?: string | null;
             status?: components["schemas"]["DeploymentStatus"];
             environment?: string | null;
             branch?: string | null;
@@ -1099,6 +1100,10 @@ export interface components {
             createdAt?: string;
             creator?: string | null;
             isCurrent?: boolean;
+            /** Format: date-span */
+            buildDuration?: string;
+            region?: string | null;
+            buildLogs?: string[] | null;
         };
         GetExampleResponse: {
             message?: string | null;

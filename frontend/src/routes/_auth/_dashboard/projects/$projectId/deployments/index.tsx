@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useTimeAgo } from '@/hooks/useTimeAgo'
 import { DeploymentStatus, getDeploymentStatusFromNumber } from "@/lib/deployment-status"
+import { getStatusDot } from "@/lib/deployment-status-component"
 import { Formatter } from "@/lib/formatter"
 import { createFileRoute, useParams, useRouter } from '@tanstack/react-router'
 import { motion } from "framer-motion"
@@ -38,21 +39,7 @@ function RouteComponent() {
     const { projectId } = Route.useParams();
     const deployments = Route.useLoaderData();
 
-    const getStatusDot = (status: DeploymentStatus) => {
-        switch (status) {
-            case DeploymentStatus.Completed:
-                return <span className="h-2 w-2 rounded-full bg-green-500 mr-2"></span>
-            case DeploymentStatus.Deploying:
-                return <span className="h-2 w-2 rounded-full bg-blue-500 mr-2"></span>
-            case DeploymentStatus.Failed:
-                return <span className="h-2 w-2 rounded-full bg-red-500 mr-2"></span>
-            case DeploymentStatus.Queued:
-                return <span className="h-2 w-2 rounded-full bg-gray-500 mr-2"></span>
-            default:
-                return <span className="h-2 w-2 rounded-full bg-gray-500 mr-2"></span>
-        }
-    }
-
+    
     const [rotation, setRotation] = useState(0);
 
     const handleClick = () => {

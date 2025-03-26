@@ -16,3 +16,4 @@ export function getDeploymentStatusFromNumber(stateNum?: number): DeploymentStat
         default: return DeploymentStatus.Unknown;
     }
 }
+
