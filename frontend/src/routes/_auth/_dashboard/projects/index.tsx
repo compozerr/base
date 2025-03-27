@@ -68,7 +68,7 @@ function RouteComponent() {
                     if (!row.id) return;
 
                     router.navigate({ to: `/projects/${row.id}` });
-                }} isLoading={false} data={projectsData.projects} columns={[
+                }} isLoading={false} data={projectsData.projects!} columns={[
                     {
                         accessorKey: 'name',
                         header: 'Project',
