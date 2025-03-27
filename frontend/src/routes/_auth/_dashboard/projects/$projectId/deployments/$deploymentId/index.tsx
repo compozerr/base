@@ -32,7 +32,7 @@ function RouteComponent() {
     const router = useRouter()
 
     const goBack = () => {
-        router.navigate({ to: `/projects/${projectId}` })
+        router.navigate({ to: `/projects/${projectId}/deployments` })
     }
 
     if (!deployment) {
