@@ -13,7 +13,7 @@ import {
 import { getDeploymentStatusFromNumber } from '@/lib/deployment-status';
 import { getStatusDot } from '@/lib/deployment-status-component';
 import { Formatter } from '@/lib/formatter';
-import { createFileRoute, useRouter } from '@tanstack/react-router';
+import { createFileRoute, useParams, useRouter } from '@tanstack/react-router';
 import { ArrowLeft, Calendar, Clock, ExternalLink, GitBranch, GitCommit, MoreVertical } from "lucide-react";
 
 export const Route = createFileRoute(
@@ -27,20 +27,25 @@ export const Route = createFileRoute(
 
 function RouteComponent() {
     const deployment = Route.useLoaderData();
+    const { projectId } = Route.useParams();
 
     const router = useRouter()
+
+    const goBack = () => {
+        router.navigate({ to: `/projects/${projectId}` })
+    }
 
     if (!deployment) {
         return (
             <div className="space-y-6">
                 <div className="flex items-center gap-2">
-                    <Button variant="ghost" size="icon" onClick={() => router.history.back()}>
+                    <Button variant="ghost" size="icon" onClick={goBack}>
                         <ArrowLeft className="h-4 w-4" />
                     </Button>
                     <h2 className="text-2xl font-bold">Deployment not found</h2>
                 </div>
                 <p>The deployment you're looking for doesn't exist or you don't have access to it.</p>
-                <Button onClick={() => router.history.back()}>Back to Deployments</Button>
+                <Button onClick={goBack}>Back to Deployments</Button>
             </div>
         )
     }
@@ -49,7 +54,7 @@ function RouteComponent() {
         <div className="space-y-6">
             <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                    <Button variant="ghost" size="icon" onClick={() => router.history.back()}>
+                    <Button variant="ghost" size="icon" onClick={goBack}>
                         <ArrowLeft className="h-4 w-4" />
                     </Button>
                     <h2 className="text-2xl font-bold">Deployment {deployment.id?.substring(0, 8)}</h2>
