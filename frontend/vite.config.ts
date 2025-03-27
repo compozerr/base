@@ -8,6 +8,7 @@ import path from "path"
 export default defineConfig({
   plugins: [TanStackRouterVite({
     virtualRouteConfig: getVirtualRouteConfig(),
+    routeFileIgnorePrefix: "!",
   }), react()],
   resolve: {
     alias: {
