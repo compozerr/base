@@ -30,18 +30,6 @@ function RouteComponent() {
 
     const router = useRouter()
 
-    const copyToClipboard = (text: string) => {
-        navigator.clipboard
-            .writeText(text)
-            .then(() => {
-                // Could add a toast notification here
-                console.log("Copied to clipboard")
-            })
-            .catch((err) => {
-                console.error("Failed to copy: ", err)
-            })
-    }
-
     if (!deployment) {
         return (
             <div className="space-y-6">
@@ -127,7 +115,7 @@ function RouteComponent() {
                             <div className="text-sm text-muted-foreground">Duration</div>
                             <div className="flex items-center gap-2 font-medium">
                                 <Clock className="h-4 w-4 text-muted-foreground" />
-                                {deployment.buildDuration}
+                                {Formatter.fromDuration(deployment.buildDuration!)}
                             </div>
                         </div>
                         <div className="flex justify-between items-center">

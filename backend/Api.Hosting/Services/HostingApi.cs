@@ -1,6 +1,7 @@
 using System.Net.Http.Json;
 using Api.Abstractions;
 using Api.Data;
+using Api.Data.Extensions;
 using Github.Services;
 using Serilog;
 
@@ -90,5 +91,8 @@ public sealed class HostingApi(
         loggerWithContext.Information("Deployment status: {status}", deploymentStatus);
 
         deployment.Status = deploymentStatus;
+
+        if (deploymentStatus == DeploymentStatus.Failed)
+            deployment.BuildDuration = deployment.GetBuildDuration();
     }
 }
