@@ -39,7 +39,7 @@ function RouteComponent() {
     const { projectId } = Route.useParams();
     const deployments = Route.useLoaderData();
 
-    
+
     const [rotation, setRotation] = useState(0);
 
     const handleClick = () => {
@@ -108,29 +108,30 @@ function RouteComponent() {
                     {deployments.map((deployment) => {
                         const timeAgo = useTimeAgo(deployment.createdAt!);
                         return (
-                            <div key={deployment.id} className="flex items-center justify-between py-4 px-4 border-b bg-muted/50 hover:bg-muted/70 hover:cursor-pointer" 
+                            <div key={deployment.id} className="flex items-center justify-between py-4 px-4 border-b bg-muted/50 hover:bg-muted/70 hover:cursor-pointer"
                                 onClick={() => {
                                     router.navigate({ to: `/projects/${projectId}/deployments/${deployment.id}` })
                                 }}>
                                 <div className="flex-1 min-w-0">
                                     <div className="flex items-center">
-                                        <div className="min-w-0 flex-1">
+                                        <div className="min-w-0 flex-1 flex flex-row gap-2">
                                             <div className="flex items-start flex-col">
                                                 <span className="font-mono text-sm">{deployment.id?.substring(0, 8)}</span>
-                                                {deployment.environment === "Production" && (
-                                                    <div className="flex items-center">
-                                                        {deployment.isCurrent && (
-                                                            <Badge
-                                                                variant="outline"
-                                                                className="text-xs rounded-full px-2 py-0 h-5 bg-primary/10 border-primary/20"
-                                                            >
-                                                                Current
-                                                            </Badge>
-                                                        )}
-                                                    </div>
-                                                )}
+                                                <div className="text-sm text-muted-foreground">{deployment.environment}</div>
+
                                             </div>
-                                            <div className="text-sm text-muted-foreground">{deployment.environment}</div>
+                                            {deployment.environment === "Production" && (
+                                                <div className="flex items-center">
+                                                    {deployment.isCurrent && (
+                                                        <Badge
+                                                            variant="outline"
+                                                            className="text-xs rounded-full px-2 py-0 h-5 bg-primary/10 border-primary/20"
+                                                        >
+                                                            Current
+                                                        </Badge>
+                                                    )}
+                                                </div>
+                                            )}
                                         </div>
                                     </div>
                                 </div>
