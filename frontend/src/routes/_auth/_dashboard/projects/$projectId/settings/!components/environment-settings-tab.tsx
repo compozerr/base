@@ -6,39 +6,49 @@ import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { Switch } from '@/components/ui/switch';
 import { TabsContent } from '@/components/ui/tabs';
-import { PlusCircle, Trash2 } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { PlusCircle, Trash2, Undo } from 'lucide-react';
 import React, { useRef, useState } from 'react';
 
 interface Props {
 
 }
 
+type EnvironmentVar = {
+    key: string,
+    value: string,
+    isNew: boolean,
+    isDeleting: boolean,
+}
+
 const EnvironmentSettingsTab: React.FC<Props> = (props) => {
-    const [envVars, setEnvVars] = useState([
-        { key: "DATABASE_URL", value: "postgres://user:password@localhost:5432/mydb", isSecret: true },
-        { key: "API_KEY", value: "sk_test_123456789", isSecret: true },
-        { key: "NODE_ENV", value: "production", isSecret: false },
+    const [envVars, setEnvVars] = useState<EnvironmentVar[]>([
+        { key: "DATABASE_URL", value: "postgres://user:password@localhost:5432/mydb", isNew: true, isDeleting: false },
+        { key: "API_KEY", value: "sk_test_123456789", isNew: true, isDeleting: false, },
+        { key: "NODE_ENV", value: "production", isNew: false, isDeleting: false },
     ])
 
     const [newEnvKey, setNewEnvKey] = useState("")
     const [newEnvValue, setNewEnvValue] = useState("")
-    const [newEnvIsSecret, setNewEnvIsSecret] = useState(false)
     const [isDragging, setIsDragging] = useState(false)
     const fileInputRef = useRef<HTMLInputElement>(null)
-    const [showDnsGuide, setShowDnsGuide] = useState(false)
 
     const addEnvVar = () => {
         if (newEnvKey.trim() && newEnvValue.trim()) {
-            setEnvVars([...envVars, { key: newEnvKey, value: newEnvValue, isSecret: newEnvIsSecret }])
+            setEnvVars([...envVars, { key: newEnvKey, value: newEnvValue, isNew: true, isDeleting: false }])
             setNewEnvKey("")
             setNewEnvValue("")
-            setNewEnvIsSecret(false)
         }
     }
 
-    const removeEnvVar = (index: number) => {
+    const toggleRemoveEnvVar = (index: number) => {
         const newEnvVars = [...envVars]
-        newEnvVars.splice(index, 1)
+        if (newEnvVars[index]?.isNew) {
+            newEnvVars.splice(index, 1)
+        } else {
+            newEnvVars[index] = { ...newEnvVars[index], isDeleting: !newEnvVars[index]!.isDeleting } as EnvironmentVar
+        }
+
         setEnvVars(newEnvVars)
     }
 
@@ -69,7 +79,7 @@ const EnvironmentSettingsTab: React.FC<Props> = (props) => {
             const content = e.target?.result as string
             if (content) {
                 const lines = content.split("\n")
-                const newVars: { key: string; value: string; isSecret: boolean }[] = []
+                const newVars: EnvironmentVar[] = []
 
                 lines.forEach((line) => {
                     // Skip comments and empty lines
@@ -78,10 +88,8 @@ const EnvironmentSettingsTab: React.FC<Props> = (props) => {
                         if (parts.length >= 2) {
                             const key = parts[0]?.trim()
                             const value = parts.slice(1).join("=").trim()
-                            // Assume variables with "KEY", "SECRET", "PASSWORD", or "TOKEN" are secrets
                             if (!key) return;
-                            const isSecret = /key|secret|password|token/i.test(key)
-                            newVars.push({ key, value, isSecret })
+                            newVars.push({ key, value, isNew: true, isDeleting: false })
                         }
                     }
                 })
@@ -104,7 +112,7 @@ const EnvironmentSettingsTab: React.FC<Props> = (props) => {
                 <CardContent className="space-y-4">
                     {/* Drag and drop area for .env file */}
                     <div
-                        className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6 text-center cursor-pointer hover:bg-muted/50 transition-colors"
+                        className={cn("border-2 border-dashed border-muted-foreground/25 rounded-lg p-6 text-center cursor-pointer hover:bg-muted/50 transition-colors", isDragging && "bg-muted/50")}
                         onDragOver={handleDragOver}
                         onDragLeave={handleDragLeave}
                         onDrop={handleDrop}
@@ -147,29 +155,27 @@ const EnvironmentSettingsTab: React.FC<Props> = (props) => {
                                     <div className="grid grid-cols-2 gap-4">
                                         <div>
                                             <Label htmlFor={`env-key-${index}`}>Key</Label>
-                                            <Input id={`env-key-${index}`} value={env.key} readOnly />
+                                            <Input id={`env-key-${index}`} className={env.isDeleting ? "line-through text-red-600" : ""} value={env.key} readOnly disabled={!env.isNew} />
                                         </div>
                                         <div>
                                             <Label htmlFor={`env-value-${index}`}>Value</Label>
                                             <Input
                                                 id={`env-value-${index}`}
-                                                value={env.isSecret ? "••••••••••••••••" : env.value}
+                                                className={env.isDeleting ? "line-through text-red-600" : ""}
+                                                value={env.value}
                                                 readOnly
+                                                disabled={!env.isNew}
                                             />
                                         </div>
-                                    </div>
-                                    <div className="flex items-center space-x-2">
-                                        <Switch id={`env-secret-${index}`} checked={env.isSecret} />
-                                        <Label htmlFor={`env-secret-${index}`}>Secret</Label>
                                     </div>
                                 </div>
                                 <Button
                                     variant="ghost"
                                     size="icon"
-                                    className="text-destructive"
-                                    onClick={() => removeEnvVar(index)}
+                                    className=""
+                                    onClick={() => toggleRemoveEnvVar(index)}
                                 >
-                                    <Trash2 className="h-4 w-4" />
+                                    {env.isDeleting ? <Undo className='h-4 w-4 ' /> : <Trash2 className="h-4 w-4 text-destructive" />}
                                 </Button>
                             </div>
                         ))}
@@ -179,35 +185,42 @@ const EnvironmentSettingsTab: React.FC<Props> = (props) => {
 
                     <div className="space-y-4">
                         <h3 className="text-lg font-medium">Add New Variable</h3>
-                        <div className="grid grid-cols-2 gap-4">
-                            <div className="space-y-2">
-                                <Label htmlFor="new-env-key">Key</Label>
-                                <Input
-                                    id="new-env-key"
-                                    placeholder="NEW_VARIABLE"
-                                    value={newEnvKey}
-                                    onChange={(e) => setNewEnvKey(e.target.value)}
-                                />
+                        <div className="flex flex-row items-center gap-4">
+                            <div className="grid flex-1 gap-2">
+
+                                <div className="grid grid-cols-2 gap-4">
+
+                                    <div className="">
+                                        <Label htmlFor="new-env-key">Key</Label>
+                                        <Input
+                                            id="new-env-key"
+                                            placeholder="NEW_VARIABLE"
+                                            value={newEnvKey}
+                                            onChange={(e) => setNewEnvKey(e.target.value)}
+                                        />
+                                    </div>
+                                    <div className="">
+                                        <Label htmlFor="new-env-value">Value</Label>
+                                        <Input
+                                            id="new-env-value"
+                                            placeholder="value"
+                                            value={newEnvValue}
+                                            onChange={(e) => setNewEnvValue(e.target.value)}
+                                        />
+                                    </div>
+                                </div>
                             </div>
-                            <div className="space-y-2">
-                                <Label htmlFor="new-env-value">Value</Label>
-                                <Input
-                                    id="new-env-value"
-                                    placeholder="value"
-                                    value={newEnvValue}
-                                    onChange={(e) => setNewEnvValue(e.target.value)}
-                                />
-                            </div>
+                            <Button onClick={addEnvVar} variant="ghost">
+                                <PlusCircle className="h-4 w-4" />
+                            </Button>
                         </div>
-                        <div className="flex items-center space-x-2">
-                            <Switch id="new-env-secret" checked={newEnvIsSecret} onCheckedChange={setNewEnvIsSecret} />
-                            <Label htmlFor="new-env-secret">Secret</Label>
-                        </div>
-                        <Button onClick={addEnvVar}>
-                            <PlusCircle className="mr-2 h-4 w-4" />
-                            Add Variable
-                        </Button>
                     </div>
+
+                    <Separator />
+
+                    <Button >
+                        Save Changes
+                    </Button>
                 </CardContent>
             </Card>
         </TabsContent>
