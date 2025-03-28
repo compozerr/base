@@ -1,0 +1,25 @@
+{
+	"New Command Validator": {
+		"scope": "csharp",
+		"prefix": "cv",
+		"body": [
+			"using FluentValidation;",
+			"using Microsoft.Extensions.DependencyInjection;",
+			"",
+			"namespace ${1:Namespace};",
+			"",
+			"public sealed class ${2:Name}CommandValidator : AbstractValidator<${2:Name}Command>",
+			"{",
+			"\tpublic ${2:Name}CommandValidator(IServiceScopeFactory scopeFactory)",
+			"\t{",
+			"\t\tvar scope = scopeFactory.CreateScope();",
+			"\t\t${3:// Add required services using scope.ServiceProvider.GetRequiredService<T>()}",
+			"",
+			"\t\t${0:// Add validation rules using RuleFor()}",
+			"\t}",
+			"}",
+			""
+		],
+		"description": "Create a new command validator class"
+	}
+}
