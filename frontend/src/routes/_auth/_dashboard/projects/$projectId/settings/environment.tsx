@@ -9,11 +9,11 @@ import {
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Separator } from '@/components/ui/separator'
-import { TabsContent } from '@/components/ui/tabs'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { cn } from '@/lib/utils'
-import { createFileRoute } from '@tanstack/react-router'
-import { PlusCircle, Trash2, Undo } from 'lucide-react'
-import React, { useRef, useState } from 'react'
+import { createFileRoute, Outlet } from '@tanstack/react-router'
+import { Link, PlusCircle, Trash2, Undo } from 'lucide-react'
+import React, { useCallback, useRef, useState } from 'react'
 
 export const Route = createFileRoute(
     '/_auth/_dashboard/projects/$projectId/settings/environment',
@@ -22,6 +22,7 @@ export const Route = createFileRoute(
 })
 
 type EnvironmentVar = {
+    systemType: SystemType
     key: string
     value: string
     isNew: boolean
@@ -33,44 +34,55 @@ type Environment = {
     variables: EnvironmentVar[]
 }
 
+const SystemTypes = ["Frontend", "Backend"] as const;
+
+type SystemType = (typeof SystemTypes)[number]
+
 function EnvironmentSettingsTab() {
     const [env, setEnv] = useState<Environment[]>([
         {
             branch: "main",
             variables: [
                 {
-
+                    systemType: "Backend",
                     key: 'DATABASE_URL',
                     value: 'postgres://user:password@localhost:5432/mydb',
                     isNew: true,
                     isDeleting: false,
                 },
                 {
+                    systemType: "Backend",
                     key: 'API_KEY',
                     value: 'sk_test_123456789',
                     isNew: true,
                     isDeleting: false,
                 },
-                { key: 'NODE_ENV', value: 'production', isNew: false, isDeleting: false },
+                {
+                    systemType: "Frontend",
+                    key: 'NODE_ENV',
+                    value: 'production',
+                    isNew: false,
+                    isDeleting: false
+                },
             ]
         },
         {
             branch: "release/next",
             variables: [
                 {
-
+                    systemType: "Backend",
                     key: 'DATABASE_URL',
                     value: 'postgres://user:testing@localhost:5432/mydb',
                     isNew: true,
                     isDeleting: false,
                 },
                 {
+                    systemType: "Backend",
                     key: 'API_KEY',
                     value: 'testingmore',
                     isNew: true,
                     isDeleting: false,
-                },
-                { key: 'NODE_ENV', value: 'production', isNew: false, isDeleting: false },
+                }
             ]
         },
     ])
@@ -80,6 +92,8 @@ function EnvironmentSettingsTab() {
     const [newEnvValue, setNewEnvValue] = useState('')
     const [isDragging, setIsDragging] = useState(false)
     const fileInputRef = useRef<HTMLInputElement>(null)
+
+    const [selectedSystemType, setSelectedSystemType] = useState<SystemType>("Frontend");
 
     const addEnvVar = () => {
         const environmentVariables = env.find((env) => env.branch === selectedEnvironment)?.variables
@@ -92,6 +106,7 @@ function EnvironmentSettingsTab() {
             existingVar.value = newEnvValue
         } else {
             environmentVariables.push({
+                systemType: selectedSystemType,
                 key: newEnvKey,
                 value: newEnvValue,
                 isNew: true,
@@ -103,12 +118,20 @@ function EnvironmentSettingsTab() {
         setEnv([...env])
     }
 
+    const systemTypeHasChanges = useCallback((systemType: SystemType) => {
+        const environment = env.find(e => e.branch === selectedEnvironment)
+        if (!environment) return false
+
+        const variables = environment.variables.filter(x => x.systemType === systemType)
+        return variables.some(x => x.isNew || x.isDeleting)
+    }, [env]);
+
     const toggleRemoveEnvVar = (varIndex: number) => {
         const newEnvList = [...env]
         const environment = newEnvList.find(e => e.branch === selectedEnvironment)
         if (!environment) return
 
-        const variables = environment.variables
+        const variables = environment.variables.filter(x => x.systemType === selectedSystemType)
         if (variables[varIndex]?.isNew) {
             variables.splice(varIndex, 1)
         } else {
@@ -117,6 +140,11 @@ function EnvironmentSettingsTab() {
                 isDeleting: !variables[varIndex]!.isDeleting,
             }
         }
+
+        environment.variables = [
+            ...environment.variables.filter(x => x.systemType !== selectedSystemType),
+            ...variables
+        ]
 
         setEnv(newEnvList)
     }
@@ -158,7 +186,7 @@ function EnvironmentSettingsTab() {
                             const key = parts[0]?.trim()
                             const value = parts.slice(1).join('=').trim()
                             if (!key) return
-                            newVars.push({ key, value, isNew: true, isDeleting: false })
+                            newVars.push({ systemType: selectedSystemType, key, value, isNew: true, isDeleting: false })
                         }
                     }
                 })
@@ -174,6 +202,8 @@ function EnvironmentSettingsTab() {
         }
         reader.readAsText(file)
     }
+
+    const variablesToShow = env.find(x => x.branch === selectedEnvironment)?.variables.filter(x => x.systemType === selectedSystemType);
 
     return (
         <TabsContent value="environment" className="space-y-4 mt-6">
@@ -252,8 +282,24 @@ function EnvironmentSettingsTab() {
 
                     <Separator className="my-4" />
 
+                    <Tabs defaultValue={selectedSystemType} className="w-full">
+                        <TabsList className="grid w-full grid-cols-2">
+                            {
+                                SystemTypes.map(x => (
+                                    <TabsTrigger value={x} onClick={() => {
+                                        setSelectedSystemType(x);
+                                    }} className={systemTypeHasChanges(x) ? "italic" : ""} key={x}>
+                                        {x}
+                                    </TabsTrigger>
+                                ))
+                            }
+                        </TabsList>
+
+                        <Outlet />
+                    </Tabs>
+
                     <div className="space-y-4">
-                        {env.find(x => x.branch === selectedEnvironment)?.variables.map((env, index) => (
+                        {variablesToShow?.length ? variablesToShow.map((env, index) => (
                             <div key={index} className="flex items-center gap-4">
                                 <div className="grid flex-1 gap-2">
                                     <div className="grid grid-cols-2 gap-4">
@@ -294,7 +340,9 @@ function EnvironmentSettingsTab() {
                                     )}
                                 </Button>
                             </div>
-                        ))}
+                        )) : <div className='flex flex-row justify-center'>
+                            <span className="italic">No variables here...</span>
+                        </div>}
                     </div>
 
                     <Separator className="my-4" />
