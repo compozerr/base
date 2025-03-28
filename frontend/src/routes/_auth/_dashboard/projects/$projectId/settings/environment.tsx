@@ -182,7 +182,6 @@ function EnvironmentSettingsTab() {
                 <div className="grid flex-1 gap-2">
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <Label htmlFor={`env-key-${index}`}>Key</Label>
                       <Input
                         id={`env-key-${index}`}
                         className={
@@ -194,7 +193,6 @@ function EnvironmentSettingsTab() {
                       />
                     </div>
                     <div>
-                      <Label htmlFor={`env-value-${index}`}>Value</Label>
                       <Input
                         id={`env-value-${index}`}
                         className={
@@ -231,7 +229,6 @@ function EnvironmentSettingsTab() {
               <div className="grid flex-1 gap-2">
                 <div className="grid grid-cols-2 gap-4">
                   <div className="">
-                    <Label htmlFor="new-env-key">Key</Label>
                     <Input
                       id="new-env-key"
                       placeholder="NEW_VARIABLE"
@@ -240,7 +237,6 @@ function EnvironmentSettingsTab() {
                     />
                   </div>
                   <div className="">
-                    <Label htmlFor="new-env-value">Value</Label>
                     <Input
                       id="new-env-value"
                       placeholder="value"
