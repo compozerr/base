@@ -1258,11 +1258,8 @@ export interface components {
         "String<>f__AnonymousType0": {
             installUrl?: string | null;
         };
-        /**
-         * Format: int32
-         * @enum {integer}
-         */
-        SystemType: 0 | 1 | 2;
+        /** @enum {string} */
+        SystemType: "Unknown" | "Frontend" | "Backend";
         UpdateServerRequest: {
             secret?: string | null;
             isoCountryCode?: string | null;
