@@ -1,3 +1,4 @@
+import { api } from '@/api-client'
 import { Button } from '@/components/ui/button'
 import {
     Card,
@@ -11,14 +12,26 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Separator } from '@/components/ui/separator'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { cn } from '@/lib/utils'
-import { createFileRoute, Outlet } from '@tanstack/react-router'
+import { createFileRoute, Outlet, useRouter } from '@tanstack/react-router'
 import { Link, PlusCircle, Trash2, Undo } from 'lucide-react'
-import React, { useCallback, useRef, useState } from 'react'
+import React, { useCallback, useMemo, useRef, useState } from 'react'
 
 export const Route = createFileRoute(
     '/_auth/_dashboard/projects/$projectId/settings/environment',
 )({
     component: EnvironmentSettingsTab,
+    loader: ({ params: { projectId } }) => {
+        return api.v1.getProjectsProjectIdEnvironment({
+            parameters: {
+                path: {
+                    projectId
+                },
+                query: {
+                    branch: "main"
+                }
+            }
+        })
+    },
 })
 
 type EnvironmentVar = {
@@ -39,55 +52,48 @@ const SystemTypes = ["Frontend", "Backend"] as const;
 type SystemType = (typeof SystemTypes)[number]
 
 function EnvironmentSettingsTab() {
-    const [env, setEnv] = useState<Environment[]>([
-        {
-            branch: "main",
-            variables: [
-                {
-                    systemType: "Backend",
-                    key: 'DATABASE_URL',
-                    value: 'postgres://user:password@localhost:5432/mydb',
-                    isNew: true,
-                    isDeleting: false,
-                },
-                {
-                    systemType: "Backend",
-                    key: 'API_KEY',
-                    value: 'sk_test_123456789',
-                    isNew: true,
-                    isDeleting: false,
-                },
-                {
-                    systemType: "Frontend",
-                    key: 'NODE_ENV',
-                    value: 'production',
-                    isNew: false,
-                    isDeleting: false
-                },
-            ]
-        },
-        {
-            branch: "release/next",
-            variables: [
-                {
-                    systemType: "Backend",
-                    key: 'DATABASE_URL',
-                    value: 'postgres://user:testing@localhost:5432/mydb',
-                    isNew: true,
-                    isDeleting: false,
-                },
-                {
-                    systemType: "Backend",
-                    key: 'API_KEY',
-                    value: 'testingmore',
-                    isNew: true,
-                    isDeleting: false,
-                }
-            ]
-        },
-    ])
+    const { data, error } = Route.useLoaderData();
+    const { projectId } = Route.useParams();
 
-    const [selectedEnvironment, setSelectedEnvironment] = useState("main");
+    const { invalidate } = useRouter();
+
+    const [selectedBranch, setSelectedBranch] = useState("main");
+
+    const { mutate } = api.v1.putProjectsProjectIdEnvironment.useMutation({
+        path: {
+            projectId
+        },
+        query: {
+            branch: selectedBranch
+        }
+    })
+
+
+    const setEnv = (newEnv: Environment[]) => {
+        mutate({
+            variables: newEnv.find(x => x.branch === selectedBranch)?.variables || []
+        }, {
+            onSuccess: () => {
+                invalidate();
+            }
+        });
+    }
+
+    const env = useMemo(() => {
+        const env: Environment[] = [{
+            branch: selectedBranch,
+            variables: data?.variables?.map((item) => ({
+                systemType: item.systemType as SystemType,
+                key: item.key!,
+                value: item.value!,
+                isNew: false,
+                isDeleting: false,
+            })) || []
+        }]
+
+        return env
+    }, [data, selectedBranch])
+
     const [newEnvKey, setNewEnvKey] = useState('')
     const [newEnvValue, setNewEnvValue] = useState('')
     const [isDragging, setIsDragging] = useState(false)
@@ -96,7 +102,7 @@ function EnvironmentSettingsTab() {
     const [selectedSystemType, setSelectedSystemType] = useState<SystemType>("Frontend");
 
     const addEnvVar = () => {
-        const environmentVariables = env.find((env) => env.branch === selectedEnvironment)?.variables
+        const environmentVariables = env.find((env) => env.branch === selectedBranch)?.variables
 
         if (!environmentVariables) return
 
@@ -119,7 +125,7 @@ function EnvironmentSettingsTab() {
     }
 
     const systemTypeHasChanges = useCallback((systemType: SystemType) => {
-        const environment = env.find(e => e.branch === selectedEnvironment)
+        const environment = env.find(e => e.branch === selectedBranch)
         if (!environment) return false
 
         const variables = environment.variables.filter(x => x.systemType === systemType)
@@ -128,7 +134,7 @@ function EnvironmentSettingsTab() {
 
     const toggleRemoveEnvVar = (varIndex: number) => {
         const newEnvList = [...env]
-        const environment = newEnvList.find(e => e.branch === selectedEnvironment)
+        const environment = newEnvList.find(e => e.branch === selectedBranch)
         if (!environment) return
 
         const variables = environment.variables.filter(x => x.systemType === selectedSystemType)
@@ -192,7 +198,7 @@ function EnvironmentSettingsTab() {
                 })
 
                 if (newVars.length > 0) {
-                    const environment = env.find((env) => env.branch === selectedEnvironment)
+                    const environment = env.find((env) => env.branch === selectedBranch)
                     if (!environment) return;
 
                     environment.variables.push(...newVars)
@@ -203,7 +209,7 @@ function EnvironmentSettingsTab() {
         reader.readAsText(file)
     }
 
-    const variablesToShow = env.find(x => x.branch === selectedEnvironment)?.variables.filter(x => x.systemType === selectedSystemType);
+    const variablesToShow = env.find(x => x.branch === selectedBranch)?.variables.filter(x => x.systemType === selectedSystemType);
 
     return (
         <TabsContent value="environment" className="space-y-4 mt-6">
@@ -218,9 +224,9 @@ function EnvironmentSettingsTab() {
                     </div>
                     <div className='w-1/4 justify-end flex pointer-events-auto'>
                         <Select
-                            value={selectedEnvironment}
+                            value={selectedBranch}
                             onValueChange={(value) =>
-                                setSelectedEnvironment(value)
+                                setSelectedBranch(value)
                             }
                         >
                             <SelectTrigger className="w-1/2" id="modules-org">
