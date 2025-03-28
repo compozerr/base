@@ -1,4 +1,3 @@
-using Api.Data.Repositories;
 using Api.Endpoints.Projects.ProjectEnvironment;
 using Api.Options;
 using Api.Services;

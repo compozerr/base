@@ -1,4 +1,3 @@
-using System.IO.Compression;
 using Auth.Abstractions;
 using Auth.Services;
 using Database.Repositories;
