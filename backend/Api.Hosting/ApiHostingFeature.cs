@@ -1,5 +1,4 @@
-﻿using Api.Hosting.Endpoints.Projects.ProjectEnvironment;
-using Api.Hosting.Services;
+﻿using Api.Hosting.Services;
 using Core.Feature;
 using Microsoft.Extensions.DependencyInjection;
 
