@@ -1,15 +1,12 @@
 using Api.Data.Repositories;
+using Api.Endpoints.Projects.ProjectEnvironment;
 using Api.Options;
 using Api.Services;
 using Core.Extensions;
 using Core.Feature;
 using Core.MediatR;
-using Microsoft.AspNetCore.Diagnostics;
-using Serilog;
-using Serilog.Context;
 using Serilog.Events;
 using Serilog.Sinks.Humio;
-using System.Diagnostics;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +22,8 @@ builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
 builder.Services.AddScoped<IDeploymentRepository, DeploymentRepository>();
 builder.Services.AddScoped<ILocationRepository, LocationRepository>();
 builder.Services.AddScoped<IServerService, ServerService>();
+builder.Services.AddScoped<IDefaultEnvironmentVariablesAppender, DefaultEnvironmentVariablesAppender>();
+
 
 builder.Services.AddRequiredConfigurationOptions<EncryptionOptions>("Encryption");
 

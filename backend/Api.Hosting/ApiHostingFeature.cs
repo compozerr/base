@@ -13,6 +13,5 @@ public class ApiHostingFeature : IFeature
         services.AddSingleton<ICryptoService, CryptoService>();
         services.AddTransient<IHostingServerHttpClientFactory, HostingServerHttpClientFactory>();
         services.AddTransient<IHostingApiFactory, HostingApiFactory>();
-        services.AddScoped<IDefaultEnvironmentVariablesAppender, DefaultEnvironmentVariablesAppender>();
     }
 }

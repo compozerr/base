@@ -1,5 +1,6 @@
 
 using Api.Endpoints.Projects.Deployments;
+using Api.Endpoints.Projects.ProjectEnvironment;
 
 namespace Api.Endpoints.Projects;
 
@@ -17,5 +18,6 @@ public class ProjectsGroup : CarterModule
         app.AddGetProjectsRoute();
 
         app.AddDeploymentsGroup();
+        app.AddProjectEnvironmentGroup();
     }
 }
