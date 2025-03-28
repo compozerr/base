@@ -17,13 +17,8 @@ Features.RegisterConfigureCallback<AssembliesFeatureConfigureCallback>();
 builder.ConfigureFeatures();
 builder.Services.AddFeatures(builder.Configuration);
 builder.Services.AddScoped<IEncryptionService, EncryptionService>();
-builder.Services.AddScoped<IServerRepository, ServerRepository>();
-builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
-builder.Services.AddScoped<IDeploymentRepository, DeploymentRepository>();
-builder.Services.AddScoped<ILocationRepository, LocationRepository>();
 builder.Services.AddScoped<IServerService, ServerService>();
 builder.Services.AddScoped<IDefaultEnvironmentVariablesAppender, DefaultEnvironmentVariablesAppender>();
-
 
 builder.Services.AddRequiredConfigurationOptions<EncryptionOptions>("Encryption");
 

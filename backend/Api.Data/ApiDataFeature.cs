@@ -1,3 +1,4 @@
+using Api.Data.Repositories;
 using Api.Data.Services;
 using Core.Feature;
 using Microsoft.AspNetCore.Builder;
@@ -20,6 +21,11 @@ public class ApiDataFeature : IFeature
         });
 
         services.AddSingleton<IHashService, HashService>();
+        services.AddScoped<IProjectEnvironmentRepository, ProjectEnvironmentRepository>();
+        services.AddScoped<IServerRepository, ServerRepository>();
+        services.AddScoped<IProjectRepository, ProjectRepository>();
+        services.AddScoped<IDeploymentRepository, DeploymentRepository>();
+        services.AddScoped<ILocationRepository, LocationRepository>();
     }
 
     void IFeature.ConfigureApp(WebApplication app)
