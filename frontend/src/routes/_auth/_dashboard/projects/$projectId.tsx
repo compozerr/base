@@ -13,11 +13,18 @@ function RouteComponent() {
     const { projectId } = Route.useParams();
     const project = Route.useLoaderData();
 
+    const isTabActive = (href: string) => {
+        if (href === `/projects/${projectId}`) {
+            return pathname === href;
+        }
+        return pathname.startsWith(href);
+    };
+
     const tabs = [
         { name: "Overview", href: `/projects/${projectId}` },
         { name: "Deployments", href: `/projects/${projectId}/deployments` },
         { name: "Settings", href: `/projects/${projectId}/settings` },
-    ]
+    ];
 
     return (
         <div className="flex flex-col min-h-screen">
@@ -31,7 +38,9 @@ function RouteComponent() {
                                 to={tab.href}
                                 className={cn(
                                     "text-sm font-medium transition-colors hover:text-primary",
-                                    pathname === tab.href ? "border-b-2 border-primary" : "text-muted-foreground",
+                                    isTabActive(tab.href) 
+                                        ? "border-b-2 border-primary" 
+                                        : "text-muted-foreground"
                                 )}
                             >
                                 {tab.name}
