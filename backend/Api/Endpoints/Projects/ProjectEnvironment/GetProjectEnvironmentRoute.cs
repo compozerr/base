@@ -1,9 +1,7 @@
 using Api.Data;
 using MediatR;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Routing;
 
-namespace Api.Hosting.Endpoints.Projects.ProjectEnvironment;
+namespace Api.Endpoints.Projects.ProjectEnvironment;
 
 public static class GetProjectEnvironmentRoute
 {
@@ -14,7 +12,7 @@ public static class GetProjectEnvironmentRoute
         return app.MapGet(Route, ExecuteAsync);
     }
 
-     public static Task<GetProjectEnvironmentResponse> ExecuteAsync(
+    public static Task<GetProjectEnvironmentResponse> ExecuteAsync(
         Guid projectId,
         string branch,
         IMediator mediator)

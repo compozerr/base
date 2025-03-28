@@ -1,6 +1,6 @@
 using Api.Data;
 
-namespace Api.Hosting.Endpoints.Projects.ProjectEnvironment;
+namespace Api.Endpoints.Projects.ProjectEnvironment;
 
 public static class ProjectEnvironmentVariablesExtensions
 {

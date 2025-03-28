@@ -1,0 +1,17 @@
+{
+	"New MediatR Command": {
+		"scope": "csharp",
+		"prefix": "cmd",
+		"body": [
+			"using Core.MediatR;",
+			"",
+			"namespace ${1:Namespace};",
+			"",
+			"public sealed record ${2:Name}Command(",
+			"\t${3:string Property1}${4:,}",
+			"\t${5:string Property2}) : ICommand<${6:ResponseType}>;",
+			""
+		],
+		"description": "Add new MediatR command class"
+	}
+}

@@ -1,0 +1,23 @@
+{
+	"New Command Handler": {
+		"scope": "csharp",
+		"prefix": "ch",
+		"body": [
+			"using Core.MediatR;",
+			"",
+			"namespace ${1:Namespace};",
+			"",
+			"public sealed record ${2:Name}CommandHandler(",
+			"\t${3:Dependencies}) : ICommandHandler<${2:Name}Command, ${2:Name}Response>",
+			"{",
+			"\tpublic async Task<${2:Name}Response> Handle(${2:Name}Command command, CancellationToken cancellationToken = default)",
+			"\t{",
+			"\t\t$0",
+			"\t\treturn new ${2:Name}Response();",
+			"\t}",
+			"}",
+			""
+		],
+		"description": "Create a new command handler class"
+	}
+}

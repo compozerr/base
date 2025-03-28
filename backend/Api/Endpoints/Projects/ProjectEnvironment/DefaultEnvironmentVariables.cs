@@ -2,7 +2,7 @@ using Api.Abstractions;
 using Api.Data;
 using Api.Data.Repositories;
 
-namespace Api.Hosting.Endpoints.Projects.ProjectEnvironment;
+namespace Api.Endpoints.Projects.ProjectEnvironment;
 
 public interface IDefaultEnvironmentVariablesAppender
 {
