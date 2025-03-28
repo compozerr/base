@@ -11,7 +11,8 @@ public interface IDefaultEnvironmentVariablesAppender
         ProjectId projectId);
 }
 
-public sealed class DefaultEnvironmentVariablesAppender(IProjectRepository projectRepository) : IDefaultEnvironmentVariablesAppender
+public sealed class DefaultEnvironmentVariablesAppender(
+    IProjectRepository projectRepository) : IDefaultEnvironmentVariablesAppender
 {
     public async Task<List<ProjectEnvironmentVariableDto>> AppendDefaultVariablesAsync(
         List<ProjectEnvironmentVariableDto> current,
