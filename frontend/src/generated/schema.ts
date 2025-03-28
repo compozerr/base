@@ -975,7 +975,32 @@ export interface paths {
                 };
             };
         };
-        put?: never;
+        put: {
+            parameters: {
+                query: {
+                    branch: string;
+                };
+                header?: never;
+                path: {
+                    projectId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["UpsertProjectEnvironmentVariablesRequest"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
         post?: never;
         delete?: never;
         options?: never;
@@ -1251,6 +1276,9 @@ export interface components {
         UpdateServerResponse: {
             success?: boolean;
             pemPublicKey?: string | null;
+        };
+        UpsertProjectEnvironmentVariablesRequest: {
+            variables?: components["schemas"]["ProjectEnvironmentVariableDto"][] | null;
         };
         User: {
             /** Format: date-time */

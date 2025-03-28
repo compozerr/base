@@ -9,6 +9,7 @@ public static class ProjectEnvironmentGroup
         var group = app.MapGroup(Route);
 
         group.AddGetProjectEnvironmentRoute();
+        group.AddUpsertProjectEnvironmentVariablesRoute();
 
         return group;
     }

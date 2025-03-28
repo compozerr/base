@@ -1,4 +1,3 @@
-using Api.Abstractions;
 using Api.Data.Repositories;
 using Core.MediatR;
 
@@ -13,10 +12,8 @@ public sealed record UpsertProjectEnvironmentVariablesCommandHandler(
         CancellationToken cancellationToken = default)
     {
 
-        var projectIdConverted = ProjectId.Create(command.ProjectId);
-
         var environment = (await ProjectRepository.GetProjectEnvironmentByBranchAsync(
-            projectIdConverted,
+            command.ProjectId,
             command.Branch))!;
 
         environment.ProjectEnvironmentVariables.ApplyVariableChanges(command.Variables);

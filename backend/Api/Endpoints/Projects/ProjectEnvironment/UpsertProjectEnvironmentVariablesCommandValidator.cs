@@ -15,7 +15,7 @@ public sealed class UpsertProjectEnvironmentVariablesCommandValidator : Abstract
         RuleFor(x => x.Branch).MustAsync(async (command, branch, cancellationToken) =>
         {
             var environment = await projectRepository.GetProjectEnvironmentByBranchAsync(
-                ProjectId.Create(command.ProjectId),
+                command.ProjectId,
                 branch);
 
             return environment is not null;
