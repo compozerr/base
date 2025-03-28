@@ -27,22 +27,16 @@ public static class ProjectEnvironmentVariablesExtensions
 
         foreach (var variable in newVariables)
         {
-            var existingVariable = current.FirstOrDefault(x => x.GetHash() == variable.GetHash());
-
-            if (existingVariable is { })
-            {
-                existingVariable.Value = variable.Value;
+            if (current.Any(x => x.GetHash() == variable.GetHash()))
                 continue;
-            }
 
-            var existingVariableWithSameKey = current
+            var existingVariable = current
                 .FirstOrDefault(x => x.Key == variable.Key && x.SystemType == variable.SystemType);
 
-            if (existingVariableWithSameKey is { })
-            {
-                current.Remove(existingVariableWithSameKey);
-            }
+            if (existingVariable != null)
+                current.Remove(existingVariable);
 
+            // Add new variable
             current.Add(new ProjectEnvironmentVariable
             {
                 SystemType = variable.SystemType,
