@@ -29,14 +29,14 @@ type EnvironmentVar = {
 }
 
 type Environment = {
-    name: string,
+    branch: string,
     variables: EnvironmentVar[]
 }
 
 function EnvironmentSettingsTab() {
     const [env, setEnv] = useState<Environment[]>([
         {
-            name: "Production",
+            branch: "main",
             variables: [
                 {
 
@@ -55,7 +55,7 @@ function EnvironmentSettingsTab() {
             ]
         },
         {
-            name: "Test",
+            branch: "release/next",
             variables: [
                 {
 
@@ -75,14 +75,14 @@ function EnvironmentSettingsTab() {
         },
     ])
 
-    const [selectedEnvironment, setSelectedEnvironment] = useState("Production");
+    const [selectedEnvironment, setSelectedEnvironment] = useState("main");
     const [newEnvKey, setNewEnvKey] = useState('')
     const [newEnvValue, setNewEnvValue] = useState('')
     const [isDragging, setIsDragging] = useState(false)
     const fileInputRef = useRef<HTMLInputElement>(null)
 
     const addEnvVar = () => {
-        const environmentVariables = env.find((env) => env.name === selectedEnvironment)?.variables
+        const environmentVariables = env.find((env) => env.branch === selectedEnvironment)?.variables
 
         if (!environmentVariables) return
 
@@ -105,7 +105,7 @@ function EnvironmentSettingsTab() {
 
     const toggleRemoveEnvVar = (varIndex: number) => {
         const newEnvList = [...env]
-        const environment = newEnvList.find(e => e.name === selectedEnvironment)
+        const environment = newEnvList.find(e => e.branch === selectedEnvironment)
         if (!environment) return
 
         const variables = environment.variables
@@ -164,7 +164,7 @@ function EnvironmentSettingsTab() {
                 })
 
                 if (newVars.length > 0) {
-                    const environment = env.find((env) => env.name === selectedEnvironment)
+                    const environment = env.find((env) => env.branch === selectedEnvironment)
                     if (!environment) return;
 
                     environment.variables.push(...newVars)
@@ -199,10 +199,10 @@ function EnvironmentSettingsTab() {
                             <SelectContent>
                                 {env.map((i) => (
                                     <SelectItem
-                                        key={i.name}
-                                        value={i.name}
+                                        key={i.branch}
+                                        value={i.branch}
                                     >
-                                        {i.name}
+                                        {i.branch}
                                     </SelectItem>
                                 ))}
                             </SelectContent>
@@ -253,7 +253,7 @@ function EnvironmentSettingsTab() {
                     <Separator className="my-4" />
 
                     <div className="space-y-4">
-                        {env.find(x => x.name === selectedEnvironment)?.variables.map((env, index) => (
+                        {env.find(x => x.branch === selectedEnvironment)?.variables.map((env, index) => (
                             <div key={index} className="flex items-center gap-4">
                                 <div className="grid flex-1 gap-2">
                                     <div className="grid grid-cols-2 gap-4">
