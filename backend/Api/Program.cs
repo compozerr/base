@@ -1,7 +1,3 @@
-using Api.Endpoints.Projects.ProjectEnvironment;
-using Api.Options;
-using Api.Services;
-using Core.Extensions;
 using Core.Feature;
 using Core.MediatR;
 using Serilog.Events;
@@ -15,11 +11,6 @@ Features.RegisterConfigureCallback<AssembliesFeatureConfigureCallback>();
 
 builder.ConfigureFeatures();
 builder.Services.AddFeatures(builder.Configuration);
-builder.Services.AddScoped<IEncryptionService, EncryptionService>();
-builder.Services.AddScoped<IServerService, ServerService>();
-builder.Services.AddScoped<IDefaultEnvironmentVariablesAppender, DefaultEnvironmentVariablesAppender>();
-
-builder.Services.AddRequiredConfigurationOptions<EncryptionOptions>("Encryption");
 
 // Configure Serilog
 Log.Logger = new LoggerConfiguration()
