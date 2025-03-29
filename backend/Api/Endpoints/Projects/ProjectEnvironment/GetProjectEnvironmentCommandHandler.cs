@@ -5,7 +5,7 @@ using Core.MediatR;
 
 namespace Api.Endpoints.Projects.ProjectEnvironment;
 
-public sealed record GetProjectEnvironmentCommandHandler(
+public class GetProjectEnvironmentCommandHandler(
     IProjectRepository ProjectRepository,
     IDefaultEnvironmentVariablesAppender VariablesAppender
 ) : ICommandHandler<GetProjectEnvironmentCommand, GetProjectEnvironmentResponse>

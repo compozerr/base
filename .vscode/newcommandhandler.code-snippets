@@ -7,7 +7,7 @@
 			"",
 			"namespace ${1:Namespace};",
 			"",
-			"public sealed record ${2:Name}CommandHandler(",
+			"public sealed class ${2:Name}CommandHandler(",
 			"\t${3:Dependencies}) : ICommandHandler<${2:Name}Command, ${2:Name}Response>",
 			"{",
 			"\tpublic async Task<${2:Name}Response> Handle(${2:Name}Command command, CancellationToken cancellationToken = default)",
