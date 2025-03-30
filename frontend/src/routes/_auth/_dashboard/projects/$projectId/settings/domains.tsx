@@ -27,6 +27,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { FieldInfo } from '@/components/form/field-info'
 import { useAppForm } from '@/components/form/use-app-form'
 import { z } from "zod";
+import LoadingButton from '@/components/loading-button'
 
 export const Route = createFileRoute(
   '/_auth/_dashboard/projects/$projectId/settings/domains',
@@ -48,13 +49,14 @@ function DomainsSettingsTab() {
 
   const { invalidate } = useRouter();
 
-  const { mutate } = api.v1.postProjectsProjectIdDomains.useMutation({
+  const { mutateAsync } = api.v1.postProjectsProjectIdDomains.useMutation({
     path: {
       projectId
     }
   }, {
     onSuccess: () => {
       invalidate();
+      setShowDnsGuide(true);
     }
   });
 
@@ -69,7 +71,7 @@ function DomainsSettingsTab() {
       onChange: addDomainSchema
     },
     onSubmit: async ({ value }) => {
-      mutate(value);
+      await mutateAsync(value);
     }
   });
 
@@ -82,7 +84,7 @@ function DomainsSettingsTab() {
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-2">
-            {data?.domains?.map(d => {
+            {data?.domains?.map((d, index) => {
               return (
                 <>
                   <div className="flex items-center justify-between">
@@ -97,7 +99,7 @@ function DomainsSettingsTab() {
                       ? <Badge>Verified</Badge>
                       : <Badge className='text-destructive'>Not verified</Badge>}
                   </div>
-                  <Separator />
+                  {(index !== data.domains!.length - 1) && <Separator />}
                 </>
               )
             })}
@@ -110,45 +112,19 @@ function DomainsSettingsTab() {
 
             <form onSubmit={(e) => {
               e.preventDefault();
-              e.stopPropagation();
               addDomainForm.handleSubmit();
             }}>
-              <addDomainForm.Field name='domain' children={(field) => (
-                <>
-                  <Input
-                    id={field.name}
-                    name={field.name}
-                    value={field.state.value}
-                    onBlur={field.handleBlur}
-                    onChange={(e) => field.handleChange(e.target.value)}
-                    placeholder="example.com"
-                    className="flex-1"
-                  />
-                  <FieldInfo field={field} />
-                </>
-              )} />
-              <addDomainForm.Field name="systemType" children={(field) => (
-                <>
-                  <Select value={field.state.value} onValueChange={(value) => field.handleChange(value as SystemType)}>
-                    <SelectTrigger className="w-1/2" id={field.name}>
-                      <SelectValue placeholder="Select system type" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {
-                        SystemTypes.map(x => (
-                          <SelectItem key={x} value={x}>
-                            {x}
-                          </SelectItem>
-                        ))
-                      }
-                    </SelectContent>
-                  </Select>
-                  <FieldInfo field={field} />
-                </>
-              )} />
+              <section className='flex flex-row gap-2 mb-4'>
+                <addDomainForm.AppField name='domain' children={(field) => (
+                  <field.TextField className='w-full' placeholder='example.com' />
+                )} />
+                <addDomainForm.AppField name="systemType" children={(field) => (
+                  <field.SelectField className='w-[250px]' values={SystemTypes} />
+                )} />
+              </section>
               <addDomainForm.Subscribe
                 selector={(state) => [state.canSubmit, state.isSubmitting]} children={([canSubmit, isSubmitting]) => (
-                  <Button type='submit' onClick={() => setShowDnsGuide(true)}>Add</Button>
+                  <LoadingButton isLoading={!!isSubmitting} disabled={!canSubmit} type='submit'>Add</LoadingButton>
                 )} />
 
             </form>
