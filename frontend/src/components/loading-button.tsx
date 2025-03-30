@@ -6,16 +6,16 @@ interface Props extends ButtonProps {
     isLoading: boolean;
 }
 
-const LoadingButton: React.FC<Props> = (props) => {
+const LoadingButton: React.FC<Props> = ({isLoading, ...restProps}) => {
     return (
         <Button
-            {...props}
-            disabled={props.isLoading || props.disabled}
+            {...restProps}
+            disabled={isLoading || restProps.disabled}
         >
-            {props.isLoading ? (
+            {isLoading ? (
                 <LoaderIcon className='animate-spin' />
             ) : (
-                props.children
+                restProps.children
             )}
         </Button>
     );
