@@ -2,7 +2,6 @@ import { api } from '@/api-client'
 import { useAppForm } from '@/components/form/use-app-form'
 import LoadingButton from '@/components/loading-button'
 import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
 import {
   Card,
   CardContent,
@@ -11,28 +10,13 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
 import { TabsContent } from '@/components/ui/tabs'
 import { createFileRoute, useRouter } from '@tanstack/react-router'
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import { z } from "zod"
 import { SystemType, SystemTypes } from '../../../../../../lib/system-type'
 
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle
-} from "@/components/ui/dialog"
+import VerifyDnsDialog from './!components/verify-dns-dialog'
 
 export const Route = createFileRoute(
   '/_auth/_dashboard/projects/$projectId/settings/domains',
@@ -53,23 +37,6 @@ function DomainsSettingsTab() {
   const { data } = Route.useLoaderData();
 
   const [selectedDomainId, setSelectedDomainId] = useState<string | null>(null);
-  const { data: parentDomainData } = api.v1.getProjectsProjectIdDomainsDomainIdParent.useQuery({
-    path: {
-      domainId: selectedDomainId!,
-      projectId
-    }
-  }, { enabled: !!selectedDomainId });
-
-
-  const dnsGuide = useMemo(() => {
-    const selectedDomainValue = data?.domains?.find(x => x.domainId == selectedDomainId);
-    if (!selectedDomainId || !selectedDomainValue || !parentDomainData?.domain) return null;
-
-    return {
-      name: selectedDomainValue.value,
-      value: parentDomainData.domain
-    }
-  }, [parentDomainData, selectedDomainId]);
 
   const { invalidate } = useRouter();
 
@@ -83,7 +50,6 @@ function DomainsSettingsTab() {
       setSelectedDomainId(domainId || null);
     }
   });
-
 
   const addDomainForm = useAppForm({
     defaultValues: {
@@ -151,61 +117,8 @@ function DomainsSettingsTab() {
                 )} />
             </form>
           </div>
-          <Dialog open={!!dnsGuide}>
-            <DialogContent className="max-w-3xl w-full overflow-hidden">
-              <DialogHeader>
-                <DialogTitle>Set up DNS Records</DialogTitle>
-                <DialogDescription>
-                  Configure your domain's DNS settings to point to your project.
-                </DialogDescription>
-              </DialogHeader>
-              <div className="space-y-4">
-                <div>
-                  <h4 className="font-medium mb-2">Add CNAME record</h4>
-                  <div className="rounded-md border bg-card">
-                    <Table>
-                      <TableHeader>
-                        <TableRow>
-                          <TableHead>Type</TableHead>
-                          <TableHead>Name</TableHead>
-                          <TableHead>Value</TableHead>
-                          <TableHead>TTL</TableHead>
-                        </TableRow>
-                      </TableHeader>
-                      <TableBody>
-                        <TableRow>
-                          <TableCell className="font-medium">CNAME</TableCell>
-                          <TableCell>{dnsGuide?.name}</TableCell>
-                          <TableCell>{dnsGuide?.value}</TableCell>
-                          <TableCell>3600</TableCell>
-                        </TableRow>
-                      </TableBody>
-                    </Table>
-                  </div>
-                </div>
 
-                <div className="rounded-md bg-muted p-4">
-                  <h4 className="font-medium mb-2">DNS Propagation</h4>
-                  <p className="text-sm text-muted-foreground">
-                    DNS changes can take up to 48 hours to propagate
-                    worldwide, though they often take effect much sooner.
-                    {/* We'll automatically check your DNS configuration and
-                    notify you when your domain is properly configured. */}
-                  </p>
-                </div>
-              </div>
-              <DialogFooter>
-                <Button
-                  variant="outline"
-                  onClick={() => setSelectedDomainId(null)}
-                >
-                  Close
-                </Button>
-                <Button>Verify DNS Configuration</Button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
-
+          <VerifyDnsDialog selectedDomainId={selectedDomainId} onClose={() => setSelectedDomainId(null)} projectId={projectId} domains={data?.domains} />
         </CardContent>
       </Card>
     </TabsContent>
