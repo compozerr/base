@@ -122,6 +122,8 @@ function EnvironmentSettingsTab() {
         const existingVar = environmentVariables.find((env) => env.key === newEnvKey)
         if (existingVar) {
             existingVar.value = newEnvValue
+            existingVar.isGenerated = false
+            existingVar.isNew = true
         } else {
             environmentVariables.push({
                 systemType: selectedSystemType,
