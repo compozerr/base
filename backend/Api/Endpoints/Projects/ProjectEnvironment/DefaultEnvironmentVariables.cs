@@ -32,6 +32,7 @@ public sealed class DefaultEnvironmentVariablesAppender(
         {
             current.AddIfNotFound(new(SystemType.Backend, "FRONTEND_URL", $"https://{frontendUrl}", true));
             var corsOrigins = project?.Domains?
+                .Where(x => x.ServiceName == "Frontend")
                 .Select(x => $"https://{x.GetValue}")
                 .Distinct()
                 .ToList() ?? [];
