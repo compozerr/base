@@ -6,8 +6,11 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table'
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 
+import { api } from '@/api-client'
+import LoadingButton from '@/components/loading-button'
+import { Button } from '@/components/ui/button'
 import {
     Dialog,
     DialogContent,
@@ -16,9 +19,8 @@ import {
     DialogHeader,
     DialogTitle
 } from "@/components/ui/dialog"
+import { useToast } from '@/hooks/use-toast'
 import React from 'react'
-import { api } from '@/api-client'
-import { Button } from '@/components/ui/button'
 
 interface Props {
     projectId: string
@@ -28,13 +30,47 @@ interface Props {
 }
 
 const VerifyDnsDialog: React.FC<Props> = (props) => {
+
+    const { toast } = useToast();
+
+    const [verifyLoading, setVerifyLoading] = useState<boolean>(false);
+
+    const checkIfVerifiedAsync = async () => {
+        setVerifyLoading(true);
+        const result = await api.v1.getProjectsProjectIdDomainsDomainIdVerify.fetchQuery({
+            parameters: {
+                path: {
+
+                    projectId: props.projectId,
+                    domainId: props.selectedDomainId!
+                }
+            }
+        });
+        setVerifyLoading(false);
+
+        if (result) {
+            toast({
+                title: "Domain verified",
+                description: "Your domain has been verified successfully.",
+                variant: "default"
+            });
+
+            props.onClose?.();
+        } else {
+            toast({
+                title: "Domain not verified",
+                description: "Your domain has not been verified yet. Please try again later.",
+                variant: "destructive"
+            });
+        }
+    }
+
     const { data: parentDomainData } = api.v1.getProjectsProjectIdDomainsDomainIdParent.useQuery({
         path: {
             domainId: props.selectedDomainId!,
             projectId: props.projectId
         }
     }, { enabled: !!props.selectedDomainId });
-
 
     const dnsGuide = useMemo(() => {
         const selectedDomainValue = props.domains?.find(x => x.domainId == props.selectedDomainId);
@@ -99,7 +135,9 @@ const VerifyDnsDialog: React.FC<Props> = (props) => {
                     >
                         Close
                     </Button>
-                    <Button>Verify DNS Configuration</Button>
+                    <LoadingButton isLoading={verifyLoading} onClick={() => {
+                        checkIfVerifiedAsync();
+                    }}>Verify DNS Configuration</LoadingButton>
                 </DialogFooter>
             </DialogContent>
         </Dialog>

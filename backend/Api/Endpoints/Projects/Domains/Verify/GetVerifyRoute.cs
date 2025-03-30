@@ -50,7 +50,7 @@ public static class GetVerifyRoute
             cancellationToken);
 
 
-        if (domain is ExternalDomain externalDomain)
+        if (isVerified && domain is ExternalDomain externalDomain)
         {
             externalDomain.IsVerified = isVerified;
             externalDomain.QueueDomainEvent<DomainChangeEvent>();
