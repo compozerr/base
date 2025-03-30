@@ -20,10 +20,10 @@ public sealed class DefaultEnvironmentVariablesAppender(
     {
         var project = await projectRepository.GetProjectByIdWithDomainsAsync(projectId);
 
-        var frontendInternalUrl = ((InternalDomain?)project?.Domains?.FirstOrDefault(x => x.Type == DomainType.Internal && x.ServiceName.Equals("Frontend", StringComparison.InvariantCultureIgnoreCase)))?.Value;
-        var backendInternalUrl = ((InternalDomain?)project?.Domains?.FirstOrDefault(x => x.Type == DomainType.Internal && x.ServiceName.Equals("Backend", StringComparison.InvariantCultureIgnoreCase)))?.Value;
-        var frontendExternalUrl = ((ExternalDomain?)project?.Domains?.FirstOrDefault(x => x.Type == DomainType.External && x.ServiceName.Equals("Frontend", StringComparison.InvariantCultureIgnoreCase)))?.Value;
-        var backendExternalUrl = ((ExternalDomain?)project?.Domains?.FirstOrDefault(x => x.Type == DomainType.External && x.ServiceName.Equals("Backend", StringComparison.InvariantCultureIgnoreCase)))?.Value;
+        var frontendInternalUrl = ((InternalDomain?)project?.Domains?.FirstOrDefault(x => x.Type == DomainType.Internal && x.ServiceName.Equals("Frontend", StringComparison.InvariantCultureIgnoreCase)))?.GetValue;
+        var backendInternalUrl = ((InternalDomain?)project?.Domains?.FirstOrDefault(x => x.Type == DomainType.Internal && x.ServiceName.Equals("Backend", StringComparison.InvariantCultureIgnoreCase)))?.GetValue;
+        var frontendExternalUrl = ((ExternalDomain?)project?.Domains?.FirstOrDefault(x => x.Type == DomainType.External && x.ServiceName.Equals("Frontend", StringComparison.InvariantCultureIgnoreCase)))?.GetValue;
+        var backendExternalUrl = ((ExternalDomain?)project?.Domains?.FirstOrDefault(x => x.Type == DomainType.External && x.ServiceName.Equals("Backend", StringComparison.InvariantCultureIgnoreCase)))?.GetValue;
 
         var frontendUrl = frontendExternalUrl ?? frontendInternalUrl;
         var backendUrl = backendExternalUrl ?? backendInternalUrl;

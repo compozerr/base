@@ -1,3 +1,4 @@
+using System.Security.Cryptography.X509Certificates;
 using Database.Repositories;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,7 +24,9 @@ public sealed class DomainRepository(
         if (domain is InternalDomain internalDomain)
             return internalDomain;
 
-        var parentDomain = await _context.Domains.FirstOrDefaultAsync(
+        var parentDomain = await _context.Domains.Include(x => x.Project)
+                                                 .ThenInclude(x => x!.Server)
+                                                 .FirstOrDefaultAsync(
             x => x.ProjectId == domain.ProjectId && x.Type == DomainType.Internal && x.ServiceName == domain.ServiceName,
             cancellationToken) ?? throw new ArgumentException("Parent domain not found");
 
