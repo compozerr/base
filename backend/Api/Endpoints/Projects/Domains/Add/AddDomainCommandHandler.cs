@@ -11,7 +11,7 @@ public sealed class AddDomainCommandHandler(
         AddDomainCommand command,
         CancellationToken cancellationToken = default)
     {
-        await domainRepository.AddAsync(new ExternalDomain
+        var domain = await domainRepository.AddAsync(new ExternalDomain
         {
             ProjectId = command.ProjectId,
             ServiceName = command.ServiceName,
@@ -20,7 +20,7 @@ public sealed class AddDomainCommandHandler(
             IsVerified = false
         }, cancellationToken);
 
-        return new();
+        return new(domain.Id);
     }
 
     //TODO: This should be its own entity

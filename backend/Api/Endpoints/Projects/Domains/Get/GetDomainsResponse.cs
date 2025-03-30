@@ -1,9 +1,7 @@
-using Api.Abstractions;
-
 namespace Api.Endpoints.Projects.Domains.Get;
 
 public sealed record GetDomainDto(
-    DomainId DomainId,
+    Guid DomainId,
     string ServiceName,
     string Value,
     bool IsInternal,

@@ -12,7 +12,7 @@ public static class GetParentDomainRoute
         return app.MapGet(Route, ExecuteAsync);
     }
 
-    public static Task ExecuteAsync(
+    public static Task<GetParentDomainResponse> ExecuteAsync(
         Guid domainId,
         IMediator mediator)
         => mediator.Send(

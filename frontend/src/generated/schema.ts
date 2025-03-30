@@ -1130,7 +1130,9 @@ export interface paths {
                     headers: {
                         [name: string]: unknown;
                     };
-                    content?: never;
+                    content: {
+                        "application/json": components["schemas"]["GetParentDomainResponse"];
+                    };
                 };
             };
         };
@@ -1243,7 +1245,9 @@ export interface components {
             domain?: string | null;
             serviceName?: string | null;
         };
-        AddDomainResponse: Record<string, never>;
+        AddDomainResponse: {
+            domainId?: components["schemas"]["DomainId"];
+        };
         ChangeDeploymentStatusRequest: {
             status?: string | null;
         };
@@ -1316,7 +1320,8 @@ export interface components {
             buildLogs?: string[] | null;
         };
         GetDomainDto: {
-            domainId?: components["schemas"]["DomainId"];
+            /** Format: uuid */
+            domainId?: string;
             serviceName?: string | null;
             value?: string | null;
             isInternal?: boolean;
@@ -1332,6 +1337,9 @@ export interface components {
             selectedProjectsInstallationId?: string | null;
             selectedModulesInstallationId?: string | null;
             installations?: components["schemas"]["InstallationDto"][] | null;
+        };
+        GetParentDomainResponse: {
+            domain?: string | null;
         };
         GetProjectByRepoUrlRequest: {
             repoUrl?: string | null;

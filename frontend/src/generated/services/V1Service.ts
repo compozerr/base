@@ -7605,7 +7605,7 @@ type GetProjectsProjectIdDomainsDomainIdParentSchema = {
     url: "/v1/projects/{projectId}/domains/{domainId}/parent";
 };
 type GetProjectsProjectIdDomainsDomainIdParentParameters = paths["/v1/projects/{projectId}/domains/{domainId}/parent"]["get"]["parameters"];
-type GetProjectsProjectIdDomainsDomainIdParentData = unknown;
+type GetProjectsProjectIdDomainsDomainIdParentData = paths["/v1/projects/{projectId}/domains/{domainId}/parent"]["get"]["responses"]["200"]["content"]["application/json"];
 type GetProjectsProjectIdDomainsDomainIdParentError = unknown;
 type PostServersSchema = {
     method: "post";

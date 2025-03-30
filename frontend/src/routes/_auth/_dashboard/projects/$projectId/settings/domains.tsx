@@ -21,7 +21,7 @@ import {
 } from '@/components/ui/table'
 import { TabsContent } from '@/components/ui/tabs'
 import { createFileRoute, useRouter } from '@tanstack/react-router'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { z } from "zod"
 import { SystemType, SystemTypes } from '../../../../../../lib/system-type'
 
@@ -31,11 +31,8 @@ import {
   DialogDescription,
   DialogFooter,
   DialogHeader,
-  DialogTitle,
-  DialogTrigger,
+  DialogTitle
 } from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 
 export const Route = createFileRoute(
   '/_auth/_dashboard/projects/$projectId/settings/domains',
@@ -51,16 +48,28 @@ const addDomainSchema = z.object({
   serviceName: z.enum(SystemTypes)
 });
 
-type DnsGuideData = {
-  name: string,
-  value: string
-}
-
 function DomainsSettingsTab() {
-  const [dnsGuide, setDnsGuide] = useState<DnsGuideData | null>(null)
   const { projectId } = Route.useParams();
+  const { data } = Route.useLoaderData();
 
-  const {data: parentDomainData} = api.v1.
+  const [selectedDomainId, setSelectedDomainId] = useState<string | null>(null);
+  const { data: parentDomainData } = api.v1.getProjectsProjectIdDomainsDomainIdParent.useQuery({
+    path: {
+      domainId: selectedDomainId!,
+    }
+  }, { enabled: !!selectedDomainId });
+
+
+  const dnsGuide = useMemo(() => {
+    const selectedDomainValue = data?.domains?.find(x => x.domainId == selectedDomainId);
+    console.log({selectedDomainValue, selectedDomainId});
+    if (!selectedDomainId || !selectedDomainValue || !parentDomainData?.domain) return null;
+    
+    return {
+      name: selectedDomainValue.value,
+      value: parentDomainData.domain
+    }
+  }, [parentDomainData, selectedDomainId]);
 
   const { invalidate } = useRouter();
 
@@ -69,16 +78,12 @@ function DomainsSettingsTab() {
       projectId
     }
   }, {
-    onSuccess: ({ domain, parentDomain }) => {
+    onSuccess: ({ domainId }) => {
       invalidate();
-      setDnsGuide({
-        name: domain!,
-        value: parentDomain!
-      });
+      setSelectedDomainId(domainId || null);
     }
   });
 
-  const { data } = Route.useLoaderData();
 
   const addDomainForm = useAppForm({
     defaultValues: {
@@ -115,7 +120,7 @@ function DomainsSettingsTab() {
 
                     {d.isVerified
                       ? <Badge>Verified</Badge>
-                      : <Badge onClick={() => setDnsGuide(true)} variant="destructive">Not verified</Badge>}
+                      : <Badge onClick={() => setSelectedDomainId(d.domainId ?? null)} variant="destructive">Not verified</Badge>}
                   </div>
                   {(index !== data.domains!.length - 1) && <Separator />}
                 </>
@@ -146,7 +151,7 @@ function DomainsSettingsTab() {
                 )} />
             </form>
           </div>
-          <Dialog open={!!dnsGuide || true}>
+          <Dialog open={!!dnsGuide}>
             <DialogContent>
               <DialogHeader>
                 <DialogTitle>Set up DNS Records</DialogTitle>
@@ -170,8 +175,8 @@ function DomainsSettingsTab() {
                       <TableBody>
                         <TableRow>
                           <TableCell className="font-medium">CNAME</TableCell>
-                          <TableCell>www</TableCell>
-                          <TableCell>cname.vercel-dns.com</TableCell>
+                          <TableCell>{dnsGuide?.name}</TableCell>
+                          <TableCell>{dnsGuide?.value}</TableCell>
                           <TableCell>3600</TableCell>
                         </TableRow>
                       </TableBody>
@@ -192,7 +197,7 @@ function DomainsSettingsTab() {
               <DialogFooter>
                 <Button
                   variant="outline"
-                  onClick={() => setDnsGuide(null)}
+                  onClick={() => setSelectedDomainId(null)}
                 >
                   Close
                 </Button>
