@@ -44,7 +44,8 @@ const VerifyDnsDialog: React.FC<Props> = (props) => {
                     projectId: props.projectId,
                     domainId: props.selectedDomainId!
                 }
-            }
+            },
+            staleTime: 0
         });
         setVerifyLoading(false);
 
