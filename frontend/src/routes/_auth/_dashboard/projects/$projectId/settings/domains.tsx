@@ -63,9 +63,8 @@ function DomainsSettingsTab() {
 
   const dnsGuide = useMemo(() => {
     const selectedDomainValue = data?.domains?.find(x => x.domainId == selectedDomainId);
-    console.log({selectedDomainValue, selectedDomainId});
     if (!selectedDomainId || !selectedDomainValue || !parentDomainData?.domain) return null;
-    
+
     return {
       name: selectedDomainValue.value,
       value: parentDomainData.domain
@@ -153,7 +152,7 @@ function DomainsSettingsTab() {
             </form>
           </div>
           <Dialog open={!!dnsGuide}>
-            <DialogContent>
+            <DialogContent className="max-w-3xl w-full overflow-hidden">
               <DialogHeader>
                 <DialogTitle>Set up DNS Records</DialogTitle>
                 <DialogDescription>
