@@ -5,6 +5,7 @@ import { useDynamicAuth } from './hooks/use-dynamic-auth'
 import "./index.css";
 import { QueryClientProvider } from '@tanstack/react-query';
 import { queryClient } from './api-client';
+import { Toaster } from './components/ui/toaster';
 
 const router = createRouter({
   routeTree,
@@ -45,6 +46,7 @@ const App = () => {
     <AuthProvider>
       <QueryClientProvider client={queryClient}>
         <InnerApp />
+        <Toaster/>
       </QueryClientProvider>
     </AuthProvider>
   );
