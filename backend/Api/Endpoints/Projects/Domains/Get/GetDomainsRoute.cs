@@ -1,3 +1,6 @@
+using Api.Abstractions;
+using MediatR;
+
 namespace Api.Endpoints.Projects.Domains.Get;
 
 public static class GetDomainsRoute
@@ -9,8 +12,10 @@ public static class GetDomainsRoute
         return app.MapGet(Route, ExecuteAsync);
     }
 
-    public static Task ExecuteAsync()
-    {
-        return Task.CompletedTask;
-    }
+    public static Task<GetDomainsResponse> ExecuteAsync(
+        Guid projectId,
+        IMediator mediator)
+        => mediator.Send(
+            new GetDomainsCommand(
+                ProjectId.Create(projectId)));
 }
