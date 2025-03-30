@@ -392,6 +392,7 @@ function EnvironmentSettingsTab() {
                                             id="new-env-key"
                                             ref={inputVariableRef}
                                             placeholder="NEW_VARIABLE"
+                                            maxLength={255} 
                                             value={newEnvKey}
                                             onChange={(e) => setNewEnvKey(e.target.value)}
                                         />
@@ -401,7 +402,13 @@ function EnvironmentSettingsTab() {
                                             id="new-env-value"
                                             placeholder="value"
                                             value={newEnvValue}
-                                            onChange={(e) => setNewEnvValue(e.target.value)}
+                                            maxLength={20 * 1024} // 20KB
+                                            onChange={(e) => {
+                                                // Additional check to ensure value doesn't exceed 1MB
+                                                if (e.target.value.length <= 20 * 1024) {
+                                                    setNewEnvValue(e.target.value)
+                                                }
+                                            }}
                                         />
                                     </div>
                                 </div>
