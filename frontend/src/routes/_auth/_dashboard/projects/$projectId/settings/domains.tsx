@@ -20,15 +20,21 @@ import {
 } from '@/components/ui/table'
 import { TabsContent } from '@/components/ui/tabs'
 import { createFileRoute } from '@tanstack/react-router'
+import { api } from '@/api-client'
 
 export const Route = createFileRoute(
   '/_auth/_dashboard/projects/$projectId/settings/domains',
 )({
   component: DomainsSettingsTab,
+  loader: ({ params: { projectId } }) => {
+    return api.v1.getProjectsProjectIdDomains({ parameters: { path: { projectId } } });
+  }
 })
 
 function DomainsSettingsTab() {
   const [showDnsGuide, setShowDnsGuide] = useState(false)
+
+  const { data, error } = Route.useLoaderData();
 
   return (
     <TabsContent value="domains" className="space-y-4 mt-6">
@@ -39,23 +45,25 @@ function DomainsSettingsTab() {
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-2">
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="font-medium">project-abc123.vercel.app</h3>
-                <p className="text-sm text-muted-foreground">
-                  Default Vercel domain
-                </p>
-              </div>
-              <Badge>Default</Badge>
-            </div>
-            <Separator />
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="font-medium">myawesomeproject.com</h3>
-                <p className="text-sm text-muted-foreground">Custom domain</p>
-              </div>
-              <Badge variant="outline">Valid</Badge>
-            </div>
+            {data?.domains?.map(d => {
+              return (
+                <>
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h3 className="font-medium">{d.value}</h3>
+                      <p className="text-sm text-muted-foreground">
+                        {d.serviceName}
+                      </p>
+                    </div>
+
+                    {d.isVerified
+                      ? <Badge>Verified</Badge>
+                      : <Badge className='text-destructive'>Not verified</Badge>}
+                  </div>
+                  <Separator />
+                </>
+              )
+            })}
           </div>
 
           <Separator className="my-4" />
