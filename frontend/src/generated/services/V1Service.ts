@@ -6222,6 +6222,271 @@ export interface V1Service {
             body: DeleteProjectsProjectIdDomainsDomainIdBody;
         };
     };
+    getProjectsProjectIdDomainsDomainIdParent: {
+        /**/
+        cancelQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetProjectsProjectIdDomainsDomainIdParentSchema, GetProjectsProjectIdDomainsDomainIdParentData, TInfinite, GetProjectsProjectIdDomainsDomainIdParentParameters, GetProjectsProjectIdDomainsDomainIdParentError> | QueryFiltersByQueryKey<GetProjectsProjectIdDomainsDomainIdParentSchema, GetProjectsProjectIdDomainsDomainIdParentData, TInfinite, GetProjectsProjectIdDomainsDomainIdParentParameters, GetProjectsProjectIdDomainsDomainIdParentError>, options?: CancelOptions): Promise<void>;
+        /**/
+        getQueryKey(parameters: GetProjectsProjectIdDomainsDomainIdParentParameters): ServiceOperationQueryKey<GetProjectsProjectIdDomainsDomainIdParentSchema, GetProjectsProjectIdDomainsDomainIdParentParameters>;
+        /**
+         * Performs asynchronous data fetching, manages loading states and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
+         * @example Query with parameters
+         * ```ts
+         * const { data, isLoading } = qraft.v1Service.getProjectsProjectIdDomainsDomainIdParent.useQuery({
+         *     path: {
+         *         domainId: domainId
+         *     }
+         * })
+         * ```
+         */
+        useQuery<TData = GetProjectsProjectIdDomainsDomainIdParentData>(parameters: ServiceOperationQueryKey<GetProjectsProjectIdDomainsDomainIdParentSchema, GetProjectsProjectIdDomainsDomainIdParentParameters> | (GetProjectsProjectIdDomainsDomainIdParentParameters), options?: Omit<UndefinedInitialDataOptions<GetProjectsProjectIdDomainsDomainIdParentData, GetProjectsProjectIdDomainsDomainIdParentError, TData, ServiceOperationQueryKey<GetProjectsProjectIdDomainsDomainIdParentSchema, GetProjectsProjectIdDomainsDomainIdParentParameters>>, "queryKey">): UseQueryResult<TData, GetProjectsProjectIdDomainsDomainIdParentError | Error>;
+        /**
+         * Performs asynchronous data fetching, manages loading states and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
+         * @example Query with parameters
+         * ```ts
+         * const { data, isLoading } = qraft.v1Service.getProjectsProjectIdDomainsDomainIdParent.useQuery({
+         *     path: {
+         *         domainId: domainId
+         *     }
+         * })
+         * ```
+         */
+        useQuery<TData = GetProjectsProjectIdDomainsDomainIdParentData>(parameters: ServiceOperationQueryKey<GetProjectsProjectIdDomainsDomainIdParentSchema, GetProjectsProjectIdDomainsDomainIdParentParameters> | (GetProjectsProjectIdDomainsDomainIdParentParameters), options: Omit<DefinedInitialDataOptions<GetProjectsProjectIdDomainsDomainIdParentData, GetProjectsProjectIdDomainsDomainIdParentError, TData, ServiceOperationQueryKey<GetProjectsProjectIdDomainsDomainIdParentSchema, GetProjectsProjectIdDomainsDomainIdParentParameters>>, "queryKey">): DefinedUseQueryResult<TData, GetProjectsProjectIdDomainsDomainIdParentError | Error>;
+        /**/
+        fetchInfiniteQuery<TPageParam extends GetProjectsProjectIdDomainsDomainIdParentParameters>(options: ServiceOperationFetchInfiniteQueryOptions<GetProjectsProjectIdDomainsDomainIdParentSchema, GetProjectsProjectIdDomainsDomainIdParentData, GetProjectsProjectIdDomainsDomainIdParentParameters, TPageParam, GetProjectsProjectIdDomainsDomainIdParentError>): Promise<OperationInfiniteData<GetProjectsProjectIdDomainsDomainIdParentData, GetProjectsProjectIdDomainsDomainIdParentParameters>>;
+        /**/
+        prefetchInfiniteQuery<TPageParam extends GetProjectsProjectIdDomainsDomainIdParentParameters>(options: ServiceOperationFetchInfiniteQueryOptions<GetProjectsProjectIdDomainsDomainIdParentSchema, GetProjectsProjectIdDomainsDomainIdParentData, GetProjectsProjectIdDomainsDomainIdParentParameters, TPageParam, GetProjectsProjectIdDomainsDomainIdParentError>): Promise<void>;
+        /**/
+        ensureInfiniteQueryData<TPageParam extends GetProjectsProjectIdDomainsDomainIdParentParameters>(options: ServiceOperationEnsureInfiniteQueryDataOptions<GetProjectsProjectIdDomainsDomainIdParentSchema, GetProjectsProjectIdDomainsDomainIdParentData, GetProjectsProjectIdDomainsDomainIdParentParameters, TPageParam, GetProjectsProjectIdDomainsDomainIdParentError>): Promise<OperationInfiniteData<GetProjectsProjectIdDomainsDomainIdParentData, GetProjectsProjectIdDomainsDomainIdParentParameters>>;
+        /**/
+        fetchQuery(options: ServiceOperationFetchQueryOptions<GetProjectsProjectIdDomainsDomainIdParentSchema, GetProjectsProjectIdDomainsDomainIdParentData, GetProjectsProjectIdDomainsDomainIdParentParameters, GetProjectsProjectIdDomainsDomainIdParentError>): Promise<GetProjectsProjectIdDomainsDomainIdParentData>;
+        /**/
+        prefetchQuery(options: ServiceOperationFetchQueryOptions<GetProjectsProjectIdDomainsDomainIdParentSchema, GetProjectsProjectIdDomainsDomainIdParentData, GetProjectsProjectIdDomainsDomainIdParentParameters, GetProjectsProjectIdDomainsDomainIdParentError>): Promise<void>;
+        /**/
+        ensureQueryData(options: ServiceOperationEnsureQueryDataOptions<GetProjectsProjectIdDomainsDomainIdParentSchema, GetProjectsProjectIdDomainsDomainIdParentData, GetProjectsProjectIdDomainsDomainIdParentParameters, GetProjectsProjectIdDomainsDomainIdParentError>): Promise<GetProjectsProjectIdDomainsDomainIdParentData>;
+        /**/
+        getInfiniteQueryData(parameters: ServiceOperationInfiniteQueryKey<GetProjectsProjectIdDomainsDomainIdParentSchema, GetProjectsProjectIdDomainsDomainIdParentParameters> | (GetProjectsProjectIdDomainsDomainIdParentParameters)): OperationInfiniteData<GetProjectsProjectIdDomainsDomainIdParentData, GetProjectsProjectIdDomainsDomainIdParentParameters> | undefined;
+        /**/
+        getQueriesData<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetProjectsProjectIdDomainsDomainIdParentSchema, GetProjectsProjectIdDomainsDomainIdParentData, TInfinite, GetProjectsProjectIdDomainsDomainIdParentParameters, GetProjectsProjectIdDomainsDomainIdParentError> | QueryFiltersByQueryKey<GetProjectsProjectIdDomainsDomainIdParentSchema, GetProjectsProjectIdDomainsDomainIdParentData, TInfinite, GetProjectsProjectIdDomainsDomainIdParentParameters, GetProjectsProjectIdDomainsDomainIdParentError>): TInfinite extends true ? Array<[
+            queryKey: ServiceOperationInfiniteQueryKey<GetProjectsProjectIdDomainsDomainIdParentSchema, GetProjectsProjectIdDomainsDomainIdParentParameters>,
+            data: NoInfer<OperationInfiniteData<GetProjectsProjectIdDomainsDomainIdParentData, GetProjectsProjectIdDomainsDomainIdParentParameters>> | undefined
+        ]> : Array<[
+            queryKey: ServiceOperationQueryKey<GetProjectsProjectIdDomainsDomainIdParentSchema, GetProjectsProjectIdDomainsDomainIdParentParameters>,
+            data: GetProjectsProjectIdDomainsDomainIdParentData | undefined
+        ]>;
+        /**/
+        getQueryData(parameters: ServiceOperationQueryKey<GetProjectsProjectIdDomainsDomainIdParentSchema, GetProjectsProjectIdDomainsDomainIdParentParameters> | (GetProjectsProjectIdDomainsDomainIdParentParameters)): GetProjectsProjectIdDomainsDomainIdParentData | undefined;
+        /**/
+        getQueryState(parameters: ServiceOperationQueryKey<GetProjectsProjectIdDomainsDomainIdParentSchema, GetProjectsProjectIdDomainsDomainIdParentParameters> | (GetProjectsProjectIdDomainsDomainIdParentParameters)): QueryState<GetProjectsProjectIdDomainsDomainIdParentData, GetProjectsProjectIdDomainsDomainIdParentError> | undefined;
+        /**/
+        getInfiniteQueryState(parameters: GetProjectsProjectIdDomainsDomainIdParentParameters | ServiceOperationInfiniteQueryKey<GetProjectsProjectIdDomainsDomainIdParentSchema, GetProjectsProjectIdDomainsDomainIdParentParameters>): QueryState<OperationInfiniteData<GetProjectsProjectIdDomainsDomainIdParentData, GetProjectsProjectIdDomainsDomainIdParentParameters>, GetProjectsProjectIdDomainsDomainIdParentError> | undefined;
+        /**/
+        invalidateQueries<TInfinite extends boolean = false>(filters?: InvalidateQueryFilters<GetProjectsProjectIdDomainsDomainIdParentSchema, GetProjectsProjectIdDomainsDomainIdParentData, TInfinite, GetProjectsProjectIdDomainsDomainIdParentParameters, GetProjectsProjectIdDomainsDomainIdParentError>, options?: InvalidateOptions): Promise<void>;
+        /**/
+        isFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetProjectsProjectIdDomainsDomainIdParentSchema, GetProjectsProjectIdDomainsDomainIdParentData, TInfinite, GetProjectsProjectIdDomainsDomainIdParentParameters, GetProjectsProjectIdDomainsDomainIdParentError> | QueryFiltersByQueryKey<GetProjectsProjectIdDomainsDomainIdParentSchema, GetProjectsProjectIdDomainsDomainIdParentData, TInfinite, GetProjectsProjectIdDomainsDomainIdParentParameters, GetProjectsProjectIdDomainsDomainIdParentError>): number;
+        /**/
+        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: QueryFnOptionsByQueryKey<GetProjectsProjectIdDomainsDomainIdParentSchema, GetProjectsProjectIdDomainsDomainIdParentParameters, TMeta, TSignal> | (QueryFnOptionsByParameters<GetProjectsProjectIdDomainsDomainIdParentParameters, TMeta, TSignal>), client?: (schema: GetProjectsProjectIdDomainsDomainIdParentSchema, options: {
+            parameters: GetProjectsProjectIdDomainsDomainIdParentParameters;
+            signal?: TSignal;
+            meta?: TMeta;
+        }) => Promise<RequestFnResponse<GetProjectsProjectIdDomainsDomainIdParentData, GetProjectsProjectIdDomainsDomainIdParentError>>): Promise<RequestFnResponse<GetProjectsProjectIdDomainsDomainIdParentData, GetProjectsProjectIdDomainsDomainIdParentError>>;
+        /**/
+        refetchQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetProjectsProjectIdDomainsDomainIdParentSchema, GetProjectsProjectIdDomainsDomainIdParentData, TInfinite, GetProjectsProjectIdDomainsDomainIdParentParameters, GetProjectsProjectIdDomainsDomainIdParentError> | QueryFiltersByQueryKey<GetProjectsProjectIdDomainsDomainIdParentSchema, GetProjectsProjectIdDomainsDomainIdParentData, TInfinite, GetProjectsProjectIdDomainsDomainIdParentParameters, GetProjectsProjectIdDomainsDomainIdParentError>, options?: RefetchOptions): Promise<void>;
+        /**/
+        removeQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetProjectsProjectIdDomainsDomainIdParentSchema, GetProjectsProjectIdDomainsDomainIdParentData, TInfinite, GetProjectsProjectIdDomainsDomainIdParentParameters, GetProjectsProjectIdDomainsDomainIdParentError> | QueryFiltersByQueryKey<GetProjectsProjectIdDomainsDomainIdParentSchema, GetProjectsProjectIdDomainsDomainIdParentData, TInfinite, GetProjectsProjectIdDomainsDomainIdParentParameters, GetProjectsProjectIdDomainsDomainIdParentError>): void;
+        /**/
+        resetQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetProjectsProjectIdDomainsDomainIdParentSchema, GetProjectsProjectIdDomainsDomainIdParentData, TInfinite, GetProjectsProjectIdDomainsDomainIdParentParameters, GetProjectsProjectIdDomainsDomainIdParentError> | QueryFiltersByQueryKey<GetProjectsProjectIdDomainsDomainIdParentSchema, GetProjectsProjectIdDomainsDomainIdParentData, TInfinite, GetProjectsProjectIdDomainsDomainIdParentParameters, GetProjectsProjectIdDomainsDomainIdParentError>, options?: ResetOptions): Promise<void>;
+        /**/
+        setInfiniteQueryData(parameters: GetProjectsProjectIdDomainsDomainIdParentParameters | ServiceOperationInfiniteQueryKey<GetProjectsProjectIdDomainsDomainIdParentSchema, GetProjectsProjectIdDomainsDomainIdParentParameters>, updater: Updater<NoInfer<OperationInfiniteData<GetProjectsProjectIdDomainsDomainIdParentData, GetProjectsProjectIdDomainsDomainIdParentParameters>> | undefined, NoInfer<OperationInfiniteData<GetProjectsProjectIdDomainsDomainIdParentData, GetProjectsProjectIdDomainsDomainIdParentParameters>> | undefined>, options?: SetDataOptions): OperationInfiniteData<GetProjectsProjectIdDomainsDomainIdParentData, GetProjectsProjectIdDomainsDomainIdParentParameters> | undefined;
+        /**/
+        setQueriesData<TInfinite extends boolean = false>(filters: QueryFiltersByParameters<GetProjectsProjectIdDomainsDomainIdParentSchema, GetProjectsProjectIdDomainsDomainIdParentData, TInfinite, GetProjectsProjectIdDomainsDomainIdParentParameters, GetProjectsProjectIdDomainsDomainIdParentError> | QueryFiltersByQueryKey<GetProjectsProjectIdDomainsDomainIdParentSchema, GetProjectsProjectIdDomainsDomainIdParentData, TInfinite, GetProjectsProjectIdDomainsDomainIdParentParameters, GetProjectsProjectIdDomainsDomainIdParentError>, updater: Updater<NoInfer<GetProjectsProjectIdDomainsDomainIdParentData> | undefined, NoInfer<GetProjectsProjectIdDomainsDomainIdParentData> | undefined>, options?: SetDataOptions): Array<GetProjectsProjectIdDomainsDomainIdParentData | undefined>;
+        /**/
+        setQueryData(parameters: (GetProjectsProjectIdDomainsDomainIdParentParameters) | ServiceOperationQueryKey<GetProjectsProjectIdDomainsDomainIdParentSchema, GetProjectsProjectIdDomainsDomainIdParentParameters>, updater: Updater<NoInfer<GetProjectsProjectIdDomainsDomainIdParentData> | undefined, NoInfer<GetProjectsProjectIdDomainsDomainIdParentData> | undefined>, options?: SetDataOptions): GetProjectsProjectIdDomainsDomainIdParentData | undefined;
+        /**/
+        getInfiniteQueryKey(parameters: GetProjectsProjectIdDomainsDomainIdParentParameters): ServiceOperationInfiniteQueryKey<GetProjectsProjectIdDomainsDomainIdParentSchema, GetProjectsProjectIdDomainsDomainIdParentParameters>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useInfiniteQuery|`useInfiniteQuery(...)` documentation}
+         *
+         * @example Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdDomainsDomainIdParent.useInfiniteQuery({
+         *     path: {
+         *         domainId: domainId
+         *     }
+         * }, {
+         *     initialPageParam: {},
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useInfiniteQuery<TPageParam extends GetProjectsProjectIdDomainsDomainIdParentParameters, TData = GetProjectsProjectIdDomainsDomainIdParentData>(parameters: ServiceOperationInfiniteQueryKey<GetProjectsProjectIdDomainsDomainIdParentSchema, GetProjectsProjectIdDomainsDomainIdParentParameters> | (GetProjectsProjectIdDomainsDomainIdParentParameters), options: Omit<UndefinedInitialDataInfiniteOptions<GetProjectsProjectIdDomainsDomainIdParentData, GetProjectsProjectIdDomainsDomainIdParentError, OperationInfiniteData<TData, GetProjectsProjectIdDomainsDomainIdParentParameters>, ServiceOperationInfiniteQueryKey<GetProjectsProjectIdDomainsDomainIdParentSchema, GetProjectsProjectIdDomainsDomainIdParentParameters>, PartialParameters<TPageParam>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<GetProjectsProjectIdDomainsDomainIdParentData, PartialParameters<TPageParam>>): UseInfiniteQueryResult<OperationInfiniteData<TData, GetProjectsProjectIdDomainsDomainIdParentParameters>, GetProjectsProjectIdDomainsDomainIdParentError | Error>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useInfiniteQuery|`useInfiniteQuery(...)` documentation}
+         *
+         * @example Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdDomainsDomainIdParent.useInfiniteQuery({
+         *     path: {
+         *         domainId: domainId
+         *     }
+         * }, {
+         *     initialPageParam: {},
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useInfiniteQuery<TPageParam extends GetProjectsProjectIdDomainsDomainIdParentParameters, TData = GetProjectsProjectIdDomainsDomainIdParentData>(parameters: ServiceOperationInfiniteQueryKey<GetProjectsProjectIdDomainsDomainIdParentSchema, GetProjectsProjectIdDomainsDomainIdParentParameters> | (GetProjectsProjectIdDomainsDomainIdParentParameters), options: Omit<DefinedInitialDataInfiniteOptions<GetProjectsProjectIdDomainsDomainIdParentData, GetProjectsProjectIdDomainsDomainIdParentError, OperationInfiniteData<TData, GetProjectsProjectIdDomainsDomainIdParentParameters>, ServiceOperationInfiniteQueryKey<GetProjectsProjectIdDomainsDomainIdParentSchema, GetProjectsProjectIdDomainsDomainIdParentParameters>, PartialParameters<TPageParam>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<GetProjectsProjectIdDomainsDomainIdParentData, PartialParameters<TPageParam>>): DefinedUseInfiniteQueryResult<OperationInfiniteData<TData, GetProjectsProjectIdDomainsDomainIdParentParameters>, GetProjectsProjectIdDomainsDomainIdParentError | Error>;
+        /**
+         * Monitors the number of queries currently fetching, matching the provided filters.
+         * Useful for creating loading indicators or performing actions based on active requests.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsFetching|`useIsFetching(...)` documentation}
+         * @example Checks the total number of queries fetching from the specified service method,
+         * both normal and infinite. If no parameters are provided, no filtering is applied.
+         * ```ts
+         * const getProjectsProjectIdDomainsDomainIdParentTotal = qraft.v1Service.getProjectsProjectIdDomainsDomainIdParent.useIsFetching()
+         * ```
+         * @example Checks the number of normal queries fetching with the specified parameters.
+         * ```ts
+         * const getProjectsProjectIdDomainsDomainIdParentByParametersTotal = qraft.v1Service.getProjectsProjectIdDomainsDomainIdParent.useIsFetching({
+         *     infinite: false,
+         *     parameters: {
+         *         path: {
+         *             domainId: domainId
+         *         }
+         *     }
+         * })
+         * ```
+         */
+        useIsFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetProjectsProjectIdDomainsDomainIdParentSchema, GetProjectsProjectIdDomainsDomainIdParentData, TInfinite, GetProjectsProjectIdDomainsDomainIdParentParameters, GetProjectsProjectIdDomainsDomainIdParentError> | QueryFiltersByQueryKey<GetProjectsProjectIdDomainsDomainIdParentSchema, GetProjectsProjectIdDomainsDomainIdParentData, TInfinite, GetProjectsProjectIdDomainsDomainIdParentParameters, GetProjectsProjectIdDomainsDomainIdParentError>): number;
+        /**
+         * Allows you to execute multiple asynchronous data fetching operations concurrently. This is especially useful for managing complex data dependencies in parallel.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
+         * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
+         * ```ts
+         * const getProjectsProjectIdDomainsDomainIdParentResults = qraft.v1Service.getProjectsProjectIdDomainsDomainIdParent.useQueries({
+         *     queries: [
+         *         {
+         *             path: {
+         *                 domainId: domainId1
+         *             }
+         *         },
+         *         {
+         *             path: {
+         *                 domainId: domainId2
+         *             }
+         *         }
+         *     ]
+         * });
+         * getProjectsProjectIdDomainsDomainIdParentResults.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
+         * ```
+         * @example Combined results. Only the data will be returned.
+         * ```ts
+         * const getProjectsProjectIdDomainsDomainIdParentCombinedResults = qraft.v1Service.getProjectsProjectIdDomainsDomainIdParent.useQueries({
+         *     combine: results => results.map(result => result.data),
+         *     queries: [
+         *         {
+         *             path: {
+         *                 domainId: domainId1
+         *             }
+         *         },
+         *         {
+         *             path: {
+         *                 domainId: domainId2
+         *             }
+         *         }
+         *     ]
+         * });
+         * getProjectsProjectIdDomainsDomainIdParentCombinedResults.forEach(data => console.log({ data }));
+         * ```
+         */
+        useQueries<T extends Array<UseQueryOptionsForUseQueries<GetProjectsProjectIdDomainsDomainIdParentSchema, GetProjectsProjectIdDomainsDomainIdParentParameters, GetProjectsProjectIdDomainsDomainIdParentData, GetProjectsProjectIdDomainsDomainIdParentError>>, TCombinedResult = Array<UseQueryResult<GetProjectsProjectIdDomainsDomainIdParentData, GetProjectsProjectIdDomainsDomainIdParentError>>>(options: {
+            queries: T;
+            combine?: (results: Array<UseQueryResult<GetProjectsProjectIdDomainsDomainIdParentData, GetProjectsProjectIdDomainsDomainIdParentError>>) => TCombinedResult;
+        }): TCombinedResult;
+        /**/
+        getQueryKey(parameters: GetProjectsProjectIdDomainsDomainIdParentParameters): ServiceOperationQueryKey<GetProjectsProjectIdDomainsDomainIdParentSchema, GetProjectsProjectIdDomainsDomainIdParentParameters>;
+        /**
+         * Performs asynchronous data fetching, manages loading states and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
+         * @example Query with parameters
+         * ```ts
+         * const { data, isLoading } = qraft.v1Service.getProjectsProjectIdDomainsDomainIdParent.useQuery({
+         *     path: {
+         *         domainId: domainId
+         *     }
+         * })
+         * ```
+         */
+        useQuery<TData = GetProjectsProjectIdDomainsDomainIdParentData>(parameters: ServiceOperationQueryKey<GetProjectsProjectIdDomainsDomainIdParentSchema, GetProjectsProjectIdDomainsDomainIdParentParameters> | (GetProjectsProjectIdDomainsDomainIdParentParameters), options?: Omit<UndefinedInitialDataOptions<GetProjectsProjectIdDomainsDomainIdParentData, GetProjectsProjectIdDomainsDomainIdParentError, TData, ServiceOperationQueryKey<GetProjectsProjectIdDomainsDomainIdParentSchema, GetProjectsProjectIdDomainsDomainIdParentParameters>>, "queryKey">): UseQueryResult<TData, GetProjectsProjectIdDomainsDomainIdParentError | Error>;
+        /**
+         * Performs asynchronous data fetching, manages loading states and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
+         * @example Query with parameters
+         * ```ts
+         * const { data, isLoading } = qraft.v1Service.getProjectsProjectIdDomainsDomainIdParent.useQuery({
+         *     path: {
+         *         domainId: domainId
+         *     }
+         * })
+         * ```
+         */
+        useQuery<TData = GetProjectsProjectIdDomainsDomainIdParentData>(parameters: ServiceOperationQueryKey<GetProjectsProjectIdDomainsDomainIdParentSchema, GetProjectsProjectIdDomainsDomainIdParentParameters> | (GetProjectsProjectIdDomainsDomainIdParentParameters), options: Omit<DefinedInitialDataOptions<GetProjectsProjectIdDomainsDomainIdParentData, GetProjectsProjectIdDomainsDomainIdParentError, TData, ServiceOperationQueryKey<GetProjectsProjectIdDomainsDomainIdParentSchema, GetProjectsProjectIdDomainsDomainIdParentParameters>>, "queryKey">): DefinedUseQueryResult<TData, GetProjectsProjectIdDomainsDomainIdParentError | Error>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         * It functions similarly to `useInfiniteQuery`, but with added support for React Suspense.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseInfiniteQuery|`useSuspenseInfiniteQuery(...)` documentation}
+         *
+         * @example Suspense Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdDomainsDomainIdParent.useSuspenseInfiniteQuery({
+         *     path: {
+         *         domainId: domainId
+         *     }
+         * }, {
+         *     initialPageParam: {},
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useSuspenseInfiniteQuery<TPageParam extends GetProjectsProjectIdDomainsDomainIdParentParameters, TData = GetProjectsProjectIdDomainsDomainIdParentData>(parameters: ServiceOperationInfiniteQueryKey<GetProjectsProjectIdDomainsDomainIdParentSchema, GetProjectsProjectIdDomainsDomainIdParentParameters> | (GetProjectsProjectIdDomainsDomainIdParentParameters), options: Omit<UseSuspenseInfiniteQueryOptions<GetProjectsProjectIdDomainsDomainIdParentData, GetProjectsProjectIdDomainsDomainIdParentError, OperationInfiniteData<TData, GetProjectsProjectIdDomainsDomainIdParentParameters>, GetProjectsProjectIdDomainsDomainIdParentData, ServiceOperationInfiniteQueryKey<GetProjectsProjectIdDomainsDomainIdParentSchema, GetProjectsProjectIdDomainsDomainIdParentParameters>, PartialParameters<TPageParam>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<GetProjectsProjectIdDomainsDomainIdParentData, PartialParameters<TPageParam>>): UseSuspenseInfiniteQueryResult<OperationInfiniteData<TData, GetProjectsProjectIdDomainsDomainIdParentParameters>, GetProjectsProjectIdDomainsDomainIdParentError | Error>;
+        /**/
+        useSuspenseQueries<T extends Array<UseQueryOptionsForUseSuspenseQuery<GetProjectsProjectIdDomainsDomainIdParentSchema, GetProjectsProjectIdDomainsDomainIdParentParameters, GetProjectsProjectIdDomainsDomainIdParentData, GetProjectsProjectIdDomainsDomainIdParentError>>, TCombinedResult = Array<UseSuspenseQueryResult<GetProjectsProjectIdDomainsDomainIdParentData, GetProjectsProjectIdDomainsDomainIdParentError>>>(options: {
+            queries: T;
+            combine?: (results: Array<WithOptional<UseSuspenseQueryResult<GetProjectsProjectIdDomainsDomainIdParentData, GetProjectsProjectIdDomainsDomainIdParentError>, "data">>) => TCombinedResult;
+        }): TCombinedResult;
+        /**/
+        useSuspenseQuery<TData = GetProjectsProjectIdDomainsDomainIdParentData>(parameters: ServiceOperationQueryKey<GetProjectsProjectIdDomainsDomainIdParentSchema, GetProjectsProjectIdDomainsDomainIdParentParameters> | (GetProjectsProjectIdDomainsDomainIdParentParameters), options?: Omit<UseSuspenseQueryOptions<GetProjectsProjectIdDomainsDomainIdParentData, GetProjectsProjectIdDomainsDomainIdParentError, TData, ServiceOperationQueryKey<GetProjectsProjectIdDomainsDomainIdParentSchema, GetProjectsProjectIdDomainsDomainIdParentParameters>>, "queryKey">): UseSuspenseQueryResult<TData, GetProjectsProjectIdDomainsDomainIdParentError | Error>;
+        schema: GetProjectsProjectIdDomainsDomainIdParentSchema;
+        types: {
+            parameters: GetProjectsProjectIdDomainsDomainIdParentParameters;
+            data: GetProjectsProjectIdDomainsDomainIdParentData;
+            error: GetProjectsProjectIdDomainsDomainIdParentError;
+        };
+    };
     postServers: {
         /**/
         getMutationKey(parameters: PostServersParameters | void): ServiceOperationMutationKey<PostServersSchema, PostServersParameters>;
@@ -6836,6 +7101,12 @@ export const v1Service: {
             url: "/v1/projects/{projectId}/domains/{domainId}";
         };
     };
+    getProjectsProjectIdDomainsDomainIdParent: {
+        schema: {
+            method: "get";
+            url: "/v1/projects/{projectId}/domains/{domainId}/parent";
+        };
+    };
     postServers: {
         schema: {
             method: "post";
@@ -7050,6 +7321,12 @@ export const v1Service: {
         schema: {
             method: "delete",
             url: "/v1/projects/{projectId}/domains/{domainId}"
+        }
+    },
+    getProjectsProjectIdDomainsDomainIdParent: {
+        schema: {
+            method: "get",
+            url: "/v1/projects/{projectId}/domains/{domainId}/parent"
         }
     },
     postServers: {
@@ -7323,6 +7600,13 @@ type DeleteProjectsProjectIdDomainsDomainIdParameters = paths["/v1/projects/{pro
 type DeleteProjectsProjectIdDomainsDomainIdData = paths["/v1/projects/{projectId}/domains/{domainId}"]["delete"]["responses"]["200"]["content"]["application/json"];
 type DeleteProjectsProjectIdDomainsDomainIdError = unknown;
 type DeleteProjectsProjectIdDomainsDomainIdBody = undefined;
+type GetProjectsProjectIdDomainsDomainIdParentSchema = {
+    method: "get";
+    url: "/v1/projects/{projectId}/domains/{domainId}/parent";
+};
+type GetProjectsProjectIdDomainsDomainIdParentParameters = paths["/v1/projects/{projectId}/domains/{domainId}/parent"]["get"]["parameters"];
+type GetProjectsProjectIdDomainsDomainIdParentData = unknown;
+type GetProjectsProjectIdDomainsDomainIdParentError = unknown;
 type PostServersSchema = {
     method: "post";
     url: "/v1/servers";

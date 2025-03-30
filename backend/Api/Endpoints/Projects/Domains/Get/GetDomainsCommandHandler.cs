@@ -36,8 +36,10 @@ public sealed class GetDomainsCommandHandler(
             {
                 domainDtos.Add(
                     new GetDomainDto(
+                        domain.Id,
                         domain.ServiceName,
                         value,
+                        domain is InternalDomain,
                         isVerified));
             }
         }

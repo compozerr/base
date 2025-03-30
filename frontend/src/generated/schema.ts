@@ -1107,6 +1107,41 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/projects/{projectId}/domains/{domainId}/parent": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    domainId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/servers": {
         parameters: {
             query?: never;
@@ -1260,6 +1295,8 @@ export interface components {
             port?: string | null;
             value?: string | null;
         };
+        /** Format: uuid */
+        DomainId: string;
         GetDeploymentResponse: {
             /** Format: uuid */
             id?: string;
@@ -1279,8 +1316,10 @@ export interface components {
             buildLogs?: string[] | null;
         };
         GetDomainDto: {
+            domainId?: components["schemas"]["DomainId"];
             serviceName?: string | null;
             value?: string | null;
+            isInternal?: boolean;
             isVerified?: boolean;
         };
         GetDomainsResponse: {

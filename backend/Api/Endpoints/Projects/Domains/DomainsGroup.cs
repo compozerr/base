@@ -1,6 +1,7 @@
 using Api.Endpoints.Projects.Domains.Add;
 using Api.Endpoints.Projects.Domains.Delete;
 using Api.Endpoints.Projects.Domains.Get;
+using Api.Endpoints.Projects.Domains.Parent;
 
 namespace Api.Endpoints.Projects.Domains;
 
@@ -15,6 +16,7 @@ public static class DomainsGroup
         group.AddGetDomainsRoute();
         group.AddDeleteDomainRoute();
         group.AddAddDomainRoute();
+        group.AddParentGroup();
 
         return group;
     }
