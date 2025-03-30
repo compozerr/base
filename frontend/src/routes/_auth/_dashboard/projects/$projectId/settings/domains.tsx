@@ -25,6 +25,8 @@ import { useForm } from "@tanstack/react-form"
 import { SystemType, SystemTypes } from '../../../../../../lib/system-type'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { FieldInfo } from '@/components/form/field-info'
+import { useAppForm } from '@/components/form/use-app-form'
+import { z } from "zod";
 
 export const Route = createFileRoute(
   '/_auth/_dashboard/projects/$projectId/settings/domains',
@@ -34,6 +36,11 @@ export const Route = createFileRoute(
     return api.v1.getProjectsProjectIdDomains({ parameters: { path: { projectId } } });
   }
 })
+
+const addDomainSchema = z.object({
+  domain: z.string().min(4).max(255).regex(/^[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,}$/, 'Invalid domain name'),
+  systemType: z.enum(SystemTypes)
+});
 
 function DomainsSettingsTab() {
   const [showDnsGuide, setShowDnsGuide] = useState(false)
@@ -53,10 +60,13 @@ function DomainsSettingsTab() {
 
   const { data, error } = Route.useLoaderData();
 
-  const addDomainForm = useForm({
+  const addDomainForm = useAppForm({
     defaultValues: {
       domain: '',
       systemType: "Frontend" as SystemType
+    },
+    validators: {
+      onChange: addDomainSchema
     },
     onSubmit: async ({ value }) => {
       mutate(value);
