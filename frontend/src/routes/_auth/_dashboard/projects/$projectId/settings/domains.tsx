@@ -1,4 +1,6 @@
-import React, { useState } from 'react'
+import { api } from '@/api-client'
+import { useAppForm } from '@/components/form/use-app-form'
+import LoadingButton from '@/components/loading-button'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
@@ -8,7 +10,6 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
 import {
   Table,
@@ -20,14 +21,21 @@ import {
 } from '@/components/ui/table'
 import { TabsContent } from '@/components/ui/tabs'
 import { createFileRoute, useRouter } from '@tanstack/react-router'
-import { api } from '@/api-client'
-import { useForm } from "@tanstack/react-form"
+import { useState } from 'react'
+import { z } from "zod"
 import { SystemType, SystemTypes } from '../../../../../../lib/system-type'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { FieldInfo } from '@/components/form/field-info'
-import { useAppForm } from '@/components/form/use-app-form'
-import { z } from "zod";
-import LoadingButton from '@/components/loading-button'
+
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 
 export const Route = createFileRoute(
   '/_auth/_dashboard/projects/$projectId/settings/domains',
@@ -43,9 +51,16 @@ const addDomainSchema = z.object({
   serviceName: z.enum(SystemTypes)
 });
 
+type DnsGuideData = {
+  name: string,
+  value: string
+}
+
 function DomainsSettingsTab() {
-  const [showDnsGuide, setShowDnsGuide] = useState(false)
+  const [dnsGuide, setDnsGuide] = useState<DnsGuideData | null>(null)
   const { projectId } = Route.useParams();
+
+  const {data: parentDomainData} = api.v1.
 
   const { invalidate } = useRouter();
 
@@ -54,9 +69,12 @@ function DomainsSettingsTab() {
       projectId
     }
   }, {
-    onSuccess: () => {
+    onSuccess: ({ domain, parentDomain }) => {
       invalidate();
-      setShowDnsGuide(true);
+      setDnsGuide({
+        name: domain!,
+        value: parentDomain!
+      });
     }
   });
 
@@ -97,7 +115,7 @@ function DomainsSettingsTab() {
 
                     {d.isVerified
                       ? <Badge>Verified</Badge>
-                      : <Badge variant="destructive">Not verified</Badge>}
+                      : <Badge onClick={() => setDnsGuide(true)} variant="destructive">Not verified</Badge>}
                   </div>
                   {(index !== data.domains!.length - 1) && <Separator />}
                 </>
@@ -128,90 +146,61 @@ function DomainsSettingsTab() {
                 )} />
             </form>
           </div>
-
-          {showDnsGuide && (
-            <Card className="mt-6 border-blue-200 bg-blue-50 dark:bg-blue-950 dark:border-blue-800">
-              <CardHeader className="pb-2">
-                <CardTitle className="text-lg">Set up DNS Records</CardTitle>
-                <CardDescription>
+          <Dialog open={!!dnsGuide || true}>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Set up DNS Records</DialogTitle>
+                <DialogDescription>
                   Configure your domain's DNS settings to point to your project.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div>
-                    <h4 className="font-medium mb-2">1. Add a CNAME record</h4>
-                    <div className="rounded-md border bg-card">
-                      <Table>
-                        <TableHeader>
-                          <TableRow>
-                            <TableHead>Type</TableHead>
-                            <TableHead>Name</TableHead>
-                            <TableHead>Value</TableHead>
-                            <TableHead>TTL</TableHead>
-                          </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                          <TableRow>
-                            <TableCell className="font-medium">CNAME</TableCell>
-                            <TableCell>www</TableCell>
-                            <TableCell>cname.vercel-dns.com</TableCell>
-                            <TableCell>3600</TableCell>
-                          </TableRow>
-                        </TableBody>
-                      </Table>
-                    </div>
-                  </div>
-
-                  <div>
-                    <h4 className="font-medium mb-2">
-                      2. Add an A record for the apex domain (optional)
-                    </h4>
-                    <div className="rounded-md border bg-card">
-                      <Table>
-                        <TableHeader>
-                          <TableRow>
-                            <TableHead>Type</TableHead>
-                            <TableHead>Name</TableHead>
-                            <TableHead>Value</TableHead>
-                            <TableHead>TTL</TableHead>
-                          </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                          <TableRow>
-                            <TableCell className="font-medium">A</TableCell>
-                            <TableCell>@</TableCell>
-                            <TableCell>76.76.21.21</TableCell>
-                            <TableCell>3600</TableCell>
-                          </TableRow>
-                        </TableBody>
-                      </Table>
-                    </div>
-                  </div>
-
-                  <div className="rounded-md bg-muted p-4">
-                    <h4 className="font-medium mb-2">DNS Propagation</h4>
-                    <p className="text-sm text-muted-foreground">
-                      DNS changes can take up to 48 hours to propagate
-                      worldwide, though they often take effect much sooner.
-                      We'll automatically check your DNS configuration and
-                      notify you when your domain is properly configured.
-                    </p>
-                  </div>
-
-                  <div className="flex justify-end space-x-2">
-                    <Button
-                      variant="outline"
-                      onClick={() => setShowDnsGuide(false)}
-                    >
-                      Close
-                    </Button>
-                    <Button>Verify DNS Configuration</Button>
+                </DialogDescription>
+              </DialogHeader>
+              <div className="space-y-4">
+                <div>
+                  <h4 className="font-medium mb-2">Add CNAME record</h4>
+                  <div className="rounded-md border bg-card">
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>Type</TableHead>
+                          <TableHead>Name</TableHead>
+                          <TableHead>Value</TableHead>
+                          <TableHead>TTL</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        <TableRow>
+                          <TableCell className="font-medium">CNAME</TableCell>
+                          <TableCell>www</TableCell>
+                          <TableCell>cname.vercel-dns.com</TableCell>
+                          <TableCell>3600</TableCell>
+                        </TableRow>
+                      </TableBody>
+                    </Table>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
-          )}
+
+                <div className="rounded-md bg-muted p-4">
+                  <h4 className="font-medium mb-2">DNS Propagation</h4>
+                  <p className="text-sm text-muted-foreground">
+                    DNS changes can take up to 48 hours to propagate
+                    worldwide, though they often take effect much sooner.
+                    {/* We'll automatically check your DNS configuration and
+                    notify you when your domain is properly configured. */}
+                  </p>
+                </div>
+              </div>
+              <DialogFooter>
+                <Button
+                  variant="outline"
+                  onClick={() => setDnsGuide(null)}
+                >
+                  Close
+                </Button>
+                <Button>Verify DNS Configuration</Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+
         </CardContent>
       </Card>
     </TabsContent>
