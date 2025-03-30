@@ -8,6 +8,7 @@ public sealed class ExternalDomain : Domain
     }
 
     public required string Value { get; set; }
+    public required bool IsVerified { get; set; } = false;
 
     public override string GetValue => Value;
 }

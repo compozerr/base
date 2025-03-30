@@ -17,6 +17,7 @@ public sealed class AddDomainCommandHandler(
             ServiceName = command.ServiceName,
             Port = GetServicePort(command.ServiceName),
             Value = command.Domain,
+            IsVerified = false
         }, cancellationToken);
 
         return new();

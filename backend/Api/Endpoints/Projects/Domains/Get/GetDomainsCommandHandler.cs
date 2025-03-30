@@ -25,12 +25,20 @@ public sealed class GetDomainsCommandHandler(
                 _ => string.Empty,
             };
 
+            var isVerified = domain switch
+            {
+                ExternalDomain externalDomain => externalDomain.IsVerified,
+                InternalDomain => true,
+                _ => false
+            };
+
             if (!string.IsNullOrEmpty(value))
             {
                 domainDtos.Add(
                     new GetDomainDto(
                         domain.ServiceName,
-                        value));
+                        value,
+                        isVerified));
             }
         }
         return new GetDomainsResponse(domainDtos);

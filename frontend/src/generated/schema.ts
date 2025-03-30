@@ -1281,6 +1281,7 @@ export interface components {
         GetDomainDto: {
             serviceName?: string | null;
             value?: string | null;
+            isVerified?: boolean;
         };
         GetDomainsResponse: {
             domains?: components["schemas"]["GetDomainDto"][] | null;
