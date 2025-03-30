@@ -32,6 +32,20 @@ public sealed class HostingApi(
            .Information("Health check response: {response}", rawString);
     }
 
+    public async Task UpdateDomainsForProjectAsync(ProjectId projectId)
+    {
+        var response = await HttpClient.PutAsync("/domains", JsonContent.Create(new
+        {
+            projectId = projectId.Value.ToString()
+        }));
+
+        if (!response.IsSuccessStatusCode)
+        {
+            Log.ForContext("BaseDomain", HttpClient.BaseDomain)
+               .Error("Failed to update domains for project {projectId}: {response}", projectId, await response.Content.ReadAsStringAsync());
+        }
+    }
+
     public async Task DeployAsync(Deployment deployment)
     {
         var userLogin = await githubService.GetUserLoginAsync(deployment.UserId);
