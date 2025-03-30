@@ -6116,6 +6116,7 @@ export interface V1Service {
          * ```ts
          * const { mutate, isPending } = qraft.v1Service.deleteProjectsProjectIdDomainsDomainId.useMutation({
          *     path: {
+         *         projectId: projectId,
          *         domainId: domainId
          *     }
          * })
@@ -6127,6 +6128,7 @@ export interface V1Service {
          * mutate({
          *     body: bodyPayload,
          *     path: {
+         *         projectId: projectId,
          *         domainId: domainId
          *     }
          * });
@@ -6142,6 +6144,7 @@ export interface V1Service {
          * ```ts
          * const { mutate, isPending } = qraft.v1Service.deleteProjectsProjectIdDomainsDomainId.useMutation({
          *     path: {
+         *         projectId: projectId,
          *         domainId: domainId
          *     }
          * })
@@ -6153,6 +6156,7 @@ export interface V1Service {
          * mutate({
          *     body: bodyPayload,
          *     path: {
+         *         projectId: projectId,
          *         domainId: domainId
          *     }
          * });
@@ -6172,6 +6176,7 @@ export interface V1Service {
          * const deleteProjectsProjectIdDomainsDomainIdTotal = qraft.v1Service.deleteProjectsProjectIdDomainsDomainId.useIsMutating({
          *     parameters: {
          *         path: {
+         *             projectId: projectId,
          *             domainId: domainId
          *         }
          *     }
@@ -6202,6 +6207,7 @@ export interface V1Service {
          *     filters: {
          *         parameters: {
          *             path: {
+         *                 projectId: projectId,
          *                 domainId: domainId
          *             }
          *         }

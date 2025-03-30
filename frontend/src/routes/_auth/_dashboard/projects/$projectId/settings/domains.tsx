@@ -17,6 +17,9 @@ import { z } from "zod"
 import { SystemType, SystemTypes } from '../../../../../../lib/system-type'
 
 import VerifyDnsDialog from './!components/verify-dns-dialog'
+import AreYouSureDialog from '@/components/are-you-sure-dialog'
+import { Button } from '@/components/ui/button'
+import { Trash2 } from 'lucide-react'
 
 export const Route = createFileRoute(
   '/_auth/_dashboard/projects/$projectId/settings/domains',
@@ -36,6 +39,8 @@ function DomainsSettingsTab() {
   const { projectId } = Route.useParams();
   const { data } = Route.useLoaderData();
 
+  const [deleteDomainId, setDeleteDomainId] = useState<string | null>(null);
+
   const [selectedDomainId, setSelectedDomainId] = useState<string | null>(null);
 
   const { invalidate } = useRouter();
@@ -48,8 +53,25 @@ function DomainsSettingsTab() {
     onSuccess: ({ domainId }) => {
       invalidate();
       setSelectedDomainId(domainId || null);
-    }
+    },
   });
+
+  const { mutateAsync: deleteDomainMutateAsync } = api.v1.deleteProjectsProjectIdDomainsDomainId.useMutation({
+    path: {
+      projectId,
+      domainId: deleteDomainId!
+    }
+  }, {
+    onSuccess: () => {
+      invalidate();
+    }
+  })
+
+  const deleteDomainAsync = async () => {
+    if (!deleteDomainId) return;
+
+    await deleteDomainMutateAsync();
+  }
 
   const addDomainForm = useAppForm({
     defaultValues: {
@@ -83,10 +105,20 @@ function DomainsSettingsTab() {
                         {d.serviceName}
                       </p>
                     </div>
+                    <section className='flex items-center gap-2'>
+                      {d.isVerified
+                        ? <Badge>Verified</Badge>
+                        : <Badge onClick={() => setSelectedDomainId(d.domainId ?? null)} variant="destructive">Not verified</Badge>}
 
-                    {d.isVerified
-                      ? <Badge>Verified</Badge>
-                      : <Badge onClick={() => setSelectedDomainId(d.domainId ?? null)} variant="destructive">Not verified</Badge>}
+                      {
+                        !d.isInternal && <Button
+                          size="icon"
+                          onClick={() => setDeleteDomainId(d.domainId || null)}
+                          variant="ghost">
+                          <Trash2 className='h-4-w-4 text-destructive' />
+                        </Button>
+                      }
+                    </section>
                   </div>
                   {(index !== data.domains!.length - 1) && <Separator />}
                 </div>
@@ -119,6 +151,22 @@ function DomainsSettingsTab() {
           </div>
 
           <VerifyDnsDialog selectedDomainId={selectedDomainId} onClose={() => setSelectedDomainId(null)} projectId={projectId} domains={data?.domains} />
+
+          <AreYouSureDialog
+            title='Are you sure you want to delete domain'
+            subtitle="This action cannot be reverted, you'll have to add it again..."
+            open={!!deleteDomainId}
+            onAnswer={(ans) => {
+              console.log({ ans })
+              if (ans && deleteDomainId) {
+                deleteDomainAsync().finally(() => {
+                  setDeleteDomainId(null);
+                });
+              } else {
+                setDeleteDomainId(null);
+              }
+
+            }} />
         </CardContent>
       </Card>
     </TabsContent>
