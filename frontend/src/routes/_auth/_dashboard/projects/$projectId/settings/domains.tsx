@@ -40,7 +40,7 @@ export const Route = createFileRoute(
 
 const addDomainSchema = z.object({
   domain: z.string().min(4).max(255).regex(/^[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,}$/, 'Invalid domain name'),
-  systemType: z.enum(SystemTypes)
+  serviceName: z.enum(SystemTypes)
 });
 
 function DomainsSettingsTab() {
@@ -60,12 +60,12 @@ function DomainsSettingsTab() {
     }
   });
 
-  const { data, error } = Route.useLoaderData();
+  const { data } = Route.useLoaderData();
 
   const addDomainForm = useAppForm({
     defaultValues: {
       domain: '',
-      systemType: "Frontend" as SystemType
+      serviceName: "Frontend" as SystemType
     },
     validators: {
       onChange: addDomainSchema
@@ -97,7 +97,7 @@ function DomainsSettingsTab() {
 
                     {d.isVerified
                       ? <Badge>Verified</Badge>
-                      : <Badge className='text-destructive'>Not verified</Badge>}
+                      : <Badge variant="destructive">Not verified</Badge>}
                   </div>
                   {(index !== data.domains!.length - 1) && <Separator />}
                 </>
@@ -118,7 +118,7 @@ function DomainsSettingsTab() {
                 <addDomainForm.AppField name='domain' children={(field) => (
                   <field.TextField className='w-full' placeholder='example.com' />
                 )} />
-                <addDomainForm.AppField name="systemType" children={(field) => (
+                <addDomainForm.AppField name="serviceName" children={(field) => (
                   <field.SelectField className='w-[250px]' values={SystemTypes} />
                 )} />
               </section>
@@ -126,7 +126,6 @@ function DomainsSettingsTab() {
                 selector={(state) => [state.canSubmit, state.isSubmitting]} children={([canSubmit, isSubmitting]) => (
                   <LoadingButton isLoading={!!isSubmitting} disabled={!canSubmit} type='submit'>Add</LoadingButton>
                 )} />
-
             </form>
           </div>
 
