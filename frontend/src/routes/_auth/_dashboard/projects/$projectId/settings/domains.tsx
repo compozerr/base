@@ -110,7 +110,7 @@ function DomainsSettingsTab() {
           <div className="space-y-2">
             {data?.domains?.map((d, index) => {
               return (
-                <>
+                <div key={index}>
                   <div className="flex items-center justify-between">
                     <div>
                       <h3 className="font-medium">{d.value}</h3>
@@ -124,7 +124,7 @@ function DomainsSettingsTab() {
                       : <Badge onClick={() => setSelectedDomainId(d.domainId ?? null)} variant="destructive">Not verified</Badge>}
                   </div>
                   {(index !== data.domains!.length - 1) && <Separator />}
-                </>
+                </div>
               )
             })}
           </div>
