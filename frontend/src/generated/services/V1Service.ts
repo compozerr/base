@@ -6235,6 +6235,7 @@ export interface V1Service {
          * ```ts
          * const { data, isLoading } = qraft.v1Service.getProjectsProjectIdDomainsDomainIdParent.useQuery({
          *     path: {
+         *         projectId: projectId,
          *         domainId: domainId
          *     }
          * })
@@ -6249,6 +6250,7 @@ export interface V1Service {
          * ```ts
          * const { data, isLoading } = qraft.v1Service.getProjectsProjectIdDomainsDomainIdParent.useQuery({
          *     path: {
+         *         projectId: projectId,
          *         domainId: domainId
          *     }
          * })
@@ -6317,6 +6319,7 @@ export interface V1Service {
          * ```ts
          * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdDomainsDomainIdParent.useInfiniteQuery({
          *     path: {
+         *         projectId: projectId,
          *         domainId: domainId
          *     }
          * }, {
@@ -6339,6 +6342,7 @@ export interface V1Service {
          * ```ts
          * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdDomainsDomainIdParent.useInfiniteQuery({
          *     path: {
+         *         projectId: projectId,
          *         domainId: domainId
          *     }
          * }, {
@@ -6367,6 +6371,7 @@ export interface V1Service {
          *     infinite: false,
          *     parameters: {
          *         path: {
+         *             projectId: projectId,
          *             domainId: domainId
          *         }
          *     }
@@ -6384,11 +6389,13 @@ export interface V1Service {
          *     queries: [
          *         {
          *             path: {
+         *                 projectId: projectId1,
          *                 domainId: domainId1
          *             }
          *         },
          *         {
          *             path: {
+         *                 projectId: projectId2,
          *                 domainId: domainId2
          *             }
          *         }
@@ -6403,11 +6410,13 @@ export interface V1Service {
          *     queries: [
          *         {
          *             path: {
+         *                 projectId: projectId1,
          *                 domainId: domainId1
          *             }
          *         },
          *         {
          *             path: {
+         *                 projectId: projectId2,
          *                 domainId: domainId2
          *             }
          *         }
@@ -6430,6 +6439,7 @@ export interface V1Service {
          * ```ts
          * const { data, isLoading } = qraft.v1Service.getProjectsProjectIdDomainsDomainIdParent.useQuery({
          *     path: {
+         *         projectId: projectId,
          *         domainId: domainId
          *     }
          * })
@@ -6444,6 +6454,7 @@ export interface V1Service {
          * ```ts
          * const { data, isLoading } = qraft.v1Service.getProjectsProjectIdDomainsDomainIdParent.useQuery({
          *     path: {
+         *         projectId: projectId,
          *         domainId: domainId
          *     }
          * })
@@ -6461,6 +6472,7 @@ export interface V1Service {
          * ```ts
          * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdDomainsDomainIdParent.useSuspenseInfiniteQuery({
          *     path: {
+         *         projectId: projectId,
          *         domainId: domainId
          *     }
          * }, {

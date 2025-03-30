@@ -4,7 +4,7 @@ namespace Api.Endpoints.Projects.Domains.Parent;
 
 public static class ParentGroup
 {
-    public const string Route = "{domainId:guid}/parent";
+    public const string Route = "/{domainId:guid}/parent";
 
     public static RouteGroupBuilder AddParentGroup(this IEndpointRouteBuilder app)
     {

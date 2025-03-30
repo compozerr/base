@@ -1119,6 +1119,7 @@ export interface paths {
                 query?: never;
                 header?: never;
                 path: {
+                    projectId: string;
                     domainId: string;
                 };
                 cookie?: never;

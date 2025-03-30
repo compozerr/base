@@ -13,6 +13,7 @@ public static class GetParentDomainRoute
     }
 
     public static Task<GetParentDomainResponse> ExecuteAsync(
+        Guid projectId,
         Guid domainId,
         IMediator mediator)
         => mediator.Send(

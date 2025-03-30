@@ -56,6 +56,7 @@ function DomainsSettingsTab() {
   const { data: parentDomainData } = api.v1.getProjectsProjectIdDomainsDomainIdParent.useQuery({
     path: {
       domainId: selectedDomainId!,
+      projectId
     }
   }, { enabled: !!selectedDomainId });
 
