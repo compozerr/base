@@ -30,6 +30,7 @@ import { Route as AuthDashboardProjectsProjectIdDeploymentsIndexImport } from '.
 import { Route as AuthDashboardProjectsProjectIdSettingsGeneralImport } from './routes/_auth/_dashboard/projects/$projectId/settings/general'
 import { Route as AuthDashboardProjectsProjectIdSettingsEnvironmentImport } from './routes/_auth/_dashboard/projects/$projectId/settings/environment'
 import { Route as AuthDashboardProjectsProjectIdSettingsDomainsImport } from './routes/_auth/_dashboard/projects/$projectId/settings/domains'
+import { Route as AuthDashboardProjectsProjectIdSettingsSystemTypeImport } from './routes/_auth/_dashboard/projects/$projectId/settings/SystemType'
 import { Route as AuthDashboardProjectsProjectIdDeploymentsDeploymentIdIndexImport } from './routes/_auth/_dashboard/projects/$projectId/deployments/$deploymentId/index'
 
 // Create/Update Routes
@@ -156,6 +157,13 @@ const AuthDashboardProjectsProjectIdSettingsDomainsRoute =
     getParentRoute: () => AuthDashboardProjectsProjectIdSettingsRouteRoute,
   } as any)
 
+const AuthDashboardProjectsProjectIdSettingsSystemTypeRoute =
+  AuthDashboardProjectsProjectIdSettingsSystemTypeImport.update({
+    id: '/SystemType',
+    path: '/SystemType',
+    getParentRoute: () => AuthDashboardProjectsProjectIdSettingsRouteRoute,
+  } as any)
+
 const AuthDashboardProjectsProjectIdDeploymentsDeploymentIdIndexRoute =
   AuthDashboardProjectsProjectIdDeploymentsDeploymentIdIndexImport.update({
     id: '/deployments/$deploymentId/',
@@ -265,6 +273,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthDashboardProjectsProjectIdIndexImport
       parentRoute: typeof AuthDashboardProjectsProjectIdRouteImport
     }
+    '/_auth/_dashboard/projects/$projectId/settings/SystemType': {
+      id: '/_auth/_dashboard/projects/$projectId/settings/SystemType'
+      path: '/SystemType'
+      fullPath: '/projects/$projectId/settings/SystemType'
+      preLoaderRoute: typeof AuthDashboardProjectsProjectIdSettingsSystemTypeImport
+      parentRoute: typeof AuthDashboardProjectsProjectIdSettingsRouteImport
+    }
     '/_auth/_dashboard/projects/$projectId/settings/domains': {
       id: '/_auth/_dashboard/projects/$projectId/settings/domains'
       path: '/domains'
@@ -313,6 +328,7 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 interface AuthDashboardProjectsProjectIdSettingsRouteRouteChildren {
+  AuthDashboardProjectsProjectIdSettingsSystemTypeRoute: typeof AuthDashboardProjectsProjectIdSettingsSystemTypeRoute
   AuthDashboardProjectsProjectIdSettingsDomainsRoute: typeof AuthDashboardProjectsProjectIdSettingsDomainsRoute
   AuthDashboardProjectsProjectIdSettingsEnvironmentRoute: typeof AuthDashboardProjectsProjectIdSettingsEnvironmentRoute
   AuthDashboardProjectsProjectIdSettingsGeneralRoute: typeof AuthDashboardProjectsProjectIdSettingsGeneralRoute
@@ -321,6 +337,8 @@ interface AuthDashboardProjectsProjectIdSettingsRouteRouteChildren {
 
 const AuthDashboardProjectsProjectIdSettingsRouteRouteChildren: AuthDashboardProjectsProjectIdSettingsRouteRouteChildren =
   {
+    AuthDashboardProjectsProjectIdSettingsSystemTypeRoute:
+      AuthDashboardProjectsProjectIdSettingsSystemTypeRoute,
     AuthDashboardProjectsProjectIdSettingsDomainsRoute:
       AuthDashboardProjectsProjectIdSettingsDomainsRoute,
     AuthDashboardProjectsProjectIdSettingsEnvironmentRoute:
@@ -405,6 +423,7 @@ export interface FileRoutesByFullPath {
   '/projects': typeof AuthDashboardProjectsIndexRoute
   '/projects/$projectId/settings': typeof AuthDashboardProjectsProjectIdSettingsRouteRouteWithChildren
   '/projects/$projectId/': typeof AuthDashboardProjectsProjectIdIndexRoute
+  '/projects/$projectId/settings/SystemType': typeof AuthDashboardProjectsProjectIdSettingsSystemTypeRoute
   '/projects/$projectId/settings/domains': typeof AuthDashboardProjectsProjectIdSettingsDomainsRoute
   '/projects/$projectId/settings/environment': typeof AuthDashboardProjectsProjectIdSettingsEnvironmentRoute
   '/projects/$projectId/settings/general': typeof AuthDashboardProjectsProjectIdSettingsGeneralRoute
@@ -425,6 +444,7 @@ export interface FileRoutesByTo {
   '/settings': typeof AuthDashboardSettingsRoute
   '/projects': typeof AuthDashboardProjectsIndexRoute
   '/projects/$projectId': typeof AuthDashboardProjectsProjectIdIndexRoute
+  '/projects/$projectId/settings/SystemType': typeof AuthDashboardProjectsProjectIdSettingsSystemTypeRoute
   '/projects/$projectId/settings/domains': typeof AuthDashboardProjectsProjectIdSettingsDomainsRoute
   '/projects/$projectId/settings/environment': typeof AuthDashboardProjectsProjectIdSettingsEnvironmentRoute
   '/projects/$projectId/settings/general': typeof AuthDashboardProjectsProjectIdSettingsGeneralRoute
@@ -449,6 +469,7 @@ export interface FileRoutesById {
   '/_auth/_dashboard/projects/': typeof AuthDashboardProjectsIndexRoute
   '/_auth/_dashboard/projects/$projectId/settings': typeof AuthDashboardProjectsProjectIdSettingsRouteRouteWithChildren
   '/_auth/_dashboard/projects/$projectId/': typeof AuthDashboardProjectsProjectIdIndexRoute
+  '/_auth/_dashboard/projects/$projectId/settings/SystemType': typeof AuthDashboardProjectsProjectIdSettingsSystemTypeRoute
   '/_auth/_dashboard/projects/$projectId/settings/domains': typeof AuthDashboardProjectsProjectIdSettingsDomainsRoute
   '/_auth/_dashboard/projects/$projectId/settings/environment': typeof AuthDashboardProjectsProjectIdSettingsEnvironmentRoute
   '/_auth/_dashboard/projects/$projectId/settings/general': typeof AuthDashboardProjectsProjectIdSettingsGeneralRoute
@@ -473,6 +494,7 @@ export interface FileRouteTypes {
     | '/projects'
     | '/projects/$projectId/settings'
     | '/projects/$projectId/'
+    | '/projects/$projectId/settings/SystemType'
     | '/projects/$projectId/settings/domains'
     | '/projects/$projectId/settings/environment'
     | '/projects/$projectId/settings/general'
@@ -492,6 +514,7 @@ export interface FileRouteTypes {
     | '/settings'
     | '/projects'
     | '/projects/$projectId'
+    | '/projects/$projectId/settings/SystemType'
     | '/projects/$projectId/settings/domains'
     | '/projects/$projectId/settings/environment'
     | '/projects/$projectId/settings/general'
@@ -514,6 +537,7 @@ export interface FileRouteTypes {
     | '/_auth/_dashboard/projects/'
     | '/_auth/_dashboard/projects/$projectId/settings'
     | '/_auth/_dashboard/projects/$projectId/'
+    | '/_auth/_dashboard/projects/$projectId/settings/SystemType'
     | '/_auth/_dashboard/projects/$projectId/settings/domains'
     | '/_auth/_dashboard/projects/$projectId/settings/environment'
     | '/_auth/_dashboard/projects/$projectId/settings/general'
@@ -621,6 +645,7 @@ export const routeTree = rootRoute
       "filePath": "./_auth/_dashboard/projects/$projectId/settings/route.tsx",
       "parent": "/_auth/_dashboard/projects/$projectId",
       "children": [
+        "/_auth/_dashboard/projects/$projectId/settings/SystemType",
         "/_auth/_dashboard/projects/$projectId/settings/domains",
         "/_auth/_dashboard/projects/$projectId/settings/environment",
         "/_auth/_dashboard/projects/$projectId/settings/general",
@@ -630,6 +655,10 @@ export const routeTree = rootRoute
     "/_auth/_dashboard/projects/$projectId/": {
       "filePath": "./_auth/_dashboard/projects/$projectId/index.tsx",
       "parent": "/_auth/_dashboard/projects/$projectId"
+    },
+    "/_auth/_dashboard/projects/$projectId/settings/SystemType": {
+      "filePath": "./_auth/_dashboard/projects/$projectId/settings/SystemType.ts",
+      "parent": "/_auth/_dashboard/projects/$projectId/settings"
     },
     "/_auth/_dashboard/projects/$projectId/settings/domains": {
       "filePath": "./_auth/_dashboard/projects/$projectId/settings/domains.tsx",

@@ -19,8 +19,12 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { TabsContent } from '@/components/ui/tabs'
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, useRouter } from '@tanstack/react-router'
 import { api } from '@/api-client'
+import { useForm } from "@tanstack/react-form"
+import { SystemType, SystemTypes } from './SystemType'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { FieldInfo } from '@/components/form/field-info'
 
 export const Route = createFileRoute(
   '/_auth/_dashboard/projects/$projectId/settings/domains',
@@ -33,8 +37,31 @@ export const Route = createFileRoute(
 
 function DomainsSettingsTab() {
   const [showDnsGuide, setShowDnsGuide] = useState(false)
+  const { projectId } = Route.useParams();
+
+  const { invalidate } = useRouter();
+
+  const { mutate } = api.v1.postProjectsProjectIdDomains.useMutation({
+    path: {
+      projectId
+    }
+  }, {
+    onSuccess: () => {
+      invalidate();
+    }
+  });
 
   const { data, error } = Route.useLoaderData();
+
+  const addDomainForm = useForm({
+    defaultValues: {
+      domain: '',
+      systemType: "Frontend" as SystemType
+    },
+    onSubmit: async ({ value }) => {
+      mutate(value);
+    }
+  });
 
   return (
     <TabsContent value="domains" className="space-y-4 mt-6">
@@ -70,10 +97,51 @@ function DomainsSettingsTab() {
 
           <div className="space-y-2">
             <h3 className="text-lg font-medium">Add Custom Domain</h3>
-            <div className="flex gap-2">
-              <Input placeholder="example.com" className="flex-1" />
-              <Button onClick={() => setShowDnsGuide(true)}>Add</Button>
-            </div>
+
+            <form onSubmit={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              addDomainForm.handleSubmit();
+            }}>
+              <addDomainForm.Field name='domain' children={(field) => (
+                <>
+                  <Input
+                    id={field.name}
+                    name={field.name}
+                    value={field.state.value}
+                    onBlur={field.handleBlur}
+                    onChange={(e) => field.handleChange(e.target.value)}
+                    placeholder="example.com"
+                    className="flex-1"
+                  />
+                  <FieldInfo field={field} />
+                </>
+              )} />
+              <addDomainForm.Field name="systemType" children={(field) => (
+                <>
+                  <Select value={field.state.value} onValueChange={(value) => field.handleChange(value as SystemType)}>
+                    <SelectTrigger className="w-1/2" id={field.name}>
+                      <SelectValue placeholder="Select system type" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {
+                        SystemTypes.map(x => (
+                          <SelectItem key={x} value={x}>
+                            {x}
+                          </SelectItem>
+                        ))
+                      }
+                    </SelectContent>
+                  </Select>
+                  <FieldInfo field={field} />
+                </>
+              )} />
+              <addDomainForm.Subscribe
+                selector={(state) => [state.canSubmit, state.isSubmitting]} children={([canSubmit, isSubmitting]) => (
+                  <Button type='submit' onClick={() => setShowDnsGuide(true)}>Add</Button>
+                )} />
+
+            </form>
           </div>
 
           {showDnsGuide && (

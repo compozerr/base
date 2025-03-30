@@ -16,6 +16,7 @@ import { cn } from '@/lib/utils'
 import { createFileRoute, Outlet, useRouter } from '@tanstack/react-router'
 import { Info, PlusCircle, Trash2, Undo } from 'lucide-react'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { SystemType, SystemTypes } from './SystemType'
 
 export const Route = createFileRoute(
     '/_auth/_dashboard/projects/$projectId/settings/environment',
@@ -48,10 +49,6 @@ type Environment = {
     branch: string,
     variables: EnvironmentVar[]
 }
-
-const SystemTypes = ["Frontend", "Backend"] as const;
-
-type SystemType = (typeof SystemTypes)[number]
 
 function EnvironmentSettingsTab() {
     const { data, error } = Route.useLoaderData();
