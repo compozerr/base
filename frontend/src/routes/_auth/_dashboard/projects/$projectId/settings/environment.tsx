@@ -84,7 +84,7 @@ function EnvironmentSettingsTab() {
                 isNew: false,
                 isDeleting: false,
                 isGenerated: !!item.isGenerated
-            })).sort(x=>x.isGenerated ? -1 : 1) || []
+            })).sort(x => x.isGenerated ? -1 : 1) || []
         }]
 
         setEnv(env)
@@ -93,7 +93,7 @@ function EnvironmentSettingsTab() {
     const saveChanges = () => {
         setIsSavingEnvChanges(true);
         mutate({
-            variables: env.find(x => x.branch === selectedBranch)?.variables.filter(x=>!x.isGenerated && !x.isDeleting) || []
+            variables: env.find(x => x.branch === selectedBranch)?.variables.filter(x => !x.isGenerated && !x.isDeleting) || []
         }, {
             onSuccess: () => {
                 invalidate();
@@ -244,8 +244,8 @@ function EnvironmentSettingsTab() {
                                 setSelectedBranch(value)
                             }
                         >
-                            <SelectTrigger className="w-1/2" id="modules-org">
-                                <SelectValue placeholder="Select organization" />
+                            <SelectTrigger className="w-1/2" id="select-branch">
+                                <SelectValue placeholder="Select branch" />
                             </SelectTrigger>
                             <SelectContent>
                                 {env.map((i) => (
@@ -262,6 +262,24 @@ function EnvironmentSettingsTab() {
 
                 </CardHeader>
                 <CardContent className="space-y-4">
+
+
+                    <Tabs defaultValue={selectedSystemType} className="w-full">
+                        <TabsList className="grid w-full grid-cols-2">
+                            {
+                                SystemTypes.map(x => (
+                                    <TabsTrigger value={x} onClick={() => {
+                                        setSelectedSystemType(x);
+                                    }} className={systemTypeHasChanges(x) ? "italic" : ""} key={x}>
+                                        {x}
+                                    </TabsTrigger>
+                                ))
+                            }
+                        </TabsList>
+
+                        <Outlet />
+                    </Tabs>
+
                     {/* Drag and drop area for .env file */}
                     <div
                         className={cn(
@@ -302,22 +320,6 @@ function EnvironmentSettingsTab() {
                     </div>
 
                     <Separator className="my-4" />
-
-                    <Tabs defaultValue={selectedSystemType} className="w-full">
-                        <TabsList className="grid w-full grid-cols-2">
-                            {
-                                SystemTypes.map(x => (
-                                    <TabsTrigger value={x} onClick={() => {
-                                        setSelectedSystemType(x);
-                                    }} className={systemTypeHasChanges(x) ? "italic" : ""} key={x}>
-                                        {x}
-                                    </TabsTrigger>
-                                ))
-                            }
-                        </TabsList>
-
-                        <Outlet />
-                    </Tabs>
 
                     <div className="space-y-4">
                         {variablesToShow?.length ? variablesToShow.map((env, index) => (
