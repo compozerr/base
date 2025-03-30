@@ -17,6 +17,7 @@ public class ApiDbContext(
     public DbSet<ProjectEnvironmentVariable> ProjectEnvironmentVariables => Set<ProjectEnvironmentVariable>();
     public DbSet<Server> Servers => Set<Server>();
     public DbSet<Secret> Secrets => Set<Secret>();
+    public DbSet<Domain> Domains => Set<Domain>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

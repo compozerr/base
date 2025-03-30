@@ -5,10 +5,16 @@ namespace Api.Data.Repositories;
 
 public interface IDomainRepository : IGenericRepository<Domain, DomainId, ApiDbContext>
 {
+    Task<bool> IsProjectDomainUniqueAsync(ProjectId projectId, string domain);
 };
 
 public sealed class DomainRepository(
     ApiDbContext context) : GenericRepository<Domain, DomainId, ApiDbContext>(context), IDomainRepository
 {
     private readonly ApiDbContext _context = context;
+
+    public Task<bool> IsProjectDomainUniqueAsync(ProjectId projectId, string domain)
+        => _context.Domains
+                .AsNoTracking()
+                .AnyAsync(d => d.ProjectId == projectId && d.Type == DomainType.External && ((ExternalDomain)d).Value == domain);
 };
