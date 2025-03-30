@@ -1,4 +1,5 @@
 using Api.Data.Repositories;
+using Auth.Services;
 using FluentValidation;
 
 namespace Api.Endpoints.Projects.Domains.Add;
@@ -10,6 +11,8 @@ public sealed class AddDomainCommandValidator : AbstractValidator<AddDomainComma
         var scope = scopeFactory.CreateScope();
 
         var domainRepository = scope.ServiceProvider.GetRequiredService<IDomainRepository>();
+        var projectRepository = scope.ServiceProvider.GetRequiredService<IProjectRepository>();
+        var currentUserAccessor = scope.ServiceProvider.GetRequiredService<ICurrentUserAccessor>();
 
         RuleFor(x => x.Domain)
             .NotEmpty()
@@ -20,6 +23,17 @@ public sealed class AddDomainCommandValidator : AbstractValidator<AddDomainComma
         RuleFor(x => x.Domain)
             .Matches(@"^[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,}$")
             .WithMessage("Domain is not valid");
+
+        RuleFor(x => x.ProjectId)
+          .MustAsync(async (command, projectId, cancellationToken) =>
+          {
+              var project = await projectRepository.GetByIdAsync(
+                  projectId,
+                  cancellationToken);
+
+              return project?.UserId == currentUserAccessor.CurrentUserId;
+          })
+          .WithErrorCode("403");
 
         RuleFor(x => x.Domain)
             .MustAsync(async (command, domain, cancellationToken) =>
