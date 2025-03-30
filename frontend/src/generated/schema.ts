@@ -1234,6 +1234,7 @@ export interface components {
             systemType?: components["schemas"]["SystemType"];
             key?: string | null;
             value?: string | null;
+            isGenerated?: boolean;
         };
         /** Format: uuid */
         ProjectId: string;

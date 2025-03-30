@@ -25,7 +25,8 @@ public class GetProjectEnvironmentCommandHandler(
             x => new ProjectEnvironmentVariableDto(
                 x.SystemType,
                 x.Key,
-                x.Value)).ToList() ?? [];
+                x.Value,
+                false)).ToList() ?? [];
 
         environmentVariables = await VariablesAppender.AppendDefaultVariablesAsync(
             environmentVariables,

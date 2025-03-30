@@ -1,4 +1,5 @@
 import { api } from '@/api-client'
+import LoadingButton from '@/components/loading-button'
 import { Button } from '@/components/ui/button'
 import {
     Card,
@@ -13,8 +14,8 @@ import { Separator } from '@/components/ui/separator'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { cn } from '@/lib/utils'
 import { createFileRoute, Outlet, useRouter } from '@tanstack/react-router'
-import { Link, PlusCircle, Trash2, Undo } from 'lucide-react'
-import React, { useCallback, useMemo, useRef, useState } from 'react'
+import { Info, PlusCircle, Trash2, Undo } from 'lucide-react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 export const Route = createFileRoute(
     '/_auth/_dashboard/projects/$projectId/settings/environment',
@@ -40,6 +41,7 @@ type EnvironmentVar = {
     value: string
     isNew: boolean
     isDeleting: boolean
+    isGenerated: boolean
 }
 
 type Environment = {
@@ -68,18 +70,11 @@ function EnvironmentSettingsTab() {
         }
     })
 
+    const [isSavingEnvChanges, setIsSavingEnvChanges] = useState(false)
 
-    const setEnv = (newEnv: Environment[]) => {
-        mutate({
-            variables: newEnv.find(x => x.branch === selectedBranch)?.variables || []
-        }, {
-            onSuccess: () => {
-                invalidate();
-            }
-        });
-    }
+    const [env, setEnv] = useState<Environment[]>([])
 
-    const env = useMemo(() => {
+    useEffect(() => {
         const env: Environment[] = [{
             branch: selectedBranch,
             variables: data?.variables?.map((item) => ({
@@ -88,11 +83,26 @@ function EnvironmentSettingsTab() {
                 value: item.value!,
                 isNew: false,
                 isDeleting: false,
-            })) || []
+                isGenerated: !!item.isGenerated
+            })).sort(x=>x.isGenerated ? -1 : 1) || []
         }]
 
-        return env
-    }, [data, selectedBranch])
+        setEnv(env)
+    }, [data, selectedBranch]);
+
+    const saveChanges = () => {
+        setIsSavingEnvChanges(true);
+        mutate({
+            variables: env.find(x => x.branch === selectedBranch)?.variables.filter(x=>!x.isGenerated && !x.isDeleting) || []
+        }, {
+            onSuccess: () => {
+                invalidate();
+            },
+            onSettled: () => {
+                setIsSavingEnvChanges(false);
+            }
+        });
+    }
 
     const [newEnvKey, setNewEnvKey] = useState('')
     const [newEnvValue, setNewEnvValue] = useState('')
@@ -100,6 +110,8 @@ function EnvironmentSettingsTab() {
     const fileInputRef = useRef<HTMLInputElement>(null)
 
     const [selectedSystemType, setSelectedSystemType] = useState<SystemType>("Frontend");
+
+    const inputVariableRef = useRef<HTMLInputElement>(null);
 
     const addEnvVar = () => {
         const environmentVariables = env.find((env) => env.branch === selectedBranch)?.variables
@@ -117,11 +129,14 @@ function EnvironmentSettingsTab() {
                 value: newEnvValue,
                 isNew: true,
                 isDeleting: false,
+                isGenerated: false,
             })
         }
         setNewEnvKey('')
         setNewEnvValue('')
         setEnv([...env])
+
+        inputVariableRef.current?.focus();
     }
 
     const systemTypeHasChanges = useCallback((systemType: SystemType) => {
@@ -192,7 +207,7 @@ function EnvironmentSettingsTab() {
                             const key = parts[0]?.trim()
                             const value = parts.slice(1).join('=').trim()
                             if (!key) return
-                            newVars.push({ systemType: selectedSystemType, key, value, isNew: true, isDeleting: false })
+                            newVars.push({ systemType: selectedSystemType, key, value, isNew: true, isDeleting: false, isGenerated: false })
                         }
                     }
                 })
@@ -333,7 +348,14 @@ function EnvironmentSettingsTab() {
                                         </div>
                                     </div>
                                 </div>
-                                <Button
+                                {env.isGenerated ? (
+                                    <div className="relative group p-2 mx-1">
+                                        <Info className="h-4 w-4 text-muted-foreground" />
+                                        <div className="absolute bottom-full right-full mb-2 hidden group-hover:block bg-secondary text-popover-foreground p-2 rounded shadow-lg text-sm w-[200px]">
+                                            This is an auto-generated variable, it can be overriden by adding the same name with a different value.
+                                        </div>
+                                    </div>
+                                ) : <Button
                                     variant="ghost"
                                     size="icon"
                                     className=""
@@ -344,7 +366,7 @@ function EnvironmentSettingsTab() {
                                     ) : (
                                         <Trash2 className="h-4 w-4 text-destructive" />
                                     )}
-                                </Button>
+                                </Button>}
                             </div>
                         )) : <div className='flex flex-row justify-center'>
                             <span className="italic">No variables here...</span>
@@ -353,7 +375,10 @@ function EnvironmentSettingsTab() {
 
                     <Separator className="my-4" />
 
-                    <div className="space-y-4">
+                    <form onSubmit={(e) => {
+                        e.preventDefault();
+                        addEnvVar();
+                    }} className="space-y-4">
                         <h3 className="text-lg font-medium">Add New Variable</h3>
                         <div className="flex flex-row items-center gap-4">
                             <div className="grid flex-1 gap-2">
@@ -361,6 +386,7 @@ function EnvironmentSettingsTab() {
                                     <div className="">
                                         <Input
                                             id="new-env-key"
+                                            ref={inputVariableRef}
                                             placeholder="NEW_VARIABLE"
                                             value={newEnvKey}
                                             onChange={(e) => setNewEnvKey(e.target.value)}
@@ -376,15 +402,19 @@ function EnvironmentSettingsTab() {
                                     </div>
                                 </div>
                             </div>
-                            <Button onClick={addEnvVar} variant="ghost">
+                            <Button type="submit" variant="ghost">
                                 <PlusCircle className="h-4 w-4" />
                             </Button>
                         </div>
-                    </div>
+                    </form>
 
                     <Separator />
 
-                    <Button>Save Changes</Button>
+                    <LoadingButton isLoading={isSavingEnvChanges} onClick={
+                        saveChanges
+                    } disabled={!SystemTypes.some(x => systemTypeHasChanges(x))}
+                    >Save Changes</LoadingButton>
+
                 </CardContent>
             </Card>
         </TabsContent>

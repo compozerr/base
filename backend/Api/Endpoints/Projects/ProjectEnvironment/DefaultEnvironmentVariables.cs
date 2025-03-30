@@ -25,18 +25,18 @@ public sealed class DefaultEnvironmentVariablesAppender(
 
         if (frontendUrl is { })
         {
-            current.AddIfNotFound(new(SystemType.Backend, "FRONTEND_URL", $"https://{frontendUrl}"));
-            current.AddIfNotFound(new(SystemType.Backend, "CORS__ALLOWED_ORIGINS", $"https://{frontendUrl}"));
+            current.AddIfNotFound(new(SystemType.Backend, "FRONTEND_URL", $"https://{frontendUrl}", true));
+            current.AddIfNotFound(new(SystemType.Backend, "CORS__ALLOWED_ORIGINS", $"https://{frontendUrl}", true));
         }
 
         if (backendUrl is { })
         {
-            current.AddIfNotFound(new(SystemType.Frontend, "VITE_BACKEND_URL", $"https://{backendUrl}"));
+            current.AddIfNotFound(new(SystemType.Frontend, "VITE_BACKEND_URL", $"https://{backendUrl}", true));
         }
 
-        current.AddIfNotFound(new(SystemType.Backend, "JWT__KEY", Guid.NewGuid().ToString()));
-        current.AddIfNotFound(new(SystemType.Backend, "JWT__ISSUER", "compozerr"));
-        current.AddIfNotFound(new(SystemType.Backend, "JWT__AUDIENCE", "compozerr"));
+        current.AddIfNotFound(new(SystemType.Backend, "JWT__KEY", Guid.NewGuid().ToString(), true));
+        current.AddIfNotFound(new(SystemType.Backend, "JWT__ISSUER", "compozerr", true));
+        current.AddIfNotFound(new(SystemType.Backend, "JWT__AUDIENCE", "compozerr", true));
 
         return current;
     }

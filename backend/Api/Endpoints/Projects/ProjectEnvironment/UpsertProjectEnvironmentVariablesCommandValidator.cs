@@ -19,6 +19,6 @@ public sealed class UpsertProjectEnvironmentVariablesCommandValidator : Abstract
                 branch);
 
             return environment is not null;
-        });
+        }).WithMessage("Branch does not exist");
     }
 }

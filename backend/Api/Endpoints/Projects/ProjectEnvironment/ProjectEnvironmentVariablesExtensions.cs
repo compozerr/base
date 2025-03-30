@@ -21,17 +21,27 @@ public static class ProjectEnvironmentVariablesExtensions
 
     internal static void ApplyVariableChanges(
         this ICollection<ProjectEnvironmentVariable>? current,
-        List<ProjectEnvironmentVariableDto> newVariables)
+        List<ProjectEnvironmentVariableDto> variables)
     {
         current ??= [];
 
-        foreach (var variable in newVariables)
+        // Remove variables that are not in the new list
+        var variablesToRemove = current
+            .Where(x => !variables.Any(n => n.Key == x.Key && n.SystemType == x.SystemType))
+            .ToList();
+        
+        foreach (var variable in variablesToRemove)
+        {
+            current.Remove(variable);
+        }
+
+        foreach (var variable in variables)
         {
             if (current.Any(x => x.GetHash() == variable.GetHash()))
                 continue;
 
             var existingVariable = current
-                .FirstOrDefault(x => x.Key == variable.Key && x.SystemType == variable.SystemType);
+                .FirstOrDefault(x => x.Key == variable.Key && x.SystemType == x.SystemType);
 
             if (existingVariable != null)
                 current.Remove(existingVariable);
