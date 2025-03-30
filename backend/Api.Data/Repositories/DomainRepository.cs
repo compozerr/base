@@ -13,8 +13,12 @@ public sealed class DomainRepository(
 {
     private readonly ApiDbContext _context = context;
 
-    public Task<bool> IsProjectDomainUniqueAsync(ProjectId projectId, string domain)
-        => _context.Domains
-                .AsNoTracking()
-                .AnyAsync(d => d.ProjectId == projectId && d.Type == DomainType.External && ((ExternalDomain)d).Value == domain);
+    public async Task<bool> IsProjectDomainUniqueAsync(ProjectId projectId, string domain)
+    {
+        var hasSome = await _context.Domains
+                        .AsNoTracking()
+                        .AnyAsync(d => d.ProjectId == projectId && d.Type == DomainType.External && ((ExternalDomain)d).Value == domain);
+
+        return !hasSome;
+    }
 };
