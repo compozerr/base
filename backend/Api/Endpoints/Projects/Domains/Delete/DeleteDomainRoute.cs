@@ -1,3 +1,6 @@
+using Api.Abstractions;
+using MediatR;
+
 namespace Api.Endpoints.Projects.Domains.Delete;
 
 public static class DeleteDomainRoute
@@ -9,8 +12,10 @@ public static class DeleteDomainRoute
         return app.MapDelete(Route, ExecuteAsync);
     }
 
-    public static Task ExecuteAsync(Guid domainId)
-    {
-        return Task.CompletedTask;
-    }
+    public static Task<DeleteDomainResponse> ExecuteAsync(
+        Guid domainId,
+        IMediator mediator)
+        => mediator.Send(
+            new DeleteDomainCommand(
+                DomainId.Create(domainId)));
 }
