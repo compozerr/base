@@ -20,13 +20,22 @@ public sealed class DefaultEnvironmentVariablesAppender(
     {
         var project = await projectRepository.GetProjectByIdWithDomainsAsync(projectId);
 
-        var frontendUrl = ((InternalDomain?)project?.Domains?.FirstOrDefault(x => x.Type == DomainType.Internal && x.ServiceName.Equals("Frontend", StringComparison.InvariantCultureIgnoreCase)))?.Value;
-        var backendUrl = ((InternalDomain?)project?.Domains?.FirstOrDefault(x => x.Type == DomainType.Internal && x.ServiceName.Equals("Backend", StringComparison.InvariantCultureIgnoreCase)))?.Value;
+        var frontendInternalUrl = ((InternalDomain?)project?.Domains?.FirstOrDefault(x => x.Type == DomainType.Internal && x.ServiceName.Equals("Frontend", StringComparison.InvariantCultureIgnoreCase)))?.Value;
+        var backendInternalUrl = ((InternalDomain?)project?.Domains?.FirstOrDefault(x => x.Type == DomainType.Internal && x.ServiceName.Equals("Backend", StringComparison.InvariantCultureIgnoreCase)))?.Value;
+        var frontendExternalUrl = ((ExternalDomain?)project?.Domains?.FirstOrDefault(x => x.Type == DomainType.External && x.ServiceName.Equals("Frontend", StringComparison.InvariantCultureIgnoreCase)))?.Value;
+        var backendExternalUrl = ((ExternalDomain?)project?.Domains?.FirstOrDefault(x => x.Type == DomainType.External && x.ServiceName.Equals("Backend", StringComparison.InvariantCultureIgnoreCase)))?.Value;
+
+        var frontendUrl = frontendExternalUrl ?? frontendInternalUrl;
+        var backendUrl = backendExternalUrl ?? backendInternalUrl;
 
         if (frontendUrl is { })
         {
             current.AddIfNotFound(new(SystemType.Backend, "FRONTEND_URL", $"https://{frontendUrl}", true));
-            current.AddIfNotFound(new(SystemType.Backend, "CORS__ALLOWED_ORIGINS", $"https://{frontendUrl}", true));
+            var corsOrigins = project?.Domains?
+                .Select(x => $"https://{x.GetValue}")
+                .Distinct()
+                .ToList() ?? [];
+            current.AddIfNotFound(new(SystemType.Backend, "CORS__ALLOWED_ORIGINS", string.Join(";", corsOrigins), true));
         }
 
         if (backendUrl is { })
