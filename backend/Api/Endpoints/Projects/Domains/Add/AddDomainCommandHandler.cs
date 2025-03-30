@@ -1,8 +1,6 @@
 using Api.Data;
-using Api.Data.Events;
 using Api.Data.Repositories;
 using Core.MediatR;
-using Database.Extensions;
 
 namespace Api.Endpoints.Projects.Domains.Add;
 
@@ -21,8 +19,6 @@ public sealed class AddDomainCommandHandler(
             Value = command.Domain,
             IsVerified = false
         };
-
-        externalDomainEntity.QueueDomainEvent<DomainChangeEvent>();
 
         var domain = await domainRepository.AddAsync(externalDomainEntity, cancellationToken);
 
