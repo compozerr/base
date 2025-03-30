@@ -16,7 +16,7 @@ import { cn } from '@/lib/utils'
 import { createFileRoute, Outlet, useRouter } from '@tanstack/react-router'
 import { Info, PlusCircle, Trash2, Undo } from 'lucide-react'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { SystemType, SystemTypes } from './SystemType'
+import { SystemType, SystemTypes } from '../../../../../../lib/system-type'
 
 export const Route = createFileRoute(
     '/_auth/_dashboard/projects/$projectId/settings/environment',

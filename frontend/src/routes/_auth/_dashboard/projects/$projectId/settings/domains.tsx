@@ -22,7 +22,7 @@ import { TabsContent } from '@/components/ui/tabs'
 import { createFileRoute, useRouter } from '@tanstack/react-router'
 import { api } from '@/api-client'
 import { useForm } from "@tanstack/react-form"
-import { SystemType, SystemTypes } from './SystemType'
+import { SystemType, SystemTypes } from '../../../../../../lib/system-type'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { FieldInfo } from '@/components/form/field-info'
 
