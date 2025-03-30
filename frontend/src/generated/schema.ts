@@ -1008,6 +1008,105 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/projects/{projectId}/domains": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    projectId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["GetDomainsResponse"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    projectId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["AddDomainRequest"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["AddDomainResponse"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/projects/{projectId}/domains/{domainId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    domainId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["DeleteDomainResponse"];
+                    };
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/servers": {
         parameters: {
             query?: never;
@@ -1105,6 +1204,11 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        AddDomainRequest: {
+            domain?: string | null;
+            serviceName?: string | null;
+        };
+        AddDomainResponse: Record<string, never>;
         ChangeDeploymentStatusRequest: {
             status?: string | null;
         };
@@ -1142,6 +1246,7 @@ export interface components {
          * @enum {integer}
          */
         DefaultInstallationIdSelectionType: 1 | 2;
+        DeleteDomainResponse: Record<string, never>;
         DeployProjectResponse: {
             statusUrl?: string | null;
         };
@@ -1172,6 +1277,13 @@ export interface components {
             buildDuration?: string;
             region?: string | null;
             buildLogs?: string[] | null;
+        };
+        GetDomainDto: {
+            serviceName?: string | null;
+            value?: string | null;
+        };
+        GetDomainsResponse: {
+            domains?: components["schemas"]["GetDomainDto"][] | null;
         };
         GetExampleResponse: {
             message?: string | null;

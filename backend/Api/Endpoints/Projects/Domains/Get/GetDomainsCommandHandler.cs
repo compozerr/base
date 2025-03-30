@@ -14,7 +14,7 @@ public sealed class GetDomainsCommandHandler(
         var project = await projectRepository.GetProjectByIdWithDomainsAsync(
             command.ProjectId) ?? throw new ArgumentException($"Project with ID {command.ProjectId} not found.");
 
-        var domainDtos = new List<DomainDto>();
+        var domainDtos = new List<GetDomainDto>();
 
         foreach (var domain in project.Domains!)
         {
@@ -28,7 +28,7 @@ public sealed class GetDomainsCommandHandler(
             if (!string.IsNullOrEmpty(value))
             {
                 domainDtos.Add(
-                    new DomainDto(
+                    new GetDomainDto(
                         domain.ServiceName,
                         value));
             }
