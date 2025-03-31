@@ -8,6 +8,21 @@
             "processName": "Api",
             "preLaunchTask": "Run npm run dev",
             "internalConsoleOptions": "neverOpen"
+        },
+        {
+            "name": "Attach to Backend Process in cursor",
+            "type": "coreclr",
+            "request": "attach",
+            "preLaunchTask": "Run npm run dev",
+            "processId": "cmd:ps aux | grep -i 'backend/Api/bin/Debug/.*/Api' | grep -v grep | awk '{print $2}' | head -n 1",
+            "pipeTransport": {
+                "pipeCwd": "${workspaceFolder}",
+                "pipeProgram": "bash",
+                "pipeArgs": ["-c"],
+                "debuggerPath": "compozerr-dbg",
+                "debuggerArgs": ["--interpreter=vscode"],
+                "quoteArgs": true
+            }
         }
     ]
 }
