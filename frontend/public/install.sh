@@ -16,13 +16,30 @@ LATEST_VERSION=$(curl -s https://storage.googleapis.com/compozerr.firebasestorag
 
 printf "Downloading compozerr v${LATEST_VERSION}...\n"
 
-# Download directly to /usr/local/bin with sudo if needed
-if [ -w "/usr/local/bin" ]; then
-    curl -s https://storage.googleapis.com/compozerr.firebasestorage.app/${LATEST_VERSION} -o /usr/local/bin/compozerr
-    chmod +x /usr/local/bin/compozerr
-else
-    sudo curl -s https://storage.googleapis.com/compozerr.firebasestorage.app/${LATEST_VERSION} -o /usr/local/bin/compozerr
-    sudo chmod +x /usr/local/bin/compozerr
+USER_BIN_DIR="$HOME/.local/bin"
+mkdir -p "$USER_BIN_DIR"
+
+curl -s https://storage.googleapis.com/compozerr.firebasestorage.app/${LATEST_VERSION} -o "$USER_BIN_DIR/compozerr"
+chmod +x "$USER_BIN_DIR/compozerr"
+
+# The compozerr debug tool checkout https://github.com/compozerr/cursor-dotnet-debug
+curl -s https://storage.googleapis.com/compozerr.firebasestorage.app/compozerr-dbg -o "$USER_BIN_DIR/compozerr-dbg"
+chmod +x "$USER_BIN_DIR/compozerr-dbg"
+
+# Add to PATH if not already there
+if [[ ":$PATH:" != *":$USER_BIN_DIR:"* ]]; then
+    echo ""
+    echo "Adding $USER_BIN_DIR to your PATH."
+    if [ -f "$HOME/.zshrc" ]; then
+        echo 'export PATH="$HOME/.local/bin:$PATH"' >> "$HOME/.zshrc"
+        echo "Please run 'source $HOME/.zshrc' to update your current shell."
+    elif [ -f "$HOME/.bashrc" ]; then
+        echo 'export PATH="$HOME/.local/bin:$PATH"' >> "$HOME/.bashrc"
+        echo "Please run 'source $HOME/.bashrc' to update your current shell."
+    else
+        echo "Please add the following line to your shell profile:"
+        echo 'export PATH="$HOME/.local/bin:$PATH"'
+    fi
 fi
 
-echo "compozerr installed successfully"
+echo "compozerr installed successfully to $USER_BIN_DIR"
