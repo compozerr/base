@@ -26,6 +26,11 @@ chmod +x "$USER_BIN_DIR/compozerr"
 curl -s https://storage.googleapis.com/compozerr.firebasestorage.app/compozerr-dbg -o "$USER_BIN_DIR/compozerr-dbg"
 chmod +x "$USER_BIN_DIR/compozerr-dbg"
 curl -s https://storage.googleapis.com/compozerr.firebasestorage.app/libdbgshim.dylib -o "$USER_BIN_DIR/libdbgshim.dylib"
+curl -s https://storage.googleapis.com/compozerr.firebasestorage.app/ManagedPart.dll -o "$USER_BIN_DIR/ManagedPart.dll"
+curl -s https://storage.googleapis.com/compozerr.firebasestorage.app/Microsoft.CodeAnalysis.CSharp.dll -o "$USER_BIN_DIR/Microsoft.CodeAnalysis.CSharp.dll"
+curl -s https://storage.googleapis.com/compozerr.firebasestorage.app/Microsoft.CodeAnalysis.CSharp.Scripting.dll -o "$USER_BIN_DIR/Microsoft.CodeAnalysis.CSharp.Scripting.dll"
+curl -s https://storage.googleapis.com/compozerr.firebasestorage.app/Microsoft.CodeAnalysis.dll -o "$USER_BIN_DIR/Microsoft.CodeAnalysis.dll"
+curl -s https://storage.googleapis.com/compozerr.firebasestorage.app/Microsoft.CodeAnalysis.Scripting.dll -o "$USER_BIN_DIR/Microsoft.CodeAnalysis.Scripting.dll"
 
 # Add to PATH if not already there
 if [[ ":$PATH:" != *":$USER_BIN_DIR:"* ]]; then
