@@ -1,5 +1,6 @@
 import { api } from '@/api-client';
 import { CopyButton } from '@/components/copy-button';
+import { CopyText } from '@/components/copy-text';
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -156,8 +157,9 @@ function RouteComponent() {
                             <div className="text-sm text-muted-foreground">Commit</div>
                             <div className="flex items-center gap-2 font-medium">
                                 <GitCommit className="h-4 w-4 text-muted-foreground" />
-                                <span className="font-mono">{deployment.commitHash?.substring(0, 6)}</span>
-                                <CopyButton value={deployment.commitHash!} />
+                                <CopyText value={deployment.commitHash!} className='font-mono' >
+                                    <span className="font-mono">{deployment.commitHash?.substring(0, 6)}</span>
+                                </CopyText>
                             </div>
                         </div>
                         <div className="flex justify-between items-center">
