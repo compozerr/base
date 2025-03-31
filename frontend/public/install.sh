@@ -16,7 +16,7 @@ LATEST_VERSION=$(curl -s https://storage.googleapis.com/compozerr.firebasestorag
 
 printf "Downloading compozerr v${LATEST_VERSION}...\n"
 
-USER_BIN_DIR="$HOME/.local/bin"
+USER_BIN_DIR="$HOME/.local/compozerr-bin"
 mkdir -p "$USER_BIN_DIR"
 
 curl -s https://storage.googleapis.com/compozerr.firebasestorage.app/${LATEST_VERSION} -o "$USER_BIN_DIR/compozerr"
@@ -31,14 +31,14 @@ if [[ ":$PATH:" != *":$USER_BIN_DIR:"* ]]; then
     echo ""
     echo "Adding $USER_BIN_DIR to your PATH."
     if [ -f "$HOME/.zshrc" ]; then
-        echo 'export PATH="$HOME/.local/bin:$PATH"' >> "$HOME/.zshrc"
+        echo 'export PATH="$HOME/.local/compozerr-bin:$PATH"' >> "$HOME/.zshrc"
         echo "Please run 'source $HOME/.zshrc' to update your current shell."
     elif [ -f "$HOME/.bashrc" ]; then
-        echo 'export PATH="$HOME/.local/bin:$PATH"' >> "$HOME/.bashrc"
+        echo 'export PATH="$HOME/.local/compozerr-bin:$PATH"' >> "$HOME/.bashrc"
         echo "Please run 'source $HOME/.bashrc' to update your current shell."
     else
         echo "Please add the following line to your shell profile:"
-        echo 'export PATH="$HOME/.local/bin:$PATH"'
+        echo 'export PATH="$HOME/.local/compozerr-bin:$PATH"'
     fi
 fi
 
