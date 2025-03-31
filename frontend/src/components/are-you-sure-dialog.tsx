@@ -11,7 +11,9 @@ interface Props {
 
 const AreYouSureDialog: React.FC<Props> = (props) => {
     return (
-        <Dialog open={props.open}>
+        <Dialog open={!!props.open} onOpenChange={(open) => {
+            if (!open) props.onAnswer(false);
+        }}>
             <DialogContent>
                 <DialogHeader>
                     <DialogTitle>{props.title}</DialogTitle>

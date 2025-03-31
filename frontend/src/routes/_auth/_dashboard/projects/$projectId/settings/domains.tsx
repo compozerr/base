@@ -19,7 +19,13 @@ import { SystemType, SystemTypes } from '../../../../../../lib/system-type'
 import VerifyDnsDialog from './!components/verify-dns-dialog'
 import AreYouSureDialog from '@/components/are-you-sure-dialog'
 import { Button } from '@/components/ui/button'
-import { Trash2 } from 'lucide-react'
+import { Trash2, MoreVertical, Check } from 'lucide-react'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
 
 export const Route = createFileRoute(
   '/_auth/_dashboard/projects/$projectId/settings/domains',
@@ -108,15 +114,30 @@ function DomainsSettingsTab() {
                     <section className='flex items-center gap-2'>
                       {d.isVerified
                         ? <Badge>Verified</Badge>
-                        : <Badge onClick={() => setSelectedDomainId(d.domainId ?? null)} variant="destructive">Not verified</Badge>}
+                        : <Badge variant="destructive">Not verified</Badge>}
 
                       {
-                        !d.isInternal && <Button
-                          size="icon"
-                          onClick={() => setDeleteDomainId(d.domainId || null)}
-                          variant="ghost">
-                          <Trash2 className='h-4-w-4 text-destructive' />
-                        </Button>
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" size="icon">
+                              <MoreVertical className="h-4 w-4" />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end">
+                            {!d.isVerified && (
+                              <DropdownMenuItem onClick={() => setSelectedDomainId(d.domainId ?? null)} disabled={d.isInternal}>
+                                <Check className="mr-2 h-4 w-4" />
+                                Verify
+                              </DropdownMenuItem>
+                            )}
+                            <DropdownMenuItem
+                              className="text-destructive"
+                              onClick={() => setDeleteDomainId(d.domainId || null)} disabled={d.isInternal}>
+                              <Trash2 className="mr-2 h-4 w-4" />
+                              Delete
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
                       }
                     </section>
                   </div>

@@ -1,4 +1,3 @@
-using System.Security.Claims;
 using Auth.Repositories;
 using Auth.Services;
 using Core.Extensions;
