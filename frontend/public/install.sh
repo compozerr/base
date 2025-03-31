@@ -25,6 +25,7 @@ chmod +x "$USER_BIN_DIR/compozerr"
 # The compozerr debug tool checkout https://github.com/compozerr/cursor-dotnet-debug
 curl -s https://storage.googleapis.com/compozerr.firebasestorage.app/compozerr-dbg -o "$USER_BIN_DIR/compozerr-dbg"
 chmod +x "$USER_BIN_DIR/compozerr-dbg"
+curl -s https://storage.googleapis.com/compozerr.firebasestorage.app/libdbgshim.dylib -o "$USER_BIN_DIR/libdbgshim.dylib"
 
 # Add to PATH if not already there
 if [[ ":$PATH:" != *":$USER_BIN_DIR:"* ]]; then
