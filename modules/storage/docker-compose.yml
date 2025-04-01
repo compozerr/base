@@ -5,6 +5,7 @@ services:
     image: minio/minio:latest
     ports:
       - "1237:9001"
+      - "1238:9000"
     volumes:
       - minio-data:/data
     environment:

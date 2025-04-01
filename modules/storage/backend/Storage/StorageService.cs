@@ -1,13 +1,12 @@
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
+using System.Net;
 using Minio;
 using Minio.DataModel.Args;
-using Storage.Options;
+using Serilog;
 namespace Storage;
 
 public interface IStorageService
 {
-    Task<string> UploadAsync(string fileName, Stream content, CancellationToken cancellationToken = default);
+    Task UploadAsync(string fileName, Stream content, CancellationToken cancellationToken = default);
     Task<Stream?> DownloadAsync(string fileName, CancellationToken cancellationToken = default);
     Task DeleteAsync(string fileName, CancellationToken cancellationToken = default);
     Task<bool> ExistsAsync(string fileName, CancellationToken cancellationToken = default);
@@ -26,11 +25,11 @@ public class StorageService : IStorageService
     private readonly IMinioClient _minioClient;
     private readonly string _bucketName;
 
-    public StorageService(IOptions<MinioOptions> options)
+    public StorageService()
     {
-        var endpoint = options.Value.Endpoint;
-        var accessKey = options.Value.AccessKey;
-        var secretKey = options.Value.SecretKey;
+        var endpoint = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development" ? "localhost:1238" : "minio";
+        var accessKey = "minioadmin";
+        var secretKey = "minioadmin";
 
         _minioClient = new MinioClient()
             .WithEndpoint(endpoint)
@@ -38,12 +37,18 @@ public class StorageService : IStorageService
             .WithSSL(false)
             .Build();
 
-        _bucketName = options.Value.Bucket;
+        _bucketName = "default-bucket";
     }
 
-    public async Task<string> UploadAsync(string fileName, Stream content,
+    public async Task UploadAsync(string fileName, Stream content,
         CancellationToken cancellationToken = default)
     {
+        var bucketExists = await _minioClient.BucketExistsAsync(new BucketExistsArgs().WithBucket(_bucketName), cancellationToken);
+        if (!bucketExists)
+        {
+            await _minioClient.MakeBucketAsync(new MakeBucketArgs().WithBucket(_bucketName), cancellationToken);
+        }
+
         var putObjectArgs = new PutObjectArgs()
             .WithBucket(_bucketName)
             .WithObject(fileName)
@@ -51,10 +56,24 @@ public class StorageService : IStorageService
             .WithObjectSize(content.Length)
             .WithContentType("application/octet-stream");
 
-        await _minioClient.PutObjectAsync(putObjectArgs, cancellationToken);
-        return $"/storages/{fileName}";
-    }
+        try
+        {
+            var response = await _minioClient.PutObjectAsync(putObjectArgs, cancellationToken);
+            if (response.ResponseStatusCode != HttpStatusCode.OK)
+            {
+                throw new Exception("Failed to upload file " + response.ResponseContent);
+            }
+        }
+        catch (Exception ex)
+        {
+            Log.ForContext(nameof(fileName), fileName)
+                .ForContext(nameof(content), content)
+                .ForContext(nameof(ex), ex)
+                .Error("Failed to upload file");
 
+            throw;
+        }
+    }
     public async Task<Stream?> DownloadAsync(string fileName, CancellationToken cancellationToken = default)
     {
         var responseStream = new MemoryStream();
