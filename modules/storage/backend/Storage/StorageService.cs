@@ -1,7 +1,9 @@
 using System.Net;
+using Microsoft.Extensions.Options;
 using Minio;
 using Minio.DataModel.Args;
 using Serilog;
+using Storage.Options;
 namespace Storage;
 
 public interface IStorageService
@@ -25,11 +27,11 @@ public class StorageService : IStorageService
     private readonly IMinioClient _minioClient;
     private readonly string _bucketName;
 
-    public StorageService()
+    public StorageService(IOptions<MinioOptions> options)
     {
-        var endpoint = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development" ? "localhost:1238" : "minio";
-        var accessKey = "minioadmin";
-        var secretKey = "minioadmin";
+        var endpoint = options.Value.Endpoint;
+        var accessKey = options.Value.AccessKey;
+        var secretKey = options.Value.SecretKey;
 
         _minioClient = new MinioClient()
             .WithEndpoint(endpoint)
@@ -37,7 +39,7 @@ public class StorageService : IStorageService
             .WithSSL(false)
             .Build();
 
-        _bucketName = "default-bucket";
+        _bucketName = options.Value.Bucket;
     }
 
     public async Task UploadAsync(string fileName, Stream content,
@@ -67,7 +69,6 @@ public class StorageService : IStorageService
         catch (Exception ex)
         {
             Log.ForContext(nameof(fileName), fileName)
-                .ForContext(nameof(content), content)
                 .ForContext(nameof(ex), ex)
                 .Error("Failed to upload file");
 
