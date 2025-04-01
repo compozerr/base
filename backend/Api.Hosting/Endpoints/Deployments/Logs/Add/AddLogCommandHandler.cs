@@ -1,3 +1,5 @@
+using System.Text.Json;
+using Api.Abstractions;
 using Core.MediatR;
 using Storage;
 
@@ -8,15 +10,21 @@ public sealed class AddLogCommandHandler(
 {
     public async Task<AddLogResponse> Handle(AddLogCommand command, CancellationToken cancellationToken = default)
     {
-        var currentLog = await storageService.DownloadAsync(command.DeploymentId.ToString(), cancellationToken) ?? new MemoryStream();
+        var currentLog = await storageService.DownloadAsync(GetLogFileName(command.DeploymentId), cancellationToken) ?? new MemoryStream();
 
         var writer = new StreamWriter(currentLog);
-        writer.WriteLine(command.Log);
+        writer.WriteLine(GetLogEntry(command.Log, command.Level));
         writer.Flush();
         currentLog.Position = 0;
 
-        await storageService.UploadAsync(command.DeploymentId.ToString(), currentLog, cancellationToken);
+        await storageService.UploadAsync(GetLogFileName(command.DeploymentId), currentLog, cancellationToken);
 
         return new AddLogResponse();
     }
+
+    private static string GetLogEntry(string log, LogLevel level)
+        => $"[{DateTime.UtcNow:yyyy-MM-dd HH:mm:ss}] [{level.ToString().ToUpper()}] {log}";
+
+    private static string GetLogFileName(DeploymentId deploymentId)
+        => $"deployment-logs/{deploymentId}.log";
 }
