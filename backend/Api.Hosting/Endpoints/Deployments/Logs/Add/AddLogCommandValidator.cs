@@ -12,14 +12,13 @@ public sealed class AddLogCommandValidator : AbstractValidator<AddLogCommand>
         var scope = scopeFactory.CreateScope();
         var deploymentRepository = scope.ServiceProvider.GetRequiredService<IDeploymentRepository>();
 
-
         RuleFor(x => x.DeploymentId).MustAsync(async (deploymentId, cancellationToken) =>
         {
             var deployment = await deploymentRepository.GetByIdAsync(
-                DeploymentId.Create(
-                    deploymentId), cancellationToken);
+                deploymentId,
+                cancellationToken);
 
-            return deployment != null;
+            return deployment is { Status: Data.DeploymentStatus.Deploying };
         }).WithMessage("Deployment not found");
 
         RuleFor(x => x.Log).NotEmpty().WithMessage("Log is required");

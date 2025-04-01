@@ -2,9 +2,11 @@ using Api.Data.Repositories;
 using Api.Hosting.Endpoints.Deployments;
 using Api.Hosting.Endpoints.Projects;
 using Carter;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace Api.Hosting.Endpoints;
 
@@ -24,6 +26,11 @@ public class HostingGroup : CarterModule
 
     public static async ValueTask<object?> ApiKeyMiddleware(EndpointFilterInvocationContext context, EndpointFilterDelegate next)
     {
+        if (context.HttpContext.RequestServices.GetRequiredService<IWebHostEnvironment>().IsDevelopment())
+        {
+            return await next(context);
+        }
+
         var httpContext = context.HttpContext;
 
         var serverRepository = httpContext.RequestServices.GetRequiredService<IServerRepository>();

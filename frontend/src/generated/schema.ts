@@ -721,6 +721,45 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/hosting/deployments/{deploymentId}/logs": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    deploymentId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["AddLogRequest"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/hosting/projects/{projectId}/domains": {
         parameters: {
             query?: never;
@@ -1288,6 +1327,10 @@ export interface components {
         AddDomainResponse: {
             domainId?: components["schemas"]["DomainId"];
         };
+        AddLogRequest: {
+            log?: string | null;
+            level?: components["schemas"]["LogLevel"];
+        };
         ChangeDeploymentStatusRequest: {
             status?: string | null;
         };
@@ -1415,6 +1458,8 @@ export interface components {
             name?: string | null;
             type?: string | null;
         };
+        /** @enum {string} */
+        LogLevel: "Info" | "Warning" | "Error" | "Success";
         MeResponse: {
             /** Format: uuid */
             id?: string;

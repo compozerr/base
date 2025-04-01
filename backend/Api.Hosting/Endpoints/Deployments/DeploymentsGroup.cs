@@ -1,3 +1,4 @@
+using Api.Hosting.Endpoints.Deployments.Logs.Add;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 
@@ -12,6 +13,7 @@ public static class DeploymentsGroup
         var group = app.MapGroup(Route);
 
         group.AddChangeDeploymentStatusRoute();
+        group.AddAddLogRoute();
 
         return group;
     }

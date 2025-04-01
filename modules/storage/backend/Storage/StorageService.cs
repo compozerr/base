@@ -1,13 +1,14 @@
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using Minio;
 using Minio.DataModel.Args;
-
+using Storage.Options;
 namespace Storage;
 
 public interface IStorageService
 {
     Task<string> UploadAsync(string fileName, Stream content, CancellationToken cancellationToken = default);
-    Task<Stream> DownloadAsync(string fileName, CancellationToken cancellationToken = default);
+    Task<Stream?> DownloadAsync(string fileName, CancellationToken cancellationToken = default);
     Task DeleteAsync(string fileName, CancellationToken cancellationToken = default);
     Task<bool> ExistsAsync(string fileName, CancellationToken cancellationToken = default);
 
@@ -25,14 +26,11 @@ public class StorageService : IStorageService
     private readonly IMinioClient _minioClient;
     private readonly string _bucketName;
 
-    public StorageService(IConfiguration configuration)
+    public StorageService(IOptions<MinioOptions> options)
     {
-        var endpoint = configuration["MINIO_ENDPOINT"] ??
-                       throw new ArgumentException("MINIO_ENDPOINT");
-        var accessKey = configuration["MINIO_ACCESS_KEY"] ??
-                        throw new ArgumentException("MINIO_ACCESS_KEY");
-        var secretKey = configuration["MINIO_SECRET_KEY"] ??
-                        throw new ArgumentException("MINIO_SECRET_KEY");
+        var endpoint = options.Value.Endpoint;
+        var accessKey = options.Value.AccessKey;
+        var secretKey = options.Value.SecretKey;
 
         _minioClient = new MinioClient()
             .WithEndpoint(endpoint)
@@ -40,8 +38,7 @@ public class StorageService : IStorageService
             .WithSSL(false)
             .Build();
 
-        _bucketName = configuration["MINIO_BUCKET"] ??
-                      throw new ArgumentException("MINIO_BUCKET");
+        _bucketName = options.Value.Bucket;
     }
 
     public async Task<string> UploadAsync(string fileName, Stream content,
@@ -58,7 +55,7 @@ public class StorageService : IStorageService
         return $"/storages/{fileName}";
     }
 
-    public async Task<Stream> DownloadAsync(string fileName, CancellationToken cancellationToken = default)
+    public async Task<Stream?> DownloadAsync(string fileName, CancellationToken cancellationToken = default)
     {
         var responseStream = new MemoryStream();
 
@@ -70,8 +67,15 @@ public class StorageService : IStorageService
                 stream.CopyTo(responseStream);
             });
 
-        await _minioClient.GetObjectAsync(getObjectArgs, cancellationToken);
-        return responseStream;
+        try
+        {
+            await _minioClient.GetObjectAsync(getObjectArgs, cancellationToken);
+            return responseStream;
+        }
+        catch
+        {
+            return null;
+        }
     }
 
     public async Task DeleteAsync(string fileName, CancellationToken cancellationToken = default)

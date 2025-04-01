@@ -3677,6 +3677,124 @@ export interface V1Service {
             body: PutHostingDeploymentsDeploymentIdStatusBody;
         };
     };
+    postHostingDeploymentsDeploymentIdLogs: {
+        /**/
+        getMutationKey(parameters: PostHostingDeploymentsDeploymentIdLogsParameters | void): ServiceOperationMutationKey<PostHostingDeploymentsDeploymentIdLogsSchema, PostHostingDeploymentsDeploymentIdLogsParameters>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.postHostingDeploymentsDeploymentIdLogs.useMutation({
+         *     path: {
+         *         deploymentId: deploymentId
+         *     }
+         * })
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.postHostingDeploymentsDeploymentIdLogs.useMutation()
+         * mutate({
+         *     body: bodyPayload,
+         *     path: {
+         *         deploymentId: deploymentId
+         *     }
+         * });
+         * ```
+         */
+        useMutation<TVariables extends PostHostingDeploymentsDeploymentIdLogsBody, TContext = unknown>(parameters: PostHostingDeploymentsDeploymentIdLogsParameters, options?: ServiceOperationUseMutationOptions<PostHostingDeploymentsDeploymentIdLogsSchema, PostHostingDeploymentsDeploymentIdLogsData, PostHostingDeploymentsDeploymentIdLogsParameters, TVariables, PostHostingDeploymentsDeploymentIdLogsError, TContext>): UseMutationResult<PostHostingDeploymentsDeploymentIdLogsData, PostHostingDeploymentsDeploymentIdLogsError | Error, AreAllOptional<TVariables> extends true ? TVariables | void : TVariables, TContext>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.postHostingDeploymentsDeploymentIdLogs.useMutation({
+         *     path: {
+         *         deploymentId: deploymentId
+         *     }
+         * })
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.postHostingDeploymentsDeploymentIdLogs.useMutation()
+         * mutate({
+         *     body: bodyPayload,
+         *     path: {
+         *         deploymentId: deploymentId
+         *     }
+         * });
+         * ```
+         */
+        useMutation<TVariables extends MutationVariables<PostHostingDeploymentsDeploymentIdLogsBody, PostHostingDeploymentsDeploymentIdLogsParameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<PostHostingDeploymentsDeploymentIdLogsSchema, PostHostingDeploymentsDeploymentIdLogsData, PostHostingDeploymentsDeploymentIdLogsParameters, TVariables, PostHostingDeploymentsDeploymentIdLogsError, TContext>): UseMutationResult<PostHostingDeploymentsDeploymentIdLogsData, PostHostingDeploymentsDeploymentIdLogsError | Error, TVariables, TContext>;
+        /**
+         * Returns the count of currently in-progress mutations.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
+         * @example Check how many mutations are currently in progress for the specified service method.
+         * ```ts
+         * const postHostingDeploymentsDeploymentIdLogsTotal = qraft.v1Service.postHostingDeploymentsDeploymentIdLogs.useIsMutating()
+         * ```
+         * @example Check how many mutations are currently in progress with the specified parameters.
+         * ```ts
+         * const postHostingDeploymentsDeploymentIdLogsTotal = qraft.v1Service.postHostingDeploymentsDeploymentIdLogs.useIsMutating({
+         *     parameters: {
+         *         path: {
+         *             deploymentId: deploymentId
+         *         }
+         *     }
+         * })
+         * ```
+         */
+        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<PostHostingDeploymentsDeploymentIdLogsBody, PostHostingDeploymentsDeploymentIdLogsData, PostHostingDeploymentsDeploymentIdLogsParameters, PostHostingDeploymentsDeploymentIdLogsError, TContext> | MutationFiltersByMutationKey<PostHostingDeploymentsDeploymentIdLogsSchema, PostHostingDeploymentsDeploymentIdLogsBody, PostHostingDeploymentsDeploymentIdLogsData, PostHostingDeploymentsDeploymentIdLogsParameters, PostHostingDeploymentsDeploymentIdLogsError, TContext>): number;
+        /**/
+        isMutating<TContext>(filters?: MutationFiltersByParameters<PostHostingDeploymentsDeploymentIdLogsBody, PostHostingDeploymentsDeploymentIdLogsData, PostHostingDeploymentsDeploymentIdLogsParameters, PostHostingDeploymentsDeploymentIdLogsError, TContext> | MutationFiltersByMutationKey<PostHostingDeploymentsDeploymentIdLogsSchema, PostHostingDeploymentsDeploymentIdLogsBody, PostHostingDeploymentsDeploymentIdLogsData, PostHostingDeploymentsDeploymentIdLogsParameters, PostHostingDeploymentsDeploymentIdLogsError, TContext>): number;
+        /**/
+        (options: ServiceOperationMutationFnOptions<PostHostingDeploymentsDeploymentIdLogsBody, PostHostingDeploymentsDeploymentIdLogsParameters>, client?: (schema: PostHostingDeploymentsDeploymentIdLogsSchema, options: ServiceOperationMutationFnOptions<PostHostingDeploymentsDeploymentIdLogsBody, PostHostingDeploymentsDeploymentIdLogsParameters>) => Promise<RequestFnResponse<PostHostingDeploymentsDeploymentIdLogsData, PostHostingDeploymentsDeploymentIdLogsError>>): Promise<RequestFnResponse<PostHostingDeploymentsDeploymentIdLogsData, PostHostingDeploymentsDeploymentIdLogsError>>;
+        /**
+         * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
+         * @example Get all variables of all running mutations.
+         * ```ts
+         * const postHostingDeploymentsDeploymentIdLogsPendingMutationVariables = qraft.v1Service.postHostingDeploymentsDeploymentIdLogs.useMutationState({
+         *     filters: {
+         *         status: "pending"
+         *     },
+         *     select: mutation => mutation.state.variables
+         * })
+         * ```
+         * @example Get all data for specific mutations via the `parameters`.
+         * ```ts
+         * const postHostingDeploymentsDeploymentIdLogsMutationData = qraft.v1Service.postHostingDeploymentsDeploymentIdLogs.useMutationState({
+         *     filters: {
+         *         parameters: {
+         *             path: {
+         *                 deploymentId: deploymentId
+         *             }
+         *         }
+         *     },
+         *     select: mutation => mutation.state.data
+         * })
+         * ```
+         */
+        useMutationState<TContext = unknown, TResult = MutationState<PostHostingDeploymentsDeploymentIdLogsData, PostHostingDeploymentsDeploymentIdLogsError, MutationVariables<PostHostingDeploymentsDeploymentIdLogsBody, PostHostingDeploymentsDeploymentIdLogsParameters>, TContext>>(options?: {
+            filters?: MutationFiltersByParameters<PostHostingDeploymentsDeploymentIdLogsBody, PostHostingDeploymentsDeploymentIdLogsData, PostHostingDeploymentsDeploymentIdLogsParameters, PostHostingDeploymentsDeploymentIdLogsError, TContext> | MutationFiltersByMutationKey<PostHostingDeploymentsDeploymentIdLogsSchema, PostHostingDeploymentsDeploymentIdLogsBody, PostHostingDeploymentsDeploymentIdLogsData, PostHostingDeploymentsDeploymentIdLogsParameters, PostHostingDeploymentsDeploymentIdLogsError, TContext>;
+            select?: (mutation: Mutation<PostHostingDeploymentsDeploymentIdLogsData, PostHostingDeploymentsDeploymentIdLogsError, MutationVariables<PostHostingDeploymentsDeploymentIdLogsBody, PostHostingDeploymentsDeploymentIdLogsParameters>, TContext>) => TResult;
+        }): Array<TResult>;
+        schema: PostHostingDeploymentsDeploymentIdLogsSchema;
+        types: {
+            parameters: PostHostingDeploymentsDeploymentIdLogsParameters;
+            data: PostHostingDeploymentsDeploymentIdLogsData;
+            error: PostHostingDeploymentsDeploymentIdLogsError;
+            body: PostHostingDeploymentsDeploymentIdLogsBody;
+        };
+    };
     getHostingProjectsProjectIdDomains: {
         /**/
         cancelQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetHostingProjectsProjectIdDomainsSchema, GetHostingProjectsProjectIdDomainsData, TInfinite, GetHostingProjectsProjectIdDomainsParameters, GetHostingProjectsProjectIdDomainsError> | QueryFiltersByQueryKey<GetHostingProjectsProjectIdDomainsSchema, GetHostingProjectsProjectIdDomainsData, TInfinite, GetHostingProjectsProjectIdDomainsParameters, GetHostingProjectsProjectIdDomainsError>, options?: CancelOptions): Promise<void>;
@@ -7324,6 +7442,15 @@ export const v1Service: {
             ];
         };
     };
+    postHostingDeploymentsDeploymentIdLogs: {
+        schema: {
+            method: "post";
+            url: "/v1/hosting/deployments/{deploymentId}/logs";
+            mediaType: [
+                "application/json"
+            ];
+        };
+    };
     getHostingProjectsProjectIdDomains: {
         schema: {
             method: "get";
@@ -7553,6 +7680,13 @@ export const v1Service: {
         schema: {
             method: "put",
             url: "/v1/hosting/deployments/{deploymentId}/status",
+            mediaType: ["application/json"]
+        }
+    },
+    postHostingDeploymentsDeploymentIdLogs: {
+        schema: {
+            method: "post",
+            url: "/v1/hosting/deployments/{deploymentId}/logs",
             mediaType: ["application/json"]
         }
     },
@@ -7821,6 +7955,17 @@ type PutHostingDeploymentsDeploymentIdStatusParameters = paths["/v1/hosting/depl
 type PutHostingDeploymentsDeploymentIdStatusData = paths["/v1/hosting/deployments/{deploymentId}/status"]["put"]["responses"]["200"]["content"]["application/json"];
 type PutHostingDeploymentsDeploymentIdStatusError = unknown;
 type PutHostingDeploymentsDeploymentIdStatusBody = NonNullable<paths["/v1/hosting/deployments/{deploymentId}/status"]["put"]["requestBody"]>["content"]["application/json"];
+type PostHostingDeploymentsDeploymentIdLogsSchema = {
+    method: "post";
+    url: "/v1/hosting/deployments/{deploymentId}/logs";
+    mediaType: [
+        "application/json"
+    ];
+};
+type PostHostingDeploymentsDeploymentIdLogsParameters = paths["/v1/hosting/deployments/{deploymentId}/logs"]["post"]["parameters"];
+type PostHostingDeploymentsDeploymentIdLogsData = unknown;
+type PostHostingDeploymentsDeploymentIdLogsError = unknown;
+type PostHostingDeploymentsDeploymentIdLogsBody = NonNullable<paths["/v1/hosting/deployments/{deploymentId}/logs"]["post"]["requestBody"]>["content"]["application/json"];
 type GetHostingProjectsProjectIdDomainsSchema = {
     method: "get";
     url: "/v1/hosting/projects/{projectId}/domains";

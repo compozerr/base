@@ -1,3 +1,4 @@
+using Api.Abstractions;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
@@ -29,6 +30,10 @@ public static class AddLogRoute
         AddLogRequest request,
         IMediator mediator)
     {
-        return Task.CompletedTask;
+        return mediator.Send(
+            new AddLogCommand(
+                DeploymentId.Create(deploymentId),
+                request.Log,
+                request.Level));
     }
 }
