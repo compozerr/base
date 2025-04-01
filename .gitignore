@@ -12,3 +12,6 @@ src/frontend/modules/
 .env
 service-account.json
 flyio.generated.json
+
+*.DotSettings.user
+**/.idea
