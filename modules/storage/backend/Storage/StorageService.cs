@@ -1,4 +1,3 @@
-using Microsoft.Extensions.Configuration;
 using Minio;
 using Minio.DataModel.Args;
 
@@ -10,9 +9,15 @@ public interface IStorageService
     Task<Stream> DownloadAsync(string fileName, CancellationToken cancellationToken = default);
     Task DeleteAsync(string fileName, CancellationToken cancellationToken = default);
     Task<bool> ExistsAsync(string fileName, CancellationToken cancellationToken = default);
-    Task<IEnumerable<StorageItem>> ListAsync(string prefix = "", bool recursive = true, CancellationToken cancellationToken = default);
-    Task<string> GetPresignedUrlAsync(string fileName, int expiryMinutes, CancellationToken cancellationToken = default);
+
+    Task<IEnumerable<StorageItem>> ListAsync(string prefix = "", bool recursive = true,
+        CancellationToken cancellationToken = default);
+
+    Task<string> GetPresignedUrlAsync(string fileName, int expiryMinutes,
+        CancellationToken cancellationToken = default);
 }
+
+public sealed record StorageItem(string Name, ulong Size, DateTime? LastModified);
 
 public class StorageService : IStorageService
 {
@@ -21,9 +26,12 @@ public class StorageService : IStorageService
 
     public StorageService(IConfiguration configuration)
     {
-        var endpoint = configuration["MINIO_ENDPOINT"] ?? throw new ArgumentNullException(nameof(configuration["MINIO_ENDPOINT"]));
-        var accessKey = configuration["MINIO_ACCESS_KEY"] ?? throw new ArgumentNullException(nameof(configuration["MINIO_ACCESS_KEY"]));
-        var secretKey = configuration["MINIO_SECRET_KEY"] ?? throw new ArgumentNullException(nameof(configuration["MINIO_SECRET_KEY"]));
+        var endpoint = configuration["MINIO_ENDPOINT"] ??
+                       throw new ArgumentException("MINIO_ENDPOINT");
+        var accessKey = configuration["MINIO_ACCESS_KEY"] ??
+                        throw new ArgumentException("MINIO_ACCESS_KEY");
+        var secretKey = configuration["MINIO_SECRET_KEY"] ??
+                        throw new ArgumentException("MINIO_SECRET_KEY");
 
         _minioClient = new MinioClient()
             .WithEndpoint(endpoint)
@@ -31,10 +39,12 @@ public class StorageService : IStorageService
             .WithSSL(false)
             .Build();
 
-        _bucketName = configuration["MINIO_BUCKET"] ?? throw new ArgumentNullException(nameof(configuration["MINIO_BUCKET"]));
+        _bucketName = configuration["MINIO_BUCKET"] ??
+                      throw new ArgumentException("MINIO_BUCKET");
     }
 
-    public async Task<string> UploadAsync(string fileName, Stream content, CancellationToken cancellationToken = default)
+    public async Task<string> UploadAsync(string fileName, Stream content,
+        CancellationToken cancellationToken = default)
     {
         var putObjectArgs = new PutObjectArgs()
             .WithBucket(_bucketName)
@@ -49,11 +59,18 @@ public class StorageService : IStorageService
 
     public async Task<Stream> DownloadAsync(string fileName, CancellationToken cancellationToken = default)
     {
+        var responseStream = new MemoryStream();
+
         var getObjectArgs = new GetObjectArgs()
             .WithBucket(_bucketName)
-            .WithObject(fileName);
+            .WithObject(fileName)
+            .WithCallbackStream(stream =>
+            {
+                stream.CopyTo(responseStream);
+            });
 
-        return await _minioClient.GetObjectAsync(getObjectArgs, cancellationToken);
+        await _minioClient.GetObjectAsync(getObjectArgs, cancellationToken);
+        return responseStream;
     }
 
     public async Task DeleteAsync(string fileName, CancellationToken cancellationToken = default)
@@ -82,7 +99,8 @@ public class StorageService : IStorageService
         }
     }
 
-    public async Task<IEnumerable<StorageItem>> ListAsync(string prefix = "", bool recursive = true, CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<StorageItem>> ListAsync(string prefix = "", bool recursive = true,
+        CancellationToken cancellationToken = default)
     {
         var listObjectsArgs = new ListObjectsArgs()
             .WithBucket(_bucketName)
@@ -90,28 +108,24 @@ public class StorageService : IStorageService
             .WithRecursive(recursive);
 
         var items = new List<StorageItem>();
-        var list = _minioClient.ListObjectsAsync(listObjectsArgs, cancellationToken);
+        var list = _minioClient.ListObjectsEnumAsync(listObjectsArgs, cancellationToken);
 
-        await foreach (var item in list.WithCancellation(cancellationToken))
+        await foreach (var item in list)
         {
-            items.Add(new StorageItem
-            {
-                Name = item.ObjectName,
-                Size = item.Size,
-                LastModified = item.LastModifiedDateTime
-            });
+            items.Add(new StorageItem(item.Key, item.Size, item.LastModifiedDateTime));
         }
 
         return items;
     }
 
-    public async Task<string> GetPresignedUrlAsync(string fileName, int expiryMinutes, CancellationToken cancellationToken = default)
+    public async Task<string> GetPresignedUrlAsync(string fileName, int expiryMinutes,
+        CancellationToken cancellationToken = default)
     {
         var presignedGetObjectArgs = new PresignedGetObjectArgs()
             .WithBucket(_bucketName)
             .WithObject(fileName)
-            .WithExpiry(TimeSpan.FromMinutes(expiryMinutes));
+            .WithExpiry((int)Math.Round(TimeSpan.FromMinutes(expiryMinutes).TotalSeconds));
 
-        return await _minioClient.PresignedGetObjectAsync(presignedGetObjectArgs, cancellationToken);
+        return await _minioClient.PresignedGetObjectAsync(presignedGetObjectArgs);
     }
-} 
+}

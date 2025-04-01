@@ -7,8 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Carter" Version="9.0.0" />
     <PackageReference Include="Minio" Version="6.0.4" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="../../../../backend/Core/Core.csproj" />
+  </ItemGroup>
 </Project>
