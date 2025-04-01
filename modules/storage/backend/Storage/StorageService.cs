@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Configuration;
 using Minio;
 using Minio.DataModel.Args;
 

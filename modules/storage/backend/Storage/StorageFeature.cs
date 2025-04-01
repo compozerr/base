@@ -1,10 +1,11 @@
 using Core.Feature;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Storage;
 
 public class StorageFeature : IFeature
 {
-    public void Configure(IServiceCollection services)
+    void IFeature.ConfigureServices(IServiceCollection services)
     {
         services.AddSingleton<IStorageService, StorageService>();
     }
