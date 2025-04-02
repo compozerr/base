@@ -1,3 +1,5 @@
+using Api.Endpoints.Projects.Deployments.Logs.Get;
+
 namespace Api.Endpoints.Projects.Deployments;
 
 public static class DeploymentsGroup
@@ -10,6 +12,7 @@ public static class DeploymentsGroup
 
         group.AddGetDeploymentsRoute();
         group.AddGetDeploymentRoute();
+        group.AddGetLogRoute();
 
         return group;
     }

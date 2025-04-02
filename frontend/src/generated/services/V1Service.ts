@@ -5390,6 +5390,283 @@ export interface V1Service {
             error: GetProjectsProjectIdDeploymentsDeploymentIdError;
         };
     };
+    getProjectsProjectIdDeploymentsDeploymentIdLogs: {
+        /**/
+        cancelQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetProjectsProjectIdDeploymentsDeploymentIdLogsSchema, GetProjectsProjectIdDeploymentsDeploymentIdLogsData, TInfinite, GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters, GetProjectsProjectIdDeploymentsDeploymentIdLogsError> | QueryFiltersByQueryKey<GetProjectsProjectIdDeploymentsDeploymentIdLogsSchema, GetProjectsProjectIdDeploymentsDeploymentIdLogsData, TInfinite, GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters, GetProjectsProjectIdDeploymentsDeploymentIdLogsError>, options?: CancelOptions): Promise<void>;
+        /**/
+        getQueryKey(parameters: GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters): ServiceOperationQueryKey<GetProjectsProjectIdDeploymentsDeploymentIdLogsSchema, GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters>;
+        /**
+         * Performs asynchronous data fetching, manages loading states and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
+         * @example Query with parameters
+         * ```ts
+         * const { data, isLoading } = qraft.v1Service.getProjectsProjectIdDeploymentsDeploymentIdLogs.useQuery({
+         *     path: {
+         *         projectId: projectId,
+         *         deploymentId: deploymentId
+         *     }
+         * })
+         * ```
+         */
+        useQuery<TData = GetProjectsProjectIdDeploymentsDeploymentIdLogsData>(parameters: ServiceOperationQueryKey<GetProjectsProjectIdDeploymentsDeploymentIdLogsSchema, GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters> | (GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters), options?: Omit<UndefinedInitialDataOptions<GetProjectsProjectIdDeploymentsDeploymentIdLogsData, GetProjectsProjectIdDeploymentsDeploymentIdLogsError, TData, ServiceOperationQueryKey<GetProjectsProjectIdDeploymentsDeploymentIdLogsSchema, GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters>>, "queryKey">): UseQueryResult<TData, GetProjectsProjectIdDeploymentsDeploymentIdLogsError | Error>;
+        /**
+         * Performs asynchronous data fetching, manages loading states and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
+         * @example Query with parameters
+         * ```ts
+         * const { data, isLoading } = qraft.v1Service.getProjectsProjectIdDeploymentsDeploymentIdLogs.useQuery({
+         *     path: {
+         *         projectId: projectId,
+         *         deploymentId: deploymentId
+         *     }
+         * })
+         * ```
+         */
+        useQuery<TData = GetProjectsProjectIdDeploymentsDeploymentIdLogsData>(parameters: ServiceOperationQueryKey<GetProjectsProjectIdDeploymentsDeploymentIdLogsSchema, GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters> | (GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters), options: Omit<DefinedInitialDataOptions<GetProjectsProjectIdDeploymentsDeploymentIdLogsData, GetProjectsProjectIdDeploymentsDeploymentIdLogsError, TData, ServiceOperationQueryKey<GetProjectsProjectIdDeploymentsDeploymentIdLogsSchema, GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters>>, "queryKey">): DefinedUseQueryResult<TData, GetProjectsProjectIdDeploymentsDeploymentIdLogsError | Error>;
+        /**/
+        fetchInfiniteQuery<TPageParam extends GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters>(options: ServiceOperationFetchInfiniteQueryOptions<GetProjectsProjectIdDeploymentsDeploymentIdLogsSchema, GetProjectsProjectIdDeploymentsDeploymentIdLogsData, GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters, TPageParam, GetProjectsProjectIdDeploymentsDeploymentIdLogsError>): Promise<OperationInfiniteData<GetProjectsProjectIdDeploymentsDeploymentIdLogsData, GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters>>;
+        /**/
+        prefetchInfiniteQuery<TPageParam extends GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters>(options: ServiceOperationFetchInfiniteQueryOptions<GetProjectsProjectIdDeploymentsDeploymentIdLogsSchema, GetProjectsProjectIdDeploymentsDeploymentIdLogsData, GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters, TPageParam, GetProjectsProjectIdDeploymentsDeploymentIdLogsError>): Promise<void>;
+        /**/
+        ensureInfiniteQueryData<TPageParam extends GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters>(options: ServiceOperationEnsureInfiniteQueryDataOptions<GetProjectsProjectIdDeploymentsDeploymentIdLogsSchema, GetProjectsProjectIdDeploymentsDeploymentIdLogsData, GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters, TPageParam, GetProjectsProjectIdDeploymentsDeploymentIdLogsError>): Promise<OperationInfiniteData<GetProjectsProjectIdDeploymentsDeploymentIdLogsData, GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters>>;
+        /**/
+        fetchQuery(options: ServiceOperationFetchQueryOptions<GetProjectsProjectIdDeploymentsDeploymentIdLogsSchema, GetProjectsProjectIdDeploymentsDeploymentIdLogsData, GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters, GetProjectsProjectIdDeploymentsDeploymentIdLogsError>): Promise<GetProjectsProjectIdDeploymentsDeploymentIdLogsData>;
+        /**/
+        prefetchQuery(options: ServiceOperationFetchQueryOptions<GetProjectsProjectIdDeploymentsDeploymentIdLogsSchema, GetProjectsProjectIdDeploymentsDeploymentIdLogsData, GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters, GetProjectsProjectIdDeploymentsDeploymentIdLogsError>): Promise<void>;
+        /**/
+        ensureQueryData(options: ServiceOperationEnsureQueryDataOptions<GetProjectsProjectIdDeploymentsDeploymentIdLogsSchema, GetProjectsProjectIdDeploymentsDeploymentIdLogsData, GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters, GetProjectsProjectIdDeploymentsDeploymentIdLogsError>): Promise<GetProjectsProjectIdDeploymentsDeploymentIdLogsData>;
+        /**/
+        getInfiniteQueryData(parameters: ServiceOperationInfiniteQueryKey<GetProjectsProjectIdDeploymentsDeploymentIdLogsSchema, GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters> | (GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters)): OperationInfiniteData<GetProjectsProjectIdDeploymentsDeploymentIdLogsData, GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters> | undefined;
+        /**/
+        getQueriesData<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetProjectsProjectIdDeploymentsDeploymentIdLogsSchema, GetProjectsProjectIdDeploymentsDeploymentIdLogsData, TInfinite, GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters, GetProjectsProjectIdDeploymentsDeploymentIdLogsError> | QueryFiltersByQueryKey<GetProjectsProjectIdDeploymentsDeploymentIdLogsSchema, GetProjectsProjectIdDeploymentsDeploymentIdLogsData, TInfinite, GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters, GetProjectsProjectIdDeploymentsDeploymentIdLogsError>): TInfinite extends true ? Array<[
+            queryKey: ServiceOperationInfiniteQueryKey<GetProjectsProjectIdDeploymentsDeploymentIdLogsSchema, GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters>,
+            data: NoInfer<OperationInfiniteData<GetProjectsProjectIdDeploymentsDeploymentIdLogsData, GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters>> | undefined
+        ]> : Array<[
+            queryKey: ServiceOperationQueryKey<GetProjectsProjectIdDeploymentsDeploymentIdLogsSchema, GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters>,
+            data: GetProjectsProjectIdDeploymentsDeploymentIdLogsData | undefined
+        ]>;
+        /**/
+        getQueryData(parameters: ServiceOperationQueryKey<GetProjectsProjectIdDeploymentsDeploymentIdLogsSchema, GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters> | (GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters)): GetProjectsProjectIdDeploymentsDeploymentIdLogsData | undefined;
+        /**/
+        getQueryState(parameters: ServiceOperationQueryKey<GetProjectsProjectIdDeploymentsDeploymentIdLogsSchema, GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters> | (GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters)): QueryState<GetProjectsProjectIdDeploymentsDeploymentIdLogsData, GetProjectsProjectIdDeploymentsDeploymentIdLogsError> | undefined;
+        /**/
+        getInfiniteQueryState(parameters: GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters | ServiceOperationInfiniteQueryKey<GetProjectsProjectIdDeploymentsDeploymentIdLogsSchema, GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters>): QueryState<OperationInfiniteData<GetProjectsProjectIdDeploymentsDeploymentIdLogsData, GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters>, GetProjectsProjectIdDeploymentsDeploymentIdLogsError> | undefined;
+        /**/
+        invalidateQueries<TInfinite extends boolean = false>(filters?: InvalidateQueryFilters<GetProjectsProjectIdDeploymentsDeploymentIdLogsSchema, GetProjectsProjectIdDeploymentsDeploymentIdLogsData, TInfinite, GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters, GetProjectsProjectIdDeploymentsDeploymentIdLogsError>, options?: InvalidateOptions): Promise<void>;
+        /**/
+        isFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetProjectsProjectIdDeploymentsDeploymentIdLogsSchema, GetProjectsProjectIdDeploymentsDeploymentIdLogsData, TInfinite, GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters, GetProjectsProjectIdDeploymentsDeploymentIdLogsError> | QueryFiltersByQueryKey<GetProjectsProjectIdDeploymentsDeploymentIdLogsSchema, GetProjectsProjectIdDeploymentsDeploymentIdLogsData, TInfinite, GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters, GetProjectsProjectIdDeploymentsDeploymentIdLogsError>): number;
+        /**/
+        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: QueryFnOptionsByQueryKey<GetProjectsProjectIdDeploymentsDeploymentIdLogsSchema, GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters, TMeta, TSignal> | (QueryFnOptionsByParameters<GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters, TMeta, TSignal>), client?: (schema: GetProjectsProjectIdDeploymentsDeploymentIdLogsSchema, options: {
+            parameters: GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters;
+            signal?: TSignal;
+            meta?: TMeta;
+        }) => Promise<RequestFnResponse<GetProjectsProjectIdDeploymentsDeploymentIdLogsData, GetProjectsProjectIdDeploymentsDeploymentIdLogsError>>): Promise<RequestFnResponse<GetProjectsProjectIdDeploymentsDeploymentIdLogsData, GetProjectsProjectIdDeploymentsDeploymentIdLogsError>>;
+        /**/
+        refetchQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetProjectsProjectIdDeploymentsDeploymentIdLogsSchema, GetProjectsProjectIdDeploymentsDeploymentIdLogsData, TInfinite, GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters, GetProjectsProjectIdDeploymentsDeploymentIdLogsError> | QueryFiltersByQueryKey<GetProjectsProjectIdDeploymentsDeploymentIdLogsSchema, GetProjectsProjectIdDeploymentsDeploymentIdLogsData, TInfinite, GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters, GetProjectsProjectIdDeploymentsDeploymentIdLogsError>, options?: RefetchOptions): Promise<void>;
+        /**/
+        removeQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetProjectsProjectIdDeploymentsDeploymentIdLogsSchema, GetProjectsProjectIdDeploymentsDeploymentIdLogsData, TInfinite, GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters, GetProjectsProjectIdDeploymentsDeploymentIdLogsError> | QueryFiltersByQueryKey<GetProjectsProjectIdDeploymentsDeploymentIdLogsSchema, GetProjectsProjectIdDeploymentsDeploymentIdLogsData, TInfinite, GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters, GetProjectsProjectIdDeploymentsDeploymentIdLogsError>): void;
+        /**/
+        resetQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetProjectsProjectIdDeploymentsDeploymentIdLogsSchema, GetProjectsProjectIdDeploymentsDeploymentIdLogsData, TInfinite, GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters, GetProjectsProjectIdDeploymentsDeploymentIdLogsError> | QueryFiltersByQueryKey<GetProjectsProjectIdDeploymentsDeploymentIdLogsSchema, GetProjectsProjectIdDeploymentsDeploymentIdLogsData, TInfinite, GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters, GetProjectsProjectIdDeploymentsDeploymentIdLogsError>, options?: ResetOptions): Promise<void>;
+        /**/
+        setInfiniteQueryData(parameters: GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters | ServiceOperationInfiniteQueryKey<GetProjectsProjectIdDeploymentsDeploymentIdLogsSchema, GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters>, updater: Updater<NoInfer<OperationInfiniteData<GetProjectsProjectIdDeploymentsDeploymentIdLogsData, GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters>> | undefined, NoInfer<OperationInfiniteData<GetProjectsProjectIdDeploymentsDeploymentIdLogsData, GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters>> | undefined>, options?: SetDataOptions): OperationInfiniteData<GetProjectsProjectIdDeploymentsDeploymentIdLogsData, GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters> | undefined;
+        /**/
+        setQueriesData<TInfinite extends boolean = false>(filters: QueryFiltersByParameters<GetProjectsProjectIdDeploymentsDeploymentIdLogsSchema, GetProjectsProjectIdDeploymentsDeploymentIdLogsData, TInfinite, GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters, GetProjectsProjectIdDeploymentsDeploymentIdLogsError> | QueryFiltersByQueryKey<GetProjectsProjectIdDeploymentsDeploymentIdLogsSchema, GetProjectsProjectIdDeploymentsDeploymentIdLogsData, TInfinite, GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters, GetProjectsProjectIdDeploymentsDeploymentIdLogsError>, updater: Updater<NoInfer<GetProjectsProjectIdDeploymentsDeploymentIdLogsData> | undefined, NoInfer<GetProjectsProjectIdDeploymentsDeploymentIdLogsData> | undefined>, options?: SetDataOptions): Array<GetProjectsProjectIdDeploymentsDeploymentIdLogsData | undefined>;
+        /**/
+        setQueryData(parameters: (GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters) | ServiceOperationQueryKey<GetProjectsProjectIdDeploymentsDeploymentIdLogsSchema, GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters>, updater: Updater<NoInfer<GetProjectsProjectIdDeploymentsDeploymentIdLogsData> | undefined, NoInfer<GetProjectsProjectIdDeploymentsDeploymentIdLogsData> | undefined>, options?: SetDataOptions): GetProjectsProjectIdDeploymentsDeploymentIdLogsData | undefined;
+        /**/
+        getInfiniteQueryKey(parameters: GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters): ServiceOperationInfiniteQueryKey<GetProjectsProjectIdDeploymentsDeploymentIdLogsSchema, GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useInfiniteQuery|`useInfiniteQuery(...)` documentation}
+         *
+         * @example Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdDeploymentsDeploymentIdLogs.useInfiniteQuery({
+         *     path: {
+         *         projectId: projectId,
+         *         deploymentId: deploymentId
+         *     }
+         * }, {
+         *     initialPageParam: {},
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useInfiniteQuery<TPageParam extends GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters, TData = GetProjectsProjectIdDeploymentsDeploymentIdLogsData>(parameters: ServiceOperationInfiniteQueryKey<GetProjectsProjectIdDeploymentsDeploymentIdLogsSchema, GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters> | (GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters), options: Omit<UndefinedInitialDataInfiniteOptions<GetProjectsProjectIdDeploymentsDeploymentIdLogsData, GetProjectsProjectIdDeploymentsDeploymentIdLogsError, OperationInfiniteData<TData, GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters>, ServiceOperationInfiniteQueryKey<GetProjectsProjectIdDeploymentsDeploymentIdLogsSchema, GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters>, PartialParameters<TPageParam>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<GetProjectsProjectIdDeploymentsDeploymentIdLogsData, PartialParameters<TPageParam>>): UseInfiniteQueryResult<OperationInfiniteData<TData, GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters>, GetProjectsProjectIdDeploymentsDeploymentIdLogsError | Error>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useInfiniteQuery|`useInfiniteQuery(...)` documentation}
+         *
+         * @example Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdDeploymentsDeploymentIdLogs.useInfiniteQuery({
+         *     path: {
+         *         projectId: projectId,
+         *         deploymentId: deploymentId
+         *     }
+         * }, {
+         *     initialPageParam: {},
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useInfiniteQuery<TPageParam extends GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters, TData = GetProjectsProjectIdDeploymentsDeploymentIdLogsData>(parameters: ServiceOperationInfiniteQueryKey<GetProjectsProjectIdDeploymentsDeploymentIdLogsSchema, GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters> | (GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters), options: Omit<DefinedInitialDataInfiniteOptions<GetProjectsProjectIdDeploymentsDeploymentIdLogsData, GetProjectsProjectIdDeploymentsDeploymentIdLogsError, OperationInfiniteData<TData, GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters>, ServiceOperationInfiniteQueryKey<GetProjectsProjectIdDeploymentsDeploymentIdLogsSchema, GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters>, PartialParameters<TPageParam>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<GetProjectsProjectIdDeploymentsDeploymentIdLogsData, PartialParameters<TPageParam>>): DefinedUseInfiniteQueryResult<OperationInfiniteData<TData, GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters>, GetProjectsProjectIdDeploymentsDeploymentIdLogsError | Error>;
+        /**
+         * Monitors the number of queries currently fetching, matching the provided filters.
+         * Useful for creating loading indicators or performing actions based on active requests.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsFetching|`useIsFetching(...)` documentation}
+         * @example Checks the total number of queries fetching from the specified service method,
+         * both normal and infinite. If no parameters are provided, no filtering is applied.
+         * ```ts
+         * const getProjectsProjectIdDeploymentsDeploymentIdLogsTotal = qraft.v1Service.getProjectsProjectIdDeploymentsDeploymentIdLogs.useIsFetching()
+         * ```
+         * @example Checks the number of normal queries fetching with the specified parameters.
+         * ```ts
+         * const getProjectsProjectIdDeploymentsDeploymentIdLogsByParametersTotal = qraft.v1Service.getProjectsProjectIdDeploymentsDeploymentIdLogs.useIsFetching({
+         *     infinite: false,
+         *     parameters: {
+         *         path: {
+         *             projectId: projectId,
+         *             deploymentId: deploymentId
+         *         }
+         *     }
+         * })
+         * ```
+         */
+        useIsFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetProjectsProjectIdDeploymentsDeploymentIdLogsSchema, GetProjectsProjectIdDeploymentsDeploymentIdLogsData, TInfinite, GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters, GetProjectsProjectIdDeploymentsDeploymentIdLogsError> | QueryFiltersByQueryKey<GetProjectsProjectIdDeploymentsDeploymentIdLogsSchema, GetProjectsProjectIdDeploymentsDeploymentIdLogsData, TInfinite, GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters, GetProjectsProjectIdDeploymentsDeploymentIdLogsError>): number;
+        /**
+         * Allows you to execute multiple asynchronous data fetching operations concurrently. This is especially useful for managing complex data dependencies in parallel.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
+         * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
+         * ```ts
+         * const getProjectsProjectIdDeploymentsDeploymentIdLogsResults = qraft.v1Service.getProjectsProjectIdDeploymentsDeploymentIdLogs.useQueries({
+         *     queries: [
+         *         {
+         *             path: {
+         *                 projectId: projectId1,
+         *                 deploymentId: deploymentId1
+         *             }
+         *         },
+         *         {
+         *             path: {
+         *                 projectId: projectId2,
+         *                 deploymentId: deploymentId2
+         *             }
+         *         }
+         *     ]
+         * });
+         * getProjectsProjectIdDeploymentsDeploymentIdLogsResults.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
+         * ```
+         * @example Combined results. Only the data will be returned.
+         * ```ts
+         * const getProjectsProjectIdDeploymentsDeploymentIdLogsCombinedResults = qraft.v1Service.getProjectsProjectIdDeploymentsDeploymentIdLogs.useQueries({
+         *     combine: results => results.map(result => result.data),
+         *     queries: [
+         *         {
+         *             path: {
+         *                 projectId: projectId1,
+         *                 deploymentId: deploymentId1
+         *             }
+         *         },
+         *         {
+         *             path: {
+         *                 projectId: projectId2,
+         *                 deploymentId: deploymentId2
+         *             }
+         *         }
+         *     ]
+         * });
+         * getProjectsProjectIdDeploymentsDeploymentIdLogsCombinedResults.forEach(data => console.log({ data }));
+         * ```
+         */
+        useQueries<T extends Array<UseQueryOptionsForUseQueries<GetProjectsProjectIdDeploymentsDeploymentIdLogsSchema, GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters, GetProjectsProjectIdDeploymentsDeploymentIdLogsData, GetProjectsProjectIdDeploymentsDeploymentIdLogsError>>, TCombinedResult = Array<UseQueryResult<GetProjectsProjectIdDeploymentsDeploymentIdLogsData, GetProjectsProjectIdDeploymentsDeploymentIdLogsError>>>(options: {
+            queries: T;
+            combine?: (results: Array<UseQueryResult<GetProjectsProjectIdDeploymentsDeploymentIdLogsData, GetProjectsProjectIdDeploymentsDeploymentIdLogsError>>) => TCombinedResult;
+        }): TCombinedResult;
+        /**/
+        getQueryKey(parameters: GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters): ServiceOperationQueryKey<GetProjectsProjectIdDeploymentsDeploymentIdLogsSchema, GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters>;
+        /**
+         * Performs asynchronous data fetching, manages loading states and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
+         * @example Query with parameters
+         * ```ts
+         * const { data, isLoading } = qraft.v1Service.getProjectsProjectIdDeploymentsDeploymentIdLogs.useQuery({
+         *     path: {
+         *         projectId: projectId,
+         *         deploymentId: deploymentId
+         *     }
+         * })
+         * ```
+         */
+        useQuery<TData = GetProjectsProjectIdDeploymentsDeploymentIdLogsData>(parameters: ServiceOperationQueryKey<GetProjectsProjectIdDeploymentsDeploymentIdLogsSchema, GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters> | (GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters), options?: Omit<UndefinedInitialDataOptions<GetProjectsProjectIdDeploymentsDeploymentIdLogsData, GetProjectsProjectIdDeploymentsDeploymentIdLogsError, TData, ServiceOperationQueryKey<GetProjectsProjectIdDeploymentsDeploymentIdLogsSchema, GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters>>, "queryKey">): UseQueryResult<TData, GetProjectsProjectIdDeploymentsDeploymentIdLogsError | Error>;
+        /**
+         * Performs asynchronous data fetching, manages loading states and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
+         * @example Query with parameters
+         * ```ts
+         * const { data, isLoading } = qraft.v1Service.getProjectsProjectIdDeploymentsDeploymentIdLogs.useQuery({
+         *     path: {
+         *         projectId: projectId,
+         *         deploymentId: deploymentId
+         *     }
+         * })
+         * ```
+         */
+        useQuery<TData = GetProjectsProjectIdDeploymentsDeploymentIdLogsData>(parameters: ServiceOperationQueryKey<GetProjectsProjectIdDeploymentsDeploymentIdLogsSchema, GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters> | (GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters), options: Omit<DefinedInitialDataOptions<GetProjectsProjectIdDeploymentsDeploymentIdLogsData, GetProjectsProjectIdDeploymentsDeploymentIdLogsError, TData, ServiceOperationQueryKey<GetProjectsProjectIdDeploymentsDeploymentIdLogsSchema, GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters>>, "queryKey">): DefinedUseQueryResult<TData, GetProjectsProjectIdDeploymentsDeploymentIdLogsError | Error>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         * It functions similarly to `useInfiniteQuery`, but with added support for React Suspense.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseInfiniteQuery|`useSuspenseInfiniteQuery(...)` documentation}
+         *
+         * @example Suspense Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdDeploymentsDeploymentIdLogs.useSuspenseInfiniteQuery({
+         *     path: {
+         *         projectId: projectId,
+         *         deploymentId: deploymentId
+         *     }
+         * }, {
+         *     initialPageParam: {},
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useSuspenseInfiniteQuery<TPageParam extends GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters, TData = GetProjectsProjectIdDeploymentsDeploymentIdLogsData>(parameters: ServiceOperationInfiniteQueryKey<GetProjectsProjectIdDeploymentsDeploymentIdLogsSchema, GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters> | (GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters), options: Omit<UseSuspenseInfiniteQueryOptions<GetProjectsProjectIdDeploymentsDeploymentIdLogsData, GetProjectsProjectIdDeploymentsDeploymentIdLogsError, OperationInfiniteData<TData, GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters>, GetProjectsProjectIdDeploymentsDeploymentIdLogsData, ServiceOperationInfiniteQueryKey<GetProjectsProjectIdDeploymentsDeploymentIdLogsSchema, GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters>, PartialParameters<TPageParam>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<GetProjectsProjectIdDeploymentsDeploymentIdLogsData, PartialParameters<TPageParam>>): UseSuspenseInfiniteQueryResult<OperationInfiniteData<TData, GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters>, GetProjectsProjectIdDeploymentsDeploymentIdLogsError | Error>;
+        /**/
+        useSuspenseQueries<T extends Array<UseQueryOptionsForUseSuspenseQuery<GetProjectsProjectIdDeploymentsDeploymentIdLogsSchema, GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters, GetProjectsProjectIdDeploymentsDeploymentIdLogsData, GetProjectsProjectIdDeploymentsDeploymentIdLogsError>>, TCombinedResult = Array<UseSuspenseQueryResult<GetProjectsProjectIdDeploymentsDeploymentIdLogsData, GetProjectsProjectIdDeploymentsDeploymentIdLogsError>>>(options: {
+            queries: T;
+            combine?: (results: Array<WithOptional<UseSuspenseQueryResult<GetProjectsProjectIdDeploymentsDeploymentIdLogsData, GetProjectsProjectIdDeploymentsDeploymentIdLogsError>, "data">>) => TCombinedResult;
+        }): TCombinedResult;
+        /**/
+        useSuspenseQuery<TData = GetProjectsProjectIdDeploymentsDeploymentIdLogsData>(parameters: ServiceOperationQueryKey<GetProjectsProjectIdDeploymentsDeploymentIdLogsSchema, GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters> | (GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters), options?: Omit<UseSuspenseQueryOptions<GetProjectsProjectIdDeploymentsDeploymentIdLogsData, GetProjectsProjectIdDeploymentsDeploymentIdLogsError, TData, ServiceOperationQueryKey<GetProjectsProjectIdDeploymentsDeploymentIdLogsSchema, GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters>>, "queryKey">): UseSuspenseQueryResult<TData, GetProjectsProjectIdDeploymentsDeploymentIdLogsError | Error>;
+        schema: GetProjectsProjectIdDeploymentsDeploymentIdLogsSchema;
+        types: {
+            parameters: GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters;
+            data: GetProjectsProjectIdDeploymentsDeploymentIdLogsData;
+            error: GetProjectsProjectIdDeploymentsDeploymentIdLogsError;
+        };
+    };
     getProjectsProjectIdEnvironment: {
         /**/
         cancelQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetProjectsProjectIdEnvironmentSchema, GetProjectsProjectIdEnvironmentData, TInfinite, GetProjectsProjectIdEnvironmentParameters, GetProjectsProjectIdEnvironmentError> | QueryFiltersByQueryKey<GetProjectsProjectIdEnvironmentSchema, GetProjectsProjectIdEnvironmentData, TInfinite, GetProjectsProjectIdEnvironmentParameters, GetProjectsProjectIdEnvironmentError>, options?: CancelOptions): Promise<void>;
@@ -7487,6 +7764,12 @@ export const v1Service: {
             url: "/v1/projects/{projectId}/deployments/{deploymentId}";
         };
     };
+    getProjectsProjectIdDeploymentsDeploymentIdLogs: {
+        schema: {
+            method: "get";
+            url: "/v1/projects/{projectId}/deployments/{deploymentId}/logs";
+        };
+    };
     getProjectsProjectIdEnvironment: {
         schema: {
             method: "get";
@@ -7724,6 +8007,12 @@ export const v1Service: {
         schema: {
             method: "get",
             url: "/v1/projects/{projectId}/deployments/{deploymentId}"
+        }
+    },
+    getProjectsProjectIdDeploymentsDeploymentIdLogs: {
+        schema: {
+            method: "get",
+            url: "/v1/projects/{projectId}/deployments/{deploymentId}/logs"
         }
     },
     getProjectsProjectIdEnvironment: {
@@ -8008,6 +8297,13 @@ type GetProjectsProjectIdDeploymentsDeploymentIdSchema = {
 type GetProjectsProjectIdDeploymentsDeploymentIdParameters = paths["/v1/projects/{projectId}/deployments/{deploymentId}"]["get"]["parameters"];
 type GetProjectsProjectIdDeploymentsDeploymentIdData = paths["/v1/projects/{projectId}/deployments/{deploymentId}"]["get"]["responses"]["200"]["content"]["application/json"];
 type GetProjectsProjectIdDeploymentsDeploymentIdError = unknown;
+type GetProjectsProjectIdDeploymentsDeploymentIdLogsSchema = {
+    method: "get";
+    url: "/v1/projects/{projectId}/deployments/{deploymentId}/logs";
+};
+type GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters = paths["/v1/projects/{projectId}/deployments/{deploymentId}/logs"]["get"]["parameters"];
+type GetProjectsProjectIdDeploymentsDeploymentIdLogsData = paths["/v1/projects/{projectId}/deployments/{deploymentId}/logs"]["get"]["responses"]["200"]["content"]["text/plain"];
+type GetProjectsProjectIdDeploymentsDeploymentIdLogsError = unknown;
 type GetProjectsProjectIdEnvironmentSchema = {
     method: "get";
     url: "/v1/projects/{projectId}/environment";

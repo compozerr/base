@@ -2,17 +2,7 @@ using Api.Abstractions;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
-using System.Text.Json.Serialization;
 namespace Api.Hosting.Endpoints.Deployments.Logs.Add;
-
-[JsonConverter(typeof(JsonStringEnumConverter))]
-public enum LogLevel
-{
-    Info,
-    Warning,
-    Error,
-    Success
-}
 
 public sealed record AddLogRequest(string Log, LogLevel Level);
 

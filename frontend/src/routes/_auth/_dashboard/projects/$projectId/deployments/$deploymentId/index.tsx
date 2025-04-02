@@ -14,6 +14,7 @@ import {
 import { getDeploymentStatusFromNumber } from '@/lib/deployment-status';
 import { getStatusDot } from '@/lib/deployment-status-component';
 import { Formatter } from '@/lib/formatter';
+import { cn } from '@/lib/utils';
 import { createFileRoute, useParams, useRouter } from '@tanstack/react-router';
 import { ArrowLeft, Calendar, Clock, ExternalLink, GitBranch, GitCommit, MoreVertical } from "lucide-react";
 
@@ -21,14 +22,19 @@ export const Route = createFileRoute(
     '/_auth/_dashboard/projects/$projectId/deployments/$deploymentId/',
 )({
     component: RouteComponent,
-    loader(ctx) {
+    loader: async (ctx) => {
         return api.v1.getProjectsProjectIdDeploymentsDeploymentId.fetchQuery({ parameters: { path: { projectId: ctx.params.projectId, deploymentId: ctx.params.deploymentId } } });
     },
 })
 
 function RouteComponent() {
     const deployment = Route.useLoaderData();
-    const { projectId } = Route.useParams();
+    const { projectId, deploymentId } = Route.useParams();
+
+    const { data: logs } = api.v1.getHostingDeploymentsDeploymentIdLogs.useQuery({ path: { deploymentId } }, {
+        enabled: !!deploymentId,
+        refetchInterval: 2000,
+    });
 
     const router = useRouter()
 
@@ -178,7 +184,7 @@ function RouteComponent() {
                 <CardHeader className="pb-2">
                     <CardTitle className="text-lg flex justify-between">
                         <span>Build Logs</span>
-                        <CopyButton value={deployment.buildLogs?.join("\n") ?? ""}>
+                        <CopyButton value={logs ?? ""}>
                             <span className='ml-4 text-sm'>Copy</span>
                         </CopyButton>
                     </CardTitle>
@@ -186,11 +192,13 @@ function RouteComponent() {
                 </CardHeader>
                 <CardContent>
                     <div className="bg-black text-green-400 font-mono text-sm p-4 rounded-md h-[400px] overflow-y-auto">
-                        {deployment.buildLogs?.map((log, index) => (
-                            <div key={index} className="whitespace-pre-wrap mb-1">
-                                {log}
-                            </div>
-                        ))}
+                        <div className="whitespace-pre-wrap mb-1">
+                            {logs?.split("\n").map((log, index) => (
+                                <div key={index} className={cn("whitespace-pre-wrap mb-1", log.includes("ERROR") ? "text-red-400" : log.includes("WARNING") ? "text-yellow-400" : "text-green-400")}>
+                                    {log}
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </CardContent>
             </Card>
