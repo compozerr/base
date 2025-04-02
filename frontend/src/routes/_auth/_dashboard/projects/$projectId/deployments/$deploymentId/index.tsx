@@ -11,11 +11,11 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { getDeploymentStatusFromNumber } from '@/lib/deployment-status';
+import { DeploymentStatus, getDeploymentStatusFromNumber } from '@/lib/deployment-status';
 import { getStatusDot } from '@/lib/deployment-status-component';
 import { Formatter } from '@/lib/formatter';
 import { cn } from '@/lib/utils';
-import { createFileRoute, useParams, useRouter } from '@tanstack/react-router';
+import { createFileRoute, useRouter } from '@tanstack/react-router';
 import { ArrowLeft, Calendar, Clock, ExternalLink, GitBranch, GitCommit, MoreVertical } from "lucide-react";
 
 export const Route = createFileRoute(
@@ -23,23 +23,46 @@ export const Route = createFileRoute(
 )({
     component: RouteComponent,
     loader: async (ctx) => {
-        return api.v1.getProjectsProjectIdDeploymentsDeploymentId.fetchQuery({ parameters: { path: { projectId: ctx.params.projectId, deploymentId: ctx.params.deploymentId } } });
+        return api.v1.getProjectsProjectIdDeploymentsDeploymentId.fetchQuery({
+            parameters: {
+                path: {
+                    projectId: ctx.params.projectId,
+                    deploymentId: ctx.params.deploymentId
+                }
+            }
+        });
     },
 })
 
 function RouteComponent() {
-    const deployment = Route.useLoaderData();
+    const initialData = Route.useLoaderData();
     const { projectId, deploymentId } = Route.useParams();
 
-    const { data: logs } = api.v1.getHostingDeploymentsDeploymentIdLogs.useQuery({ path: { deploymentId } }, {
+    const { data: deployment } = api.v1.getProjectsProjectIdDeploymentsDeploymentId.useQuery(
+        { path: { projectId, deploymentId } },
+        {
+            initialData,
+            refetchInterval: (ctx) => getDeploymentStatusFromNumber(ctx.state.data?.status) === DeploymentStatus.Deploying ? 10000 : false
+        }
+    );
+
+    const { data: logs } = api.v1.getProjectsProjectIdDeploymentsDeploymentIdLogs.useQuery({ path: { projectId, deploymentId } }, {
         enabled: !!deploymentId,
-        refetchInterval: 2000,
+        refetchInterval: () => getDeploymentStatusFromNumber(deployment?.status) === DeploymentStatus.Deploying ? 2000 : false,
     });
 
     const router = useRouter()
 
     const goBack = () => {
         router.navigate({ to: `/projects/${projectId}/deployments` })
+    }
+
+    const getLogTextColor = (log: string) => {
+        if (log.includes("ERROR")) return "text-red-500";
+        if (log.includes("WARNING")) return "text-yellow-500";
+        if (log.includes("INFO")) return "text-gray-400";
+        if (log.includes("SUCCESS")) return "text-green-500";
+        return "text-gray-500";
     }
 
     if (!deployment) {
@@ -194,7 +217,7 @@ function RouteComponent() {
                     <div className="bg-black text-green-400 font-mono text-sm p-4 rounded-md h-[400px] overflow-y-auto">
                         <div className="whitespace-pre-wrap mb-1">
                             {logs?.split("\n").map((log, index) => (
-                                <div key={index} className={cn("whitespace-pre-wrap mb-1", log.includes("ERROR") ? "text-red-400" : log.includes("WARNING") ? "text-yellow-400" : "text-green-400")}>
+                                <div key={index} className={cn("whitespace-pre-wrap mb-1", getLogTextColor(log))}>
                                     {log}
                                 </div>
                             ))}
