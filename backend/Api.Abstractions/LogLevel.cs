@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 
 namespace Api.Abstractions;
 
-[JsonConverter(typeof(JsonStringEnumConverter))]
+[JsonConverter(typeof(JsonStringEnumConverter<LogLevel>))]
 public enum LogLevel
 {
     Info,
