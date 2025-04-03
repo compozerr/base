@@ -178,7 +178,6 @@ function DomainsSettingsTab() {
             subtitle="This action cannot be reverted, you'll have to add it again..."
             open={!!deleteDomainId}
             onAnswer={(ans) => {
-              console.log({ ans })
               if (ans && deleteDomainId) {
                 deleteDomainAsync().finally(() => {
                   setDeleteDomainId(null);
