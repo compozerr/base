@@ -15,4 +15,3 @@ services:
 
 volumes:
   minio-data:
-    driver: local 
