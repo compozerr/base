@@ -4,6 +4,8 @@ using Api.Services;
 using Core.Extensions;
 using Core.Feature;
 using DnsClient;
+using Serilog.Events;
+using Serilog.Sinks.Humio;
 
 namespace Api;
 
@@ -24,5 +26,23 @@ public class ApiFeature : IFeature
                 Timeout = TimeSpan.FromSeconds(5),
             });
         });
+
+        Log.Logger = new LoggerConfiguration()
+            .MinimumLevel.Information()
+            .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+            .Enrich.FromLogContext()
+            .WriteTo.Console()
+            .WriteTo.HumioSink(new HumioSinkConfiguration
+            {
+                IngestToken = configuration["HUMIOINGESTTOKEN"],
+                Tags = new Dictionary<string, string>
+                {
+                    {"system", "compozerr"},
+                    {"platform", "web"},
+                    {"environment", configuration["ASPNETCORE_ENVIRONMENT"] == "Production" ? "prod" : "dev"}
+                },
+                Url = "https://cloud.community.humio.com",
+            })
+            .CreateLogger();
     }
 }
