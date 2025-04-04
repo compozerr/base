@@ -76,6 +76,8 @@ public sealed class HostingApi(
                          .Information("Sending deploy command to server");
 
         var deploymentStatus = DeploymentStatus.Deploying;
+        var timeout = TimeSpan.FromMinutes(30);
+        var cts = new CancellationTokenSource(timeout);
 
         try
         {
@@ -86,20 +88,27 @@ public sealed class HostingApi(
                 repoName,
                 commitHash,
                 deploymentId = deployment.Id.Value.ToString()
-            }));
+            }), cts.Token);
 
             if (!deployResponse.IsSuccessStatusCode)
             {
-                loggerWithContext.Error("Deployment failed: {response}", await deployResponse.Content.ReadAsStringAsync());
-
+                loggerWithContext.Error("Deployment failed: {response}", await deployResponse.Content.ReadAsStringAsync(cts.Token));
                 deploymentStatus = DeploymentStatus.Failed;
             }
+        }
+        catch (OperationCanceledException)
+        {
+            loggerWithContext.Error("Deployment timed out after {timeout} minutes", timeout.TotalMinutes);
+            deploymentStatus = DeploymentStatus.Failed;
         }
         catch (Exception ex)
         {
             loggerWithContext.Error(ex, "Deployment failed");
-
             deploymentStatus = DeploymentStatus.Failed;
+        }
+        finally
+        {
+            cts.Dispose();
         }
 
         loggerWithContext.Information("Deployment status: {status}", deploymentStatus);
