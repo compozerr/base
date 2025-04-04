@@ -9,6 +9,9 @@ Features.RegisterConfigureCallback<RegisterMediatrServicesFeatureConfigureCallba
 Features.RegisterConfigureCallback<RegisterValidatorsInAssemblyFeatureConfigureCallback>();
 Features.RegisterConfigureCallback<AssembliesFeatureConfigureCallback>();
 
+builder.ConfigureFeatures();
+builder.Services.AddFeatures(builder.Configuration);
+
 Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Information()
             .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
@@ -26,9 +29,6 @@ Log.Logger = new LoggerConfiguration()
                 Url = "https://cloud.community.humio.com",
             })
             .CreateLogger();
-            
-builder.ConfigureFeatures();
-builder.Services.AddFeatures(builder.Configuration);
 
 var app = builder.Build();
 

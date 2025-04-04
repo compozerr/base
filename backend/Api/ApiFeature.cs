@@ -4,8 +4,6 @@ using Api.Services;
 using Core.Extensions;
 using Core.Feature;
 using DnsClient;
-using Serilog.Events;
-using Serilog.Sinks.Humio;
 
 namespace Api;
 
