@@ -40,6 +40,7 @@ public class HostingGroup : CarterModule
 
         if (!httpContext.Request.Headers.TryGetValue("x-api-key", out var apiKeyValues) || !await HasValidApiKey(apiKeyValues.ToString(), serverRepository))
         {
+            Log.ForContext("apiKey", apiKeyValues).Information("Unauthorized");
             return Results.Unauthorized();
         }
 
