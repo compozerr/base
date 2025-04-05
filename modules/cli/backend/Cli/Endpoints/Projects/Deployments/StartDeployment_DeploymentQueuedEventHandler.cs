@@ -19,5 +19,7 @@ public sealed class StartDeployment_DeploymentQueuedEventHandler(
 
         api.DeployAsync(notification.Entity)
            .LogAndSilence();
+
+        notification.Entity.Status = Api.Data.DeploymentStatus.Deploying;
     }
 }
