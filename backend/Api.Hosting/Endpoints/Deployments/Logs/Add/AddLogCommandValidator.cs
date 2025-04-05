@@ -2,6 +2,7 @@ using Api.Abstractions;
 using Api.Data.Repositories;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 
 namespace Api.Hosting.Endpoints.Deployments.Logs.Add;
 
@@ -17,6 +18,8 @@ public sealed class AddLogCommandValidator : AbstractValidator<AddLogCommand>
             var deployment = await deploymentRepository.GetByIdAsync(
                 deploymentId,
                 cancellationToken);
+                
+            Log.ForContext("deployment", deployment).Information("Deployment");
 
             return deployment is { Status: Data.DeploymentStatus.Deploying };
         }).WithMessage("Deployment not found");
