@@ -1,3 +1,4 @@
+using System.Security.Cryptography.X509Certificates;
 using Api.Data.Repositories;
 using Api.Hosting.Endpoints.Deployments;
 using Api.Hosting.Endpoints.Projects;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Serilog;
 
 namespace Api.Hosting.Endpoints;
 
@@ -26,10 +28,11 @@ public class HostingGroup : CarterModule
 
     public static async ValueTask<object?> ApiKeyMiddleware(EndpointFilterInvocationContext context, EndpointFilterDelegate next)
     {
-        if (context.HttpContext.RequestServices.GetRequiredService<IWebHostEnvironment>().IsDevelopment())
-        {
+        var isDevelopment = context.HttpContext.RequestServices.GetRequiredService<IWebHostEnvironment>().IsDevelopment();
+        Log.ForContext("isDevelopment", isDevelopment).Information("isDevelopment");
+
+        if (isDevelopment)
             return await next(context);
-        }
 
         var httpContext = context.HttpContext;
 
