@@ -18,8 +18,9 @@ public sealed class AddLogCommandValidator : AbstractValidator<AddLogCommand>
             var deployment = await deploymentRepository.GetByIdAsync(
                 deploymentId,
                 cancellationToken);
-                
-            Log.ForContext("deployment", deployment).Information("Deployment");
+
+            Log.ForContext("deployment", deployment, true)
+               .Information("Deployment");
 
             return deployment is { Status: Data.DeploymentStatus.Deploying };
         }).WithMessage("Deployment not found");
