@@ -29,6 +29,9 @@ public class StorageService : IStorageService
 
     public StorageService(IOptions<MinioOptions> options)
     {
+        Log.ForContext(nameof(options), options)
+           .Information("Creating storage service");
+
         var endpoint = options.Value.Endpoint;
         var accessKey = options.Value.AccessKey;
         var secretKey = options.Value.SecretKey;
@@ -39,6 +42,9 @@ public class StorageService : IStorageService
             .WithSSL(false)
             .Build();
 
+        Log.ForContext(nameof(options), options)
+           .Information("Storage service created");
+           
         _bucketName = options.Value.Bucket;
     }
 
