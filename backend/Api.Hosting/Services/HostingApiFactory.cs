@@ -1,5 +1,6 @@
 using Api.Abstractions;
 using Github.Services;
+using MediatR;
 
 namespace Api.Hosting.Services;
 
@@ -10,11 +11,13 @@ public interface IHostingApiFactory
 
 public sealed class HostingApiFactory(
     IHostingServerHttpClientFactory hostingServerHttpClientFactory,
-    IGithubService githubService) : IHostingApiFactory
+    IGithubService githubService,
+    IMediator mediator) : IHostingApiFactory
 {
     public Task<HostingApi> GetHostingApiAsync(ServerId serverId)
         => new HostingApi(
             serverId,
             hostingServerHttpClientFactory,
-            githubService).Initialize();
+            githubService,
+            mediator).Initialize();
 }
