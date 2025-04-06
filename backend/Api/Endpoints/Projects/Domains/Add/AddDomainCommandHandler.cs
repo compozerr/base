@@ -11,6 +11,10 @@ public sealed class AddDomainCommandHandler(
         AddDomainCommand command,
         CancellationToken cancellationToken = default)
     {
+        var currentExternalDomains = await domainRepository.GetAllAsync(
+            x => x.Where(x => x.ProjectId == command.ProjectId && x.Type == DomainType.External),
+            cancellationToken);
+
         var externalDomainEntity = new ExternalDomain
         {
             ProjectId = command.ProjectId,
@@ -18,6 +22,7 @@ public sealed class AddDomainCommandHandler(
             Port = GetServicePort(command.ServiceName),
             Value = command.Domain,
             IsVerified = false,
+            IsPrimary = currentExternalDomains.Count == 0,
         };
 
         var domain = await domainRepository.AddAsync(externalDomainEntity, cancellationToken);
