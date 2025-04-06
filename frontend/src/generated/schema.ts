@@ -1225,6 +1225,44 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/projects/{projectId}/domains/{domainId}/set-primary": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    projectId: string;
+                    domainId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["SetPrimaryResponse"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/projects/{projectId}/domains/{domainId}/parent": {
         parameters: {
             query?: never;
@@ -1450,6 +1488,7 @@ export interface components {
             value?: string | null;
             isInternal?: boolean;
             isVerified?: boolean;
+            isPrimary?: boolean;
         };
         GetDomainsResponse: {
             domains?: components["schemas"]["GetDomainDto"][] | null;
@@ -1536,6 +1575,9 @@ export interface components {
         SetDefaultInstallationRequest: {
             installationId?: string | null;
             type?: components["schemas"]["DefaultInstallationIdSelectionType"];
+        };
+        SetPrimaryResponse: {
+            success?: boolean;
         };
         /**
          * Format: int32

@@ -73,10 +73,33 @@ function DomainsSettingsTab() {
     }
   })
 
+  const [selectedSetPrimaryDomainId, setSelectedSetPrimaryDomainId] = useState<string | null>(null);
+
+  const { mutateAsync: setPrimaryDomainMutateAsync } = api.v1.postProjectsProjectIdDomainsDomainIdSetPrimary.useMutation({
+    path: {
+      projectId,
+      domainId: selectedSetPrimaryDomainId!
+    }
+  }, {
+    onSuccess: () => {
+      invalidate();
+    }
+  })
+
   const deleteDomainAsync = async () => {
     if (!deleteDomainId) return;
 
     await deleteDomainMutateAsync();
+  }
+
+  const setPrimaryDomainAsync = async (domainId: string) => {
+    if (!domainId) return;
+
+    setSelectedSetPrimaryDomainId(domainId);
+
+    await setPrimaryDomainMutateAsync();
+
+    setSelectedSetPrimaryDomainId(null);
   }
 
   const addDomainForm = useAppForm({
@@ -130,6 +153,14 @@ function DomainsSettingsTab() {
                                 Verify
                               </DropdownMenuItem>
                             )}
+                            {
+                              d.isVerified && !d.isPrimary && (
+                                <DropdownMenuItem onClick={() => d.domainId && setPrimaryDomainAsync(d.domainId)}>
+                                  <Check className="mr-2 h-4 w-4" />
+                                  Set as primary
+                                </DropdownMenuItem>
+                              )
+                            }
                             <DropdownMenuItem
                               className="text-destructive"
                               onClick={() => setDeleteDomainId(d.domainId || null)} disabled={d.isInternal}>

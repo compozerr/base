@@ -10,7 +10,7 @@ public sealed record SetPrimaryResponse(
 
 public static class SetPrimaryRoute
 {
-    public const string Route = "{domainId:guid}";
+    public const string Route = "{domainId:guid}/set-primary";
 
     public static RouteHandlerBuilder AddSetPrimaryRoute(this IEndpointRouteBuilder app)
     {

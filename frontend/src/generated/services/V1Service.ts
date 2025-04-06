@@ -6900,6 +6900,130 @@ export interface V1Service {
             error: GetProjectsProjectIdDomainsDomainIdVerifyError;
         };
     };
+    postProjectsProjectIdDomainsDomainIdSetPrimary: {
+        /**/
+        getMutationKey(parameters: PostProjectsProjectIdDomainsDomainIdSetPrimaryParameters | void): ServiceOperationMutationKey<PostProjectsProjectIdDomainsDomainIdSetPrimarySchema, PostProjectsProjectIdDomainsDomainIdSetPrimaryParameters>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.postProjectsProjectIdDomainsDomainIdSetPrimary.useMutation({
+         *     path: {
+         *         projectId: projectId,
+         *         domainId: domainId
+         *     }
+         * })
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.postProjectsProjectIdDomainsDomainIdSetPrimary.useMutation()
+         * mutate({
+         *     body: bodyPayload,
+         *     path: {
+         *         projectId: projectId,
+         *         domainId: domainId
+         *     }
+         * });
+         * ```
+         */
+        useMutation<TVariables extends PostProjectsProjectIdDomainsDomainIdSetPrimaryBody, TContext = unknown>(parameters: PostProjectsProjectIdDomainsDomainIdSetPrimaryParameters, options?: ServiceOperationUseMutationOptions<PostProjectsProjectIdDomainsDomainIdSetPrimarySchema, PostProjectsProjectIdDomainsDomainIdSetPrimaryData, PostProjectsProjectIdDomainsDomainIdSetPrimaryParameters, TVariables, PostProjectsProjectIdDomainsDomainIdSetPrimaryError, TContext>): UseMutationResult<PostProjectsProjectIdDomainsDomainIdSetPrimaryData, PostProjectsProjectIdDomainsDomainIdSetPrimaryError | Error, AreAllOptional<TVariables> extends true ? TVariables | void : TVariables, TContext>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.postProjectsProjectIdDomainsDomainIdSetPrimary.useMutation({
+         *     path: {
+         *         projectId: projectId,
+         *         domainId: domainId
+         *     }
+         * })
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.postProjectsProjectIdDomainsDomainIdSetPrimary.useMutation()
+         * mutate({
+         *     body: bodyPayload,
+         *     path: {
+         *         projectId: projectId,
+         *         domainId: domainId
+         *     }
+         * });
+         * ```
+         */
+        useMutation<TVariables extends MutationVariables<PostProjectsProjectIdDomainsDomainIdSetPrimaryBody, PostProjectsProjectIdDomainsDomainIdSetPrimaryParameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<PostProjectsProjectIdDomainsDomainIdSetPrimarySchema, PostProjectsProjectIdDomainsDomainIdSetPrimaryData, PostProjectsProjectIdDomainsDomainIdSetPrimaryParameters, TVariables, PostProjectsProjectIdDomainsDomainIdSetPrimaryError, TContext>): UseMutationResult<PostProjectsProjectIdDomainsDomainIdSetPrimaryData, PostProjectsProjectIdDomainsDomainIdSetPrimaryError | Error, TVariables, TContext>;
+        /**
+         * Returns the count of currently in-progress mutations.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
+         * @example Check how many mutations are currently in progress for the specified service method.
+         * ```ts
+         * const postProjectsProjectIdDomainsDomainIdSetPrimaryTotal = qraft.v1Service.postProjectsProjectIdDomainsDomainIdSetPrimary.useIsMutating()
+         * ```
+         * @example Check how many mutations are currently in progress with the specified parameters.
+         * ```ts
+         * const postProjectsProjectIdDomainsDomainIdSetPrimaryTotal = qraft.v1Service.postProjectsProjectIdDomainsDomainIdSetPrimary.useIsMutating({
+         *     parameters: {
+         *         path: {
+         *             projectId: projectId,
+         *             domainId: domainId
+         *         }
+         *     }
+         * })
+         * ```
+         */
+        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<PostProjectsProjectIdDomainsDomainIdSetPrimaryBody, PostProjectsProjectIdDomainsDomainIdSetPrimaryData, PostProjectsProjectIdDomainsDomainIdSetPrimaryParameters, PostProjectsProjectIdDomainsDomainIdSetPrimaryError, TContext> | MutationFiltersByMutationKey<PostProjectsProjectIdDomainsDomainIdSetPrimarySchema, PostProjectsProjectIdDomainsDomainIdSetPrimaryBody, PostProjectsProjectIdDomainsDomainIdSetPrimaryData, PostProjectsProjectIdDomainsDomainIdSetPrimaryParameters, PostProjectsProjectIdDomainsDomainIdSetPrimaryError, TContext>): number;
+        /**/
+        isMutating<TContext>(filters?: MutationFiltersByParameters<PostProjectsProjectIdDomainsDomainIdSetPrimaryBody, PostProjectsProjectIdDomainsDomainIdSetPrimaryData, PostProjectsProjectIdDomainsDomainIdSetPrimaryParameters, PostProjectsProjectIdDomainsDomainIdSetPrimaryError, TContext> | MutationFiltersByMutationKey<PostProjectsProjectIdDomainsDomainIdSetPrimarySchema, PostProjectsProjectIdDomainsDomainIdSetPrimaryBody, PostProjectsProjectIdDomainsDomainIdSetPrimaryData, PostProjectsProjectIdDomainsDomainIdSetPrimaryParameters, PostProjectsProjectIdDomainsDomainIdSetPrimaryError, TContext>): number;
+        /**/
+        (options: ServiceOperationMutationFnOptions<PostProjectsProjectIdDomainsDomainIdSetPrimaryBody, PostProjectsProjectIdDomainsDomainIdSetPrimaryParameters>, client?: (schema: PostProjectsProjectIdDomainsDomainIdSetPrimarySchema, options: ServiceOperationMutationFnOptions<PostProjectsProjectIdDomainsDomainIdSetPrimaryBody, PostProjectsProjectIdDomainsDomainIdSetPrimaryParameters>) => Promise<RequestFnResponse<PostProjectsProjectIdDomainsDomainIdSetPrimaryData, PostProjectsProjectIdDomainsDomainIdSetPrimaryError>>): Promise<RequestFnResponse<PostProjectsProjectIdDomainsDomainIdSetPrimaryData, PostProjectsProjectIdDomainsDomainIdSetPrimaryError>>;
+        /**
+         * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
+         * @example Get all variables of all running mutations.
+         * ```ts
+         * const postProjectsProjectIdDomainsDomainIdSetPrimaryPendingMutationVariables = qraft.v1Service.postProjectsProjectIdDomainsDomainIdSetPrimary.useMutationState({
+         *     filters: {
+         *         status: "pending"
+         *     },
+         *     select: mutation => mutation.state.variables
+         * })
+         * ```
+         * @example Get all data for specific mutations via the `parameters`.
+         * ```ts
+         * const postProjectsProjectIdDomainsDomainIdSetPrimaryMutationData = qraft.v1Service.postProjectsProjectIdDomainsDomainIdSetPrimary.useMutationState({
+         *     filters: {
+         *         parameters: {
+         *             path: {
+         *                 projectId: projectId,
+         *                 domainId: domainId
+         *             }
+         *         }
+         *     },
+         *     select: mutation => mutation.state.data
+         * })
+         * ```
+         */
+        useMutationState<TContext = unknown, TResult = MutationState<PostProjectsProjectIdDomainsDomainIdSetPrimaryData, PostProjectsProjectIdDomainsDomainIdSetPrimaryError, MutationVariables<PostProjectsProjectIdDomainsDomainIdSetPrimaryBody, PostProjectsProjectIdDomainsDomainIdSetPrimaryParameters>, TContext>>(options?: {
+            filters?: MutationFiltersByParameters<PostProjectsProjectIdDomainsDomainIdSetPrimaryBody, PostProjectsProjectIdDomainsDomainIdSetPrimaryData, PostProjectsProjectIdDomainsDomainIdSetPrimaryParameters, PostProjectsProjectIdDomainsDomainIdSetPrimaryError, TContext> | MutationFiltersByMutationKey<PostProjectsProjectIdDomainsDomainIdSetPrimarySchema, PostProjectsProjectIdDomainsDomainIdSetPrimaryBody, PostProjectsProjectIdDomainsDomainIdSetPrimaryData, PostProjectsProjectIdDomainsDomainIdSetPrimaryParameters, PostProjectsProjectIdDomainsDomainIdSetPrimaryError, TContext>;
+            select?: (mutation: Mutation<PostProjectsProjectIdDomainsDomainIdSetPrimaryData, PostProjectsProjectIdDomainsDomainIdSetPrimaryError, MutationVariables<PostProjectsProjectIdDomainsDomainIdSetPrimaryBody, PostProjectsProjectIdDomainsDomainIdSetPrimaryParameters>, TContext>) => TResult;
+        }): Array<TResult>;
+        schema: PostProjectsProjectIdDomainsDomainIdSetPrimarySchema;
+        types: {
+            parameters: PostProjectsProjectIdDomainsDomainIdSetPrimaryParameters;
+            data: PostProjectsProjectIdDomainsDomainIdSetPrimaryData;
+            error: PostProjectsProjectIdDomainsDomainIdSetPrimaryError;
+            body: PostProjectsProjectIdDomainsDomainIdSetPrimaryBody;
+        };
+    };
     getProjectsProjectIdDomainsDomainIdParent: {
         /**/
         cancelQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetProjectsProjectIdDomainsDomainIdParentSchema, GetProjectsProjectIdDomainsDomainIdParentData, TInfinite, GetProjectsProjectIdDomainsDomainIdParentParameters, GetProjectsProjectIdDomainsDomainIdParentError> | QueryFiltersByQueryKey<GetProjectsProjectIdDomainsDomainIdParentSchema, GetProjectsProjectIdDomainsDomainIdParentData, TInfinite, GetProjectsProjectIdDomainsDomainIdParentParameters, GetProjectsProjectIdDomainsDomainIdParentError>, options?: CancelOptions): Promise<void>;
@@ -7812,6 +7936,12 @@ export const v1Service: {
             url: "/v1/projects/{projectId}/domains/{domainId}/verify";
         };
     };
+    postProjectsProjectIdDomainsDomainIdSetPrimary: {
+        schema: {
+            method: "post";
+            url: "/v1/projects/{projectId}/domains/{domainId}/set-primary";
+        };
+    };
     getProjectsProjectIdDomainsDomainIdParent: {
         schema: {
             method: "get";
@@ -8051,6 +8181,12 @@ export const v1Service: {
         schema: {
             method: "get",
             url: "/v1/projects/{projectId}/domains/{domainId}/verify"
+        }
+    },
+    postProjectsProjectIdDomainsDomainIdSetPrimary: {
+        schema: {
+            method: "post",
+            url: "/v1/projects/{projectId}/domains/{domainId}/set-primary"
         }
     },
     getProjectsProjectIdDomainsDomainIdParent: {
@@ -8355,6 +8491,14 @@ type GetProjectsProjectIdDomainsDomainIdVerifySchema = {
 type GetProjectsProjectIdDomainsDomainIdVerifyParameters = paths["/v1/projects/{projectId}/domains/{domainId}/verify"]["get"]["parameters"];
 type GetProjectsProjectIdDomainsDomainIdVerifyData = paths["/v1/projects/{projectId}/domains/{domainId}/verify"]["get"]["responses"]["200"]["content"]["application/json"];
 type GetProjectsProjectIdDomainsDomainIdVerifyError = unknown;
+type PostProjectsProjectIdDomainsDomainIdSetPrimarySchema = {
+    method: "post";
+    url: "/v1/projects/{projectId}/domains/{domainId}/set-primary";
+};
+type PostProjectsProjectIdDomainsDomainIdSetPrimaryParameters = paths["/v1/projects/{projectId}/domains/{domainId}/set-primary"]["post"]["parameters"];
+type PostProjectsProjectIdDomainsDomainIdSetPrimaryData = paths["/v1/projects/{projectId}/domains/{domainId}/set-primary"]["post"]["responses"]["200"]["content"]["application/json"];
+type PostProjectsProjectIdDomainsDomainIdSetPrimaryError = unknown;
+type PostProjectsProjectIdDomainsDomainIdSetPrimaryBody = undefined;
 type GetProjectsProjectIdDomainsDomainIdParentSchema = {
     method: "get";
     url: "/v1/projects/{projectId}/domains/{domainId}/parent";
