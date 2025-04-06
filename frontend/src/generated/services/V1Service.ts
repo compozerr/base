@@ -8252,7 +8252,7 @@ type PostHostingDeploymentsDeploymentIdLogsSchema = {
     ];
 };
 type PostHostingDeploymentsDeploymentIdLogsParameters = paths["/v1/hosting/deployments/{deploymentId}/logs"]["post"]["parameters"];
-type PostHostingDeploymentsDeploymentIdLogsData = unknown;
+type PostHostingDeploymentsDeploymentIdLogsData = paths["/v1/hosting/deployments/{deploymentId}/logs"]["post"]["responses"]["200"]["content"]["application/json"];
 type PostHostingDeploymentsDeploymentIdLogsError = unknown;
 type PostHostingDeploymentsDeploymentIdLogsBody = NonNullable<paths["/v1/hosting/deployments/{deploymentId}/logs"]["post"]["requestBody"]>["content"]["application/json"];
 type GetHostingProjectsProjectIdDomainsSchema = {

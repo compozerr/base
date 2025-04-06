@@ -750,7 +750,9 @@ export interface paths {
                     headers: {
                         [name: string]: unknown;
                     };
-                    content?: never;
+                    content: {
+                        "application/json": components["schemas"]["AddLogResponse"];
+                    };
                 };
             };
         };
@@ -1369,6 +1371,7 @@ export interface components {
             log?: string | null;
             level?: components["schemas"]["LogLevel"];
         };
+        AddLogResponse: Record<string, never>;
         ChangeDeploymentStatusRequest: {
             status?: string | null;
         };
