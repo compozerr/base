@@ -2,7 +2,9 @@ using System.Net.Http.Json;
 using Api.Abstractions;
 using Api.Data;
 using Api.Data.Extensions;
+using Api.Hosting.Endpoints.Deployments.ChangeDeploymentStatus;
 using Github.Services;
+using MediatR;
 using Serilog;
 
 namespace Api.Hosting.Services;
@@ -10,7 +12,8 @@ namespace Api.Hosting.Services;
 public sealed class HostingApi(
     ServerId ServerId,
     IHostingServerHttpClientFactory hostingServerHttpClientFactory,
-    IGithubService githubService)
+    IGithubService githubService,
+    IMediator mediator)
 {
     private HostingServerHttpClient HttpClient { get; set; } = null!;
 
@@ -113,9 +116,9 @@ public sealed class HostingApi(
 
         loggerWithContext.Information("Deployment status: {status}", deploymentStatus);
 
-        deployment.Status = deploymentStatus;
-
-        if (deploymentStatus == DeploymentStatus.Failed)
-            deployment.BuildDuration = deployment.GetBuildDuration();
+        await mediator.Send(
+            new ChangeDeploymentStatusCommand(
+                deployment.Id,
+                deploymentStatus));
     }
 }

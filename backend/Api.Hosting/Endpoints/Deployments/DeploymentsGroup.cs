@@ -1,3 +1,4 @@
+using Api.Hosting.Endpoints.Deployments.ChangeDeploymentStatus;
 using Api.Hosting.Endpoints.Deployments.Logs.Add;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
