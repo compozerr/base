@@ -54,6 +54,9 @@ public class StorageService : IStorageService
         var bucketExists = await _minioClient.BucketExistsAsync(new BucketExistsArgs().WithBucket(_bucketName), cancellationToken);
         if (!bucketExists)
         {
+            Log.ForContext(nameof(_bucketName), _bucketName)
+               .Information("Bucket does not exist, creating it");
+
             await _minioClient.MakeBucketAsync(new MakeBucketArgs().WithBucket(_bucketName), cancellationToken);
         }
 
@@ -63,6 +66,9 @@ public class StorageService : IStorageService
             .WithStreamData(content)
             .WithObjectSize(content.Length)
             .WithContentType("application/octet-stream");
+
+        Log.ForContext(nameof(putObjectArgs), putObjectArgs, true)
+           .Information("Uploading file");
 
         try
         {
