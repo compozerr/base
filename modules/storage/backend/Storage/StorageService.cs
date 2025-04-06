@@ -44,7 +44,7 @@ public class StorageService : IStorageService
 
         Log.ForContext(nameof(options), options)
            .Information("Storage service created");
-           
+
         _bucketName = options.Value.Bucket;
     }
 
@@ -69,6 +69,9 @@ public class StorageService : IStorageService
             var response = await _minioClient.PutObjectAsync(putObjectArgs, cancellationToken);
             if (response.ResponseStatusCode != HttpStatusCode.OK)
             {
+                Log.ForContext(nameof(response), response, true)
+                   .Error("Failed to upload file");
+
                 throw new Exception("Failed to upload file " + response.ResponseContent);
             }
         }
