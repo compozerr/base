@@ -40,7 +40,8 @@ public sealed class GetDomainsCommandHandler(
                         domain.ServiceName,
                         value,
                         domain is InternalDomain,
-                        isVerified));
+                        isVerified,
+                        domain.IsPrimary));
             }
         }
         return new GetDomainsResponse(domainDtos);

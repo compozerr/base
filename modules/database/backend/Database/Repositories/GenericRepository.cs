@@ -19,6 +19,7 @@ public interface IGenericRepository<TEntity, TEntityId, TDbContext>
     Task<List<TEntity>> GetAllAsync(CancellationToken cancellationToken = default);
     Task<TEntity> AddAsync(TEntity entity, CancellationToken cancellationToken = default);
     Task UpdateAsync(TEntity entity, CancellationToken cancellationToken = default);
+    Task UpdateRangeAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default);
     Task DeleteAsync(TEntityId id, CancellationToken cancellationToken = default);
     
     // Basic query methods
@@ -68,6 +69,12 @@ public class GenericRepository<TEntity, TEntityId, TDbContext>(TDbContext contex
     public virtual async Task UpdateAsync(TEntity entity, CancellationToken cancellationToken = default)
     {
         context.Entry(entity).State = EntityState.Modified;
+        await context.SaveChangesAsync(cancellationToken);
+    }
+
+    public virtual async Task UpdateRangeAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default)
+    {
+        context.Set<TEntity>().UpdateRange(entities);
         await context.SaveChangesAsync(cancellationToken);
     }
 

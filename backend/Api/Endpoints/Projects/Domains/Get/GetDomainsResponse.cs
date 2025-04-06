@@ -5,7 +5,8 @@ public sealed record GetDomainDto(
     string ServiceName,
     string Value,
     bool IsInternal,
-    bool IsVerified);
+    bool IsVerified,
+    bool IsPrimary);
 
 public sealed record GetDomainsResponse(
     List<GetDomainDto> Domains
