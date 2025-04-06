@@ -22,7 +22,7 @@ public sealed class AddLogCommandValidator : AbstractValidator<AddLogCommand>
             Log.ForContext("deployment", deployment, true)
                .Information("Deployment");
 
-            return deployment is { Status: Data.DeploymentStatus.Deploying };
+            return deployment is { };
         }).WithMessage("Deployment not found");
 
         RuleFor(x => x.Log).NotEmpty().WithMessage("Log is required");
