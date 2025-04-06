@@ -15,7 +15,7 @@ public static class AddLogRoute
         return app.MapPost(Route, ExecuteAsync);
     }
 
-    public static Task ExecuteAsync(
+    public static Task<AddLogResponse> ExecuteAsync(
         Guid deploymentId,
         AddLogRequest request,
         IMediator mediator)
