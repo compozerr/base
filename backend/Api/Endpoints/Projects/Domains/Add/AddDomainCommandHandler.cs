@@ -17,7 +17,7 @@ public sealed class AddDomainCommandHandler(
             ServiceName = command.ServiceName,
             Port = GetServicePort(command.ServiceName),
             Value = command.Domain,
-            IsVerified = false
+            IsVerified = false,
         };
 
         var domain = await domainRepository.AddAsync(externalDomainEntity, cancellationToken);
