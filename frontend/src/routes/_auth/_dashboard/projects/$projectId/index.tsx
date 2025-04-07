@@ -167,7 +167,6 @@ function RouteComponent() {
                                             {project.primaryDomain === d ? (
                                                 <Badge
                                                     variant="outline"
-                                                    className="text-green-500 border-green-500"
                                                 >
                                                     Primary
                                                 </Badge>
