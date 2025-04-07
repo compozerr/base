@@ -47,7 +47,7 @@ public static class GetProjectRoute
             0.5m,
             project.UpdatedAtUtc ?? DateTime.Now,
             [.. project.Domains?.Select(x => x.GetValue) ?? []],
-            project.Domains!.GetPrimary()?.GetValue
+            project.Domains?.GetPrimary()?.GetValue
         );
     }
 }
