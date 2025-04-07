@@ -6,7 +6,7 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table'
-import { useMemo, useState } from 'react'
+import { useMemo, useState, useEffect } from 'react'
 
 import { api } from '@/api-client'
 import LoadingButton from '@/components/loading-button'
@@ -17,7 +17,8 @@ import {
     DialogDescription,
     DialogFooter,
     DialogHeader,
-    DialogTitle
+    DialogTitle,
+    DialogTrigger
 } from "@/components/ui/dialog"
 import { useToast } from '@/hooks/use-toast'
 import React from 'react'
@@ -34,6 +35,12 @@ const VerifyDnsDialog: React.FC<Props> = (props) => {
     const { toast } = useToast();
 
     const [verifyLoading, setVerifyLoading] = useState<boolean>(false);
+    const [isOpen, setIsOpen] = useState<boolean>(false);
+
+    // Ensure dialog state is properly synced with selectedDomainId
+    useEffect(() => {
+        setIsOpen(!!props.selectedDomainId);
+    }, [props.selectedDomainId]);
 
     const checkIfVerifiedAsync = async () => {
         setVerifyLoading(true);
@@ -71,7 +78,7 @@ const VerifyDnsDialog: React.FC<Props> = (props) => {
             domainId: props.selectedDomainId!,
             projectId: props.projectId
         }
-    }, { enabled: !!props.selectedDomainId });
+    }, { enabled: !!props.selectedDomainId && !!props.domains });
 
     const dnsGuide = useMemo(() => {
         const selectedDomainValue = props.domains?.find(x => x.domainId == props.selectedDomainId);
@@ -81,12 +88,24 @@ const VerifyDnsDialog: React.FC<Props> = (props) => {
             name: selectedDomainValue.value,
             value: parentDomainData.domain
         }
-    }, [parentDomainData, props.selectedDomainId]);
+    }, [parentDomainData, props.selectedDomainId, props.domains]);
+
+    const handleOpenChange = (open: boolean) => {
+        setIsOpen(open);
+        if (!open) {
+            // Ensure we call onClose after state update
+            setTimeout(() => {
+                props.onClose?.();
+            }, 0);
+        }
+    };
 
     return (
-        <Dialog open={!!dnsGuide} onOpenChange={(open) => {
-            if (!open) props.onClose?.();
-        }}>
+        <Dialog 
+            key={`dialog-${props.selectedDomainId || 'closed'}`} 
+            open={isOpen} 
+            onOpenChange={handleOpenChange}
+        >
             <DialogContent className="max-w-3xl w-full overflow-hidden">
                 <DialogHeader>
                     <DialogTitle>Set up DNS Records</DialogTitle>
@@ -132,7 +151,7 @@ const VerifyDnsDialog: React.FC<Props> = (props) => {
                 <DialogFooter>
                     <Button
                         variant="outline"
-                        onClick={() => props.onClose?.()}
+                        onClick={() => handleOpenChange(false)}
                     >
                         Close
                     </Button>

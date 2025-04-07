@@ -209,7 +209,11 @@ function DomainsSettingsTab() {
             </form>
           </div>
 
-          <VerifyDnsDialog selectedDomainId={selectedDomainId} onClose={() => setSelectedDomainId(null)} projectId={projectId} domains={data?.domains} />
+          <VerifyDnsDialog
+            selectedDomainId={selectedDomainId}
+            onClose={() => setSelectedDomainId(null)}
+            projectId={projectId} 
+            domains={data?.domains} />
 
           <AreYouSureDialog
             title='Are you sure you want to delete domain'
