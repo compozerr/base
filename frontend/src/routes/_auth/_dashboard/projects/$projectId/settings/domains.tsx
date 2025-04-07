@@ -12,7 +12,7 @@ import {
 import { Separator } from '@/components/ui/separator'
 import { TabsContent } from '@/components/ui/tabs'
 import { createFileRoute, useRouter } from '@tanstack/react-router'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { z } from "zod"
 import { SystemType, SystemTypes } from '../../../../../../lib/system-type'
 
@@ -92,14 +92,18 @@ function DomainsSettingsTab() {
     await deleteDomainMutateAsync();
   }
 
+  useEffect(() => {
+    if (!selectedSetPrimaryDomainId) return;
+
+    setPrimaryDomainAsync(selectedSetPrimaryDomainId).finally(() => {
+      setSelectedSetPrimaryDomainId(null);
+    });
+  }, [selectedSetPrimaryDomainId])
+
   const setPrimaryDomainAsync = async (domainId: string) => {
     if (!domainId) return;
 
-    setSelectedSetPrimaryDomainId(domainId);
-
     await setPrimaryDomainMutateAsync();
-
-    setSelectedSetPrimaryDomainId(null);
   }
 
   const addDomainForm = useAppForm({
@@ -135,14 +139,11 @@ function DomainsSettingsTab() {
                       </p>
                     </div>
                     <section className='flex items-center gap-2'>
+                      {selectedSetPrimaryDomainId === d.domainId && <Badge variant="secondary">Setting as primary...</Badge>}
                       {d.isPrimary && <Badge variant="outline">Primary</Badge>}
                       {d.isVerified
                         ? <Badge>Verified</Badge>
                         : <Badge variant="destructive">Not verified</Badge>}
-
-
-                      {selectedSetPrimaryDomainId === d.domainId && <Badge variant="secondary">Setting as primary...</Badge>}
-
                       {
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>
@@ -159,7 +160,9 @@ function DomainsSettingsTab() {
                             )}
                             {
                               d.isVerified && !d.isPrimary && (
-                                <DropdownMenuItem onClick={() => d.domainId && setPrimaryDomainAsync(d.domainId)}>
+                                <DropdownMenuItem onClick={() => {
+                                  setSelectedSetPrimaryDomainId(d.domainId || null);
+                                }}>
                                   <Check className="mr-2 h-4 w-4" />
                                   Set as primary
                                 </DropdownMenuItem>
