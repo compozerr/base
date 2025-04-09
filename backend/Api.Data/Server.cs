@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace Api.Data;
 
 public enum ServerVisibility
@@ -18,6 +20,9 @@ public class Server : BaseEntityWithId<ServerId>
     public string Ip { get; set; } = string.Empty; // curl api.ipify.org
     public string HostName { get; set; } = string.Empty; // $(hostname)
     public string ApiDomain { get; set; } = string.Empty;
+
+    [Column(TypeName = "jsonb")]
+    public ServerUsage Usage { get; set; } = new();
 
     public virtual Location? Location { get; set; }
     public virtual Secret? Secret { get; set; }
