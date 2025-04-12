@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using Api.Data;
+using Api.Data.Migrations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;

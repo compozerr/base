@@ -16,6 +16,7 @@ namespace Api.Data.Migrations
                 schema: "api",
                 table: "Servers",
                 type: "jsonb",
+                defaultValue: "{}",
                 nullable: false);
         }
 
