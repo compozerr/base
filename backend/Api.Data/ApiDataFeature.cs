@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Npgsql;
 
 namespace Api.Data;
 
@@ -12,9 +13,13 @@ public class ApiDataFeature : IFeature
 {
     void IFeature.ConfigureServices(IServiceCollection services, IConfiguration configuration)
     {
+        var dataSourceBuilder = new NpgsqlDataSourceBuilder(configuration.GetConnectionString("DefaultConnection"));
+        dataSourceBuilder.EnableDynamicJson();
+        var dataSource = dataSourceBuilder.Build();
+
         services.AddDbContext<ApiDbContext>(options =>
         {
-            options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"), b =>
+            options.UseNpgsql(dataSource, b =>
             {
                 b.MigrationsAssembly(typeof(ApiDbContext).Assembly.FullName);
             });
