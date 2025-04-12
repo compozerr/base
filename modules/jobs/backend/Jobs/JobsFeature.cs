@@ -3,9 +3,9 @@ using Hangfire.PostgreSql;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Hangfire;
+namespace Jobs;
 
-public class HangfireFeature : IFeature
+public class JobsFeature : IFeature
 {
     void IFeature.ConfigureServices(IServiceCollection services, IConfiguration con)
     {
