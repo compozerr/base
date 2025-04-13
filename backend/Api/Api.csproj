@@ -5,7 +5,6 @@
     <ProjectReference Include="../../modules/cli/backend/Cli.Auth/Cli.Auth.csproj" />
     <ProjectReference Include="../../modules/database/backend/Database/Database.csproj" />
     <ProjectReference Include="../../modules/github/backend/Github/Github.csproj" />
-    <ProjectReference Include="../../modules/hangfire/backend/Hangfire/Hangfire.csproj" />
     <ProjectReference Include="..\..\modules\cli\backend\Cli\Cli.csproj" />
     <ProjectReference Include="..\Core\Core.csproj" />
     <ProjectReference Include="..\..\modules\template\backend\Template\Template.csproj" />
