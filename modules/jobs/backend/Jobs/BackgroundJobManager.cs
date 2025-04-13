@@ -1,15 +1,22 @@
 ﻿using System.Linq.Expressions;
+using Hangfire;
 
 namespace Jobs;
 
-public static class BackgroundJobManager
+
+public interface IBackgroundJobManager
 {
-    public static void RecurringJob(Expression<Action> Action, Cron When)
+    void RecurringJob(Expression<Action> Action, Cron When);
+}
+
+public class BackgroundJobManager(IRecurringJobManager recurringJobManager) : IBackgroundJobManager
+{
+    public void RecurringJob(Expression<Action> Action, Cron When)
     {
         var methodName = ((MethodCallExpression)Action.Body).Method.Name;
         var recurringJobId = methodName;
 
-        Hangfire.RecurringJob.AddOrUpdate(
+        recurringJobManager.AddOrUpdate(
             recurringJobId,
             Action,
             When.Value);

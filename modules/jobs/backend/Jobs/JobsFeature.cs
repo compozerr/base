@@ -14,10 +14,13 @@ public class JobsFeature : IFeature
             .SetDataCompatibilityLevel(CompatibilityLevel.Version_180)
             .UseSimpleAssemblyNameTypeSerializer()
             .UseRecommendedSerializerSettings()
+            .UseInMemoryStorage()
             .UsePostgreSqlStorage(options =>
                 options.UseNpgsqlConnection(con.GetConnectionString("DefaultConnection"))));
 
         services.AddHangfireServer();
+
+        services.AddSingleton<IBackgroundJobManager, BackgroundJobManager>();
     }
 
 }
