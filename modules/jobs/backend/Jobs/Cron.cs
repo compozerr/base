@@ -8,11 +8,6 @@ public class Cron(string value)
     private readonly string _value = value;
     public string Value => _value;
 
-    public static Cron Secondly()
-    {
-        return new Cron("* * * * * *");
-    }
-
     //
     // Summary:
     //     Returns cron expression that fires every minute.
