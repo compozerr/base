@@ -6,12 +6,12 @@ namespace Jobs;
 
 public interface IBackgroundJobManager
 {
-    void RecurringJob(Expression<Action> Action, Cron When);
+    void RecurringJob(Expression<Action<IServiceProvider>> Action, Cron When);
 }
 
 public class BackgroundJobManager(IRecurringJobManager recurringJobManager) : IBackgroundJobManager
 {
-    public void RecurringJob(Expression<Action> Action, Cron When)
+    public void RecurringJob(Expression<Action<IServiceProvider>> Action, Cron When)
     {
         var methodName = ((MethodCallExpression)Action.Body).Method.Name;
         var recurringJobId = methodName;
