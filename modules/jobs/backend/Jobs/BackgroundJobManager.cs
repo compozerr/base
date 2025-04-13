@@ -6,7 +6,12 @@ public static class BackgroundJobManager
 {
     public static void RecurringJob(Expression<Action> Action, Cron When)
     {
-        var jobId = BackgruRecurringJob(Action, When);
-        Console.WriteLine($"Enqueued job with ID: {jobId}");
+        var methodName = ((MethodCallExpression)Action.Body).Method.Name;
+        var recurringJobId = methodName;
+
+        Hangfire.RecurringJob.AddOrUpdate(
+            recurringJobId,
+            Action,
+            When.Value);
     }
 }

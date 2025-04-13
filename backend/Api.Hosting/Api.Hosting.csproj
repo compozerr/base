@@ -6,6 +6,7 @@
     <ProjectReference Include="..\Api.Abstractions\Api.Abstractions.csproj" />
     <ProjectReference Include="..\..\modules\github\backend\Github\Github.csproj" />
     <ProjectReference Include="..\..\modules\storage\backend\Storage\Storage.csproj" />
+    <ProjectReference Include="..\..\modules\jobs\backend\Jobs\Jobs.csproj" />
   </ItemGroup>
 
   <ItemGroup>
