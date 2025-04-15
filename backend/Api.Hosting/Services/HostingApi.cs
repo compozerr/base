@@ -5,6 +5,7 @@ using Api.Data.Extensions;
 using Api.Hosting.Endpoints.Deployments.ChangeDeploymentStatus;
 using Github.Services;
 using MediatR;
+using Microsoft.AspNetCore.Hosting.Server;
 using Serilog;
 
 namespace Api.Hosting.Services;
@@ -33,6 +34,14 @@ public sealed class HostingApi(
 
         Log.ForContext("BaseDomain", HttpClient.BaseDomain)
            .Information("Health check response: {response}", rawString);
+    }
+
+
+    public async Task<ServerUsage?> GetServerUsageAsync()
+    {
+        var response = await HttpClient.GetAsync("/monitoring/node-usage");
+        var serverUsage = await response.Content.ReadFromJsonAsync<ServerUsage>();
+        return serverUsage;
     }
 
     public async Task UpdateDomainsForProjectAsync(ProjectId projectId)
