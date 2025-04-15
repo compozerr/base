@@ -19,8 +19,6 @@ public class ApiHostingFeature : IFeature
 
     void IFeature.ConfigureApp(WebApplication app)
     {
-        app.Services
-            .GetRequiredService<IBackgroundJobManager>()
-            .AddHostingJobs();
+        UpdateServerUsageJob.RegisterJob(Cron.Minutely());
     }
 }

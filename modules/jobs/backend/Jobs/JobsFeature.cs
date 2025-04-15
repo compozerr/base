@@ -19,8 +19,6 @@ public class JobsFeature : IFeature
                 options.UseNpgsqlConnection(con.GetConnectionString("DefaultConnection"))));
 
         services.AddHangfireServer();
-
-        services.AddSingleton<IBackgroundJobManager, BackgroundJobManager>();
     }
 
 }
