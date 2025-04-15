@@ -1,9 +1,11 @@
 ﻿using Api.Hosting.Jobs;
 using Api.Hosting.Services;
 using Core.Feature;
+using Hangfire;
 using Jobs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using Cron = Jobs.Cron;
 
 namespace Api.Hosting;
 
@@ -19,6 +21,6 @@ public class ApiHostingFeature : IFeature
 
     void IFeature.ConfigureApp(WebApplication app)
     {
-        UpdateServerUsageJob.RegisterJob(Cron.Minutely());
+        app.AddRecurringJob<UpdateServerUsageJob>(Cron.Minutely());
     }
 }
