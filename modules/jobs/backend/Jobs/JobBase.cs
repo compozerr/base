@@ -8,8 +8,10 @@ public abstract class JobBase<T> where T : JobBase<T>
 
     public static void RegisterJob(Cron when, IRecurringJobManager recurringJobManager)
     {
+        var jobId = typeof(T).Name;
+        // recurringJobManager.RemoveIfExists(jobId);
         recurringJobManager.AddOrUpdate<T>(
-            typeof(T).Name,
+            jobId,
             x => x.ExecuteAsync(),
             when.Value);
     }
