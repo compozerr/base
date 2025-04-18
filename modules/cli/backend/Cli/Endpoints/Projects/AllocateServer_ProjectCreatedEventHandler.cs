@@ -20,7 +20,6 @@ public sealed class AllocateServer_ProjectCreatedEventHandler(
 
     private async Task<BestServerInLocationResponse> GetBestServerInLocationAsync(LocationId locationId)
     {
-        // TODO: Implement better load balancing when more servers available
         var serversOnLocation = (await serverRepository.GetServersByLocationId(locationId)).Where(x => x.ServerVisibility == Api.Data.ServerVisibility.Public).ToList();
 
         if (serversOnLocation.Count == 0)
@@ -33,7 +32,7 @@ public sealed class AllocateServer_ProjectCreatedEventHandler(
             return new(firstServer.Id, firstServer.LocationId);
         }
 
-        var firstServerOnLocation = serversOnLocation.First();
+        var firstServerOnLocation = serversOnLocation.OrderBy(x => x.Usage.AvgRamPercentage).First();
 
         return new(firstServerOnLocation.Id, null);
     }
