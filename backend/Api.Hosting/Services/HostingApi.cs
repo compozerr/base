@@ -14,11 +14,11 @@ public sealed class HostingApi(
     ServerId ServerId,
     IHostingServerHttpClientFactory hostingServerHttpClientFactory,
     IGithubService githubService,
-    IMediator mediator)
+    IMediator mediator) : IHostingApi
 {
     private HostingServerHttpClient HttpClient { get; set; } = null!;
 
-    internal async Task<HostingApi> Initialize()
+    internal async Task<HostingApi> InitializeAsync()
     {
         if (HttpClient is { }) return this;
 
