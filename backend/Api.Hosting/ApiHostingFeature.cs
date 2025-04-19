@@ -22,6 +22,6 @@ public class ApiHostingFeature : IFeature
     void IFeature.ConfigureApp(WebApplication app)
     {
         app.AddRecurringJob<UpdateServerUsageJob>(Cron.Hourly());
-        app.AddRecurringJob<UpdateProjectsUsageJob>(Cron.Minutely());
+        // app.AddRecurringJob<UpdateProjectsUsageJob>(Cron.Hourly());
     }
 }
