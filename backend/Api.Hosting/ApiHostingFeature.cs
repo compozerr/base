@@ -1,7 +1,6 @@
 ﻿using Api.Hosting.Jobs;
 using Api.Hosting.Services;
 using Core.Feature;
-using Hangfire;
 using Jobs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
