@@ -1,5 +1,6 @@
 using Core.Feature;
 using Hangfire;
+using Hangfire.Dashboard;
 using Hangfire.PostgreSql;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
@@ -24,6 +25,18 @@ public class JobsFeature : IFeature
 
     void IFeature.ConfigureApp(WebApplication app)
     {
-        app.UseHangfireDashboard();
+        app.UseHangfireDashboard("/hangfire", new DashboardOptions
+        {
+            Authorization = [new OnlyRolesAuthorizationFilter("admin")]
+        });
+    }
+}
+
+public class OnlyRolesAuthorizationFilter(params string[] roles) : IDashboardAuthorizationFilter
+{
+    public bool Authorize(DashboardContext context)
+    {
+        var httpContext = context.GetHttpContext();
+        return roles.Any(httpContext.User.IsInRole);
     }
 }
