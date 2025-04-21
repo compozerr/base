@@ -1,5 +1,6 @@
 using Api.Abstractions;
 using Api.Data;
+using Api.Hosting.Dtos;
 
 namespace Api.Hosting.Services;
 
@@ -11,11 +12,11 @@ public sealed class MockHostingApi : IHostingApi
         return Task.CompletedTask;
     }
 
-    public Task<ProjectUsage[]?> GetProjectsUsageAsync()
+    public Task<ProjectUsageDto[]?> GetProjectsUsageAsync()
     {
-        var projects = new ProjectUsage[]
+        var projects = new ProjectUsageDto[]
         {
-            new ProjectUsage
+            new ProjectUsageDto
             {
                 VmId = 100,
                 Name = "c17e9f7a-d6d8-483a-b797-d0b967ec50c1",
@@ -32,7 +33,7 @@ public sealed class MockHostingApi : IHostingApi
                 DiskReadBytesPerSec = 0.0m,
                 DiskWriteBytesPerSec = 273.07m
             },
-            new ProjectUsage
+            new ProjectUsageDto
             {
                 VmId = 101,
                 Name = "test-project",
@@ -51,7 +52,7 @@ public sealed class MockHostingApi : IHostingApi
             }
         };
 
-        return Task.FromResult<ProjectUsage[]?>(projects);
+        return Task.FromResult<ProjectUsageDto[]?>(projects);
     }
 
     public Task<ServerUsage?> GetServerUsageAsync()
