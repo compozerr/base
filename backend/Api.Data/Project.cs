@@ -13,4 +13,5 @@ public class Project : BaseEntityWithId<ProjectId>
     public virtual Server? Server { get; set; }
     public virtual ICollection<ProjectEnvironment>? ProjectEnvironments { get; set; }
     public virtual ICollection<Domain>? Domains { get; set; }
+    public virtual ICollection<ProjectUsage>? ProjectUsages { get; set; }
 }

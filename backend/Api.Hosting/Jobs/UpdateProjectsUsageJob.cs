@@ -1,5 +1,6 @@
 using Api.Abstractions;
 using Api.Data.Repositories;
+using Api.Hosting.Dtos;
 using Api.Hosting.Services;
 using Jobs;
 using Serilog;
@@ -8,6 +9,7 @@ namespace Api.Hosting.Jobs;
 
 public class UpdateProjectsUsageJob(
     IServerRepository serverRepository,
+    IProjectRepository projectRepository,
     IHostingApiFactory hostingApiFactory) : JobBase<UpdateProjectsUsageJob>
 {
     public override async Task ExecuteAsync()
@@ -17,18 +19,33 @@ public class UpdateProjectsUsageJob(
         foreach (var server in servers)
         {
             var hostingApi = await hostingApiFactory.GetHostingApiAsync(server.Id);
-            var projectsUsage = await hostingApi.GetProjectsUsageAsync();
+            var projectUsageDtos = await hostingApi.GetProjectsUsageAsync();
 
-            Log.Logger.ForContext(nameof(projectsUsage), projectsUsage)
-                      .Information("Project usage received");
+            if (projectUsageDtos is null)
+            {
+                Log.Warning("No project usage data received for server {ServerId}", server.Id);
+                continue;
+            }
 
-            if (projectsUsage is null) continue;
+            var projectUsages = projectUsageDtos.ToEntities();
 
+            var matchingProjects = await projectRepository.GetAllAsync(x => x.Where(y => projectUsages.Select(p => p.ProjectId).Contains(y.Id)));
+
+            var projectUsagesWithMatchingProject = projectUsages.Where(x => matchingProjects.Select(y => y.Id).Contains(x.ProjectId)).ToList();
+
+            var missingProjects = projectUsages.Where(x => !matchingProjects.Select(y => y.Id).Contains(x.ProjectId)).ToList();
+
+            if (missingProjects.Count > 0)
+            {
+                Log.ForContext(nameof(missingProjects), missingProjects.Select(x => x.ProjectId))
+                   .Error("Missing project(s)");
+            }
+
+            await projectRepository.AddProjectUsages(projectUsagesWithMatchingProject);
+
+            Log.ForContext("serverId", server.Id.Value)
+               .ForContext("projectUsagesCount", projectUsagesWithMatchingProject.Count)
+               .Information("Processed server project usages");
         }
-    }
-
-    private async Task GetProjectData(ProjectId projectId)
-    {
-
     }
 }

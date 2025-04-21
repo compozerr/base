@@ -9,6 +9,7 @@ public enum ProjectStatus
 
 public class ProjectUsage : BaseEntityWithId<ProjectUsageId>
 {
+    public required ProjectId ProjectId { get; set; }
     public required int VmId { get; set; }
     public required string Name { get; set; }
     public required ProjectStatus Status { get; set; }

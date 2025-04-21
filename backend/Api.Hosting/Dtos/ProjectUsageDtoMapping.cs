@@ -1,13 +1,15 @@
+using Api.Abstractions;
 using Api.Data;
 
 namespace Api.Hosting.Dtos;
 
-public static class ProjectUsageDtoExtensions
+public static class ProjectUsageDtoMapping
 {
     public static ProjectUsage ToEntity(this ProjectUsageDto dto)
     {
         return new ProjectUsage
         {
+            ProjectId = ProjectId.Parse(dto.Name),
             VmId = dto.VmId,
             Name = dto.Name,
             Status = ParseStatus(dto.Status),
@@ -22,6 +24,11 @@ public static class ProjectUsageDtoExtensions
             DiskReadBytesPerSec = dto.DiskReadBytesPerSec,
             DiskWriteBytesPerSec = dto.DiskWriteBytesPerSec
         };
+    }
+
+    public static List<ProjectUsage> ToEntities(this IEnumerable<ProjectUsageDto> dtos)
+    {
+        return [.. dtos.Select(dto => dto.ToEntity())];
     }
 
     private static ProjectStatus ParseStatus(string status)

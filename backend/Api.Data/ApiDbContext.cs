@@ -15,6 +15,7 @@ public class ApiDbContext(
     public DbSet<Project> Projects => Set<Project>();
     public DbSet<ProjectEnvironment> ProjectEnvironments => Set<ProjectEnvironment>();
     public DbSet<ProjectEnvironmentVariable> ProjectEnvironmentVariables => Set<ProjectEnvironmentVariable>();
+    public DbSet<ProjectUsage> ProjectUsages => Set<ProjectUsage>();
     public DbSet<Server> Servers => Set<Server>();
     public DbSet<Secret> Secrets => Set<Secret>();
     public DbSet<Domain> Domains => Set<Domain>();
