@@ -1,6 +1,7 @@
 using System.Net.Http.Json;
 using Api.Abstractions;
 using Api.Data;
+using Api.Hosting.Dtos;
 using Api.Hosting.Endpoints.Deployments.ChangeDeploymentStatus;
 using Github.Services;
 using MediatR;
@@ -129,10 +130,10 @@ public sealed class HostingApi(
                 deploymentStatus));
     }
 
-    public async Task<ProjectUsage[]?> GetProjectsUsageAsync()
+    public async Task<ProjectUsageDto[]?> GetProjectsUsageAsync()
     {
         var response = await HttpClient.GetAsync("/monitoring/vms-usage");
-        var projectsUsage = await response.Content.ReadFromJsonAsync<ProjectUsage[]>();
+        var projectsUsage = await response.Content.ReadFromJsonAsync<ProjectUsageDto[]>();
         return projectsUsage;
     }
 }

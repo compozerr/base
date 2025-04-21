@@ -1,48 +1,25 @@
-using System.Text.Json.Serialization;
-
 namespace Api.Data;
 
-public sealed record ProjectUsage
+public enum ProjectStatus
 {
-    [JsonPropertyName("vmid")]
-    public int VmId { get; set; }
-    
-    [JsonPropertyName("name")]
-    public string Name { get; set; } = string.Empty;
-    
-    [JsonPropertyName("status")]
-    public string Status { get; set; } = string.Empty;
-    
-    [JsonPropertyName("cpuUsage")]
-    public decimal CpuUsage { get; set; }
-    
-    [JsonPropertyName("cpuCount")]
-    public int CpuCount { get; set; }
-    
-    [JsonPropertyName("memoryGB")]
-    public decimal MemoryGB { get; set; }
-    
-    [JsonPropertyName("memoryUsedGB")]
-    public decimal MemoryUsedGB { get; set; }
-    
-    [JsonPropertyName("diskGB")]
-    public decimal DiskGB { get; set; }
-    
-    [JsonPropertyName("diskUsedGB")]
-    public decimal DiskUsedGB { get; set; }
-    
-    [JsonPropertyName("networkInBytesPerSec")]
-    public decimal NetworkInBytesPerSec { get; set; }
-    
-    [JsonPropertyName("networkOutBytesPerSec")]
-    public decimal NetworkOutBytesPerSec { get; set; }
-    
-    [JsonPropertyName("diskReadBytesPerSec")]
-    public decimal DiskReadBytesPerSec { get; set; }
-    
-    [JsonPropertyName("diskWriteBytesPerSec")]
-    public decimal DiskWriteBytesPerSec { get; set; }
-    
-    [JsonPropertyName("freememGB")]
-    public decimal FreeMemoryGB { get; set; }
+    Unknown = 0,
+    Running = 1,
+    Stopped = 2,
+}
+
+public class ProjectUsage : BaseEntityWithId<ProjectUsageId>
+{
+    public required int VmId { get; set; }
+    public required string Name { get; set; }
+    public required ProjectStatus Status { get; set; }
+    public required decimal CpuUsagePercentage { get; set; }
+    public required int CpuCount { get; set; }
+    public required decimal MemoryUsageGb { get; set; }
+    public required decimal TotalMemoryGb { get; set; }
+    public required decimal DiskUsageGb { get; set; }
+    public required decimal TotalDiskGb { get; set; }
+    public required decimal NetworkInBytesPerSec { get; set; }
+    public required decimal NetworkOutBytesPerSec { get; set; }
+    public required decimal DiskReadBytesPerSec { get; set; }
+    public required decimal DiskWriteBytesPerSec { get; set; }
 }
