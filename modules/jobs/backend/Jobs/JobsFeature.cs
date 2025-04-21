@@ -1,6 +1,7 @@
 using Core.Feature;
 using Hangfire;
 using Hangfire.PostgreSql;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -19,5 +20,10 @@ public class JobsFeature : IFeature
                 options.UseNpgsqlConnection(con.GetConnectionString("DefaultConnection"))));
 
         services.AddHangfireServer();
+    }
+
+    void IFeature.ConfigureApp(WebApplication app)
+    {
+        app.UseHangfireDashboard();
     }
 }
