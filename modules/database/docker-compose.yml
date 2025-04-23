@@ -6,7 +6,7 @@ services:
     environment:
       - POSTGRES_DB=myapp
       - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=mysecretpassword
+      - POSTGRES_PASSWORD=019661c0-7b26-76de-9dfc-c4ce956cdca0
     volumes:
       - postgres_data:/var/lib/postgresql/data
     restart: always
