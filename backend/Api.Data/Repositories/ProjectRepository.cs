@@ -12,7 +12,6 @@ public interface IProjectRepository : IGenericRepository<Project, ProjectId, Api
     public Task<List<Project>> GetProjectsForUserAsync(UserId userId);
     public Task<List<Project>> GetProjectsForUserAsync();
     public Task<Project?> GetProjectByIdWithDomainsAsync(ProjectId projectId);
-    public Task AddProjectUsages(IEnumerable<ProjectUsage> projectUsages);
 }
 
 public sealed class ProjectRepository(
@@ -20,12 +19,6 @@ public sealed class ProjectRepository(
     ICurrentUserAccessor currentUserAccessor) : GenericRepository<Project, ProjectId, ApiDbContext>(context), IProjectRepository
 {
     private readonly ApiDbContext _context = context;
-
-    public Task AddProjectUsages(IEnumerable<ProjectUsage> projectUsages)
-    {
-        _context.ProjectUsages.AddRange(projectUsages);
-        return _context.SaveChangesAsync();
-    }
 
     public Task<Project?> GetProjectByIdWithDomainsAsync(ProjectId projectId)
         => _context.Projects

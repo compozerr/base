@@ -1,4 +1,3 @@
-using Api.Abstractions;
 using Api.Data.Repositories;
 using Api.Hosting.Dtos;
 using Api.Hosting.Services;
@@ -10,6 +9,7 @@ namespace Api.Hosting.Jobs;
 public class UpdateProjectsUsageJob(
     IServerRepository serverRepository,
     IProjectRepository projectRepository,
+    IProjectUsageRepository projectUsageRepository,
     IHostingApiFactory hostingApiFactory) : JobBase<UpdateProjectsUsageJob>
 {
     public override async Task ExecuteAsync()
@@ -41,7 +41,7 @@ public class UpdateProjectsUsageJob(
                    .Error("Missing project(s)");
             }
 
-            await projectRepository.AddProjectUsages(projectUsagesWithMatchingProject);
+            await projectUsageRepository.AddProjectUsages(projectUsagesWithMatchingProject);
 
             Log.ForContext("serverId", server.Id.Value)
                .ForContext("projectUsagesCount", projectUsagesWithMatchingProject.Count)

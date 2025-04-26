@@ -26,9 +26,10 @@ public class ApiDataFeature : IFeature
         });
 
         services.AddSingleton<IHashService, HashService>();
-        services.AddScoped<IProjectEnvironmentRepository, ProjectEnvironmentRepository>();
         services.AddScoped<IServerRepository, ServerRepository>();
+        services.AddScoped<IProjectEnvironmentRepository, ProjectEnvironmentRepository>();
         services.AddScoped<IProjectRepository, ProjectRepository>();
+        services.AddScoped<IProjectUsageRepository, ProjectUsageRepository>();
         services.AddScoped<IDeploymentRepository, DeploymentRepository>();
         services.AddScoped<ILocationRepository, LocationRepository>();
         services.AddScoped<IDomainRepository, DomainRepository>();
