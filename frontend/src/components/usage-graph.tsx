@@ -80,7 +80,7 @@ const getMetricUnit = (type: UsagePointType): string => {
     case UsagePointType.CPU:
       return "%"
     case UsagePointType.Ram:
-      return "MB"
+      return "GB"
     case UsagePointType.DiskRead:
     case UsagePointType.DiskWrite:
       return "MB/s"

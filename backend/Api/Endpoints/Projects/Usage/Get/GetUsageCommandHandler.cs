@@ -32,10 +32,10 @@ public sealed class GetUsageCommandHandler(
         {
             points[UsagePointType.CPU].Add(new UsagePoint(point.CreatedAtUtc, point.CpuUsagePercentage));
             points[UsagePointType.Ram].Add(new UsagePoint(point.CreatedAtUtc, point.MemoryUsageGb));
-            points[UsagePointType.DiskWrite].Add(new UsagePoint(point.CreatedAtUtc, point.DiskWriteBytesPerSec));
-            points[UsagePointType.DiskRead].Add(new UsagePoint(point.CreatedAtUtc, point.DiskReadBytesPerSec));
-            points[UsagePointType.NetworkIn].Add(new UsagePoint(point.CreatedAtUtc, point.NetworkInBytesPerSec));
-            points[UsagePointType.NetworkOut].Add(new UsagePoint(point.CreatedAtUtc, point.NetworkOutBytesPerSec));
+            points[UsagePointType.DiskWrite].Add(new UsagePoint(point.CreatedAtUtc, point.DiskWriteBytesPerSec / 1024 / 1024)); // MB/s
+            points[UsagePointType.DiskRead].Add(new UsagePoint(point.CreatedAtUtc, point.DiskReadBytesPerSec / 1024 / 1024)); // MB/s
+            points[UsagePointType.NetworkIn].Add(new UsagePoint(point.CreatedAtUtc, point.NetworkInBytesPerSec / 1024)); // KB/s
+            points[UsagePointType.NetworkOut].Add(new UsagePoint(point.CreatedAtUtc, point.NetworkOutBytesPerSec / 1024)); // KB/s
         }
 
         return new GetUsageResponse(
