@@ -910,6 +910,44 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/projects/{projectId}/{usageSpan}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    projectId: string;
+                    usageSpan: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["GetUsageResponse"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/projects/{projectId}/deployments": {
         parameters: {
             query?: never;
@@ -1532,6 +1570,17 @@ export interface components {
             totalVCpuHours?: number;
             projects?: components["schemas"]["GetProjectResponse"][] | null;
         };
+        GetUsageResponse: {
+            points?: {
+                CPU?: components["schemas"]["UsagePoint"][];
+                Ram?: components["schemas"]["UsagePoint"][];
+                DiskWrite?: components["schemas"]["UsagePoint"][];
+                DiskRead?: components["schemas"]["UsagePoint"][];
+                NetworkIn?: components["schemas"]["UsagePoint"][];
+                NetworkOut?: components["schemas"]["UsagePoint"][];
+            } | null;
+            usageSpan?: components["schemas"]["UsageSpan"];
+        };
         IDomainEvent: Record<string, never>;
         InstallationDto: {
             installationId?: string | null;
@@ -1606,6 +1655,17 @@ export interface components {
         UpsertProjectEnvironmentVariablesRequest: {
             variables?: components["schemas"]["ProjectEnvironmentVariableDto"][] | null;
         };
+        UsagePoint: {
+            /** Format: date-time */
+            timestamp?: string;
+            /** Format: double */
+            value?: number;
+        };
+        /**
+         * Format: int32
+         * @enum {integer}
+         */
+        UsageSpan: 0 | 1 | 2 | 3 | 4;
         User: {
             /** Format: date-time */
             createdAtUtc?: string;
