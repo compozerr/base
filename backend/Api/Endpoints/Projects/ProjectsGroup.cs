@@ -2,6 +2,7 @@
 using Api.Endpoints.Projects.Deployments;
 using Api.Endpoints.Projects.Domains;
 using Api.Endpoints.Projects.ProjectEnvironment;
+using Api.Endpoints.Projects.Usage.Get;
 
 namespace Api.Endpoints.Projects;
 
@@ -21,5 +22,7 @@ public class ProjectsGroup : CarterModule
         app.AddDeploymentsGroup();
         app.AddProjectEnvironmentGroup();
         app.AddDomainsGroup();
+        
+        app.AddGetUsageRoute();
     }
 }
