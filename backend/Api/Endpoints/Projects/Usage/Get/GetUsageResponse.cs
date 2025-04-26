@@ -4,8 +4,10 @@ public enum UsagePointType
 {
     CPU,
     Ram,
-    Disk,
-    Network,
+    DiskWrite,
+    DiskRead,
+    NetworkIn,
+    NetworkOut,
 }
 
 public sealed record UsagePoint(
