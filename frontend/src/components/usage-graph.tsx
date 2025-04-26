@@ -5,6 +5,9 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Cpu, HardDrive, Network, MemoryStickIcon as Ram } from "lucide-react"
+import { api } from "@/api-client"
+import { components } from "@/generated"
+import { Skeleton } from "./ui/skeleton"
 
 // Enum to match the backend
 export enum UsagePointType {
@@ -18,7 +21,7 @@ export enum UsagePointType {
 
 // Record to match the backend
 export type UsagePoint = {
-  timestamp: Date
+  timestamp: string
   value: number
 }
 
@@ -30,7 +33,7 @@ export type UsageData = {
 
 // Props for the component
 type UsageGraphProps = {
-  usageData: UsageData
+  projectId: string
 }
 
 // Mapping for friendly display names
@@ -106,21 +109,28 @@ const CustomTooltip = ({ active, payload, label }: any) => {
   return null
 }
 
-export function UsageGraph({ usageData }: UsageGraphProps) {
-  const [timeRange, setTimeRange] = useState<string>("day")
+export function UsageGraph({ projectId }: UsageGraphProps) {
+  const [timeRange, setTimeRange] = useState<components["schemas"]["UsageSpan"]>("Day")
   const [selectedMetric, setSelectedMetric] = useState<UsagePointType>(UsagePointType.CPU)
+
+  const { data: usageData, error: usageError } = api.v1.getProjectsProjectIdUsageSpan.useQuery({
+    path: {
+      projectId,
+      usageSpan: timeRange
+    }
+  })
 
   // Format data for the chart
   const formatChartData = (data: UsagePoint[]) => {
-    return data.map((point) => ({
+    return data?.map((point) => ({
       timestamp: new Date(point.timestamp),
       value: point.value,
     }))
   }
 
   // Get the current data based on selected metric
-  const currentData = usageData.points[selectedMetric] || []
-  const chartData = formatChartData(currentData)
+  const currentData = usageData?.points![selectedMetric] || []
+  const chartData = formatChartData(currentData as UsagePoint[])
 
   // Find max value for better scaling
   const maxValue = Math.max(...chartData.map((item) => item.value))
@@ -160,67 +170,73 @@ export function UsageGraph({ usageData }: UsageGraphProps) {
             </div>
           </div>
 
-          <Tabs defaultValue="day" value={timeRange} onValueChange={setTimeRange}>
+          <Tabs defaultValue="Day" value={timeRange} onValueChange={(x) => setTimeRange(x as components["schemas"]["UsageSpan"])}>
             <TabsList className="grid w-full grid-cols-5">
-              <TabsTrigger value="day">Day</TabsTrigger>
-              <TabsTrigger value="week">Week</TabsTrigger>
-              <TabsTrigger value="month">Month</TabsTrigger>
-              <TabsTrigger value="year">Year</TabsTrigger>
-              <TabsTrigger value="total">Total</TabsTrigger>
+              <TabsTrigger value="Day">Day</TabsTrigger>
+              <TabsTrigger value="Week">Week</TabsTrigger>
+              <TabsTrigger value="Month">Month</TabsTrigger>
+              <TabsTrigger value="Year">Year</TabsTrigger>
+              <TabsTrigger value="Total">Total</TabsTrigger>
             </TabsList>
 
             <TabsContent value={timeRange} className="mt-2">
               <div className="h-[300px] w-full">
                 <ResponsiveContainer width="100%" height="100%">
-                  <AreaChart data={chartData} margin={{ top: 20, right: 30, left: 30, bottom: 10 }}>
-                    <defs>
-                      <linearGradient id={`gradient-${selectedMetric}`} x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor={metricColors[selectedMetric]} stopOpacity={0.8} />
-                        <stop offset="95%" stopColor={metricColors[selectedMetric]} stopOpacity={0.1} />
-                      </linearGradient>
-                    </defs>
-                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e5e7eb" />
-                    <XAxis
-                      dataKey="timestamp"
-                      tickFormatter={(timestamp) => {
-                        const date = new Date(timestamp)
-                        return format(date, "HH:mm")
-                      }}
-                      stroke="#6b7280"
-                      fontSize={12}
-                      tickMargin={10}
-                      axisLine={{ stroke: "#e5e7eb" }}
-                      tickLine={{ stroke: "#e5e7eb" }}
-                    />
-                    <YAxis
-                      stroke="#6b7280"
-                      fontSize={12}
-                      domain={[0, roundedMax]}
-                      tickCount={5}
-                      allowDecimals={false}
-                      tickFormatter={(value) => `${Math.round(value)}${unit}`}
-                      axisLine={{ stroke: "#e5e7eb" }}
-                      tickLine={{ stroke: "#e5e7eb" }}
-                    />
-                    <Tooltip
-                      content={<CustomTooltip />}
-                      cursor={{ stroke: "#9ca3af", strokeWidth: 1, strokeDasharray: "5 5" }}
-                      wrapperStyle={{ zIndex: 100, pointerEvents: "none" }}
-                      isAnimationActive={false}
-                    />
-                    <Area
-                      type="monotone"
-                      dataKey="value"
-                      stroke={metricColors[selectedMetric]}
-                      strokeWidth={2}
-                      fillOpacity={1}
-                      fill={`url(#gradient-${selectedMetric})`}
-                      isAnimationActive={true}
-                      animationDuration={500}
-                      unit={unit}
-                      activeDot={{ r: 6, stroke: "white", strokeWidth: 2, fill: metricColors[selectedMetric] }}
-                    />
-                  </AreaChart>
+                  {usageError ? <div>Error loading usage data: {JSON.stringify(usageError)}</div> :
+                    !usageData ? (
+                      <Skeleton className="h-full w-full" />
+                    )
+                      :
+                      <AreaChart data={chartData} margin={{ top: 20, right: 30, left: 30, bottom: 10 }}>
+                        <defs>
+                          <linearGradient id={`gradient-${selectedMetric}`} x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="5%" stopColor={metricColors[selectedMetric]} stopOpacity={0.8} />
+                            <stop offset="95%" stopColor={metricColors[selectedMetric]} stopOpacity={0.1} />
+                          </linearGradient>
+                        </defs>
+                        <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e5e7eb" />
+                        <XAxis
+                          dataKey="timestamp"
+                          tickFormatter={(timestamp) => {
+                            const date = new Date(timestamp)
+                            return format(date, "HH:mm")
+                          }}
+                          stroke="#6b7280"
+                          fontSize={12}
+                          tickMargin={10}
+                          axisLine={{ stroke: "#e5e7eb" }}
+                          tickLine={{ stroke: "#e5e7eb" }}
+                        />
+                        <YAxis
+                          stroke="#6b7280"
+                          fontSize={12}
+                          domain={[0, roundedMax]}
+                          tickCount={5}
+                          allowDecimals={false}
+                          tickFormatter={(value) => `${Math.round(value)}${unit}`}
+                          axisLine={{ stroke: "#e5e7eb" }}
+                          tickLine={{ stroke: "#e5e7eb" }}
+                        />
+                        <Tooltip
+                          content={<CustomTooltip />}
+                          cursor={{ stroke: "#9ca3af", strokeWidth: 1, strokeDasharray: "5 5" }}
+                          wrapperStyle={{ zIndex: 100, pointerEvents: "none" }}
+                          isAnimationActive={false}
+                        />
+                        <Area
+                          type="monotone"
+                          dataKey="value"
+                          stroke={metricColors[selectedMetric]}
+                          strokeWidth={2}
+                          fillOpacity={1}
+                          fill={`url(#gradient-${selectedMetric})`}
+                          isAnimationActive={true}
+                          animationDuration={500}
+                          unit={unit}
+                          activeDot={{ r: 6, stroke: "white", strokeWidth: 2, fill: metricColors[selectedMetric] }}
+                        />
+                      </AreaChart>
+                  }
                 </ResponsiveContainer>
               </div>
               <div className="mt-2 flex justify-between text-xs text-muted-foreground">
@@ -234,6 +250,6 @@ export function UsageGraph({ usageData }: UsageGraphProps) {
           </Tabs>
         </div>
       </CardContent>
-    </Card>
+    </Card >
   )
 }

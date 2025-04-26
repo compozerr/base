@@ -12,16 +12,14 @@ public static class GetUsageRoute
         return app.MapGet(Route, ExecuteAsync);
     }
 
-    public static Task<GetUsageResponse> ExecuteAsync(Guid projectId, string usageSpan, IMediator mediator)
+    public static Task<GetUsageResponse> ExecuteAsync(
+        Guid projectId,
+        UsageSpan usageSpan,
+        IMediator mediator)
     {
-        if (!Enum.TryParse<UsageSpan>(usageSpan, out var usageSpanConverted))
-        {
-            throw new ArgumentException("Invalid usage span");
-        }
-
         return mediator.Send(
             new GetUsageCommand(
                 ProjectId.Create(projectId),
-                usageSpanConverted));
+                usageSpan));
     }
 }

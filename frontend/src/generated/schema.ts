@@ -923,7 +923,7 @@ export interface paths {
                 header?: never;
                 path: {
                     projectId: string;
-                    usageSpan: string;
+                    usageSpan: components["schemas"]["UsageSpan"];
                 };
                 cookie?: never;
             };
@@ -1661,11 +1661,8 @@ export interface components {
             /** Format: double */
             value?: number;
         };
-        /**
-         * Format: int32
-         * @enum {integer}
-         */
-        UsageSpan: 0 | 1 | 2 | 3 | 4;
+        /** @enum {string} */
+        UsageSpan: "Total" | "Day" | "Week" | "Month" | "Year";
         User: {
             /** Format: date-time */
             createdAtUtc?: string;

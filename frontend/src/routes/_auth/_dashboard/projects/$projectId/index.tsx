@@ -5,43 +5,11 @@ import { getProjectStateFromNumber, ProjectState } from '@/lib/project-state'
 import { createFileRoute } from '@tanstack/react-router'
 import { ExternalLink, Globe } from 'lucide-react'
 import { Route as RootRoute } from './route'
-import { UsageGraph, UsagePointType } from '@/components/usage-graph'
+import { UsageGraph } from '@/components/usage-graph'
 
 export const Route = createFileRoute('/_auth/_dashboard/projects/$projectId/')({
     component: RouteComponent,
 })
-
-// Mock data for demonstration
-const mockUsageData = {
-    points: {
-        [UsagePointType.CPU]: Array.from({ length: 24 }, (_, i) => ({
-            timestamp: new Date(Date.now() - (23 - i) * 3600000),
-            value: Math.random() * 100,
-        })),
-        [UsagePointType.Ram]: Array.from({ length: 24 }, (_, i) => ({
-            timestamp: new Date(Date.now() - (23 - i) * 3600000),
-            value: Math.random() * 1024,
-        })),
-        [UsagePointType.DiskRead]: Array.from({ length: 24 }, (_, i) => ({
-            timestamp: new Date(Date.now() - (23 - i) * 3600000),
-            value: Math.random() * 50,
-        })),
-        [UsagePointType.DiskWrite]: Array.from({ length: 24 }, (_, i) => ({
-            timestamp: new Date(Date.now() - (23 - i) * 3600000),
-            value: Math.random() * 30,
-        })),
-        [UsagePointType.NetworkIn]: Array.from({ length: 24 }, (_, i) => ({
-            timestamp: new Date(Date.now() - (23 - i) * 3600000),
-            value: Math.random() * 500,
-        })),
-        [UsagePointType.NetworkOut]: Array.from({ length: 24 }, (_, i) => ({
-            timestamp: new Date(Date.now() - (23 - i) * 3600000),
-            value: Math.random() * 300,
-        })),
-    },
-    usageSpan: "day",
-}
-
 
 function RouteComponent() {
     const project = RootRoute.useLoaderData()
@@ -162,9 +130,7 @@ function RouteComponent() {
                     </CardContent>
                 </Card>
 
-                <UsageGraph usageData={mockUsageData} />
-
-
+                <UsageGraph projectId={project.id!} />
             </div>
         </div>
     )

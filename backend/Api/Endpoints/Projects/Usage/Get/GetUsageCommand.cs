@@ -1,8 +1,10 @@
+using System.Text.Json.Serialization;
 using Api.Abstractions;
 using Core.MediatR;
 
 namespace Api.Endpoints.Projects.Usage.Get;
 
+[JsonConverter(typeof(JsonStringEnumConverter<UsageSpan>))]
 public enum UsageSpan
 {
     Total = 0,
