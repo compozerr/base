@@ -36,7 +36,7 @@ public sealed class MockHostingApi : IHostingApi
             new ProjectUsageDto
             {
                 VmId = 101,
-                Name = "test-project",
+                Name = "019673aa-da28-7798-9163-b44c8c25b797",
                 Status = "running",
                 CpuUsage = 1.25m,
                 CpuCount = 4,
