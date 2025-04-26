@@ -30,7 +30,7 @@ public sealed class GetUsageCommandHandler(
 
         foreach (var point in data)
         {
-            points[UsagePointType.CPU].Add(new UsagePoint(point.CreatedAtUtc, point.CpuUsagePercentage));
+            points[UsagePointType.CPU].Add(new UsagePoint(point.CreatedAtUtc, point.CpuUsagePercentage * 100)); // Convert to percentage
             points[UsagePointType.Ram].Add(new UsagePoint(point.CreatedAtUtc, point.MemoryUsageGb));
             points[UsagePointType.DiskWrite].Add(new UsagePoint(point.CreatedAtUtc, point.DiskWriteBytesPerSec / 1024 / 1024)); // MB/s
             points[UsagePointType.DiskRead].Add(new UsagePoint(point.CreatedAtUtc, point.DiskReadBytesPerSec / 1024 / 1024)); // MB/s
