@@ -1,20 +1,10 @@
 using Api.Abstractions;
-using Api.Data;
 using Api.Data.Extensions;
 using Api.Data.Repositories;
 using Api.Hosting.Services;
 using Auth.Services;
 
-namespace Api.Endpoints.Projects;
-
-public sealed record GetProjectResponse(
-    Guid Id,
-    string Name,
-    string RepoName,
-    ProjectState State,
-    DateTime StartDate,
-    List<string> Domains,
-    string? PrimaryDomain);
+namespace Api.Endpoints.Projects.Project.Get;
 
 public static class GetProjectRoute
 {

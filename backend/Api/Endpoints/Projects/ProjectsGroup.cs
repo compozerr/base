@@ -1,6 +1,7 @@
 
 using Api.Endpoints.Projects.Deployments;
 using Api.Endpoints.Projects.Domains;
+using Api.Endpoints.Projects.Project.Get;
 using Api.Endpoints.Projects.ProjectEnvironment;
 using Api.Endpoints.Projects.Usage.Get;
 

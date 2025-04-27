@@ -1,5 +1,6 @@
 using Api.Data;
 using Api.Data.Repositories;
+using Api.Endpoints.Projects.Project.Get;
 using Api.Hosting.Services;
 
 namespace Api.Endpoints.Projects;
