@@ -1,6 +1,7 @@
 
 import { api } from '@/api-client'
 import { DataTable } from '@/components/data-table'
+import StartStopProjectButton from '@/components/project/project-startstop-button'
 import { Button } from '@/components/ui/button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { Input } from '@/components/ui/input'
@@ -114,22 +115,11 @@ function RouteComponent() {
                         header: "Actions",
                         cell: ({ row }) => {
                             const state = row.original.state;
+                            const projectId = row.original.id;
 
                             return (
                                 <div className="flex gap-2">
-                                    {state === "Running" ? (
-                                        <Button size="sm" variant="ghost">
-                                            <Pause className="h-4 w-4" />
-                                        </Button>
-                                    ) : state === "Stopped" ? (
-                                        <Button size="sm" variant="ghost">
-                                            <Play className="h-4 w-4" />
-                                        </Button>
-                                    ) : (
-                                        <Button size="sm" variant="ghost">
-                                            <RotateCw className="h-4 w-4" />
-                                        </Button>
-                                    )}
+                                    {state && projectId && <StartStopProjectButton projectId={projectId} state={state} />}
                                     <DropdownMenu>
                                         <DropdownMenuTrigger asChild>
                                             <Button variant="ghost" size="sm">

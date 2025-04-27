@@ -6,6 +6,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { ExternalLink, Globe } from 'lucide-react'
 import { Route as RootRoute } from './route'
 import { UsageGraph } from '@/components/usage-graph'
+import StartStopProjectButton from '@/components/project/project-startstop-button'
 
 export const Route = createFileRoute('/_auth/_dashboard/projects/$projectId/')({
     component: RouteComponent,
@@ -95,6 +96,8 @@ function RouteComponent() {
                                             className={`h-2 w-2 rounded-full ${getStateColor(getProjectStateFromStateString(project.state))}`}
                                         ></span>
                                         {getProjectStateFromStateString(project.state)}
+
+                                        {project.id && project.state && <StartStopProjectButton projectId={project.id} state={project.state} variant="ghost"/>}
                                     </p>
                                 </div>
                             </div>

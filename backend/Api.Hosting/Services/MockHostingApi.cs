@@ -75,16 +75,14 @@ public sealed class MockHostingApi(IProjectRepository projectRepository) : IHost
         return Task.CompletedTask;
     }
 
-    public Task StartProjectAsync(ProjectId projectId)
+    public async Task StartProjectAsync(ProjectId projectId)
     {
-        Console.WriteLine("Project starting");
-        return Task.CompletedTask;
+        await projectRepository.SetProjectStateAsync(projectId, ProjectState.Running);
     }
 
-    public Task StopProjectAsync(ProjectId projectId)
+    public async Task StopProjectAsync(ProjectId projectId)
     {
-        Console.WriteLine("Project stopping");
-        return Task.CompletedTask;
+        await projectRepository.SetProjectStateAsync(projectId, ProjectState.Stopped);
     }
 
     public Task UpdateDomainsForProjectAsync(ProjectId projectId)
