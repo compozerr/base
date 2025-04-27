@@ -23,7 +23,7 @@ public sealed class MockHostingApi(IProjectRepository projectRepository) : IHost
 
         var projects = allProjects.Select(p =>
         {
-            var status = random.NextDouble() > 0.5 ? "running" : "stopped";
+            var status = random.NextDouble() > 0.1 ? "running" : "stopped";
 
             decimal availableMemory = 2.0m;
             decimal memoryUsed = status == "running" ? (decimal)random.NextDouble() * availableMemory : 0.0m;
