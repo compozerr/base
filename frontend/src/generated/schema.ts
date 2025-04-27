@@ -789,6 +789,13 @@ export interface paths {
                         "application/json": components["schemas"]["DomainDto"][];
                     };
                 };
+                /** @description No Content */
+                204: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
             };
         };
         put?: never;

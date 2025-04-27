@@ -22,11 +22,11 @@ public static class GetDomainsRoute
         return app.MapGet(Route, ExecuteAsync);
     }
 
-    public static async Task<Results<Ok<List<DomainDto>>, NoContent>> ExecuteAsync(Guid projectId, IProjectRepository projectRepository)
+    public static async Task<Results<Ok<List<DomainDto>>, NoContent>> ExecuteAsync(
+        ProjectId projectId,
+        IProjectRepository projectRepository)
     {
-        var convertedProjectId = ProjectId.Create(projectId);
-
-        var project = await projectRepository.GetProjectByIdWithDomainsAsync(convertedProjectId);
+        var project = await projectRepository.GetProjectByIdWithDomainsAsync(projectId);
 
         if (project is null)
         {
