@@ -1,4 +1,3 @@
-import AreYouSureDialog from '@/components/are-you-sure-dialog'
 import AreYouSureDialogConfirmWithText from '@/components/are-you-sure-dialog-confirm-with-text'
 import { Button } from '@/components/ui/button'
 import {
@@ -23,6 +22,7 @@ import { createFileRoute, useNavigate, } from '@tanstack/react-router'
 import React, { useState } from 'react'
 
 import { Route as RootRoute } from '../route'
+import { api } from '@/api-client'
 export const Route = createFileRoute(
   '/_auth/_dashboard/projects/$projectId/settings/general',
 )({
@@ -37,10 +37,11 @@ function GeneralSettingsTab() {
 
   const project = RootRoute.useLoaderData();
 
+  const { mutateAsync: deleteAsync } = api.v1.deleteProjectsProjectId.useMutation({ path: { projectId: params.projectId } })
   // Delete
   const deleteProjectAsync = async () => {
     if (!wantsDeletion) return;
-    //params.projectId
+    await deleteAsync();
   }
 
   const navigate = useNavigate();

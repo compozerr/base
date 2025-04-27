@@ -4638,6 +4638,654 @@ export interface V1Service {
             error: GetProjectsProjectIdError;
         };
     };
+    deleteProjectsProjectId: {
+        /**/
+        getMutationKey(parameters: DeleteProjectsProjectIdParameters | void): ServiceOperationMutationKey<DeleteProjectsProjectIdSchema, DeleteProjectsProjectIdParameters>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.deleteProjectsProjectId.useMutation({
+         *     path: {
+         *         projectId: projectId
+         *     }
+         * })
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.deleteProjectsProjectId.useMutation()
+         * mutate({
+         *     body: bodyPayload,
+         *     path: {
+         *         projectId: projectId
+         *     }
+         * });
+         * ```
+         */
+        useMutation<TVariables extends DeleteProjectsProjectIdBody, TContext = unknown>(parameters: DeleteProjectsProjectIdParameters, options?: ServiceOperationUseMutationOptions<DeleteProjectsProjectIdSchema, DeleteProjectsProjectIdData, DeleteProjectsProjectIdParameters, TVariables, DeleteProjectsProjectIdError, TContext>): UseMutationResult<DeleteProjectsProjectIdData, DeleteProjectsProjectIdError | Error, AreAllOptional<TVariables> extends true ? TVariables | void : TVariables, TContext>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.deleteProjectsProjectId.useMutation({
+         *     path: {
+         *         projectId: projectId
+         *     }
+         * })
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.deleteProjectsProjectId.useMutation()
+         * mutate({
+         *     body: bodyPayload,
+         *     path: {
+         *         projectId: projectId
+         *     }
+         * });
+         * ```
+         */
+        useMutation<TVariables extends MutationVariables<DeleteProjectsProjectIdBody, DeleteProjectsProjectIdParameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<DeleteProjectsProjectIdSchema, DeleteProjectsProjectIdData, DeleteProjectsProjectIdParameters, TVariables, DeleteProjectsProjectIdError, TContext>): UseMutationResult<DeleteProjectsProjectIdData, DeleteProjectsProjectIdError | Error, TVariables, TContext>;
+        /**
+         * Returns the count of currently in-progress mutations.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
+         * @example Check how many mutations are currently in progress for the specified service method.
+         * ```ts
+         * const deleteProjectsProjectIdTotal = qraft.v1Service.deleteProjectsProjectId.useIsMutating()
+         * ```
+         * @example Check how many mutations are currently in progress with the specified parameters.
+         * ```ts
+         * const deleteProjectsProjectIdTotal = qraft.v1Service.deleteProjectsProjectId.useIsMutating({
+         *     parameters: {
+         *         path: {
+         *             projectId: projectId
+         *         }
+         *     }
+         * })
+         * ```
+         */
+        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<DeleteProjectsProjectIdBody, DeleteProjectsProjectIdData, DeleteProjectsProjectIdParameters, DeleteProjectsProjectIdError, TContext> | MutationFiltersByMutationKey<DeleteProjectsProjectIdSchema, DeleteProjectsProjectIdBody, DeleteProjectsProjectIdData, DeleteProjectsProjectIdParameters, DeleteProjectsProjectIdError, TContext>): number;
+        /**/
+        isMutating<TContext>(filters?: MutationFiltersByParameters<DeleteProjectsProjectIdBody, DeleteProjectsProjectIdData, DeleteProjectsProjectIdParameters, DeleteProjectsProjectIdError, TContext> | MutationFiltersByMutationKey<DeleteProjectsProjectIdSchema, DeleteProjectsProjectIdBody, DeleteProjectsProjectIdData, DeleteProjectsProjectIdParameters, DeleteProjectsProjectIdError, TContext>): number;
+        /**/
+        (options: ServiceOperationMutationFnOptions<DeleteProjectsProjectIdBody, DeleteProjectsProjectIdParameters>, client?: (schema: DeleteProjectsProjectIdSchema, options: ServiceOperationMutationFnOptions<DeleteProjectsProjectIdBody, DeleteProjectsProjectIdParameters>) => Promise<RequestFnResponse<DeleteProjectsProjectIdData, DeleteProjectsProjectIdError>>): Promise<RequestFnResponse<DeleteProjectsProjectIdData, DeleteProjectsProjectIdError>>;
+        /**
+         * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
+         * @example Get all variables of all running mutations.
+         * ```ts
+         * const deleteProjectsProjectIdPendingMutationVariables = qraft.v1Service.deleteProjectsProjectId.useMutationState({
+         *     filters: {
+         *         status: "pending"
+         *     },
+         *     select: mutation => mutation.state.variables
+         * })
+         * ```
+         * @example Get all data for specific mutations via the `parameters`.
+         * ```ts
+         * const deleteProjectsProjectIdMutationData = qraft.v1Service.deleteProjectsProjectId.useMutationState({
+         *     filters: {
+         *         parameters: {
+         *             path: {
+         *                 projectId: projectId
+         *             }
+         *         }
+         *     },
+         *     select: mutation => mutation.state.data
+         * })
+         * ```
+         */
+        useMutationState<TContext = unknown, TResult = MutationState<DeleteProjectsProjectIdData, DeleteProjectsProjectIdError, MutationVariables<DeleteProjectsProjectIdBody, DeleteProjectsProjectIdParameters>, TContext>>(options?: {
+            filters?: MutationFiltersByParameters<DeleteProjectsProjectIdBody, DeleteProjectsProjectIdData, DeleteProjectsProjectIdParameters, DeleteProjectsProjectIdError, TContext> | MutationFiltersByMutationKey<DeleteProjectsProjectIdSchema, DeleteProjectsProjectIdBody, DeleteProjectsProjectIdData, DeleteProjectsProjectIdParameters, DeleteProjectsProjectIdError, TContext>;
+            select?: (mutation: Mutation<DeleteProjectsProjectIdData, DeleteProjectsProjectIdError, MutationVariables<DeleteProjectsProjectIdBody, DeleteProjectsProjectIdParameters>, TContext>) => TResult;
+        }): Array<TResult>;
+        schema: DeleteProjectsProjectIdSchema;
+        types: {
+            parameters: DeleteProjectsProjectIdParameters;
+            data: DeleteProjectsProjectIdData;
+            error: DeleteProjectsProjectIdError;
+            body: DeleteProjectsProjectIdBody;
+        };
+    };
+    getProjectsProjectIdStart: {
+        /**/
+        cancelQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetProjectsProjectIdStartSchema, GetProjectsProjectIdStartData, TInfinite, GetProjectsProjectIdStartParameters, GetProjectsProjectIdStartError> | QueryFiltersByQueryKey<GetProjectsProjectIdStartSchema, GetProjectsProjectIdStartData, TInfinite, GetProjectsProjectIdStartParameters, GetProjectsProjectIdStartError>, options?: CancelOptions): Promise<void>;
+        /**/
+        getQueryKey(parameters: GetProjectsProjectIdStartParameters): ServiceOperationQueryKey<GetProjectsProjectIdStartSchema, GetProjectsProjectIdStartParameters>;
+        /**
+         * Performs asynchronous data fetching, manages loading states and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
+         * @example Query with parameters
+         * ```ts
+         * const { data, isLoading } = qraft.v1Service.getProjectsProjectIdStart.useQuery({
+         *     path: {
+         *         projectId: projectId
+         *     }
+         * })
+         * ```
+         */
+        useQuery<TData = GetProjectsProjectIdStartData>(parameters: ServiceOperationQueryKey<GetProjectsProjectIdStartSchema, GetProjectsProjectIdStartParameters> | (GetProjectsProjectIdStartParameters), options?: Omit<UndefinedInitialDataOptions<GetProjectsProjectIdStartData, GetProjectsProjectIdStartError, TData, ServiceOperationQueryKey<GetProjectsProjectIdStartSchema, GetProjectsProjectIdStartParameters>>, "queryKey">): UseQueryResult<TData, GetProjectsProjectIdStartError | Error>;
+        /**
+         * Performs asynchronous data fetching, manages loading states and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
+         * @example Query with parameters
+         * ```ts
+         * const { data, isLoading } = qraft.v1Service.getProjectsProjectIdStart.useQuery({
+         *     path: {
+         *         projectId: projectId
+         *     }
+         * })
+         * ```
+         */
+        useQuery<TData = GetProjectsProjectIdStartData>(parameters: ServiceOperationQueryKey<GetProjectsProjectIdStartSchema, GetProjectsProjectIdStartParameters> | (GetProjectsProjectIdStartParameters), options: Omit<DefinedInitialDataOptions<GetProjectsProjectIdStartData, GetProjectsProjectIdStartError, TData, ServiceOperationQueryKey<GetProjectsProjectIdStartSchema, GetProjectsProjectIdStartParameters>>, "queryKey">): DefinedUseQueryResult<TData, GetProjectsProjectIdStartError | Error>;
+        /**/
+        fetchInfiniteQuery<TPageParam extends GetProjectsProjectIdStartParameters>(options: ServiceOperationFetchInfiniteQueryOptions<GetProjectsProjectIdStartSchema, GetProjectsProjectIdStartData, GetProjectsProjectIdStartParameters, TPageParam, GetProjectsProjectIdStartError>): Promise<OperationInfiniteData<GetProjectsProjectIdStartData, GetProjectsProjectIdStartParameters>>;
+        /**/
+        prefetchInfiniteQuery<TPageParam extends GetProjectsProjectIdStartParameters>(options: ServiceOperationFetchInfiniteQueryOptions<GetProjectsProjectIdStartSchema, GetProjectsProjectIdStartData, GetProjectsProjectIdStartParameters, TPageParam, GetProjectsProjectIdStartError>): Promise<void>;
+        /**/
+        ensureInfiniteQueryData<TPageParam extends GetProjectsProjectIdStartParameters>(options: ServiceOperationEnsureInfiniteQueryDataOptions<GetProjectsProjectIdStartSchema, GetProjectsProjectIdStartData, GetProjectsProjectIdStartParameters, TPageParam, GetProjectsProjectIdStartError>): Promise<OperationInfiniteData<GetProjectsProjectIdStartData, GetProjectsProjectIdStartParameters>>;
+        /**/
+        fetchQuery(options: ServiceOperationFetchQueryOptions<GetProjectsProjectIdStartSchema, GetProjectsProjectIdStartData, GetProjectsProjectIdStartParameters, GetProjectsProjectIdStartError>): Promise<GetProjectsProjectIdStartData>;
+        /**/
+        prefetchQuery(options: ServiceOperationFetchQueryOptions<GetProjectsProjectIdStartSchema, GetProjectsProjectIdStartData, GetProjectsProjectIdStartParameters, GetProjectsProjectIdStartError>): Promise<void>;
+        /**/
+        ensureQueryData(options: ServiceOperationEnsureQueryDataOptions<GetProjectsProjectIdStartSchema, GetProjectsProjectIdStartData, GetProjectsProjectIdStartParameters, GetProjectsProjectIdStartError>): Promise<GetProjectsProjectIdStartData>;
+        /**/
+        getInfiniteQueryData(parameters: ServiceOperationInfiniteQueryKey<GetProjectsProjectIdStartSchema, GetProjectsProjectIdStartParameters> | (GetProjectsProjectIdStartParameters)): OperationInfiniteData<GetProjectsProjectIdStartData, GetProjectsProjectIdStartParameters> | undefined;
+        /**/
+        getQueriesData<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetProjectsProjectIdStartSchema, GetProjectsProjectIdStartData, TInfinite, GetProjectsProjectIdStartParameters, GetProjectsProjectIdStartError> | QueryFiltersByQueryKey<GetProjectsProjectIdStartSchema, GetProjectsProjectIdStartData, TInfinite, GetProjectsProjectIdStartParameters, GetProjectsProjectIdStartError>): TInfinite extends true ? Array<[
+            queryKey: ServiceOperationInfiniteQueryKey<GetProjectsProjectIdStartSchema, GetProjectsProjectIdStartParameters>,
+            data: NoInfer<OperationInfiniteData<GetProjectsProjectIdStartData, GetProjectsProjectIdStartParameters>> | undefined
+        ]> : Array<[
+            queryKey: ServiceOperationQueryKey<GetProjectsProjectIdStartSchema, GetProjectsProjectIdStartParameters>,
+            data: GetProjectsProjectIdStartData | undefined
+        ]>;
+        /**/
+        getQueryData(parameters: ServiceOperationQueryKey<GetProjectsProjectIdStartSchema, GetProjectsProjectIdStartParameters> | (GetProjectsProjectIdStartParameters)): GetProjectsProjectIdStartData | undefined;
+        /**/
+        getQueryState(parameters: ServiceOperationQueryKey<GetProjectsProjectIdStartSchema, GetProjectsProjectIdStartParameters> | (GetProjectsProjectIdStartParameters)): QueryState<GetProjectsProjectIdStartData, GetProjectsProjectIdStartError> | undefined;
+        /**/
+        getInfiniteQueryState(parameters: GetProjectsProjectIdStartParameters | ServiceOperationInfiniteQueryKey<GetProjectsProjectIdStartSchema, GetProjectsProjectIdStartParameters>): QueryState<OperationInfiniteData<GetProjectsProjectIdStartData, GetProjectsProjectIdStartParameters>, GetProjectsProjectIdStartError> | undefined;
+        /**/
+        invalidateQueries<TInfinite extends boolean = false>(filters?: InvalidateQueryFilters<GetProjectsProjectIdStartSchema, GetProjectsProjectIdStartData, TInfinite, GetProjectsProjectIdStartParameters, GetProjectsProjectIdStartError>, options?: InvalidateOptions): Promise<void>;
+        /**/
+        isFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetProjectsProjectIdStartSchema, GetProjectsProjectIdStartData, TInfinite, GetProjectsProjectIdStartParameters, GetProjectsProjectIdStartError> | QueryFiltersByQueryKey<GetProjectsProjectIdStartSchema, GetProjectsProjectIdStartData, TInfinite, GetProjectsProjectIdStartParameters, GetProjectsProjectIdStartError>): number;
+        /**/
+        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: QueryFnOptionsByQueryKey<GetProjectsProjectIdStartSchema, GetProjectsProjectIdStartParameters, TMeta, TSignal> | (QueryFnOptionsByParameters<GetProjectsProjectIdStartParameters, TMeta, TSignal>), client?: (schema: GetProjectsProjectIdStartSchema, options: {
+            parameters: GetProjectsProjectIdStartParameters;
+            signal?: TSignal;
+            meta?: TMeta;
+        }) => Promise<RequestFnResponse<GetProjectsProjectIdStartData, GetProjectsProjectIdStartError>>): Promise<RequestFnResponse<GetProjectsProjectIdStartData, GetProjectsProjectIdStartError>>;
+        /**/
+        refetchQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetProjectsProjectIdStartSchema, GetProjectsProjectIdStartData, TInfinite, GetProjectsProjectIdStartParameters, GetProjectsProjectIdStartError> | QueryFiltersByQueryKey<GetProjectsProjectIdStartSchema, GetProjectsProjectIdStartData, TInfinite, GetProjectsProjectIdStartParameters, GetProjectsProjectIdStartError>, options?: RefetchOptions): Promise<void>;
+        /**/
+        removeQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetProjectsProjectIdStartSchema, GetProjectsProjectIdStartData, TInfinite, GetProjectsProjectIdStartParameters, GetProjectsProjectIdStartError> | QueryFiltersByQueryKey<GetProjectsProjectIdStartSchema, GetProjectsProjectIdStartData, TInfinite, GetProjectsProjectIdStartParameters, GetProjectsProjectIdStartError>): void;
+        /**/
+        resetQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetProjectsProjectIdStartSchema, GetProjectsProjectIdStartData, TInfinite, GetProjectsProjectIdStartParameters, GetProjectsProjectIdStartError> | QueryFiltersByQueryKey<GetProjectsProjectIdStartSchema, GetProjectsProjectIdStartData, TInfinite, GetProjectsProjectIdStartParameters, GetProjectsProjectIdStartError>, options?: ResetOptions): Promise<void>;
+        /**/
+        setInfiniteQueryData(parameters: GetProjectsProjectIdStartParameters | ServiceOperationInfiniteQueryKey<GetProjectsProjectIdStartSchema, GetProjectsProjectIdStartParameters>, updater: Updater<NoInfer<OperationInfiniteData<GetProjectsProjectIdStartData, GetProjectsProjectIdStartParameters>> | undefined, NoInfer<OperationInfiniteData<GetProjectsProjectIdStartData, GetProjectsProjectIdStartParameters>> | undefined>, options?: SetDataOptions): OperationInfiniteData<GetProjectsProjectIdStartData, GetProjectsProjectIdStartParameters> | undefined;
+        /**/
+        setQueriesData<TInfinite extends boolean = false>(filters: QueryFiltersByParameters<GetProjectsProjectIdStartSchema, GetProjectsProjectIdStartData, TInfinite, GetProjectsProjectIdStartParameters, GetProjectsProjectIdStartError> | QueryFiltersByQueryKey<GetProjectsProjectIdStartSchema, GetProjectsProjectIdStartData, TInfinite, GetProjectsProjectIdStartParameters, GetProjectsProjectIdStartError>, updater: Updater<NoInfer<GetProjectsProjectIdStartData> | undefined, NoInfer<GetProjectsProjectIdStartData> | undefined>, options?: SetDataOptions): Array<GetProjectsProjectIdStartData | undefined>;
+        /**/
+        setQueryData(parameters: (GetProjectsProjectIdStartParameters) | ServiceOperationQueryKey<GetProjectsProjectIdStartSchema, GetProjectsProjectIdStartParameters>, updater: Updater<NoInfer<GetProjectsProjectIdStartData> | undefined, NoInfer<GetProjectsProjectIdStartData> | undefined>, options?: SetDataOptions): GetProjectsProjectIdStartData | undefined;
+        /**/
+        getInfiniteQueryKey(parameters: GetProjectsProjectIdStartParameters): ServiceOperationInfiniteQueryKey<GetProjectsProjectIdStartSchema, GetProjectsProjectIdStartParameters>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useInfiniteQuery|`useInfiniteQuery(...)` documentation}
+         *
+         * @example Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdStart.useInfiniteQuery({
+         *     path: {
+         *         projectId: projectId
+         *     }
+         * }, {
+         *     initialPageParam: {},
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useInfiniteQuery<TPageParam extends GetProjectsProjectIdStartParameters, TData = GetProjectsProjectIdStartData>(parameters: ServiceOperationInfiniteQueryKey<GetProjectsProjectIdStartSchema, GetProjectsProjectIdStartParameters> | (GetProjectsProjectIdStartParameters), options: Omit<UndefinedInitialDataInfiniteOptions<GetProjectsProjectIdStartData, GetProjectsProjectIdStartError, OperationInfiniteData<TData, GetProjectsProjectIdStartParameters>, ServiceOperationInfiniteQueryKey<GetProjectsProjectIdStartSchema, GetProjectsProjectIdStartParameters>, PartialParameters<TPageParam>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<GetProjectsProjectIdStartData, PartialParameters<TPageParam>>): UseInfiniteQueryResult<OperationInfiniteData<TData, GetProjectsProjectIdStartParameters>, GetProjectsProjectIdStartError | Error>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useInfiniteQuery|`useInfiniteQuery(...)` documentation}
+         *
+         * @example Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdStart.useInfiniteQuery({
+         *     path: {
+         *         projectId: projectId
+         *     }
+         * }, {
+         *     initialPageParam: {},
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useInfiniteQuery<TPageParam extends GetProjectsProjectIdStartParameters, TData = GetProjectsProjectIdStartData>(parameters: ServiceOperationInfiniteQueryKey<GetProjectsProjectIdStartSchema, GetProjectsProjectIdStartParameters> | (GetProjectsProjectIdStartParameters), options: Omit<DefinedInitialDataInfiniteOptions<GetProjectsProjectIdStartData, GetProjectsProjectIdStartError, OperationInfiniteData<TData, GetProjectsProjectIdStartParameters>, ServiceOperationInfiniteQueryKey<GetProjectsProjectIdStartSchema, GetProjectsProjectIdStartParameters>, PartialParameters<TPageParam>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<GetProjectsProjectIdStartData, PartialParameters<TPageParam>>): DefinedUseInfiniteQueryResult<OperationInfiniteData<TData, GetProjectsProjectIdStartParameters>, GetProjectsProjectIdStartError | Error>;
+        /**
+         * Monitors the number of queries currently fetching, matching the provided filters.
+         * Useful for creating loading indicators or performing actions based on active requests.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsFetching|`useIsFetching(...)` documentation}
+         * @example Checks the total number of queries fetching from the specified service method,
+         * both normal and infinite. If no parameters are provided, no filtering is applied.
+         * ```ts
+         * const getProjectsProjectIdStartTotal = qraft.v1Service.getProjectsProjectIdStart.useIsFetching()
+         * ```
+         * @example Checks the number of normal queries fetching with the specified parameters.
+         * ```ts
+         * const getProjectsProjectIdStartByParametersTotal = qraft.v1Service.getProjectsProjectIdStart.useIsFetching({
+         *     infinite: false,
+         *     parameters: {
+         *         path: {
+         *             projectId: projectId
+         *         }
+         *     }
+         * })
+         * ```
+         */
+        useIsFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetProjectsProjectIdStartSchema, GetProjectsProjectIdStartData, TInfinite, GetProjectsProjectIdStartParameters, GetProjectsProjectIdStartError> | QueryFiltersByQueryKey<GetProjectsProjectIdStartSchema, GetProjectsProjectIdStartData, TInfinite, GetProjectsProjectIdStartParameters, GetProjectsProjectIdStartError>): number;
+        /**
+         * Allows you to execute multiple asynchronous data fetching operations concurrently. This is especially useful for managing complex data dependencies in parallel.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
+         * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
+         * ```ts
+         * const getProjectsProjectIdStartResults = qraft.v1Service.getProjectsProjectIdStart.useQueries({
+         *     queries: [
+         *         {
+         *             path: {
+         *                 projectId: projectId1
+         *             }
+         *         },
+         *         {
+         *             path: {
+         *                 projectId: projectId2
+         *             }
+         *         }
+         *     ]
+         * });
+         * getProjectsProjectIdStartResults.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
+         * ```
+         * @example Combined results. Only the data will be returned.
+         * ```ts
+         * const getProjectsProjectIdStartCombinedResults = qraft.v1Service.getProjectsProjectIdStart.useQueries({
+         *     combine: results => results.map(result => result.data),
+         *     queries: [
+         *         {
+         *             path: {
+         *                 projectId: projectId1
+         *             }
+         *         },
+         *         {
+         *             path: {
+         *                 projectId: projectId2
+         *             }
+         *         }
+         *     ]
+         * });
+         * getProjectsProjectIdStartCombinedResults.forEach(data => console.log({ data }));
+         * ```
+         */
+        useQueries<T extends Array<UseQueryOptionsForUseQueries<GetProjectsProjectIdStartSchema, GetProjectsProjectIdStartParameters, GetProjectsProjectIdStartData, GetProjectsProjectIdStartError>>, TCombinedResult = Array<UseQueryResult<GetProjectsProjectIdStartData, GetProjectsProjectIdStartError>>>(options: {
+            queries: T;
+            combine?: (results: Array<UseQueryResult<GetProjectsProjectIdStartData, GetProjectsProjectIdStartError>>) => TCombinedResult;
+        }): TCombinedResult;
+        /**/
+        getQueryKey(parameters: GetProjectsProjectIdStartParameters): ServiceOperationQueryKey<GetProjectsProjectIdStartSchema, GetProjectsProjectIdStartParameters>;
+        /**
+         * Performs asynchronous data fetching, manages loading states and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
+         * @example Query with parameters
+         * ```ts
+         * const { data, isLoading } = qraft.v1Service.getProjectsProjectIdStart.useQuery({
+         *     path: {
+         *         projectId: projectId
+         *     }
+         * })
+         * ```
+         */
+        useQuery<TData = GetProjectsProjectIdStartData>(parameters: ServiceOperationQueryKey<GetProjectsProjectIdStartSchema, GetProjectsProjectIdStartParameters> | (GetProjectsProjectIdStartParameters), options?: Omit<UndefinedInitialDataOptions<GetProjectsProjectIdStartData, GetProjectsProjectIdStartError, TData, ServiceOperationQueryKey<GetProjectsProjectIdStartSchema, GetProjectsProjectIdStartParameters>>, "queryKey">): UseQueryResult<TData, GetProjectsProjectIdStartError | Error>;
+        /**
+         * Performs asynchronous data fetching, manages loading states and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
+         * @example Query with parameters
+         * ```ts
+         * const { data, isLoading } = qraft.v1Service.getProjectsProjectIdStart.useQuery({
+         *     path: {
+         *         projectId: projectId
+         *     }
+         * })
+         * ```
+         */
+        useQuery<TData = GetProjectsProjectIdStartData>(parameters: ServiceOperationQueryKey<GetProjectsProjectIdStartSchema, GetProjectsProjectIdStartParameters> | (GetProjectsProjectIdStartParameters), options: Omit<DefinedInitialDataOptions<GetProjectsProjectIdStartData, GetProjectsProjectIdStartError, TData, ServiceOperationQueryKey<GetProjectsProjectIdStartSchema, GetProjectsProjectIdStartParameters>>, "queryKey">): DefinedUseQueryResult<TData, GetProjectsProjectIdStartError | Error>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         * It functions similarly to `useInfiniteQuery`, but with added support for React Suspense.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseInfiniteQuery|`useSuspenseInfiniteQuery(...)` documentation}
+         *
+         * @example Suspense Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdStart.useSuspenseInfiniteQuery({
+         *     path: {
+         *         projectId: projectId
+         *     }
+         * }, {
+         *     initialPageParam: {},
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useSuspenseInfiniteQuery<TPageParam extends GetProjectsProjectIdStartParameters, TData = GetProjectsProjectIdStartData>(parameters: ServiceOperationInfiniteQueryKey<GetProjectsProjectIdStartSchema, GetProjectsProjectIdStartParameters> | (GetProjectsProjectIdStartParameters), options: Omit<UseSuspenseInfiniteQueryOptions<GetProjectsProjectIdStartData, GetProjectsProjectIdStartError, OperationInfiniteData<TData, GetProjectsProjectIdStartParameters>, GetProjectsProjectIdStartData, ServiceOperationInfiniteQueryKey<GetProjectsProjectIdStartSchema, GetProjectsProjectIdStartParameters>, PartialParameters<TPageParam>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<GetProjectsProjectIdStartData, PartialParameters<TPageParam>>): UseSuspenseInfiniteQueryResult<OperationInfiniteData<TData, GetProjectsProjectIdStartParameters>, GetProjectsProjectIdStartError | Error>;
+        /**/
+        useSuspenseQueries<T extends Array<UseQueryOptionsForUseSuspenseQuery<GetProjectsProjectIdStartSchema, GetProjectsProjectIdStartParameters, GetProjectsProjectIdStartData, GetProjectsProjectIdStartError>>, TCombinedResult = Array<UseSuspenseQueryResult<GetProjectsProjectIdStartData, GetProjectsProjectIdStartError>>>(options: {
+            queries: T;
+            combine?: (results: Array<WithOptional<UseSuspenseQueryResult<GetProjectsProjectIdStartData, GetProjectsProjectIdStartError>, "data">>) => TCombinedResult;
+        }): TCombinedResult;
+        /**/
+        useSuspenseQuery<TData = GetProjectsProjectIdStartData>(parameters: ServiceOperationQueryKey<GetProjectsProjectIdStartSchema, GetProjectsProjectIdStartParameters> | (GetProjectsProjectIdStartParameters), options?: Omit<UseSuspenseQueryOptions<GetProjectsProjectIdStartData, GetProjectsProjectIdStartError, TData, ServiceOperationQueryKey<GetProjectsProjectIdStartSchema, GetProjectsProjectIdStartParameters>>, "queryKey">): UseSuspenseQueryResult<TData, GetProjectsProjectIdStartError | Error>;
+        schema: GetProjectsProjectIdStartSchema;
+        types: {
+            parameters: GetProjectsProjectIdStartParameters;
+            data: GetProjectsProjectIdStartData;
+            error: GetProjectsProjectIdStartError;
+        };
+    };
+    getProjectsProjectIdStop: {
+        /**/
+        cancelQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetProjectsProjectIdStopSchema, GetProjectsProjectIdStopData, TInfinite, GetProjectsProjectIdStopParameters, GetProjectsProjectIdStopError> | QueryFiltersByQueryKey<GetProjectsProjectIdStopSchema, GetProjectsProjectIdStopData, TInfinite, GetProjectsProjectIdStopParameters, GetProjectsProjectIdStopError>, options?: CancelOptions): Promise<void>;
+        /**/
+        getQueryKey(parameters: GetProjectsProjectIdStopParameters): ServiceOperationQueryKey<GetProjectsProjectIdStopSchema, GetProjectsProjectIdStopParameters>;
+        /**
+         * Performs asynchronous data fetching, manages loading states and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
+         * @example Query with parameters
+         * ```ts
+         * const { data, isLoading } = qraft.v1Service.getProjectsProjectIdStop.useQuery({
+         *     path: {
+         *         projectId: projectId
+         *     }
+         * })
+         * ```
+         */
+        useQuery<TData = GetProjectsProjectIdStopData>(parameters: ServiceOperationQueryKey<GetProjectsProjectIdStopSchema, GetProjectsProjectIdStopParameters> | (GetProjectsProjectIdStopParameters), options?: Omit<UndefinedInitialDataOptions<GetProjectsProjectIdStopData, GetProjectsProjectIdStopError, TData, ServiceOperationQueryKey<GetProjectsProjectIdStopSchema, GetProjectsProjectIdStopParameters>>, "queryKey">): UseQueryResult<TData, GetProjectsProjectIdStopError | Error>;
+        /**
+         * Performs asynchronous data fetching, manages loading states and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
+         * @example Query with parameters
+         * ```ts
+         * const { data, isLoading } = qraft.v1Service.getProjectsProjectIdStop.useQuery({
+         *     path: {
+         *         projectId: projectId
+         *     }
+         * })
+         * ```
+         */
+        useQuery<TData = GetProjectsProjectIdStopData>(parameters: ServiceOperationQueryKey<GetProjectsProjectIdStopSchema, GetProjectsProjectIdStopParameters> | (GetProjectsProjectIdStopParameters), options: Omit<DefinedInitialDataOptions<GetProjectsProjectIdStopData, GetProjectsProjectIdStopError, TData, ServiceOperationQueryKey<GetProjectsProjectIdStopSchema, GetProjectsProjectIdStopParameters>>, "queryKey">): DefinedUseQueryResult<TData, GetProjectsProjectIdStopError | Error>;
+        /**/
+        fetchInfiniteQuery<TPageParam extends GetProjectsProjectIdStopParameters>(options: ServiceOperationFetchInfiniteQueryOptions<GetProjectsProjectIdStopSchema, GetProjectsProjectIdStopData, GetProjectsProjectIdStopParameters, TPageParam, GetProjectsProjectIdStopError>): Promise<OperationInfiniteData<GetProjectsProjectIdStopData, GetProjectsProjectIdStopParameters>>;
+        /**/
+        prefetchInfiniteQuery<TPageParam extends GetProjectsProjectIdStopParameters>(options: ServiceOperationFetchInfiniteQueryOptions<GetProjectsProjectIdStopSchema, GetProjectsProjectIdStopData, GetProjectsProjectIdStopParameters, TPageParam, GetProjectsProjectIdStopError>): Promise<void>;
+        /**/
+        ensureInfiniteQueryData<TPageParam extends GetProjectsProjectIdStopParameters>(options: ServiceOperationEnsureInfiniteQueryDataOptions<GetProjectsProjectIdStopSchema, GetProjectsProjectIdStopData, GetProjectsProjectIdStopParameters, TPageParam, GetProjectsProjectIdStopError>): Promise<OperationInfiniteData<GetProjectsProjectIdStopData, GetProjectsProjectIdStopParameters>>;
+        /**/
+        fetchQuery(options: ServiceOperationFetchQueryOptions<GetProjectsProjectIdStopSchema, GetProjectsProjectIdStopData, GetProjectsProjectIdStopParameters, GetProjectsProjectIdStopError>): Promise<GetProjectsProjectIdStopData>;
+        /**/
+        prefetchQuery(options: ServiceOperationFetchQueryOptions<GetProjectsProjectIdStopSchema, GetProjectsProjectIdStopData, GetProjectsProjectIdStopParameters, GetProjectsProjectIdStopError>): Promise<void>;
+        /**/
+        ensureQueryData(options: ServiceOperationEnsureQueryDataOptions<GetProjectsProjectIdStopSchema, GetProjectsProjectIdStopData, GetProjectsProjectIdStopParameters, GetProjectsProjectIdStopError>): Promise<GetProjectsProjectIdStopData>;
+        /**/
+        getInfiniteQueryData(parameters: ServiceOperationInfiniteQueryKey<GetProjectsProjectIdStopSchema, GetProjectsProjectIdStopParameters> | (GetProjectsProjectIdStopParameters)): OperationInfiniteData<GetProjectsProjectIdStopData, GetProjectsProjectIdStopParameters> | undefined;
+        /**/
+        getQueriesData<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetProjectsProjectIdStopSchema, GetProjectsProjectIdStopData, TInfinite, GetProjectsProjectIdStopParameters, GetProjectsProjectIdStopError> | QueryFiltersByQueryKey<GetProjectsProjectIdStopSchema, GetProjectsProjectIdStopData, TInfinite, GetProjectsProjectIdStopParameters, GetProjectsProjectIdStopError>): TInfinite extends true ? Array<[
+            queryKey: ServiceOperationInfiniteQueryKey<GetProjectsProjectIdStopSchema, GetProjectsProjectIdStopParameters>,
+            data: NoInfer<OperationInfiniteData<GetProjectsProjectIdStopData, GetProjectsProjectIdStopParameters>> | undefined
+        ]> : Array<[
+            queryKey: ServiceOperationQueryKey<GetProjectsProjectIdStopSchema, GetProjectsProjectIdStopParameters>,
+            data: GetProjectsProjectIdStopData | undefined
+        ]>;
+        /**/
+        getQueryData(parameters: ServiceOperationQueryKey<GetProjectsProjectIdStopSchema, GetProjectsProjectIdStopParameters> | (GetProjectsProjectIdStopParameters)): GetProjectsProjectIdStopData | undefined;
+        /**/
+        getQueryState(parameters: ServiceOperationQueryKey<GetProjectsProjectIdStopSchema, GetProjectsProjectIdStopParameters> | (GetProjectsProjectIdStopParameters)): QueryState<GetProjectsProjectIdStopData, GetProjectsProjectIdStopError> | undefined;
+        /**/
+        getInfiniteQueryState(parameters: GetProjectsProjectIdStopParameters | ServiceOperationInfiniteQueryKey<GetProjectsProjectIdStopSchema, GetProjectsProjectIdStopParameters>): QueryState<OperationInfiniteData<GetProjectsProjectIdStopData, GetProjectsProjectIdStopParameters>, GetProjectsProjectIdStopError> | undefined;
+        /**/
+        invalidateQueries<TInfinite extends boolean = false>(filters?: InvalidateQueryFilters<GetProjectsProjectIdStopSchema, GetProjectsProjectIdStopData, TInfinite, GetProjectsProjectIdStopParameters, GetProjectsProjectIdStopError>, options?: InvalidateOptions): Promise<void>;
+        /**/
+        isFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetProjectsProjectIdStopSchema, GetProjectsProjectIdStopData, TInfinite, GetProjectsProjectIdStopParameters, GetProjectsProjectIdStopError> | QueryFiltersByQueryKey<GetProjectsProjectIdStopSchema, GetProjectsProjectIdStopData, TInfinite, GetProjectsProjectIdStopParameters, GetProjectsProjectIdStopError>): number;
+        /**/
+        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: QueryFnOptionsByQueryKey<GetProjectsProjectIdStopSchema, GetProjectsProjectIdStopParameters, TMeta, TSignal> | (QueryFnOptionsByParameters<GetProjectsProjectIdStopParameters, TMeta, TSignal>), client?: (schema: GetProjectsProjectIdStopSchema, options: {
+            parameters: GetProjectsProjectIdStopParameters;
+            signal?: TSignal;
+            meta?: TMeta;
+        }) => Promise<RequestFnResponse<GetProjectsProjectIdStopData, GetProjectsProjectIdStopError>>): Promise<RequestFnResponse<GetProjectsProjectIdStopData, GetProjectsProjectIdStopError>>;
+        /**/
+        refetchQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetProjectsProjectIdStopSchema, GetProjectsProjectIdStopData, TInfinite, GetProjectsProjectIdStopParameters, GetProjectsProjectIdStopError> | QueryFiltersByQueryKey<GetProjectsProjectIdStopSchema, GetProjectsProjectIdStopData, TInfinite, GetProjectsProjectIdStopParameters, GetProjectsProjectIdStopError>, options?: RefetchOptions): Promise<void>;
+        /**/
+        removeQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetProjectsProjectIdStopSchema, GetProjectsProjectIdStopData, TInfinite, GetProjectsProjectIdStopParameters, GetProjectsProjectIdStopError> | QueryFiltersByQueryKey<GetProjectsProjectIdStopSchema, GetProjectsProjectIdStopData, TInfinite, GetProjectsProjectIdStopParameters, GetProjectsProjectIdStopError>): void;
+        /**/
+        resetQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetProjectsProjectIdStopSchema, GetProjectsProjectIdStopData, TInfinite, GetProjectsProjectIdStopParameters, GetProjectsProjectIdStopError> | QueryFiltersByQueryKey<GetProjectsProjectIdStopSchema, GetProjectsProjectIdStopData, TInfinite, GetProjectsProjectIdStopParameters, GetProjectsProjectIdStopError>, options?: ResetOptions): Promise<void>;
+        /**/
+        setInfiniteQueryData(parameters: GetProjectsProjectIdStopParameters | ServiceOperationInfiniteQueryKey<GetProjectsProjectIdStopSchema, GetProjectsProjectIdStopParameters>, updater: Updater<NoInfer<OperationInfiniteData<GetProjectsProjectIdStopData, GetProjectsProjectIdStopParameters>> | undefined, NoInfer<OperationInfiniteData<GetProjectsProjectIdStopData, GetProjectsProjectIdStopParameters>> | undefined>, options?: SetDataOptions): OperationInfiniteData<GetProjectsProjectIdStopData, GetProjectsProjectIdStopParameters> | undefined;
+        /**/
+        setQueriesData<TInfinite extends boolean = false>(filters: QueryFiltersByParameters<GetProjectsProjectIdStopSchema, GetProjectsProjectIdStopData, TInfinite, GetProjectsProjectIdStopParameters, GetProjectsProjectIdStopError> | QueryFiltersByQueryKey<GetProjectsProjectIdStopSchema, GetProjectsProjectIdStopData, TInfinite, GetProjectsProjectIdStopParameters, GetProjectsProjectIdStopError>, updater: Updater<NoInfer<GetProjectsProjectIdStopData> | undefined, NoInfer<GetProjectsProjectIdStopData> | undefined>, options?: SetDataOptions): Array<GetProjectsProjectIdStopData | undefined>;
+        /**/
+        setQueryData(parameters: (GetProjectsProjectIdStopParameters) | ServiceOperationQueryKey<GetProjectsProjectIdStopSchema, GetProjectsProjectIdStopParameters>, updater: Updater<NoInfer<GetProjectsProjectIdStopData> | undefined, NoInfer<GetProjectsProjectIdStopData> | undefined>, options?: SetDataOptions): GetProjectsProjectIdStopData | undefined;
+        /**/
+        getInfiniteQueryKey(parameters: GetProjectsProjectIdStopParameters): ServiceOperationInfiniteQueryKey<GetProjectsProjectIdStopSchema, GetProjectsProjectIdStopParameters>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useInfiniteQuery|`useInfiniteQuery(...)` documentation}
+         *
+         * @example Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdStop.useInfiniteQuery({
+         *     path: {
+         *         projectId: projectId
+         *     }
+         * }, {
+         *     initialPageParam: {},
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useInfiniteQuery<TPageParam extends GetProjectsProjectIdStopParameters, TData = GetProjectsProjectIdStopData>(parameters: ServiceOperationInfiniteQueryKey<GetProjectsProjectIdStopSchema, GetProjectsProjectIdStopParameters> | (GetProjectsProjectIdStopParameters), options: Omit<UndefinedInitialDataInfiniteOptions<GetProjectsProjectIdStopData, GetProjectsProjectIdStopError, OperationInfiniteData<TData, GetProjectsProjectIdStopParameters>, ServiceOperationInfiniteQueryKey<GetProjectsProjectIdStopSchema, GetProjectsProjectIdStopParameters>, PartialParameters<TPageParam>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<GetProjectsProjectIdStopData, PartialParameters<TPageParam>>): UseInfiniteQueryResult<OperationInfiniteData<TData, GetProjectsProjectIdStopParameters>, GetProjectsProjectIdStopError | Error>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useInfiniteQuery|`useInfiniteQuery(...)` documentation}
+         *
+         * @example Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdStop.useInfiniteQuery({
+         *     path: {
+         *         projectId: projectId
+         *     }
+         * }, {
+         *     initialPageParam: {},
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useInfiniteQuery<TPageParam extends GetProjectsProjectIdStopParameters, TData = GetProjectsProjectIdStopData>(parameters: ServiceOperationInfiniteQueryKey<GetProjectsProjectIdStopSchema, GetProjectsProjectIdStopParameters> | (GetProjectsProjectIdStopParameters), options: Omit<DefinedInitialDataInfiniteOptions<GetProjectsProjectIdStopData, GetProjectsProjectIdStopError, OperationInfiniteData<TData, GetProjectsProjectIdStopParameters>, ServiceOperationInfiniteQueryKey<GetProjectsProjectIdStopSchema, GetProjectsProjectIdStopParameters>, PartialParameters<TPageParam>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<GetProjectsProjectIdStopData, PartialParameters<TPageParam>>): DefinedUseInfiniteQueryResult<OperationInfiniteData<TData, GetProjectsProjectIdStopParameters>, GetProjectsProjectIdStopError | Error>;
+        /**
+         * Monitors the number of queries currently fetching, matching the provided filters.
+         * Useful for creating loading indicators or performing actions based on active requests.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsFetching|`useIsFetching(...)` documentation}
+         * @example Checks the total number of queries fetching from the specified service method,
+         * both normal and infinite. If no parameters are provided, no filtering is applied.
+         * ```ts
+         * const getProjectsProjectIdStopTotal = qraft.v1Service.getProjectsProjectIdStop.useIsFetching()
+         * ```
+         * @example Checks the number of normal queries fetching with the specified parameters.
+         * ```ts
+         * const getProjectsProjectIdStopByParametersTotal = qraft.v1Service.getProjectsProjectIdStop.useIsFetching({
+         *     infinite: false,
+         *     parameters: {
+         *         path: {
+         *             projectId: projectId
+         *         }
+         *     }
+         * })
+         * ```
+         */
+        useIsFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetProjectsProjectIdStopSchema, GetProjectsProjectIdStopData, TInfinite, GetProjectsProjectIdStopParameters, GetProjectsProjectIdStopError> | QueryFiltersByQueryKey<GetProjectsProjectIdStopSchema, GetProjectsProjectIdStopData, TInfinite, GetProjectsProjectIdStopParameters, GetProjectsProjectIdStopError>): number;
+        /**
+         * Allows you to execute multiple asynchronous data fetching operations concurrently. This is especially useful for managing complex data dependencies in parallel.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
+         * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
+         * ```ts
+         * const getProjectsProjectIdStopResults = qraft.v1Service.getProjectsProjectIdStop.useQueries({
+         *     queries: [
+         *         {
+         *             path: {
+         *                 projectId: projectId1
+         *             }
+         *         },
+         *         {
+         *             path: {
+         *                 projectId: projectId2
+         *             }
+         *         }
+         *     ]
+         * });
+         * getProjectsProjectIdStopResults.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
+         * ```
+         * @example Combined results. Only the data will be returned.
+         * ```ts
+         * const getProjectsProjectIdStopCombinedResults = qraft.v1Service.getProjectsProjectIdStop.useQueries({
+         *     combine: results => results.map(result => result.data),
+         *     queries: [
+         *         {
+         *             path: {
+         *                 projectId: projectId1
+         *             }
+         *         },
+         *         {
+         *             path: {
+         *                 projectId: projectId2
+         *             }
+         *         }
+         *     ]
+         * });
+         * getProjectsProjectIdStopCombinedResults.forEach(data => console.log({ data }));
+         * ```
+         */
+        useQueries<T extends Array<UseQueryOptionsForUseQueries<GetProjectsProjectIdStopSchema, GetProjectsProjectIdStopParameters, GetProjectsProjectIdStopData, GetProjectsProjectIdStopError>>, TCombinedResult = Array<UseQueryResult<GetProjectsProjectIdStopData, GetProjectsProjectIdStopError>>>(options: {
+            queries: T;
+            combine?: (results: Array<UseQueryResult<GetProjectsProjectIdStopData, GetProjectsProjectIdStopError>>) => TCombinedResult;
+        }): TCombinedResult;
+        /**/
+        getQueryKey(parameters: GetProjectsProjectIdStopParameters): ServiceOperationQueryKey<GetProjectsProjectIdStopSchema, GetProjectsProjectIdStopParameters>;
+        /**
+         * Performs asynchronous data fetching, manages loading states and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
+         * @example Query with parameters
+         * ```ts
+         * const { data, isLoading } = qraft.v1Service.getProjectsProjectIdStop.useQuery({
+         *     path: {
+         *         projectId: projectId
+         *     }
+         * })
+         * ```
+         */
+        useQuery<TData = GetProjectsProjectIdStopData>(parameters: ServiceOperationQueryKey<GetProjectsProjectIdStopSchema, GetProjectsProjectIdStopParameters> | (GetProjectsProjectIdStopParameters), options?: Omit<UndefinedInitialDataOptions<GetProjectsProjectIdStopData, GetProjectsProjectIdStopError, TData, ServiceOperationQueryKey<GetProjectsProjectIdStopSchema, GetProjectsProjectIdStopParameters>>, "queryKey">): UseQueryResult<TData, GetProjectsProjectIdStopError | Error>;
+        /**
+         * Performs asynchronous data fetching, manages loading states and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
+         * @example Query with parameters
+         * ```ts
+         * const { data, isLoading } = qraft.v1Service.getProjectsProjectIdStop.useQuery({
+         *     path: {
+         *         projectId: projectId
+         *     }
+         * })
+         * ```
+         */
+        useQuery<TData = GetProjectsProjectIdStopData>(parameters: ServiceOperationQueryKey<GetProjectsProjectIdStopSchema, GetProjectsProjectIdStopParameters> | (GetProjectsProjectIdStopParameters), options: Omit<DefinedInitialDataOptions<GetProjectsProjectIdStopData, GetProjectsProjectIdStopError, TData, ServiceOperationQueryKey<GetProjectsProjectIdStopSchema, GetProjectsProjectIdStopParameters>>, "queryKey">): DefinedUseQueryResult<TData, GetProjectsProjectIdStopError | Error>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         * It functions similarly to `useInfiniteQuery`, but with added support for React Suspense.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseInfiniteQuery|`useSuspenseInfiniteQuery(...)` documentation}
+         *
+         * @example Suspense Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdStop.useSuspenseInfiniteQuery({
+         *     path: {
+         *         projectId: projectId
+         *     }
+         * }, {
+         *     initialPageParam: {},
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useSuspenseInfiniteQuery<TPageParam extends GetProjectsProjectIdStopParameters, TData = GetProjectsProjectIdStopData>(parameters: ServiceOperationInfiniteQueryKey<GetProjectsProjectIdStopSchema, GetProjectsProjectIdStopParameters> | (GetProjectsProjectIdStopParameters), options: Omit<UseSuspenseInfiniteQueryOptions<GetProjectsProjectIdStopData, GetProjectsProjectIdStopError, OperationInfiniteData<TData, GetProjectsProjectIdStopParameters>, GetProjectsProjectIdStopData, ServiceOperationInfiniteQueryKey<GetProjectsProjectIdStopSchema, GetProjectsProjectIdStopParameters>, PartialParameters<TPageParam>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<GetProjectsProjectIdStopData, PartialParameters<TPageParam>>): UseSuspenseInfiniteQueryResult<OperationInfiniteData<TData, GetProjectsProjectIdStopParameters>, GetProjectsProjectIdStopError | Error>;
+        /**/
+        useSuspenseQueries<T extends Array<UseQueryOptionsForUseSuspenseQuery<GetProjectsProjectIdStopSchema, GetProjectsProjectIdStopParameters, GetProjectsProjectIdStopData, GetProjectsProjectIdStopError>>, TCombinedResult = Array<UseSuspenseQueryResult<GetProjectsProjectIdStopData, GetProjectsProjectIdStopError>>>(options: {
+            queries: T;
+            combine?: (results: Array<WithOptional<UseSuspenseQueryResult<GetProjectsProjectIdStopData, GetProjectsProjectIdStopError>, "data">>) => TCombinedResult;
+        }): TCombinedResult;
+        /**/
+        useSuspenseQuery<TData = GetProjectsProjectIdStopData>(parameters: ServiceOperationQueryKey<GetProjectsProjectIdStopSchema, GetProjectsProjectIdStopParameters> | (GetProjectsProjectIdStopParameters), options?: Omit<UseSuspenseQueryOptions<GetProjectsProjectIdStopData, GetProjectsProjectIdStopError, TData, ServiceOperationQueryKey<GetProjectsProjectIdStopSchema, GetProjectsProjectIdStopParameters>>, "queryKey">): UseSuspenseQueryResult<TData, GetProjectsProjectIdStopError | Error>;
+        schema: GetProjectsProjectIdStopSchema;
+        types: {
+            parameters: GetProjectsProjectIdStopParameters;
+            data: GetProjectsProjectIdStopData;
+            error: GetProjectsProjectIdStopError;
+        };
+    };
     getProjects: {
         /**/
         cancelQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetProjectsSchema, GetProjectsData, TInfinite, GetProjectsParameters, GetProjectsError> | QueryFiltersByQueryKey<GetProjectsSchema, GetProjectsData, TInfinite, GetProjectsParameters, GetProjectsError>, options?: CancelOptions): Promise<void>;
@@ -8147,6 +8795,24 @@ export const v1Service: {
             url: "/v1/projects/{projectId}";
         };
     };
+    deleteProjectsProjectId: {
+        schema: {
+            method: "delete";
+            url: "/v1/projects/{projectId}";
+        };
+    };
+    getProjectsProjectIdStart: {
+        schema: {
+            method: "get";
+            url: "/v1/projects/{projectId}/start";
+        };
+    };
+    getProjectsProjectIdStop: {
+        schema: {
+            method: "get";
+            url: "/v1/projects/{projectId}/stop";
+        };
+    };
     getProjects: {
         schema: {
             method: "get";
@@ -8402,6 +9068,24 @@ export const v1Service: {
         schema: {
             method: "get",
             url: "/v1/projects/{projectId}"
+        }
+    },
+    deleteProjectsProjectId: {
+        schema: {
+            method: "delete",
+            url: "/v1/projects/{projectId}"
+        }
+    },
+    getProjectsProjectIdStart: {
+        schema: {
+            method: "get",
+            url: "/v1/projects/{projectId}/start"
+        }
+    },
+    getProjectsProjectIdStop: {
+        schema: {
+            method: "get",
+            url: "/v1/projects/{projectId}/stop"
         }
     },
     getProjects: {
@@ -8701,6 +9385,28 @@ type GetProjectsProjectIdSchema = {
 type GetProjectsProjectIdParameters = paths["/v1/projects/{projectId}"]["get"]["parameters"];
 type GetProjectsProjectIdData = paths["/v1/projects/{projectId}"]["get"]["responses"]["200"]["content"]["application/json"];
 type GetProjectsProjectIdError = unknown;
+type DeleteProjectsProjectIdSchema = {
+    method: "delete";
+    url: "/v1/projects/{projectId}";
+};
+type DeleteProjectsProjectIdParameters = paths["/v1/projects/{projectId}"]["delete"]["parameters"];
+type DeleteProjectsProjectIdData = paths["/v1/projects/{projectId}"]["delete"]["responses"]["200"]["content"]["application/json"];
+type DeleteProjectsProjectIdError = unknown;
+type DeleteProjectsProjectIdBody = undefined;
+type GetProjectsProjectIdStartSchema = {
+    method: "get";
+    url: "/v1/projects/{projectId}/start";
+};
+type GetProjectsProjectIdStartParameters = paths["/v1/projects/{projectId}/start"]["get"]["parameters"];
+type GetProjectsProjectIdStartData = unknown;
+type GetProjectsProjectIdStartError = unknown;
+type GetProjectsProjectIdStopSchema = {
+    method: "get";
+    url: "/v1/projects/{projectId}/stop";
+};
+type GetProjectsProjectIdStopParameters = paths["/v1/projects/{projectId}/stop"]["get"]["parameters"];
+type GetProjectsProjectIdStopData = unknown;
+type GetProjectsProjectIdStopError = unknown;
 type GetProjectsSchema = {
     method: "get";
     url: "/v1/projects";
