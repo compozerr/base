@@ -23,25 +23,28 @@ public sealed class MockHostingApi(IProjectRepository projectRepository) : IHost
 
         var projects = allProjects.Select(p =>
         {
+            var status = random.NextDouble() > 0.5 ? "running" : "stopped";
+
             decimal availableMemory = 2.0m;
-            decimal memoryUsed = (decimal)random.NextDouble() * availableMemory;
+            decimal memoryUsed = status == "running" ? (decimal)random.NextDouble() * availableMemory : 0.0m;
             decimal freemem = availableMemory - memoryUsed;
+
             return new ProjectUsageDto
             {
                 VmId = index++,
                 Name = p.Id.Value.ToString(),
-                Status = "running",
-                CpuUsage = (decimal)random.NextDouble(),
+                Status = status,
+                CpuUsage = status == "running" ? (decimal)random.NextDouble() : 0.0m,
                 CpuCount = 2,
                 MemoryGB = availableMemory,
                 MemoryUsedGB = memoryUsed,
                 FreeMemoryGB = freemem,
                 DiskGB = 50.0m,
                 DiskUsedGB = 0.0m,
-                NetworkInBytesPerSec = (decimal)random.NextDouble() * 50,
-                NetworkOutBytesPerSec = (decimal)random.NextDouble() * 20,
-                DiskReadBytesPerSec = (decimal)random.NextDouble() * 300,
-                DiskWriteBytesPerSec = (decimal)random.NextDouble() * 300,
+                NetworkInBytesPerSec = status == "running" ? (decimal)random.NextDouble() * 50 : 0,
+                NetworkOutBytesPerSec = status == "running" ? (decimal)random.NextDouble() * 20 : 0,
+                DiskReadBytesPerSec = status == "running" ? (decimal)random.NextDouble() * 300 : 0,
+                DiskWriteBytesPerSec = status == "running" ? (decimal)random.NextDouble() * 300 : 0,
             };
         }).ToArray();
 
