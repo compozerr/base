@@ -38,10 +38,10 @@ function GeneralSettingsTab() {
   const project = RootRoute.useLoaderData();
 
   const { mutateAsync: deleteAsync } = api.v1.deleteProjectsProjectId.useMutation({ path: { projectId: params.projectId } })
-  // Delete
   const deleteProjectAsync = async () => {
     if (!wantsDeletion) return;
     await deleteAsync();
+    await api.v1.getProjects.invalidateQueries();
   }
 
   const navigate = useNavigate();
@@ -119,7 +119,8 @@ function GeneralSettingsTab() {
                 if (ans && wantsDeletion) {
                   deleteProjectAsync().finally(() => {
                     setWantsDeletion(false);
-                    navigate({ to: "/projects" });
+
+                    navigate({ to: '/projects', params: {}, replace: true });
                   });
                 } else {
                   setWantsDeletion(false);
