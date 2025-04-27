@@ -3,7 +3,7 @@
     "name": "storage",
     "port": "1237",
     "start": "docker-compose up",
-    "end": "docker-compose down",
+    "end": "docker-compose stop",
     "dockerComposeFile": "docker-compose.yml",
     "readyMessage": "MinIO Object Storage Server"
 }
