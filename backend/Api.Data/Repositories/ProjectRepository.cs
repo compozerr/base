@@ -2,6 +2,7 @@ using Auth.Abstractions;
 using Auth.Services;
 using Database.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 namespace Api.Data.Repositories;
 
@@ -47,7 +48,16 @@ public sealed class ProjectRepository(
 
     public async Task SetProjectState(ProjectId projectId, ProjectState state)
     {
-        var project = await GetByIdAsync(projectId) ?? throw new ArgumentException("Project not found");
+        var project = await GetByIdAsync(projectId);
+
+        if (project is null)
+        {
+            Log.ForContext("projectId", projectId)
+                .ForContext("method", nameof(SetProjectState))
+                .Error("Project not found");
+
+            return;
+        }
 
         project.State = state;
 
