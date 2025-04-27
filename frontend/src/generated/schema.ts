@@ -1553,9 +1553,7 @@ export interface components {
             id?: string;
             name?: string | null;
             repoName?: string | null;
-            state?: components["schemas"]["State"];
-            /** Format: double */
-            vCpuHours?: number;
+            state?: components["schemas"]["ProjectState"];
             /** Format: date-time */
             startDate?: string;
             domains?: string[] | null;
@@ -1566,8 +1564,6 @@ export interface components {
             totalProjectsCount?: number;
             /** Format: int32 */
             runningProjectsCount?: number;
-            /** Format: double */
-            totalVCpuHours?: number;
             projects?: components["schemas"]["GetProjectResponse"][] | null;
         };
         GetUsageResponse: {
@@ -1618,6 +1614,11 @@ export interface components {
          * Format: int32
          * @enum {integer}
          */
+        ProjectState: 0 | 1 | 2 | 3 | 4;
+        /**
+         * Format: int32
+         * @enum {integer}
+         */
         Provider: 1;
         RepositoryDto: {
             ownedByInstallationId?: string | null;
@@ -1630,11 +1631,6 @@ export interface components {
         SetPrimaryResponse: {
             success?: boolean;
         };
-        /**
-         * Format: int32
-         * @enum {integer}
-         */
-        State: 0 | 1 | 2 | 3;
         "String<>f__AnonymousType0": {
             installUrl?: string | null;
         };

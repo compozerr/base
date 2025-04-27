@@ -38,7 +38,6 @@ function RouteComponent() {
             <div className="grid gap-6 md:grid-cols-3 mb-8">
                 <DashboardCard title="Total Projects" value={projectsData.totalProjectsCount!.toString()} />
                 <DashboardCard title="Running Projects" value={projectsData.runningProjectsCount!.toString()} />
-                <DashboardCard title="Total vCPU Hours" value={projectsData.totalVCpuHours!.toFixed(2)} />
             </div>
 
             <div className="bg-card rounded-lg shadow-sm p-6">
