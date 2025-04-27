@@ -350,7 +350,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/cli/projects/{id}": {
+    "/v1/cli/projects/{projectId}": {
         parameters: {
             query?: never;
             header?: never;
@@ -362,7 +362,7 @@ export interface paths {
                 query?: never;
                 header?: never;
                 path: {
-                    id: string;
+                    projectId: string;
                 };
                 cookie?: never;
             };
