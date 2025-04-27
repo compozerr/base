@@ -33,6 +33,34 @@ public class CoreFeature : IFeature
     {
         app.MapGroup("v1").MapCarter();
         app.UseCors(AppConstants.CorsPolicy);
+
+        // Add middleware to log API requests
+        app.UseSerilogRequestLogging(options =>
+        {
+            options.MessageTemplate = "HTTP {RequestMethod} {RequestPath} responded {StatusCode} in {Elapsed:0.0000}ms";
+
+            // Customize the logging level based on status code
+            options.GetLevel = (httpContext, elapsed, ex) =>
+            {
+                if (ex != null || httpContext.Response.StatusCode > 499)
+                    return LogEventLevel.Error;
+                if (httpContext.Response.StatusCode > 399)
+                    return LogEventLevel.Warning;
+
+                return LogEventLevel.Information;
+            };
+
+            // Attach additional properties to the request log
+            options.EnrichDiagnosticContext = (diagnosticContext, httpContext) =>
+            {
+                diagnosticContext.Set("RequestHost", httpContext.Request.Host.Value ?? "unknown");
+                diagnosticContext.Set("RequestScheme", httpContext.Request.Scheme);
+                diagnosticContext.Set("RemoteIpAddress", httpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown");
+            };
+        });
+
+        // Use the extracted global exception handler
+        app.UseGlobalExceptionHandler();
     }
 
     public void ConfigureServices(IServiceCollection services, IConfiguration configuration)
