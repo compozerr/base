@@ -16,18 +16,15 @@ public static class GetDeploymentRoute
     }
 
     public static async Task<GetDeploymentResponse> ExecuteAsync(
-        Guid projectId,
-        Guid deploymentId,
+        ProjectId projectId,
+        DeploymentId deploymentId,
         ICurrentUserAccessor currentUserAccessor,
         IDeploymentRepository deploymentRepository)
     {
-        var projectIdConverted = ProjectId.Create(projectId);
-        var deploymentIdConverted = DeploymentId.Create(deploymentId);
-
         var currentDeploymentId = await deploymentRepository.GetCurrentDeploymentId();
 
         var deployment = await deploymentRepository.GetByIdAsync(
-            deploymentIdConverted,
+            deploymentId,
             x => x
                 .Include(x => x.Project!)
                     .ThenInclude(x => x.Domains)
@@ -35,7 +32,7 @@ public static class GetDeploymentRoute
                     .ThenInclude(x => x.Server!)
                         .ThenInclude(x => x.Location));
 
-        if (deployment is not { ProjectId: not null } || deployment.ProjectId != projectIdConverted)
+        if (deployment is not { ProjectId: not null } || deployment.ProjectId != projectId)
         {
             throw new ArgumentException("Deployment not found");
         }

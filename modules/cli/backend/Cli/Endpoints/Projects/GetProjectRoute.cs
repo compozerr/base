@@ -7,7 +7,7 @@ namespace Cli.Endpoints.Projects;
 
 public static class GetProjectRoute
 {
-    public const string Route = "{id:guid}";
+    public const string Route = "{projectId:guid}";
 
     public static RouteHandlerBuilder AddGetProjectRoute(this IEndpointRouteBuilder app)
     {
@@ -15,11 +15,9 @@ public static class GetProjectRoute
     }
 
     public static async Task<ProjectDto?> ExecuteAsync(
-        Guid id,
+        ProjectId projectId,
         IProjectRepository projectRepository)
     {
-        var projectId = ProjectId.Create(id);
-
         var project = await projectRepository.GetByIdAsync(projectId);
 
         if (project is null) return null;

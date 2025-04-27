@@ -18,12 +18,12 @@ public static class SetPrimaryRoute
     }
 
     public static Task<SetPrimaryResponse> ExecuteAsync(
-        Guid projectId,
-        Guid domainId,
+        ProjectId projectId,
+        DomainId domainId,
         IMediator mediator)
     {
         return mediator.Send(
             new SetPrimaryCommand(
-                DomainId.Create(domainId)));
+                domainId));
     }
 }

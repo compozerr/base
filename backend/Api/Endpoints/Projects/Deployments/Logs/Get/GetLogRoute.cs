@@ -13,11 +13,11 @@ public static class GetLogRoute
     }
 
     public static Task<string> ExecuteAsync(
-        Guid projectId,
-        Guid deploymentId,
+        ProjectId projectId,
+        DeploymentId deploymentId,
         IMediator mediator)
         => mediator.Send(
             new GetLogCommand(
-                ProjectId.Create(projectId),
-                DeploymentId.Create(deploymentId)));
+                projectId,
+                deploymentId));
 }

@@ -14,11 +14,8 @@ public class GetProjectEnvironmentCommandHandler(
         GetProjectEnvironmentCommand command,
         CancellationToken cancellationToken = default)
     {
-
-        var projectIdConverted = ProjectId.Create(command.ProjectId);
-
         var environment = await ProjectRepository.GetProjectEnvironmentByBranchAsync(
-            projectIdConverted,
+            command.ProjectId,
             command.Branch);
 
         var environmentVariables = environment?.ProjectEnvironmentVariables?.Select(
@@ -30,7 +27,7 @@ public class GetProjectEnvironmentCommandHandler(
 
         environmentVariables = await VariablesAppender.AppendDefaultVariablesAsync(
             environmentVariables,
-            projectIdConverted);
+            command.ProjectId);
 
         return new(environmentVariables);
     }

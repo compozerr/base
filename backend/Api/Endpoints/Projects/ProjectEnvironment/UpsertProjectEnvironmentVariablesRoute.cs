@@ -18,13 +18,13 @@ public static class UpsertProjectEnvironmentVariablesRoute
     }
 
     public static Task ExecuteAsync(
-        Guid projectId,
+        ProjectId projectId,
         string branch,
         UpsertProjectEnvironmentVariablesRequest request,
         IMediator mediator)
         => mediator.Send(
             new UpsertProjectEnvironmentVariablesCommand(
-                ProjectId.Create(projectId),
+                projectId,
                 branch,
                 request.Variables));
 }

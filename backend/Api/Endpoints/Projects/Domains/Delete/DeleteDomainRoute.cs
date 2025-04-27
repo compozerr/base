@@ -13,10 +13,10 @@ public static class DeleteDomainRoute
     }
 
     public static Task<DeleteDomainResponse> ExecuteAsync(
-        Guid projectId, 
-        Guid domainId,
+        ProjectId projectId,
+        DomainId domainId,
         IMediator mediator)
         => mediator.Send(
             new DeleteDomainCommand(
-                DomainId.Create(domainId)));
+                domainId));
 }

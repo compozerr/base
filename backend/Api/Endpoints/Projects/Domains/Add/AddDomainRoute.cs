@@ -17,12 +17,12 @@ public static class AddDomainRoute
     }
 
     public static Task<AddDomainResponse> ExecuteAsync(
-        Guid projectId,
+        ProjectId projectId,
         AddDomainRequest request,
         IMediator mediator)
         => mediator.Send(
             new AddDomainCommand(
-                ProjectId.Create(projectId),
+                projectId,
                 request.Domain,
                 request.ServiceName));
 }

@@ -13,13 +13,13 @@ public static class GetUsageRoute
     }
 
     public static Task<GetUsageResponse> ExecuteAsync(
-        Guid projectId,
+        ProjectId projectId,
         UsageSpan usageSpan,
         IMediator mediator)
     {
         return mediator.Send(
             new GetUsageCommand(
-                ProjectId.Create(projectId),
+                projectId,
                 usageSpan));
     }
 }

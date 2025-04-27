@@ -13,10 +13,10 @@ public static class GetParentDomainRoute
     }
 
     public static Task<GetParentDomainResponse> ExecuteAsync(
-        Guid projectId,
-        Guid domainId,
+        ProjectId projectId,
+        DomainId domainId,
         IMediator mediator)
         => mediator.Send(
             new GetParentDomainCommand(
-                DomainId.Create(domainId)));
+                domainId));
 }

@@ -33,12 +33,12 @@ public static class GetDeploymentsRoute
     }
 
     public static async Task<List<GetDeploymentResponse>> ExecuteAsync(
-        Guid projectId,
+        ProjectId projectId,
         ICurrentUserAccessor currentUserAccessor,
         IDeploymentRepository deploymentRepository)
     {
         var deployments = await deploymentRepository.GetByProjectIdAsync(
-            ProjectId.Create(projectId),
+            projectId,
             x => x
                 .Include(x => x.Project!)
                     .ThenInclude(x => x.Domains)

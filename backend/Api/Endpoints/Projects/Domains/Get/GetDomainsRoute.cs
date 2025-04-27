@@ -13,9 +13,9 @@ public static class GetDomainsRoute
     }
 
     public static Task<GetDomainsResponse> ExecuteAsync(
-        Guid projectId,
+        ProjectId projectId,
         IMediator mediator)
         => mediator.Send(
             new GetDomainsCommand(
-                ProjectId.Create(projectId)));
+                projectId));
 }

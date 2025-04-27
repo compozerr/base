@@ -16,13 +16,13 @@ public static class AddLogRoute
     }
 
     public static Task<AddLogResponse> ExecuteAsync(
-        Guid deploymentId,
+        DeploymentId deploymentId,
         AddLogRequest request,
         IMediator mediator)
     {
         return mediator.Send(
             new AddLogCommand(
-                DeploymentId.Create(deploymentId),
+                deploymentId,
                 request.Log,
                 request.Level));
     }

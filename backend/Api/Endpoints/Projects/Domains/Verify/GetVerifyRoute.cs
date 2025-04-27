@@ -17,16 +17,14 @@ public static class GetVerifyRoute
     }
 
     public static async Task<bool> ExecuteAsync(
-        Guid projectId,
-        Guid domainId,
+        ProjectId projectId,
+        DomainId domainId,
         IDomainRepository domainRepository,
         ILookupClient lookupClient,
         CancellationToken cancellationToken)
     {
-        var convertedDomainId = DomainId.Create(domainId);
-
         var domain = await domainRepository.GetByIdAsync(
-            convertedDomainId,
+            domainId,
             cancellationToken) ??
             throw new ArgumentException($"Domain with ID '{domainId}' not found.");
 

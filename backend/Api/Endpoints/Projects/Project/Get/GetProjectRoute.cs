@@ -16,13 +16,11 @@ public static class GetProjectRoute
     }
 
     public static async Task<GetProjectResponse> ExecuteAsync(
-        Guid projectId,
+        ProjectId projectId,
         ICurrentUserAccessor currentUserAccessor,
         IProjectRepository projectRepository)
     {
-        var projectIdConverted = ProjectId.Create(projectId);
-
-        var project = await projectRepository.GetProjectByIdWithDomainsAsync(projectIdConverted) ?? throw new ArgumentException("Project not found");
+        var project = await projectRepository.GetProjectByIdWithDomainsAsync(projectId) ?? throw new ArgumentException("Project not found");
 
         if (project.UserId != currentUserAccessor.CurrentUserId)
         {

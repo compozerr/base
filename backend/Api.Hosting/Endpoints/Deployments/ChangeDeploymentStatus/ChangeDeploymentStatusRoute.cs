@@ -20,12 +20,12 @@ public static class ChangeDeploymentStatusRoute
     }
 
     public static Task<ChangeDeploymentStatusResponse> ExecuteAsync(
-        Guid deploymentId,
+        DeploymentId deploymentId,
         ChangeDeploymentStatusRequest request,
         IMediator mediator)
             => mediator.Send(
                 new ChangeDeploymentStatusCommand(
-                    DeploymentId.Create(deploymentId),
+                    deploymentId,
                     Enum.TryParse<DeploymentStatus>(request.Status, true, out var status)
                         ? status
                         : throw new ArgumentException("Invalid deployment status")));

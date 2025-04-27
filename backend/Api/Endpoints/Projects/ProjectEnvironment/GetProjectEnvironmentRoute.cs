@@ -1,3 +1,4 @@
+using Api.Abstractions;
 using Api.Data;
 using MediatR;
 
@@ -13,7 +14,7 @@ public static class GetProjectEnvironmentRoute
     }
 
     public static Task<GetProjectEnvironmentResponse> ExecuteAsync(
-        Guid projectId,
+        ProjectId projectId,
         string branch,
         IMediator mediator)
     => mediator.Send(

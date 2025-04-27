@@ -3,5 +3,5 @@ using Core.MediatR;
 namespace Api.Data;
 
 public sealed record GetProjectEnvironmentCommand(
-    Guid ProjectId,
+    ProjectId ProjectId,
     string Branch) : ICommand<GetProjectEnvironmentResponse>;
