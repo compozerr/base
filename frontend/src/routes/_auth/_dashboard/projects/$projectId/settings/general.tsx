@@ -1,3 +1,5 @@
+import AreYouSureDialog from '@/components/are-you-sure-dialog'
+import AreYouSureDialogConfirmWithText from '@/components/are-you-sure-dialog-confirm-with-text'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -17,9 +19,10 @@ import {
 } from '@/components/ui/select'
 import { Switch } from '@/components/ui/switch'
 import { TabsContent } from '@/components/ui/tabs'
-import { createFileRoute } from '@tanstack/react-router'
-import React from 'react'
+import { createFileRoute, useNavigate, } from '@tanstack/react-router'
+import React, { useState } from 'react'
 
+import { Route as RootRoute } from '../route'
 export const Route = createFileRoute(
   '/_auth/_dashboard/projects/$projectId/settings/general',
 )({
@@ -27,6 +30,21 @@ export const Route = createFileRoute(
 })
 
 function GeneralSettingsTab() {
+
+  const [wantsDeletion, setWantsDeletion] = useState(false);
+
+  const params = Route.useParams();
+
+  const project = RootRoute.useLoaderData();
+
+  // Delete
+  const deleteProjectAsync = async () => {
+    if (!wantsDeletion) return;
+    //params.projectId
+  }
+
+  const navigate = useNavigate();
+
   return (
     <TabsContent value="general" className="space-y-4 mt-6">
       <Card>
@@ -73,31 +91,43 @@ function GeneralSettingsTab() {
         </CardFooter>
       </Card>
 
-      {/* <Card>
-                        <CardHeader>
-                            <CardTitle>Danger Zone</CardTitle>
-                            <CardDescription>Irreversible and destructive actions.</CardDescription>
-                        </CardHeader>
-                        <CardContent className="space-y-4">
-                            <div className="flex items-center justify-between">
-                                <div>
-                                    <h3 className="font-medium">Archive Project</h3>
-                                    <p className="text-sm text-muted-foreground">Archive this project and make it read-only.</p>
-                                </div>
-                                <Button variant="outline">Archive</Button>
-                            </div>
-                            <Separator />
-                            <div className="flex items-center justify-between">
-                                <div>
-                                    <h3 className="font-medium text-destructive">Delete Project</h3>
-                                    <p className="text-sm text-muted-foreground">
-                                        Permanently delete this project and all its resources.
-                                    </p>
-                                </div>
-                                <Button variant="destructive">Delete</Button>
-                            </div>
-                        </CardContent>
-                    </Card> */}
+      <Card className='border-destructive border-dashed'>
+        <CardHeader>
+          <CardTitle>Danger Zone</CardTitle>
+          <CardDescription>Irreversible and destructive actions.</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <h3 className="font-medium text-destructive">Delete Project</h3>
+              <p className="text-sm text-muted-foreground">
+                Permanently delete this project and all its resources.
+              </p>
+            </div>
+            <Button variant="destructive" onClick={() => {
+              setWantsDeletion(true);
+            }}>Delete</Button>
+            <AreYouSureDialogConfirmWithText
+              title='Are you sure you want to delete this project'
+              subtitle="This action cannot be reverted, you'll have to add it again..."
+              destructiveButton='Delete'
+              cancelButton='Cancel'
+              textToAnswer={project.name ?? "confirm"}
+              open={wantsDeletion}
+              onAnswer={(ans) => {
+                if (ans && wantsDeletion) {
+                  deleteProjectAsync().finally(() => {
+                    setWantsDeletion(false);
+                    navigate({ to: "/projects" });
+                  });
+                } else {
+                  setWantsDeletion(false);
+                }
+
+              }} />
+          </div>
+        </CardContent>
+      </Card>
     </TabsContent>
   )
 }

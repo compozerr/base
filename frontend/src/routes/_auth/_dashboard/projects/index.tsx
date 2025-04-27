@@ -100,11 +100,11 @@ function RouteComponent() {
                             </span>)
                         }
                     },
-                    {
-                        accessorKey: "vCpuHours",
-                        header: "vCPU Hours",
-                        cell: ({ row }) => <span>{row.original.vCpuHours?.toFixed(2)}</span>
-                    },
+                    // {
+                    //     accessorKey: "vCpuHours",
+                    //     header: "vCPU Hours",
+                    //     cell: ({ row }) => <span>{row.original.vCpuHours?.toFixed(2)}</span>
+                    // },
                     {
                         accessorKey: "startDate",
                         header: "Start date",
@@ -137,10 +137,16 @@ function RouteComponent() {
                                                 <MoreVertical className="h-4 w-4" />
                                             </Button>
                                         </DropdownMenuTrigger>
-                                        <DropdownMenuContent align="end">
+                                        <DropdownMenuContent align="end" className='pointer-events-auto'>
                                             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                                            <DropdownMenuItem>View Details</DropdownMenuItem>
-                                            <DropdownMenuItem>Edit Service</DropdownMenuItem>
+                                            <DropdownMenuItem onClick={(e)=>{
+                                                e.stopPropagation();
+                                                router.navigate({ to: "/projects/$projectId", params: { projectId: row.original.id! } });
+                                            }}>View Details</DropdownMenuItem>
+                                            <DropdownMenuItem onClick={(e) => {
+                                                e.stopPropagation();
+                                                router.navigate({ to: "/projects/$projectId/settings/general", params: { projectId: row.original.id! } });
+                                            }}>Edit Service</DropdownMenuItem>
                                             <DropdownMenuSeparator />
                                             <DropdownMenuItem className="text-red-600">Delete Service</DropdownMenuItem>
                                         </DropdownMenuContent>
