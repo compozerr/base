@@ -40,6 +40,7 @@ public sealed class GetUsageCommandHandler(
 
         return new GetUsageResponse(
             points,
-            command.UsageSpan);
+            command.UsageSpan,
+            data.FirstOrDefault()?.TotalMemoryGb ?? 0.0m);
     }
 }

@@ -16,4 +16,5 @@ public sealed record UsagePoint(
 
 public sealed record GetUsageResponse(
     Dictionary<UsagePointType, List<UsagePoint>> Points,
-    UsageSpan UsageSpan);
+    UsageSpan UsageSpan,
+    decimal AllocatedMemoryGb);

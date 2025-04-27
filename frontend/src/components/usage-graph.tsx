@@ -92,7 +92,36 @@ const getMetricUnit = (type: UsagePointType): string => {
   }
 }
 
-// Custom tooltip component
+const getMaxGraphValue = (type: UsagePointType, data: UsagePoint[], allocatedMemoryGb: number): number => {
+  // Find max value for better scaling
+  const maxValue = Math.max(...data.map((item) => item.value))
+
+  // Calculate domain with some padding (10%)
+  // Always start from 0 to ensure baseline is visible
+  const domainMax = maxValue + maxValue * 0.1
+  let max;
+  switch (type) {
+    case UsagePointType.CPU:
+      max = Math.ceil(domainMax / 10) * 10
+      break;
+    case UsagePointType.Ram:
+      max = Math.ceil(domainMax / allocatedMemoryGb) * allocatedMemoryGb
+      break;
+    case UsagePointType.DiskRead:
+    case UsagePointType.DiskWrite:
+      max = Math.ceil(domainMax)
+      break;
+    case UsagePointType.NetworkIn:
+    case UsagePointType.NetworkOut:
+      max = Math.ceil(domainMax)
+      break;
+    default:
+      max = domainMax;
+  }
+
+  return max;
+}
+
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
     const value = payload[0].value
@@ -132,15 +161,7 @@ export function UsageGraph({ projectId }: UsageGraphProps) {
   const currentData = usageData?.points![selectedMetric] || []
   const chartData = formatChartData(currentData as UsagePoint[])
 
-  // Find max value for better scaling
-  const maxValue = Math.max(...chartData.map((item) => item.value))
-
-  // Calculate domain with some padding (10%)
-  // Always start from 0 to ensure baseline is visible
-  const domainMax = maxValue + maxValue * 0.1
-
-  // Round the max value to a nice number for the Y-axis
-  const roundedMax = Math.ceil(domainMax / 10) * 10
+  const maxGraphValue = getMaxGraphValue(selectedMetric, currentData as UsagePoint[], usageData?.allocatedMemoryGb ?? 0);
 
   // Get the unit for the current metric
   const unit = getMetricUnit(selectedMetric)
@@ -210,7 +231,7 @@ export function UsageGraph({ projectId }: UsageGraphProps) {
                         <YAxis
                           stroke="#6b7280"
                           fontSize={12}
-                          domain={[0, roundedMax]}
+                          domain={[0, maxGraphValue]}
                           tickCount={5}
                           allowDecimals={false}
                           tickFormatter={(value) => `${Math.round(value)}${unit}`}

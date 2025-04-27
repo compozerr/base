@@ -1580,6 +1580,8 @@ export interface components {
                 NetworkOut?: components["schemas"]["UsagePoint"][];
             } | null;
             usageSpan?: components["schemas"]["UsageSpan"];
+            /** Format: double */
+            allocatedMemoryGb?: number;
         };
         IDomainEvent: Record<string, never>;
         InstallationDto: {
