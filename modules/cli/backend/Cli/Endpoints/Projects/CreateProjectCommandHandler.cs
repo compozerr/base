@@ -22,7 +22,8 @@ public sealed record CreateProjectCommandHandler(
             Name = command.RepoName,
             RepoUri = new Uri(command.RepoUrl),
             UserId = userId,
-            LocationId = location.Id
+            LocationId = location.Id,
+            State = ProjectState.Stopped
         };
 
         newProject.QueueDomainEvent<ProjectCreatedEvent>();
