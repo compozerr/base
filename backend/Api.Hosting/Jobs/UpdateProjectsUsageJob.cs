@@ -46,7 +46,7 @@ public class UpdateProjectsUsageJob(
 
             await projectUsageRepository.AddProjectUsages(projectUsagesWithMatchingProject);
 
-            await matchingProjects.ApplyAsync(x => projectRepository.SetProjectState(x.Id, GetProjectState(x, projectUsagesWithMatchingProject)));
+            await matchingProjects.ApplyAsync(x => projectRepository.SetProjectStateAsync(x.Id, GetProjectState(x, projectUsagesWithMatchingProject)));
 
             Log.ForContext("serverId", server.Id.Value)
                .ForContext("projectUsagesCount", projectUsagesWithMatchingProject.Count)

@@ -27,6 +27,7 @@ public sealed class HostingApiFactory(
            serverId,
            hostingServerHttpClientFactory,
            githubService,
+           projectRepository,
            mediator).InitializeAsync();
     }
 }

@@ -11,4 +11,7 @@ public interface IHostingApi
     Task<ProjectUsageDto[]?> GetProjectsUsageAsync();
     Task HealthCheckAsync();
     Task UpdateDomainsForProjectAsync(ProjectId projectId);
+    Task StartProjectAsync(ProjectId projectId);
+    Task StopProjectAsync(ProjectId projectId);
+    Task DeleteProjectAsync(ProjectId projectId);
 }

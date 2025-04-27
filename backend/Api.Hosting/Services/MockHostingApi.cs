@@ -7,6 +7,11 @@ namespace Api.Hosting.Services;
 
 public sealed class MockHostingApi(IProjectRepository projectRepository) : IHostingApi
 {
+    public Task DeleteProjectAsync(ProjectId projectId)
+    {
+        throw new NotImplementedException();
+    }
+
     public Task DeployAsync(Deployment deployment)
     {
         Console.WriteLine("Deployment Mock");
@@ -66,6 +71,18 @@ public sealed class MockHostingApi(IProjectRepository projectRepository) : IHost
     public Task HealthCheckAsync()
     {
         Console.WriteLine("Health Check Mock");
+        return Task.CompletedTask;
+    }
+
+    public Task StartProjectAsync(ProjectId projectId)
+    {
+        Console.WriteLine("Project starting");
+        return Task.CompletedTask;
+    }
+
+    public Task StopProjectAsync(ProjectId projectId)
+    {
+        Console.WriteLine("Project stopping");
         return Task.CompletedTask;
     }
 

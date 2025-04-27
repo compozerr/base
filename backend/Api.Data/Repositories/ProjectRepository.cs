@@ -13,7 +13,7 @@ public interface IProjectRepository : IGenericRepository<Project, ProjectId, Api
     public Task<List<Project>> GetProjectsForUserAsync(UserId userId);
     public Task<List<Project>> GetProjectsForUserAsync();
     public Task<Project?> GetProjectByIdWithDomainsAsync(ProjectId projectId);
-    public Task SetProjectState(ProjectId projectId, ProjectState state);
+    public Task SetProjectStateAsync(ProjectId projectId, ProjectState state);
 }
 
 public sealed class ProjectRepository(
@@ -46,14 +46,14 @@ public sealed class ProjectRepository(
         return GetProjectsForUserAsync(userId);
     }
 
-    public async Task SetProjectState(ProjectId projectId, ProjectState state)
+    public async Task SetProjectStateAsync(ProjectId projectId, ProjectState state)
     {
         var project = await GetByIdAsync(projectId);
 
         if (project is null)
         {
             Log.ForContext("projectId", projectId)
-                .ForContext("method", nameof(SetProjectState))
+                .ForContext("method", nameof(SetProjectStateAsync))
                 .Error("Project not found");
 
             return;
