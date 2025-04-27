@@ -8,9 +8,7 @@ using Core.MediatR;
 using Core.Options;
 using Core.Services;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -66,27 +64,8 @@ public class CoreFeature : IFeature
             };
         });
 
-        // Add global exception handler
-        app.UseExceptionHandler(exceptionHandlerApp =>
-        {
-            exceptionHandlerApp.Run(async context =>
-            {
-                context.Response.StatusCode = StatusCodes.Status500InternalServerError;
-                context.Response.ContentType = "application/json";
-
-                var exceptionHandlerPathFeature = context.Features.Get<IExceptionHandlerPathFeature>();
-                var exception = exceptionHandlerPathFeature?.Error;
-
-                // Log the exception
-                Log.Error(exception, "Unhandled exception occurred: {Message}", exception?.Message);
-
-                await context.Response.WriteAsJsonAsync(new
-                {
-                    error = "An unexpected error occurred",
-                    traceId = Activity.Current?.Id ?? context.TraceIdentifier
-                });
-            });
-        });
+        // Use the extracted global exception handler
+        app.UseGlobalExceptionHandler();
     }
 
     public void ConfigureServices(IServiceCollection services, IConfiguration configuration)
