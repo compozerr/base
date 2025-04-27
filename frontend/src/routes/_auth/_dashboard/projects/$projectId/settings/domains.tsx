@@ -83,6 +83,13 @@ function DomainsSettingsTab() {
   }, {
     onSuccess: () => {
       invalidate();
+      api.v1.getProjectsProjectId.invalidateQueries({
+        parameters: {
+          path: {
+            projectId: projectId
+          }
+        }
+      });
     }
   })
 
@@ -212,7 +219,7 @@ function DomainsSettingsTab() {
           <VerifyDnsDialog
             selectedDomainId={selectedDomainId}
             onClose={() => setSelectedDomainId(null)}
-            projectId={projectId} 
+            projectId={projectId}
             domains={data?.domains} />
 
           <AreYouSureDialog
