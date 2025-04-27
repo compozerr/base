@@ -1,10 +1,11 @@
 using Api.Abstractions;
 using Api.Data;
+using Api.Data.Repositories;
 using Api.Hosting.Dtos;
 
 namespace Api.Hosting.Services;
 
-public sealed class MockHostingApi : IHostingApi
+public sealed class MockHostingApi(IProjectRepository projectRepository) : IHostingApi
 {
     public Task DeployAsync(Deployment deployment)
     {
@@ -12,47 +13,39 @@ public sealed class MockHostingApi : IHostingApi
         return Task.CompletedTask;
     }
 
-    public Task<ProjectUsageDto[]?> GetProjectsUsageAsync()
+    public async Task<ProjectUsageDto[]?> GetProjectsUsageAsync()
     {
-        var projects = new ProjectUsageDto[]
-        {
-            new ProjectUsageDto
-            {
-                VmId = 100,
-                Name = "c17e9f7a-d6d8-483a-b797-d0b967ec50c1",
-                Status = "running",
-                CpuUsage = 0.62m,  // Percentage
-                CpuCount = 2,
-                MemoryGB = 2.0m,   // 2 GB total memory
-                MemoryUsedGB = 1.38m,
-                FreeMemoryGB = 0.54m,
-                DiskGB = 53.0m,
-                DiskUsedGB = 0.0m,  // Disk usage shows 0
-                NetworkInBytesPerSec = 17.23m,
-                NetworkOutBytesPerSec = 6.9m,
-                DiskReadBytesPerSec = 0.0m,
-                DiskWriteBytesPerSec = 273.07m
-            },
-            new ProjectUsageDto
-            {
-                VmId = 101,
-                Name = "019673aa-da28-7798-9163-b44c8c25b797",
-                Status = "running",
-                CpuUsage = 1.25m,
-                CpuCount = 4,
-                MemoryGB = 4.0m,
-                MemoryUsedGB = 2.5m,
-                FreeMemoryGB = 1.5m,
-                DiskGB = 80.0m,
-                DiskUsedGB = 45.0m,
-                NetworkInBytesPerSec = 32.5m,
-                NetworkOutBytesPerSec = 18.3m,
-                DiskReadBytesPerSec = 142.8m,
-                DiskWriteBytesPerSec = 325.6m
-            }
-        };
+        var allProjects = await projectRepository.GetAllAsync();
 
-        return Task.FromResult<ProjectUsageDto[]?>(projects);
+        int index = 100;
+
+        var random = new Random();
+
+        var projects = allProjects.Select(p =>
+        {
+            decimal availableMemory = 2.0m;
+            decimal memoryUsed = (decimal)random.NextDouble() * availableMemory;
+            decimal freemem = availableMemory - memoryUsed;
+            return new ProjectUsageDto
+            {
+                VmId = index++,
+                Name = p.Id.Value.ToString(),
+                Status = "running",
+                CpuUsage = (decimal)random.NextDouble(),
+                CpuCount = 2,
+                MemoryGB = availableMemory,
+                MemoryUsedGB = memoryUsed,
+                FreeMemoryGB = freemem,
+                DiskGB = 50.0m,
+                DiskUsedGB = 0.0m,
+                NetworkInBytesPerSec = (decimal)random.NextDouble() * 50,
+                NetworkOutBytesPerSec = (decimal)random.NextDouble() * 20,
+                DiskReadBytesPerSec = (decimal)random.NextDouble() * 300,
+                DiskWriteBytesPerSec = (decimal)random.NextDouble() * 300,
+            };
+        }).ToArray();
+
+        return projects;
     }
 
     public Task<ServerUsage?> GetServerUsageAsync()
