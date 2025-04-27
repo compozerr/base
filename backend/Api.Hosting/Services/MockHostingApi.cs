@@ -9,7 +9,8 @@ public sealed class MockHostingApi(IProjectRepository projectRepository) : IHost
 {
     public Task DeleteProjectAsync(ProjectId projectId)
     {
-        throw new NotImplementedException();
+        Console.WriteLine("[MOCK] Deleting project");
+        return Task.CompletedTask;
     }
 
     public Task DeployAsync(Deployment deployment)
