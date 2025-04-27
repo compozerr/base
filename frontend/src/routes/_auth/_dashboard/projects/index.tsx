@@ -139,7 +139,7 @@ function RouteComponent() {
                                         </DropdownMenuTrigger>
                                         <DropdownMenuContent align="end" className='pointer-events-auto'>
                                             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                                            <DropdownMenuItem onClick={(e)=>{
+                                            <DropdownMenuItem onClick={(e) => {
                                                 e.stopPropagation();
                                                 router.navigate({ to: "/projects/$projectId", params: { projectId: row.original.id! } });
                                             }}>View Details</DropdownMenuItem>
@@ -148,7 +148,12 @@ function RouteComponent() {
                                                 router.navigate({ to: "/projects/$projectId/settings/general", params: { projectId: row.original.id! } });
                                             }}>Edit Service</DropdownMenuItem>
                                             <DropdownMenuSeparator />
-                                            <DropdownMenuItem className="text-red-600">Delete Service</DropdownMenuItem>
+                                            <DropdownMenuItem className="text-red-600" onClick={(e) => {
+                                                e.stopPropagation();
+                                                router.navigate({
+                                                    to: "/projects/$projectId/settings/general", params: { projectId: row.original.id! }
+                                                });
+                                            }}>Delete Service</DropdownMenuItem>
                                         </DropdownMenuContent>
                                     </DropdownMenu>
                                 </div>

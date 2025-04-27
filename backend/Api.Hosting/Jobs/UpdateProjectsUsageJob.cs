@@ -1,6 +1,9 @@
+using System.Diagnostics.CodeAnalysis;
+using Api.Data;
 using Api.Data.Repositories;
 using Api.Hosting.Dtos;
 using Api.Hosting.Services;
+using Core.Extensions;
 using Jobs;
 using Serilog;
 
@@ -43,9 +46,23 @@ public class UpdateProjectsUsageJob(
 
             await projectUsageRepository.AddProjectUsages(projectUsagesWithMatchingProject);
 
+            await matchingProjects.ApplyAsync(x => projectRepository.SetProjectState(x.Id, GetProjectState(x, projectUsagesWithMatchingProject)));
+
             Log.ForContext("serverId", server.Id.Value)
                .ForContext("projectUsagesCount", projectUsagesWithMatchingProject.Count)
                .Information("Processed server project usages");
         }
+    }
+
+    private static ProjectState GetProjectState(Project project, List<ProjectUsage> projectUsages)
+    {
+        return project.State switch
+        {
+            ProjectState.Starting => ProjectState.Starting,
+            ProjectState.Deleting => ProjectState.Deleting,
+            _ => projectUsages.Where(p => p.ProjectId == project.Id)
+                              .OrderByDescending(p => p.CreatedAtUtc)
+                              .FirstOrDefault()?.Status == ProjectStatus.Running ? ProjectState.Running : ProjectState.Stopped
+        };
     }
 }

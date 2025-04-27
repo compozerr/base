@@ -12,6 +12,7 @@ public interface IProjectRepository : IGenericRepository<Project, ProjectId, Api
     public Task<List<Project>> GetProjectsForUserAsync(UserId userId);
     public Task<List<Project>> GetProjectsForUserAsync();
     public Task<Project?> GetProjectByIdWithDomainsAsync(ProjectId projectId);
+    public Task SetProjectState(ProjectId projectId, ProjectState state);
 }
 
 public sealed class ProjectRepository(
@@ -42,6 +43,15 @@ public sealed class ProjectRepository(
         var userId = currentUserAccessor.CurrentUserId!;
 
         return GetProjectsForUserAsync(userId);
+    }
+
+    public async Task SetProjectState(ProjectId projectId, ProjectState state)
+    {
+        var project = await GetByIdAsync(projectId) ?? throw new ArgumentException("Project not found");
+
+        project.State = state;
+
+        await UpdateAsync(project);
     }
 
     public async Task<ProjectId> UpsertProjectEnvironmentAsync(ProjectId projectId, string branch, ProjectEnvironmentVariableDto[] pairs)

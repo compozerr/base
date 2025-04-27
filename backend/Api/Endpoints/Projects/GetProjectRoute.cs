@@ -1,4 +1,5 @@
 using Api.Abstractions;
+using Api.Data;
 using Api.Data.Extensions;
 using Api.Data.Repositories;
 using Api.Hosting.Services;
@@ -10,8 +11,7 @@ public sealed record GetProjectResponse(
     Guid Id,
     string Name,
     string RepoName,
-    State State,
-    decimal VCpuHours,
+    ProjectState State,
     DateTime StartDate,
     List<string> Domains,
     string? PrimaryDomain);
@@ -43,8 +43,7 @@ public static class GetProjectRoute
             project.Id.Value,
             project.Name,
             RepoUri.Parse(project.RepoUri).RepoName,
-            State.Running,
-            0.5m,
+            project.State,
             project.UpdatedAtUtc ?? DateTime.Now,
             [.. project.Domains?.Select(x => x.GetValue) ?? []],
             project.Domains?.GetPrimary()?.GetValue
