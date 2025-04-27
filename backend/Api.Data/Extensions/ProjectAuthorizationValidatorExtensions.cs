@@ -1,0 +1,29 @@
+using Api.Abstractions;
+using Api.Data.Repositories;
+using Auth.Services;
+using Core.Abstractions;
+using FluentValidation;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace Api.Data.Extensions;
+
+public static class ProjectAuthorizationValidatorExtensions
+{
+	public static IRuleBuilderOptions<T, ProjectId> MustBeOwnedByCallerAsync<T>(this IRuleBuilder<T, ProjectId> ruleBuilder, IServiceScopeFactory serviceScopeFactory)
+	{
+		using var scope = serviceScopeFactory.CreateScope();
+		var currentUserId = scope.ServiceProvider.GetRequiredService<ICurrentUserAccessor>().CurrentUserId;
+		var projectRepository = scope.ServiceProvider.GetRequiredService<IProjectRepository>();
+
+		return ruleBuilder.MustAsync(async (projectId, cancel) =>
+		{
+			if (projectId == null)
+				return false;
+				
+			var project = await projectRepository.GetByIdAsync(projectId, cancel);
+			return project?.UserId == currentUserId;
+		})
+		.WithMessage("You do not have permission to access this project.")
+		.WithName("ProjectId");
+	}
+}
