@@ -2,6 +2,8 @@ using Api.Abstractions;
 using Api.Data;
 using Api.Data.Repositories;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Routing;
 
 namespace Api.Hosting.Endpoints.Projects.ProjectDomains;
@@ -20,11 +22,16 @@ public static class GetDomainsRoute
         return app.MapGet(Route, ExecuteAsync);
     }
 
-    public static async Task<List<DomainDto>> ExecuteAsync(Guid projectId, IProjectRepository projectRepository)
+    public static async Task<Results<Ok<List<DomainDto>>, NoContent>> ExecuteAsync(Guid projectId, IProjectRepository projectRepository)
     {
         var convertedProjectId = ProjectId.Create(projectId);
 
-        var project = await projectRepository.GetProjectByIdWithDomainsAsync(convertedProjectId) ?? throw new ArgumentException("Project not found");
+        var project = await projectRepository.GetProjectByIdWithDomainsAsync(convertedProjectId);
+
+        if (project is null)
+        {
+            return TypedResults.NoContent();
+        }
 
         var domainDtos = new List<DomainDto>();
 
@@ -47,6 +54,6 @@ public static class GetDomainsRoute
             }
         }
 
-        return domainDtos;
+        return TypedResults.Ok(domainDtos);
     }
 }
