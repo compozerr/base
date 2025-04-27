@@ -85,7 +85,7 @@ function RouteComponent() {
                         accessorKey: "state",
                         header: "State",
                         cell: ({ row }) => {
-                            const state = row.original.state === 1 ? "Running" : row.original.state === 2 ? "Stopped" : "Starting"
+                            const state = row.original.state;
 
                             return (<span
                                 className={`inline-flex items-center rounded-full px-2 py-1 text-xs ${state === "Running"
@@ -113,7 +113,7 @@ function RouteComponent() {
                         accessorKey: "",
                         header: "Actions",
                         cell: ({ row }) => {
-                            const state = row.original.state === 1 ? "Running" : row.original.state === 2 ? "Stopped" : "Starting"
+                            const state = row.original.state;
 
                             return (
                                 <div className="flex gap-2">

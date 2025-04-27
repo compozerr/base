@@ -1,5 +1,8 @@
+using System.Text.Json.Serialization;
+
 namespace Api.Data;
 
+[JsonConverter(typeof(JsonStringEnumConverter<ProjectState>))]
 public enum ProjectState
 {
     Unknown = 0,

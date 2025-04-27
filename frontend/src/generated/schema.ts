@@ -1610,11 +1610,8 @@ export interface components {
         };
         /** Format: uuid */
         ProjectId: string;
-        /**
-         * Format: int32
-         * @enum {integer}
-         */
-        ProjectState: 0 | 1 | 2 | 3 | 4;
+        /** @enum {string} */
+        ProjectState: "Unknown" | "Running" | "Starting" | "Stopped" | "Deleting";
         /**
          * Format: int32
          * @enum {integer}

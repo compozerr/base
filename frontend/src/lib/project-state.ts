@@ -1,16 +1,20 @@
+import { components } from "@/generated";
+
 export enum ProjectState {
     Unknown = "Unknown",
     Running = "Running",
-    Building = "Building",
-    Stopped = "Stopped"
+    Starting = "Starting",
+    Stopped = "Stopped",
+    Deleting = "Deleting"
 }
 
-export function getProjectStateFromNumber(stateNum?: number): ProjectState {
+export function getProjectStateFromNumber(stateNum?: components["schemas"]["ProjectState"]): ProjectState {
     switch (stateNum) {
-        case 0: return ProjectState.Unknown;
-        case 1: return ProjectState.Running;
-        case 2: return ProjectState.Building;
-        case 3: return ProjectState.Stopped;
+        case "Unknown": return ProjectState.Unknown;
+        case "Running": return ProjectState.Running;
+        case "Starting": return ProjectState.Starting;
+        case "Stopped": return ProjectState.Stopped;
+        case "Deleting": return ProjectState.Deleting;
         default: return ProjectState.Unknown;
     }
 }

@@ -1,7 +1,7 @@
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
 import { Formatter } from '@/lib/formatter'
-import { getProjectStateFromNumber, ProjectState } from '@/lib/project-state'
+import { getProjectStateFromNumber as getProjectStateFromStateString, ProjectState } from '@/lib/project-state'
 import { createFileRoute } from '@tanstack/react-router'
 import { ExternalLink, Globe } from 'lucide-react'
 import { Route as RootRoute } from './route'
@@ -18,7 +18,7 @@ function RouteComponent() {
         switch (state) {
             case ProjectState.Running:
                 return 'bg-green-500'
-            case ProjectState.Building:
+            case ProjectState.Starting:
                 return 'bg-gray-500'
             case ProjectState.Stopped:
                 return 'bg-red-500'
@@ -41,9 +41,9 @@ function RouteComponent() {
                 <div className="flex items-center gap-3">
                     <h1 className="text-3xl font-bold">{project.name}</h1>
                     <Badge
-                        className={getStateColor(getProjectStateFromNumber(project.state))}
+                        className={getStateColor(getProjectStateFromStateString(project.state))}
                     >
-                        {getProjectStateFromNumber(project.state)}
+                        {getProjectStateFromStateString(project.state)}
                     </Badge>
                 </div>
                 {project.primaryDomain ? (
@@ -92,9 +92,9 @@ function RouteComponent() {
                                     <h3 className="text-sm font-medium text-muted-foreground">Status</h3>
                                     <p className="text-sm flex items-center gap-2">
                                         <span
-                                            className={`h-2 w-2 rounded-full ${getStateColor(getProjectStateFromNumber(project.state))}`}
+                                            className={`h-2 w-2 rounded-full ${getStateColor(getProjectStateFromStateString(project.state))}`}
                                         ></span>
-                                        {getProjectStateFromNumber(project.state)}
+                                        {getProjectStateFromStateString(project.state)}
                                     </p>
                                 </div>
                             </div>
