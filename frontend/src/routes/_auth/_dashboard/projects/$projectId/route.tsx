@@ -10,16 +10,20 @@ import { api } from '@/api-client'
 
 export const Route = createFileRoute('/_auth/_dashboard/projects/$projectId')({
   component: RouteComponent,
-  loader: (ctx) =>
-    api.v1.getProjectsProjectId.fetchQuery({
-      parameters: { path: { projectId: ctx.params.projectId } },
-    }),
+  loader: async ({ params: { projectId } }) => {
+    await api.v1.getProjectsProjectId.prefetchQuery({
+      parameters: { path: { projectId } },
+    });
+
+    return { projectId };
+  }
 })
 
 function RouteComponent() {
   const { pathname } = useLocation()
-  const { projectId } = Route.useParams()
-  const project = Route.useLoaderData()
+  const { projectId } = Route.useLoaderData()
+
+  const { data: project } = api.v1.getProjectsProjectId.useQuery({ path: { projectId } })
 
   const isTabActive = (href: string) => {
     if (href === `/projects/${projectId}`) {
@@ -38,7 +42,7 @@ function RouteComponent() {
     <div className="flex flex-col min-h-screen w-full">
       <div className="border-b">
         <div className="flex h-16 items-center">
-          <h1 className="text-lg font-semibold mr-8">{project.name}</h1>
+          <h1 className="text-lg font-semibold mr-8">{project!.name}</h1>
           <nav className="flex items-center space-x-4 lg:space-x-6">
             {tabs.map((tab) => (
               <Link

@@ -18,10 +18,9 @@ import {
 } from '@/components/ui/select'
 import { Switch } from '@/components/ui/switch'
 import { TabsContent } from '@/components/ui/tabs'
-import { createFileRoute, useNavigate, } from '@tanstack/react-router'
+import { createFileRoute, getRouteApi, useNavigate, } from '@tanstack/react-router'
 import React, { useState } from 'react'
 
-import { Route as RootRoute } from '../route'
 import { api } from '@/api-client'
 export const Route = createFileRoute(
   '/_auth/_dashboard/projects/$projectId/settings/general',
@@ -35,7 +34,9 @@ function GeneralSettingsTab() {
 
   const params = Route.useParams();
 
-  const project = RootRoute.useLoaderData();
+  const { projectId } = getRouteApi("/_auth/_dashboard/projects/$projectId").useLoaderData();
+
+  const { data: project } = api.v1.getProjectsProjectId.useQuery({ path: { projectId } })
 
   const { mutateAsync: deleteAsync } = api.v1.deleteProjectsProjectId.useMutation({ path: { projectId: params.projectId } })
   const deleteProjectAsync = async () => {
@@ -113,7 +114,7 @@ function GeneralSettingsTab() {
               subtitle="This action cannot be reverted, you'll have to add it again..."
               destructiveButton='Delete'
               cancelButton='Cancel'
-              textToAnswer={project.name ?? "confirm"}
+              textToAnswer={project?.name ?? "confirm"}
               open={wantsDeletion}
               onAnswer={(ans) => {
                 if (ans && wantsDeletion) {

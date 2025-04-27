@@ -12,22 +12,24 @@ interface Props extends ButtonProps {
 const StopProjectButton: React.FC<Props> = (props) => {
     const [isLoading, setIsLoading] = useState(false);
 
+    const { projectId, onStarted, ...propsRest } = props;
+
     const start = () => {
         setIsLoading(true);
         api.v1.getProjectsProjectIdStart.fetchQuery({
             parameters: {
                 path: {
-                    projectId: props.projectId
+                    projectId: projectId
                 }
-            }
+            },
         }).finally(() => {
             setIsLoading(false);
-            props.onStarted?.();
+            onStarted?.();
         });
     }
 
     return (
-        <LoadingButton {...props} size="sm" variant={props.variant || "ghost"} isLoading={isLoading} onClick={start}>
+        <LoadingButton {...propsRest} size="sm" variant={props.variant || "ghost"} isLoading={isLoading} onClick={start}>
             <Play className="h-4 w-4" />
         </LoadingButton>
     );

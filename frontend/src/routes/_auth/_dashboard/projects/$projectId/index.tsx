@@ -2,18 +2,19 @@ import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
 import { Formatter } from '@/lib/formatter'
 import { getProjectStateFromNumber as getProjectStateFromStateString, ProjectState } from '@/lib/project-state'
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, getRouteApi } from '@tanstack/react-router'
 import { ExternalLink, Globe } from 'lucide-react'
-import { Route as RootRoute } from './route'
 import { UsageGraph } from '@/components/usage-graph'
 import StartStopProjectButton from '@/components/project/project-startstop-button'
+import { api } from '@/api-client'
 
 export const Route = createFileRoute('/_auth/_dashboard/projects/$projectId/')({
     component: RouteComponent,
 })
 
 function RouteComponent() {
-    const project = RootRoute.useLoaderData()
+    const { projectId } = getRouteApi("/_auth/_dashboard/projects/$projectId").useLoaderData();
+    const { data: project } = api.v1.getProjectsProjectId.useQuery({ path: { projectId } })
 
     const getStateColor = (state: ProjectState) => {
         switch (state) {
@@ -97,7 +98,7 @@ function RouteComponent() {
                                         ></span>
                                         {getProjectStateFromStateString(project.state)}
 
-                                        {project.id && project.state && <StartStopProjectButton projectId={project.id} state={project.state} variant="ghost"/>}
+                                        {project.id && project.state && <StartStopProjectButton projectId={project.id} state={project.state} variant="ghost" />}
                                     </p>
                                 </div>
                             </div>

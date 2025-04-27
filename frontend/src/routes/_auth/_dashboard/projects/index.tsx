@@ -15,7 +15,7 @@ import {
 import { Formatter } from '@/lib/formatter'
 import { getLink } from '@/links'
 import { createFileRoute, useRouter } from '@tanstack/react-router'
-import { MoreVertical, Pause, Play, Plus, RotateCw, Search } from 'lucide-react'
+import { MoreVertical, Plus, Search } from 'lucide-react'
 
 
 export const Route = createFileRoute('/_auth/_dashboard/projects/')({
