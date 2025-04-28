@@ -20,11 +20,20 @@ import { MoreVertical, Plus, Search } from 'lucide-react'
 
 export const Route = createFileRoute('/_auth/_dashboard/projects/')({
     component: RouteComponent,
-    loader: () => api.v1.getProjects.fetchQuery(),
+    loader: () => api.v1.getProjects.prefetchQuery(),
 })
 
 function RouteComponent() {
-    const projectsData = Route.useLoaderData();
+    const { data: projectsData } = api.v1.getProjects.useQuery();
+
+    if (!projectsData) {
+        return (
+            <div className="text-center py-10">
+                <p>No project data available</p>
+            </div>
+        )
+    }
+
     const router = useRouter();
 
     return (
