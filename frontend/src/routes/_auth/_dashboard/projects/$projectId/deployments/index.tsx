@@ -14,6 +14,7 @@ import { useTimeAgo } from '@/hooks/useTimeAgo'
 import { DeploymentStatus, getDeploymentStatusFromNumber } from "@/lib/deployment-status"
 import { getStatusDot } from "@/lib/deployment-status-component"
 import { Formatter } from "@/lib/formatter"
+import { getLink } from "@/links"
 import { createFileRoute, useParams, useRouter } from '@tanstack/react-router'
 import { motion } from "framer-motion"
 import {
@@ -185,7 +186,7 @@ function RouteComponent() {
             ) : (
                 <div className="text-center py-10">
                     <p>No deployments found</p>
-                    <Button variant="outline" className="mt-4">
+                    <Button variant="outline" className="mt-4" onClick={() => open(getLink('addNewService'), '_blank')}>
                         Create your first deployment
                     </Button>
                 </div>
