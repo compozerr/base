@@ -30,7 +30,7 @@ const StopProjectButton: React.FC<Props> = (props) => {
     }
 
     return (
-        <LoadingButton {...propsRest} size="sm" variant={props.variant || "ghost"} isLoading={isLoading} onClick={start}>
+        <LoadingButton {...propsRest} size="sm" variant={props.variant || "ghost"} isLoading={isLoading} onClick={(e) => { e.stopPropagation(); start() }}>
             <Play className="h-4 w-4" />
         </LoadingButton>
     );
