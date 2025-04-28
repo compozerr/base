@@ -3,7 +3,7 @@ import { createFileRoute, redirect } from '@tanstack/react-router'
 import { z } from 'zod'
 import { useAuth } from '@/hooks/use-dynamic-auth'
 
-const fallback = '/dashboard' as const
+const fallback = '/projects' as const
 
 export const Route = createFileRoute('/login')({
   validateSearch: z.object({

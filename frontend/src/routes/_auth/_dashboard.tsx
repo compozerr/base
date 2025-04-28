@@ -51,7 +51,7 @@ function RouteComponent() {
               {/* <Input placeholder="Search" className="bg-background/50" /> */}
             </div>
             <nav className="space-y-2 px-2">
-              <Button
+              {/* <Button
                 variant="ghost"
                 onClick={() =>
                   navigate({ viewTransition: true, to: '/dashboard' })
@@ -60,7 +60,7 @@ function RouteComponent() {
               >
                 <LayoutDashboard className="h-4 w-4" />
                 Dashboard
-              </Button>
+              </Button> */}
               <Button
                 variant="ghost"
                 onClick={() =>
