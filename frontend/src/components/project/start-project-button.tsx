@@ -22,6 +22,7 @@ const StopProjectButton: React.FC<Props> = (props) => {
                     projectId: projectId
                 }
             },
+            gcTime: 0
         }).finally(() => {
             setIsLoading(false);
             onStarted?.();
