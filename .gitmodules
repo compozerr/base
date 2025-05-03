@@ -1,6 +1,6 @@
 [submodule "modules/template"]
 	path = modules/template
-	url = https://github.com/compozerr-lib/template
+	url = https://github.com/compozerr/template
 [submodule "modules/config"]
 	path = modules/config
 	url = https://github.com/compozerr-lib/config
