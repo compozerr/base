@@ -15,8 +15,8 @@
       "type": "string"
     },
     "dependencies": {
-      "type": "array",
-      "items": {
+      "type": "object",
+      "additionalProperties": {
         "type": "string"
       }
     },
