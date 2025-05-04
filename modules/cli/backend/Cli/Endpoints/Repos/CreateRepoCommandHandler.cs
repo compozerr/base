@@ -1,6 +1,8 @@
 using Auth.Services;
+using Cli.Endpoints.Modules.Create;
 using Cli.Endpoints.Projects;
 using Core.MediatR;
+using Github.Endpoints.SetDefaultInstallationId;
 using Github.Services;
 using MediatR;
 
@@ -24,30 +26,58 @@ public sealed record CreateRepoCommandHandler(
         var currentInstallation = userInstallations.Single(
             userInstallation => userInstallation.InstallationId == clientResponse.InstallationId);
 
-        var response = await clientResponse.InstallationClient.Repository.Generate(
-            "compozerr",
-            "base",
-            new(command.Name)
-            {
-                Private = true,
-                Description = "Created by compozerr.com",
-                Owner = currentInstallation.Name
-            });
+        var response = command.Type switch
+        {
+            DefaultInstallationIdSelectionType.Projects => await clientResponse.InstallationClient.Repository.Generate(
+                "compozerr",
+                "base",
+                new(command.Name)
+                {
+                    Private = true,
+                    Description = "Created by compozerr.com",
+                    Owner = currentInstallation.Name
+                }
+            ),
+            DefaultInstallationIdSelectionType.Modules => await clientResponse.InstallationClient.Repository.Forks.Create(
+                "compozerr",
+                "template",
+                new Octokit.NewRepositoryFork()
+                {
+                    Organization = currentInstallation.Name
+                }
+            ),
+            _ => throw new ArgumentOutOfRangeException(nameof(command.Type), command.Type, null)
+        };
 
         var cloneUrl = $"https://x-access-token:{clientResponse.InstallationToken}@github.com/{response.FullName}.git";
         var gitUrl = $"https://github.com/{response.FullName}.git";
 
-        var createProjectResponse = await Mediator.Send(
-            new CreateProjectCommand(
-                command.Name,
-                gitUrl,
-                command.LocationIsoCode),
-            cancellationToken);
+        string? projectId = null;
+        switch (command.Type)
+        {
+            case DefaultInstallationIdSelectionType.Projects:
+                var createProjectResponse = await Mediator.Send(
+                               new CreateProjectCommand(
+                                   command.Name,
+                                   gitUrl,
+                                   command.LocationIsoCode),
+                               cancellationToken);
+
+                projectId = createProjectResponse.ProjectId.Value.ToString();
+                break;
+            case DefaultInstallationIdSelectionType.Modules:
+                var createModuleResponse = await Mediator.Send(
+                    new CreateModuleCommand(
+                        command.Name,
+                        gitUrl)
+                    , cancellationToken);
+                break;
+        }
 
         return new CreateRepoResponse(
             cloneUrl,
             gitUrl,
             response.Name,
-            createProjectResponse.ProjectId.Value.ToString());
+            projectId);
     }
 }
