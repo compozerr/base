@@ -26,7 +26,7 @@ public sealed class CreateRepoCommandValidator : AbstractValidator<CreateRepoCom
                 command.Type);
 
             return !reposForCurrentUser.Any(r => r.Name == name);
-        });
+        }).WithMessage("Repository name must be unique.");
 
         RuleFor(x => x.LocationIsoCode).MustAsync(async (command, locationIsoCode, cancellationToken) =>
         {
