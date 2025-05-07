@@ -5,6 +5,7 @@ using Core.MediatR;
 using Github.Endpoints.SetDefaultInstallationId;
 using Github.Services;
 using MediatR;
+using Octokit;
 
 namespace Cli.Endpoints.Repos;
 
@@ -38,14 +39,27 @@ public sealed record CreateRepoCommandHandler(
                     Owner = currentInstallation.Name
                 }
             ),
-            DefaultInstallationIdSelectionType.Modules => await clientResponse.InstallationClient.Repository.Forks.Create(
-                "compozerr",
-                "template",
-                new Octokit.NewRepositoryFork()
-                {
-                    Organization = currentInstallation.Name
-                }
-            ),
+            DefaultInstallationIdSelectionType.Modules => await Task.Run(
+                async () =>
+                    {
+                        var forkedRepo = await clientResponse.InstallationClient.Repository.Forks.Create(
+                            "compozerr",
+                            "template",
+                            new NewRepositoryFork()
+                            {
+                                Organization = currentInstallation.Name
+                            }
+                        );
+
+                        return await clientResponse.InstallationClient.Repository.Edit(
+                                currentInstallation.Name,
+                                forkedRepo.Name,
+                                new RepositoryUpdate()
+                                {
+                                    Name = command.Name,
+                                    Description = "Created by compozerr.com",
+                                });
+                    }),
             _ => throw new ArgumentOutOfRangeException(nameof(command.Type), command.Type, null)
         };
 
