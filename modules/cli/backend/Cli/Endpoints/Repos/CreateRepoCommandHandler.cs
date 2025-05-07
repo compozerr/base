@@ -51,7 +51,10 @@ public sealed record CreateRepoCommandHandler(
                             }
                         );
 
-                        return await clientResponse.InstallationClient.Repository.Edit(
+                        return await RetryOperation(
+                            async () =>
+                            {
+                                var repo = await clientResponse.InstallationClient.Repository.Edit(
                                 currentInstallation.Name,
                                 forkedRepo.Name,
                                 new RepositoryUpdate()
@@ -59,6 +62,9 @@ public sealed record CreateRepoCommandHandler(
                                     Name = command.Name,
                                     Description = "Created by compozerr.com",
                                 });
+
+                                return repo;
+                            });
                     }),
             _ => throw new ArgumentOutOfRangeException(nameof(command.Type), command.Type, null)
         };
@@ -93,5 +99,27 @@ public sealed record CreateRepoCommandHandler(
             gitUrl,
             response.Name,
             projectId);
+    }
+
+    private async Task<T> RetryOperation<T>(Func<Task<T>> operation, int maxRetries = 3, int initialDelayMs = 1000)
+    {
+        int retryCount = 0;
+        while (true)
+        {
+            try
+            {
+                return await operation();
+            }
+            catch (ApiException ex) when (ex.Message.Contains("A conflicting repository operation is still in progress") && retryCount < maxRetries)
+            {
+                retryCount++;
+                var delayMs = initialDelayMs * (1 << (retryCount - 1)); // Exponential backoff
+                await Task.Delay(delayMs);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }
