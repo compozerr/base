@@ -30,6 +30,8 @@ public sealed class CreateRepoCommandValidator : AbstractValidator<CreateRepoCom
 
         RuleFor(x => x.LocationIsoCode).MustAsync(async (command, locationIsoCode, cancellationToken) =>
         {
+            if (command.Type != Github.Endpoints.SetDefaultInstallationId.DefaultInstallationIdSelectionType.Projects) return true;
+
             var availableLocationIsoCodes = await locationRepository.GetUniquePublicLocationIsoCodes();
 
             return availableLocationIsoCodes.Contains(locationIsoCode);
