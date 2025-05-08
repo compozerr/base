@@ -51,7 +51,7 @@ public sealed record CreateRepoCommandHandler(
                             }
                         );
 
-                        return await RetryOperation(
+                        return await ConflictingRepoRetryOperation(
                             async () =>
                             {
                                 var repo = await clientResponse.InstallationClient.Repository.Edit(
@@ -101,7 +101,7 @@ public sealed record CreateRepoCommandHandler(
             projectId);
     }
 
-    private async Task<T> RetryOperation<T>(Func<Task<T>> operation, int maxRetries = 3, int initialDelayMs = 1000)
+    private static async Task<T> ConflictingRepoRetryOperation<T>(Func<Task<T>> operation, int maxRetries = 3, int initialDelayMs = 1000)
     {
         int retryCount = 0;
         while (true)
@@ -110,7 +110,7 @@ public sealed record CreateRepoCommandHandler(
             {
                 return await operation();
             }
-            catch (ApiException ex) when (ex.Message.Contains("A conflicting repository operation is still in progress") && retryCount < maxRetries)
+            catch (ApiException ex) when (ex.HttpResponse.Body.ToString()?.Contains("A conflicting repository operation is still in progress") ?? false && retryCount < maxRetries)
             {
                 retryCount++;
                 var delayMs = initialDelayMs * (1 << (retryCount - 1)); // Exponential backoff
