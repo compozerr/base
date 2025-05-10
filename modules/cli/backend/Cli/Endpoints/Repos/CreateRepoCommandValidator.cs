@@ -1,3 +1,5 @@
+using Api.Abstractions;
+using Api.Data.Extensions;
 using Api.Data.Repositories;
 using Auth.Services;
 using FluentValidation;
@@ -14,6 +16,7 @@ public sealed class CreateRepoCommandValidator : AbstractValidator<CreateRepoCom
         var githubService = scope.ServiceProvider.GetRequiredService<IGithubService>();
         var currentUserAccessor = scope.ServiceProvider.GetRequiredService<ICurrentUserAccessor>();
         var locationRepository = scope.ServiceProvider.GetRequiredService<ILocationRepository>();
+        var projectRepository = scope.ServiceProvider.GetRequiredService<IProjectRepository>();
 
         RuleFor(x => x.Name)
             .Matches(@"^[a-z0-9]+(?:(?:(?:[._]|__|[-]*)[a-z0-9]+)+)?$")
@@ -27,6 +30,12 @@ public sealed class CreateRepoCommandValidator : AbstractValidator<CreateRepoCom
 
             return !reposForCurrentUser.Any(r => r.Name == name);
         }).WithMessage("Repository name must be unique.");
+
+
+        When(x => x.ProjectId != null, () =>
+        {
+            RuleFor(x => x.ProjectId!).MustBeOwnedByCallerAsync(scopeFactory);
+        });
 
         RuleFor(x => x.LocationIsoCode).MustAsync(async (command, locationIsoCode, cancellationToken) =>
         {

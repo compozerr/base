@@ -1571,6 +1571,7 @@ export interface components {
             name?: string | null;
             type?: components["schemas"]["DefaultInstallationIdSelectionType"];
             locationIsoCode?: string | null;
+            projectId?: string | null;
         };
         CreateRepoResponse: {
             cloneUrl?: string | null;

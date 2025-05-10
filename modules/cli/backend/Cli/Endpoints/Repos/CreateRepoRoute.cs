@@ -1,3 +1,4 @@
+using Api.Abstractions;
 using Github.Endpoints.SetDefaultInstallationId;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
@@ -8,7 +9,8 @@ namespace Cli.Endpoints.Repos;
 public record CreateRepoRequest(
     string Name,
     DefaultInstallationIdSelectionType Type,
-    string LocationIsoCode);
+    string LocationIsoCode,
+    string? ProjectId);
 
 public static class CreateRepoRoute
 {
@@ -26,5 +28,6 @@ public static class CreateRepoRoute
             new CreateRepoCommand(
                 createRepoRequest.Name,
                 createRepoRequest.Type,
-                createRepoRequest.LocationIsoCode));
+                createRepoRequest.LocationIsoCode,
+                createRepoRequest.ProjectId != null ? ProjectId.Parse(createRepoRequest.ProjectId) : null));
 }

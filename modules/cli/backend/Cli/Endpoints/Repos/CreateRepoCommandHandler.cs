@@ -1,3 +1,4 @@
+using Api.Data.Repositories;
 using Auth.Services;
 using Cli.Endpoints.Modules.Create;
 using Cli.Endpoints.Projects;
@@ -12,6 +13,7 @@ namespace Cli.Endpoints.Repos;
 public sealed record CreateRepoCommandHandler(
     IGithubService GithubService,
     ICurrentUserAccessor CurrentUserAccessor,
+    IProjectRepository ProjectRepository,
     IMediator Mediator) : ICommandHandler<CreateRepoCommand, CreateRepoResponse>
 {
     public async Task<CreateRepoResponse> Handle(CreateRepoCommand command, CancellationToken cancellationToken = default)
@@ -42,6 +44,10 @@ public sealed record CreateRepoCommandHandler(
             DefaultInstallationIdSelectionType.Modules => await Task.Run(
                 async () =>
                     {
+                        var project = await ProjectRepository.GetByIdAsync(
+                            command.ProjectId!,
+                            cancellationToken) ?? throw new Exception("Project not found");
+                            
                         var forkedRepo = await clientResponse.InstallationClient.Repository.Forks.Create(
                             "compozerr",
                             "template",
@@ -51,7 +57,7 @@ public sealed record CreateRepoCommandHandler(
                             }
                         );
 
-                        return await ConflictingRepoRetryOperation(
+                        var repo = await ConflictingRepoRetryOperation(
                             async () =>
                             {
                                 var repo = await clientResponse.InstallationClient.Repository.Edit(
@@ -65,6 +71,23 @@ public sealed record CreateRepoCommandHandler(
 
                                 return repo;
                             });
+
+                        await ConflictingRepoRetryOperation(async () =>
+                        {
+                            var defaultBranch = await clientResponse.InstallationClient.Git.Reference.Get(
+                                currentInstallation.Name,
+                                repo.Name,
+                                $"heads/{forkedRepo.DefaultBranch}");
+
+                            var newBranch = await clientResponse.InstallationClient.Git.Reference.Create(
+                                currentInstallation.Name,
+                                repo.Name,
+                                new NewReference($"refs/heads/{project.Name}", defaultBranch.Object.Sha)
+                            );
+                            return newBranch;
+                        });
+
+                        return repo;
                     }),
             _ => throw new ArgumentOutOfRangeException(nameof(command.Type), command.Type, null)
         };
@@ -91,6 +114,8 @@ public sealed record CreateRepoCommandHandler(
                         command.Name,
                         gitUrl)
                     , cancellationToken);
+
+                projectId = command.ProjectId?.Value.ToString();
                 break;
         }
 
