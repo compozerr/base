@@ -34,14 +34,14 @@ public interface IGithubService
         UserId userId,
         DefaultInstallationIdSelectionType defaultInstallationIdSelectionType);
     Task<GithubUserLogin?> GetUserLoginAsync(UserId userId);
-    Task<Repository?> ForkRepositoryAsync(
+    Task<Repository> ForkRepositoryAsync(
         IGitHubClient client,
         string owner,
         string repo,
         string organization,
         string name);
 
-    Task<Reference?> CreateBranchAsync(
+    Task<Reference> CreateBranchAsync(
         IGitHubClient client,
         string owner,
         string repo,
@@ -240,7 +240,7 @@ public sealed class GithubService(
         }
     }
 
-    public async Task<Repository?> ForkRepositoryAsync(IGitHubClient client, string owner, string repo, string organization, string name)
+    public async Task<Repository> ForkRepositoryAsync(IGitHubClient client, string owner, string repo, string organization, string name)
     {
         var forkedRepo = await client.Repository.Forks.Create(
                             owner,
@@ -291,7 +291,7 @@ public sealed class GithubService(
         }
     }
 
-    public async Task<Reference?> CreateBranchAsync(
+    public async Task<Reference> CreateBranchAsync(
         IGitHubClient client,
         string owner,
         string repo,
