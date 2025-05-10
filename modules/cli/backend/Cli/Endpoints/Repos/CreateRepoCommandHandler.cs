@@ -41,27 +41,11 @@ public sealed record CreateRepoCommandHandler(
                     Owner = currentInstallation.Name
                 }
             ),
-            DefaultInstallationIdSelectionType.Modules => await Task.Run(
-                async () =>
-                    {
-                        var project = await ProjectRepository.GetByIdAsync(
-                            command.ProjectId!,
-                            cancellationToken) ?? throw new Exception("Project not found");
-
-                        var forkedRepo = await GithubService.ForkRepositoryAsync(clientResponse.InstallationClient,
+            DefaultInstallationIdSelectionType.Modules => await GithubService.ForkRepositoryAsync(clientResponse.InstallationClient,
                             "compozerr",
                             "template",
                             currentInstallation.Name,
-                            command.Name);
-
-                        await GithubService.CreateBranchAsync(
-                            clientResponse.InstallationClient,
-                            currentInstallation.Name,
-                            command.Name,
-                            project.Name);
-
-                        return forkedRepo;
-                    }),
+                            command.Name),
             _ => throw new ArgumentOutOfRangeException(nameof(command.Type), command.Type, null)
         };
 
