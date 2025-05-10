@@ -1,3 +1,4 @@
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 
@@ -12,8 +13,8 @@ public static class AddModuleRoute
         return app.MapGet(Route, ExecuteAsync);
     }
 
-    public static Task ExecuteAsync()
-    {
-        return Task.CompletedTask;
-    }
+    public static Task ExecuteAsync(
+        AddModuleCommand command,
+        IMediator mediator)
+        => mediator.Send(command);
 }
