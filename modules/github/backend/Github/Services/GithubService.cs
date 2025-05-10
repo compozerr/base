@@ -34,6 +34,19 @@ public interface IGithubService
         UserId userId,
         DefaultInstallationIdSelectionType defaultInstallationIdSelectionType);
     Task<GithubUserLogin?> GetUserLoginAsync(UserId userId);
+    Task<Repository?> ForkRepositoryAsync(
+        IGitHubClient client,
+        string owner,
+        string repo,
+        string organization,
+        string name);
+
+    Task<Reference?> CreateBranchAsync(
+        IGitHubClient client,
+        string owner,
+        string repo,
+        string branchName,
+        string baseBranchName = "main");
 }
 
 public sealed class GithubService(
@@ -225,5 +238,79 @@ public sealed class GithubService(
 
             return [];
         }
+    }
+
+    public async Task<Repository?> ForkRepositoryAsync(IGitHubClient client, string owner, string repo, string organization, string name)
+    {
+        var forkedRepo = await client.Repository.Forks.Create(
+                            owner,
+                            repo,
+                            new NewRepositoryFork()
+                            {
+                                Organization = organization
+                            }
+                        );
+
+        var repoResponse = await ConflictingRepoRetryOperation(
+            async () =>
+            {
+                var repo = await client.Repository.Edit(
+                organization,
+                forkedRepo.Name,
+                new RepositoryUpdate()
+                {
+                    Name = name,
+                    Description = "Created by compozerr.com",
+                });
+
+                return repo;
+            });
+
+        return repoResponse;
+    }
+
+    public static async Task<T> ConflictingRepoRetryOperation<T>(Func<Task<T>> operation, int maxRetries = 3, int initialDelayMs = 1000)
+    {
+        int retryCount = 0;
+        while (true)
+        {
+            try
+            {
+                return await operation();
+            }
+            catch (ApiException ex) when (ex.HttpResponse.Body.ToString()?.Contains("A conflicting repository operation is still in progress") ?? false && retryCount < maxRetries)
+            {
+                retryCount++;
+                var delayMs = initialDelayMs * (1 << (retryCount - 1)); // Exponential backoff
+                await Task.Delay(delayMs);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+    }
+
+    public async Task<Reference?> CreateBranchAsync(
+        IGitHubClient client,
+        string owner,
+        string repo,
+        string branchName,
+        string baseBranchName = "main")
+    {
+        return await ConflictingRepoRetryOperation(async () =>
+            {
+                var defaultBranch = await client.Git.Reference.Get(
+                    owner,
+                    repo,
+                    $"heads/{baseBranchName}");
+
+                var newBranch = await client.Git.Reference.Create(
+                    owner,
+                    repo,
+                    new NewReference($"refs/heads/{branchName}", defaultBranch.Object.Sha)
+                );
+                return newBranch;
+            });
     }
 }

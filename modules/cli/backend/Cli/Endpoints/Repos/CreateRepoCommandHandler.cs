@@ -47,47 +47,20 @@ public sealed record CreateRepoCommandHandler(
                         var project = await ProjectRepository.GetByIdAsync(
                             command.ProjectId!,
                             cancellationToken) ?? throw new Exception("Project not found");
-                            
-                        var forkedRepo = await clientResponse.InstallationClient.Repository.Forks.Create(
+
+                        var forkedRepo = await GithubService.ForkRepositoryAsync(clientResponse.InstallationClient,
                             "compozerr",
                             "template",
-                            new NewRepositoryFork()
-                            {
-                                Organization = currentInstallation.Name
-                            }
-                        );
+                            currentInstallation.Name,
+                            command.Name);
 
-                        var repo = await ConflictingRepoRetryOperation(
-                            async () =>
-                            {
-                                var repo = await clientResponse.InstallationClient.Repository.Edit(
-                                currentInstallation.Name,
-                                forkedRepo.Name,
-                                new RepositoryUpdate()
-                                {
-                                    Name = command.Name,
-                                    Description = "Created by compozerr.com",
-                                });
+                        await GithubService.CreateBranchAsync(
+                            clientResponse.InstallationClient,
+                            currentInstallation.Name,
+                            command.Name,
+                            project.Name);
 
-                                return repo;
-                            });
-
-                        await ConflictingRepoRetryOperation(async () =>
-                        {
-                            var defaultBranch = await clientResponse.InstallationClient.Git.Reference.Get(
-                                currentInstallation.Name,
-                                repo.Name,
-                                $"heads/{forkedRepo.DefaultBranch}");
-
-                            var newBranch = await clientResponse.InstallationClient.Git.Reference.Create(
-                                currentInstallation.Name,
-                                repo.Name,
-                                new NewReference($"refs/heads/{project.Name}", defaultBranch.Object.Sha)
-                            );
-                            return newBranch;
-                        });
-
-                        return repo;
+                        return forkedRepo;
                     }),
             _ => throw new ArgumentOutOfRangeException(nameof(command.Type), command.Type, null)
         };
@@ -126,25 +99,5 @@ public sealed record CreateRepoCommandHandler(
             projectId);
     }
 
-    private static async Task<T> ConflictingRepoRetryOperation<T>(Func<Task<T>> operation, int maxRetries = 3, int initialDelayMs = 1000)
-    {
-        int retryCount = 0;
-        while (true)
-        {
-            try
-            {
-                return await operation();
-            }
-            catch (ApiException ex) when (ex.HttpResponse.Body.ToString()?.Contains("A conflicting repository operation is still in progress") ?? false && retryCount < maxRetries)
-            {
-                retryCount++;
-                var delayMs = initialDelayMs * (1 << (retryCount - 1)); // Exponential backoff
-                await Task.Delay(delayMs);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-    }
+
 }
