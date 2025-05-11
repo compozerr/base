@@ -10,10 +10,10 @@ public static class AddModuleRoute
 
     public static RouteHandlerBuilder AddAddModuleRoute(this IEndpointRouteBuilder app)
     {
-        return app.MapGet(Route, ExecuteAsync);
+        return app.MapPost(Route, ExecuteAsync);
     }
 
-    public static Task ExecuteAsync(
+    public static Task<AddModuleResponse> ExecuteAsync(
         AddModuleCommand command,
         IMediator mediator)
         => mediator.Send(command);
