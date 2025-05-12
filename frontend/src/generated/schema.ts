@@ -1590,7 +1590,9 @@ export interface components {
             moduleName?: string | null;
             commitHash?: string | null;
         };
-        AddModuleResponse: Record<string, never>;
+        AddModuleResponse: {
+            modules?: components["schemas"]["ModuleResult"][] | null;
+        };
         ChangeDeploymentStatusRequest: {
             status?: string | null;
         };
@@ -1738,6 +1740,19 @@ export interface components {
             name?: string | null;
             email?: string | null;
             avatarUrl?: string | null;
+        };
+        ModuleDto: {
+            name?: string | null;
+            hash?: string | null;
+            readonly organization?: string | null;
+            readonly moduleName?: string | null;
+            readonly fullName?: string | null;
+            readonly commitHash?: string | null;
+        };
+        ModuleResult: {
+            readonly success?: boolean;
+            module?: components["schemas"]["ModuleDto"];
+            readonly errorMessage?: string | null;
         };
         ProjectDto: {
             name?: string | null;

@@ -15,8 +15,6 @@ public sealed class AddModuleCommandHandler(
             command.CommitHash,
             cancellationToken: cancellationToken);
 
-        return new AddModuleResponse
-        {
-        };
+        return new AddModuleResponse(modules);
     }
 }

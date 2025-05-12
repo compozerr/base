@@ -27,7 +27,7 @@ public class ModulesGetter
             .ToList();
     }
 
-    public static async Task<ModuleDto[]> GetModulesAsync(
+    public static async Task<ModuleResult[]> GetModulesAsync(
         string organization,
         string moduleName,
         string? commitHash,
@@ -35,7 +35,7 @@ public class ModulesGetter
         int maxDependencies = 50,
         CancellationToken cancellationToken = default)
     {
-        var result = new List<ModuleDto>();
+        var result = new List<ModuleResult>();
         var visited = new HashSet<string>(); // Track visited module names (not versions)
         var queue = new Queue<(string Org, string Module, string? Hash, int Depth, List<string> Path)>();
 
@@ -51,7 +51,8 @@ public class ModulesGetter
             if (currentPath.Contains(moduleFullName))
             {
                 var cycle = string.Join(" -> ", currentPath) + " -> " + moduleFullName;
-                throw new InvalidOperationException($"Circular dependency detected: {cycle}");
+                result.Add(ModuleResult.Fail($"Circular dependency detected: {cycle}"));
+                continue;
             }
 
             // Skip if we've already visited this module (regardless of version)
@@ -64,8 +65,9 @@ public class ModulesGetter
                 var github = new Github(currentOrg, currentModule, currentHash);
                 var (_, actualHash) = await github.GetCompozerrFileAsync(cancellationToken);
 
-                // Add this module to the result
-                result.Add(new ModuleDto(moduleFullName, actualHash));
+                // Create the module and add a successful result
+                var module = new ModuleDto(moduleFullName, actualHash);
+                result.Add(ModuleResult.Ok(module));
 
                 // Check if we've reached max depth
                 if (currentDepth >= maxDepth)
@@ -91,8 +93,8 @@ public class ModulesGetter
             }
             catch (Exception ex)
             {
-                // Log the error and continue with other modules
-                Console.WriteLine($"Error processing module {moduleFullName}: {ex.Message}");
+                // Add the error result
+                result.Add(ModuleResult.Fail($"Error processing module {moduleFullName}: {ex.Message}"));
                 // Optionally, you might want to remove this module from visited 
                 // if you want to retry it later with a different version
             }
