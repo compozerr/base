@@ -1,6 +1,3 @@
-using System.Collections;
-using Microsoft.EntityFrameworkCore.Metadata;
-
 namespace Cli.Endpoints.Modules.Add;
 
 public sealed record ModuleDto(string Name, string Hash)
@@ -82,7 +79,7 @@ public class ModulesGetter
             }
         }
 
-        return allDependencies.ToArray();
+        return [.. allDependencies];
     }
 }
 

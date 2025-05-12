@@ -488,7 +488,9 @@ export interface paths {
                     headers: {
                         [name: string]: unknown;
                     };
-                    content?: never;
+                    content: {
+                        "application/json": components["schemas"]["AddModuleResponse"];
+                    };
                 };
             };
         };
@@ -1588,6 +1590,7 @@ export interface components {
             moduleName?: string | null;
             commitHash?: string | null;
         };
+        AddModuleResponse: Record<string, never>;
         ChangeDeploymentStatusRequest: {
             status?: string | null;
         };

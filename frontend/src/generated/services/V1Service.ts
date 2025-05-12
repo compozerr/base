@@ -9416,7 +9416,7 @@ type PostCliModulesAddSchema = {
     ];
 };
 type PostCliModulesAddParameters = {};
-type PostCliModulesAddData = unknown;
+type PostCliModulesAddData = paths["/v1/cli/modules/add"]["post"]["responses"]["200"]["content"]["application/json"];
 type PostCliModulesAddError = unknown;
 type PostCliModulesAddBody = NonNullable<paths["/v1/cli/modules/add"]["post"]["requestBody"]>["content"]["application/json"];
 type GetExampleSchema = {

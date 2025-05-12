@@ -1,6 +1,5 @@
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
-using System.Text.Json.Serialization;
 
 namespace Cli.Endpoints.Modules.Add;
 
@@ -8,8 +7,7 @@ public sealed record Commit(string Sha);
 
 public sealed class CompozerrFile
 {
-    [JsonPropertyName("dependencies")]
-    public Dictionary<string, string> Dependencies { get; }
+    public Dictionary<string, string>? Dependencies { get; set; }
 }
 
 public sealed class Github(string Organization, string ModuleName, string? CommitHash)
