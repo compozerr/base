@@ -8,8 +8,6 @@ public sealed class AddModuleCommandValidator : AbstractValidator<AddModuleComma
     public AddModuleCommandValidator(IServiceScopeFactory scopeFactory)
     {
         var scope = scopeFactory.CreateScope();
-        // Add required services using scope.ServiceProvider.GetRequiredService<T>()
-
-        // Add validation rules using RuleFor()
+        
     }
 }

@@ -14,9 +14,17 @@ public class ModulesGetter
         string organization,
         string moduleName,
         string? commitHash,
-        CancellationToken cancellationToken)
+        string? clientId = null,
+        string? clientSecret = null,
+        CancellationToken cancellationToken = default)
     {
-        var github = new Github(organization, moduleName, commitHash);
+        var github = new Github(
+            organization,
+            moduleName,
+            commitHash,
+            clientId,
+            clientSecret);
+
         var (compozerrFile, foundHash) = await github.GetCompozerrFileAsync(cancellationToken);
 
         if (compozerrFile?.Dependencies is null || compozerrFile.Dependencies.Count == 0)
@@ -33,6 +41,8 @@ public class ModulesGetter
         string? commitHash,
         int maxDepth = 5,
         int maxDependencies = 50,
+        string? clientId = null,
+        string? clientSecret = null,
         CancellationToken cancellationToken = default)
     {
         var result = new List<ModuleResult>();
@@ -62,7 +72,13 @@ public class ModulesGetter
             try
             {
                 // Get the actual commit hash if not provided
-                var github = new Github(currentOrg, currentModule, currentHash);
+                var github = new Github(
+                    currentOrg,
+                    currentModule,
+                    currentHash,
+                    clientId,
+                    clientSecret);
+
                 var (_, actualHash) = await github.GetCompozerrFileAsync(cancellationToken);
 
                 // Create the module and add a successful result
@@ -78,6 +94,8 @@ public class ModulesGetter
                     currentOrg,
                     currentModule,
                     actualHash,
+                    clientId,
+                    clientSecret,
                     cancellationToken);
 
                 foreach (var dependency in dependencies)

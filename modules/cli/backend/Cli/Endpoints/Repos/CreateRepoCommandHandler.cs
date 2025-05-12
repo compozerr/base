@@ -24,7 +24,7 @@ public sealed record CreateRepoCommandHandler(
             userId,
             command.Type);
 
-        var userInstallations = await GithubService.GetInstallationsForUserAsync(userId);
+        var userInstallations = await GithubService.GetInstallationsForUserAsync(userId);        
 
         var currentInstallation = userInstallations.Single(
             userInstallation => userInstallation.InstallationId == clientResponse.InstallationId);
