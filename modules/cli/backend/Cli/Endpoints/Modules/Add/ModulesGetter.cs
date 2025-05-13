@@ -6,6 +6,7 @@ public sealed record ModuleDto(string Name, string Hash)
     public string ModuleName => Name.Split('/')[1];
     public string FullName => $"{Organization}/{ModuleName}";
     public string CommitHash => Hash;
+    public string CloneUrl => $"https://github.com/{Organization}/{ModuleName}.git";
 }
 
 public class ModulesGetter

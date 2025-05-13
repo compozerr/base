@@ -1748,6 +1748,7 @@ export interface components {
             readonly moduleName?: string | null;
             readonly fullName?: string | null;
             readonly commitHash?: string | null;
+            readonly cloneUrl?: string | null;
         };
         ModuleResult: {
             readonly success?: boolean;
