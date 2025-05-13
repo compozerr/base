@@ -41,7 +41,7 @@ public class ModulesGetter
         string moduleName,
         string? commitHash,
         int maxDepth = 5,
-        int maxDependencies = 50,
+        int maxDependencies = 10,
         string? clientId = null,
         string? clientSecret = null,
         CancellationToken cancellationToken = default)
