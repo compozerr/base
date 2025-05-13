@@ -1,3 +1,4 @@
+using Api.Data.Extensions;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -7,9 +8,6 @@ public sealed class ForkModuleCommandValidator : AbstractValidator<ForkModuleCom
 {
 	public ForkModuleCommandValidator(IServiceScopeFactory scopeFactory)
 	{
-		var scope = scopeFactory.CreateScope();
-		// Add required services using scope.ServiceProvider.GetRequiredService<T>()
-
-		// Add validation rules using RuleFor()
+		RuleFor(x => x.ProjectId).MustBeOwnedByCallerAsync(scopeFactory);
 	}
 }

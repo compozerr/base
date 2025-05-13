@@ -1,3 +1,4 @@
+using Api.Data.Repositories;
 using Auth.Services;
 using Cli.Endpoints.Modules.Add;
 using Core.Extensions;
@@ -10,7 +11,8 @@ namespace Cli.Endpoints.Modules.ForkModule;
 
 public sealed class ForkModuleCommandHandler(
 	IGithubService GithubService,
-	ICurrentUserAccessor CurrentUserAccessor) : ICommandHandler<ForkModuleCommand, ForkModuleResponse>
+	ICurrentUserAccessor CurrentUserAccessor,
+	IProjectRepository ProjectRepository) : ICommandHandler<ForkModuleCommand, ForkModuleResponse>
 {
 	public async Task<ForkModuleResponse> Handle(ForkModuleCommand command, CancellationToken cancellationToken = default)
 	{
@@ -21,6 +23,10 @@ public sealed class ForkModuleCommandHandler(
 		var organizationsForUser = await GithubService.GetInstallationsForUserAsync(CurrentUserAccessor.CurrentUserId!);
 		var currentInstallation = organizationsForUser.Single(
 			userInstallation => userInstallation.InstallationId == clientResponse.InstallationId);
+
+		var project = (await ProjectRepository.GetByIdAsync(
+			command.ProjectId,
+			cancellationToken))!;
 
 		var installationName = currentInstallation.Name;
 
@@ -37,18 +43,30 @@ public sealed class ForkModuleCommandHandler(
 			}
 		}
 
-		await command.ModulesToFork.ApplyAsync(m => ForkAsync(m, clientResponse.InstallationClient, installationName));
+		await command.ModulesToFork.ApplyAsync(
+		    m => ForkAsync(
+		        m,
+		        clientResponse.InstallationClient,
+		        installationName,
+		        project.Name));
 
 		return new ForkModuleResponse();
 	}
 
-	private async Task ForkAsync(ModuleDto module, IGitHubClient client, string newOrg)
+	private async Task ForkAsync(ModuleDto module, IGitHubClient client, string newOrg, string projectName)
 	{
-		await GithubService.ForkRepositoryAsync(client,
+		await GithubService.ForkRepositoryAsync(
+			client,
 			module.Organization,
 			module.Name,
 			newOrg,
 			module.Name);
+
+		await GithubService.CreateBranchAsync(
+			client,
+			newOrg,
+			module.Name,
+			projectName);
 	}
 
 	private async static Task<bool> ExistsAsync(

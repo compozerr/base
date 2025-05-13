@@ -1,8 +1,14 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 using MediatR;
+using Cli.Endpoints.Modules.Add;
+using Api.Abstractions;
 
 namespace Cli.Endpoints.Modules.ForkModule;
+
+public sealed record ForkModuleRequest(
+	ModuleDto[] ModulesToFork,
+	string ProjectId) : IRequest<ForkModuleResponse>;
 
 public static class ForkModuleRoute
 {
@@ -14,7 +20,10 @@ public static class ForkModuleRoute
 	}
 
 	public static Task<ForkModuleResponse> ExecuteAsync(
-		ForkModuleCommand command,
+		ForkModuleRequest request,
 		IMediator mediator)
-		=> mediator.Send(command);
+		=> mediator.Send(
+			new ForkModuleCommand(
+				request.ModulesToFork,
+				ProjectId.Parse(request.ProjectId)));
 }
