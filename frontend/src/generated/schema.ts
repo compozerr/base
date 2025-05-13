@@ -500,6 +500,45 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/cli/modules/fork-modules": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["ForkModuleCommand"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["ForkModuleResponse"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/example": {
         parameters: {
             query?: never;
@@ -1648,6 +1687,10 @@ export interface components {
         };
         /** Format: uuid */
         DomainId: string;
+        ForkModuleCommand: {
+            modulesToFork?: components["schemas"]["ModuleDto"][] | null;
+        };
+        ForkModuleResponse: Record<string, never>;
         GetDeploymentResponse: {
             /** Format: uuid */
             id?: string;

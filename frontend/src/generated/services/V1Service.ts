@@ -2442,6 +2442,102 @@ export interface V1Service {
             body: PostCliModulesAddBody;
         };
     };
+    postCliModulesForkModules: {
+        /**/
+        getMutationKey(parameters: PostCliModulesForkModulesParameters | void): ServiceOperationMutationKey<PostCliModulesForkModulesSchema, PostCliModulesForkModulesParameters>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.postCliModulesForkModules.useMutation({})
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.postCliModulesForkModules.useMutation()
+         * mutate({
+         *     body: bodyPayload
+         * });
+         * ```
+         */
+        useMutation<TVariables extends PostCliModulesForkModulesBody, TContext = unknown>(parameters: PostCliModulesForkModulesParameters, options?: ServiceOperationUseMutationOptions<PostCliModulesForkModulesSchema, PostCliModulesForkModulesData, PostCliModulesForkModulesParameters, TVariables, PostCliModulesForkModulesError, TContext>): UseMutationResult<PostCliModulesForkModulesData, PostCliModulesForkModulesError | Error, AreAllOptional<TVariables> extends true ? TVariables | void : TVariables, TContext>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.postCliModulesForkModules.useMutation({})
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.postCliModulesForkModules.useMutation()
+         * mutate({
+         *     body: bodyPayload
+         * });
+         * ```
+         */
+        useMutation<TVariables extends MutationVariables<PostCliModulesForkModulesBody, PostCliModulesForkModulesParameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<PostCliModulesForkModulesSchema, PostCliModulesForkModulesData, PostCliModulesForkModulesParameters, TVariables, PostCliModulesForkModulesError, TContext>): UseMutationResult<PostCliModulesForkModulesData, PostCliModulesForkModulesError | Error, TVariables, TContext>;
+        /**
+         * Returns the count of currently in-progress mutations.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
+         * @example Check how many mutations are currently in progress for the specified service method.
+         * ```ts
+         * const postCliModulesForkModulesTotal = qraft.v1Service.postCliModulesForkModules.useIsMutating()
+         * ```
+         * @example Check how many mutations are currently in progress with the specified parameters.
+         * ```ts
+         * const postCliModulesForkModulesTotal = qraft.v1Service.postCliModulesForkModules.useIsMutating({
+         *     parameters: {}
+         * })
+         * ```
+         */
+        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<PostCliModulesForkModulesBody, PostCliModulesForkModulesData, PostCliModulesForkModulesParameters, PostCliModulesForkModulesError, TContext> | MutationFiltersByMutationKey<PostCliModulesForkModulesSchema, PostCliModulesForkModulesBody, PostCliModulesForkModulesData, PostCliModulesForkModulesParameters, PostCliModulesForkModulesError, TContext>): number;
+        /**/
+        isMutating<TContext>(filters?: MutationFiltersByParameters<PostCliModulesForkModulesBody, PostCliModulesForkModulesData, PostCliModulesForkModulesParameters, PostCliModulesForkModulesError, TContext> | MutationFiltersByMutationKey<PostCliModulesForkModulesSchema, PostCliModulesForkModulesBody, PostCliModulesForkModulesData, PostCliModulesForkModulesParameters, PostCliModulesForkModulesError, TContext>): number;
+        /**/
+        (options: ServiceOperationMutationFnOptions<PostCliModulesForkModulesBody, PostCliModulesForkModulesParameters>, client?: (schema: PostCliModulesForkModulesSchema, options: ServiceOperationMutationFnOptions<PostCliModulesForkModulesBody, PostCliModulesForkModulesParameters>) => Promise<RequestFnResponse<PostCliModulesForkModulesData, PostCliModulesForkModulesError>>): Promise<RequestFnResponse<PostCliModulesForkModulesData, PostCliModulesForkModulesError>>;
+        /**
+         * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
+         * @example Get all variables of all running mutations.
+         * ```ts
+         * const postCliModulesForkModulesPendingMutationVariables = qraft.v1Service.postCliModulesForkModules.useMutationState({
+         *     filters: {
+         *         status: "pending"
+         *     },
+         *     select: mutation => mutation.state.variables
+         * })
+         * ```
+         * @example Get all data for specific mutations via the `parameters`.
+         * ```ts
+         * const postCliModulesForkModulesMutationData = qraft.v1Service.postCliModulesForkModules.useMutationState({
+         *     filters: {
+         *         parameters: {}
+         *     },
+         *     select: mutation => mutation.state.data
+         * })
+         * ```
+         */
+        useMutationState<TContext = unknown, TResult = MutationState<PostCliModulesForkModulesData, PostCliModulesForkModulesError, MutationVariables<PostCliModulesForkModulesBody, PostCliModulesForkModulesParameters>, TContext>>(options?: {
+            filters?: MutationFiltersByParameters<PostCliModulesForkModulesBody, PostCliModulesForkModulesData, PostCliModulesForkModulesParameters, PostCliModulesForkModulesError, TContext> | MutationFiltersByMutationKey<PostCliModulesForkModulesSchema, PostCliModulesForkModulesBody, PostCliModulesForkModulesData, PostCliModulesForkModulesParameters, PostCliModulesForkModulesError, TContext>;
+            select?: (mutation: Mutation<PostCliModulesForkModulesData, PostCliModulesForkModulesError, MutationVariables<PostCliModulesForkModulesBody, PostCliModulesForkModulesParameters>, TContext>) => TResult;
+        }): Array<TResult>;
+        schema: PostCliModulesForkModulesSchema;
+        types: {
+            parameters: PostCliModulesForkModulesParameters;
+            data: PostCliModulesForkModulesData;
+            error: PostCliModulesForkModulesError;
+            body: PostCliModulesForkModulesBody;
+        };
+    };
     getExample: {
         /**/
         cancelQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetExampleSchema, GetExampleData, TInfinite, GetExampleParameters, GetExampleError> | QueryFiltersByQueryKey<GetExampleSchema, GetExampleData, TInfinite, GetExampleParameters, GetExampleError>, options?: CancelOptions): Promise<void>;
@@ -8825,6 +8921,15 @@ export const v1Service: {
             ];
         };
     };
+    postCliModulesForkModules: {
+        schema: {
+            method: "post";
+            url: "/v1/cli/modules/fork-modules";
+            mediaType: [
+                "application/json"
+            ];
+        };
+    };
     getExample: {
         schema: {
             method: "get";
@@ -9110,6 +9215,13 @@ export const v1Service: {
         schema: {
             method: "post",
             url: "/v1/cli/modules/add",
+            mediaType: ["application/json"]
+        }
+    },
+    postCliModulesForkModules: {
+        schema: {
+            method: "post",
+            url: "/v1/cli/modules/fork-modules",
             mediaType: ["application/json"]
         }
     },
@@ -9419,6 +9531,17 @@ type PostCliModulesAddParameters = {};
 type PostCliModulesAddData = paths["/v1/cli/modules/add"]["post"]["responses"]["200"]["content"]["application/json"];
 type PostCliModulesAddError = unknown;
 type PostCliModulesAddBody = NonNullable<paths["/v1/cli/modules/add"]["post"]["requestBody"]>["content"]["application/json"];
+type PostCliModulesForkModulesSchema = {
+    method: "post";
+    url: "/v1/cli/modules/fork-modules";
+    mediaType: [
+        "application/json"
+    ];
+};
+type PostCliModulesForkModulesParameters = {};
+type PostCliModulesForkModulesData = paths["/v1/cli/modules/fork-modules"]["post"]["responses"]["200"]["content"]["application/json"];
+type PostCliModulesForkModulesError = unknown;
+type PostCliModulesForkModulesBody = NonNullable<paths["/v1/cli/modules/fork-modules"]["post"]["requestBody"]>["content"]["application/json"];
 type GetExampleSchema = {
     method: "get";
     url: "/v1/example";

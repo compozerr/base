@@ -1,4 +1,5 @@
 using Cli.Endpoints.Modules.Add;
+using Cli.Endpoints.Modules.ForkModule;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 
@@ -13,6 +14,7 @@ public static class ModuleGroup
         var group = app.MapGroup(Route);
 
         group.AddAddModuleRoute();
+        group.AddForkModuleRoute();
 
         return group;
     }
