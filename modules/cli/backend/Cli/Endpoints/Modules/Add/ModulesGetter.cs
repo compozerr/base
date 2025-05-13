@@ -125,6 +125,6 @@ public class ModulesGetter
             }
         }
 
-        return result.ToArray();
+        return [.. result];
     }
 }
