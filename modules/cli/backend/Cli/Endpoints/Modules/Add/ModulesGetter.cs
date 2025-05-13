@@ -53,8 +53,14 @@ public class ModulesGetter
         // Start with the root module
         queue.Enqueue((organization, moduleName, commitHash, 0, new List<string>()));
 
-        while (queue.Count > 0 && result.Count < maxDependencies)
+        while (queue.Count > 0)
         {
+            if (result.Count >= maxDependencies)
+            {
+                result.Add(ModuleResult.Fail($"Max dependencies reached: {maxDependencies}"));
+                break;
+            }
+
             var (currentOrg, currentModule, currentHash, currentDepth, currentPath) = queue.Dequeue();
             var moduleFullName = $"{currentOrg}/{currentModule}";
 
