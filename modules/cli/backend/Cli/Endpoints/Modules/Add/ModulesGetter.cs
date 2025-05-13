@@ -19,7 +19,7 @@ public class ModulesGetter
         string? clientSecret = null,
         CancellationToken cancellationToken = default)
     {
-        var github = new Github(
+        var github = new GithubRepositoryService(
             organization,
             moduleName,
             commitHash,
@@ -79,7 +79,7 @@ public class ModulesGetter
             try
             {
                 // Get the actual commit hash if not provided
-                var github = new Github(
+                var github = new GithubRepositoryService(
                     currentOrg,
                     currentModule,
                     currentHash,

@@ -10,7 +10,7 @@ public sealed class CompozerrFile
     public Dictionary<string, string>? Dependencies { get; set; }
 }
 
-public sealed class Github : IDisposable
+public sealed class GithubRepositoryService : IDisposable
 {
     private readonly HttpClient SharedHttpClient;
     private readonly string Organization;
@@ -20,7 +20,7 @@ public sealed class Github : IDisposable
     private readonly string? ClientSecret;
     private readonly int RateLimit = 60; // Default unauthenticated rate limit
 
-    public Github(string organization, string moduleName, string? commitHash, string? clientId = null, string? clientSecret = null)
+    public GithubRepositoryService(string organization, string moduleName, string? commitHash, string? clientId = null, string? clientSecret = null)
     {
         Organization = organization;
         ModuleName = moduleName;
@@ -49,6 +49,8 @@ public sealed class Github : IDisposable
             RateLimit = 5000; // Authenticated rate limit
         }
     }
+
+    
 
     public async Task<(CompozerrFile?, string)> GetCompozerrFileAsync(CancellationToken cancellationToken = default)
     {
