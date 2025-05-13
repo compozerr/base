@@ -3,6 +3,7 @@ using Cli.Endpoints.Modules.Add;
 using Core.Extensions;
 using Core.MediatR;
 using Github.Services;
+using Octokit;
 using GE = Github.Endpoints.SetDefaultInstallationId;
 
 namespace Cli.Endpoints.Modules.ForkModule;
@@ -28,9 +29,45 @@ public sealed class ForkModuleCommandHandler(
 			throw new InvalidOperationException("You already own one of the repos");
 		}
 
-		//TODO implement forking
+		foreach (var module in command.ModulesToFork)
+		{
+			if (!await ExistsAsync(module, clientResponse.InstallationClient))
+			{
+				throw new InvalidOperationException($"Repo {module.Name} does not exist");
+			}
+		}
+
+		await command.ModulesToFork.ApplyAsync(m => ForkAsync(m, clientResponse.InstallationClient, installationName));
 
 		return new ForkModuleResponse();
+	}
+
+	private async Task ForkAsync(ModuleDto module, IGitHubClient client, string newOrg)
+	{
+		await GithubService.ForkRepositoryAsync(client,
+			module.Organization,
+			module.Name,
+			newOrg,
+			module.Name);
+	}
+
+	private async static Task<bool> ExistsAsync(
+		ModuleDto module,
+		IGitHubClient client)
+	{
+		try
+		{
+			await client.Repository.Get(module.Organization, module.Name);
+			return true;
+		}
+		catch (ApiException e) when (e.StatusCode == System.Net.HttpStatusCode.NotFound)
+		{
+			return false;
+		}
+		catch (Exception e)
+		{
+			throw new InvalidOperationException($"Error checking repo existence: {e.Message}", e);
+		}
 	}
 
 	private static bool OwnsRepo(ModuleDto module, string selectedModulesOrganizationName)
