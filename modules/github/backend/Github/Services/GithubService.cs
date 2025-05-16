@@ -34,7 +34,7 @@ public interface IGithubService
         UserId userId,
         DefaultInstallationIdSelectionType defaultInstallationIdSelectionType);
     Task<GithubUserLogin?> GetUserLoginAsync(UserId userId);
-    Task<Repository> ForkRepositoryAsync(
+    Task<(Repository, Task)> ForkRepositoryAsync(
         IGitHubClient client,
         string owner,
         string repo,
@@ -240,7 +240,7 @@ public sealed class GithubService(
         }
     }
 
-    public async Task<Repository> ForkRepositoryAsync(IGitHubClient client, string owner, string repo, string organization, string name)
+    public async Task<(Repository, Task)> ForkRepositoryAsync(IGitHubClient client, string owner, string repo, string organization, string name)
     {
         var forkedRepo = await client.Repository.Forks.Create(
                             owner,
@@ -266,7 +266,7 @@ public sealed class GithubService(
                 return repo;
             });
 
-        return repoResponse;
+        return (repoResponse, WaitUntilExistsAsync(client, organization, forkedRepo.Name));
     }
 
     public static async Task<T> ConflictingRepoRetryOperation<T>(Func<Task<T>> operation, int maxRetries = 3, int initialDelayMs = 1000)
@@ -291,6 +291,8 @@ public sealed class GithubService(
         }
     }
 
+
+
     public async Task<Reference> CreateBranchAsync(
         IGitHubClient client,
         string owner,
@@ -312,5 +314,29 @@ public sealed class GithubService(
                 );
                 return newBranch;
             });
+    }
+
+    private static async Task WaitUntilExistsAsync(IGitHubClient client, string owner, string repoName, int maxRetries = 10, int delayMs = 500)
+    {
+        int retryCount = 0;
+        while (retryCount < maxRetries)
+        {
+            try
+            {
+                await client.Repository.Get(owner, repoName);
+                return;
+            }
+            catch (ApiException)
+            {
+                retryCount++;
+                await Task.Delay(delayMs * (1 << (retryCount - 1)));
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException($"Error checking repository availability: {ex.Message}", ex);
+            }
+        }
+
+        throw new TimeoutException($"Repository {owner}/{repoName} did not become available after forking");
     }
 }

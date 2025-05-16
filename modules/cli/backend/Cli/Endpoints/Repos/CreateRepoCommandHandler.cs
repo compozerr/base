@@ -24,7 +24,7 @@ public sealed record CreateRepoCommandHandler(
             userId,
             command.Type);
 
-        var userInstallations = await GithubService.GetInstallationsForUserAsync(userId);        
+        var userInstallations = await GithubService.GetInstallationsForUserAsync(userId);
 
         var currentInstallation = userInstallations.Single(
             userInstallation => userInstallation.InstallationId == clientResponse.InstallationId);
@@ -41,11 +41,11 @@ public sealed record CreateRepoCommandHandler(
                     Owner = currentInstallation.Name
                 }
             ),
-            DefaultInstallationIdSelectionType.Modules => await GithubService.ForkRepositoryAsync(clientResponse.InstallationClient,
+            DefaultInstallationIdSelectionType.Modules => (await GithubService.ForkRepositoryAsync(clientResponse.InstallationClient,
                             "compozerr",
                             "template",
                             currentInstallation.Name,
-                            command.Name),
+                            command.Name)).Item1,
             _ => throw new ArgumentOutOfRangeException(nameof(command.Type), command.Type, null)
         };
 

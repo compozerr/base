@@ -518,7 +518,7 @@ export interface paths {
             };
             requestBody: {
                 content: {
-                    "application/json": components["schemas"]["ForkModuleCommand"];
+                    "application/json": components["schemas"]["ForkModuleRequest"];
                 };
             };
             responses: {
@@ -1687,8 +1687,9 @@ export interface components {
         };
         /** Format: uuid */
         DomainId: string;
-        ForkModuleCommand: {
+        ForkModuleRequest: {
             modulesToFork?: components["schemas"]["ModuleDto"][] | null;
+            projectId?: string | null;
         };
         ForkModuleResponse: Record<string, never>;
         GetDeploymentResponse: {
@@ -1785,7 +1786,7 @@ export interface components {
             avatarUrl?: string | null;
         };
         ModuleDto: {
-            name?: string | null;
+            value?: string | null;
             hash?: string | null;
             readonly organization?: string | null;
             readonly moduleName?: string | null;

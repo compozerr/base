@@ -1,9 +1,9 @@
 namespace Cli.Endpoints.Modules.Add;
 
-public sealed record ModuleDto(string Name, string Hash)
+public sealed record ModuleDto(string Value, string Hash)
 {
-    public string Organization => Name.Split('/')[0];
-    public string ModuleName => Name.Split('/')[1];
+    public string Organization => Value.Split('/')[0];
+    public string ModuleName => Value.Split('/')[1];
     public string FullName => $"{Organization}/{ModuleName}";
     public string CommitHash => Hash;
     public string CloneUrl => $"https://github.com/{Organization}/{ModuleName}.git";

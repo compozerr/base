@@ -28,59 +28,85 @@ public sealed class ForkModuleCommandHandler(
 			command.ProjectId,
 			cancellationToken))!;
 
-		var installationName = currentInstallation.Name;
+		var newOrg = currentInstallation.Name;
 
-		if (command.ModulesToFork.Any(m => OwnsRepo(m, installationName)))
+		if (command.ModulesToFork.Any(m => OwnsRepo(m, newOrg)))
 		{
 			throw new InvalidOperationException("You already own one of the repos");
 		}
 
 		foreach (var module in command.ModulesToFork)
 		{
-			if (!await ExistsAsync(module, clientResponse.InstallationClient))
+			if (!(await ExistsAsync(module, clientResponse.InstallationClient)).RepoExists)
 			{
-				throw new InvalidOperationException($"Repo {module.Name} does not exist");
+				throw new InvalidOperationException($"Repo {module.Value} does not exist");
 			}
 		}
 
 		await command.ModulesToFork.ApplyAsync(
-		    m => ForkAsync(
-		        m,
-		        clientResponse.InstallationClient,
-		        installationName,
-		        project.Name));
+			m => UpsertForkAsync(
+				m,
+				clientResponse.InstallationClient,
+				newOrg,
+				project.Name));
 
 		return new ForkModuleResponse();
 	}
 
-	private async Task ForkAsync(ModuleDto module, IGitHubClient client, string newOrg, string projectName)
+	private async Task UpsertForkAsync(ModuleDto module, IGitHubClient client, string newOrg, string projectName)
 	{
-		await GithubService.ForkRepositoryAsync(
-			client,
-			module.Organization,
-			module.Name,
-			newOrg,
-			module.Name);
+		var branchName = projectName;
 
-		await GithubService.CreateBranchAsync(
-			client,
-			newOrg,
-			module.Name,
-			projectName);
+		var existsResult = await ExistsAsync(new ModuleDto($"{newOrg}/{module.ModuleName}", module.Hash), client, branchName);
+
+		// Only fork if the module is not already in the new organization
+		if (!existsResult.RepoExists)
+		{
+			var (_, waitUntilExistsAsync) = await GithubService.ForkRepositoryAsync(
+				client,
+				module.Organization,
+				module.ModuleName,
+				newOrg,
+				module.ModuleName);
+
+			// Wait for the repository to be available after forking
+			await waitUntilExistsAsync;
+		}
+
+		if (!existsResult.BranchExists)
+		{
+			await GithubService.CreateBranchAsync(
+				client,
+				newOrg,
+				module.ModuleName,
+				projectName);
+		}
 	}
 
-	private async static Task<bool> ExistsAsync(
+	private sealed record ExistsResponse(bool RepoExists, bool BranchExists);
+
+	private async static Task<ExistsResponse> ExistsAsync(
 		ModuleDto module,
-		IGitHubClient client)
+		IGitHubClient client,
+		string? branchName = null)
 	{
 		try
 		{
-			await client.Repository.Get(module.Organization, module.Name);
-			return true;
+			bool branchExists = false;
+
+			var repo = await client.Repository.Get(module.Organization, module.ModuleName);
+
+			if (branchName is not null)
+			{
+				var branches = await client.Repository.Branch.GetAll(module.Organization, module.ModuleName);
+				branchExists = branches.Any(b => b.Name.Equals(branchName, StringComparison.OrdinalIgnoreCase));
+			}
+
+			return new ExistsResponse(true, branchExists);
 		}
 		catch (ApiException e) when (e.StatusCode == System.Net.HttpStatusCode.NotFound)
 		{
-			return false;
+			return new(false, false);
 		}
 		catch (Exception e)
 		{
