@@ -1,6 +1,7 @@
 using Auth.Abstractions;
 using Auth.Models;
 using Auth.Repositories;
+using Core.Extensions;
 using Github.Endpoints.SetDefaultInstallationId;
 using Github.Repositories;
 using Octokit;
@@ -311,7 +312,7 @@ public sealed class GithubService(
                     owner,
                     repo,
                     new NewReference($"refs/heads/{branchName}", defaultBranch.Object.Sha)
-                );
+                ).RetryAsync();
                 return newBranch;
             });
     }

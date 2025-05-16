@@ -140,4 +140,33 @@ public static class TaskExtensions
             // Ignored intentionally
         }
     }
+
+    public static async Task<T> RetryAsync<T>(
+        this Task<T> @this,
+        int maxRetries = 3,
+        TimeSpan? delay = null,
+        Func<Exception, bool>? shouldRetry = null)
+    {
+        var attempts = 0;
+        var delayTime = delay ?? TimeSpan.FromSeconds(1);
+
+        while (true)
+        {
+            try
+            {
+                return await @this.ConfigureAwait(false);
+            }
+            catch (Exception ex) when (shouldRetry?.Invoke(ex) ?? true)
+            {
+                if (++attempts >= maxRetries)
+                    throw;
+
+                Log.Logger
+                   .ForContext("Attempts", attempts)
+                   .Warning(ex, "Retrying after exception: {Message}", ex.Message);
+                   
+                await Task.Delay(delayTime * (1 << attempts)).ConfigureAwait(false);
+            }
+        }
+    }
 }
