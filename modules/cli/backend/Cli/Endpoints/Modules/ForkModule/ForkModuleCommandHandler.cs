@@ -37,7 +37,9 @@ public sealed class ForkModuleCommandHandler(
 
 		foreach (var module in command.ModulesToFork)
 		{
-			if (!(await ExistsAsync(module, clientResponse.InstallationClient)).RepoExists)
+			if (!(await ExistsAsync(
+					module,
+					clientResponse.InstallationClient)).RepoExists)
 			{
 				throw new InvalidOperationException($"Repo {module.Value} does not exist");
 			}
@@ -50,14 +52,23 @@ public sealed class ForkModuleCommandHandler(
 				newOrg,
 				project.Name));
 
-		return new ForkModuleResponse();
+		return new ForkModuleResponse(
+			ForkedModules: [.. command.ModulesToFork.Select(m => m with { Value = ModuleDto.CreateValue(newOrg, m.ModuleName) })],
+			SharedBranchName: project.Name);
 	}
 
 	private async Task UpsertForkAsync(ModuleDto module, IGitHubClient client, string newOrg, string projectName)
 	{
 		var branchName = projectName;
 
-		var existsResult = await ExistsAsync(new ModuleDto($"{newOrg}/{module.ModuleName}", module.Hash), client, branchName);
+		var existsResult = await ExistsAsync(
+			new ModuleDto(
+				ModuleDto.CreateValue(
+					newOrg,
+					module.ModuleName),
+				module.Hash),
+			client,
+			branchName);
 
 		// Only fork if the module is not already in the new organization
 		if (!existsResult.RepoExists)
@@ -94,11 +105,16 @@ public sealed class ForkModuleCommandHandler(
 		{
 			bool branchExists = false;
 
-			var repo = await client.Repository.Get(module.Organization, module.ModuleName);
+			var repo = await client.Repository.Get(
+				module.Organization,
+				module.ModuleName);
 
 			if (branchName is not null)
 			{
-				var branches = await client.Repository.Branch.GetAll(module.Organization, module.ModuleName);
+				var branches = await client.Repository.Branch.GetAll(
+					module.Organization,
+					module.ModuleName);
+
 				branchExists = branches.Any(b => b.Name.Equals(branchName, StringComparison.OrdinalIgnoreCase));
 			}
 

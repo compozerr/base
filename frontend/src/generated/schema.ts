@@ -1691,7 +1691,10 @@ export interface components {
             modulesToFork?: components["schemas"]["ModuleDto"][] | null;
             projectId?: string | null;
         };
-        ForkModuleResponse: Record<string, never>;
+        ForkModuleResponse: {
+            forkedModules?: components["schemas"]["ModuleDto"][] | null;
+            sharedBranchName?: string | null;
+        };
         GetDeploymentResponse: {
             /** Format: uuid */
             id?: string;

@@ -7,6 +7,11 @@ public sealed record ModuleDto(string Value, string Hash)
     public string FullName => $"{Organization}/{ModuleName}";
     public string CommitHash => Hash;
     public string CloneUrl => $"https://github.com/{Organization}/{ModuleName}.git";
+
+    public static string CreateValue(string organization, string moduleName)
+    {
+        return $"{organization}/{moduleName}";
+    }
 }
 
 public class ModulesGetter
