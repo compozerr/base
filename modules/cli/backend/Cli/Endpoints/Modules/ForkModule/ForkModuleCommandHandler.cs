@@ -30,7 +30,7 @@ public sealed class ForkModuleCommandHandler(
 
 		var newOrg = currentInstallation.Name;
 
-		if (command.ModulesToFork.Any(m => OwnsRepo(m, newOrg)))
+		if (command.ModulesToFork.Any(m => m.OwnsRepo(newOrg)))
 		{
 			throw new InvalidOperationException("You already own one of the repos");
 		}
@@ -129,7 +129,4 @@ public sealed class ForkModuleCommandHandler(
 			throw new InvalidOperationException($"Error checking repo existence: {e.Message}", e);
 		}
 	}
-
-	private static bool OwnsRepo(ModuleDto module, string selectedModulesOrganizationName)
-		=> module.Organization == selectedModulesOrganizationName;
 }

@@ -17,6 +17,11 @@ public sealed class AddModuleCommandHandler(
             CurrentUserAccessor.CurrentUserId ?? throw new InvalidOperationException("User not found"),
             GE.DefaultInstallationIdSelectionType.Modules);
 
+        var organizationsForUser = await GithubService.GetInstallationsForUserAsync(CurrentUserAccessor.CurrentUserId!);
+
+        var currentInstallation = organizationsForUser.Single(
+            userInstallation => userInstallation.InstallationId == clientResponse.InstallationId);
+
         var modules = await ModulesGetter.GetModulesAsync(
             command.Organization,
             command.ModuleName,
@@ -25,6 +30,6 @@ public sealed class AddModuleCommandHandler(
             clientSecret: clientResponse.InstallationToken,
             cancellationToken: cancellationToken);
 
-        return new AddModuleResponse(modules);
+        return new AddModuleResponse(modules.WithIsOwner(currentInstallation.Name));
     }
 }

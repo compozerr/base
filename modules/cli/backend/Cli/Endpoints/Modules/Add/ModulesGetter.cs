@@ -12,6 +12,9 @@ public sealed record ModuleDto(string Value, string Hash)
     {
         return $"{organization}/{moduleName}";
     }
+
+    public bool OwnsRepo(string organization)
+        => string.Equals(organization, Organization, StringComparison.OrdinalIgnoreCase);
 }
 
 public class ModulesGetter
