@@ -30,11 +30,6 @@ public sealed class ForkModuleCommandHandler(
 
 		var newOrg = currentInstallation.Name;
 
-		if (command.ModulesToFork.Any(m => m.OwnsRepo(newOrg)))
-		{
-			throw new InvalidOperationException("You already own one of the repos");
-		}
-
 		foreach (var module in command.ModulesToFork)
 		{
 			if (!(await ExistsAsync(
