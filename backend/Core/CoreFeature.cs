@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using Carter;
 using Core.Extensions;
 using Core.Feature;
