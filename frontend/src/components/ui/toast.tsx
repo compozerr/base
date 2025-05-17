@@ -1,7 +1,7 @@
 import * as React from "react"
 import * as ToastPrimitives from "@radix-ui/react-toast"
 import { cva, type VariantProps } from "class-variance-authority"
-import { X } from "lucide-react"
+import { Check, X } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
@@ -28,8 +28,9 @@ const toastVariants = cva(
     variants: {
       variant: {
         default: "border bg-background text-foreground",
+        success: "border bg-success text-success-foreground flex flex-row justify-start",
         destructive:
-          "destructive group border-destructive bg-destructive text-destructive-foreground",
+          "destructive group border-destructive bg-destructive text-destructive-foreground justify-start",
       },
     },
     defaultVariants: {
@@ -48,7 +49,16 @@ const Toast = React.forwardRef<
       ref={ref}
       className={cn(toastVariants({ variant }), className)}
       {...props}
-    />
+    >
+      {variant === "success" && (
+        <Check className="mr-2 h-4 w-4 text-success-foreground" />
+      )}
+
+      {variant === "destructive" && (
+        <X className="mr-2 h-4 w-4 text-success-foreground" />
+      )}
+      {props.children}
+    </ToastPrimitives.Root>
   )
 })
 Toast.displayName = ToastPrimitives.Root.displayName

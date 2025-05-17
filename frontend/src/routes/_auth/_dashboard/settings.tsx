@@ -24,12 +24,16 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
+import { useToast } from '@/hooks/use-toast'
 
 export const Route = createFileRoute('/_auth/_dashboard/settings')({
   component: RouteComponent,
 })
 
 function RouteComponent() {
+
+  const { toast } = useToast();
+
   const {
     data: appUrlData,
     isLoading: appUrlLoading,
@@ -81,8 +85,20 @@ function RouteComponent() {
         setSelectedModulesInstallationId(installationId)
       }
       if (installationId) {
-        defaultOrganizationMutation.mutate({
+        defaultOrganizationMutation.mutateAsync({
           body: { installationId, type: type },
+        }).then(() => {
+            toast({
+            title: "Success",
+            description: "Saved successfully",
+            variant: "success"
+            })
+        }).catch((error) => {
+          toast({
+            title: "Error",
+            description: error.message,
+            variant: "destructive"
+          })
         })
       }
     },
