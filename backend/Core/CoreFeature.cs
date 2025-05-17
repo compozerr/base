@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Serilog;
+using Serilog.Events;
 
 namespace Core;
 
@@ -27,6 +29,8 @@ public class CoreFeature : IFeature
         }
 
         builder.Configuration.AddEnvFile(".env");
+
+        builder.Host.UseSerilog();
     }
 
     public void ConfigureApp(WebApplication app)
