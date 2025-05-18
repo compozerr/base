@@ -6,6 +6,7 @@ using Api.Hosting.Dtos;
 using Api.Hosting.Endpoints.Deployments.ChangeDeploymentStatus;
 using Github.Services;
 using MediatR;
+using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 
 namespace Api.Hosting.Services;
@@ -15,7 +16,7 @@ public sealed class HostingApi(
     IHostingServerHttpClientFactory hostingServerHttpClientFactory,
     IGithubService githubService,
     IProjectRepository projectRepository,
-    IMediator mediator) : IHostingApi
+    IServiceProvider serviceProvider) : IHostingApi
 {
     private HostingServerHttpClient HttpClient { get; set; } = null!;
 
@@ -61,6 +62,7 @@ public sealed class HostingApi(
 
     public async Task DeployAsync(Deployment deployment)
     {
+        var mediator = serviceProvider.GetRequiredService<IMediator>();
         var deploymentId = deployment.Id;
 
         var userLogin = await githubService.GetUserLoginAsync(deployment.UserId);
