@@ -14,7 +14,9 @@ export const Route = createFileRoute('/_auth/_dashboard/projects/$projectId/')({
 
 function RouteComponent() {
     const { projectId } = getRouteApi("/_auth/_dashboard/projects/$projectId").useLoaderData();
-    const { data: project } = api.v1.getProjectsProjectId.useQuery({ path: { projectId } })
+    const { data: project } = api.v1.getProjectsProjectId.useQuery({ path: { projectId } }, {
+        refetchInterval: (project) => project.state.data?.state === ProjectState.Starting ? 2000 : false,
+    })
 
     const getStateColor = (state: ProjectState) => {
         switch (state) {
