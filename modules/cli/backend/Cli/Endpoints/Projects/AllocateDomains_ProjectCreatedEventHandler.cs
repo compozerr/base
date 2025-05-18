@@ -34,6 +34,7 @@ public sealed class AllocateDomains_ProjectCreatedEventHandler : IDomainEventHan
             ProjectId = projectId,
             ServiceName = "Frontend",
             Port = "1234",
+            IsPrimary = true,
             Subdomain = $"{hash}",
         };
 
