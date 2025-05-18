@@ -9,17 +9,17 @@ public interface IGenericRepository<TEntity, TEntityId, TDbContext>
     where TDbContext : BaseDbContext<TDbContext>
 {
     // Original methods
-    ValueTask<TEntity?> GetByIdAsync(TEntityId id, CancellationToken cancellationToken = default);
-    Task<List<TEntity>> GetAllAsync(CancellationToken cancellationToken = default);
+    ValueTask<TEntity?> GetByIdAsync(TEntityId id, CancellationToken cancellationToken = default, bool getDeleted = false);
+    Task<List<TEntity>> GetAllAsync(CancellationToken cancellationToken = default, bool getDeleted = false);
     Task<TEntity> AddAsync(TEntity entity, CancellationToken cancellationToken = default);
     Task<IEnumerable<TEntity>> AddRangeAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default);
-    
+
     Task UpdateAsync(TEntity entity, CancellationToken cancellationToken = default);
     Task UpdateRangeAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default);
     Task DeleteAsync(TEntityId id, CancellationToken cancellationToken = default);
 
     // Basic query methods
-    IQueryable<TEntity> Query();
+    IQueryable<TEntity> Query(bool getDeleted = false);
 
     // Methods with include builder pattern
     Task<TEntity?> GetByIdAsync(TEntityId id, Func<IQueryable<TEntity>, IQueryable<TEntity>> includeBuilder, CancellationToken cancellationToken = default);
@@ -49,15 +49,15 @@ public class GenericRepository<TEntity, TEntityId, TDbContext>(TDbContext contex
     where TDbContext : BaseDbContext<TDbContext>
 {
     // Original methods implementation
-    public virtual ValueTask<TEntity?> GetByIdAsync(TEntityId id, CancellationToken cancellationToken = default)
+    public virtual ValueTask<TEntity?> GetByIdAsync(TEntityId id, CancellationToken cancellationToken = default, bool getDeleted = false)
         => new(context.Set<TEntity>().Where(
-            e => e.DeletedAtUtc == null
+            e => (getDeleted || e.DeletedAtUtc == null)
                  && e.Id.Equals(id)
         ).FirstOrDefaultAsync(cancellationToken));
 
-    public virtual Task<List<TEntity>> GetAllAsync(CancellationToken cancellationToken = default)
+    public virtual Task<List<TEntity>> GetAllAsync(CancellationToken cancellationToken = default, bool getDeleted = false)
         => context.Set<TEntity>().Where(
-            e => e.DeletedAtUtc == null
+            e => getDeleted || e.DeletedAtUtc == null
         ).ToListAsync(cancellationToken);
 
     public virtual async Task<TEntity> AddAsync(TEntity entity, CancellationToken cancellationToken = default)
@@ -97,9 +97,9 @@ public class GenericRepository<TEntity, TEntityId, TDbContext>(TDbContext contex
     }
 
     // Basic query method implementation
-    public virtual IQueryable<TEntity> Query()
+    public virtual IQueryable<TEntity> Query(bool getDeleted = false)
         => context.Set<TEntity>().Where(
-            e => e.DeletedAtUtc == null
+            e => getDeleted || e.DeletedAtUtc == null
         ).AsQueryable();
 
     // Methods with include builder pattern implementation

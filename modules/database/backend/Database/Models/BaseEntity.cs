@@ -9,6 +9,8 @@ public abstract class BaseEntity
     public DateTime? UpdatedAtUtc { get; set; }
     public DateTime? DeletedAtUtc { get; set; }
 
+    public bool IsDeleted => DeletedAtUtc != null;
+
     [NotMapped]
     public List<IDomainEvent> DomainEvents { get; } = [];
 

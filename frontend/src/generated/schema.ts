@@ -377,6 +377,13 @@ export interface paths {
                         "application/json": components["schemas"]["ProjectDto"];
                     };
                 };
+                /** @description Not Found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
             };
         };
         put?: never;
@@ -1918,6 +1925,7 @@ export interface components {
             updatedAtUtc?: string | null;
             /** Format: date-time */
             deletedAtUtc?: string | null;
+            readonly isDeleted?: boolean;
             readonly domainEvents?: components["schemas"]["IDomainEvent"][] | null;
             id?: components["schemas"]["UserId"];
             name?: string | null;
@@ -1935,6 +1943,7 @@ export interface components {
             updatedAtUtc?: string | null;
             /** Format: date-time */
             deletedAtUtc?: string | null;
+            readonly isDeleted?: boolean;
             readonly domainEvents?: components["schemas"]["IDomainEvent"][] | null;
             id?: components["schemas"]["UserLoginId"];
             userId: components["schemas"]["UserId"];

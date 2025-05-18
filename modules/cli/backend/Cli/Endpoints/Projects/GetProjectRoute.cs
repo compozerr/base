@@ -1,6 +1,9 @@
 using Api.Abstractions;
 using Api.Data.Repositories;
+using Core.Results;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Routing;
 
 namespace Cli.Endpoints.Projects;
@@ -14,14 +17,21 @@ public static class GetProjectRoute
         return app.MapGet(Route, ExecuteAsync);
     }
 
-    public static async Task<ProjectDto?> ExecuteAsync(
+    public static async Task<Results<Ok<ProjectDto>, NotFound, Deleted>> ExecuteAsync(
         ProjectId projectId,
-        IProjectRepository projectRepository)
+        IProjectRepository projectRepository,
+        CancellationToken cancellationToken = default)
     {
-        var project = await projectRepository.GetByIdAsync(projectId);
+        var project = await projectRepository.GetByIdAsync(
+            projectId,
+            cancellationToken,
+            getDeleted: true);
 
-        if (project is null) return null;
+        if (project is null) return TypedResults.NotFound();
 
-        return ProjectDto.FromProject(project);
+        if (project.IsDeleted)
+            return new Deleted();
+
+        return TypedResults.Ok(ProjectDto.FromProject(project));
     }
 }
