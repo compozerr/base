@@ -18,7 +18,11 @@ public static class ProjectAuthorizationValidatorExtensions
 			if (projectId == null)
 				return false;
 
-			var project = await projectRepository.GetByIdAsync(projectId, cancel);
+			var project = await projectRepository.GetByIdAsync(
+				projectId,
+				cancel,
+				getDeleted: true);
+
 			return project?.UserId == currentUserId;
 		})
 		.WithMessage("You do not have permission to access this project.")

@@ -17,6 +17,7 @@ public interface IGenericRepository<TEntity, TEntityId, TDbContext>
     Task UpdateAsync(TEntity entity, CancellationToken cancellationToken = default);
     Task UpdateRangeAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default);
     Task DeleteAsync(TEntityId id, CancellationToken cancellationToken = default);
+    Task RestoreAsync(TEntityId id, CancellationToken cancellationToken = default);
 
     // Basic query methods
     IQueryable<TEntity> Query(bool getDeleted = false);
@@ -91,6 +92,16 @@ public class GenericRepository<TEntity, TEntityId, TDbContext>(TDbContext contex
         var entity = await GetByIdAsync(id, cancellationToken) ?? throw new Exception($"{typeof(TEntity).Name} with id {id} not found");
 
         entity.DeletedAtUtc = DateTime.UtcNow;
+
+        context.Entry(entity).State = EntityState.Modified;
+        await context.SaveChangesAsync(cancellationToken);
+    }
+
+    public virtual async Task RestoreAsync(TEntityId id, CancellationToken cancellationToken = default)
+    {
+        var entity = await GetByIdAsync(id, cancellationToken, true) ?? throw new Exception($"{typeof(TEntity).Name} with id {id} not found");
+
+        entity.DeletedAtUtc = null;
 
         context.Entry(entity).State = EntityState.Modified;
         await context.SaveChangesAsync(cancellationToken);
