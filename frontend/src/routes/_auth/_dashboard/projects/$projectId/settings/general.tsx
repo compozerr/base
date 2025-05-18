@@ -22,6 +22,7 @@ import { createFileRoute, getRouteApi, useNavigate, } from '@tanstack/react-rout
 import React, { useState } from 'react'
 
 import { api } from '@/api-client'
+import LoadingButton from '@/components/loading-button'
 export const Route = createFileRoute(
   '/_auth/_dashboard/projects/$projectId/settings/general',
 )({
@@ -106,9 +107,9 @@ function GeneralSettingsTab() {
                 Permanently delete this project and all its resources.
               </p>
             </div>
-            <Button variant="destructive" onClick={() => {
+            <LoadingButton isLoading={wantsDeletion} variant="destructive" onClick={() => {
               setWantsDeletion(true);
-            }}>Delete</Button>
+            }}>Delete</LoadingButton>
             <AreYouSureDialogConfirmWithText
               title='Are you sure you want to delete this project'
               subtitle="This action cannot be reverted, you'll have to add it again..."
