@@ -21,7 +21,7 @@ function RouteComponent() {
             case ProjectState.Running:
                 return 'bg-green-500'
             case ProjectState.Starting:
-                return 'bg-green-200'
+                return 'bg-yellow-500'
             case ProjectState.Stopped:
                 return 'bg-red-500'
             default:
