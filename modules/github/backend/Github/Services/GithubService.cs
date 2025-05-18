@@ -169,12 +169,35 @@ public sealed class GithubService(
 
     public async Task<GithubUserLogin?> GetUserLoginAsync(UserId userId)
     {
-        var user = await userRepository.GetUserWithLoginsAsync(userId);
+        try
+        {
+            var user = await userRepository.GetUserWithLoginsAsync(userId);
 
-        if (user is null)
+            if (user is null)
+                return null;
+            
+            // Defensively check for null Logins collection
+            if (user.Logins is null)
+            {
+                Log.ForContext(nameof(userId), userId)
+                   .Warning("User found but Logins collection is null");
+                return null;
+            }
+
+            // ToList() materializes the enumeration to avoid potential issues with deferred execution
+            var logins = user.Logins.ToList();
+            return (logins.FirstOrDefault(l => l.Provider == Provider.GitHub) as GithubUserLogin);
+        }
+        catch (Exception ex)
+        {
+            Log.ForContext(nameof(userId), userId)
+               .ForContext("ExceptionType", ex.GetType().Name)
+               .ForContext("ExceptionMessage", ex.Message)
+               .Error(ex, "Exception occurred when retrieving GitHub user login");
+            
+            // Since this is called in various places, returning null is safer than throwing
             return null;
-
-        return (user.Logins.FirstOrDefault(l => l.Provider == Provider.GitHub) as GithubUserLogin)!;
+        }
     }
 
     public async Task<GetInstallationClientByUserDefaultResponse> GetInstallationClientByUserDefaultAsync(UserId userId, DefaultInstallationIdSelectionType type)
