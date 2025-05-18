@@ -1,7 +1,5 @@
-using Api.Abstractions;
 using Api.Data.Repositories;
 using Auth.Services;
-using Core.Abstractions;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 
