@@ -14,6 +14,16 @@ public sealed class RestoreProjectCommandHandler(
 			command.ProjectId,
 			cancellationToken);
 
+		var project = (await projectRepository.GetByIdAsync(
+		    command.ProjectId,
+		    cancellationToken))!;
+
+		project.State = Api.Data.ProjectState.Stopped;
+
+		await projectRepository.UpdateAsync(
+			project,
+			cancellationToken);
+
 		return new RestoreProjectResponse();
 	}
 }
