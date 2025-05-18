@@ -13,8 +13,6 @@ public interface IDomainRepository : IGenericRepository<Domain, DomainId, ApiDbC
 public sealed class DomainRepository(
     ApiDbContext context) : GenericRepository<Domain, DomainId, ApiDbContext>(context), IDomainRepository
 {
-    private readonly ApiDbContext _context = context;
-
     public async Task<InternalDomain> GetParentDomainAsync(DomainId domainId, CancellationToken cancellationToken = default)
     {
         var domain = await GetByIdAsync(
@@ -24,7 +22,7 @@ public sealed class DomainRepository(
         if (domain is InternalDomain internalDomain)
             return internalDomain;
 
-        var parentDomain = await _context.Domains.Include(x => x.Project)
+        var parentDomain = await Query().Include(x => x.Project)
                                                  .ThenInclude(x => x!.Server)
                                                  .FirstOrDefaultAsync(
             x => x.ProjectId == domain.ProjectId && x.Type == DomainType.Internal && x.ServiceName == domain.ServiceName,
@@ -35,7 +33,7 @@ public sealed class DomainRepository(
 
     public async Task<bool> IsProjectDomainUniqueAsync(ProjectId projectId, string domain)
     {
-        var hasSome = await _context.Domains
+        var hasSome = await Query()
                         .AsNoTracking()
                         .AnyAsync(d => d.ProjectId == projectId && d.Type == DomainType.External && ((ExternalDomain)d).Value == domain);
 

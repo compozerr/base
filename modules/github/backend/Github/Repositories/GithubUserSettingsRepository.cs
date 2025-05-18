@@ -24,7 +24,7 @@ public sealed class GithubUserSettingsRepository(
     private readonly GithubDbContext _context = context;
 
     public Task<GithubUserSettings?> GetOrDefaultByUserIdAsync(UserId userId)
-        => _context.GithubUserSettings.Where(g => g.UserId == userId)
+        => Query().Where(g => g.UserId == userId)
                                       .FirstOrDefaultAsync();
 
     public async Task<string> SetSelectedOrganizationForUserAsync(

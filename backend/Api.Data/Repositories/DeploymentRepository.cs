@@ -16,24 +16,22 @@ public interface IDeploymentRepository : IGenericRepository<Deployment, Deployme
 public sealed class DeploymentRepository(
     ApiDbContext context) : GenericRepository<Deployment, DeploymentId, ApiDbContext>(context), IDeploymentRepository
 {
-    private readonly ApiDbContext _context = context;
-
     public Task<List<Deployment>> GetByProjectIdAsync(ProjectId projectId)
-        => _context.Deployments.Where(x => x.ProjectId == projectId)
+        => Query().Where(x => x.ProjectId == projectId)
                                .ToListAsync();
 
     public Task<DeploymentId?> GetCurrentDeploymentId()
-        => _context.Deployments.Where(x => x.Status == DeploymentStatus.Completed)
+        => Query().Where(x => x.Status == DeploymentStatus.Completed)
                                .OrderByDescending(x => x.CreatedAtUtc)
                                .Select(x => x.Id)
                                .FirstOrDefaultAsync();
 
     public Task<List<Deployment>> GetDeploymentsForUserAsync(UserId userId)
-        => _context.Deployments
+        => Query()
                 .Where(x => x.UserId == userId)
                 .ToListAsync();
 
     public Task<List<Deployment>> GetByProjectIdAsync(ProjectId projectId, Func<IQueryable<Deployment>, IQueryable<Deployment>> includeBuilder)
-        => includeBuilder(_context.Deployments.Where(x => x.ProjectId == projectId))
+        => includeBuilder(Query().Where(x => x.ProjectId == projectId))
             .ToListAsync();
 }

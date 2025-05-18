@@ -41,18 +41,17 @@ public sealed class ServerRepository(
             ServerVisibility = ServerVisibility.Public,
         };
 
-        _context.Servers.Add(server);
-        await _context.SaveChangesAsync();
+        await AddAsync(server);
 
         return secret;
     }
 
     public Task<Server?> GetServerOrDefaultByTokenAsync(string secret)
-        => _context.Servers.Include(x => x.Secret)
+        => Query().Include(x => x.Secret)
                            .SingleOrDefaultAsync(x => x.Secret != null && x.Secret.Value == hashService.Hash(secret));
 
     public Task<List<Server>> GetServersByLocationId(LocationId locationId)
-        => _context.Servers.Where(s => s.LocationId == locationId).ToListAsync();
+        => Query().Where(s => s.LocationId == locationId).ToListAsync();
 
     public async Task<Server> UpdateServer(
         string secret,
@@ -66,7 +65,7 @@ public sealed class ServerRepository(
     {
         var hashedSecret = hashService.Hash(secret);
 
-        var server = await _context.Servers
+        var server = await Query()
                                   .Include(s => s.Secret)
                                   .Where(s => s.Secret!.Value == hashedSecret)
                                   .FirstOrDefaultAsync() ?? throw new ServerNotFoundException();
@@ -77,7 +76,7 @@ public sealed class ServerRepository(
         server.HostName = hostName;
         server.ApiDomain = apiDomain;
 
-        var location = await _context.Locations.Where(l => l.IsoCountryCode == isoCountryCode)
+        var location = await _context.Locations.Where(l => l.IsoCountryCode == isoCountryCode && l.DeletedAtUtc == null)
                                               .FirstOrDefaultAsync();
 
         if (location is null)
