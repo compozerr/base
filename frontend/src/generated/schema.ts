@@ -433,6 +433,43 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/cli/projects/{projectId}/restore": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    projectId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["RestoreProjectResponse"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/cli/locations": {
         parameters: {
             query?: never;
@@ -1881,6 +1918,7 @@ export interface components {
             ownedByInstallationId?: string | null;
             name?: string | null;
         };
+        RestoreProjectResponse: Record<string, never>;
         SetDefaultInstallationRequest: {
             installationId?: string | null;
             type?: components["schemas"]["DefaultInstallationIdSelectionType"];

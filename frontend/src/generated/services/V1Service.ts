@@ -2136,6 +2136,124 @@ export interface V1Service {
             body: PostCliProjectsGetProjectByRepoUrlBody;
         };
     };
+    postCliProjectsProjectIdRestore: {
+        /**/
+        getMutationKey(parameters: PostCliProjectsProjectIdRestoreParameters | void): ServiceOperationMutationKey<PostCliProjectsProjectIdRestoreSchema, PostCliProjectsProjectIdRestoreParameters>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.postCliProjectsProjectIdRestore.useMutation({
+         *     path: {
+         *         projectId: projectId
+         *     }
+         * })
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.postCliProjectsProjectIdRestore.useMutation()
+         * mutate({
+         *     body: bodyPayload,
+         *     path: {
+         *         projectId: projectId
+         *     }
+         * });
+         * ```
+         */
+        useMutation<TVariables extends PostCliProjectsProjectIdRestoreBody, TContext = unknown>(parameters: PostCliProjectsProjectIdRestoreParameters, options?: ServiceOperationUseMutationOptions<PostCliProjectsProjectIdRestoreSchema, PostCliProjectsProjectIdRestoreData, PostCliProjectsProjectIdRestoreParameters, TVariables, PostCliProjectsProjectIdRestoreError, TContext>): UseMutationResult<PostCliProjectsProjectIdRestoreData, PostCliProjectsProjectIdRestoreError | Error, AreAllOptional<TVariables> extends true ? TVariables | void : TVariables, TContext>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.postCliProjectsProjectIdRestore.useMutation({
+         *     path: {
+         *         projectId: projectId
+         *     }
+         * })
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.postCliProjectsProjectIdRestore.useMutation()
+         * mutate({
+         *     body: bodyPayload,
+         *     path: {
+         *         projectId: projectId
+         *     }
+         * });
+         * ```
+         */
+        useMutation<TVariables extends MutationVariables<PostCliProjectsProjectIdRestoreBody, PostCliProjectsProjectIdRestoreParameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<PostCliProjectsProjectIdRestoreSchema, PostCliProjectsProjectIdRestoreData, PostCliProjectsProjectIdRestoreParameters, TVariables, PostCliProjectsProjectIdRestoreError, TContext>): UseMutationResult<PostCliProjectsProjectIdRestoreData, PostCliProjectsProjectIdRestoreError | Error, TVariables, TContext>;
+        /**
+         * Returns the count of currently in-progress mutations.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
+         * @example Check how many mutations are currently in progress for the specified service method.
+         * ```ts
+         * const postCliProjectsProjectIdRestoreTotal = qraft.v1Service.postCliProjectsProjectIdRestore.useIsMutating()
+         * ```
+         * @example Check how many mutations are currently in progress with the specified parameters.
+         * ```ts
+         * const postCliProjectsProjectIdRestoreTotal = qraft.v1Service.postCliProjectsProjectIdRestore.useIsMutating({
+         *     parameters: {
+         *         path: {
+         *             projectId: projectId
+         *         }
+         *     }
+         * })
+         * ```
+         */
+        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<PostCliProjectsProjectIdRestoreBody, PostCliProjectsProjectIdRestoreData, PostCliProjectsProjectIdRestoreParameters, PostCliProjectsProjectIdRestoreError, TContext> | MutationFiltersByMutationKey<PostCliProjectsProjectIdRestoreSchema, PostCliProjectsProjectIdRestoreBody, PostCliProjectsProjectIdRestoreData, PostCliProjectsProjectIdRestoreParameters, PostCliProjectsProjectIdRestoreError, TContext>): number;
+        /**/
+        isMutating<TContext>(filters?: MutationFiltersByParameters<PostCliProjectsProjectIdRestoreBody, PostCliProjectsProjectIdRestoreData, PostCliProjectsProjectIdRestoreParameters, PostCliProjectsProjectIdRestoreError, TContext> | MutationFiltersByMutationKey<PostCliProjectsProjectIdRestoreSchema, PostCliProjectsProjectIdRestoreBody, PostCliProjectsProjectIdRestoreData, PostCliProjectsProjectIdRestoreParameters, PostCliProjectsProjectIdRestoreError, TContext>): number;
+        /**/
+        (options: ServiceOperationMutationFnOptions<PostCliProjectsProjectIdRestoreBody, PostCliProjectsProjectIdRestoreParameters>, client?: (schema: PostCliProjectsProjectIdRestoreSchema, options: ServiceOperationMutationFnOptions<PostCliProjectsProjectIdRestoreBody, PostCliProjectsProjectIdRestoreParameters>) => Promise<RequestFnResponse<PostCliProjectsProjectIdRestoreData, PostCliProjectsProjectIdRestoreError>>): Promise<RequestFnResponse<PostCliProjectsProjectIdRestoreData, PostCliProjectsProjectIdRestoreError>>;
+        /**
+         * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
+         * @example Get all variables of all running mutations.
+         * ```ts
+         * const postCliProjectsProjectIdRestorePendingMutationVariables = qraft.v1Service.postCliProjectsProjectIdRestore.useMutationState({
+         *     filters: {
+         *         status: "pending"
+         *     },
+         *     select: mutation => mutation.state.variables
+         * })
+         * ```
+         * @example Get all data for specific mutations via the `parameters`.
+         * ```ts
+         * const postCliProjectsProjectIdRestoreMutationData = qraft.v1Service.postCliProjectsProjectIdRestore.useMutationState({
+         *     filters: {
+         *         parameters: {
+         *             path: {
+         *                 projectId: projectId
+         *             }
+         *         }
+         *     },
+         *     select: mutation => mutation.state.data
+         * })
+         * ```
+         */
+        useMutationState<TContext = unknown, TResult = MutationState<PostCliProjectsProjectIdRestoreData, PostCliProjectsProjectIdRestoreError, MutationVariables<PostCliProjectsProjectIdRestoreBody, PostCliProjectsProjectIdRestoreParameters>, TContext>>(options?: {
+            filters?: MutationFiltersByParameters<PostCliProjectsProjectIdRestoreBody, PostCliProjectsProjectIdRestoreData, PostCliProjectsProjectIdRestoreParameters, PostCliProjectsProjectIdRestoreError, TContext> | MutationFiltersByMutationKey<PostCliProjectsProjectIdRestoreSchema, PostCliProjectsProjectIdRestoreBody, PostCliProjectsProjectIdRestoreData, PostCliProjectsProjectIdRestoreParameters, PostCliProjectsProjectIdRestoreError, TContext>;
+            select?: (mutation: Mutation<PostCliProjectsProjectIdRestoreData, PostCliProjectsProjectIdRestoreError, MutationVariables<PostCliProjectsProjectIdRestoreBody, PostCliProjectsProjectIdRestoreParameters>, TContext>) => TResult;
+        }): Array<TResult>;
+        schema: PostCliProjectsProjectIdRestoreSchema;
+        types: {
+            parameters: PostCliProjectsProjectIdRestoreParameters;
+            data: PostCliProjectsProjectIdRestoreData;
+            error: PostCliProjectsProjectIdRestoreError;
+            body: PostCliProjectsProjectIdRestoreBody;
+        };
+    };
     getCliLocations: {
         /**/
         cancelQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetCliLocationsSchema, GetCliLocationsData, TInfinite, GetCliLocationsParameters, GetCliLocationsError> | QueryFiltersByQueryKey<GetCliLocationsSchema, GetCliLocationsData, TInfinite, GetCliLocationsParameters, GetCliLocationsError>, options?: CancelOptions): Promise<void>;
@@ -9024,6 +9142,12 @@ export const v1Service: {
             ];
         };
     };
+    postCliProjectsProjectIdRestore: {
+        schema: {
+            method: "post";
+            url: "/v1/cli/projects/{projectId}/restore";
+        };
+    };
     getCliLocations: {
         schema: {
             method: "get";
@@ -9330,6 +9454,12 @@ export const v1Service: {
             method: "post",
             url: "/v1/cli/projects/get-project-by-repo-url",
             mediaType: ["application/json"]
+        }
+    },
+    postCliProjectsProjectIdRestore: {
+        schema: {
+            method: "post",
+            url: "/v1/cli/projects/{projectId}/restore"
         }
     },
     getCliLocations: {
@@ -9647,6 +9777,14 @@ type PostCliProjectsGetProjectByRepoUrlParameters = {};
 type PostCliProjectsGetProjectByRepoUrlData = paths["/v1/cli/projects/get-project-by-repo-url"]["post"]["responses"]["200"]["content"]["application/json"];
 type PostCliProjectsGetProjectByRepoUrlError = unknown;
 type PostCliProjectsGetProjectByRepoUrlBody = NonNullable<paths["/v1/cli/projects/get-project-by-repo-url"]["post"]["requestBody"]>["content"]["application/json"];
+type PostCliProjectsProjectIdRestoreSchema = {
+    method: "post";
+    url: "/v1/cli/projects/{projectId}/restore";
+};
+type PostCliProjectsProjectIdRestoreParameters = paths["/v1/cli/projects/{projectId}/restore"]["post"]["parameters"];
+type PostCliProjectsProjectIdRestoreData = paths["/v1/cli/projects/{projectId}/restore"]["post"]["responses"]["200"]["content"]["application/json"];
+type PostCliProjectsProjectIdRestoreError = unknown;
+type PostCliProjectsProjectIdRestoreBody = undefined;
 type GetCliLocationsSchema = {
     method: "get";
     url: "/v1/cli/locations";

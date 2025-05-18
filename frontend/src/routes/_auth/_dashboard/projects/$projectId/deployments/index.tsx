@@ -162,22 +162,6 @@ function RouteComponent() {
                                         <div>{Formatter.fromDate(deployment.createdAt, "long")}</div>
                                         <div>by {deployment.author}</div>
                                     </div>
-
-                                    <DropdownMenu>
-                                        <DropdownMenuTrigger asChild>
-                                            <Button variant="ghost" size="icon">
-                                                <MoreVertical className="h-4 w-4" />
-                                            </Button>
-                                        </DropdownMenuTrigger>
-                                        <DropdownMenuContent align="end">
-                                            <DropdownMenuItem>Visit</DropdownMenuItem>
-                                            <DropdownMenuItem>View Build Logs</DropdownMenuItem>
-                                            <DropdownMenuItem>Inspect</DropdownMenuItem>
-                                            <DropdownMenuSeparator />
-                                            <DropdownMenuItem>Promote to Production</DropdownMenuItem>
-                                            <DropdownMenuItem className="text-destructive">Delete Deployment</DropdownMenuItem>
-                                        </DropdownMenuContent>
-                                    </DropdownMenu>
                                 </div>
                             </div>
                         )
