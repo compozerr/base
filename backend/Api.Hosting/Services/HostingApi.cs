@@ -62,7 +62,9 @@ public sealed class HostingApi(
 
     public async Task DeployAsync(Deployment deployment)
     {
-        var mediator = serviceProvider.GetRequiredService<IMediator>();
+        using var scope = serviceProvider.CreateScope();
+        var scopedServiceProvider = scope.ServiceProvider;
+        var mediator = scopedServiceProvider.GetRequiredService<IMediator>();
         var deploymentId = deployment.Id;
 
         var userLogin = await githubService.GetUserLoginAsync(deployment.UserId);
