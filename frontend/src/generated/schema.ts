@@ -923,6 +923,47 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/hosting/projects/{projectId}/state": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    projectId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["ProjectStateRequest"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["ProjectStateResponse"];
+                    };
+                };
+            };
+        };
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/projects/{projectId}": {
         parameters: {
             query?: never;
@@ -1820,6 +1861,10 @@ export interface components {
         ProjectId: string;
         /** @enum {string} */
         ProjectState: "Unknown" | "Running" | "Starting" | "Stopped" | "Deleting";
+        ProjectStateRequest: {
+            state?: components["schemas"]["ProjectState"];
+        };
+        ProjectStateResponse: Record<string, never>;
         /**
          * Format: int32
          * @enum {integer}
@@ -1871,6 +1916,8 @@ export interface components {
             createdAtUtc?: string;
             /** Format: date-time */
             updatedAtUtc?: string | null;
+            /** Format: date-time */
+            deletedAtUtc?: string | null;
             readonly domainEvents?: components["schemas"]["IDomainEvent"][] | null;
             id?: components["schemas"]["UserId"];
             name?: string | null;
@@ -1886,6 +1933,8 @@ export interface components {
             createdAtUtc?: string;
             /** Format: date-time */
             updatedAtUtc?: string | null;
+            /** Format: date-time */
+            deletedAtUtc?: string | null;
             readonly domainEvents?: components["schemas"]["IDomainEvent"][] | null;
             id?: components["schemas"]["UserLoginId"];
             userId: components["schemas"]["UserId"];
