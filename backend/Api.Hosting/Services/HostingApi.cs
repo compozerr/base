@@ -61,6 +61,8 @@ public sealed class HostingApi(
 
     public async Task DeployAsync(Deployment deployment)
     {
+        var deploymentId = deployment.Id;
+
         var userLogin = await githubService.GetUserLoginAsync(deployment.UserId);
         if (userLogin is not { AccessToken: { } accessToken })
             throw new Exception("User access token is null");
@@ -128,7 +130,7 @@ public sealed class HostingApi(
 
         await mediator.Send(
             new ChangeDeploymentStatusCommand(
-                deployment.Id,
+                deploymentId,
                 deploymentStatus));
     }
 
