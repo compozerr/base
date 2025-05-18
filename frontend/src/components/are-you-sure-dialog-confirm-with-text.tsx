@@ -59,6 +59,7 @@ const AreYouSureDialogConfirmWithText: React.FC<Props> = (props) => {
                     </Button>
                     <Button
                         variant="destructive"
+                        type='submit'
                         onClick={() => {
                             handleOpenChange(false);
                             props.onAnswer(true);
