@@ -16,7 +16,7 @@ public sealed class HostingApiFactory(
     IGithubService githubService,
     IHostEnvironment hostEnvironment,
     IProjectRepository projectRepository,
-    IMediator mediator) : IHostingApiFactory
+    IServiceProvider serviceProvider) : IHostingApiFactory
 {
     public async Task<IHostingApi> GetHostingApiAsync(ServerId serverId)
     {
@@ -28,6 +28,6 @@ public sealed class HostingApiFactory(
            hostingServerHttpClientFactory,
            githubService,
            projectRepository,
-           mediator).InitializeAsync();
+           serviceProvider).InitializeAsync();
     }
 }
