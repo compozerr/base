@@ -6,15 +6,15 @@ using Core.MediatR;
 namespace Api.Endpoints.Projects.ProjectEnvironment;
 
 public class GetProjectEnvironmentCommandHandler(
-    IProjectRepository ProjectRepository,
-    IDefaultEnvironmentVariablesAppender VariablesAppender
+    IProjectEnvironmentRepository projectEnvironmentRepository,
+    IDefaultEnvironmentVariablesAppender variablesAppender
 ) : ICommandHandler<GetProjectEnvironmentCommand, GetProjectEnvironmentResponse>
 {
     public async Task<GetProjectEnvironmentResponse> Handle(
         GetProjectEnvironmentCommand command,
         CancellationToken cancellationToken = default)
     {
-        var environment = await ProjectRepository.GetProjectEnvironmentByBranchAsync(
+        var environment = await projectEnvironmentRepository.GetProjectEnvironmentByBranchAsync(
             command.ProjectId,
             command.Branch);
 
@@ -25,7 +25,7 @@ public class GetProjectEnvironmentCommandHandler(
                 x.Value,
                 false)).ToList() ?? [];
 
-        environmentVariables = await VariablesAppender.AppendDefaultVariablesAsync(
+        environmentVariables = await variablesAppender.AppendDefaultVariablesAsync(
             environmentVariables,
             command.ProjectId);
 

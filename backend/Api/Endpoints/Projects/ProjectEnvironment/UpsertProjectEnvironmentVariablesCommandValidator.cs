@@ -11,6 +11,7 @@ public sealed class UpsertProjectEnvironmentVariablesCommandValidator : Abstract
         var scope = scopeFactory.CreateScope();
 
         var projectRepository = scope.ServiceProvider.GetRequiredService<IProjectRepository>();
+        var projectEnvironmentRepository = scope.ServiceProvider.GetRequiredService<IProjectEnvironmentRepository>();
         var currentUserAccessor = scope.ServiceProvider.GetRequiredService<ICurrentUserAccessor>();
 
         RuleFor(x => x.ProjectId).MustAsync(async (command, projectId, cancellationToken) =>
@@ -24,7 +25,7 @@ public sealed class UpsertProjectEnvironmentVariablesCommandValidator : Abstract
 
         RuleFor(x => x.Branch).MustAsync(async (command, branch, cancellationToken) =>
         {
-            var environment = await projectRepository.GetProjectEnvironmentByBranchAsync(
+            var environment = await projectEnvironmentRepository.GetProjectEnvironmentByBranchAsync(
                 command.ProjectId,
                 branch);
 

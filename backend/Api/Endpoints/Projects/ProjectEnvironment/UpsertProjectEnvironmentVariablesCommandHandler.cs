@@ -4,7 +4,6 @@ using Core.MediatR;
 namespace Api.Endpoints.Projects.ProjectEnvironment;
 
 public sealed record UpsertProjectEnvironmentVariablesCommandHandler(
-    IProjectRepository ProjectRepository,
     IProjectEnvironmentRepository ProjectEnvironmentRepository) : ICommandHandler<UpsertProjectEnvironmentVariablesCommand, UpsertProjectEnvironmentVariablesResponse>
 {
     public async Task<UpsertProjectEnvironmentVariablesResponse> Handle(
@@ -12,7 +11,7 @@ public sealed record UpsertProjectEnvironmentVariablesCommandHandler(
         CancellationToken cancellationToken = default)
     {
 
-        var environment = (await ProjectRepository.GetProjectEnvironmentByBranchAsync(
+        var environment = (await ProjectEnvironmentRepository.GetProjectEnvironmentByBranchAsync(
             command.ProjectId,
             command.Branch))!;
 
