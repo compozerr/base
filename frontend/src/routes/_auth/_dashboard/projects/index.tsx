@@ -102,7 +102,9 @@ function RouteComponent() {
                                     ? "bg-green-500/10 text-green-500"
                                     : state === "Stopped"
                                         ? "bg-red-500/10 text-red-500"
-                                        : "bg-yellow-500/10 text-yellow-500"
+                                        : state == "Starting" 
+                                            ? "bg-green-300/10 text-green-300" 
+                                            : "bg-yellow-500/10 text-yellow-500"
                                     }`}
                             >
                                 {state}
