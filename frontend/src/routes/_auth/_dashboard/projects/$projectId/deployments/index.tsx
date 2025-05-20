@@ -1,30 +1,21 @@
 import { api } from "@/api-client"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useTimeAgo } from '@/hooks/useTimeAgo'
-import { DeploymentStatus, getDeploymentStatusFromNumber } from "@/lib/deployment-status"
+import { getDeploymentStatusFromNumber } from "@/lib/deployment-status"
 import { getStatusDot } from "@/lib/deployment-status-component"
 import { Formatter } from "@/lib/formatter"
 import { getLink } from "@/links"
-import { createFileRoute, useParams, useRouter } from '@tanstack/react-router'
+import { createFileRoute, useRouter } from '@tanstack/react-router'
 import { motion } from "framer-motion"
 import {
-    CalendarIcon,
     ChevronDownIcon,
     GitBranchIcon,
     GitCommitIcon,
-    MoreVertical,
     RefreshCw,
-    SearchIcon,
+    SearchIcon
 } from "lucide-react"
 import { useState } from "react"
 
@@ -32,18 +23,19 @@ export const Route = createFileRoute(
     '/_auth/_dashboard/projects/$projectId/deployments/',
 )({
     component: RouteComponent,
-    loader: (ctx) => api.v1.getProjectsProjectIdDeployments.fetchQuery({ parameters: { path: { projectId: ctx.params.projectId } } })
+    loader: (ctx) => api.v1.getProjectsProjectIdDeployments.prefetchQuery({ parameters: { path: { projectId: ctx.params.projectId } } })
 })
 
 function RouteComponent() {
     const router = useRouter();
     const { projectId } = Route.useParams();
-    const deployments = Route.useLoaderData();
 
+    const { data: deployments, refetch } = api.v1.getProjectsProjectIdDeployments.useQuery({ path: { projectId } });
 
     const [rotation, setRotation] = useState(0);
 
     const handleClick = () => {
+        refetch();
         setRotation((prev) => prev + 360);
     };
 
@@ -104,9 +96,9 @@ function RouteComponent() {
                 </Select>
             </div>
 
-            {deployments.length > 0 ? (
+            {deployments?.length || 0 > 0 ? (
                 <div className="space-y-px">
-                    {deployments.map((deployment) => {
+                    {deployments!.map((deployment) => {
                         const timeAgo = useTimeAgo(deployment.createdAt!);
                         return (
                             <div key={deployment.id} className="flex items-center justify-between py-4 px-4 border-b bg-muted/50 hover:bg-muted/70 hover:cursor-pointer"
