@@ -4,7 +4,7 @@
   "include": ["src/**/*", "./routeTree.gen"],
   "exclude": ["node_modules", "build", "dist"],
   "compilerOptions": {
-    "jsx": "preserve",
+    "jsx": "react-jsx",
     "moduleResolution": "Bundler",
     "module": "ESNext",
   }
