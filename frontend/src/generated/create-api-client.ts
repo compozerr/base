@@ -3,18 +3,22 @@
  * Do not make direct changes to the file.
  */
 
-import { qraftAPIClient, type APIBasicClientServices, type APIBasicQueryClientServices, type APIUtilityClientServices, type CreateAPIBasicQueryClientOptions, type CreateAPIBasicClientOptions, type CreateAPIClientOptions, type CreateAPIQueryClientOptions } from "@openapi-qraft/react";
-import * as callbacks from "@openapi-qraft/react/callbacks/index";
-import { services, type Services } from "./services/index";
-export function createAPIClient(options: CreateAPIQueryClientOptions): Services;
-export function createAPIClient(options: CreateAPIBasicQueryClientOptions): APIBasicQueryClientServices<Services, ServiceMethods>;
-export function createAPIClient(options: CreateAPIBasicClientOptions): APIBasicClientServices<Services, ServiceMethods>;
-export function createAPIClient(): APIUtilityClientServices<Services, ServiceMethods>;
-export function createAPIClient(options?: CreateAPIClientOptions): Services | APIBasicClientServices<Services, ServiceMethods> | APIUtilityClientServices<Services, ServiceMethods> {
+import type { APIBasicClientServices, APIBasicQueryClientServices, APIDefaultQueryClientServices, APIUtilityClientServices, CreateAPIBasicClientOptions, CreateAPIBasicQueryClientOptions, CreateAPIClientOptions, CreateAPIQueryClientOptions } from "@openapi-qraft/react";
+import * as allCallbacks from "@openapi-qraft/react/callbacks/index";
+import { qraftAPIClient } from "@openapi-qraft/react";
+import { services } from "./services/index";
+export function createAPIClient(options: CreateAPIQueryClientOptions): APIDefaultQueryClientServices<Services>;
+export function createAPIClient(options: CreateAPIBasicQueryClientOptions): APIBasicQueryClientServices<Services, AllCallbacks>;
+export function createAPIClient(options: CreateAPIBasicClientOptions): APIBasicClientServices<Services, AllCallbacks>;
+export function createAPIClient(): APIUtilityClientServices<Services, AllCallbacks>;
+export function createAPIClient(options?: CreateAPIClientOptions): APIDefaultQueryClientServices<Services> | APIBasicQueryClientServices<Services, AllCallbacks> | APIBasicClientServices<Services, AllCallbacks> | APIUtilityClientServices<Services, AllCallbacks> {
     if (!options)
-        return qraftAPIClient<Services, ServiceMethods>(services, callbacks);
+        return qraftAPIClient(services, allCallbacks);
     if ("requestFn" in options)
-        return qraftAPIClient<Services, ServiceMethods>(services, callbacks, options);
-    return qraftAPIClient<Services, ServiceMethods>(services, callbacks, options);
+        return qraftAPIClient(services, allCallbacks, options);
+    if ("queryClient" in options)
+        return qraftAPIClient(services, allCallbacks, options);
+    return qraftAPIClient(services, allCallbacks);
 }
-type ServiceMethods = typeof callbacks;
+type AllCallbacks = typeof allCallbacks;
+type Services = typeof services;

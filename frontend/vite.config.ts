@@ -14,7 +14,10 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-  server:{
+  css: {
+    postcss: "./postcss.config.js",
+  },
+  server: {
     allowedHosts: true
   }
 })

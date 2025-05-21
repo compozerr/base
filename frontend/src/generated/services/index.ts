@@ -3,7 +3,8 @@
  * Do not make direct changes to the file.
  */
 
-import { V1Service, v1Service } from "./V1Service";
+import type { V1Service } from "./V1Service";
+import { v1Service } from "./V1Service";
 export type Services = {
     v1: V1Service;
 };
