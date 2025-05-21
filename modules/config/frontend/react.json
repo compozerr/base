@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "./base.json",
+  "include": ["src/**/*", "./routeTree.gen"],
+  "exclude": ["node_modules", "build", "dist"],
+  "compilerOptions": {
+    "jsx": "preserve",
+    "moduleResolution": "Bundler",
+    "module": "ESNext",
+  }
+}

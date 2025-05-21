@@ -1,0 +1,11 @@
+{
+    "name": "@repo/template",
+    "version": "0.0.0",
+    "private": true,
+    "exports": {
+        "./example-component": "./src/example-component.tsx"
+    },
+    "devDependencies": {
+        "@repo/config": "*"
+    }
+}
