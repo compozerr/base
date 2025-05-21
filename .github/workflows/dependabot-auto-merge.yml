@@ -1,0 +1,68 @@
+name: Dependabot Auto-merge
+
+on:
+    pull_request:
+        # Only run on PRs created by Dependabot
+        branches: [main]
+
+permissions:
+    contents: write
+    pull-requests: write
+
+jobs:
+    frontend-auto-merge:
+        runs-on: ubuntu-latest
+        if: ${{ github.actor == 'dependabot[bot]' && contains(github.event.pull_request.labels.*.name, 'frontend') }}
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: "20"
+                  cache: "npm"
+
+            - name: Install frontend dependencies
+              run: cd frontend && npm ci
+
+            - name: Run frontend build
+              run: cd frontend && npm build
+
+            - name: Enable auto-merge for Frontend Dependabot PRs
+              if: ${{ success() }}
+              run: |
+                  PR_URL="${{ github.event.pull_request.html_url }}"
+                  gh pr merge --auto --merge "$PR_URL"
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    backend-auto-merge:
+        runs-on: ubuntu-latest
+        if: ${{ github.actor == 'dependabot[bot]' && contains(github.event.pull_request.labels.*.name, 'backend') }}
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+              with:
+                  submodules: 'true'
+            
+            - name: Setup .NET
+              uses: actions/setup-dotnet@v4
+              with:
+                dotnet-version: "9.0.200"
+                    
+            - name: Create .env file
+              run: touch backend/.env
+
+            - name: Test
+              run: dotnet test backend/Base.sln
+
+            # Add any Backend-specific steps here (e.g., different testing or validation)
+
+            - name: Enable auto-merge for Backend Dependabot PRs
+              if: ${{ success() }}
+              run: |
+                  PR_URL="${{ github.event.pull_request.html_url }}"
+                  gh pr merge --auto --merge "$PR_URL"
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
