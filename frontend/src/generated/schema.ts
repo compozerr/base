@@ -1702,7 +1702,7 @@ export interface components {
             serviceName?: string | null;
         };
         AddDomainResponse: {
-            domainId?: components["schemas"]["DomainId"];
+            domainId?: string | null;
         };
         AddLogRequest: {
             log?: string | null;
@@ -1770,8 +1770,6 @@ export interface components {
             port?: string | null;
             value?: string | null;
         };
-        /** Format: uuid */
-        DomainId: string;
         ForkModuleRequest: {
             modulesToFork?: components["schemas"]["ModuleDto"][] | null;
             projectId?: string | null;
