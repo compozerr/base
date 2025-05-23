@@ -32,24 +32,37 @@ export const Route = createFileRoute(
 )({
   component: DomainsSettingsTab,
   loader: ({ params: { projectId } }) => {
-    return api.v1.getProjectsProjectIdDomains({ parameters: { path: { projectId } } });
+    return api.v1.getProjectsProjectIdDomains.prefetchQuery({ parameters: { path: { projectId } } });
   }
 })
 
 const addDomainSchema = z.object({
-  domain: z.string().min(4).max(255).regex(/^[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,}$/, 'Invalid domain name'),
+  domain: z.string().min(4).max(255).regex(/^[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,}$/, 'Invalid domain name').transform((val) => val.trim()),
   serviceName: z.enum(SystemTypes)
 });
 
 function DomainsSettingsTab() {
   const { projectId } = Route.useParams();
-  const { data } = Route.useLoaderData();
+  const { data } = api.v1.getProjectsProjectIdDomains.useQuery({
+    path: {
+      projectId
+    }
+  });
 
   const [deleteDomainId, setDeleteDomainId] = useState<string | null>(null);
 
   const [selectedDomainId, setSelectedDomainId] = useState<string | null>(null);
 
-  const { invalidate } = useRouter();
+  const invalidate = () => {
+    api.v1.getProjectsProjectIdDomains.invalidateQueries({
+      parameters: {
+        path: {
+          projectId
+        }
+      }
+    });
+  }
+
 
   const { mutateAsync } = api.v1.postProjectsProjectIdDomains.useMutation({
     path: {
