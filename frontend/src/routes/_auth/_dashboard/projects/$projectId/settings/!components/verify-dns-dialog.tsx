@@ -6,9 +6,10 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table'
-import { useMemo, useState, useEffect } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 import { api } from '@/api-client'
+import { CopyText } from '@/components/copy-text'
 import LoadingButton from '@/components/loading-button'
 import { Button } from '@/components/ui/button'
 import {
@@ -17,8 +18,7 @@ import {
     DialogDescription,
     DialogFooter,
     DialogHeader,
-    DialogTitle,
-    DialogTrigger
+    DialogTitle
 } from "@/components/ui/dialog"
 import { useToast } from '@/hooks/use-toast'
 import React from 'react'
@@ -101,9 +101,9 @@ const VerifyDnsDialog: React.FC<Props> = (props) => {
     };
 
     return (
-        <Dialog 
-            key={`dialog-${props.selectedDomainId || 'closed'}`} 
-            open={isOpen} 
+        <Dialog
+            key={`dialog-${props.selectedDomainId || 'closed'}`}
+            open={isOpen}
             onOpenChange={handleOpenChange}
         >
             <DialogContent className="max-w-3xl w-full overflow-hidden">
@@ -129,8 +129,12 @@ const VerifyDnsDialog: React.FC<Props> = (props) => {
                                 <TableBody>
                                     <TableRow>
                                         <TableCell className="font-medium">CNAME</TableCell>
-                                        <TableCell>{dnsGuide?.name}</TableCell>
-                                        <TableCell>{dnsGuide?.value}</TableCell>
+                                        <TableCell>
+                                            {dnsGuide?.name && <CopyText value={dnsGuide.name} >{dnsGuide.name}</CopyText>}
+                                        </TableCell>
+                                        <TableCell>
+                                            {dnsGuide?.value && <CopyText value={dnsGuide.value} >{dnsGuide.value}</CopyText>}
+                                        </TableCell>
                                         <TableCell>3600</TableCell>
                                     </TableRow>
                                 </TableBody>
