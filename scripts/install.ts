@@ -28,7 +28,7 @@ if (!denoInstalled) {
 let nbgvInstalled = true;
 
 //Check if nbgv is installed
-exec("dotnet tool list -g | findstr nbgv", (error: any, stdout: string, stderr: string) => {
+exec("dotnet tool list -g | grep nbgv", (error: any, stdout: string, stderr: string) => {
     if (error) {
         nbgvInstalled = false;
         return;
