@@ -25,7 +25,7 @@ public sealed class AddDomainCommandHandler(
 
         var domain = await domainRepository.AddAsync(externalDomainEntity, cancellationToken);
 
-        return new(domain.Id);
+        return new(domain.Id.Value.ToString());
     }
 
     //TODO: This should be its own entity
