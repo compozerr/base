@@ -231,7 +231,7 @@ function DomainsSettingsTab() {
 
           <VerifyDnsDialog
             selectedDomainId={selectedDomainId}
-            onClose={() => setSelectedDomainId(null)}
+            onClose={() => { invalidate(); setSelectedDomainId(null); }}
             projectId={projectId}
             domains={data?.domains} />
 
