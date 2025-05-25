@@ -142,10 +142,10 @@ function RouteComponent() {
                                         <GitBranchIcon className="h-4 w-4 py-[2px] text-muted-foreground" />
                                         <span>{deployment.branch}</span>
                                     </div>
-                                    <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                                    <div className="flex items-center gap-1 text-sm text-muted-foreground px-3">
                                         <GitCommitIcon className="h-4 w-4" />
                                         <span className="font-mono">{deployment.commitHash?.substring(0, 6)}</span>
-                                        <span>{deployment.commitMessage}</span>
+                                        <span className="truncate w-[200px]">{deployment.commitMessage}</span>
                                     </div>
                                 </div>
 

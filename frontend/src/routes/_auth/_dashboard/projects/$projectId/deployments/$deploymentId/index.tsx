@@ -180,7 +180,9 @@ function RouteComponent() {
                         </div>
                         <div className="flex justify-between items-center">
                             <div className="text-sm text-muted-foreground">Message</div>
-                            <div className="font-medium">{deployment.commitMessage}</div>
+                            <div className="font-medium truncate pl-3" title={deployment.commitMessage ?? ""}>
+                                {deployment.commitMessage}
+                            </div>
                         </div>
                         <div className="flex justify-between items-center">
                             <div className="text-sm text-muted-foreground">Author</div>
