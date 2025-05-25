@@ -14,8 +14,15 @@ public sealed class ChangeDeploymentStatusCommandHandler(
 
         deployment.Status = command.Status;
 
-        if (command.Status == DeploymentStatus.Failed)
-            deployment.BuildDuration = deployment.GetBuildDuration();
+        switch (command.Status)
+        {
+            case DeploymentStatus.Failed:
+            case DeploymentStatus.Completed:
+                deployment.BuildDuration = deployment.GetBuildDuration();
+                break;
+            default:
+                break;
+        }
 
         await deploymentRepository.UpdateAsync(
             deployment,
