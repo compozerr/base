@@ -1,5 +1,6 @@
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { createFileRoute, Link, Outlet, useParams, useRouterState } from '@tanstack/react-router'
+import { useMemo } from 'react';
 
 export const Route = createFileRoute(
     '/_auth/_dashboard/projects/$projectId/settings',
@@ -12,7 +13,7 @@ function RouteComponent() {
 
     const { location: { pathname } } = useRouterState();
 
-    const tabRoute = pathname.split('/').pop();
+    const tabRoute = useMemo(() => pathname.split('/').pop(), [pathname]);
 
     return (
         <div className="space-y-6">
