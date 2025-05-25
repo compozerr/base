@@ -4,19 +4,12 @@ import { CopyText } from '@/components/copy-text';
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { DeploymentStatus, getDeploymentStatusFromNumber } from '@/lib/deployment-status';
 import { getStatusDot } from '@/lib/deployment-status-component';
 import { Formatter } from '@/lib/formatter';
 import { cn } from '@/lib/utils';
 import { createFileRoute, useRouter } from '@tanstack/react-router';
-import { ArrowLeft, Calendar, Clock, ExternalLink, GitBranch, GitCommit, MoreVertical } from "lucide-react";
+import { ArrowLeft, Calendar, Clock, ExternalLink, GitBranch, GitCommit } from "lucide-react";
 
 export const Route = createFileRoute(
     '/_auth/_dashboard/projects/$projectId/deployments/$deploymentId/',
