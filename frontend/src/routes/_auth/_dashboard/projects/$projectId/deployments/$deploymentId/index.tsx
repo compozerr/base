@@ -4,6 +4,7 @@ import { CopyText } from '@/components/copy-text';
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { useDuration } from '@/hooks/use-duration';
 import { DeploymentStatus, getDeploymentStatusFromNumber } from '@/lib/deployment-status';
 import { getStatusDot } from '@/lib/deployment-status-component';
 import { Formatter } from '@/lib/formatter';
@@ -72,6 +73,7 @@ function RouteComponent() {
             </div>
         )
     }
+    const buildDuration = useDuration(deployment.buildDuration!, getDeploymentStatusFromNumber(deployment.status) === DeploymentStatus.Deploying);
 
     return (
         <div className="space-y-6">
@@ -130,7 +132,7 @@ function RouteComponent() {
                             <div className="text-sm text-muted-foreground">Duration</div>
                             <div className="flex items-center gap-2 font-medium">
                                 <Clock className="h-4 w-4 text-muted-foreground" />
-                                {Formatter.fromDuration(deployment.buildDuration!)}
+                                {buildDuration}
                             </div>
                         </div>
                         <div className="flex justify-between items-center">
