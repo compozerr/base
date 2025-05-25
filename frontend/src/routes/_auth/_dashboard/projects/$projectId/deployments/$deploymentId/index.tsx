@@ -136,7 +136,7 @@ function RouteComponent() {
                             </div>
                         </div>
                         <div className="flex justify-between items-center">
-                            <div className="text-sm text-muted-foreground">URL</div>
+                            <div className="text-sm text-muted-foreground pr-2">URL</div>
                             <div className="flex items-center gap-2 font-medium">
                                 <a
                                     href={"https://" + deployment.url!}
