@@ -112,25 +112,28 @@ function RouteComponent() {
                     <CardContent className="pt-6">
                         <div className="space-y-2">
                             <h2 className="text-xl font-semibold">Domains</h2>
-                            <div className="space-y-4 mt-4">
-                                {project.domains && project.domains?.length > 0 ? (
-                                    project.domains.map((d) => (
-                                        <div className="flex items-center justify-between">
-                                            <div>
-                                                <p className="text-sm font-medium">{d}</p>
+                            <div className="space-y-4 mt-4 relative max-h-[220px]">
+                                <div className="overflow-y-auto max-h-[220px] pr-1">
+                                    {project.domains && project.domains?.length > 0 ? (
+                                        project.domains.map((d) => (
+                                            <div key={d} className="flex items-center justify-between mb-4">
+                                                <div>
+                                                    <p className="text-sm font-medium">{d}</p>
+                                                </div>
+                                                {project.primaryDomain === d ? (
+                                                    <Badge
+                                                        variant="outline"
+                                                    >
+                                                        Primary
+                                                    </Badge>
+                                                ) : null}
                                             </div>
-                                            {project.primaryDomain === d ? (
-                                                <Badge
-                                                    variant="outline"
-                                                >
-                                                    Primary
-                                                </Badge>
-                                            ) : null}
-                                        </div>
-                                    ))
-                                ) : (
-                                    <span>No domains</span>
-                                )}
+                                        ))
+                                    ) : (
+                                        <span>No domains</span>
+                                    )}
+                                </div>
+                                <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-card to-transparent pointer-events-none" />
                             </div>
                         </div>
                     </CardContent>
