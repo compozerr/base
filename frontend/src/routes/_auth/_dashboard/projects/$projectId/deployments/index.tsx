@@ -137,12 +137,12 @@ function RouteComponent() {
                                     <div className="text-sm text-muted-foreground">{timeAgo}</div>
                                 </div>
 
-                                <div className="flex items-start flex-1 flex-col">
+                                <div className="flex items-start flex-1 flex-col px-3">
                                     <div className="flex items-center gap-1">
                                         <GitBranchIcon className="h-4 w-4 py-[2px] text-muted-foreground" />
                                         <span>{deployment.branch}</span>
                                     </div>
-                                    <div className="flex items-center gap-1 text-sm text-muted-foreground px-3">
+                                    <div className="flex items-center gap-1 text-sm text-muted-foreground">
                                         <GitCommitIcon className="h-4 w-4" />
                                         <span className="font-mono">{deployment.commitHash?.substring(0, 6)}</span>
                                         <span className="truncate w-[200px]">{deployment.commitMessage}</span>
