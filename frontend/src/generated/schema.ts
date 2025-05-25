@@ -1145,7 +1145,10 @@ export interface paths {
         };
         get: {
             parameters: {
-                query?: never;
+                query?: {
+                    search?: string;
+                    stateFlags?: number;
+                };
                 header?: never;
                 path?: never;
                 cookie?: never;

@@ -2,6 +2,7 @@ using Api.Data;
 using Api.Data.Repositories;
 using Api.Endpoints.Projects.Project.Get;
 using Api.Hosting.Services;
+using Api.Data.Extensions;
 
 namespace Api.Endpoints.Projects;
 
@@ -21,10 +22,14 @@ public static class GetProjectsRoute
     }
 
     public static async Task<GetProjectsResponse> ExecuteAsync(
-        IProjectRepository projectRepository)
+        IProjectRepository projectRepository,
+        string? search = null,
+        int stateFlags = (int)ProjectStateFilter.All)
     {
         var projects = await projectRepository.GetProjectsForUserAsync();
-        List<GetProjectResponse> projectsDto = [.. projects.Select(
+
+        var filteredProjects = projects.FilterByStateAndSearch(Enum.Parse<ProjectStateFilter>(stateFlags.ToString()), search);
+        List<GetProjectResponse> projectsDto = [.. filteredProjects.Select(
             p => new GetProjectResponse(
                 p.Id.Value,
                 p.Name,

@@ -5727,6 +5727,14 @@ export interface V1Service {
          * ```ts
          * const { data, isLoading } = qraft.v1Service.getProjects.useQuery()
          * ```
+         * @example Query with parameters
+         * ```ts
+         * const { data, isLoading } = qraft.v1Service.getProjects.useQuery({
+         *     query: {
+         *         search: search
+         *     }
+         * })
+         * ```
          */
         useQuery<TData = GetProjectsData>(parameters: ServiceOperationQueryKey<GetProjectsSchema, GetProjectsParameters> | (GetProjectsParameters | void), options?: Omit<UndefinedInitialDataOptions<GetProjectsData, GetProjectsError, TData, ServiceOperationQueryKey<GetProjectsSchema, GetProjectsParameters>>, "queryKey">): UseQueryResult<TData, GetProjectsError | Error>;
         /**
@@ -5736,6 +5744,14 @@ export interface V1Service {
          * @example Query without parameters
          * ```ts
          * const { data, isLoading } = qraft.v1Service.getProjects.useQuery()
+         * ```
+         * @example Query with parameters
+         * ```ts
+         * const { data, isLoading } = qraft.v1Service.getProjects.useQuery({
+         *     query: {
+         *         search: search
+         *     }
+         * })
          * ```
          */
         useQuery<TData = GetProjectsData>(parameters: ServiceOperationQueryKey<GetProjectsSchema, GetProjectsParameters> | (GetProjectsParameters | void), options: Omit<DefinedInitialDataOptions<GetProjectsData, GetProjectsError, TData, ServiceOperationQueryKey<GetProjectsSchema, GetProjectsParameters>>, "queryKey">): DefinedUseQueryResult<TData, GetProjectsError | Error>;
@@ -5800,7 +5816,11 @@ export interface V1Service {
          * @example Infinite Query
          * ```ts
          * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjects.useInfiniteQuery({}, {
-         *     initialPageParam: {},
+         *     initialPageParam: {
+         *         query: {
+         *             search: initialSearch
+         *         }
+         *     },
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
          *
@@ -5818,7 +5838,11 @@ export interface V1Service {
          * @example Infinite Query
          * ```ts
          * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjects.useInfiniteQuery({}, {
-         *     initialPageParam: {},
+         *     initialPageParam: {
+         *         query: {
+         *             search: initialSearch
+         *         }
+         *     },
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
          *
@@ -5837,6 +5861,17 @@ export interface V1Service {
          * ```ts
          * const getProjectsTotal = qraft.v1Service.getProjects.useIsFetching()
          * ```
+         * @example Checks the number of normal queries fetching with the specified parameters.
+         * ```ts
+         * const getProjectsByParametersTotal = qraft.v1Service.getProjects.useIsFetching({
+         *     infinite: false,
+         *     parameters: {
+         *         query: {
+         *             search: search
+         *         }
+         *     }
+         * })
+         * ```
          */
         useIsFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetProjectsSchema, GetProjectsData, TInfinite, GetProjectsParameters, GetProjectsError> | QueryFiltersByQueryKey<GetProjectsSchema, GetProjectsData, TInfinite, GetProjectsParameters, GetProjectsError>): number;
         /**
@@ -5847,8 +5882,16 @@ export interface V1Service {
          * ```ts
          * const getProjectsResults = qraft.v1Service.getProjects.useQueries({
          *     queries: [
-         *         {},
-         *         {}
+         *         {
+         *             query: {
+         *                 search: search1
+         *             }
+         *         },
+         *         {
+         *             query: {
+         *                 search: search2
+         *             }
+         *         }
          *     ]
          * });
          * getProjectsResults.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
@@ -5858,8 +5901,16 @@ export interface V1Service {
          * const getProjectsCombinedResults = qraft.v1Service.getProjects.useQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
-         *         {},
-         *         {}
+         *         {
+         *             query: {
+         *                 search: search1
+         *             }
+         *         },
+         *         {
+         *             query: {
+         *                 search: search2
+         *             }
+         *         }
          *     ]
          * });
          * getProjectsCombinedResults.forEach(data => console.log({ data }));
@@ -5879,6 +5930,14 @@ export interface V1Service {
          * ```ts
          * const { data, isLoading } = qraft.v1Service.getProjects.useQuery()
          * ```
+         * @example Query with parameters
+         * ```ts
+         * const { data, isLoading } = qraft.v1Service.getProjects.useQuery({
+         *     query: {
+         *         search: search
+         *     }
+         * })
+         * ```
          */
         useQuery<TData = GetProjectsData>(parameters: ServiceOperationQueryKey<GetProjectsSchema, GetProjectsParameters> | (GetProjectsParameters | void), options?: Omit<UndefinedInitialDataOptions<GetProjectsData, GetProjectsError, TData, ServiceOperationQueryKey<GetProjectsSchema, GetProjectsParameters>>, "queryKey">): UseQueryResult<TData, GetProjectsError | Error>;
         /**
@@ -5888,6 +5947,14 @@ export interface V1Service {
          * @example Query without parameters
          * ```ts
          * const { data, isLoading } = qraft.v1Service.getProjects.useQuery()
+         * ```
+         * @example Query with parameters
+         * ```ts
+         * const { data, isLoading } = qraft.v1Service.getProjects.useQuery({
+         *     query: {
+         *         search: search
+         *     }
+         * })
          * ```
          */
         useQuery<TData = GetProjectsData>(parameters: ServiceOperationQueryKey<GetProjectsSchema, GetProjectsParameters> | (GetProjectsParameters | void), options: Omit<DefinedInitialDataOptions<GetProjectsData, GetProjectsError, TData, ServiceOperationQueryKey<GetProjectsSchema, GetProjectsParameters>>, "queryKey">): DefinedUseQueryResult<TData, GetProjectsError | Error>;
@@ -5901,7 +5968,11 @@ export interface V1Service {
          * @example Suspense Infinite Query
          * ```ts
          * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjects.useSuspenseInfiniteQuery({}, {
-         *     initialPageParam: {},
+         *     initialPageParam: {
+         *         query: {
+         *             search: initialSearch
+         *         }
+         *     },
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
          *
@@ -9940,7 +10011,7 @@ type GetProjectsSchema = {
     method: "get";
     url: "/v1/projects";
 };
-type GetProjectsParameters = undefined;
+type GetProjectsParameters = paths["/v1/projects"]["get"]["parameters"];
 type GetProjectsData = paths["/v1/projects"]["get"]["responses"]["200"]["content"]["application/json"];
 type GetProjectsError = unknown;
 type GetProjectsProjectIdUsageSpanSchema = {

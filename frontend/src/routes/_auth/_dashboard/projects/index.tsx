@@ -13,9 +13,11 @@ import {
     SelectValue,
 } from '@/components/ui/select'
 import { Formatter } from '@/lib/formatter'
+import { ProjectStateFilter } from '@/lib/project-state-filter'
 import { getLink } from '@/links'
 import { createFileRoute, useRouter } from '@tanstack/react-router'
 import { MoreVertical, Plus, Search } from 'lucide-react'
+import { useEffect, useState } from 'react'
 
 
 export const Route = createFileRoute('/_auth/_dashboard/projects/')({
@@ -24,15 +26,23 @@ export const Route = createFileRoute('/_auth/_dashboard/projects/')({
 })
 
 function RouteComponent() {
-    const { data: projectsData } = api.v1.getProjects.useQuery();
+    const [search, setSearch] = useState('');
+    const [debouncedSearch, setDebouncedSearch] = useState('');
 
-    if (!projectsData) {
-        return (
-            <div className="text-center py-10">
-                <p>No project data available</p>
-            </div>
-        )
-    }
+    // Update debounced value after delay
+    useEffect(() => {
+        const timer = setTimeout(() => setDebouncedSearch(search), 50);
+        return () => clearTimeout(timer);
+    }, [search]);
+
+    const [filter, setFilter] = useState<ProjectStateFilter>(ProjectStateFilter.All);
+
+    const { data: projectsData } = api.v1.getProjects.useQuery({
+        query: {
+            search: debouncedSearch,
+            stateFlags: filter
+        }
+    });
 
     const router = useRouter();
 
@@ -46,8 +56,8 @@ function RouteComponent() {
             </header>
 
             <div className="grid gap-6 md:grid-cols-3 mb-8">
-                <DashboardCard title="Total Projects" value={projectsData.totalProjectsCount!.toString()} />
-                <DashboardCard title="Running Projects" value={projectsData.runningProjectsCount!.toString()} />
+                <DashboardCard title="Total Projects" value={projectsData?.totalProjectsCount?.toString() ?? "0"} />
+                <DashboardCard title="Running Projects" value={projectsData?.runningProjectsCount?.toString() ?? "0"} />
             </div>
 
             <div className="bg-card rounded-lg shadow-sm p-6">
@@ -55,9 +65,27 @@ function RouteComponent() {
                     <div className="flex items-center w-full md:w-auto">
                         <div className="relative max-w-sm mr-2">
                             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                            <Input placeholder="Search projects..." className="pl-9" />
+                            <Input placeholder="Search projects..." className="pl-9" value={search} onChange={(e) => setSearch(e.target.value)} />
                         </div>
-                        <Select defaultValue="all">
+                        <Select defaultValue="all" onValueChange={(value) => {
+                            switch (value) {
+                                case 'all':
+                                    setFilter(ProjectStateFilter.All);
+                                    break;
+                                case 'running':
+                                    setFilter(ProjectStateFilter.Running);
+                                    break;
+                                case 'stopped':
+                                    setFilter(ProjectStateFilter.Stopped);
+                                    break;
+                                case 'starting':
+                                    setFilter(ProjectStateFilter.Starting);
+                                    break;
+                                default:
+                                    setFilter(ProjectStateFilter.All);
+                                    break;
+                            }
+                        }}>
                             <SelectTrigger className="w-[180px]">
                                 <SelectValue placeholder="Filter by status" />
                             </SelectTrigger>
@@ -73,11 +101,12 @@ function RouteComponent() {
                         <Plus className="mr-2 h-4 w-4" /> Add New Service
                     </Button>
                 </div>
+
                 <DataTable onRowClick={(row) => {
                     if (!row.id) return;
 
                     router.navigate({ to: `/projects/${row.id}` });
-                }} isLoading={false} data={projectsData.projects!} columns={[
+                }} isLoading={false} data={projectsData?.projects ?? []} columns={[
                     {
                         accessorKey: 'name',
                         header: 'Project',
