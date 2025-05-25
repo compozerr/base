@@ -115,7 +115,7 @@ function RouteComponent() {
                             <div className="space-y-4 mt-4 relative max-h-[220px]">
                                 <div className="overflow-y-auto max-h-[220px] pr-1">
                                     {project.domains && project.domains?.length > 0 ? (
-                                        project.domains.map((d) => (
+                                        project.domains.sort((d)=>d === project.primaryDomain ? -1 : 1).map((d) => (
                                             <div key={d} className="flex items-center justify-between mb-4">
                                                 <div>
                                                     <p className="text-sm font-medium">{d}</p>
