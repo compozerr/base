@@ -17,7 +17,7 @@ import { ProjectStateFilter } from '@/lib/project-state-filter'
 import { getLink } from '@/links'
 import { createFileRoute, useRouter } from '@tanstack/react-router'
 import { MoreVertical, Plus, Search } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 
 export const Route = createFileRoute('/_auth/_dashboard/projects/')({
@@ -44,6 +44,8 @@ function RouteComponent() {
         }
     });
 
+    const memoizedProjectsData = useMemo(() => projectsData, [projectsData]);
+
     const router = useRouter();
 
     return (
@@ -56,8 +58,8 @@ function RouteComponent() {
             </header>
 
             <div className="grid gap-6 md:grid-cols-3 mb-8">
-                <DashboardCard title="Total Projects" value={projectsData?.totalProjectsCount?.toString() ?? "0"} />
-                <DashboardCard title="Running Projects" value={projectsData?.runningProjectsCount?.toString() ?? "0"} />
+                <DashboardCard title="Total Projects" value={memoizedProjectsData?.totalProjectsCount?.toString() ?? "0"} />
+                <DashboardCard title="Running Projects" value={memoizedProjectsData?.runningProjectsCount?.toString() ?? "0"} />
             </div>
 
             <div className="bg-card rounded-lg shadow-sm p-6">
@@ -106,7 +108,7 @@ function RouteComponent() {
                     if (!row.id) return;
 
                     router.navigate({ to: `/projects/${row.id}` });
-                }} isLoading={false} data={projectsData?.projects ?? []} columns={[
+                }} isLoading={false} data={memoizedProjectsData?.projects ?? []} columns={[
                     {
                         accessorKey: 'name',
                         header: 'Project',
