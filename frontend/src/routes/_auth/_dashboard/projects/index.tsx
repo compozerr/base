@@ -37,23 +37,43 @@ function RouteComponent() {
 
     const [filter, setFilter] = useState<ProjectStateFilter>(ProjectStateFilter.All);
 
-    const { data: projectsData } = api.v1.getProjects.useInfiniteQuery({
-        query: {
-            search: debouncedSearch,
-            stateFlags: filter
-        }
-    }, {
-        getNextPageParam: (lastPage) => ({
+    const {
+        data: projectsData
+    } = api.v1.getProjects.useInfiniteQuery(
+        {
             query: {
-                page: lastPage.page ?? 1 + 1,
+                search: debouncedSearch,
+                stateFlags: filter
             }
-        }),
-        initialPageParam: {
-            query: {
-                page: 1,
+        },
+        {
+            getNextPageParam: (lastPage) => {
+                // If the current page *is* full, there may be more
+                if (!lastPage) return undefined;
+                const currentPage = lastPage.page ?? 1;
+                const total = lastPage.totalProjectsCount ?? 0;
+                const pageSize = lastPage.pageSize ?? 20;
+                const totalPages = Math.ceil(total / pageSize);
+                if (currentPage < totalPages) {
+                    return {
+                        query: {
+                            page: currentPage + 1,
+                            search: debouncedSearch,
+                            stateFlags: filter
+                        }
+                    };
+                }
+                return undefined;
+            },
+            initialPageParam: {
+                query: {
+                    page: 1,
+                    search: debouncedSearch,
+                    stateFlags: filter
+                }
             }
         }
-    });
+    );
 
     const memoizedProjectsData = useMemo(() => projectsData, [projectsData]);
 
