@@ -217,9 +217,9 @@ function RouteComponent() {
             ) : (
                 <div className="text-center py-10">
                     <p>No deployments found</p>
-                    <Button variant="outline" className="mt-4" onClick={() => open(getLink('addNewService'), '_blank')}>
+                    {filter === DeploymentStatusFilter.All && <Button variant="outline" className="mt-4" onClick={() => open(getLink('addNewService'), '_blank')}>
                         Create your first deployment
-                    </Button>
+                    </Button>}
                 </div>
             )}
         </div>
