@@ -3,6 +3,7 @@ using Auth.Services;
 using Database.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
+using Api.Data.Extensions;
 
 namespace Api.Data.Repositories;
 
@@ -12,6 +13,7 @@ public interface IProjectRepository : IGenericRepository<Project, ProjectId, Api
     public Task<List<Project>> GetProjectsForUserAsync();
     public Task<Project?> GetProjectByIdWithDomainsAsync(ProjectId projectId);
     public Task SetProjectStateAsync(ProjectId projectId, ProjectState state);
+    public Task<(List<Project> Projects, int TotalCount)> GetProjectsForUserPagedAsync(int page, int pageSize, string? search, ProjectStateFilter stateFilter);
 }
 
 public sealed class ProjectRepository(
@@ -54,5 +56,34 @@ public sealed class ProjectRepository(
         project.State = state;
 
         await UpdateAsync(project);
+    }
+
+    public async Task<(List<Project> Projects, int TotalCount)> GetProjectsForUserPagedAsync(int page, int pageSize, string? search, ProjectStateFilter stateFilter)
+    {
+        var userId = currentUserAccessor.CurrentUserId!;
+        var query = Query()
+            .Include(x => x.Domains)
+            .Where(x => x.UserId == userId);
+
+        // Filter by state
+        if (stateFilter != ProjectStateFilter.All)
+        {
+            var allowedStates = stateFilter.ToStates();
+            query = query.Where(x => allowedStates.Contains(x.State));
+        }
+
+        // Filter by search
+        if (!string.IsNullOrWhiteSpace(search))
+        {
+            query = query.Where(x => x.Name.Contains(search));
+        }
+
+        var totalCount = await query.CountAsync();
+        var projects = await ApplyPagination(
+                query.OrderByDescending(x => x.UpdatedAtUtc ?? x.CreatedAtUtc),
+                page, pageSize)
+            .ToListAsync();
+
+        return (projects, totalCount);
     }
 }

@@ -1148,6 +1148,8 @@ export interface paths {
                 query?: {
                     search?: string;
                     stateFlags?: number;
+                    page?: number;
+                    pageSize?: number;
                 };
                 header?: never;
                 path?: never;
@@ -1845,6 +1847,10 @@ export interface components {
             /** Format: int32 */
             runningProjectsCount?: number;
             projects?: components["schemas"]["GetProjectResponse"][] | null;
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            pageSize?: number;
         };
         GetUsageResponse: {
             points?: {

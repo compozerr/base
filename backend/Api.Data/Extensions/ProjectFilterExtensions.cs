@@ -2,29 +2,14 @@ namespace Api.Data.Extensions;
 
 public static class ProjectFilterExtensions
 {
-    public static IEnumerable<Project> FilterByStateAndSearch(
-        this IEnumerable<Project> projects,
-        ProjectStateFilter stateFilter = ProjectStateFilter.All,
-        string? search = null)
+    public static List<ProjectState> ToStates(this ProjectStateFilter filter)
     {
-        var filtered = projects.Where(p => (stateFilter & ToFilter(p.State)) != 0);
-        if (!string.IsNullOrWhiteSpace(search))
-        {
-            filtered = filtered.Where(p => p.Name.Contains(search, System.StringComparison.OrdinalIgnoreCase));
-        }
-        return filtered;
-    }
-
-    private static ProjectStateFilter ToFilter(ProjectState state)
-    {
-        return state switch
-        {
-            ProjectState.Unknown => ProjectStateFilter.Unknown,
-            ProjectState.Running => ProjectStateFilter.Running,
-            ProjectState.Starting => ProjectStateFilter.Starting,
-            ProjectState.Stopped => ProjectStateFilter.Stopped,
-            ProjectState.Deleting => ProjectStateFilter.Deleting,
-            _ => ProjectStateFilter.None
-        };
+        var states = new List<ProjectState>();
+        if ((filter & ProjectStateFilter.Unknown) != 0) states.Add(ProjectState.Unknown);
+        if ((filter & ProjectStateFilter.Running) != 0) states.Add(ProjectState.Running);
+        if ((filter & ProjectStateFilter.Starting) != 0) states.Add(ProjectState.Starting);
+        if ((filter & ProjectStateFilter.Stopped) != 0) states.Add(ProjectState.Stopped);
+        if ((filter & ProjectStateFilter.Deleting) != 0) states.Add(ProjectState.Deleting);
+        return states;
     }
 }

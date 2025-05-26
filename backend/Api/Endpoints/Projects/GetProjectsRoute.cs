@@ -9,7 +9,9 @@ namespace Api.Endpoints.Projects;
 public sealed record GetProjectsResponse(
     int TotalProjectsCount,
     int RunningProjectsCount,
-    List<GetProjectResponse> Projects
+    List<GetProjectResponse> Projects,
+    int Page,
+    int PageSize
 );
 
 public static class GetProjectsRoute
@@ -24,12 +26,14 @@ public static class GetProjectsRoute
     public static async Task<GetProjectsResponse> ExecuteAsync(
         IProjectRepository projectRepository,
         string? search = null,
-        int stateFlags = (int)ProjectStateFilter.All)
+        int stateFlags = (int)ProjectStateFilter.All,
+        int page = 1,
+        int pageSize = 20)
     {
-        var projects = await projectRepository.GetProjectsForUserAsync();
+        var stateFilter = Enum.Parse<ProjectStateFilter>(stateFlags.ToString());
+        var (projects, totalProjectsCount) = await projectRepository.GetProjectsForUserPagedAsync(page, pageSize, search, stateFilter);
 
-        var filteredProjects = projects.FilterByStateAndSearch(Enum.Parse<ProjectStateFilter>(stateFlags.ToString()), search);
-        List<GetProjectResponse> projectsDto = [.. filteredProjects.Select(
+        List<GetProjectResponse> projectsDto = [.. projects.Select(
             p => new GetProjectResponse(
                 p.Id.Value,
                 p.Name,
@@ -40,12 +44,13 @@ public static class GetProjectsRoute
                 p.Domains!.FirstOrDefault()?.GetValue ?? "Unknown")
             )];
 
-        var totalProjectsCount = projectsDto.Count;
         var runningProjectsCount = projectsDto.Sum(x => x.State == ProjectState.Running ? 1 : 0);
 
         return new(
             totalProjectsCount,
             runningProjectsCount,
-            projectsDto);
+            projectsDto,
+            page,
+            pageSize);
     }
 }

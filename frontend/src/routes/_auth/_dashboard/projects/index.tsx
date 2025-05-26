@@ -37,10 +37,21 @@ function RouteComponent() {
 
     const [filter, setFilter] = useState<ProjectStateFilter>(ProjectStateFilter.All);
 
-    const { data: projectsData } = api.v1.getProjects.useQuery({
+    const { data: projectsData } = api.v1.getProjects.useInfiniteQuery({
         query: {
             search: debouncedSearch,
             stateFlags: filter
+        }
+    }, {
+        getNextPageParam: (lastPage) => ({
+            query: {
+                page: lastPage.page ?? 1 + 1,
+            }
+        }),
+        initialPageParam: {
+            query: {
+                page: 1,
+            }
         }
     });
 
