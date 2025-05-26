@@ -1,7 +1,6 @@
 import { api } from "@/api-client"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useTimeAgo } from '@/hooks/useTimeAgo'
 import { getDeploymentStatusFromNumber } from "@/lib/deployment-status"
@@ -12,13 +11,11 @@ import { getLink } from "@/links"
 import { createFileRoute, useRouter } from '@tanstack/react-router'
 import { motion } from "framer-motion"
 import {
-    ChevronDownIcon,
     GitBranchIcon,
     GitCommitIcon,
-    RefreshCw,
-    SearchIcon
+    RefreshCw
 } from "lucide-react"
-import { useState } from "react"
+import { useMemo, useState } from "react"
 
 export const Route = createFileRoute(
     '/_auth/_dashboard/projects/$projectId/deployments/',
@@ -32,7 +29,6 @@ function RouteComponent() {
     const { projectId } = Route.useParams();
 
     const [filter, setFilter] = useState<DeploymentStatusFilter>(DeploymentStatusFilter.All);
-
 
     const { data: deploymentsData, refetch } = api.v1.getProjectsProjectIdDeployments.useInfiniteQuery(
         { path: { projectId } },
@@ -63,7 +59,7 @@ function RouteComponent() {
         }
     );
 
-    const deployments = deploymentsData?.pages.flatMap((page) => page.items ?? []) || [];
+    const deployments = useMemo(() => deploymentsData?.pages.flatMap((page) => page.items ?? []) || [], [deploymentsData]);
 
     const [rotation, setRotation] = useState(0);
 
@@ -71,6 +67,66 @@ function RouteComponent() {
         refetch();
         setRotation((prev) => prev + 360);
     };
+
+    function DeploymentRow({ deployment, projectId, router }: { deployment: any, projectId: string, router: any }) {
+        const timeAgo = useTimeAgo(deployment.createdAt!);
+        return (
+            <div key={deployment.id} className="flex items-center justify-between py-4 px-4 border-b bg-muted/50 hover:bg-muted/70 hover:cursor-pointer"
+                onClick={() => {
+                    router.navigate({ to: `/projects/${projectId}/deployments/${deployment.id}` })
+                }}>
+                <div className="flex-1 min-w-0">
+                    <div className="flex items-center">
+                        <div className="min-w-0 flex-1 flex flex-row gap-2">
+                            <div className="flex items-start flex-col">
+                                <span className="font-mono text-sm">{deployment.id?.substring(0, 8)}</span>
+                                <div className="text-sm text-muted-foreground">{deployment.environment}</div>
+                            </div>
+                            {deployment.environment === "Production" && (
+                                <div className="flex items-center">
+                                    {deployment.isCurrent && (
+                                        <Badge
+                                            variant="outline"
+                                            className="text-xs rounded-full px-2 py-0 h-5 bg-primary/10 border-primary/20"
+                                        >
+                                            Current
+                                        </Badge>
+                                    )}
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+
+                <div className="flex items-center gap-2 flex-1">
+                    <div className="flex items-center">
+                        {getStatusDot(getDeploymentStatusFromNumber(deployment.status))}
+                        <span>{getDeploymentStatusFromNumber(deployment.status)}</span>
+                    </div>
+                    <div className="text-sm text-muted-foreground">{timeAgo}</div>
+                </div>
+
+                <div className="flex items-start flex-1 flex-col px-3">
+                    <div className="flex items-center gap-1">
+                        <GitBranchIcon className="h-4 w-4 py-[2px] text-muted-foreground" />
+                        <span>{deployment.branch}</span>
+                    </div>
+                    <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                        <GitCommitIcon className="h-4 w-4" />
+                        <span className="font-mono">{deployment.commitHash?.substring(0, 6)}</span>
+                        <span className="truncate w-[200px]">{deployment.commitMessage}</span>
+                    </div>
+                </div>
+
+                <div className="flex items-center gap-4">
+                    <div className="text-sm text-muted-foreground text-right flex flex-col">
+                        <div>{Formatter.fromDate(deployment.createdAt, "long")}</div>
+                        <div>by {deployment.author}</div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="space-y-6">
@@ -149,66 +205,9 @@ function RouteComponent() {
 
             {deployments?.length || 0 > 0 ? (
                 <div className="space-y-px">
-                    {deployments!.map((deployment) => {
-                        const timeAgo = useTimeAgo(deployment.createdAt!);
-                        return (
-                            <div key={deployment.id} className="flex items-center justify-between py-4 px-4 border-b bg-muted/50 hover:bg-muted/70 hover:cursor-pointer"
-                                onClick={() => {
-                                    router.navigate({ to: `/projects/${projectId}/deployments/${deployment.id}` })
-                                }}>
-                                <div className="flex-1 min-w-0">
-                                    <div className="flex items-center">
-                                        <div className="min-w-0 flex-1 flex flex-row gap-2">
-                                            <div className="flex items-start flex-col">
-                                                <span className="font-mono text-sm">{deployment.id?.substring(0, 8)}</span>
-                                                <div className="text-sm text-muted-foreground">{deployment.environment}</div>
-
-                                            </div>
-                                            {deployment.environment === "Production" && (
-                                                <div className="flex items-center">
-                                                    {deployment.isCurrent && (
-                                                        <Badge
-                                                            variant="outline"
-                                                            className="text-xs rounded-full px-2 py-0 h-5 bg-primary/10 border-primary/20"
-                                                        >
-                                                            Current
-                                                        </Badge>
-                                                    )}
-                                                </div>
-                                            )}
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="flex items-center gap-2 flex-1">
-                                    <div className="flex items-center">
-                                        {getStatusDot(getDeploymentStatusFromNumber(deployment.status))}
-                                        <span>{getDeploymentStatusFromNumber(deployment.status)}</span>
-                                    </div>
-                                    <div className="text-sm text-muted-foreground">{timeAgo}</div>
-                                </div>
-
-                                <div className="flex items-start flex-1 flex-col px-3">
-                                    <div className="flex items-center gap-1">
-                                        <GitBranchIcon className="h-4 w-4 py-[2px] text-muted-foreground" />
-                                        <span>{deployment.branch}</span>
-                                    </div>
-                                    <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                                        <GitCommitIcon className="h-4 w-4" />
-                                        <span className="font-mono">{deployment.commitHash?.substring(0, 6)}</span>
-                                        <span className="truncate w-[200px]">{deployment.commitMessage}</span>
-                                    </div>
-                                </div>
-
-                                <div className="flex items-center gap-4">
-                                    <div className="text-sm text-muted-foreground text-right flex flex-col">
-                                        <div>{Formatter.fromDate(deployment.createdAt, "long")}</div>
-                                        <div>by {deployment.author}</div>
-                                    </div>
-                                </div>
-                            </div>
-                        )
-                    })}
+                    {deployments!.map((deployment) => (
+                        <DeploymentRow key={deployment.id} deployment={deployment} projectId={projectId} router={router} />
+                    ))}
                 </div>
             ) : (
                 <div className="text-center py-10">
