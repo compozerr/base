@@ -17,7 +17,6 @@ const InfiniteScrollContainer: React.FC<Props> = (props) => {
     });
 
     useEffect(() => {
-        console.log("In view:", inView);
         if (inView) {
             requestAnimationFrame(() => {
                 props.onBottomReached?.();
