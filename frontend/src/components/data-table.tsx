@@ -2,15 +2,31 @@ import { type ColumnDef, flexRender, getCoreRowModel, useReactTable } from "@tan
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Skeleton } from "./ui/skeleton"
+import InfiniteScrollContainer from "./infinite-scroll-container"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
   isLoading: boolean
   onRowClick?: (row: TData) => void | Promise<void>
+  fetchNextPage?: () => void
 }
 
-export function DataTable<TData, TValue>({ columns, data, isLoading, onRowClick }: DataTableProps<TData, TValue>) {
+export function DataTable<TData, TValue>({ columns, data, isLoading, onRowClick, fetchNextPage }: DataTableProps<TData, TValue>) {
+  const isInfiniteScroll = !!fetchNextPage
+  if (isInfiniteScroll) {
+    return (
+      <InfiniteScrollContainer onBottomReached={fetchNextPage}>
+        <Inner columns={columns} data={data} isLoading={isLoading} onRowClick={onRowClick} />
+      </InfiniteScrollContainer>)
+  }
+
+  return (
+    <Inner columns={columns} data={data} isLoading={isLoading} onRowClick={onRowClick} />
+  )
+}
+
+function Inner<TData, TValue>({ columns, data, isLoading, onRowClick }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
     columns,
@@ -58,6 +74,7 @@ export function DataTable<TData, TValue>({ columns, data, isLoading, onRowClick 
     </div>
   )
 }
+
 
 function LoadingRows({ colCount }: { colCount: number }) {
   return (

@@ -1,4 +1,3 @@
-
 import { api } from '@/api-client'
 import { DataTable } from '@/components/data-table'
 import StartStopProjectButton from '@/components/project/project-startstop-button'
@@ -38,7 +37,8 @@ function RouteComponent() {
     const [filter, setFilter] = useState<ProjectStateFilter>(ProjectStateFilter.All);
 
     const {
-        data: projectsData
+        data: projectsData,
+        fetchNextPage
     } = api.v1.getProjects.useInfiniteQuery(
         {
             query: {
@@ -75,7 +75,23 @@ function RouteComponent() {
         }
     );
 
-    const memoizedProjectsData = useMemo(() => projectsData, [projectsData]);
+    const [lastValidPages, setLastValidPages] = useState<any[]>([]);
+    useEffect(() => {
+        if (projectsData?.pages && projectsData.pages.length > 0) {
+            setLastValidPages(projectsData.pages);
+        }
+    }, [projectsData?.pages]);
+
+    const allPages = projectsData?.pages?.length
+        ? projectsData.pages
+        : lastValidPages;
+
+    const allProjects = useMemo(() => {
+        return allPages.flatMap(page => page.projects ?? []);
+    }, [allPages]);
+
+    const totalProjectsCount = useMemo(() => allPages[0]?.totalProjectsCount ?? 0, [allPages]);
+    const runningProjectsCount = useMemo(() => allPages[0]?.runningProjectsCount ?? 0, [allPages]);
 
     const router = useRouter();
 
@@ -89,8 +105,8 @@ function RouteComponent() {
             </header>
 
             <div className="grid gap-6 md:grid-cols-3 mb-8">
-                <DashboardCard title="Total Projects" value={memoizedProjectsData?.totalProjectsCount?.toString() ?? "0"} />
-                <DashboardCard title="Running Projects" value={memoizedProjectsData?.runningProjectsCount?.toString() ?? "0"} />
+                <DashboardCard title="Total Projects" value={totalProjectsCount.toString()} />
+                <DashboardCard title="Running Projects" value={runningProjectsCount.toString()} />
             </div>
 
             <div className="bg-card rounded-lg shadow-sm p-6">
@@ -137,9 +153,8 @@ function RouteComponent() {
 
                 <DataTable onRowClick={(row) => {
                     if (!row.id) return;
-
                     router.navigate({ to: `/projects/${row.id}` });
-                }} isLoading={false} data={memoizedProjectsData?.projects ?? []} columns={[
+                }} isLoading={false} data={allProjects} fetchNextPage={fetchNextPage} columns={[
                     {
                         accessorKey: 'name',
                         header: 'Project',

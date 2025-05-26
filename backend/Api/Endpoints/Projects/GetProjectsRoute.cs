@@ -28,10 +28,10 @@ public static class GetProjectsRoute
         string? search = null,
         int stateFlags = (int)ProjectStateFilter.All,
         int page = 1,
-        int pageSize = 20)
+        int pageSize = 5)
     {
         var stateFilter = Enum.Parse<ProjectStateFilter>(stateFlags.ToString());
-        var (projects, totalProjectsCount) = await projectRepository.GetProjectsForUserPagedAsync(page, pageSize, search, stateFilter);
+        var (projects, totalProjectsCount, runningProjectsCount) = await projectRepository.GetProjectsForUserPagedAsync(page, pageSize, search, stateFilter);
 
         List<GetProjectResponse> projectsDto = [.. projects.Select(
             p => new GetProjectResponse(
@@ -43,8 +43,6 @@ public static class GetProjectsRoute
                 [.. p.Domains?.Select(x => x.GetValue) ?? []],
                 p.Domains!.FirstOrDefault()?.GetValue ?? "Unknown")
             )];
-
-        var runningProjectsCount = projectsDto.Sum(x => x.State == ProjectState.Running ? 1 : 0);
 
         return new(
             totalProjectsCount,
