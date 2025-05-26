@@ -1,4 +1,5 @@
 import { api } from "@/api-client"
+import InfiniteScrollContainer from "@/components/infinite-scroll-container"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -30,7 +31,7 @@ function RouteComponent() {
 
     const [filter, setFilter] = useState<DeploymentStatusFilter>(DeploymentStatusFilter.All);
 
-    const { data: deploymentsData, refetch } = api.v1.getProjectsProjectIdDeployments.useInfiniteQuery(
+    const { data: deploymentsData, refetch, fetchNextPage } = api.v1.getProjectsProjectIdDeployments.useInfiniteQuery(
         { path: { projectId } },
         {
             getNextPageParam: (lastPage) => {
@@ -205,9 +206,11 @@ function RouteComponent() {
 
             {deployments?.length || 0 > 0 ? (
                 <div className="space-y-px">
-                    {deployments!.map((deployment) => (
-                        <DeploymentRow key={deployment.id} deployment={deployment} projectId={projectId} router={router} />
-                    ))}
+                    <InfiniteScrollContainer onBottomReached={fetchNextPage}>
+                        {deployments!.map((deployment) => (
+                            <DeploymentRow key={deployment.id} deployment={deployment} projectId={projectId} router={router} />
+                        ))}
+                    </InfiniteScrollContainer>
                 </div>
             ) : (
                 <div className="text-center py-10">
