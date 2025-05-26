@@ -22,12 +22,12 @@ const InfiniteScrollContainer: React.FC<Props> = (props) => {
                 props.onBottomReached?.();
             });
         }
-    }, [inView]);
+    }, [inView]); 
 
     return (
         <div {...props}>
             {props.children}
-            <div id="infinite-scroll-anchor" ref={ref} />
+            <div ref={ref} />
         </div>
     );
 }
