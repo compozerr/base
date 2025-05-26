@@ -32,7 +32,11 @@ function RouteComponent() {
     const [filter, setFilter] = useState<DeploymentStatusFilter>(DeploymentStatusFilter.All);
 
     const { data: deploymentsData, refetch, fetchNextPage } = api.v1.getProjectsProjectIdDeployments.useInfiniteQuery(
-        { path: { projectId } },
+        {
+            path: { projectId }, query: {
+                deploymentStatus: filter,
+            }
+        },
         {
             getNextPageParam: (lastPage) => {
                 if (!lastPage) return undefined;
@@ -45,7 +49,6 @@ function RouteComponent() {
                         query: {
                             page: currentPage + 1,
                             pageSize: pageSize,
-                            deploymentStatus: filter,
                         }
                     };
                 }
@@ -53,8 +56,7 @@ function RouteComponent() {
             },
             initialPageParam: {
                 query: {
-                    page: 1,
-                    deploymentStatus: filter,
+                    page: 1
                 }
             }
         }
