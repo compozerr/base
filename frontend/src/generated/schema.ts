@@ -1223,7 +1223,11 @@ export interface paths {
         };
         get: {
             parameters: {
-                query?: never;
+                query?: {
+                    deploymentStatus?: number;
+                    page?: number;
+                    pageSize?: number;
+                };
                 header?: never;
                 path: {
                     projectId: string;
@@ -1238,7 +1242,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": components["schemas"]["GetDeploymentResponse"][];
+                        "application/json": components["schemas"]["GetDeploymentResponsePagedResult"];
                     };
                 };
             };
@@ -1800,6 +1804,15 @@ export interface components {
             buildDuration?: string;
             region?: string | null;
             buildLogs?: string[] | null;
+        };
+        GetDeploymentResponsePagedResult: {
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            pageSize?: number;
+            /** Format: int32 */
+            totalCount?: number;
+            items?: components["schemas"]["GetDeploymentResponse"][] | null;
         };
         GetDomainDto: {
             /** Format: uuid */

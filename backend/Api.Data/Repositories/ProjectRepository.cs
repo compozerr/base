@@ -4,6 +4,7 @@ using Database.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using Api.Data.Extensions;
+using Database.Extensions;
 
 namespace Api.Data.Repositories;
 
@@ -80,10 +81,10 @@ public sealed class ProjectRepository(
 
         var totalCount = await query.CountAsync();
         var runningProjectsCount = await query.CountAsync(x => x.State == ProjectState.Running);
-        var projects = await ApplyPagination(
-                query.OrderByDescending(x => x.UpdatedAtUtc ?? x.CreatedAtUtc),
-                page, pageSize)
-            .ToListAsync();
+
+        var projects = await query.OrderByDescending(x => x.UpdatedAtUtc ?? x.CreatedAtUtc)
+                                  .AsPageable(page, pageSize)
+                                  .ToListAsync();
 
         return (projects, totalCount, runningProjectsCount);
     }

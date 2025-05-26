@@ -6286,6 +6286,9 @@ export interface V1Service {
          * const { data, isLoading } = qraft.v1Service.getProjectsProjectIdDeployments.useQuery({
          *     path: {
          *         projectId: projectId
+         *     },
+         *     query: {
+         *         deploymentStatus: deploymentStatus
          *     }
          * })
          * ```
@@ -6300,6 +6303,9 @@ export interface V1Service {
          * const { data, isLoading } = qraft.v1Service.getProjectsProjectIdDeployments.useQuery({
          *     path: {
          *         projectId: projectId
+         *     },
+         *     query: {
+         *         deploymentStatus: deploymentStatus
          *     }
          * })
          * ```
@@ -6370,7 +6376,11 @@ export interface V1Service {
          *         projectId: projectId
          *     }
          * }, {
-         *     initialPageParam: {},
+         *     initialPageParam: {
+         *         query: {
+         *             deploymentStatus: initialDeploymentStatus
+         *         }
+         *     },
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
          *
@@ -6392,7 +6402,11 @@ export interface V1Service {
          *         projectId: projectId
          *     }
          * }, {
-         *     initialPageParam: {},
+         *     initialPageParam: {
+         *         query: {
+         *             deploymentStatus: initialDeploymentStatus
+         *         }
+         *     },
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
          *
@@ -6418,6 +6432,9 @@ export interface V1Service {
          *     parameters: {
          *         path: {
          *             projectId: projectId
+         *         },
+         *         query: {
+         *             deploymentStatus: deploymentStatus
          *         }
          *     }
          * })
@@ -6435,11 +6452,17 @@ export interface V1Service {
          *         {
          *             path: {
          *                 projectId: projectId1
+         *             },
+         *             query: {
+         *                 deploymentStatus: deploymentStatus1
          *             }
          *         },
          *         {
          *             path: {
          *                 projectId: projectId2
+         *             },
+         *             query: {
+         *                 deploymentStatus: deploymentStatus2
          *             }
          *         }
          *     ]
@@ -6454,11 +6477,17 @@ export interface V1Service {
          *         {
          *             path: {
          *                 projectId: projectId1
+         *             },
+         *             query: {
+         *                 deploymentStatus: deploymentStatus1
          *             }
          *         },
          *         {
          *             path: {
          *                 projectId: projectId2
+         *             },
+         *             query: {
+         *                 deploymentStatus: deploymentStatus2
          *             }
          *         }
          *     ]
@@ -6481,6 +6510,9 @@ export interface V1Service {
          * const { data, isLoading } = qraft.v1Service.getProjectsProjectIdDeployments.useQuery({
          *     path: {
          *         projectId: projectId
+         *     },
+         *     query: {
+         *         deploymentStatus: deploymentStatus
          *     }
          * })
          * ```
@@ -6495,6 +6527,9 @@ export interface V1Service {
          * const { data, isLoading } = qraft.v1Service.getProjectsProjectIdDeployments.useQuery({
          *     path: {
          *         projectId: projectId
+         *     },
+         *     query: {
+         *         deploymentStatus: deploymentStatus
          *     }
          * })
          * ```
@@ -6514,7 +6549,11 @@ export interface V1Service {
          *         projectId: projectId
          *     }
          * }, {
-         *     initialPageParam: {},
+         *     initialPageParam: {
+         *         query: {
+         *             deploymentStatus: initialDeploymentStatus
+         *         }
+         *     },
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
          *

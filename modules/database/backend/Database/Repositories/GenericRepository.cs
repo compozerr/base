@@ -176,7 +176,4 @@ public class GenericRepository<TEntity, TEntityId, TDbContext>(TDbContext contex
     {
         return query(Query()).FirstOrDefaultAsync(cancellationToken);
     }
-
-    protected IQueryable<TEntity> ApplyPagination(IQueryable<TEntity> query, int page, int pageSize)
-        => query.Skip((page - 1) * pageSize).Take(pageSize);
 }

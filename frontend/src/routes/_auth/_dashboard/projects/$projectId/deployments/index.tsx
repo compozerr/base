@@ -6,6 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useTimeAgo } from '@/hooks/useTimeAgo'
 import { getDeploymentStatusFromNumber } from "@/lib/deployment-status"
 import { getStatusDot } from "@/lib/deployment-status-component"
+import { DeploymentStatusFilter } from "@/lib/deployment-status-filter"
 import { Formatter } from "@/lib/formatter"
 import { getLink } from "@/links"
 import { createFileRoute, useRouter } from '@tanstack/react-router'
@@ -30,7 +31,39 @@ function RouteComponent() {
     const router = useRouter();
     const { projectId } = Route.useParams();
 
-    const { data: deployments, refetch } = api.v1.getProjectsProjectIdDeployments.useQuery({ path: { projectId } });
+    const [filter, setFilter] = useState<DeploymentStatusFilter>(DeploymentStatusFilter.All);
+
+
+    const { data: deploymentsData, refetch } = api.v1.getProjectsProjectIdDeployments.useInfiniteQuery(
+        { path: { projectId } },
+        {
+            getNextPageParam: (lastPage) => {
+                if (!lastPage) return undefined;
+                const currentPage = lastPage.page ?? 1;
+                const total = lastPage.totalCount ?? 0;
+                const pageSize = lastPage.pageSize ?? 20;
+                const totalPages = Math.ceil(total / pageSize);
+                if (currentPage < totalPages) {
+                    return {
+                        query: {
+                            page: currentPage + 1,
+                            pageSize: pageSize,
+                            deploymentStatus: filter,
+                        }
+                    };
+                }
+                return undefined;
+            },
+            initialPageParam: {
+                query: {
+                    page: 1,
+                    deploymentStatus: filter,
+                }
+            }
+        }
+    );
+
+    const deployments = deploymentsData?.pages.flatMap((page) => page.items ?? []) || [];
 
     const [rotation, setRotation] = useState(0);
 
@@ -65,25 +98,43 @@ function RouteComponent() {
             </div>
 
             <div className="flex flex-col md:flex-row gap-2">
-                <div className="relative flex-1">
+                {/* <div className="relative flex-1">
                     <SearchIcon className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
                     <Input placeholder="All Branches..." className="pl-8 pr-10" />
                     <ChevronDownIcon className="absolute right-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-                </div>
+                </div> */}
 
-                <Select defaultValue="all">
+                {/* <Select defaultValue="all">
                     <SelectTrigger className="w-full md:w-[200px]">
                         <SelectValue placeholder="All Environments" />
                     </SelectTrigger>
                     <SelectContent>
                         <SelectItem value="all">All Environments</SelectItem>
                         <SelectItem value="production">Production</SelectItem>
-                        {/* <SelectItem value="preview">Preview</SelectItem>
-                        <SelectItem value="development">Development</SelectItem> */}
+                       
                     </SelectContent>
-                </Select>
+                </Select> */}
 
-                <Select defaultValue="all">
+                <Select defaultValue="all" onValueChange={(value) => {
+                    switch (value) {
+                        case "all":
+                            setFilter(DeploymentStatusFilter.All);
+                            break;
+                        case "completed":
+                            setFilter(DeploymentStatusFilter.Completed);
+                            break;
+                        case "deploying":
+                            setFilter(DeploymentStatusFilter.Deploying);
+                            break;
+                        case "failed":
+                            setFilter(DeploymentStatusFilter.Failed);
+                            break;
+                        default:
+                            setFilter(DeploymentStatusFilter.All);
+                            break;
+                    }
+                }
+                }>
                     <SelectTrigger className="w-full md:w-[150px]">
                         <SelectValue placeholder="Status" />
                     </SelectTrigger>
