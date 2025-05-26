@@ -2,7 +2,6 @@ using Api.Data;
 using Api.Data.Repositories;
 using Api.Endpoints.Projects.Project.Get;
 using Api.Hosting.Services;
-using Api.Data.Extensions;
 
 namespace Api.Endpoints.Projects;
 
@@ -28,7 +27,7 @@ public static class GetProjectsRoute
         string? search = null,
         int stateFlags = (int)ProjectStateFilter.All,
         int page = 1,
-        int pageSize = 5)
+        int pageSize = 20)
     {
         var stateFilter = Enum.Parse<ProjectStateFilter>(stateFlags.ToString());
         var (projects, totalProjectsCount, runningProjectsCount) = await projectRepository.GetProjectsForUserPagedAsync(page, pageSize, search, stateFilter);
