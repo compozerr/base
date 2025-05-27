@@ -5,9 +5,6 @@ export function useDuration(timespan: string | number, enabled: boolean = true) 
     const [elapsedSeconds, setElapsedSeconds] = useState<number>(0);
     
     useEffect(() => {
-        // Reset elapsed seconds when timespan changes
-        setElapsedSeconds(0);
-        
         const parseTimespan = (): number => {
             let diffInSeconds: number;
             
@@ -58,7 +55,7 @@ export function useDuration(timespan: string | number, enabled: boolean = true) 
         return () => {
             if (interval) clearInterval(interval);
         };
-    }, [timespan, enabled]);
+    }, [enabled]); 
 
     return duration;
 }
