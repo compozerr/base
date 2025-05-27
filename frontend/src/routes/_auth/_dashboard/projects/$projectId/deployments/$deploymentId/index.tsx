@@ -63,25 +63,27 @@ function RouteComponent() {
         const getIcon = () => {
             switch (logEntry.level) {
                 case "Error":
-                    return <CircleAlert className={"h-4 w-4 text-red-500"} />;
+                    return <CircleAlert className={"h-4 w-4 min-h-4 min-w-4 text-red-500"} />;
                 case "Warning":
-                    return <TriangleAlert className="h-4 w-4 text-yellow-500" />;
+                    return <TriangleAlert className="h-4 w-4 min-h-4 min-w-4 text-yellow-500" />;
                 case "Info":
-                    return <Info className="h-4 w-4 text-gray-400" />;
+                    return <Info className="h-4 w-4 min-h-4 min-w-4 text-gray-400" />;
                 case "Success":
-                    return <CircleCheck className="h-4 w-4 text-green-500" />;
+                    return <CircleCheck className="h-4 w-4 min-h-4 min-w-4 text-green-500" />;
                 default:
-                    return <CircleDot className="h-4 w-4 text-gray-500" />;
+                    return <CircleDot className="h-4 w-4 min-h-4 min-w-4 text-gray-500" />;
 
             }
         }
 
         return (
-            <div className="flex items-center gap-2 mb-1">
-                <span className="text-gray-500 mr-2">
-                    {Formatter.fromDate(logEntry.timestamp, "long")}
-                </span>
-                {getIcon()}
+            <div className="flex items-start gap-1 mb-1">
+                <div className='flex items-center gap-2 mr-1'>
+                    <span className="text-gray-500 mr-2 whitespace-nowrap">
+                        {Formatter.fromDate(logEntry.timestamp, "long")}
+                    </span>
+                    {getIcon()}
+                </div>
                 <span className={cn("whitespace-pre-wrap", getLogTextColor())}>
                     {logEntry.message}
                 </span>
