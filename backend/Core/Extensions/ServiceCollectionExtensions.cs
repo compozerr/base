@@ -30,9 +30,15 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
+    private static string DefaultExceptionMessage(string configSectionPath, string propertyName)
+    {
+        var exceptionMessageProperty = configSectionPath.ToUpperInvariant().Replace(":", "__");
+
+        return $"Define the value inside .env file with __ separator (like '{exceptionMessageProperty}_{propertyName}=<value>')";
+    }
+
     private static bool ValidateRequiredProperties<T>(T options, string configSectionPath) where T : class
     {
-        const string DefaultExceptionMessage = "Define the value inside .env file with __ separator (e.g. 'KEY__SUBKEY=value')";
         // Get all properties
         var properties = typeof(T).GetProperties();
 
@@ -53,7 +59,7 @@ public static class ServiceCollectionExtensions
                             typeof(T).Name,
                             typeof(T),
                             [$"Required property '{configSectionPath}:{property.Name}' is missing or empty",
-                             DefaultExceptionMessage]
+                             DefaultExceptionMessage(configSectionPath, property.Name)]
                         );
                     }
                 }
@@ -64,7 +70,7 @@ public static class ServiceCollectionExtensions
                         typeof(T).Name,
                         typeof(T),
                         [$"Required property '{configSectionPath}:{property.Name}' is missing",
-                         DefaultExceptionMessage]
+                         DefaultExceptionMessage(configSectionPath, property.Name)]
                     );
                 }
             }
