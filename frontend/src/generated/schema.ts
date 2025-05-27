@@ -1318,7 +1318,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "text/plain": string;
+                        "application/json": components["schemas"]["LogEntry"][];
                     };
                 };
             };
@@ -1882,6 +1882,14 @@ export interface components {
             name?: string | null;
             type?: string | null;
         };
+        LogEntry: {
+            /** Format: date-time */
+            timestamp?: string;
+            level?: components["schemas"]["LogEntryLevel"];
+            message?: string | null;
+        };
+        /** @enum {string} */
+        LogEntryLevel: "Info" | "Warning" | "Error" | "Success";
         /** @enum {string} */
         LogLevel: "Info" | "Warning" | "Error" | "Success";
         MeResponse: {

@@ -12,7 +12,7 @@ public static class GetLogRoute
         return app.MapGet(Route, ExecuteAsync);
     }
 
-    public static Task<string> ExecuteAsync(
+    public static Task<List<LogEntry>> ExecuteAsync(
         ProjectId projectId,
         DeploymentId deploymentId,
         IMediator mediator)

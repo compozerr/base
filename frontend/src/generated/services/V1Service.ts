@@ -10079,7 +10079,7 @@ type GetProjectsProjectIdDeploymentsDeploymentIdLogsSchema = {
     url: "/v1/projects/{projectId}/deployments/{deploymentId}/logs";
 };
 type GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters = paths["/v1/projects/{projectId}/deployments/{deploymentId}/logs"]["get"]["parameters"];
-type GetProjectsProjectIdDeploymentsDeploymentIdLogsData = paths["/v1/projects/{projectId}/deployments/{deploymentId}/logs"]["get"]["responses"]["200"]["content"]["text/plain"];
+type GetProjectsProjectIdDeploymentsDeploymentIdLogsData = paths["/v1/projects/{projectId}/deployments/{deploymentId}/logs"]["get"]["responses"]["200"]["content"]["application/json"];
 type GetProjectsProjectIdDeploymentsDeploymentIdLogsError = unknown;
 type GetProjectsProjectIdEnvironmentSchema = {
     method: "get";

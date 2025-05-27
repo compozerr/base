@@ -10,7 +10,7 @@ import { getStatusDot } from '@/lib/deployment-status-component';
 import { Formatter } from '@/lib/formatter';
 import { cn } from '@/lib/utils';
 import { createFileRoute, useRouter } from '@tanstack/react-router';
-import { ArrowLeft, Calendar, Clock, ExternalLink, GitBranch, GitCommit } from "lucide-react";
+import { ArrowLeft, Calendar, CircleAlert, CircleCheck, CircleDot, Clock, ExternalLink, GitBranch, GitCommit, Info, TriangleAlert } from "lucide-react";
 
 export const Route = createFileRoute(
     '/_auth/_dashboard/projects/$projectId/deployments/$deploymentId/',
@@ -51,12 +51,42 @@ function RouteComponent() {
         router.navigate({ to: `/projects/${projectId}/deployments` })
     }
 
-    const getLogTextColor = (log: string) => {
-        if (log.includes("ERROR")) return "text-red-500";
-        if (log.includes("WARNING")) return "text-yellow-500";
-        if (log.includes("INFO")) return "text-gray-400";
-        if (log.includes("SUCCESS")) return "text-green-500";
-        return "text-gray-500";
+    const LogEntryComponent = (logEntry: Awaited<ReturnType<typeof api.v1.getProjectsProjectIdDeploymentsDeploymentIdLogs.fetchQuery>>[0]) => {
+        const getLogTextColor = () => {
+            const logLevel = logEntry.level;
+            if (logLevel === "Error") return "text-red-500";
+            if (logLevel === "Warning") return "text-yellow-500";
+            if (logLevel === "Info") return "text-gray-400";
+            if (logLevel === "Success") return "text-green-500";
+            return "text-gray-500";
+        }
+        const getIcon = () => {
+            switch (logEntry.level) {
+                case "Error":
+                    return <CircleAlert className={"h-4 w-4 text-red-500"} />;
+                case "Warning":
+                    return <TriangleAlert className="h-4 w-4 text-yellow-500" />;
+                case "Info":
+                    return <Info className="h-4 w-4 text-gray-400" />;
+                case "Success":
+                    return <CircleCheck className="h-4 w-4 text-green-500" />;
+                default:
+                    return <CircleDot className="h-4 w-4 text-gray-500" />;
+
+            }
+        }
+
+        return (
+            <div className="flex items-center gap-2 mb-1">
+                <span className="text-gray-500 mr-2">
+                    {Formatter.fromDate(logEntry.timestamp, "long")}
+                </span>
+                {getIcon()}
+                <span className={cn("whitespace-pre-wrap", getLogTextColor())}>
+                    {logEntry.message}
+                </span>
+            </div>
+        );
     }
 
     if (!deployment) {
@@ -191,7 +221,7 @@ function RouteComponent() {
                 <CardHeader className="pb-2">
                     <CardTitle className="text-lg flex justify-between">
                         <span>Build Logs</span>
-                        <CopyButton value={logs ?? ""}>
+                        <CopyButton value={logs?.flatMap((log) => `${log.timestamp} ${log.level} ${log.message}`).join("\n") ?? ""} className="flex items-center">
                             <span className='ml-4 text-sm'>Copy</span>
                         </CopyButton>
                     </CardTitle>
@@ -200,10 +230,8 @@ function RouteComponent() {
                 <CardContent>
                     <div className="bg-black text-green-400 font-mono text-sm p-4 rounded-md h-[400px] overflow-y-auto">
                         <div className="whitespace-pre-wrap mb-1">
-                            {logs?.split("\n").map((log, index) => (
-                                <div key={index} className={cn("whitespace-pre-wrap mb-1", getLogTextColor(log))}>
-                                    {log}
-                                </div>
+                            {logs?.map((log, index) => (
+                                <LogEntryComponent key={index} {...log} />
                             ))}
                         </div>
                     </div>
