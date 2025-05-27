@@ -32,7 +32,6 @@ public static class GetProjectRoute
             project.Name,
             RepoUri.Parse(project.RepoUri).RepoName,
             project.State,
-            project.UpdatedAtUtc ?? DateTime.Now,
             [.. project.Domains?.Select(x => x.GetValue) ?? []],
             project.Domains?.GetPrimary()?.GetValue
         );

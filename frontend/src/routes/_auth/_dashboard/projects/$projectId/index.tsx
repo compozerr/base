@@ -88,10 +88,7 @@ function RouteComponent() {
                                         </a>
                                     </p>
                                 </div>
-                                <div>
-                                    <h3 className="text-sm font-medium text-muted-foreground">Start Date</h3>
-                                    <p className="text-sm">{Formatter.fromDate(project.startDate)}</p>
-                                </div>
+                               
                                 <div>
                                     <h3 className="text-sm font-medium text-muted-foreground">Status</h3>
                                     <p className="text-sm flex items-center gap-2">
@@ -113,7 +110,7 @@ function RouteComponent() {
                         <div className="space-y-2">
                             <h2 className="text-xl font-semibold">Domains</h2>
                             <div className="space-y-4 mt-4 relative max-h-[220px]">
-                                <div className="overflow-y-auto max-h-[220px] pr-1">
+                                <div className="overflow-y-auto max-h-[220px] min-h-[100px] pr-1">
                                     {project.domains && project.domains?.length > 0 ? (
                                         project.domains.sort((d)=>d === project.primaryDomain ? -1 : 1).map((d) => (
                                             <div key={d} className="flex items-center justify-between mb-4">

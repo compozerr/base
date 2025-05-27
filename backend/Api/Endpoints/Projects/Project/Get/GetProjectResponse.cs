@@ -7,6 +7,5 @@ public sealed record GetProjectResponse(
     string Name,
     string RepoName,
     ProjectState State,
-    DateTime StartDate,
     List<string> Domains,
     string? PrimaryDomain);

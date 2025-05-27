@@ -186,16 +186,6 @@ function RouteComponent() {
                             </span>)
                         }
                     },
-                    // {
-                    //     accessorKey: "vCpuHours",
-                    //     header: "vCPU Hours",
-                    //     cell: ({ row }) => <span>{row.original.vCpuHours?.toFixed(2)}</span>
-                    // },
-                    {
-                        accessorKey: "startDate",
-                        header: "Start date",
-                        cell: ({ row }) => <span>{Formatter.fromDate(row.original.startDate)}</span>
-                    },
                     {
                         accessorKey: "",
                         header: "Actions",

@@ -1849,8 +1849,6 @@ export interface components {
             name?: string | null;
             repoName?: string | null;
             state?: components["schemas"]["ProjectState"];
-            /** Format: date-time */
-            startDate?: string;
             domains?: string[] | null;
             primaryDomain?: string | null;
         };
