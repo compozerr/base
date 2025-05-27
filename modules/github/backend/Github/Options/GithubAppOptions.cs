@@ -9,4 +9,7 @@ public sealed class GithubAppOptions
 
     [Required]
     public required string PrivateKeyCertificateBase64 { get; init; }
+
+    [Required]
+    public required string WebhookSecret { get; init; }
 }

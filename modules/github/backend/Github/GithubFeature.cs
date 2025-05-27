@@ -9,6 +9,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Octokit.Webhooks;
+using Octokit.Webhooks.AspNetCore;
 
 namespace Github;
 
@@ -32,6 +34,8 @@ public class GithubFeature : IFeature
         services.AddScoped<IGithubUserSettingsRepository, GithubUserSettingsRepository>();
         services.AddDataProtection();
         services.AddHttpClient();
+
+        services.AddSingleton<WebhookEventProcessor, DefaultWebhookEventProcessor>();
     }
 
     void IFeature.ConfigureApp(WebApplication app)
