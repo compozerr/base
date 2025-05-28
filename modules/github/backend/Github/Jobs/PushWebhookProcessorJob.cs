@@ -4,6 +4,7 @@ using Github.Models;
 using Github.Repositories;
 using Jobs;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 namespace Github.Jobs;
 
@@ -28,20 +29,35 @@ public sealed class PushWebhookProcessorJob(
     {
         try
         {
-            // Simulate processing the event
-            Console.WriteLine($"Handling Push Event: {pushWebhookEvent.Event}");
+            Log.ForContext(nameof(pushWebhookEvent), pushWebhookEvent.Id)
+               .Information("Processing PushWebhookEvent {PushWebhookEventId}", pushWebhookEvent.Id);
 
-            // Mark as handled
-            pushWebhookEvent.HandledAt = DateTime.UtcNow;
-            await pushWebhookEventRepository.UpdateAsync(pushWebhookEvent);
+            
+
+            await MarkAsHandledAsync(pushWebhookEvent);
         }
         catch (Exception ex)
         {
-            // Log the error and mark as errored
-            Console.WriteLine($"Error processing Push Event: {ex.Message}");
-            pushWebhookEvent.ErrorMessage = ex.Message;
-            pushWebhookEvent.ErroredAt = DateTime.UtcNow;
-            await pushWebhookEventRepository.UpdateAsync(pushWebhookEvent);
+            Log.ForContext(nameof(ex), ex)
+               .ForContext(nameof(pushWebhookEvent), pushWebhookEvent.Id)
+               .Error("Error processing PushWebhookEvent {PushWebhookEventId}", pushWebhookEvent.Id);
+
+            await MarkAsErroredAsync(pushWebhookEvent, ex.Message);
         }
+    }
+
+    private async Task MarkAsHandledAsync(
+        PushWebhookEvent pushWebhookEvent)
+    {
+        pushWebhookEvent.HandledAt = DateTime.UtcNow;
+        await pushWebhookEventRepository.UpdateAsync(pushWebhookEvent);
+    }
+
+    private async Task MarkAsErroredAsync(
+        PushWebhookEvent pushWebhookEvent, string errorMessage)
+    {
+        pushWebhookEvent.ErrorMessage = errorMessage;
+        pushWebhookEvent.ErroredAt = DateTime.UtcNow;
+        await pushWebhookEventRepository.UpdateAsync(pushWebhookEvent);
     }
 }
