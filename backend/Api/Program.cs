@@ -1,3 +1,4 @@
+using Core.Extensions;
 using Core.Feature;
 using Core.MediatR;
 
@@ -9,6 +10,7 @@ Features.RegisterConfigureCallback<AssembliesFeatureConfigureCallback>();
 
 builder.ConfigureFeatures();
 builder.Services.AddFeatures(builder.Configuration);
+builder.Services.ValidateAllConfiguration();
 
 var app = builder.Build();
 

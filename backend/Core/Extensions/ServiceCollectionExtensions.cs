@@ -1,4 +1,6 @@
 using System.ComponentModel.DataAnnotations;
+using System.Reflection;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
@@ -6,6 +8,8 @@ namespace Core.Extensions;
 
 public static class ServiceCollectionExtensions
 {
+    private static readonly List<(Type Type, string ConfigPath)> _trackedOptions = [];
+    
     public static IServiceCollection AddConfigurationOptions<T>(this IServiceCollection services, string configSectionPath) where T : class
     {
         return services.AddConfigurationOptions<T>(configSectionPath, false);
@@ -16,6 +20,27 @@ public static class ServiceCollectionExtensions
         return services.AddConfigurationOptions<T>(configSectionPath, true);
     }
 
+    public static IServiceCollection ValidateAllConfiguration(this IServiceCollection services)
+    {
+        var tempServiceProvider = services.BuildServiceProvider();
+        var configuration = tempServiceProvider.GetRequiredService<IConfiguration>();
+        
+        foreach (var (type, configPath) in _trackedOptions)
+        {
+            var options = Activator.CreateInstance(type);
+            configuration.GetSection(configPath).Bind(options);
+            
+            var method = typeof(ServiceCollectionExtensions)
+                .GetMethod(nameof(ValidateRequiredProperties), BindingFlags.NonPublic | BindingFlags.Static)
+                ?.MakeGenericMethod(type);
+            
+            method?.Invoke(null, [options, configPath]);
+        }
+        
+        tempServiceProvider.Dispose();
+        return services;
+    }
+
     private static IServiceCollection AddConfigurationOptions<T>(this IServiceCollection services, string configSectionPath, bool validate) where T : class
     {
         var bindConfiguration = services.AddOptions<T>()
@@ -24,6 +49,8 @@ public static class ServiceCollectionExtensions
 
         if (validate)
         {
+            _trackedOptions.Add((typeof(T), configSectionPath));
+            
             bindConfiguration.ValidateDataAnnotations()
                            .ValidateOnStart();
         }
@@ -34,7 +61,34 @@ public static class ServiceCollectionExtensions
     {
         var exceptionMessageProperty = configSectionPath.ToUpperInvariant().Replace(":", "__");
 
-        return $"Define the value inside .env file with __ separator (like '{exceptionMessageProperty}_{propertyName}=<value>')";
+        return $"Define the value inside .env file with __ separator (like '{exceptionMessageProperty}__{ConvertToUppsercaseAndDelimiters(propertyName)}=<value>')";
+    }
+
+    private static string ConvertToUppsercaseAndDelimiters(string propertyName)
+    {
+        var result = propertyName;
+        
+        // Insert underscore before uppercase letters (for PascalCase)
+        for (int i = result.Length - 2; i >= 0; i--)
+        {
+            if (char.IsUpper(result[i + 1]) && char.IsLetter(result[i]) && !char.IsUpper(result[i]))
+            {
+            result = result.Insert(i + 1, "_");
+            }
+            else if (i > 0 && char.IsUpper(result[i]) && char.IsUpper(result[i - 1]) && 
+                 i + 1 < result.Length && char.IsLower(result[i + 1]))
+            {
+            result = result.Insert(i, "_");
+            }
+        }
+        
+        // Replace dots with underscore
+        result = result.Replace(".", "_");
+        
+        // Replace colon with double underscore
+        result = result.Replace(":", "__");
+        
+        return result.ToUpperInvariant();
     }
 
     private static bool ValidateRequiredProperties<T>(T options, string configSectionPath) where T : class
