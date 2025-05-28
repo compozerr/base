@@ -1,3 +1,4 @@
+using Core.Extensions;
 using Core.Feature;
 using Core.MediatR;
 using Serilog.Sinks.Humio;
@@ -10,7 +11,7 @@ Features.RegisterConfigureCallback<AssembliesFeatureConfigureCallback>();
 
 builder.ConfigureFeatures();
 builder.Services.AddFeatures(builder.Configuration);
-
+builder.Services.ValidateAllConfiguration();
 Log.Logger = new LoggerConfiguration().WriteTo.Console().WriteTo
                                               .HumioSink(new HumioSinkConfiguration
                                               {
