@@ -58,7 +58,8 @@ public sealed class PushWebhookProcessorJob(
                 CommitMessage: pushWebhookEvent.Event.HeadCommit!.Message!,
                 CommitAuthor: pushWebhookEvent.Event.HeadCommit!.Author!.Name!,
                 CommitBranch: pushWebhookEvent.Event.Ref.Replace("refs/heads/", string.Empty),
-                CommitEmail: pushWebhookEvent.Event.HeadCommit!.Author!.Email!);
+                CommitEmail: pushWebhookEvent.Event.HeadCommit!.Author!.Email!,
+                OverrideAuthorization: true);
 
             await mediator.Send(deployCommand);
         }

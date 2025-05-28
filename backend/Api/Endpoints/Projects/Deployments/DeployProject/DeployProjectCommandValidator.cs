@@ -8,7 +8,9 @@ public sealed class DeployProjectCommandValidator : AbstractValidator<DeployProj
 {
     public DeployProjectCommandValidator(IServiceScopeFactory scopeFactory)
     {
-        RuleFor(x => x.ProjectId).MustBeOwnedByCallerAsync(scopeFactory);
+        RuleFor(x => x.ProjectId)
+            .MustBeOwnedByCallerAsync(scopeFactory)
+            .When(x => !x.OverrideAuthorization);
 
         RuleFor(x => x.CommitAuthor).NotEmpty().MaximumLength(255).WithMessage("Commit author is required.");
         RuleFor(x => x.CommitHash).NotEmpty().MaximumLength(255).WithMessage("Commit hash is required.");

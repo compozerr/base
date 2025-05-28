@@ -8,4 +8,5 @@ public sealed record DeployProjectCommand(
     string CommitMessage,
     string CommitAuthor,
     string CommitBranch,
-    string CommitEmail) : ICommand<DeployProjectResponse>;
+    string CommitEmail,
+    bool OverrideAuthorization = false) : ICommand<DeployProjectResponse>;
