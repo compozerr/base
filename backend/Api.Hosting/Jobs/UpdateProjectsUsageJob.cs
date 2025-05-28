@@ -1,4 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
 using Api.Data;
 using Api.Data.Repositories;
 using Api.Hosting.Dtos;

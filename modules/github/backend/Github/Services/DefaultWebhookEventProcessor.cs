@@ -1,12 +1,17 @@
+using Github.Jobs;
+using Github.Repositories;
 using Octokit.Webhooks;
 using Octokit.Webhooks.Events;
 
 namespace Github.Services;
 
-public sealed class DefaultWebhookEventProcessor : WebhookEventProcessor
+public sealed class DefaultWebhookEventProcessor(
+    IPushWebhookEventRepository pushWebhookEventRepository) : WebhookEventProcessor
 {
-    protected override Task ProcessPushWebhookAsync(WebhookHeaders headers, PushEvent pushEvent)
+    protected override async Task ProcessPushWebhookAsync(WebhookHeaders headers, PushEvent pushEvent)
     {
-        return base.ProcessPushWebhookAsync(headers, pushEvent);
+        var entity = await pushWebhookEventRepository.AddAsync(new() { Event = pushEvent });
+
+        PushWebhookProcessorJob.Enqueue(entity.Id);
     }
-} 
+}
