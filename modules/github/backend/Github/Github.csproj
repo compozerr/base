@@ -24,6 +24,7 @@
     <ProjectReference Include="../../../database/backend/Database/Database.csproj" />
     <ProjectReference Include="../Github.Abstractions/Github.Abstractions.csproj" />
     <ProjectReference Include="..\..\..\jobs\backend\Jobs\Jobs.csproj" />
+    <ProjectReference Include="..\..\..\..\backend\Api.Abstractions\Api.Abstractions.csproj" />
   </ItemGroup>
 
 </Project>

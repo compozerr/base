@@ -1,15 +1,18 @@
+using Api.Abstractions;
 using Core.Extensions;
 using Github.Abstractions;
 using Github.Models;
 using Github.Repositories;
 using Jobs;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
 namespace Github.Jobs;
 
 public sealed class PushWebhookProcessorJob(
-    IPushWebhookEventRepository pushWebhookEventRepository) : JobBase<PushWebhookProcessorJob, PushWebhookEventId>
+    IPushWebhookEventRepository pushWebhookEventRepository,
+    IMediator mediator) : JobBase<PushWebhookProcessorJob, PushWebhookEventId>
 {
     public override async Task ExecuteAsync(PushWebhookEventId pushWebhookEventId)
     {
@@ -32,7 +35,6 @@ public sealed class PushWebhookProcessorJob(
             Log.ForContext(nameof(pushWebhookEvent), pushWebhookEvent.Id)
                .Information("Processing PushWebhookEvent {PushWebhookEventId}", pushWebhookEvent.Id);
 
-            
 
             await MarkAsHandledAsync(pushWebhookEvent);
         }
@@ -45,6 +47,13 @@ public sealed class PushWebhookProcessorJob(
             await MarkAsErroredAsync(pushWebhookEvent, ex.Message);
         }
     }
+
+    // private async Task<ProjectId> GetProjectIdAsync(
+    //     string repoName)
+    // {
+    //     // Assuming the project ID is stored in the event, adjust as necessary
+    //     return await pushWebhookEventRepository.GetProjectIdAsync(pushWebhookEvent);
+    // }
 
     private async Task MarkAsHandledAsync(
         PushWebhookEvent pushWebhookEvent)

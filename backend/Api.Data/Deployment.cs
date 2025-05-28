@@ -1,6 +1,5 @@
 using Auth.Abstractions;
 using Auth.Models;
-using Microsoft.Build.Tasks;
 
 namespace Api.Data;
 
