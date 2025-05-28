@@ -12,15 +12,15 @@ public sealed class PushWebhookProcessorJob(
 {
     public override async Task ExecuteAsync(PushWebhookEventId pushWebhookEventId)
     {
-        var events = await pushWebhookEventRepository.GetByIdAsync(pushWebhookEventId);
+        var @event = await pushWebhookEventRepository.GetByIdAsync(pushWebhookEventId);
 
-        if (events is null or { HandledAt: not null } or { ErroredAt: not null })
+        if (@event is null or { HandledAt: not null } or { ErroredAt: not null })
         {
             // If the event is already handled or errored, we skip processing
             return;
         }
 
-        await HandleEventAsync(events);
+        await HandleEventAsync(@event);
     }
 
     private async Task HandleEventAsync(
