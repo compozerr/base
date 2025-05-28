@@ -11,11 +11,10 @@ public class GithubDbContext(
     IMediator mediator) : BaseDbContext<GithubDbContext>("github", options, mediator)
 {
     public DbSet<GithubUserSettings> GithubUserSettings { get; set; } = null!;
+    public DbSet<PushWebhookEvent> PushWebhookEvents { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-
-
     }
 }
