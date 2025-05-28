@@ -30,10 +30,11 @@ public class GithubFeature : IFeature
         services.AddSingleton<IGithubJsonWebTokenService, GithubJsonWebTokenService>();
         services.AddScoped<IGithubService, GithubService>();
         services.AddScoped<IGithubUserSettingsRepository, GithubUserSettingsRepository>();
+        services.AddScoped<IPushWebhookEventRepository, PushWebhookEventRepository>();
         services.AddDataProtection();
         services.AddHttpClient();
 
-        services.AddSingleton<WebhookEventProcessor, DefaultWebhookEventProcessor>();
+        services.AddScoped<WebhookEventProcessor, DefaultWebhookEventProcessor>();
     }
 
     void IFeature.ConfigureApp(WebApplication app)
