@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Npgsql;
 using Octokit.Webhooks;
 
 namespace Github;
@@ -16,14 +17,18 @@ public class GithubFeature : IFeature
 {
     void IFeature.ConfigureServices(IServiceCollection services, IConfiguration configuration)
     {
-        services.AddDbContext<GithubDbContext>(options =>
-       {
-           options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"), b =>
-           {
-               b.MigrationsAssembly(typeof(GithubDbContext).Assembly.FullName);
+        var dataSourceBuilder = new NpgsqlDataSourceBuilder(configuration.GetConnectionString("DefaultConnection"));
+        dataSourceBuilder.EnableDynamicJson();
+        var dataSource = dataSourceBuilder.Build();
 
-           });
-       });
+        services.AddDbContext<GithubDbContext>(options =>
+        {
+            options.UseNpgsql(dataSource, b =>
+            {
+                b.MigrationsAssembly(typeof(GithubDbContext).Assembly.FullName);
+
+            });
+        });
 
         services.AddRequiredConfigurationOptions<GithubAppOptions>("Github:GithubApp");
 
