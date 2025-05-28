@@ -1,3 +1,3 @@
-namespace Cli.Endpoints.Projects.Deployments;
+namespace Api.Abstractions;
 
 public sealed record DeployProjectResponse(string StatusUrl);

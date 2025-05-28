@@ -1,7 +1,7 @@
 using Api.Data;
 using Database.Events;
 
-namespace Cli.Endpoints.Projects.Deployments;
+namespace Api.Endpoints.Projects.Deployments.DeployProject;
 
 public sealed record DeploymentQueuedEvent(
     Deployment Entity) : IEntityDomainEvent<Deployment>;

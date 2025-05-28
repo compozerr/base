@@ -1,8 +1,8 @@
+using Api.Abstractions;
 using Api.Data.Extensions;
 using FluentValidation;
-using Microsoft.Extensions.DependencyInjection;
 
-namespace Cli.Endpoints.Projects.Deployments;
+namespace Api.Endpoints.Projects.Deployments.DeployProject;
 
 public sealed class DeployProjectCommandValidator : AbstractValidator<DeployProjectCommand>
 {

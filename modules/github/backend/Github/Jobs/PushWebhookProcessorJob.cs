@@ -1,11 +1,9 @@
 using Api.Abstractions;
-using Core.Extensions;
 using Github.Abstractions;
 using Github.Models;
 using Github.Repositories;
 using Jobs;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Serilog;
 
 namespace Github.Jobs;
@@ -35,8 +33,34 @@ public sealed class PushWebhookProcessorJob(
             Log.ForContext(nameof(pushWebhookEvent), pushWebhookEvent.Id)
                .Information("Processing PushWebhookEvent {PushWebhookEventId}", pushWebhookEvent.Id);
 
+            if (Uri.TryCreate(pushWebhookEvent.Event.Repository?.CloneUrl, UriKind.Absolute, out var gitUrl) is false)
+            {
+                throw new InvalidOperationException("Invalid repository clone URL.");
+            }
 
-            await MarkAsHandledAsync(pushWebhookEvent);
+            var projectId = await pushWebhookEventRepository.GetProjectIdFromGitUrlAsync(
+                gitUrl) ?? throw new InvalidOperationException("Project ID could not be determined from the repository URL.");
+
+
+            if (pushWebhookEvent.Event.HeadCommit is
+                {
+                    Id: null or "",
+                    Message: null or "",
+                    Author: { Name: null or "", Email: null or "" }
+                })
+            {
+                throw new InvalidOperationException("Head commit information is incomplete.");
+            }
+
+            var deployCommand = new DeployProjectCommand(
+                projectId,
+                CommitHash: pushWebhookEvent.Event.HeadCommit!.Id!,
+                CommitMessage: pushWebhookEvent.Event.HeadCommit!.Message!,
+                CommitAuthor: pushWebhookEvent.Event.HeadCommit!.Author!.Name!,
+                CommitBranch: pushWebhookEvent.Event.Ref.Replace("refs/heads/", string.Empty),
+                CommitEmail: pushWebhookEvent.Event.HeadCommit!.Author!.Email!);
+
+            await mediator.Send(deployCommand);
         }
         catch (Exception ex)
         {
@@ -45,6 +69,10 @@ public sealed class PushWebhookProcessorJob(
                .Error("Error processing PushWebhookEvent {PushWebhookEventId}", pushWebhookEvent.Id);
 
             await MarkAsErroredAsync(pushWebhookEvent, ex.Message);
+        }
+        finally
+        {
+            await MarkAsHandledAsync(pushWebhookEvent);
         }
     }
 

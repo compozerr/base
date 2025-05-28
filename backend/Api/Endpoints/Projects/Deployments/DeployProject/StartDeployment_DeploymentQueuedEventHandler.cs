@@ -3,7 +3,7 @@ using Api.Hosting.Services;
 using Core.Abstractions;
 using Core.Extensions;
 
-namespace Cli.Endpoints.Projects.Deployments;
+namespace Api.Endpoints.Projects.Deployments.DeployProject;
 
 public sealed class StartDeployment_DeploymentQueuedEventHandler(
     IHostingApiFactory hostingApiFactory) : IDomainEventHandler<DeploymentQueuedEvent>

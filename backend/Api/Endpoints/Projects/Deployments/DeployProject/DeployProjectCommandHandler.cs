@@ -6,7 +6,7 @@ using Core.MediatR;
 using Core.Services;
 using Database.Extensions;
 
-namespace Cli.Endpoints.Projects.Deployments;
+namespace Api.Endpoints.Projects.Deployments.DeployProject;
 
 public sealed record DeployProjectCommandHandler(
     IDeploymentRepository DeploymentRepository,
