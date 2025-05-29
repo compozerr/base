@@ -17,10 +17,6 @@ public class DeployProjectJob(
             deploymentId,
             d => d.Include(x => x.Project)) ?? throw new ArgumentException("Deployment not found");
 
-        deployment.Status = Data.DeploymentStatus.Deploying;
-
-        await deploymentRepository.UpdateAsync(deployment);
-
         var api = await hostingApiFactory.GetHostingApiAsync(deployment.Project!.ServerId ?? throw new ServerNotFoundException());
 
         await api.DeployAsync(deployment);
