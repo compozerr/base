@@ -39,7 +39,7 @@ public sealed class PushWebhookProcessorJob(
             }
 
             var projectId = await pushWebhookEventRepository.GetProjectIdFromGitUrlAsync(
-                gitUrl) ?? throw new InvalidOperationException("Project ID could not be determined from the repository URL.");
+                gitUrl) ?? throw new CouldNotFindProjectFromGitUrlException(gitUrl);
 
 
             if (pushWebhookEvent.Event.HeadCommit is
@@ -62,6 +62,14 @@ public sealed class PushWebhookProcessorJob(
                 OverrideAuthorization: true);
 
             await mediator.Send(deployCommand);
+        }
+        catch (CouldNotFindProjectFromGitUrlException ex)
+        {
+            Log.ForContext(nameof(ex), ex)
+               .ForContext(nameof(pushWebhookEvent), pushWebhookEvent.Id)
+               .Information("Could not find project from Git URL for PushWebhookEvent {PushWebhookEventId}", pushWebhookEvent.Id);
+
+            await MarkAsErroredAsync(pushWebhookEvent, ex.Message);
         }
         catch (Exception ex)
         {
