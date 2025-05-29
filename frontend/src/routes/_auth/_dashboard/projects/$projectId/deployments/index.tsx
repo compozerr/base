@@ -38,6 +38,9 @@ function RouteComponent() {
             }
         },
         {
+            refetchInterval(ctx) {
+                return ctx.state.data?.pages.flatMap(page => page.items ?? []).some(p => [DeploymentStatus.Deploying, DeploymentStatus.Queued].includes(getDeploymentStatusFromNumber(p.status))) ? 10000 : false; // Refetch every 10 seconds if there are deployments that are deploying or queued
+            },
             getNextPageParam: (lastPage) => {
                 if (!lastPage) return undefined;
                 const currentPage = lastPage.page ?? 1;
