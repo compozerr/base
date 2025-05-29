@@ -4,5 +4,6 @@ export enum DeploymentStatusFilter {
     Completed = 1 << 1, 
     Queued = 1 << 2,
     Failed = 1 << 3,
-    All = Deploying | Completed | Queued | Failed
+    Cancelled = 1 << 4,
+    All = Deploying | Completed | Queued | Failed | Cancelled,
 }

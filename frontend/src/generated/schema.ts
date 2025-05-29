@@ -1773,7 +1773,7 @@ export interface components {
          * Format: int32
          * @enum {integer}
          */
-        DeploymentStatus: 0 | 1 | 2 | 3 | 4;
+        DeploymentStatus: 0 | 1 | 2 | 3 | 4 | 5;
         DomainDto: {
             serviceName?: string | null;
             port?: string | null;

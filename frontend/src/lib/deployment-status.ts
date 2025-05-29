@@ -3,7 +3,8 @@ export enum DeploymentStatus {
     Deploying = "Deploying",
     Completed = "Completed",
     Queued = "Queued",
-    Failed = "Failed"
+    Failed = "Failed",
+    Cancelled = "Cancelled",
 }
 
 export function getDeploymentStatusFromNumber(stateNum?: number): DeploymentStatus {
@@ -13,6 +14,7 @@ export function getDeploymentStatusFromNumber(stateNum?: number): DeploymentStat
         case 2: return DeploymentStatus.Completed;
         case 3: return DeploymentStatus.Queued;
         case 4: return DeploymentStatus.Failed;
+        case 5: return DeploymentStatus.Cancelled;
         default: return DeploymentStatus.Unknown;
     }
 }

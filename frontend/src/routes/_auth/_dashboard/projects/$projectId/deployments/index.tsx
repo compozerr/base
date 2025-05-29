@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useTimeAgo } from '@/hooks/useTimeAgo'
-import { getDeploymentStatusFromNumber } from "@/lib/deployment-status"
+import { DeploymentStatus, getDeploymentStatusFromNumber } from "@/lib/deployment-status"
 import { getStatusDot } from "@/lib/deployment-status-component"
 import { DeploymentStatusFilter } from "@/lib/deployment-status-filter"
 import { Formatter } from "@/lib/formatter"
@@ -74,7 +74,7 @@ function RouteComponent() {
     function DeploymentRow({ deployment, projectId, router }: { deployment: any, projectId: string, router: any }) {
         const timeAgo = useTimeAgo(deployment.createdAt!);
         return (
-            <div key={deployment.id} className="flex items-center justify-between py-4 px-4 border-b bg-muted/50 hover:bg-muted/70 hover:cursor-pointer"
+            <div key={deployment.id} className={`flex items-center justify-between py-4 px-4 border-b bg-muted/50 hover:bg-muted/70 hover:cursor-pointer`}
                 onClick={() => {
                     router.navigate({ to: `/projects/${projectId}/deployments/${deployment.id}` })
                 }}>
@@ -185,8 +185,14 @@ function RouteComponent() {
                         case "deploying":
                             setFilter(DeploymentStatusFilter.Deploying);
                             break;
+                        case "queued":
+                            setFilter(DeploymentStatusFilter.Queued);
+                            break;
                         case "failed":
                             setFilter(DeploymentStatusFilter.Failed);
+                            break;
+                        case "cancelled":
+                            setFilter(DeploymentStatusFilter.Cancelled);
                             break;
                         default:
                             setFilter(DeploymentStatusFilter.All);
@@ -201,7 +207,9 @@ function RouteComponent() {
                         <SelectItem value="all">All Status</SelectItem>
                         <SelectItem value="completed">Completed</SelectItem>
                         <SelectItem value="deploying">Deploying</SelectItem>
+                        <SelectItem value="queued">Queued</SelectItem>
                         <SelectItem value="failed">Failed</SelectItem>
+                        <SelectItem value="cancelled">Cancelled</SelectItem>
                     </SelectContent>
                 </Select>
             </div>

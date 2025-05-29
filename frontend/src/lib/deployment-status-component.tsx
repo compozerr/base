@@ -10,6 +10,8 @@ export const getStatusDot = (status: DeploymentStatus) => {
             return <span className="h-2 w-2 rounded-full bg-red-500 mr-2"></span>
         case DeploymentStatus.Queued:
             return <span className="h-2 w-2 rounded-full bg-gray-500 mr-2"></span>
+        case DeploymentStatus.Cancelled:
+            return <span className="h-2 w-2 rounded-full bg-gray-700 mr-2"></span>
         default:
             return <span className="h-2 w-2 rounded-full bg-gray-500 mr-2"></span>
     }

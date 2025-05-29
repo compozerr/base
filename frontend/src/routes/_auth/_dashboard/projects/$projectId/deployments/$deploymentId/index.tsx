@@ -36,7 +36,7 @@ function RouteComponent() {
         { path: { projectId, deploymentId } },
         {
             initialData,
-            refetchInterval: (ctx) => getDeploymentStatusFromNumber(ctx.state.data?.status) === DeploymentStatus.Deploying ? 10000 : false
+            refetchInterval: (ctx) => [DeploymentStatus.Deploying, DeploymentStatus.Queued].includes(getDeploymentStatusFromNumber(ctx.state.data?.status)) ? 10000 : false
         }
     );
 
