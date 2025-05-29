@@ -28,4 +28,24 @@ public static class ProjectAuthorizationValidatorExtensions
 		.WithMessage("You do not have permission to access this project.")
 		.WithName("ProjectId");
 	}
+
+	public static IRuleBuilderOptions<T, ProjectId> MustExistAsync<T>(this IRuleBuilder<T, ProjectId> ruleBuilder, IServiceScopeFactory serviceScopeFactory)
+	{
+		return ruleBuilder.MustAsync(async (projectId, cancel) =>
+		{
+			using var scope = serviceScopeFactory.CreateScope();
+			var projectRepository = scope.ServiceProvider.GetRequiredService<IProjectRepository>();
+
+			if (projectId == null)
+				return false;
+
+			var project = await projectRepository.GetByIdAsync(
+				projectId,
+				cancel);
+
+			return project is not null;
+		})
+		.WithMessage("The specified project does not exist.")
+		.WithName("ProjectId");
+	}
 }

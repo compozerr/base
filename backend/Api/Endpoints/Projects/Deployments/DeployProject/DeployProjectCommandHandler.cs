@@ -18,11 +18,9 @@ public sealed record DeployProjectCommandHandler(
         DeployProjectCommand command,
         CancellationToken cancellationToken = default)
     {
-        var userId = CurrentUserAccessor.CurrentUserId!;
+        var currentProjectDeployments = await DeploymentRepository.GetDeploymentsForProjectAsync(command.ProjectId);
 
-        var currentUserDeployments = await DeploymentRepository.GetDeploymentsForUserAsync(userId);
-
-        var projectDeployments = currentUserDeployments.Where(d => d.ProjectId == command.ProjectId && d.Status != DeploymentStatus.Completed)
+        var projectDeployments = currentProjectDeployments.Where(d => d.Status != DeploymentStatus.Completed)
                                                        .ToList();
 
         var alreadyDeployingProject = projectDeployments.SingleOrDefault(
@@ -38,9 +36,9 @@ public sealed record DeployProjectCommandHandler(
             return new DeployProjectResponse(frontendPath.ToString());
         }
 
-        var project = await ProjectRepository.GetByIdAsync(
+        var project = (await ProjectRepository.GetByIdAsync(
             command.ProjectId,
-            cancellationToken);
+            cancellationToken))!;
 
         var newDeployment = new Deployment
         {
@@ -52,7 +50,7 @@ public sealed record DeployProjectCommandHandler(
             CommitAuthor = command.CommitAuthor,
             CommitBranch = command.CommitBranch,
             CommitEmail = command.CommitEmail,
-            UserId = userId,
+            UserId = project.UserId,
             Status = DeploymentStatus.Queued
         };
 
