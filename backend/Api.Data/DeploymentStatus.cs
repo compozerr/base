@@ -6,5 +6,6 @@ public enum DeploymentStatus
     Deploying = 1,
     Completed = 2,
     Queued = 3,
-    Failed = 4
+    Failed = 4,
+    Cancelled = 5,
 }

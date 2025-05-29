@@ -1,12 +1,16 @@
+using Api.Abstractions;
 using Api.Data;
 using Api.Data.Extensions;
 using Api.Data.Repositories;
+using Core.Extensions;
 using Core.MediatR;
+using MediatR;
 
 namespace Api.Hosting.Endpoints.Deployments.ChangeDeploymentStatus;
 
 public sealed class ChangeDeploymentStatusCommandHandler(
-    IDeploymentRepository deploymentRepository) : ICommandHandler<ChangeDeploymentStatusCommand, ChangeDeploymentStatusResponse>
+    IDeploymentRepository deploymentRepository,
+    IMediator mediator) : ICommandHandler<ChangeDeploymentStatusCommand, ChangeDeploymentStatusResponse>
 {
     public async Task<ChangeDeploymentStatusResponse> Handle(ChangeDeploymentStatusCommand command, CancellationToken cancellationToken = default)
     {
@@ -19,6 +23,10 @@ public sealed class ChangeDeploymentStatusCommandHandler(
             case DeploymentStatus.Failed:
             case DeploymentStatus.Completed:
                 deployment.BuildDuration = deployment.GetBuildDuration();
+                mediator.Send(
+                    new DeploymentTriggerCommand(deployment.ProjectId),
+                    cancellationToken)
+                        .LogAndSilence();
                 break;
             default:
                 break;

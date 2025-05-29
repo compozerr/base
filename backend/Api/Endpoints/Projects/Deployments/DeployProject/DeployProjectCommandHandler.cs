@@ -5,6 +5,7 @@ using Auth.Services;
 using Core.MediatR;
 using Core.Services;
 using Database.Extensions;
+using Microsoft.EntityFrameworkCore;
 
 namespace Api.Endpoints.Projects.Deployments.DeployProject;
 
@@ -18,7 +19,8 @@ public sealed record DeployProjectCommandHandler(
         DeployProjectCommand command,
         CancellationToken cancellationToken = default)
     {
-        var currentProjectDeployments = await DeploymentRepository.GetDeploymentsForProjectAsync(command.ProjectId);
+        var currentProjectDeployments = await DeploymentRepository.GetDeploymentsForProject(command.ProjectId)
+                                                                  .ToListAsync(cancellationToken);
 
         var projectDeployments = currentProjectDeployments.Where(d => d.Status != DeploymentStatus.Completed)
                                                        .ToList();
