@@ -5,13 +5,11 @@ using Auth.Services;
 using Core.MediatR;
 using Core.Services;
 using Database.Extensions;
-using Microsoft.EntityFrameworkCore;
 
 namespace Api.Endpoints.Projects.Deployments.DeployProject;
 
 public sealed record DeployProjectCommandHandler(
     IDeploymentRepository DeploymentRepository,
-    ICurrentUserAccessor CurrentUserAccessor,
     IProjectRepository ProjectRepository,
     IFrontendLocation FrontendLocation) : ICommandHandler<DeployProjectCommand, DeployProjectResponse>
 {
@@ -19,25 +17,6 @@ public sealed record DeployProjectCommandHandler(
         DeployProjectCommand command,
         CancellationToken cancellationToken = default)
     {
-        var currentProjectDeployments = await DeploymentRepository.GetDeploymentsForProject(command.ProjectId)
-                                                                  .ToListAsync(cancellationToken);
-
-        var projectDeployments = currentProjectDeployments.Where(d => d.Status != DeploymentStatus.Completed)
-                                                       .ToList();
-
-        var alreadyDeployingProject = projectDeployments.SingleOrDefault(
-            x => x.Status == DeploymentStatus.Deploying && x.ProjectId == command.ProjectId && x.CommitHash == command.CommitHash);
-
-        if (alreadyDeployingProject is { Id: { } deploymentId })
-        {
-            Log.ForContext(nameof(command), command, true)
-               .Information("Already deploying");
-
-            var frontendPath = GetStatusUrl(command.ProjectId, deploymentId);
-
-            return new DeployProjectResponse(frontendPath.ToString());
-        }
-
         var project = (await ProjectRepository.GetByIdAsync(
             command.ProjectId,
             cancellationToken))!;
