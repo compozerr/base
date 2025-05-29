@@ -61,6 +61,15 @@ public sealed class PushWebhookProcessorJob(
                 CommitEmail: pushWebhookEvent.Event.HeadCommit!.Author!.Email!,
                 OverrideAuthorization: true);
 
+            if (deployCommand.CommitBranch is not "main")
+            {
+                Log.ForContext(nameof(deployCommand), deployCommand)
+                   .ForContext(nameof(pushWebhookEvent), pushWebhookEvent.Id)
+                   .Information("Skipping deployment for non-main branch {Branch} in PushWebhookEvent {PushWebhookEventId}",
+                                deployCommand.CommitBranch, pushWebhookEvent.Id);
+                return;
+            }
+
             await mediator.Send(deployCommand);
         }
         catch (CouldNotFindProjectFromGitUrlException ex)
