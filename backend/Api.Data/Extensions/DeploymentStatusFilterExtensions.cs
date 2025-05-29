@@ -10,6 +10,7 @@ public static class DeploymentStatusFilterExtensions
         if ((filter & DeploymentStatusFilter.Completed) != 0) states.Add(DeploymentStatus.Completed);
         if ((filter & DeploymentStatusFilter.Queued) != 0) states.Add(DeploymentStatus.Queued);
         if ((filter & DeploymentStatusFilter.Failed) != 0) states.Add(DeploymentStatus.Failed);
+        if ((filter & DeploymentStatusFilter.Cancelled) != 0) states.Add(DeploymentStatus.Cancelled);
         return states;
     }
 }
