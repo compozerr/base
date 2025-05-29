@@ -4,4 +4,4 @@ using Database.Events;
 namespace Cli.Endpoints.Projects;
 
 public sealed record ProjectCreatedEvent(
-    Project Entity) : IEntityDomainEvent<Project>;
+    Project Entity) : IEntityDomainEvent<Project>, IDispatchBeforeSaveChanges;

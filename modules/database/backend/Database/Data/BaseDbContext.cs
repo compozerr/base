@@ -1,5 +1,6 @@
 using Core.Extensions;
 using Core.Feature;
+using Database.Events;
 using MediatR;
 
 namespace Database.Data;
@@ -67,12 +68,37 @@ public abstract class BaseDbContext<TDbContext>(
             }
         }
 
-        await DispatchDomainEventsAsync(cancellationToken);
+        await DispatchDomainEvents_BeforeSaveChangesAsync(cancellationToken);
 
-        return await base.SaveChangesAsync(cancellationToken);
+        var response = await base.SaveChangesAsync(cancellationToken);
+
+        await DispatchDomainEvents_AfterSaveChangesAsync(cancellationToken);
+
+        return response;
     }
 
-    private async Task DispatchDomainEventsAsync(CancellationToken cancellationToken = default)
+    private BaseEntity[] GetEntitiesWithDomainEvents()
+    {
+        return [.. ChangeTracker.Entries<BaseEntity>()
+                            .Select(e => e.Entity)
+                            .Where(e => e.DomainEvents.Count > 0)];
+    }
+
+    private async Task DispatchDomainEvents_BeforeSaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+        var entries = GetEntitiesWithDomainEvents();
+
+        foreach (var entity in entries)
+        {
+            var events = entity.DomainEvents.Where(e => e is IDispatchBeforeSaveChanges).ToArray();
+
+            await events.ApplyAsync(domainEvent => mediator.Publish(domainEvent, cancellationToken));
+
+            entity.DomainEvents.RemoveAll(e => e is IDispatchBeforeSaveChanges);
+        }
+    }
+
+    private async Task DispatchDomainEvents_AfterSaveChangesAsync(CancellationToken cancellationToken = default)
     {
         var entries = ChangeTracker.Entries<BaseEntity>()
                                    .Select(e => e.Entity)
