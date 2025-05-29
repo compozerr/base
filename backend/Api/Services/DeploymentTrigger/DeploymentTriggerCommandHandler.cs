@@ -16,30 +16,39 @@ public sealed class DeploymentTriggerCommandHandler(
 		DeploymentTriggerCommand command,
 		CancellationToken cancellationToken = default)
 	{
-		var queuedDeployments = await deploymentRepository.GetDeploymentsForProject(command.ProjectId)
-											  .Where(d => d.Status == Data.DeploymentStatus.Queued)
+		var deployments = await deploymentRepository.GetDeploymentsForProject(command.ProjectId)
+											  .Where(d => d.Status == Data.DeploymentStatus.Queued || d.Status == Data.DeploymentStatus.Deploying)
 											  .OrderByDescending(d => d.CreatedAtUtc)
 											  .ToListAsync(cancellationToken);
 
-		if (queuedDeployments.Count == 0)
+		if (deployments.Count == 0)
 		{
 			Log.ForContext(nameof(command), command, true)
 			   .Information("No queued or deploying deployments found");
 			return new();
 		}
+
+		if (deployments.Any(x => x.Status == Data.DeploymentStatus.Deploying))
+		{
+			Log.ForContext(nameof(command), command, true)
+			   .Information("Another deployment is already deploying");
+			return new();
+		}
 		
-		if (queuedDeployments.Count > 1)
+		var allQueuedDeployments = deployments.Where(x => x.Status == Data.DeploymentStatus.Queued).ToList();
+
+		if (allQueuedDeployments.Count > 1)
 		{
 			Log.ForContext(nameof(command), command, true)
 			   .Information("Multiple queued deployments found, only the latest will be processed and all other will be cancelled");
 
-			var deploymentsThatNeedCancellation = queuedDeployments.Skip(1);
+			var deploymentsThatNeedCancellation = deployments.Where(x => x.Status == Data.DeploymentStatus.Queued).Skip(1);
 			deploymentsThatNeedCancellation.Apply(d => d.Status = Data.DeploymentStatus.Cancelled);
 
 			await deploymentRepository.UpdateRangeAsync(deploymentsThatNeedCancellation, cancellationToken);
 		}
 
-		var latestQueuedDeployment = queuedDeployments.First();
+		var latestQueuedDeployment = allQueuedDeployments.First();
 
 		DeployProjectJob.Enqueue(latestQueuedDeployment.Id);
 		return new();
