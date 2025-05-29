@@ -1,5 +1,4 @@
 using Api.Data;
-using Core.MediatR;
 using Database.Events;
 
 namespace Api.Endpoints.Projects.Domains.Add;
