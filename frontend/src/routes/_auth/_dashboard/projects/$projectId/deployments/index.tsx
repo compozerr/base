@@ -115,7 +115,7 @@ function RouteComponent() {
                 <div className="flex items-start flex-1 flex-col px-3">
                     <div className="flex items-center gap-1">
                         <GitBranchIcon className="h-4 w-4 py-[2px] text-muted-foreground" />
-                        <span>{deployment.branch}</span>
+                        <span className="truncate w-[200px]">{deployment.branch}</span>
                     </div>
                     <div className="flex items-center gap-1 text-sm text-muted-foreground">
                         <GitCommitIcon className="h-4 w-4" />
