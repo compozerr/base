@@ -1,5 +1,6 @@
 using Api.Abstractions;
 using Api.Abstractions.Exceptions;
+using Api.Data;
 using Api.Data.Repositories;
 using Api.Hosting.Jobs;
 using Api.Hosting.Services;
@@ -10,7 +11,8 @@ using Microsoft.EntityFrameworkCore;
 namespace Api.Services.DeploymentTrigger;
 
 public sealed class DeploymentTriggerCommandHandler(
-	IDeploymentRepository deploymentRepository) : ICommandHandler<DeploymentTriggerCommand, DeploymentTriggerResponse>
+	IDeploymentRepository deploymentRepository,
+	IProjectRepository projectRepository) : ICommandHandler<DeploymentTriggerCommand, DeploymentTriggerResponse>
 {
 	public async Task<DeploymentTriggerResponse> Handle(
 		DeploymentTriggerCommand command,
@@ -34,7 +36,7 @@ public sealed class DeploymentTriggerCommandHandler(
 			   .Information("Another deployment is already deploying");
 			return new();
 		}
-		
+
 		var allQueuedDeployments = deployments.Where(x => x.Status == Data.DeploymentStatus.Queued).ToList();
 
 		if (allQueuedDeployments.Count > 1)
@@ -51,6 +53,36 @@ public sealed class DeploymentTriggerCommandHandler(
 		var latestQueuedDeployment = allQueuedDeployments.First();
 
 		DeployProjectJob.Enqueue(latestQueuedDeployment.Id);
+
+		await HandleFirstDeploymentAsync(
+			latestQueuedDeployment.Id,
+			cancellationToken);
+
 		return new();
+	}
+
+	private async Task HandleFirstDeploymentAsync(DeploymentId enqueuedDeploymentId, CancellationToken cancellationToken)
+	{
+		var deployment = await deploymentRepository.GetByIdAsync(enqueuedDeploymentId, cancellationToken);
+
+		if (deployment is null)
+		{
+			Log.ForContext(nameof(enqueuedDeploymentId), enqueuedDeploymentId, true)
+			   .Error("Deployment not found for the given ID. This should not happen as the deployment should be queued before this command is executed.");
+			return;
+		}
+
+		var oldestDeployment = await deploymentRepository.GetDeploymentsForProject(deployment.ProjectId)
+			.OrderBy(d => d.CreatedAtUtc)
+			.FirstOrDefaultAsync(cancellationToken);
+
+		if (oldestDeployment is not null && oldestDeployment.Id == deployment.Id)
+		{
+			try
+			{
+				await projectRepository.SetProjectStateAsync(deployment.ProjectId, ProjectState.Starting);
+			}
+			catch { }
+		}
 	}
 }
