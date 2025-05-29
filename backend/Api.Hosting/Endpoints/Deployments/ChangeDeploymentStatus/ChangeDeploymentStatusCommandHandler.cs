@@ -23,9 +23,6 @@ public sealed class ChangeDeploymentStatusCommandHandler(
             case DeploymentStatus.Failed:
             case DeploymentStatus.Completed:
                 deployment.BuildDuration = deployment.GetBuildDuration();
-                await mediator.Send(
-                    new DeploymentTriggerCommand(deployment.ProjectId),
-                    cancellationToken);
                 break;
             default:
                 break;
@@ -34,6 +31,10 @@ public sealed class ChangeDeploymentStatusCommandHandler(
         await deploymentRepository.UpdateAsync(
             deployment,
             cancellationToken);
+
+        await mediator.Send(
+                new DeploymentTriggerCommand(deployment.ProjectId),
+                cancellationToken);
 
         return new(true);
     }
