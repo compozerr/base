@@ -1,3 +1,4 @@
+using Api.Endpoints.Home.Environment;
 
 namespace Api.Endpoints.Home;
 
@@ -11,5 +12,6 @@ public class HomeGroup : CarterModule
     public override void AddRoutes(IEndpointRouteBuilder app)
     {
         app.AddHomeRoute();
+        app.AddEnvironmentRoute();
     }
 }
