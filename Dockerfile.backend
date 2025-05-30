@@ -19,12 +19,15 @@ RUN dotnet publish ./Api/Api.csproj \
 FROM mcr.microsoft.com/dotnet/aspnet:9.0
 WORKDIR /app
 
+# Set the ASP.NET Core environment to Production
+ENV ASPNETCORE_ENVIRONMENT=Production
+
 # Copy the published application from the build stage
 COPY --from=build /app/backend/out .
 
 # Ensure correct permissions
 RUN chmod +x ./Api.dll
-
+ 
 # Expose the port your app runs on (default for minimal APIs is 5000/5001)
 EXPOSE 5000
 
