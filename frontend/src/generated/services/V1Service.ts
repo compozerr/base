@@ -3869,6 +3869,216 @@ export interface V1Service {
             error: GetError;
         };
     };
+    getEnv: {
+        /**/
+        cancelQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetEnvSchema, GetEnvData, TInfinite, GetEnvParameters, GetEnvError> | QueryFiltersByQueryKey<GetEnvSchema, GetEnvData, TInfinite, GetEnvParameters, GetEnvError>, options?: CancelOptions): Promise<void>;
+        /**/
+        getQueryKey(parameters: GetEnvParameters | void): ServiceOperationQueryKey<GetEnvSchema, GetEnvParameters>;
+        /**
+         * Performs asynchronous data fetching, manages loading states and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
+         * @example Query without parameters
+         * ```ts
+         * const { data, isLoading } = qraft.v1Service.getEnv.useQuery()
+         * ```
+         */
+        useQuery<TData = GetEnvData>(parameters: ServiceOperationQueryKey<GetEnvSchema, GetEnvParameters> | (GetEnvParameters | void), options?: Omit<UndefinedInitialDataOptions<GetEnvData, GetEnvError, TData, ServiceOperationQueryKey<GetEnvSchema, GetEnvParameters>>, "queryKey">): UseQueryResult<TData, GetEnvError | Error>;
+        /**
+         * Performs asynchronous data fetching, manages loading states and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
+         * @example Query without parameters
+         * ```ts
+         * const { data, isLoading } = qraft.v1Service.getEnv.useQuery()
+         * ```
+         */
+        useQuery<TData = GetEnvData>(parameters: ServiceOperationQueryKey<GetEnvSchema, GetEnvParameters> | (GetEnvParameters | void), options: Omit<DefinedInitialDataOptions<GetEnvData, GetEnvError, TData, ServiceOperationQueryKey<GetEnvSchema, GetEnvParameters>>, "queryKey">): DefinedUseQueryResult<TData, GetEnvError | Error>;
+        /**/
+        fetchInfiniteQuery<TPageParam extends GetEnvParameters>(options: ServiceOperationFetchInfiniteQueryOptions<GetEnvSchema, GetEnvData, GetEnvParameters, TPageParam, GetEnvError>): Promise<OperationInfiniteData<GetEnvData, GetEnvParameters>>;
+        /**/
+        prefetchInfiniteQuery<TPageParam extends GetEnvParameters>(options: ServiceOperationFetchInfiniteQueryOptions<GetEnvSchema, GetEnvData, GetEnvParameters, TPageParam, GetEnvError>): Promise<void>;
+        /**/
+        ensureInfiniteQueryData<TPageParam extends GetEnvParameters>(options: ServiceOperationEnsureInfiniteQueryDataOptions<GetEnvSchema, GetEnvData, GetEnvParameters, TPageParam, GetEnvError>): Promise<OperationInfiniteData<GetEnvData, GetEnvParameters>>;
+        /**/
+        fetchQuery(options: ServiceOperationFetchQueryOptions<GetEnvSchema, GetEnvData, GetEnvParameters, GetEnvError> | void): Promise<GetEnvData>;
+        /**/
+        prefetchQuery(options: ServiceOperationFetchQueryOptions<GetEnvSchema, GetEnvData, GetEnvParameters, GetEnvError> | void): Promise<void>;
+        /**/
+        ensureQueryData(options: ServiceOperationEnsureQueryDataOptions<GetEnvSchema, GetEnvData, GetEnvParameters, GetEnvError> | void): Promise<GetEnvData>;
+        /**/
+        getInfiniteQueryData(parameters: ServiceOperationInfiniteQueryKey<GetEnvSchema, GetEnvParameters> | (GetEnvParameters | void)): OperationInfiniteData<GetEnvData, GetEnvParameters> | undefined;
+        /**/
+        getQueriesData<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetEnvSchema, GetEnvData, TInfinite, GetEnvParameters, GetEnvError> | QueryFiltersByQueryKey<GetEnvSchema, GetEnvData, TInfinite, GetEnvParameters, GetEnvError>): TInfinite extends true ? Array<[
+            queryKey: ServiceOperationInfiniteQueryKey<GetEnvSchema, GetEnvParameters>,
+            data: NoInfer<OperationInfiniteData<GetEnvData, GetEnvParameters>> | undefined
+        ]> : Array<[
+            queryKey: ServiceOperationQueryKey<GetEnvSchema, GetEnvParameters>,
+            data: GetEnvData | undefined
+        ]>;
+        /**/
+        getQueryData(parameters: ServiceOperationQueryKey<GetEnvSchema, GetEnvParameters> | (GetEnvParameters | void)): GetEnvData | undefined;
+        /**/
+        getQueryState(parameters: ServiceOperationQueryKey<GetEnvSchema, GetEnvParameters> | (GetEnvParameters | void)): QueryState<GetEnvData, GetEnvError> | undefined;
+        /**/
+        getInfiniteQueryState(parameters: GetEnvParameters | ServiceOperationInfiniteQueryKey<GetEnvSchema, GetEnvParameters> | void): QueryState<OperationInfiniteData<GetEnvData, GetEnvParameters>, GetEnvError> | undefined;
+        /**/
+        invalidateQueries<TInfinite extends boolean = false>(filters?: InvalidateQueryFilters<GetEnvSchema, GetEnvData, TInfinite, GetEnvParameters, GetEnvError>, options?: InvalidateOptions): Promise<void>;
+        /**/
+        isFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetEnvSchema, GetEnvData, TInfinite, GetEnvParameters, GetEnvError> | QueryFiltersByQueryKey<GetEnvSchema, GetEnvData, TInfinite, GetEnvParameters, GetEnvError>): number;
+        /**/
+        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: QueryFnOptionsByQueryKey<GetEnvSchema, GetEnvParameters, TMeta, TSignal> | (QueryFnOptionsByParameters<GetEnvParameters, TMeta, TSignal> | void), client?: (schema: GetEnvSchema, options: {
+            parameters: GetEnvParameters;
+            signal?: TSignal;
+            meta?: TMeta;
+        }) => Promise<RequestFnResponse<GetEnvData, GetEnvError>>): Promise<RequestFnResponse<GetEnvData, GetEnvError>>;
+        /**/
+        refetchQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetEnvSchema, GetEnvData, TInfinite, GetEnvParameters, GetEnvError> | QueryFiltersByQueryKey<GetEnvSchema, GetEnvData, TInfinite, GetEnvParameters, GetEnvError>, options?: RefetchOptions): Promise<void>;
+        /**/
+        removeQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetEnvSchema, GetEnvData, TInfinite, GetEnvParameters, GetEnvError> | QueryFiltersByQueryKey<GetEnvSchema, GetEnvData, TInfinite, GetEnvParameters, GetEnvError>): void;
+        /**/
+        resetQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetEnvSchema, GetEnvData, TInfinite, GetEnvParameters, GetEnvError> | QueryFiltersByQueryKey<GetEnvSchema, GetEnvData, TInfinite, GetEnvParameters, GetEnvError>, options?: ResetOptions): Promise<void>;
+        /**/
+        setInfiniteQueryData(parameters: GetEnvParameters | ServiceOperationInfiniteQueryKey<GetEnvSchema, GetEnvParameters>, updater: Updater<NoInfer<OperationInfiniteData<GetEnvData, GetEnvParameters>> | undefined, NoInfer<OperationInfiniteData<GetEnvData, GetEnvParameters>> | undefined>, options?: SetDataOptions): OperationInfiniteData<GetEnvData, GetEnvParameters> | undefined;
+        /**/
+        setQueriesData<TInfinite extends boolean = false>(filters: QueryFiltersByParameters<GetEnvSchema, GetEnvData, TInfinite, GetEnvParameters, GetEnvError> | QueryFiltersByQueryKey<GetEnvSchema, GetEnvData, TInfinite, GetEnvParameters, GetEnvError>, updater: Updater<NoInfer<GetEnvData> | undefined, NoInfer<GetEnvData> | undefined>, options?: SetDataOptions): Array<GetEnvData | undefined>;
+        /**/
+        setQueryData(parameters: (GetEnvParameters | undefined) | ServiceOperationQueryKey<GetEnvSchema, GetEnvParameters>, updater: Updater<NoInfer<GetEnvData> | undefined, NoInfer<GetEnvData> | undefined>, options?: SetDataOptions): GetEnvData | undefined;
+        /**/
+        getInfiniteQueryKey(parameters: GetEnvParameters | void): ServiceOperationInfiniteQueryKey<GetEnvSchema, GetEnvParameters>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useInfiniteQuery|`useInfiniteQuery(...)` documentation}
+         *
+         * @example Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getEnv.useInfiniteQuery({}, {
+         *     initialPageParam: {},
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useInfiniteQuery<TPageParam extends GetEnvParameters, TData = GetEnvData>(parameters: ServiceOperationInfiniteQueryKey<GetEnvSchema, GetEnvParameters> | (GetEnvParameters | void), options: Omit<UndefinedInitialDataInfiniteOptions<GetEnvData, GetEnvError, OperationInfiniteData<TData, GetEnvParameters>, ServiceOperationInfiniteQueryKey<GetEnvSchema, GetEnvParameters>, PartialParameters<TPageParam>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<GetEnvData, PartialParameters<TPageParam>>): UseInfiniteQueryResult<OperationInfiniteData<TData, GetEnvParameters>, GetEnvError | Error>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useInfiniteQuery|`useInfiniteQuery(...)` documentation}
+         *
+         * @example Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getEnv.useInfiniteQuery({}, {
+         *     initialPageParam: {},
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useInfiniteQuery<TPageParam extends GetEnvParameters, TData = GetEnvData>(parameters: ServiceOperationInfiniteQueryKey<GetEnvSchema, GetEnvParameters> | (GetEnvParameters | void), options: Omit<DefinedInitialDataInfiniteOptions<GetEnvData, GetEnvError, OperationInfiniteData<TData, GetEnvParameters>, ServiceOperationInfiniteQueryKey<GetEnvSchema, GetEnvParameters>, PartialParameters<TPageParam>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<GetEnvData, PartialParameters<TPageParam>>): DefinedUseInfiniteQueryResult<OperationInfiniteData<TData, GetEnvParameters>, GetEnvError | Error>;
+        /**
+         * Monitors the number of queries currently fetching, matching the provided filters.
+         * Useful for creating loading indicators or performing actions based on active requests.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsFetching|`useIsFetching(...)` documentation}
+         * @example Checks the total number of queries fetching from the specified service method,
+         * both normal and infinite. If no parameters are provided, no filtering is applied.
+         * ```ts
+         * const getEnvTotal = qraft.v1Service.getEnv.useIsFetching()
+         * ```
+         */
+        useIsFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetEnvSchema, GetEnvData, TInfinite, GetEnvParameters, GetEnvError> | QueryFiltersByQueryKey<GetEnvSchema, GetEnvData, TInfinite, GetEnvParameters, GetEnvError>): number;
+        /**
+         * Allows you to execute multiple asynchronous data fetching operations concurrently. This is especially useful for managing complex data dependencies in parallel.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
+         * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
+         * ```ts
+         * const getEnvResults = qraft.v1Service.getEnv.useQueries({
+         *     queries: [
+         *         {},
+         *         {}
+         *     ]
+         * });
+         * getEnvResults.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
+         * ```
+         * @example Combined results. Only the data will be returned.
+         * ```ts
+         * const getEnvCombinedResults = qraft.v1Service.getEnv.useQueries({
+         *     combine: results => results.map(result => result.data),
+         *     queries: [
+         *         {},
+         *         {}
+         *     ]
+         * });
+         * getEnvCombinedResults.forEach(data => console.log({ data }));
+         * ```
+         */
+        useQueries<T extends Array<UseQueryOptionsForUseQueries<GetEnvSchema, GetEnvParameters, GetEnvData, GetEnvError>>, TCombinedResult = Array<UseQueryResult<GetEnvData, GetEnvError>>>(options: {
+            queries: T;
+            combine?: (results: Array<UseQueryResult<GetEnvData, GetEnvError>>) => TCombinedResult;
+        }): TCombinedResult;
+        /**/
+        getQueryKey(parameters: GetEnvParameters | void): ServiceOperationQueryKey<GetEnvSchema, GetEnvParameters>;
+        /**
+         * Performs asynchronous data fetching, manages loading states and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
+         * @example Query without parameters
+         * ```ts
+         * const { data, isLoading } = qraft.v1Service.getEnv.useQuery()
+         * ```
+         */
+        useQuery<TData = GetEnvData>(parameters: ServiceOperationQueryKey<GetEnvSchema, GetEnvParameters> | (GetEnvParameters | void), options?: Omit<UndefinedInitialDataOptions<GetEnvData, GetEnvError, TData, ServiceOperationQueryKey<GetEnvSchema, GetEnvParameters>>, "queryKey">): UseQueryResult<TData, GetEnvError | Error>;
+        /**
+         * Performs asynchronous data fetching, manages loading states and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
+         * @example Query without parameters
+         * ```ts
+         * const { data, isLoading } = qraft.v1Service.getEnv.useQuery()
+         * ```
+         */
+        useQuery<TData = GetEnvData>(parameters: ServiceOperationQueryKey<GetEnvSchema, GetEnvParameters> | (GetEnvParameters | void), options: Omit<DefinedInitialDataOptions<GetEnvData, GetEnvError, TData, ServiceOperationQueryKey<GetEnvSchema, GetEnvParameters>>, "queryKey">): DefinedUseQueryResult<TData, GetEnvError | Error>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         * It functions similarly to `useInfiniteQuery`, but with added support for React Suspense.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseInfiniteQuery|`useSuspenseInfiniteQuery(...)` documentation}
+         *
+         * @example Suspense Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getEnv.useSuspenseInfiniteQuery({}, {
+         *     initialPageParam: {},
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useSuspenseInfiniteQuery<TPageParam extends GetEnvParameters, TData = GetEnvData>(parameters: ServiceOperationInfiniteQueryKey<GetEnvSchema, GetEnvParameters> | (GetEnvParameters | void), options: Omit<UseSuspenseInfiniteQueryOptions<GetEnvData, GetEnvError, OperationInfiniteData<TData, GetEnvParameters>, GetEnvData, ServiceOperationInfiniteQueryKey<GetEnvSchema, GetEnvParameters>, PartialParameters<TPageParam>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<GetEnvData, PartialParameters<TPageParam>>): UseSuspenseInfiniteQueryResult<OperationInfiniteData<TData, GetEnvParameters>, GetEnvError | Error>;
+        /**/
+        useSuspenseQueries<T extends Array<UseQueryOptionsForUseSuspenseQuery<GetEnvSchema, GetEnvParameters, GetEnvData, GetEnvError>>, TCombinedResult = Array<UseSuspenseQueryResult<GetEnvData, GetEnvError>>>(options: {
+            queries: T;
+            combine?: (results: Array<WithOptional<UseSuspenseQueryResult<GetEnvData, GetEnvError>, "data">>) => TCombinedResult;
+        }): TCombinedResult;
+        /**/
+        useSuspenseQuery<TData = GetEnvData>(parameters: ServiceOperationQueryKey<GetEnvSchema, GetEnvParameters> | (GetEnvParameters | void), options?: Omit<UseSuspenseQueryOptions<GetEnvData, GetEnvError, TData, ServiceOperationQueryKey<GetEnvSchema, GetEnvParameters>>, "queryKey">): UseSuspenseQueryResult<TData, GetEnvError | Error>;
+        schema: GetEnvSchema;
+        types: {
+            parameters: GetEnvParameters;
+            data: GetEnvData;
+            error: GetEnvError;
+        };
+    };
     putHostingDeploymentsDeploymentIdStatus: {
         /**/
         getMutationKey(parameters: PutHostingDeploymentsDeploymentIdStatusParameters | void): ServiceOperationMutationKey<PutHostingDeploymentsDeploymentIdStatusSchema, PutHostingDeploymentsDeploymentIdStatusParameters>;
@@ -9321,6 +9531,12 @@ export const v1Service: {
             url: "/v1";
         };
     };
+    getEnv: {
+        schema: {
+            method: "get";
+            url: "/v1/env";
+        };
+    };
     putHostingDeploymentsDeploymentIdStatus: {
         schema: {
             method: "put";
@@ -9627,6 +9843,12 @@ export const v1Service: {
         schema: {
             method: "get",
             url: "/v1"
+        }
+    },
+    getEnv: {
+        schema: {
+            method: "get",
+            url: "/v1/env"
         }
     },
     putHostingDeploymentsDeploymentIdStatus: {
@@ -9970,6 +10192,13 @@ type GetSchema = {
 type GetParameters = undefined;
 type GetData = paths["/v1"]["get"]["responses"]["200"]["content"]["text/plain"];
 type GetError = unknown;
+type GetEnvSchema = {
+    method: "get";
+    url: "/v1/env";
+};
+type GetEnvParameters = undefined;
+type GetEnvData = paths["/v1/env"]["get"]["responses"]["200"]["content"]["text/plain"];
+type GetEnvError = unknown;
 type PutHostingDeploymentsDeploymentIdStatusSchema = {
     method: "put";
     url: "/v1/hosting/deployments/{deploymentId}/status";
