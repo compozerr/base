@@ -5,5 +5,6 @@ public sealed record ServerTier(
     decimal RamGb,
     int Cores,
     decimal DiskGb,
-    Price Price
+    Price Price,
+    string? PromotionalText
 );
