@@ -1,3 +1,4 @@
+using Api.Abstractions;
 using Api.Data;
 using Api.Data.Repositories;
 using Auth.Services;
@@ -23,6 +24,7 @@ public sealed record CreateProjectCommandHandler(
             RepoUri = new Uri(command.RepoUrl),
             UserId = userId,
             LocationId = location.Id,
+            ServerTierId = ServerTiers.GetById(new ServerTierId(command.Tier)).Id,
             State = ProjectState.Stopped
         };
 

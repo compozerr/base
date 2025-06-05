@@ -25,6 +25,7 @@ public class ApiDbContext(
         base.OnModelCreating(modelBuilder);
 
         modelBuilder.ApplyConfiguration(new DomainConfiguration());
+        modelBuilder.ApplyConfiguration(new ProjectConfiguration());
 
         modelBuilder.Entity<Server>()
             .HasOne(s => s.Secret)

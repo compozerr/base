@@ -4,7 +4,11 @@ using Microsoft.AspNetCore.Routing;
 
 namespace Cli.Endpoints.Projects;
 
-public record CreateProjectRequest(string RepoName, string RepoUrl, string LocationIso);
+public record CreateProjectRequest(
+    string RepoName,
+    string RepoUrl,
+    string LocationIso,
+    string Tier);
 
 public static class CreateProjectRoute
 {
@@ -22,5 +26,6 @@ public static class CreateProjectRoute
             new CreateProjectCommand(
                 createProjectRequest.RepoName,
                 createProjectRequest.RepoUrl,
-                createProjectRequest.LocationIso));
+                createProjectRequest.LocationIso,
+                createProjectRequest.Tier));
 }

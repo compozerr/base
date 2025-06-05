@@ -60,7 +60,8 @@ public sealed record CreateRepoCommandHandler(
                                new CreateProjectCommand(
                                    command.Name,
                                    gitUrl,
-                                   command.LocationIsoCode),
+                                   command.LocationIsoCode,
+                                   command.Tier),
                                cancellationToken);
 
                 projectId = createProjectResponse.ProjectId.Value.ToString();

@@ -5,4 +5,5 @@ namespace Cli.Endpoints.Projects;
 public sealed record CreateProjectCommand(
     string RepoName,
     string RepoUrl,
-    string LocationIso) : ICommand<CreateProjectResponse>;
+    string LocationIso,
+    string Tier) : ICommand<CreateProjectResponse>;

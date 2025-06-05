@@ -1,4 +1,6 @@
 
+using Api.Endpoints.Server.Tiers.Get;
+
 namespace Api.Endpoints.Server;
 
 public class ServerGroup : CarterModule
@@ -12,5 +14,6 @@ public class ServerGroup : CarterModule
     {
         app.AddCreateNewServerRoute();
         app.AddUpdateServerRoute();
+        app.AddGetTiersRoute();
     }
 }

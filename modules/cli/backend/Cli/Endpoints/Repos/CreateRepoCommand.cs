@@ -8,4 +8,5 @@ public sealed record CreateRepoCommand(
     string Name,
     DefaultInstallationIdSelectionType Type,
     string LocationIsoCode,
+    string Tier,
     ProjectId? ProjectId) : ICommand<CreateRepoResponse>;
