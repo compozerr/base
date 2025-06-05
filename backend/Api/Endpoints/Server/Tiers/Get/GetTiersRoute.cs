@@ -4,7 +4,7 @@ namespace Api.Endpoints.Server.Tiers.Get;
 
 public static class GetTiersRoute
 {
-	public const string Route = "tiers"; 
+	public const string Route = "tiers";
 
 	public static RouteHandlerBuilder AddGetTiersRoute(this IEndpointRouteBuilder app)
 	{
@@ -12,7 +12,7 @@ public static class GetTiersRoute
 	}
 
 	public static Task<GetTiersResponse> ExecuteAsync(
-		GetTiersCommand command,
 		IMediator mediator)
-		=> mediator.Send(command);
+		=> mediator.Send(
+		    new GetTiersCommand());
 }
