@@ -1,6 +1,7 @@
 
 using Api.Endpoints.Projects.Deployments;
 using Api.Endpoints.Projects.Domains;
+using Api.Endpoints.Projects.Project.ChangeTier;
 using Api.Endpoints.Projects.Project.Delete;
 using Api.Endpoints.Projects.Project.Get;
 using Api.Endpoints.Projects.Project.Start;
@@ -30,7 +31,9 @@ public class ProjectsGroup : CarterModule
         app.AddDeploymentsGroup();
         app.AddProjectEnvironmentGroup();
         app.AddDomainsGroup();
-        
+
         app.AddGetUsageRoute();
+
+        app.AddChangeTierRoute();
     }
 }
