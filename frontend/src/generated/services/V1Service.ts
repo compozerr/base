@@ -6482,6 +6482,124 @@ export interface V1Service {
             error: GetProjectsProjectIdUsageSpanError;
         };
     };
+    putProjectsProjectIdChangeTier: {
+        /**/
+        getMutationKey(parameters: PutProjectsProjectIdChangeTierParameters | void): ServiceOperationMutationKey<PutProjectsProjectIdChangeTierSchema, PutProjectsProjectIdChangeTierParameters>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.putProjectsProjectIdChangeTier.useMutation({
+         *     path: {
+         *         projectId: projectId
+         *     }
+         * })
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.putProjectsProjectIdChangeTier.useMutation()
+         * mutate({
+         *     body: bodyPayload,
+         *     path: {
+         *         projectId: projectId
+         *     }
+         * });
+         * ```
+         */
+        useMutation<TVariables extends PutProjectsProjectIdChangeTierBody, TContext = unknown>(parameters: PutProjectsProjectIdChangeTierParameters, options?: ServiceOperationUseMutationOptions<PutProjectsProjectIdChangeTierSchema, PutProjectsProjectIdChangeTierData, PutProjectsProjectIdChangeTierParameters, TVariables, PutProjectsProjectIdChangeTierError, TContext>): UseMutationResult<PutProjectsProjectIdChangeTierData, PutProjectsProjectIdChangeTierError | Error, AreAllOptional<TVariables> extends true ? TVariables | void : TVariables, TContext>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.putProjectsProjectIdChangeTier.useMutation({
+         *     path: {
+         *         projectId: projectId
+         *     }
+         * })
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.putProjectsProjectIdChangeTier.useMutation()
+         * mutate({
+         *     body: bodyPayload,
+         *     path: {
+         *         projectId: projectId
+         *     }
+         * });
+         * ```
+         */
+        useMutation<TVariables extends MutationVariables<PutProjectsProjectIdChangeTierBody, PutProjectsProjectIdChangeTierParameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<PutProjectsProjectIdChangeTierSchema, PutProjectsProjectIdChangeTierData, PutProjectsProjectIdChangeTierParameters, TVariables, PutProjectsProjectIdChangeTierError, TContext>): UseMutationResult<PutProjectsProjectIdChangeTierData, PutProjectsProjectIdChangeTierError | Error, TVariables, TContext>;
+        /**
+         * Returns the count of currently in-progress mutations.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
+         * @example Check how many mutations are currently in progress for the specified service method.
+         * ```ts
+         * const putProjectsProjectIdChangeTierTotal = qraft.v1Service.putProjectsProjectIdChangeTier.useIsMutating()
+         * ```
+         * @example Check how many mutations are currently in progress with the specified parameters.
+         * ```ts
+         * const putProjectsProjectIdChangeTierTotal = qraft.v1Service.putProjectsProjectIdChangeTier.useIsMutating({
+         *     parameters: {
+         *         path: {
+         *             projectId: projectId
+         *         }
+         *     }
+         * })
+         * ```
+         */
+        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<PutProjectsProjectIdChangeTierBody, PutProjectsProjectIdChangeTierData, PutProjectsProjectIdChangeTierParameters, PutProjectsProjectIdChangeTierError, TContext> | MutationFiltersByMutationKey<PutProjectsProjectIdChangeTierSchema, PutProjectsProjectIdChangeTierBody, PutProjectsProjectIdChangeTierData, PutProjectsProjectIdChangeTierParameters, PutProjectsProjectIdChangeTierError, TContext>): number;
+        /**/
+        isMutating<TContext>(filters?: MutationFiltersByParameters<PutProjectsProjectIdChangeTierBody, PutProjectsProjectIdChangeTierData, PutProjectsProjectIdChangeTierParameters, PutProjectsProjectIdChangeTierError, TContext> | MutationFiltersByMutationKey<PutProjectsProjectIdChangeTierSchema, PutProjectsProjectIdChangeTierBody, PutProjectsProjectIdChangeTierData, PutProjectsProjectIdChangeTierParameters, PutProjectsProjectIdChangeTierError, TContext>): number;
+        /**/
+        (options: ServiceOperationMutationFnOptions<PutProjectsProjectIdChangeTierBody, PutProjectsProjectIdChangeTierParameters>, client?: (schema: PutProjectsProjectIdChangeTierSchema, options: ServiceOperationMutationFnOptions<PutProjectsProjectIdChangeTierBody, PutProjectsProjectIdChangeTierParameters>) => Promise<RequestFnResponse<PutProjectsProjectIdChangeTierData, PutProjectsProjectIdChangeTierError>>): Promise<RequestFnResponse<PutProjectsProjectIdChangeTierData, PutProjectsProjectIdChangeTierError>>;
+        /**
+         * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
+         * @example Get all variables of all running mutations.
+         * ```ts
+         * const putProjectsProjectIdChangeTierPendingMutationVariables = qraft.v1Service.putProjectsProjectIdChangeTier.useMutationState({
+         *     filters: {
+         *         status: "pending"
+         *     },
+         *     select: mutation => mutation.state.variables
+         * })
+         * ```
+         * @example Get all data for specific mutations via the `parameters`.
+         * ```ts
+         * const putProjectsProjectIdChangeTierMutationData = qraft.v1Service.putProjectsProjectIdChangeTier.useMutationState({
+         *     filters: {
+         *         parameters: {
+         *             path: {
+         *                 projectId: projectId
+         *             }
+         *         }
+         *     },
+         *     select: mutation => mutation.state.data
+         * })
+         * ```
+         */
+        useMutationState<TContext = unknown, TResult = MutationState<PutProjectsProjectIdChangeTierData, PutProjectsProjectIdChangeTierError, MutationVariables<PutProjectsProjectIdChangeTierBody, PutProjectsProjectIdChangeTierParameters>, TContext>>(options?: {
+            filters?: MutationFiltersByParameters<PutProjectsProjectIdChangeTierBody, PutProjectsProjectIdChangeTierData, PutProjectsProjectIdChangeTierParameters, PutProjectsProjectIdChangeTierError, TContext> | MutationFiltersByMutationKey<PutProjectsProjectIdChangeTierSchema, PutProjectsProjectIdChangeTierBody, PutProjectsProjectIdChangeTierData, PutProjectsProjectIdChangeTierParameters, PutProjectsProjectIdChangeTierError, TContext>;
+            select?: (mutation: Mutation<PutProjectsProjectIdChangeTierData, PutProjectsProjectIdChangeTierError, MutationVariables<PutProjectsProjectIdChangeTierBody, PutProjectsProjectIdChangeTierParameters>, TContext>) => TResult;
+        }): Array<TResult>;
+        schema: PutProjectsProjectIdChangeTierSchema;
+        types: {
+            parameters: PutProjectsProjectIdChangeTierParameters;
+            data: PutProjectsProjectIdChangeTierData;
+            error: PutProjectsProjectIdChangeTierError;
+            body: PutProjectsProjectIdChangeTierBody;
+        };
+    };
     getProjectsProjectIdDeployments: {
         /**/
         cancelQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetProjectsProjectIdDeploymentsSchema, GetProjectsProjectIdDeploymentsData, TInfinite, GetProjectsProjectIdDeploymentsParameters, GetProjectsProjectIdDeploymentsError> | QueryFiltersByQueryKey<GetProjectsProjectIdDeploymentsSchema, GetProjectsProjectIdDeploymentsData, TInfinite, GetProjectsProjectIdDeploymentsParameters, GetProjectsProjectIdDeploymentsError>, options?: CancelOptions): Promise<void>;
@@ -9166,6 +9284,216 @@ export interface V1Service {
             body: PutServersBody;
         };
     };
+    getServersTiers: {
+        /**/
+        cancelQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetServersTiersSchema, GetServersTiersData, TInfinite, GetServersTiersParameters, GetServersTiersError> | QueryFiltersByQueryKey<GetServersTiersSchema, GetServersTiersData, TInfinite, GetServersTiersParameters, GetServersTiersError>, options?: CancelOptions): Promise<void>;
+        /**/
+        getQueryKey(parameters: GetServersTiersParameters | void): ServiceOperationQueryKey<GetServersTiersSchema, GetServersTiersParameters>;
+        /**
+         * Performs asynchronous data fetching, manages loading states and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
+         * @example Query without parameters
+         * ```ts
+         * const { data, isLoading } = qraft.v1Service.getServersTiers.useQuery()
+         * ```
+         */
+        useQuery<TData = GetServersTiersData>(parameters: ServiceOperationQueryKey<GetServersTiersSchema, GetServersTiersParameters> | (GetServersTiersParameters | void), options?: Omit<UndefinedInitialDataOptions<GetServersTiersData, GetServersTiersError, TData, ServiceOperationQueryKey<GetServersTiersSchema, GetServersTiersParameters>>, "queryKey">): UseQueryResult<TData, GetServersTiersError | Error>;
+        /**
+         * Performs asynchronous data fetching, manages loading states and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
+         * @example Query without parameters
+         * ```ts
+         * const { data, isLoading } = qraft.v1Service.getServersTiers.useQuery()
+         * ```
+         */
+        useQuery<TData = GetServersTiersData>(parameters: ServiceOperationQueryKey<GetServersTiersSchema, GetServersTiersParameters> | (GetServersTiersParameters | void), options: Omit<DefinedInitialDataOptions<GetServersTiersData, GetServersTiersError, TData, ServiceOperationQueryKey<GetServersTiersSchema, GetServersTiersParameters>>, "queryKey">): DefinedUseQueryResult<TData, GetServersTiersError | Error>;
+        /**/
+        fetchInfiniteQuery<TPageParam extends GetServersTiersParameters>(options: ServiceOperationFetchInfiniteQueryOptions<GetServersTiersSchema, GetServersTiersData, GetServersTiersParameters, TPageParam, GetServersTiersError>): Promise<OperationInfiniteData<GetServersTiersData, GetServersTiersParameters>>;
+        /**/
+        prefetchInfiniteQuery<TPageParam extends GetServersTiersParameters>(options: ServiceOperationFetchInfiniteQueryOptions<GetServersTiersSchema, GetServersTiersData, GetServersTiersParameters, TPageParam, GetServersTiersError>): Promise<void>;
+        /**/
+        ensureInfiniteQueryData<TPageParam extends GetServersTiersParameters>(options: ServiceOperationEnsureInfiniteQueryDataOptions<GetServersTiersSchema, GetServersTiersData, GetServersTiersParameters, TPageParam, GetServersTiersError>): Promise<OperationInfiniteData<GetServersTiersData, GetServersTiersParameters>>;
+        /**/
+        fetchQuery(options: ServiceOperationFetchQueryOptions<GetServersTiersSchema, GetServersTiersData, GetServersTiersParameters, GetServersTiersError> | void): Promise<GetServersTiersData>;
+        /**/
+        prefetchQuery(options: ServiceOperationFetchQueryOptions<GetServersTiersSchema, GetServersTiersData, GetServersTiersParameters, GetServersTiersError> | void): Promise<void>;
+        /**/
+        ensureQueryData(options: ServiceOperationEnsureQueryDataOptions<GetServersTiersSchema, GetServersTiersData, GetServersTiersParameters, GetServersTiersError> | void): Promise<GetServersTiersData>;
+        /**/
+        getInfiniteQueryData(parameters: ServiceOperationInfiniteQueryKey<GetServersTiersSchema, GetServersTiersParameters> | (GetServersTiersParameters | void)): OperationInfiniteData<GetServersTiersData, GetServersTiersParameters> | undefined;
+        /**/
+        getQueriesData<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetServersTiersSchema, GetServersTiersData, TInfinite, GetServersTiersParameters, GetServersTiersError> | QueryFiltersByQueryKey<GetServersTiersSchema, GetServersTiersData, TInfinite, GetServersTiersParameters, GetServersTiersError>): TInfinite extends true ? Array<[
+            queryKey: ServiceOperationInfiniteQueryKey<GetServersTiersSchema, GetServersTiersParameters>,
+            data: NoInfer<OperationInfiniteData<GetServersTiersData, GetServersTiersParameters>> | undefined
+        ]> : Array<[
+            queryKey: ServiceOperationQueryKey<GetServersTiersSchema, GetServersTiersParameters>,
+            data: GetServersTiersData | undefined
+        ]>;
+        /**/
+        getQueryData(parameters: ServiceOperationQueryKey<GetServersTiersSchema, GetServersTiersParameters> | (GetServersTiersParameters | void)): GetServersTiersData | undefined;
+        /**/
+        getQueryState(parameters: ServiceOperationQueryKey<GetServersTiersSchema, GetServersTiersParameters> | (GetServersTiersParameters | void)): QueryState<GetServersTiersData, GetServersTiersError> | undefined;
+        /**/
+        getInfiniteQueryState(parameters: GetServersTiersParameters | ServiceOperationInfiniteQueryKey<GetServersTiersSchema, GetServersTiersParameters> | void): QueryState<OperationInfiniteData<GetServersTiersData, GetServersTiersParameters>, GetServersTiersError> | undefined;
+        /**/
+        invalidateQueries<TInfinite extends boolean = false>(filters?: InvalidateQueryFilters<GetServersTiersSchema, GetServersTiersData, TInfinite, GetServersTiersParameters, GetServersTiersError>, options?: InvalidateOptions): Promise<void>;
+        /**/
+        isFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetServersTiersSchema, GetServersTiersData, TInfinite, GetServersTiersParameters, GetServersTiersError> | QueryFiltersByQueryKey<GetServersTiersSchema, GetServersTiersData, TInfinite, GetServersTiersParameters, GetServersTiersError>): number;
+        /**/
+        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: QueryFnOptionsByQueryKey<GetServersTiersSchema, GetServersTiersParameters, TMeta, TSignal> | (QueryFnOptionsByParameters<GetServersTiersParameters, TMeta, TSignal> | void), client?: (schema: GetServersTiersSchema, options: {
+            parameters: GetServersTiersParameters;
+            signal?: TSignal;
+            meta?: TMeta;
+        }) => Promise<RequestFnResponse<GetServersTiersData, GetServersTiersError>>): Promise<RequestFnResponse<GetServersTiersData, GetServersTiersError>>;
+        /**/
+        refetchQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetServersTiersSchema, GetServersTiersData, TInfinite, GetServersTiersParameters, GetServersTiersError> | QueryFiltersByQueryKey<GetServersTiersSchema, GetServersTiersData, TInfinite, GetServersTiersParameters, GetServersTiersError>, options?: RefetchOptions): Promise<void>;
+        /**/
+        removeQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetServersTiersSchema, GetServersTiersData, TInfinite, GetServersTiersParameters, GetServersTiersError> | QueryFiltersByQueryKey<GetServersTiersSchema, GetServersTiersData, TInfinite, GetServersTiersParameters, GetServersTiersError>): void;
+        /**/
+        resetQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetServersTiersSchema, GetServersTiersData, TInfinite, GetServersTiersParameters, GetServersTiersError> | QueryFiltersByQueryKey<GetServersTiersSchema, GetServersTiersData, TInfinite, GetServersTiersParameters, GetServersTiersError>, options?: ResetOptions): Promise<void>;
+        /**/
+        setInfiniteQueryData(parameters: GetServersTiersParameters | ServiceOperationInfiniteQueryKey<GetServersTiersSchema, GetServersTiersParameters>, updater: Updater<NoInfer<OperationInfiniteData<GetServersTiersData, GetServersTiersParameters>> | undefined, NoInfer<OperationInfiniteData<GetServersTiersData, GetServersTiersParameters>> | undefined>, options?: SetDataOptions): OperationInfiniteData<GetServersTiersData, GetServersTiersParameters> | undefined;
+        /**/
+        setQueriesData<TInfinite extends boolean = false>(filters: QueryFiltersByParameters<GetServersTiersSchema, GetServersTiersData, TInfinite, GetServersTiersParameters, GetServersTiersError> | QueryFiltersByQueryKey<GetServersTiersSchema, GetServersTiersData, TInfinite, GetServersTiersParameters, GetServersTiersError>, updater: Updater<NoInfer<GetServersTiersData> | undefined, NoInfer<GetServersTiersData> | undefined>, options?: SetDataOptions): Array<GetServersTiersData | undefined>;
+        /**/
+        setQueryData(parameters: (GetServersTiersParameters | undefined) | ServiceOperationQueryKey<GetServersTiersSchema, GetServersTiersParameters>, updater: Updater<NoInfer<GetServersTiersData> | undefined, NoInfer<GetServersTiersData> | undefined>, options?: SetDataOptions): GetServersTiersData | undefined;
+        /**/
+        getInfiniteQueryKey(parameters: GetServersTiersParameters | void): ServiceOperationInfiniteQueryKey<GetServersTiersSchema, GetServersTiersParameters>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useInfiniteQuery|`useInfiniteQuery(...)` documentation}
+         *
+         * @example Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getServersTiers.useInfiniteQuery({}, {
+         *     initialPageParam: {},
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useInfiniteQuery<TPageParam extends GetServersTiersParameters, TData = GetServersTiersData>(parameters: ServiceOperationInfiniteQueryKey<GetServersTiersSchema, GetServersTiersParameters> | (GetServersTiersParameters | void), options: Omit<UndefinedInitialDataInfiniteOptions<GetServersTiersData, GetServersTiersError, OperationInfiniteData<TData, GetServersTiersParameters>, ServiceOperationInfiniteQueryKey<GetServersTiersSchema, GetServersTiersParameters>, PartialParameters<TPageParam>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<GetServersTiersData, PartialParameters<TPageParam>>): UseInfiniteQueryResult<OperationInfiniteData<TData, GetServersTiersParameters>, GetServersTiersError | Error>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useInfiniteQuery|`useInfiniteQuery(...)` documentation}
+         *
+         * @example Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getServersTiers.useInfiniteQuery({}, {
+         *     initialPageParam: {},
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useInfiniteQuery<TPageParam extends GetServersTiersParameters, TData = GetServersTiersData>(parameters: ServiceOperationInfiniteQueryKey<GetServersTiersSchema, GetServersTiersParameters> | (GetServersTiersParameters | void), options: Omit<DefinedInitialDataInfiniteOptions<GetServersTiersData, GetServersTiersError, OperationInfiniteData<TData, GetServersTiersParameters>, ServiceOperationInfiniteQueryKey<GetServersTiersSchema, GetServersTiersParameters>, PartialParameters<TPageParam>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<GetServersTiersData, PartialParameters<TPageParam>>): DefinedUseInfiniteQueryResult<OperationInfiniteData<TData, GetServersTiersParameters>, GetServersTiersError | Error>;
+        /**
+         * Monitors the number of queries currently fetching, matching the provided filters.
+         * Useful for creating loading indicators or performing actions based on active requests.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsFetching|`useIsFetching(...)` documentation}
+         * @example Checks the total number of queries fetching from the specified service method,
+         * both normal and infinite. If no parameters are provided, no filtering is applied.
+         * ```ts
+         * const getServersTiersTotal = qraft.v1Service.getServersTiers.useIsFetching()
+         * ```
+         */
+        useIsFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetServersTiersSchema, GetServersTiersData, TInfinite, GetServersTiersParameters, GetServersTiersError> | QueryFiltersByQueryKey<GetServersTiersSchema, GetServersTiersData, TInfinite, GetServersTiersParameters, GetServersTiersError>): number;
+        /**
+         * Allows you to execute multiple asynchronous data fetching operations concurrently. This is especially useful for managing complex data dependencies in parallel.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
+         * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
+         * ```ts
+         * const getServersTiersResults = qraft.v1Service.getServersTiers.useQueries({
+         *     queries: [
+         *         {},
+         *         {}
+         *     ]
+         * });
+         * getServersTiersResults.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
+         * ```
+         * @example Combined results. Only the data will be returned.
+         * ```ts
+         * const getServersTiersCombinedResults = qraft.v1Service.getServersTiers.useQueries({
+         *     combine: results => results.map(result => result.data),
+         *     queries: [
+         *         {},
+         *         {}
+         *     ]
+         * });
+         * getServersTiersCombinedResults.forEach(data => console.log({ data }));
+         * ```
+         */
+        useQueries<T extends Array<UseQueryOptionsForUseQueries<GetServersTiersSchema, GetServersTiersParameters, GetServersTiersData, GetServersTiersError>>, TCombinedResult = Array<UseQueryResult<GetServersTiersData, GetServersTiersError>>>(options: {
+            queries: T;
+            combine?: (results: Array<UseQueryResult<GetServersTiersData, GetServersTiersError>>) => TCombinedResult;
+        }): TCombinedResult;
+        /**/
+        getQueryKey(parameters: GetServersTiersParameters | void): ServiceOperationQueryKey<GetServersTiersSchema, GetServersTiersParameters>;
+        /**
+         * Performs asynchronous data fetching, manages loading states and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
+         * @example Query without parameters
+         * ```ts
+         * const { data, isLoading } = qraft.v1Service.getServersTiers.useQuery()
+         * ```
+         */
+        useQuery<TData = GetServersTiersData>(parameters: ServiceOperationQueryKey<GetServersTiersSchema, GetServersTiersParameters> | (GetServersTiersParameters | void), options?: Omit<UndefinedInitialDataOptions<GetServersTiersData, GetServersTiersError, TData, ServiceOperationQueryKey<GetServersTiersSchema, GetServersTiersParameters>>, "queryKey">): UseQueryResult<TData, GetServersTiersError | Error>;
+        /**
+         * Performs asynchronous data fetching, manages loading states and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
+         * @example Query without parameters
+         * ```ts
+         * const { data, isLoading } = qraft.v1Service.getServersTiers.useQuery()
+         * ```
+         */
+        useQuery<TData = GetServersTiersData>(parameters: ServiceOperationQueryKey<GetServersTiersSchema, GetServersTiersParameters> | (GetServersTiersParameters | void), options: Omit<DefinedInitialDataOptions<GetServersTiersData, GetServersTiersError, TData, ServiceOperationQueryKey<GetServersTiersSchema, GetServersTiersParameters>>, "queryKey">): DefinedUseQueryResult<TData, GetServersTiersError | Error>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         * It functions similarly to `useInfiniteQuery`, but with added support for React Suspense.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseInfiniteQuery|`useSuspenseInfiniteQuery(...)` documentation}
+         *
+         * @example Suspense Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getServersTiers.useSuspenseInfiniteQuery({}, {
+         *     initialPageParam: {},
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useSuspenseInfiniteQuery<TPageParam extends GetServersTiersParameters, TData = GetServersTiersData>(parameters: ServiceOperationInfiniteQueryKey<GetServersTiersSchema, GetServersTiersParameters> | (GetServersTiersParameters | void), options: Omit<UseSuspenseInfiniteQueryOptions<GetServersTiersData, GetServersTiersError, OperationInfiniteData<TData, GetServersTiersParameters>, GetServersTiersData, ServiceOperationInfiniteQueryKey<GetServersTiersSchema, GetServersTiersParameters>, PartialParameters<TPageParam>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<GetServersTiersData, PartialParameters<TPageParam>>): UseSuspenseInfiniteQueryResult<OperationInfiniteData<TData, GetServersTiersParameters>, GetServersTiersError | Error>;
+        /**/
+        useSuspenseQueries<T extends Array<UseQueryOptionsForUseSuspenseQuery<GetServersTiersSchema, GetServersTiersParameters, GetServersTiersData, GetServersTiersError>>, TCombinedResult = Array<UseSuspenseQueryResult<GetServersTiersData, GetServersTiersError>>>(options: {
+            queries: T;
+            combine?: (results: Array<WithOptional<UseSuspenseQueryResult<GetServersTiersData, GetServersTiersError>, "data">>) => TCombinedResult;
+        }): TCombinedResult;
+        /**/
+        useSuspenseQuery<TData = GetServersTiersData>(parameters: ServiceOperationQueryKey<GetServersTiersSchema, GetServersTiersParameters> | (GetServersTiersParameters | void), options?: Omit<UseSuspenseQueryOptions<GetServersTiersData, GetServersTiersError, TData, ServiceOperationQueryKey<GetServersTiersSchema, GetServersTiersParameters>>, "queryKey">): UseSuspenseQueryResult<TData, GetServersTiersError | Error>;
+        schema: GetServersTiersSchema;
+        types: {
+            parameters: GetServersTiersParameters;
+            data: GetServersTiersData;
+            error: GetServersTiersError;
+        };
+    };
     getUsers: {
         /**/
         cancelQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetUsersSchema, GetUsersData, TInfinite, GetUsersParameters, GetUsersError> | QueryFiltersByQueryKey<GetUsersSchema, GetUsersData, TInfinite, GetUsersParameters, GetUsersError>, options?: CancelOptions): Promise<void>;
@@ -9612,6 +9940,15 @@ export const v1Service: {
             url: "/v1/projects/{projectId}/{usageSpan}";
         };
     };
+    putProjectsProjectIdChangeTier: {
+        schema: {
+            method: "put";
+            url: "/v1/projects/{projectId}/change-tier";
+            mediaType: [
+                "application/json"
+            ];
+        };
+    };
     getProjectsProjectIdDeployments: {
         schema: {
             method: "get";
@@ -9697,6 +10034,12 @@ export const v1Service: {
             mediaType: [
                 "application/json"
             ];
+        };
+    };
+    getServersTiers: {
+        schema: {
+            method: "get";
+            url: "/v1/servers/tiers";
         };
     };
     getUsers: {
@@ -9920,6 +10263,13 @@ export const v1Service: {
             url: "/v1/projects/{projectId}/{usageSpan}"
         }
     },
+    putProjectsProjectIdChangeTier: {
+        schema: {
+            method: "put",
+            url: "/v1/projects/{projectId}/change-tier",
+            mediaType: ["application/json"]
+        }
+    },
     getProjectsProjectIdDeployments: {
         schema: {
             method: "get",
@@ -9999,6 +10349,12 @@ export const v1Service: {
             method: "put",
             url: "/v1/servers",
             mediaType: ["application/json"]
+        }
+    },
+    getServersTiers: {
+        schema: {
+            method: "get",
+            url: "/v1/servers/tiers"
         }
     },
     getUsers: {
@@ -10289,6 +10645,17 @@ type GetProjectsProjectIdUsageSpanSchema = {
 type GetProjectsProjectIdUsageSpanParameters = paths["/v1/projects/{projectId}/{usageSpan}"]["get"]["parameters"];
 type GetProjectsProjectIdUsageSpanData = paths["/v1/projects/{projectId}/{usageSpan}"]["get"]["responses"]["200"]["content"]["application/json"];
 type GetProjectsProjectIdUsageSpanError = unknown;
+type PutProjectsProjectIdChangeTierSchema = {
+    method: "put";
+    url: "/v1/projects/{projectId}/change-tier";
+    mediaType: [
+        "application/json"
+    ];
+};
+type PutProjectsProjectIdChangeTierParameters = paths["/v1/projects/{projectId}/change-tier"]["put"]["parameters"];
+type PutProjectsProjectIdChangeTierData = paths["/v1/projects/{projectId}/change-tier"]["put"]["responses"]["200"]["content"]["application/json"];
+type PutProjectsProjectIdChangeTierError = unknown;
+type PutProjectsProjectIdChangeTierBody = NonNullable<paths["/v1/projects/{projectId}/change-tier"]["put"]["requestBody"]>["content"]["application/json"];
 type GetProjectsProjectIdDeploymentsSchema = {
     method: "get";
     url: "/v1/projects/{projectId}/deployments";
@@ -10395,6 +10762,13 @@ type PutServersParameters = {};
 type PutServersData = paths["/v1/servers"]["put"]["responses"]["200"]["content"]["application/json"];
 type PutServersError = unknown;
 type PutServersBody = NonNullable<paths["/v1/servers"]["put"]["requestBody"]>["content"]["application/json"];
+type GetServersTiersSchema = {
+    method: "get";
+    url: "/v1/servers/tiers";
+};
+type GetServersTiersParameters = undefined;
+type GetServersTiersData = paths["/v1/servers/tiers"]["get"]["responses"]["200"]["content"]["application/json"];
+type GetServersTiersError = unknown;
 type GetUsersSchema = {
     method: "get";
     url: "/v1/users";

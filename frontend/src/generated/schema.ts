@@ -1249,6 +1249,47 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/projects/{projectId}/change-tier": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    projectId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["ChangeTierRequest"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["ChangeTierResponse"];
+                    };
+                };
+            };
+        };
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/projects/{projectId}/deployments": {
         parameters: {
             query?: never;
@@ -1702,6 +1743,41 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/servers/tiers": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["GetTiersResponse"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/users": {
         parameters: {
             query?: never;
@@ -1767,6 +1843,10 @@ export interface components {
         ChangeDeploymentStatusResponse: {
             success?: boolean;
         };
+        ChangeTierRequest: {
+            tier?: string | null;
+        };
+        ChangeTierResponse: Record<string, never>;
         CreateDeploymentRequest: {
             commitHash?: string | null;
             commitMessage?: string | null;
@@ -1778,6 +1858,7 @@ export interface components {
             repoName?: string | null;
             repoUrl?: string | null;
             locationIso?: string | null;
+            tier?: string | null;
         };
         CreateProjectResponse: {
             projectId?: components["schemas"]["ProjectId"];
@@ -1786,6 +1867,7 @@ export interface components {
             name?: string | null;
             type?: components["schemas"]["DefaultInstallationIdSelectionType"];
             locationIsoCode?: string | null;
+            tier?: string | null;
             projectId?: string | null;
         };
         CreateRepoResponse: {
@@ -1898,6 +1980,9 @@ export interface components {
             /** Format: int32 */
             pageSize?: number;
         };
+        GetTiersResponse: {
+            tiers?: components["schemas"]["ServerTier"][] | null;
+        };
         GetUsageResponse: {
             points?: {
                 CPU?: components["schemas"]["UsagePoint"][];
@@ -1948,6 +2033,11 @@ export interface components {
             module?: components["schemas"]["ModuleDto"];
             readonly errorMessage?: string | null;
         };
+        Price: {
+            /** Format: double */
+            value?: number;
+            currency?: string | null;
+        };
         ProjectDto: {
             name?: string | null;
             repoUri?: string | null;
@@ -1980,6 +2070,20 @@ export interface components {
             name?: string | null;
         };
         RestoreProjectResponse: Record<string, never>;
+        ServerTier: {
+            id?: components["schemas"]["ServerTierId"];
+            /** Format: double */
+            ramGb?: number;
+            /** Format: int32 */
+            cores?: number;
+            /** Format: double */
+            diskGb?: number;
+            price?: components["schemas"]["Price"];
+            promotionalText?: string | null;
+        };
+        ServerTierId: {
+            value?: string | null;
+        };
         SetDefaultInstallationRequest: {
             installationId?: string | null;
             type?: components["schemas"]["DefaultInstallationIdSelectionType"];

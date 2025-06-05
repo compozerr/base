@@ -31,10 +31,19 @@ public sealed class CreateRepoCommandValidator : AbstractValidator<CreateRepoCom
             return !reposForCurrentUser.Any(r => r.Name == name);
         }).WithMessage("Repository name must be unique.");
 
-
         When(x => x.ProjectId != null, () =>
         {
             RuleFor(x => x.ProjectId!).MustBeOwnedByCallerAsync(scopeFactory);
+        });
+
+        When(x => x.Type == Github.Endpoints.SetDefaultInstallationId.DefaultInstallationIdSelectionType.Projects, () =>
+        {
+            RuleFor(x => x.Tier).Must(tier =>
+            {
+                return ServerTiers.All.Select(x => x.Id.Value).Contains(tier);
+            }).WithMessage("Invalid tier specified.")
+            .NotEmpty().WithMessage("Tier cannot be empty.")
+            .NotNull().WithMessage("Tier cannot be null.");
         });
 
         RuleFor(x => x.LocationIsoCode).MustAsync(async (command, locationIsoCode, cancellationToken) =>
