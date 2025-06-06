@@ -24,6 +24,7 @@ import React, { useEffect, useState } from 'react'
 import { api } from '@/api-client'
 import LoadingButton from '@/components/loading-button'
 import { Price } from '@/lib/price'
+import { useToast } from '@/hooks/use-toast'
 export const Route = createFileRoute(
   '/_auth/_dashboard/projects/$projectId/settings/general',
 )({
@@ -53,6 +54,8 @@ function GeneralSettingsTab() {
 
   const [tier, setTier] = useState<string | null>(null);
 
+  const [savingChanges, setSavingChanges] = useState(false);
+
   useEffect(() => {
     if (project?.serverTier) {
       setTier(project.serverTier);
@@ -60,6 +63,8 @@ function GeneralSettingsTab() {
   }, [project, tiers]);
 
   const navigate = useNavigate();
+
+  const {toast} = useToast();
 
   const handleTierChangeAsync = async () => {
     await mutateAsync({
@@ -75,7 +80,16 @@ function GeneralSettingsTab() {
       return;
     }
 
+    setSavingChanges(true);
+
     await handleTierChangeAsync();
+
+    toast({
+      title: 'Changes saved',
+      description: `Server tier changed to ${tier}.`,
+    });
+
+    setSavingChanges(false);
   }
 
   return (
@@ -141,7 +155,7 @@ function GeneralSettingsTab() {
           </div>
         </CardContent>
         <CardFooter>
-          <Button disabled={!project || !tier || project.serverTier === tier} onClick={handleOnSaveChangesAsync}>Save Changes</Button>
+          <LoadingButton isLoading={savingChanges} disabled={!project || !tier || project.serverTier === tier} onClick={handleOnSaveChangesAsync}>Save Changes</LoadingButton>
         </CardFooter>
       </Card>
 
