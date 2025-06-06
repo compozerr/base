@@ -3,10 +3,12 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Formatter } from '@/lib/formatter'
 import { getProjectStateFromNumber as getProjectStateFromStateString, ProjectState } from '@/lib/project-state'
 import { createFileRoute, getRouteApi } from '@tanstack/react-router'
-import { ExternalLink, Globe } from 'lucide-react'
+import { Cpu, ExternalLink, Globe, HardDrive, MemoryStick } from 'lucide-react'
 import { UsageGraph } from '@/components/usage-graph'
 import StartStopProjectButton from '@/components/project/project-startstop-button'
 import { api } from '@/api-client'
+import { useMemo } from 'react'
+import { Skeleton } from '@/components/ui/skeleton'
 
 export const Route = createFileRoute('/_auth/_dashboard/projects/$projectId/')({
     component: RouteComponent,
@@ -38,6 +40,12 @@ function RouteComponent() {
             </div>
         )
     }
+
+    const { data: tiers } = api.v1.getServersTiers.useQuery();
+
+    const serverTier = useMemo(() => {
+        return tiers?.tiers?.find(t => t.id?.value === project.serverTier);
+    }, [tiers, project.serverTier]);
 
     return (
         <div className="space-y-6">
@@ -88,7 +96,33 @@ function RouteComponent() {
                                         </a>
                                     </p>
                                 </div>
-                               
+                                <div>
+                                    <h3 className="text-sm font-medium text-muted-foreground">Hardware</h3>
+                                    {serverTier ? (
+                                        <>
+                                            <span className="flex items-center gap-2">
+                                                <MemoryStick className="h-4 w-4 text-muted-foreground" />
+                                                {serverTier?.ramGb} GB RAM
+                                            </span>
+                                            <span className="flex items-center gap-1">
+                                                <Cpu className="h-4 w-4 text-muted-foreground mr-1" />
+                                                {serverTier?.cores} Cores vCPU
+                                            </span>
+                                            <span className="flex items-center gap-1">
+                                                <HardDrive className="h-4 w-4 text-muted-foreground mr-1" />
+                                                {serverTier?.diskGb} GB Disk
+                                            </span>
+                                        </>
+
+                                    ) : (
+                                        <>
+                                            <Skeleton className="h-4 w-[150px] my-[7px]" />
+                                            <Skeleton className="h-4 w-[150px] my-[7px]" />
+                                            <Skeleton className="h-4 w-[150px] mt-[7px] mb-[3px]" />
+                                        </>
+                                    )}
+                                </div>
+
                                 <div>
                                     <h3 className="text-sm font-medium text-muted-foreground">Status</h3>
                                     <p className="text-sm flex items-center gap-2">
@@ -112,7 +146,7 @@ function RouteComponent() {
                             <div className="space-y-4 mt-4 relative max-h-[220px]">
                                 <div className="overflow-y-auto max-h-[220px] min-h-[100px] pr-1">
                                     {project.domains && project.domains?.length > 0 ? (
-                                        project.domains.sort((d)=>d === project.primaryDomain ? -1 : 1).map((d) => (
+                                        project.domains.sort((d) => d === project.primaryDomain ? -1 : 1).map((d) => (
                                             <div key={d} className="flex items-center justify-between mb-4">
                                                 <div>
                                                     <p className="text-sm font-medium">{d}</p>
@@ -138,6 +172,6 @@ function RouteComponent() {
 
                 <UsageGraph projectId={project.id!} />
             </div>
-        </div>
+        </div >
     )
 }
