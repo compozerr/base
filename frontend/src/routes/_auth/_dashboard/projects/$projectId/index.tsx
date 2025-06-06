@@ -100,25 +100,25 @@ function RouteComponent() {
                                     <h3 className="text-sm font-medium text-muted-foreground">Hardware</h3>
                                     {serverTier ? (
                                         <>
-                                            <span className="flex items-center gap-2">
+                                            <span className="flex items-center gap-2 text-sm">
                                                 <MemoryStick className="h-4 w-4 text-muted-foreground" />
                                                 {serverTier?.ramGb} GB RAM
                                             </span>
-                                            <span className="flex items-center gap-1">
-                                                <Cpu className="h-4 w-4 text-muted-foreground mr-1" />
+                                            <span className="flex items-center gap-2 text-sm">
+                                                <Cpu className="h-4 w-4 text-muted-foreground" />
                                                 {serverTier?.cores} Cores vCPU
                                             </span>
-                                            <span className="flex items-center gap-1">
-                                                <HardDrive className="h-4 w-4 text-muted-foreground mr-1" />
+                                            <span className="flex items-center gap-2 text-sm">
+                                                <HardDrive className="h-4 w-4 text-muted-foreground" />
                                                 {serverTier?.diskGb} GB Disk
                                             </span>
                                         </>
 
                                     ) : (
                                         <>
-                                            <Skeleton className="h-4 w-[150px] my-[7px]" />
-                                            <Skeleton className="h-4 w-[150px] my-[7px]" />
-                                            <Skeleton className="h-4 w-[150px] mt-[7px] mb-[3px]" />
+                                            <Skeleton className="h-[14px] w-[150px] mb-[7px]" />
+                                            <Skeleton className="h-[14px] w-[150px] my-[7px]" />
+                                            <Skeleton className="h-[14px] w-[150px] mt-[7px] mb-[4px]" />
                                         </>
                                     )}
                                 </div>
