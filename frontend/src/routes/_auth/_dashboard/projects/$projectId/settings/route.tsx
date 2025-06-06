@@ -24,7 +24,7 @@ function RouteComponent() {
                 </p>
             </div>
 
-            <Tabs defaultValue={tabRoute} className="w-full">
+            <Tabs className="w-full" value={tabRoute}>
                 <TabsList className="grid w-full grid-cols-3 lg:w-auto">
                     <TabsTrigger value="general" asChild>
                         <Link to="/projects/$projectId/settings/general" params={params} viewTransition>General</Link>
