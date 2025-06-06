@@ -136,7 +136,7 @@ function GeneralSettingsTab() {
             <div className="space-y-2">
               <Label htmlFor="project-name">Server tier</Label>
               <Select
-                value={tier ?? ''}
+                value={tier ?? 'Loading...'}
                 onValueChange={(value) =>
                   setTier(value === '' ? null : value)
                 }
