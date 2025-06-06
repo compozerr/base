@@ -1967,6 +1967,7 @@ export interface components {
             repoName?: string | null;
             state?: components["schemas"]["ProjectState"];
             domains?: string[] | null;
+            serverTier?: string | null;
             primaryDomain?: string | null;
         };
         GetProjectsResponse: {

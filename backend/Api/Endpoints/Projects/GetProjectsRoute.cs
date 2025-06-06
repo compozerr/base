@@ -39,6 +39,7 @@ public static class GetProjectsRoute
                 RepoUri.Parse(p.RepoUri).RepoName,
                 p.State,
                 [.. p.Domains?.Select(x => x.GetValue) ?? []],
+                p.ServerTierId.Value,
                 p.Domains!.FirstOrDefault()?.GetValue ?? "Unknown")
             )];
 

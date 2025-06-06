@@ -8,4 +8,5 @@ public sealed record GetProjectResponse(
     string RepoName,
     ProjectState State,
     List<string> Domains,
+    string ServerTier,
     string? PrimaryDomain);
