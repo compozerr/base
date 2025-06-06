@@ -19,10 +19,11 @@ import {
 import { Switch } from '@/components/ui/switch'
 import { TabsContent } from '@/components/ui/tabs'
 import { createFileRoute, getRouteApi, useNavigate, } from '@tanstack/react-router'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { api } from '@/api-client'
 import LoadingButton from '@/components/loading-button'
+import { Price } from '@/lib/price'
 export const Route = createFileRoute(
   '/_auth/_dashboard/projects/$projectId/settings/general',
 )({
@@ -46,7 +47,36 @@ function GeneralSettingsTab() {
     await api.v1.getProjects.invalidateQueries();
   }
 
+  const { data: tiers } = api.v1.getServersTiers.useQuery();
+
+  const { mutateAsync } = api.v1.putProjectsProjectIdChangeTier.useMutation({ path: { projectId } });
+
+  const [tier, setTier] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (project?.serverTier) {
+      setTier(project.serverTier);
+    }
+  }, [project, tiers]);
+
   const navigate = useNavigate();
+
+  const handleTierChangeAsync = async () => {
+    await mutateAsync({
+      tier
+    })
+  }
+
+
+  const handleOnSaveChangesAsync = async () => {
+    if (!project) return;
+    if (!tier) {
+      alert('Please select a server tier.');
+      return;
+    }
+
+    await handleTierChangeAsync();
+  }
 
   return (
     <TabsContent value="general" className="space-y-4 mt-6">
@@ -87,10 +117,31 @@ function GeneralSettingsTab() {
 
               <Switch id="auto-deploy" defaultChecked disabled={true} />
             </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="project-name">Server tier</Label>
+              <Select
+                value={tier ?? ''}
+                onValueChange={(value) =>
+                  setTier(value === '' ? null : value)
+                }
+              >
+                <SelectTrigger className="w-1/2" id="modules-org">
+                  <SelectValue placeholder="Select organization" />
+                </SelectTrigger>
+                <SelectContent>
+                  {tiers && tiers.tiers!.map((t, idx) => (
+                    <SelectItem key={idx} value={t.id!.value!}>
+                      {t.id!.value} - {t.ramGb}GB RAM, {t.cores} Cores, {t.diskGb}GB Disk - <span className='font-bold'>{Price.formatPrice(t.price)}/month</span> {t.promotionalText ? `(${t.promotionalText})` : ""}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
           </div>
         </CardContent>
         <CardFooter>
-          <Button disabled={true}>Save Changes</Button>
+          <Button disabled={!project || !tier || project.serverTier === tier} onClick={handleOnSaveChangesAsync}>Save Changes</Button>
         </CardFooter>
       </Card>
 
