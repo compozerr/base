@@ -86,7 +86,7 @@ function GeneralSettingsTab() {
 
     toast({
       title: 'Changes saved',
-      description: `Server tier changed to ${tier}.`,
+      description: `Server tier changed to ${tier}. Therefor started a new deployment.`,
     });
 
     setSavingChanges(false);
