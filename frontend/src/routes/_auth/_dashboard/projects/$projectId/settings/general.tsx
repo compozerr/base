@@ -64,14 +64,15 @@ function GeneralSettingsTab() {
 
   const navigate = useNavigate();
 
-  const {toast} = useToast();
+  const { toast } = useToast();
 
   const handleTierChangeAsync = async () => {
     await mutateAsync({
       tier
     })
-  }
 
+    await api.v1.getProjectsProjectId.invalidateQueries({ parameters: { path: { projectId } } });
+  }
 
   const handleOnSaveChangesAsync = async () => {
     if (!project) return;
