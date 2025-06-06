@@ -9,7 +9,7 @@ public interface IDeploymentRepository : IGenericRepository<Deployment, Deployme
 {
     public Task<List<Deployment>> GetDeploymentsForUserAsync(UserId userId);
     public IQueryable<Deployment> GetDeploymentsForProject(ProjectId projectId);
-    public Task<DeploymentId?> GetCurrentDeploymentId();
+    public Task<DeploymentId?> GetCurrentDeploymentId(ProjectId projectId);
     public Task<List<Deployment>> GetByProjectIdAsync(ProjectId projectId);
     public Task<List<Deployment>> GetByProjectIdAsync(ProjectId projectId, Func<IQueryable<Deployment>, IQueryable<Deployment>> includeBuilder);
 }
@@ -21,8 +21,9 @@ public sealed class DeploymentRepository(
         => Query().Where(x => x.ProjectId == projectId)
                                .ToListAsync();
 
-    public Task<DeploymentId?> GetCurrentDeploymentId()
-        => Query().Where(x => x.Status == DeploymentStatus.Completed)
+    public Task<DeploymentId?> GetCurrentDeploymentId(ProjectId projectId)
+        => Query().Where(x => x.Status == DeploymentStatus.Completed
+                            && x.ProjectId == projectId)
                                .OrderByDescending(x => x.CreatedAtUtc)
                                .Select(x => x.Id)
                                .FirstOrDefaultAsync();

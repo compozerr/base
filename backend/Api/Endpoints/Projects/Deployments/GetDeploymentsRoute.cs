@@ -52,7 +52,7 @@ public static class GetDeploymentsRoute
             page,
             pageSize);
 
-        var currentDeploymentId = await deploymentRepository.GetCurrentDeploymentId();
+        var currentDeploymentId = await deploymentRepository.GetCurrentDeploymentId(projectId);
 
         return new PagedResult<GetDeploymentResponse>(
             page,

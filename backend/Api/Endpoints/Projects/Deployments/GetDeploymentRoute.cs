@@ -21,7 +21,7 @@ public static class GetDeploymentRoute
         ICurrentUserAccessor currentUserAccessor,
         IDeploymentRepository deploymentRepository)
     {
-        var currentDeploymentId = await deploymentRepository.GetCurrentDeploymentId();
+        var currentDeploymentId = await deploymentRepository.GetCurrentDeploymentId(projectId);
 
         var deployment = await deploymentRepository.GetByIdAsync(
             deploymentId,
