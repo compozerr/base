@@ -16,6 +16,7 @@ import { Route as LoginImport } from './../../modules/auth/frontend/src/routes/l
 import { Route as AboutImport } from './routes/about'
 import { Route as AuthImport } from './../../modules/auth/frontend/src/routes/_auth'
 import { Route as IndexImport } from './routes/index'
+import { Route as StripeIndexImport } from './../../modules/stripe/frontend/src/routes/stripe/index'
 import { Route as ExampleIndexImport } from './../../modules/template/frontend/src/routes/example/index'
 import { Route as AuthLogoutImport } from './../../modules/auth/frontend/src/routes/_auth/logout'
 import { Route as AuthDashboardImport } from './routes/_auth/_dashboard'
@@ -60,6 +61,12 @@ const AuthRoute = AuthImport.update({
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const StripeIndexRoute = StripeIndexImport.update({
+  id: '/stripe/',
+  path: '/stripe/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -221,6 +228,13 @@ declare module '@tanstack/react-router' {
       path: '/example'
       fullPath: '/example'
       preLoaderRoute: typeof ExampleIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/stripe/': {
+      id: '/stripe/'
+      path: '/stripe'
+      fullPath: '/stripe'
+      preLoaderRoute: typeof StripeIndexImport
       parentRoute: typeof rootRoute
     }
     '/_auth/_dashboard/dashboard': {
@@ -399,6 +413,7 @@ export interface FileRoutesByFullPath {
   '/using-module-component': typeof UsingModuleComponentRoute
   '/logout': typeof AuthLogoutRoute
   '/example': typeof ExampleIndexRoute
+  '/stripe': typeof StripeIndexRoute
   '/dashboard': typeof AuthDashboardDashboardRoute
   '/settings': typeof AuthDashboardSettingsRoute
   '/projects/$projectId': typeof AuthDashboardProjectsProjectIdRouteRouteWithChildren
@@ -421,6 +436,7 @@ export interface FileRoutesByTo {
   '/using-module-component': typeof UsingModuleComponentRoute
   '/logout': typeof AuthLogoutRoute
   '/example': typeof ExampleIndexRoute
+  '/stripe': typeof StripeIndexRoute
   '/dashboard': typeof AuthDashboardDashboardRoute
   '/settings': typeof AuthDashboardSettingsRoute
   '/projects': typeof AuthDashboardProjectsIndexRoute
@@ -443,6 +459,7 @@ export interface FileRoutesById {
   '/_auth/_dashboard': typeof AuthDashboardRouteWithChildren
   '/_auth/logout': typeof AuthLogoutRoute
   '/example/': typeof ExampleIndexRoute
+  '/stripe/': typeof StripeIndexRoute
   '/_auth/_dashboard/dashboard': typeof AuthDashboardDashboardRoute
   '/_auth/_dashboard/settings': typeof AuthDashboardSettingsRoute
   '/_auth/_dashboard/projects/$projectId': typeof AuthDashboardProjectsProjectIdRouteRouteWithChildren
@@ -467,6 +484,7 @@ export interface FileRouteTypes {
     | '/using-module-component'
     | '/logout'
     | '/example'
+    | '/stripe'
     | '/dashboard'
     | '/settings'
     | '/projects/$projectId'
@@ -488,6 +506,7 @@ export interface FileRouteTypes {
     | '/using-module-component'
     | '/logout'
     | '/example'
+    | '/stripe'
     | '/dashboard'
     | '/settings'
     | '/projects'
@@ -508,6 +527,7 @@ export interface FileRouteTypes {
     | '/_auth/_dashboard'
     | '/_auth/logout'
     | '/example/'
+    | '/stripe/'
     | '/_auth/_dashboard/dashboard'
     | '/_auth/_dashboard/settings'
     | '/_auth/_dashboard/projects/$projectId'
@@ -530,6 +550,7 @@ export interface RootRouteChildren {
   LoginRoute: typeof LoginRoute
   UsingModuleComponentRoute: typeof UsingModuleComponentRoute
   ExampleIndexRoute: typeof ExampleIndexRoute
+  StripeIndexRoute: typeof StripeIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -539,6 +560,7 @@ const rootRouteChildren: RootRouteChildren = {
   LoginRoute: LoginRoute,
   UsingModuleComponentRoute: UsingModuleComponentRoute,
   ExampleIndexRoute: ExampleIndexRoute,
+  StripeIndexRoute: StripeIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -556,7 +578,8 @@ export const routeTree = rootRoute
         "/about",
         "/login",
         "/using-module-component",
-        "/example/"
+        "/example/",
+        "/stripe/"
       ]
     },
     "/": {
@@ -594,6 +617,9 @@ export const routeTree = rootRoute
     },
     "/example/": {
       "filePath": "../../../modules/template/frontend/src/routes/example/index.tsx"
+    },
+    "/stripe/": {
+      "filePath": "../../../modules/stripe/frontend/src/routes/stripe/index.tsx"
     },
     "/_auth/_dashboard/dashboard": {
       "filePath": "./_auth/_dashboard/dashboard.tsx",

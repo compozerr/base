@@ -1,0 +1,10 @@
+{
+    "type": "module",
+    "name": "stripe",
+    "dependencies": { },
+    "end": "",
+    "port": "",
+    "frontend":{
+        "routesDir": "frontend/src/routes"
+    }
+}

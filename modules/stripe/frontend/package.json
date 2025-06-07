@@ -1,0 +1,11 @@
+{
+    "name": "@repo/stripe",
+    "version": "0.0.0",
+    "private": true,
+    "exports": {
+        "./stripe-component": "./src/stripe-component.tsx"
+    },
+    "devDependencies": {
+        "@repo/config": "*"
+    }
+}
