@@ -2075,7 +2075,7 @@ export interface components {
             id?: components["schemas"]["ServerTierId"];
             /** Format: double */
             ramGb?: number;
-            /** Format: int32 */
+            /** Format: double */
             cores?: number;
             /** Format: double */
             diskGb?: number;
