@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { api } from '@/api-client';
 import {
   Card,
@@ -16,13 +16,14 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/hooks/use-toast';
+import StripeProvider from './stripe-provider';
+import StripeElementsForm from './stripe-elements-form';
 
 interface PaymentMethodsProps {
   userId: string;
@@ -36,14 +37,27 @@ export const PaymentMethods: React.FC<PaymentMethodsProps> = ({ userId }) => {
     path: { userId },
   });
 
-  // This would use the Stripe API mutations in a real implementation
-  const handleAddCard = async () => {
-    // Example: integrate with Stripe Elements for card addition
-    toast({
-      title: "Adding payment method",
-      description: "This would integrate with Stripe Elements in a real implementation",
-    });
-    setOpenDialog(false);
+  // Handler for when a payment method is successfully created by the Stripe Elements form
+  const handleCardAdded = async (paymentMethodId: string) => {
+    try {
+      // In a real implementation, we would call our API to associate the payment method with the user
+      // api.v1.postStripePaymentMethodsAttach.mutateAsync({ body: { paymentMethodId, userId } });
+      
+      toast({
+        title: "Card added successfully",
+        description: "Your payment method has been added.",
+        variant: "success",
+      });
+      
+      await refetch(); // Refresh the payment methods list
+      setOpenDialog(false);
+    } catch (err) {
+      toast({
+        title: "Error adding card",
+        description: err instanceof Error ? err.message : "An unknown error occurred",
+        variant: "destructive",
+      });
+    }
   };
 
   const handleSetDefault = async (paymentMethodId: string) => {
@@ -104,17 +118,22 @@ export const PaymentMethods: React.FC<PaymentMethodsProps> = ({ userId }) => {
               </DialogDescription>
             </DialogHeader>
             <div className="py-4">
-              {/* In a real implementation, this would contain Stripe Elements */}
-              <div className="rounded-md border p-4">
-                <p className="text-muted-foreground text-center text-sm">
-                  Stripe Elements would be integrated here
-                </p>
-              </div>
+              {/* Stripe Elements integration */}
+              <StripeProvider>
+                <StripeElementsForm 
+                  userId={userId} 
+                  onSuccess={handleCardAdded} 
+                  onError={(errorMessage) => {
+                    toast({
+                      title: "Error",
+                      description: errorMessage,
+                      variant: "destructive",
+                    });
+                  }} 
+                  onCancel={() => setOpenDialog(false)}
+                />
+              </StripeProvider>
             </div>
-            <DialogFooter>
-              <Button variant="outline" onClick={() => setOpenDialog(false)}>Cancel</Button>
-              <Button onClick={handleAddCard}>Add Card</Button>
-            </DialogFooter>
           </DialogContent>
         </Dialog>
       </div>

@@ -5,9 +5,16 @@
     "exports": {
         "./stripe-component": "./src/stripe-component.tsx",
         "./subscription-list": "./src/subscription-list.tsx",
-        "./payment-methods": "./src/payment-methods.tsx"
+        "./payment-methods": "./src/payment-methods.tsx",
+        "./stripe-elements-form": "./src/stripe-elements-form.tsx",
+        "./stripe-provider": "./src/stripe-provider.tsx",
+        "./hooks/use-current-user": "./src/hooks/use-current-user.ts"
     },
     "devDependencies": {
         "@repo/config": "*"
+    },
+    "dependencies": {
+        "@stripe/react-stripe-js": "^3.7.0",
+        "@stripe/stripe-js": "^7.3.1"
     }
 }

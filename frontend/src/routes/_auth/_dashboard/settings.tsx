@@ -26,6 +26,7 @@ import {
 } from '@/components/ui/tooltip'
 import { useToast } from '@/hooks/use-toast'
 import { Separator } from '@/components/ui/separator'
+import StripeProvider from '@repo/stripe/stripe-provider'
 import SubscriptionList from '@repo/stripe/subscription-list'
 import PaymentMethods from '@repo/stripe/payment-methods'
 
@@ -36,6 +37,9 @@ export const Route = createFileRoute('/_auth/_dashboard/settings')({
 function RouteComponent() {
 
   const { toast } = useToast();
+  
+  // Add state to track the active user
+  const [currentUserId, setCurrentUserId] = React.useState("current-user-id");
 
   const {
     data: appUrlData,
@@ -263,13 +267,14 @@ function RouteComponent() {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
-            {/* Import and use components from the Stripe module */}
-            {/* This would be populated with the actual user ID */}
-            <SubscriptionList userId="current-user-id" />
-            
-            <Separator className="my-6" />
-            
-            <PaymentMethods userId="current-user-id" />
+            <StripeProvider>
+              {/* Using the current user ID from state */}
+              <SubscriptionList userId={currentUserId} />
+              
+              <Separator className="my-6" />
+              
+              <PaymentMethods userId={currentUserId} />
+            </StripeProvider>
           </CardContent>
         </Card>
 
