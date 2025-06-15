@@ -36,24 +36,28 @@ public class StripeService : IStripeService
             };
 
             var subscriptions = await service.ListAsync(options, cancellationToken: cancellationToken);
-
-            return subscriptions.Select(s => new SubscriptionDto(
-                Id: s.Id,
-                Name: s.Items?.Data?.FirstOrDefault()?.Plan?.Product?.Name ?? "Subscription",
-                Status: s.Status,
-                PlanId: s.Items?.Data?.FirstOrDefault()?.Plan?.Id ?? "",
-                ServerTierId: GetTierIdFromPriceId(s.Items?.Data?.FirstOrDefault()?.Plan?.Id ?? ""),
-                CurrentPeriodStart: new DateTime(), //s.CurrentPeriodStart,
-                CurrentPeriodEnd: new DateTime(), //s.CurrentPeriodEnd,
-                CancelAtPeriodEnd: s.CancelAtPeriodEnd,
-                Amount: s.Items?.Data?.FirstOrDefault()?.Plan?.Amount / 100m ?? 0,
-                Currency: s.Items?.Data?.FirstOrDefault()?.Plan?.Currency?.ToUpper() ?? "USD"
-            )).ToList();
+            return [.. subscriptions.Select(s => new SubscriptionDto(
+                                Id: s.Id,
+                                Name: s.Items?.Data?.FirstOrDefault()?.Plan?.Product?.Name ?? "Subscription",
+                                Status: s.Status,
+                                PlanId: s.Items?.Data?.FirstOrDefault()?.Plan?.Id ?? "",
+                                ServerTierId: GetTierIdFromPriceId(s.Items?.Data?.FirstOrDefault()?.Plan?.Id ?? ""),
+                                CurrentPeriodStart: new DateTime(), //s.CurrentPeriodStart,
+                                CurrentPeriodEnd: new DateTime(), //s.CurrentPeriodEnd,
+                                CancelAtPeriodEnd: s.CancelAtPeriodEnd,
+                                Amount: s.Items?.Data?.FirstOrDefault()?.Plan?.Amount / 100m ?? 0,
+                                Currency: s.Items?.Data?.FirstOrDefault()?.Plan?.Currency?.ToUpper() ?? "USD"
+                ))];
+        }
+        catch (StripeException ex) when (ex.Message.ToLowerInvariant().Contains("no such customer"))
+        {
+            _logger.LogWarning("No user with id: {UserId} found in Stripe", userId);
+            return [];
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error retrieving subscriptions for user {UserId}", userId);
-            return new List<SubscriptionDto>();
+            return [];
         }
     }
 

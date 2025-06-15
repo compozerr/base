@@ -29,6 +29,7 @@ import { Separator } from '@/components/ui/separator'
 import StripeProvider from '@repo/stripe/stripe-provider'
 import SubscriptionList from '@repo/stripe/subscription-list'
 import PaymentMethods from '@repo/stripe/payment-methods'
+import { useAuth } from '@/hooks/use-dynamic-auth'
 
 export const Route = createFileRoute('/_auth/_dashboard/settings')({
   component: RouteComponent,
@@ -37,10 +38,8 @@ export const Route = createFileRoute('/_auth/_dashboard/settings')({
 function RouteComponent() {
 
   const { toast } = useToast();
-  
+  const { user } = useAuth();
   // Add state to track the active user
-  const [currentUserId, setCurrentUserId] = React.useState("current-user-id");
-
   const {
     data: appUrlData,
     isLoading: appUrlLoading,
@@ -95,11 +94,11 @@ function RouteComponent() {
         defaultOrganizationMutation.mutateAsync({
           body: { installationId, type: type },
         }).then(() => {
-            toast({
+          toast({
             title: "Success",
             description: "Saved successfully",
             variant: "success"
-            })
+          })
         }).catch((error) => {
           toast({
             title: "Error",
@@ -258,7 +257,7 @@ function RouteComponent() {
             </p>
           </CardContent>
         </Card>
-        
+
         <Card>
           <CardHeader>
             <CardTitle>Billing & Subscriptions</CardTitle>
@@ -269,11 +268,11 @@ function RouteComponent() {
           <CardContent className="space-y-6">
             <StripeProvider>
               {/* Using the current user ID from state */}
-              <SubscriptionList userId={currentUserId} />
-              
+              <SubscriptionList userId={user?.id!} />
+
               <Separator className="my-6" />
-              
-              <PaymentMethods userId={currentUserId} />
+
+              <PaymentMethods userId={user?.id!} />
             </StripeProvider>
           </CardContent>
         </Card>

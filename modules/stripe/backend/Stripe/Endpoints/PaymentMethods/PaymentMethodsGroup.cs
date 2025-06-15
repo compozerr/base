@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 using Stripe.Endpoints.PaymentMethods.GetUserPaymentMethods;
 using Stripe.Endpoints.PaymentMethods.AttachPaymentMethod;
+using Stripe.Endpoints.PaymentMethods.SetDefaultPaymentMethod;
+using Stripe.Endpoints.PaymentMethods.RemovePaymentMethod;
 
 namespace Stripe.Endpoints.PaymentMethods;
 
@@ -15,6 +17,8 @@ public static class PaymentMethodsGroup
 
         group.AddGetUserPaymentMethodsRoute();
         group.AddAttachPaymentMethodRoute();
+        group.AddSetDefaultPaymentMethodRoute();
+        group.AddRemovePaymentMethodRoute();
         
         return group;
     }

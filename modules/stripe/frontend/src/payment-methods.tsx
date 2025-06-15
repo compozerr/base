@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { api } from '@/api-client';
 import {
     Card,
@@ -20,7 +20,6 @@ import {
     DialogTitle,
     DialogTrigger,
 } from '@/components/ui/dialog';
-import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/hooks/use-toast';
 import StripeProvider from './stripe-provider';
 import StripeElementsForm from './stripe-elements-form';
@@ -38,6 +37,8 @@ export const PaymentMethods: React.FC<PaymentMethodsProps> = ({ userId }) => {
     });
 
     const { mutateAsync: attachPaymentMethod } = api.v1.postStripePaymentMethodsAttach.useMutation();
+    const { mutateAsync: setDefaultPaymentMethod } = api.v1.postStripePaymentMethodsDefault.useMutation();
+    const { mutateAsync: removePaymentMethod } = api.v1.deleteStripePaymentMethods.useMutation();
 
     // Handler for when a payment method is successfully created by the Stripe Elements form
     const handleCardAdded = async (paymentMethodId: string) => {
@@ -65,23 +66,47 @@ export const PaymentMethods: React.FC<PaymentMethodsProps> = ({ userId }) => {
     };
 
     const handleSetDefault = async (paymentMethodId: string) => {
-        // Example: would call the API to set default payment method
-        toast({
-            title: "Payment method updated",
-            description: "Default payment method has been updated.",
-            variant: "success",
-        });
-        await refetch();
+        try {
+            // Call API to set default payment method
+            await setDefaultPaymentMethod({
+                body: { paymentMethodId, userId }
+            });
+
+            toast({
+                title: "Payment method updated",
+                description: "Default payment method has been updated.",
+                variant: "success",
+            });
+            await refetch();
+        } catch (err) {
+            toast({
+                title: "Error updating payment method",
+                description: err instanceof Error ? err.message : "An unknown error occurred",
+                variant: "destructive",
+            });
+        }
     };
 
     const handleDelete = async (paymentMethodId: string) => {
-        // Example: would call the API to delete payment method
-        toast({
-            title: "Payment method removed",
-            description: "Your payment method has been removed.",
-            variant: "success",
-        });
-        await refetch();
+        try {
+            // Call API to delete payment method
+            await removePaymentMethod({
+                query: { paymentMethodId }
+            });
+
+            toast({
+                title: "Payment method removed",
+                description: "Your payment method has been removed.",
+                variant: "success",
+            });
+            await refetch();
+        } catch (err) {
+            toast({
+                title: "Error removing payment method",
+                description: err instanceof Error ? err.message : "An unknown error occurred",
+                variant: "destructive",
+            });
+        }
     };
 
     if (isLoading) {
