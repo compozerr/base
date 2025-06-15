@@ -6,6 +6,5 @@ public interface ICurrentStripeCustomerIdAccessor
     /// Gets the stripe customer ID associated with the current request.
     /// </summary>
     /// <returns>The customer ID as a string.</returns>
-    Task<string?> GetStripeCustomerId();
-    Task SetStripeCustomerIdAsync(string customerId);
+    Task<string> GetOrCreateStripeCustomerId();
 }

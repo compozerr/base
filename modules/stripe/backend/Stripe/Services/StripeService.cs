@@ -1,6 +1,7 @@
 using Api.Abstractions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Serilog;
 using Stripe.Endpoints.Subscriptions.GetUserSubscriptions;
 using Stripe.Options;
 using StripeSdk = global::Stripe;
@@ -10,16 +11,16 @@ namespace Stripe.Services;
 public class StripeService : IStripeService
 {
     private readonly StripeOptions _options;
-    private readonly ILogger<StripeService> _logger;
     private readonly StripeSdk.StripeClient _stripeClient;
+    private readonly ICurrentStripeCustomerIdAccessor _currentStripeCustomerIdAccessor;
 
     public StripeService(
         IOptions<StripeOptions> options,
-        ILogger<StripeService> logger)
+        ICurrentStripeCustomerIdAccessor currentStripeCustomerIdAccessor)
     {
         _options = options.Value;
-        _logger = logger;
         _stripeClient = new StripeSdk.StripeClient(_options.ApiKey);
+        _currentStripeCustomerIdAccessor = currentStripeCustomerIdAccessor;
     }
 
     public async Task<List<SubscriptionDto>> GetSubscriptionsForUserAsync(
@@ -41,7 +42,7 @@ public class StripeService : IStripeService
                                 Name: s.Items?.Data?.FirstOrDefault()?.Plan?.Product?.Name ?? "Subscription",
                                 Status: s.Status,
                                 PlanId: s.Items?.Data?.FirstOrDefault()?.Plan?.Id ?? "",
-                                ServerTierId: GetTierIdFromPriceId(s.Items?.Data?.FirstOrDefault()?.Plan?.Id ?? ""),
+                                ServerTierId: Prices.GetInternalId(s.Items?.Data?.FirstOrDefault()?.Plan?.Id ?? ""),
                                 CurrentPeriodStart: new DateTime(), //s.CurrentPeriodStart,
                                 CurrentPeriodEnd: new DateTime(), //s.CurrentPeriodEnd,
                                 CancelAtPeriodEnd: s.CancelAtPeriodEnd,
@@ -51,12 +52,12 @@ public class StripeService : IStripeService
         }
         catch (StripeException ex) when (ex.Message.ToLowerInvariant().Contains("no such customer"))
         {
-            _logger.LogWarning("No user with id: {UserId} found in Stripe", userId);
+            Log.Warning("No user with id: {UserId} found in Stripe", userId);
             return [];
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error retrieving subscriptions for user {UserId}", userId);
+            Log.Error(ex, "Error retrieving subscriptions for user {UserId}", userId);
             return [];
         }
     }
@@ -74,7 +75,7 @@ public class StripeService : IStripeService
             var subscriptionItemId = await GetSubscriptionItemId(subscriptionId, cancellationToken);
 
             // Map tier ID to price ID
-            var priceId = GetPriceIdFromTierId(serverTierId.Value);
+            var priceId = Prices.GetPriceId(serverTierId.Value);
 
             var options = new StripeSdk.SubscriptionUpdateOptions
             {
@@ -106,7 +107,7 @@ public class StripeService : IStripeService
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error updating subscription {SubscriptionId} to tier {TierId}", subscriptionId, serverTierId.Value);
+            Log.Error(ex, "Error updating subscription {SubscriptionId} to tier {TierId}", subscriptionId, serverTierId.Value);
             throw;
         }
     }
@@ -144,7 +145,7 @@ public class StripeService : IStripeService
                 Name: subscription.Items?.Data?.FirstOrDefault()?.Plan?.Product?.Name ?? "Subscription",
                 Status: subscription.Status,
                 PlanId: subscription.Items?.Data?.FirstOrDefault()?.Plan?.Id ?? "",
-                ServerTierId: GetTierIdFromPriceId(subscription.Items?.Data?.FirstOrDefault()?.Plan?.Id ?? ""),
+                ServerTierId: Prices.GetInternalId(subscription.Items?.Data?.FirstOrDefault()?.Plan?.Id ?? ""),
                 CurrentPeriodStart: new DateTime(), //subscription.CurrentPeriodStart,
                 CurrentPeriodEnd: new DateTime(), //subscription.CurrentPeriodEnd,
                 CancelAtPeriodEnd: subscription.CancelAtPeriodEnd,
@@ -154,7 +155,7 @@ public class StripeService : IStripeService
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error canceling subscription {SubscriptionId}", subscriptionId);
+            Log.Error(ex, "Error canceling subscription {SubscriptionId}", subscriptionId);
             throw;
         }
     }
@@ -169,7 +170,7 @@ public class StripeService : IStripeService
             // If no customer exists, just return an empty list
             var customerService = new StripeSdk.CustomerService(_stripeClient);
             StripeSdk.Customer customer;
-            
+
             try
             {
                 // Try to get the customer
@@ -177,7 +178,7 @@ public class StripeService : IStripeService
             }
             catch (StripeSdk.StripeException ex) when (ex.Message.ToLowerInvariant().Contains("no such customer"))
             {
-                _logger.LogInformation("No customer with id: {UserId} found in Stripe when retrieving payment methods", userId);
+                Log.Information("No customer with id: {UserId} found in Stripe when retrieving payment methods", userId);
                 return new List<PaymentMethodDto>();
             }
 
@@ -207,7 +208,7 @@ public class StripeService : IStripeService
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error retrieving payment methods for user {UserId}", userId);
+            Log.Error(ex, "Error retrieving payment methods for user {UserId}", userId);
             return new List<PaymentMethodDto>();
         }
     }
@@ -220,10 +221,10 @@ public class StripeService : IStripeService
         try
         {
             // Ensure the customer exists in Stripe (create if needed)
-            string stripeCustomerId = await EnsureCustomerExistsAsync(userId, cancellationToken);
-            
+            string stripeCustomerId = await _currentStripeCustomerIdAccessor.GetOrCreateStripeCustomerId();
+
             var service = new StripeSdk.PaymentMethodService(_stripeClient);
-            
+
             // Attach the payment method to the customer
             var options = new StripeSdk.PaymentMethodAttachOptions
             {
@@ -253,7 +254,7 @@ public class StripeService : IStripeService
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error adding payment method {PaymentMethodId} for user {UserId}", paymentMethodId, userId);
+            Log.Error(ex, "Error adding payment method {PaymentMethodId} for user {UserId}", paymentMethodId, userId);
             throw;
         }
     }
@@ -286,13 +287,13 @@ public class StripeService : IStripeService
         }
         catch (StripeSdk.StripeException ex) when (ex.Message.ToLowerInvariant().Contains("no such customer"))
         {
-            _logger.LogWarning("Customer associated with payment method {PaymentMethodId} not found in Stripe", paymentMethodId);
+            Log.Warning("Customer associated with payment method {PaymentMethodId} not found in Stripe", paymentMethodId);
             // For removal, just return true as if successfully removed since it doesn't exist anyway
             return true;
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error removing payment method {PaymentMethodId}", paymentMethodId);
+            Log.Error(ex, "Error removing payment method {PaymentMethodId}", paymentMethodId);
             throw;
         }
     }
@@ -305,8 +306,8 @@ public class StripeService : IStripeService
         try
         {
             // Ensure the customer exists in Stripe (create if needed)
-            string stripeCustomerId = await EnsureCustomerExistsAsync(userId, cancellationToken);
-            
+            string stripeCustomerId = await _currentStripeCustomerIdAccessor.GetOrCreateStripeCustomerId();
+
             var customerService = new StripeSdk.CustomerService(_stripeClient);
 
             // Update the customer's default payment method
@@ -325,50 +326,14 @@ public class StripeService : IStripeService
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error setting default payment method {PaymentMethodId} for user {UserId}", paymentMethodId, userId);
+            Log.Error(ex, "Error setting default payment method {PaymentMethodId} for user {UserId}", paymentMethodId, userId);
             throw;
         }
     }
 
     #region Private Helper Methods
 
-    private string GetPriceIdFromTierId(string tierId)
-    {
-        // Map tier IDs to price IDs
-        var priceTierMap = new Dictionary<string, string>
-        {
-            {"basic", "price_basic_monthly"},
-            {"standard", "price_standard_monthly"},
-            {"professional", "price_professional_monthly"},
-            {"enterprise", "price_enterprise_monthly"}
-        };
 
-        if (priceTierMap.TryGetValue(tierId.ToLower(), out var priceId))
-        {
-            return priceId;
-        }
-
-        throw new ArgumentException($"No price found for tier ID {tierId}");
-    }
-
-    private string GetTierIdFromPriceId(string priceId)
-    {
-        // Map Stripe price IDs back to tier IDs
-        var tierPriceMap = new Dictionary<string, string>
-        {
-            {"price_basic_monthly", "basic"},
-            {"price_standard_monthly", "standard"},
-            {"price_professional_monthly", "professional"},
-            {"price_enterprise_monthly", "enterprise"}
-        };
-
-        if (tierPriceMap.TryGetValue(priceId.ToLower(), out var tierId))
-        {
-            return tierId;
-        }
-
-        return "basic"; // Default fallback
-    }
 
     private async Task<string> GetSubscriptionItemId(string subscriptionId, CancellationToken cancellationToken)
     {
@@ -384,8 +349,8 @@ public class StripeService : IStripeService
         try
         {
             // Ensure the customer exists in Stripe (create if needed)
-            string stripeCustomerId = await EnsureCustomerExistsAsync(userId, cancellationToken);
-            
+            string stripeCustomerId = await _currentStripeCustomerIdAccessor.GetOrCreateStripeCustomerId();
+
             var service = new StripeSdk.PaymentMethodService(_stripeClient);
             var customerService = new StripeSdk.CustomerService(_stripeClient);
 
@@ -409,41 +374,8 @@ public class StripeService : IStripeService
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error retrieving payment method {PaymentMethodId} for user {UserId}", paymentMethodId, userId);
+            Log.Error(ex, "Error retrieving payment method {PaymentMethodId} for user {UserId}", paymentMethodId, userId);
             throw;
-        }
-    }
-
-    /// <summary>
-    /// Ensures that a customer exists in Stripe with the given ID
-    /// </summary>
-    /// <param name="stripeCustomerId">The user ID to check</param>
-    /// <param name="cancellationToken">Cancellation token</param>
-    /// <returns>The Stripe customer ID (may be different from userId if created)</returns>
-    private async Task<string> EnsureCustomerExistsAsync(string stripeCustomerId, CancellationToken cancellationToken = default)
-    {
-        var customerService = new StripeSdk.CustomerService(_stripeClient);
-
-        try
-        {
-            // Try to retrieve the customer
-            await customerService.GetAsync(stripeCustomerId, cancellationToken: cancellationToken);
-            return stripeCustomerId; // Customer exists, return the same ID
-        }
-        catch (StripeSdk.StripeException ex) when (ex.Message.ToLowerInvariant().Contains("no such customer"))
-        {
-            // Customer doesn't exist, create a new one
-            _logger.LogInformation("Customer {UserId} not found in Stripe, creating new customer", stripeCustomerId);
-            
-            var customerOptions = new StripeSdk.CustomerCreateOptions
-            {
-                Description = $"Auto-created for user {stripeCustomerId}"
-            };
-            
-            var customer = await customerService.CreateAsync(customerOptions, cancellationToken: cancellationToken);
-            _logger.LogInformation("Created Stripe customer with ID {StripeCustomerId} for user {UserId}", customer.Id, stripeCustomerId);
-            
-            return customer.Id;
         }
     }
 
