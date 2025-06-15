@@ -15,7 +15,7 @@ public sealed class UpdateSubscriptionCommandHandler : ICommandHandler<UpdateSub
 		var newTier = Api.Abstractions.ServerTiers.GetById(command.NewTierID);
 		
 		// Create a Stripe price for the new tier
-		var priceCents = (long)(newTier.Price.Amount * 100);
+		var priceCents = (long)(newTier.Price.Value * 100);
 		
 		// Create metadata for the new price
 		var metadata = new Dictionary<string, string>
@@ -76,16 +76,12 @@ public sealed class UpdateSubscriptionCommandHandler : ICommandHandler<UpdateSub
 		{
 			// Get invoice to calculate proration
 			var invoiceService = new Stripe.InvoiceService();
-			var invoice = await invoiceService.GetAsync(updatedSubscription.LatestInvoice, null, null, cancellationToken);
+			var invoice = await invoiceService.GetAsync(updatedSubscription.LatestInvoice.Id, null, null, cancellationToken);
 			prorationAmount = invoice.AmountDue / 100m; // Convert from cents to dollars
 		}
 		
 		// Format next billing date
 		string? nextBillingDate = null;
-		if (updatedSubscription.CurrentPeriodEnd.HasValue)
-		{
-			nextBillingDate = updatedSubscription.CurrentPeriodEnd.Value.ToString("yyyy-MM-dd");
-		}
 		
 		return new UpdateSubscriptionResponse(
 			updatedSubscription.Id,

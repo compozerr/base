@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="../../../../backend/Core/Core.csproj" />
+    <ProjectReference Include="..\..\..\..\backend\Api.Abstractions\Api.Abstractions.csproj" />
   </ItemGroup>
 
 </Project>

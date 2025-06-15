@@ -4,5 +4,5 @@ using Api.Abstractions;
 namespace Stripe.Endpoints.Subscriptions.CreateSubscription;
 
 public sealed record CreateSubscriptionCommand(
-    ServerId ServerId,
+    ProjectId ProjectId,
     ServerTierId ServerTierId) : ICommand<CreateSubscriptionResponse>;

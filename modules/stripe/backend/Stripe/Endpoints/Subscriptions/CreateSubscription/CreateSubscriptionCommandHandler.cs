@@ -13,19 +13,19 @@ public sealed class CreateSubscriptionCommandHandler(
 	{
 		// Get the server tier to determine the price
 		var serverTier = Api.Abstractions.ServerTiers.GetById(command.ServerTierId);
-		
+
 		// Create metadata to track the server and tier
 		var metadata = new Dictionary<string, string>
 		{
-			{ "ServerId", command.ServerId.Value },
+			{ "ProjectId", command.ProjectId.Value.ToString() },
 			{ "ServerTierId", command.ServerTierId.Value },
 			{ "RamGB", serverTier.RamGb.ToString() },
 			{ "Cores", serverTier.Cores.ToString() }
 		};
 
 		// Convert the price to Stripe's expected format (cents)
-		var priceCents = (long)(serverTier.Price.Amount * 100);
-		
+		var priceCents = (long)(serverTier.Price.Value * 100);
+
 		// Create a price object for this specific tier
 		var priceOptions = new Stripe.PriceCreateOptions
 		{
@@ -42,10 +42,10 @@ public sealed class CreateSubscriptionCommandHandler(
 			},
 			Metadata = metadata
 		};
-		
+
 		var priceService = new Stripe.PriceService();
 		var price = await priceService.CreateAsync(priceOptions, null, cancellationToken);
-		
+
 		var options = new Stripe.Checkout.SessionCreateOptions
 		{
 			Mode = "subscription",
@@ -65,7 +65,7 @@ public sealed class CreateSubscriptionCommandHandler(
 			Metadata = metadata,
 			ReturnUrl = frontendLocation.GetFromPath("checkout/return").ToString() + "?session_id={CHECKOUT_SESSION_ID}",
 		};
-		
+
 		var service = new Stripe.Checkout.SessionService();
 		Stripe.Checkout.Session session = await service.CreateAsync(options, null, cancellationToken);
 
