@@ -9494,6 +9494,868 @@ export interface V1Service {
             error: GetServersTiersError;
         };
     };
+    postStripeSubscriptions: {
+        /**/
+        getMutationKey(parameters: PostStripeSubscriptionsParameters | void): ServiceOperationMutationKey<PostStripeSubscriptionsSchema, PostStripeSubscriptionsParameters>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.postStripeSubscriptions.useMutation({})
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.postStripeSubscriptions.useMutation()
+         * mutate({
+         *     body: bodyPayload
+         * });
+         * ```
+         */
+        useMutation<TVariables extends PostStripeSubscriptionsBody, TContext = unknown>(parameters: PostStripeSubscriptionsParameters, options?: ServiceOperationUseMutationOptions<PostStripeSubscriptionsSchema, PostStripeSubscriptionsData, PostStripeSubscriptionsParameters, TVariables, PostStripeSubscriptionsError, TContext>): UseMutationResult<PostStripeSubscriptionsData, PostStripeSubscriptionsError | Error, AreAllOptional<TVariables> extends true ? TVariables | void : TVariables, TContext>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.postStripeSubscriptions.useMutation({})
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.postStripeSubscriptions.useMutation()
+         * mutate({
+         *     body: bodyPayload
+         * });
+         * ```
+         */
+        useMutation<TVariables extends MutationVariables<PostStripeSubscriptionsBody, PostStripeSubscriptionsParameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<PostStripeSubscriptionsSchema, PostStripeSubscriptionsData, PostStripeSubscriptionsParameters, TVariables, PostStripeSubscriptionsError, TContext>): UseMutationResult<PostStripeSubscriptionsData, PostStripeSubscriptionsError | Error, TVariables, TContext>;
+        /**
+         * Returns the count of currently in-progress mutations.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
+         * @example Check how many mutations are currently in progress for the specified service method.
+         * ```ts
+         * const postStripeSubscriptionsTotal = qraft.v1Service.postStripeSubscriptions.useIsMutating()
+         * ```
+         * @example Check how many mutations are currently in progress with the specified parameters.
+         * ```ts
+         * const postStripeSubscriptionsTotal = qraft.v1Service.postStripeSubscriptions.useIsMutating({
+         *     parameters: {}
+         * })
+         * ```
+         */
+        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<PostStripeSubscriptionsBody, PostStripeSubscriptionsData, PostStripeSubscriptionsParameters, PostStripeSubscriptionsError, TContext> | MutationFiltersByMutationKey<PostStripeSubscriptionsSchema, PostStripeSubscriptionsBody, PostStripeSubscriptionsData, PostStripeSubscriptionsParameters, PostStripeSubscriptionsError, TContext>): number;
+        /**/
+        isMutating<TContext>(filters?: MutationFiltersByParameters<PostStripeSubscriptionsBody, PostStripeSubscriptionsData, PostStripeSubscriptionsParameters, PostStripeSubscriptionsError, TContext> | MutationFiltersByMutationKey<PostStripeSubscriptionsSchema, PostStripeSubscriptionsBody, PostStripeSubscriptionsData, PostStripeSubscriptionsParameters, PostStripeSubscriptionsError, TContext>): number;
+        /**/
+        (options: ServiceOperationMutationFnOptions<PostStripeSubscriptionsBody, PostStripeSubscriptionsParameters>, client?: (schema: PostStripeSubscriptionsSchema, options: ServiceOperationMutationFnOptions<PostStripeSubscriptionsBody, PostStripeSubscriptionsParameters>) => Promise<RequestFnResponse<PostStripeSubscriptionsData, PostStripeSubscriptionsError>>): Promise<RequestFnResponse<PostStripeSubscriptionsData, PostStripeSubscriptionsError>>;
+        /**
+         * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
+         * @example Get all variables of all running mutations.
+         * ```ts
+         * const postStripeSubscriptionsPendingMutationVariables = qraft.v1Service.postStripeSubscriptions.useMutationState({
+         *     filters: {
+         *         status: "pending"
+         *     },
+         *     select: mutation => mutation.state.variables
+         * })
+         * ```
+         * @example Get all data for specific mutations via the `parameters`.
+         * ```ts
+         * const postStripeSubscriptionsMutationData = qraft.v1Service.postStripeSubscriptions.useMutationState({
+         *     filters: {
+         *         parameters: {}
+         *     },
+         *     select: mutation => mutation.state.data
+         * })
+         * ```
+         */
+        useMutationState<TContext = unknown, TResult = MutationState<PostStripeSubscriptionsData, PostStripeSubscriptionsError, MutationVariables<PostStripeSubscriptionsBody, PostStripeSubscriptionsParameters>, TContext>>(options?: {
+            filters?: MutationFiltersByParameters<PostStripeSubscriptionsBody, PostStripeSubscriptionsData, PostStripeSubscriptionsParameters, PostStripeSubscriptionsError, TContext> | MutationFiltersByMutationKey<PostStripeSubscriptionsSchema, PostStripeSubscriptionsBody, PostStripeSubscriptionsData, PostStripeSubscriptionsParameters, PostStripeSubscriptionsError, TContext>;
+            select?: (mutation: Mutation<PostStripeSubscriptionsData, PostStripeSubscriptionsError, MutationVariables<PostStripeSubscriptionsBody, PostStripeSubscriptionsParameters>, TContext>) => TResult;
+        }): Array<TResult>;
+        schema: PostStripeSubscriptionsSchema;
+        types: {
+            parameters: PostStripeSubscriptionsParameters;
+            data: PostStripeSubscriptionsData;
+            error: PostStripeSubscriptionsError;
+            body: PostStripeSubscriptionsBody;
+        };
+    };
+    putStripeSubscriptionsSubscriptionId: {
+        /**/
+        getMutationKey(parameters: PutStripeSubscriptionsSubscriptionIdParameters | void): ServiceOperationMutationKey<PutStripeSubscriptionsSubscriptionIdSchema, PutStripeSubscriptionsSubscriptionIdParameters>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.putStripeSubscriptionsSubscriptionId.useMutation({
+         *     path: {
+         *         subscriptionId: subscriptionId
+         *     }
+         * })
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.putStripeSubscriptionsSubscriptionId.useMutation()
+         * mutate({
+         *     body: bodyPayload,
+         *     path: {
+         *         subscriptionId: subscriptionId
+         *     }
+         * });
+         * ```
+         */
+        useMutation<TVariables extends PutStripeSubscriptionsSubscriptionIdBody, TContext = unknown>(parameters: PutStripeSubscriptionsSubscriptionIdParameters, options?: ServiceOperationUseMutationOptions<PutStripeSubscriptionsSubscriptionIdSchema, PutStripeSubscriptionsSubscriptionIdData, PutStripeSubscriptionsSubscriptionIdParameters, TVariables, PutStripeSubscriptionsSubscriptionIdError, TContext>): UseMutationResult<PutStripeSubscriptionsSubscriptionIdData, PutStripeSubscriptionsSubscriptionIdError | Error, AreAllOptional<TVariables> extends true ? TVariables | void : TVariables, TContext>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.putStripeSubscriptionsSubscriptionId.useMutation({
+         *     path: {
+         *         subscriptionId: subscriptionId
+         *     }
+         * })
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.putStripeSubscriptionsSubscriptionId.useMutation()
+         * mutate({
+         *     body: bodyPayload,
+         *     path: {
+         *         subscriptionId: subscriptionId
+         *     }
+         * });
+         * ```
+         */
+        useMutation<TVariables extends MutationVariables<PutStripeSubscriptionsSubscriptionIdBody, PutStripeSubscriptionsSubscriptionIdParameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<PutStripeSubscriptionsSubscriptionIdSchema, PutStripeSubscriptionsSubscriptionIdData, PutStripeSubscriptionsSubscriptionIdParameters, TVariables, PutStripeSubscriptionsSubscriptionIdError, TContext>): UseMutationResult<PutStripeSubscriptionsSubscriptionIdData, PutStripeSubscriptionsSubscriptionIdError | Error, TVariables, TContext>;
+        /**
+         * Returns the count of currently in-progress mutations.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
+         * @example Check how many mutations are currently in progress for the specified service method.
+         * ```ts
+         * const putStripeSubscriptionsSubscriptionIdTotal = qraft.v1Service.putStripeSubscriptionsSubscriptionId.useIsMutating()
+         * ```
+         * @example Check how many mutations are currently in progress with the specified parameters.
+         * ```ts
+         * const putStripeSubscriptionsSubscriptionIdTotal = qraft.v1Service.putStripeSubscriptionsSubscriptionId.useIsMutating({
+         *     parameters: {
+         *         path: {
+         *             subscriptionId: subscriptionId
+         *         }
+         *     }
+         * })
+         * ```
+         */
+        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<PutStripeSubscriptionsSubscriptionIdBody, PutStripeSubscriptionsSubscriptionIdData, PutStripeSubscriptionsSubscriptionIdParameters, PutStripeSubscriptionsSubscriptionIdError, TContext> | MutationFiltersByMutationKey<PutStripeSubscriptionsSubscriptionIdSchema, PutStripeSubscriptionsSubscriptionIdBody, PutStripeSubscriptionsSubscriptionIdData, PutStripeSubscriptionsSubscriptionIdParameters, PutStripeSubscriptionsSubscriptionIdError, TContext>): number;
+        /**/
+        isMutating<TContext>(filters?: MutationFiltersByParameters<PutStripeSubscriptionsSubscriptionIdBody, PutStripeSubscriptionsSubscriptionIdData, PutStripeSubscriptionsSubscriptionIdParameters, PutStripeSubscriptionsSubscriptionIdError, TContext> | MutationFiltersByMutationKey<PutStripeSubscriptionsSubscriptionIdSchema, PutStripeSubscriptionsSubscriptionIdBody, PutStripeSubscriptionsSubscriptionIdData, PutStripeSubscriptionsSubscriptionIdParameters, PutStripeSubscriptionsSubscriptionIdError, TContext>): number;
+        /**/
+        (options: ServiceOperationMutationFnOptions<PutStripeSubscriptionsSubscriptionIdBody, PutStripeSubscriptionsSubscriptionIdParameters>, client?: (schema: PutStripeSubscriptionsSubscriptionIdSchema, options: ServiceOperationMutationFnOptions<PutStripeSubscriptionsSubscriptionIdBody, PutStripeSubscriptionsSubscriptionIdParameters>) => Promise<RequestFnResponse<PutStripeSubscriptionsSubscriptionIdData, PutStripeSubscriptionsSubscriptionIdError>>): Promise<RequestFnResponse<PutStripeSubscriptionsSubscriptionIdData, PutStripeSubscriptionsSubscriptionIdError>>;
+        /**
+         * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
+         * @example Get all variables of all running mutations.
+         * ```ts
+         * const putStripeSubscriptionsSubscriptionIdPendingMutationVariables = qraft.v1Service.putStripeSubscriptionsSubscriptionId.useMutationState({
+         *     filters: {
+         *         status: "pending"
+         *     },
+         *     select: mutation => mutation.state.variables
+         * })
+         * ```
+         * @example Get all data for specific mutations via the `parameters`.
+         * ```ts
+         * const putStripeSubscriptionsSubscriptionIdMutationData = qraft.v1Service.putStripeSubscriptionsSubscriptionId.useMutationState({
+         *     filters: {
+         *         parameters: {
+         *             path: {
+         *                 subscriptionId: subscriptionId
+         *             }
+         *         }
+         *     },
+         *     select: mutation => mutation.state.data
+         * })
+         * ```
+         */
+        useMutationState<TContext = unknown, TResult = MutationState<PutStripeSubscriptionsSubscriptionIdData, PutStripeSubscriptionsSubscriptionIdError, MutationVariables<PutStripeSubscriptionsSubscriptionIdBody, PutStripeSubscriptionsSubscriptionIdParameters>, TContext>>(options?: {
+            filters?: MutationFiltersByParameters<PutStripeSubscriptionsSubscriptionIdBody, PutStripeSubscriptionsSubscriptionIdData, PutStripeSubscriptionsSubscriptionIdParameters, PutStripeSubscriptionsSubscriptionIdError, TContext> | MutationFiltersByMutationKey<PutStripeSubscriptionsSubscriptionIdSchema, PutStripeSubscriptionsSubscriptionIdBody, PutStripeSubscriptionsSubscriptionIdData, PutStripeSubscriptionsSubscriptionIdParameters, PutStripeSubscriptionsSubscriptionIdError, TContext>;
+            select?: (mutation: Mutation<PutStripeSubscriptionsSubscriptionIdData, PutStripeSubscriptionsSubscriptionIdError, MutationVariables<PutStripeSubscriptionsSubscriptionIdBody, PutStripeSubscriptionsSubscriptionIdParameters>, TContext>) => TResult;
+        }): Array<TResult>;
+        schema: PutStripeSubscriptionsSubscriptionIdSchema;
+        types: {
+            parameters: PutStripeSubscriptionsSubscriptionIdParameters;
+            data: PutStripeSubscriptionsSubscriptionIdData;
+            error: PutStripeSubscriptionsSubscriptionIdError;
+            body: PutStripeSubscriptionsSubscriptionIdBody;
+        };
+    };
+    deleteStripeSubscriptionsSubscriptionIdCancel: {
+        /**/
+        getMutationKey(parameters: DeleteStripeSubscriptionsSubscriptionIdCancelParameters | void): ServiceOperationMutationKey<DeleteStripeSubscriptionsSubscriptionIdCancelSchema, DeleteStripeSubscriptionsSubscriptionIdCancelParameters>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.deleteStripeSubscriptionsSubscriptionIdCancel.useMutation({
+         *     path: {
+         *         subscriptionId: subscriptionId
+         *     }
+         * })
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.deleteStripeSubscriptionsSubscriptionIdCancel.useMutation()
+         * mutate({
+         *     body: bodyPayload,
+         *     path: {
+         *         subscriptionId: subscriptionId
+         *     }
+         * });
+         * ```
+         */
+        useMutation<TVariables extends DeleteStripeSubscriptionsSubscriptionIdCancelBody, TContext = unknown>(parameters: DeleteStripeSubscriptionsSubscriptionIdCancelParameters, options?: ServiceOperationUseMutationOptions<DeleteStripeSubscriptionsSubscriptionIdCancelSchema, DeleteStripeSubscriptionsSubscriptionIdCancelData, DeleteStripeSubscriptionsSubscriptionIdCancelParameters, TVariables, DeleteStripeSubscriptionsSubscriptionIdCancelError, TContext>): UseMutationResult<DeleteStripeSubscriptionsSubscriptionIdCancelData, DeleteStripeSubscriptionsSubscriptionIdCancelError | Error, AreAllOptional<TVariables> extends true ? TVariables | void : TVariables, TContext>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.deleteStripeSubscriptionsSubscriptionIdCancel.useMutation({
+         *     path: {
+         *         subscriptionId: subscriptionId
+         *     }
+         * })
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.deleteStripeSubscriptionsSubscriptionIdCancel.useMutation()
+         * mutate({
+         *     body: bodyPayload,
+         *     path: {
+         *         subscriptionId: subscriptionId
+         *     }
+         * });
+         * ```
+         */
+        useMutation<TVariables extends MutationVariables<DeleteStripeSubscriptionsSubscriptionIdCancelBody, DeleteStripeSubscriptionsSubscriptionIdCancelParameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<DeleteStripeSubscriptionsSubscriptionIdCancelSchema, DeleteStripeSubscriptionsSubscriptionIdCancelData, DeleteStripeSubscriptionsSubscriptionIdCancelParameters, TVariables, DeleteStripeSubscriptionsSubscriptionIdCancelError, TContext>): UseMutationResult<DeleteStripeSubscriptionsSubscriptionIdCancelData, DeleteStripeSubscriptionsSubscriptionIdCancelError | Error, TVariables, TContext>;
+        /**
+         * Returns the count of currently in-progress mutations.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
+         * @example Check how many mutations are currently in progress for the specified service method.
+         * ```ts
+         * const deleteStripeSubscriptionsSubscriptionIdCancelTotal = qraft.v1Service.deleteStripeSubscriptionsSubscriptionIdCancel.useIsMutating()
+         * ```
+         * @example Check how many mutations are currently in progress with the specified parameters.
+         * ```ts
+         * const deleteStripeSubscriptionsSubscriptionIdCancelTotal = qraft.v1Service.deleteStripeSubscriptionsSubscriptionIdCancel.useIsMutating({
+         *     parameters: {
+         *         path: {
+         *             subscriptionId: subscriptionId
+         *         }
+         *     }
+         * })
+         * ```
+         */
+        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<DeleteStripeSubscriptionsSubscriptionIdCancelBody, DeleteStripeSubscriptionsSubscriptionIdCancelData, DeleteStripeSubscriptionsSubscriptionIdCancelParameters, DeleteStripeSubscriptionsSubscriptionIdCancelError, TContext> | MutationFiltersByMutationKey<DeleteStripeSubscriptionsSubscriptionIdCancelSchema, DeleteStripeSubscriptionsSubscriptionIdCancelBody, DeleteStripeSubscriptionsSubscriptionIdCancelData, DeleteStripeSubscriptionsSubscriptionIdCancelParameters, DeleteStripeSubscriptionsSubscriptionIdCancelError, TContext>): number;
+        /**/
+        isMutating<TContext>(filters?: MutationFiltersByParameters<DeleteStripeSubscriptionsSubscriptionIdCancelBody, DeleteStripeSubscriptionsSubscriptionIdCancelData, DeleteStripeSubscriptionsSubscriptionIdCancelParameters, DeleteStripeSubscriptionsSubscriptionIdCancelError, TContext> | MutationFiltersByMutationKey<DeleteStripeSubscriptionsSubscriptionIdCancelSchema, DeleteStripeSubscriptionsSubscriptionIdCancelBody, DeleteStripeSubscriptionsSubscriptionIdCancelData, DeleteStripeSubscriptionsSubscriptionIdCancelParameters, DeleteStripeSubscriptionsSubscriptionIdCancelError, TContext>): number;
+        /**/
+        (options: ServiceOperationMutationFnOptions<DeleteStripeSubscriptionsSubscriptionIdCancelBody, DeleteStripeSubscriptionsSubscriptionIdCancelParameters>, client?: (schema: DeleteStripeSubscriptionsSubscriptionIdCancelSchema, options: ServiceOperationMutationFnOptions<DeleteStripeSubscriptionsSubscriptionIdCancelBody, DeleteStripeSubscriptionsSubscriptionIdCancelParameters>) => Promise<RequestFnResponse<DeleteStripeSubscriptionsSubscriptionIdCancelData, DeleteStripeSubscriptionsSubscriptionIdCancelError>>): Promise<RequestFnResponse<DeleteStripeSubscriptionsSubscriptionIdCancelData, DeleteStripeSubscriptionsSubscriptionIdCancelError>>;
+        /**
+         * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
+         * @example Get all variables of all running mutations.
+         * ```ts
+         * const deleteStripeSubscriptionsSubscriptionIdCancelPendingMutationVariables = qraft.v1Service.deleteStripeSubscriptionsSubscriptionIdCancel.useMutationState({
+         *     filters: {
+         *         status: "pending"
+         *     },
+         *     select: mutation => mutation.state.variables
+         * })
+         * ```
+         * @example Get all data for specific mutations via the `parameters`.
+         * ```ts
+         * const deleteStripeSubscriptionsSubscriptionIdCancelMutationData = qraft.v1Service.deleteStripeSubscriptionsSubscriptionIdCancel.useMutationState({
+         *     filters: {
+         *         parameters: {
+         *             path: {
+         *                 subscriptionId: subscriptionId
+         *             }
+         *         }
+         *     },
+         *     select: mutation => mutation.state.data
+         * })
+         * ```
+         */
+        useMutationState<TContext = unknown, TResult = MutationState<DeleteStripeSubscriptionsSubscriptionIdCancelData, DeleteStripeSubscriptionsSubscriptionIdCancelError, MutationVariables<DeleteStripeSubscriptionsSubscriptionIdCancelBody, DeleteStripeSubscriptionsSubscriptionIdCancelParameters>, TContext>>(options?: {
+            filters?: MutationFiltersByParameters<DeleteStripeSubscriptionsSubscriptionIdCancelBody, DeleteStripeSubscriptionsSubscriptionIdCancelData, DeleteStripeSubscriptionsSubscriptionIdCancelParameters, DeleteStripeSubscriptionsSubscriptionIdCancelError, TContext> | MutationFiltersByMutationKey<DeleteStripeSubscriptionsSubscriptionIdCancelSchema, DeleteStripeSubscriptionsSubscriptionIdCancelBody, DeleteStripeSubscriptionsSubscriptionIdCancelData, DeleteStripeSubscriptionsSubscriptionIdCancelParameters, DeleteStripeSubscriptionsSubscriptionIdCancelError, TContext>;
+            select?: (mutation: Mutation<DeleteStripeSubscriptionsSubscriptionIdCancelData, DeleteStripeSubscriptionsSubscriptionIdCancelError, MutationVariables<DeleteStripeSubscriptionsSubscriptionIdCancelBody, DeleteStripeSubscriptionsSubscriptionIdCancelParameters>, TContext>) => TResult;
+        }): Array<TResult>;
+        schema: DeleteStripeSubscriptionsSubscriptionIdCancelSchema;
+        types: {
+            parameters: DeleteStripeSubscriptionsSubscriptionIdCancelParameters;
+            data: DeleteStripeSubscriptionsSubscriptionIdCancelData;
+            error: DeleteStripeSubscriptionsSubscriptionIdCancelError;
+            body: DeleteStripeSubscriptionsSubscriptionIdCancelBody;
+        };
+    };
+    getStripeSubscriptionsUserUserId: {
+        /**/
+        cancelQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetStripeSubscriptionsUserUserIdSchema, GetStripeSubscriptionsUserUserIdData, TInfinite, GetStripeSubscriptionsUserUserIdParameters, GetStripeSubscriptionsUserUserIdError> | QueryFiltersByQueryKey<GetStripeSubscriptionsUserUserIdSchema, GetStripeSubscriptionsUserUserIdData, TInfinite, GetStripeSubscriptionsUserUserIdParameters, GetStripeSubscriptionsUserUserIdError>, options?: CancelOptions): Promise<void>;
+        /**/
+        getQueryKey(parameters: GetStripeSubscriptionsUserUserIdParameters): ServiceOperationQueryKey<GetStripeSubscriptionsUserUserIdSchema, GetStripeSubscriptionsUserUserIdParameters>;
+        /**
+         * Performs asynchronous data fetching, manages loading states and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
+         * @example Query with parameters
+         * ```ts
+         * const { data, isLoading } = qraft.v1Service.getStripeSubscriptionsUserUserId.useQuery({
+         *     path: {
+         *         userId: userId
+         *     }
+         * })
+         * ```
+         */
+        useQuery<TData = GetStripeSubscriptionsUserUserIdData>(parameters: ServiceOperationQueryKey<GetStripeSubscriptionsUserUserIdSchema, GetStripeSubscriptionsUserUserIdParameters> | (GetStripeSubscriptionsUserUserIdParameters), options?: Omit<UndefinedInitialDataOptions<GetStripeSubscriptionsUserUserIdData, GetStripeSubscriptionsUserUserIdError, TData, ServiceOperationQueryKey<GetStripeSubscriptionsUserUserIdSchema, GetStripeSubscriptionsUserUserIdParameters>>, "queryKey">): UseQueryResult<TData, GetStripeSubscriptionsUserUserIdError | Error>;
+        /**
+         * Performs asynchronous data fetching, manages loading states and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
+         * @example Query with parameters
+         * ```ts
+         * const { data, isLoading } = qraft.v1Service.getStripeSubscriptionsUserUserId.useQuery({
+         *     path: {
+         *         userId: userId
+         *     }
+         * })
+         * ```
+         */
+        useQuery<TData = GetStripeSubscriptionsUserUserIdData>(parameters: ServiceOperationQueryKey<GetStripeSubscriptionsUserUserIdSchema, GetStripeSubscriptionsUserUserIdParameters> | (GetStripeSubscriptionsUserUserIdParameters), options: Omit<DefinedInitialDataOptions<GetStripeSubscriptionsUserUserIdData, GetStripeSubscriptionsUserUserIdError, TData, ServiceOperationQueryKey<GetStripeSubscriptionsUserUserIdSchema, GetStripeSubscriptionsUserUserIdParameters>>, "queryKey">): DefinedUseQueryResult<TData, GetStripeSubscriptionsUserUserIdError | Error>;
+        /**/
+        fetchInfiniteQuery<TPageParam extends GetStripeSubscriptionsUserUserIdParameters>(options: ServiceOperationFetchInfiniteQueryOptions<GetStripeSubscriptionsUserUserIdSchema, GetStripeSubscriptionsUserUserIdData, GetStripeSubscriptionsUserUserIdParameters, TPageParam, GetStripeSubscriptionsUserUserIdError>): Promise<OperationInfiniteData<GetStripeSubscriptionsUserUserIdData, GetStripeSubscriptionsUserUserIdParameters>>;
+        /**/
+        prefetchInfiniteQuery<TPageParam extends GetStripeSubscriptionsUserUserIdParameters>(options: ServiceOperationFetchInfiniteQueryOptions<GetStripeSubscriptionsUserUserIdSchema, GetStripeSubscriptionsUserUserIdData, GetStripeSubscriptionsUserUserIdParameters, TPageParam, GetStripeSubscriptionsUserUserIdError>): Promise<void>;
+        /**/
+        ensureInfiniteQueryData<TPageParam extends GetStripeSubscriptionsUserUserIdParameters>(options: ServiceOperationEnsureInfiniteQueryDataOptions<GetStripeSubscriptionsUserUserIdSchema, GetStripeSubscriptionsUserUserIdData, GetStripeSubscriptionsUserUserIdParameters, TPageParam, GetStripeSubscriptionsUserUserIdError>): Promise<OperationInfiniteData<GetStripeSubscriptionsUserUserIdData, GetStripeSubscriptionsUserUserIdParameters>>;
+        /**/
+        fetchQuery(options: ServiceOperationFetchQueryOptions<GetStripeSubscriptionsUserUserIdSchema, GetStripeSubscriptionsUserUserIdData, GetStripeSubscriptionsUserUserIdParameters, GetStripeSubscriptionsUserUserIdError>): Promise<GetStripeSubscriptionsUserUserIdData>;
+        /**/
+        prefetchQuery(options: ServiceOperationFetchQueryOptions<GetStripeSubscriptionsUserUserIdSchema, GetStripeSubscriptionsUserUserIdData, GetStripeSubscriptionsUserUserIdParameters, GetStripeSubscriptionsUserUserIdError>): Promise<void>;
+        /**/
+        ensureQueryData(options: ServiceOperationEnsureQueryDataOptions<GetStripeSubscriptionsUserUserIdSchema, GetStripeSubscriptionsUserUserIdData, GetStripeSubscriptionsUserUserIdParameters, GetStripeSubscriptionsUserUserIdError>): Promise<GetStripeSubscriptionsUserUserIdData>;
+        /**/
+        getInfiniteQueryData(parameters: ServiceOperationInfiniteQueryKey<GetStripeSubscriptionsUserUserIdSchema, GetStripeSubscriptionsUserUserIdParameters> | (GetStripeSubscriptionsUserUserIdParameters)): OperationInfiniteData<GetStripeSubscriptionsUserUserIdData, GetStripeSubscriptionsUserUserIdParameters> | undefined;
+        /**/
+        getQueriesData<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetStripeSubscriptionsUserUserIdSchema, GetStripeSubscriptionsUserUserIdData, TInfinite, GetStripeSubscriptionsUserUserIdParameters, GetStripeSubscriptionsUserUserIdError> | QueryFiltersByQueryKey<GetStripeSubscriptionsUserUserIdSchema, GetStripeSubscriptionsUserUserIdData, TInfinite, GetStripeSubscriptionsUserUserIdParameters, GetStripeSubscriptionsUserUserIdError>): TInfinite extends true ? Array<[
+            queryKey: ServiceOperationInfiniteQueryKey<GetStripeSubscriptionsUserUserIdSchema, GetStripeSubscriptionsUserUserIdParameters>,
+            data: NoInfer<OperationInfiniteData<GetStripeSubscriptionsUserUserIdData, GetStripeSubscriptionsUserUserIdParameters>> | undefined
+        ]> : Array<[
+            queryKey: ServiceOperationQueryKey<GetStripeSubscriptionsUserUserIdSchema, GetStripeSubscriptionsUserUserIdParameters>,
+            data: GetStripeSubscriptionsUserUserIdData | undefined
+        ]>;
+        /**/
+        getQueryData(parameters: ServiceOperationQueryKey<GetStripeSubscriptionsUserUserIdSchema, GetStripeSubscriptionsUserUserIdParameters> | (GetStripeSubscriptionsUserUserIdParameters)): GetStripeSubscriptionsUserUserIdData | undefined;
+        /**/
+        getQueryState(parameters: ServiceOperationQueryKey<GetStripeSubscriptionsUserUserIdSchema, GetStripeSubscriptionsUserUserIdParameters> | (GetStripeSubscriptionsUserUserIdParameters)): QueryState<GetStripeSubscriptionsUserUserIdData, GetStripeSubscriptionsUserUserIdError> | undefined;
+        /**/
+        getInfiniteQueryState(parameters: GetStripeSubscriptionsUserUserIdParameters | ServiceOperationInfiniteQueryKey<GetStripeSubscriptionsUserUserIdSchema, GetStripeSubscriptionsUserUserIdParameters>): QueryState<OperationInfiniteData<GetStripeSubscriptionsUserUserIdData, GetStripeSubscriptionsUserUserIdParameters>, GetStripeSubscriptionsUserUserIdError> | undefined;
+        /**/
+        invalidateQueries<TInfinite extends boolean = false>(filters?: InvalidateQueryFilters<GetStripeSubscriptionsUserUserIdSchema, GetStripeSubscriptionsUserUserIdData, TInfinite, GetStripeSubscriptionsUserUserIdParameters, GetStripeSubscriptionsUserUserIdError>, options?: InvalidateOptions): Promise<void>;
+        /**/
+        isFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetStripeSubscriptionsUserUserIdSchema, GetStripeSubscriptionsUserUserIdData, TInfinite, GetStripeSubscriptionsUserUserIdParameters, GetStripeSubscriptionsUserUserIdError> | QueryFiltersByQueryKey<GetStripeSubscriptionsUserUserIdSchema, GetStripeSubscriptionsUserUserIdData, TInfinite, GetStripeSubscriptionsUserUserIdParameters, GetStripeSubscriptionsUserUserIdError>): number;
+        /**/
+        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: QueryFnOptionsByQueryKey<GetStripeSubscriptionsUserUserIdSchema, GetStripeSubscriptionsUserUserIdParameters, TMeta, TSignal> | (QueryFnOptionsByParameters<GetStripeSubscriptionsUserUserIdParameters, TMeta, TSignal>), client?: (schema: GetStripeSubscriptionsUserUserIdSchema, options: {
+            parameters: GetStripeSubscriptionsUserUserIdParameters;
+            signal?: TSignal;
+            meta?: TMeta;
+        }) => Promise<RequestFnResponse<GetStripeSubscriptionsUserUserIdData, GetStripeSubscriptionsUserUserIdError>>): Promise<RequestFnResponse<GetStripeSubscriptionsUserUserIdData, GetStripeSubscriptionsUserUserIdError>>;
+        /**/
+        refetchQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetStripeSubscriptionsUserUserIdSchema, GetStripeSubscriptionsUserUserIdData, TInfinite, GetStripeSubscriptionsUserUserIdParameters, GetStripeSubscriptionsUserUserIdError> | QueryFiltersByQueryKey<GetStripeSubscriptionsUserUserIdSchema, GetStripeSubscriptionsUserUserIdData, TInfinite, GetStripeSubscriptionsUserUserIdParameters, GetStripeSubscriptionsUserUserIdError>, options?: RefetchOptions): Promise<void>;
+        /**/
+        removeQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetStripeSubscriptionsUserUserIdSchema, GetStripeSubscriptionsUserUserIdData, TInfinite, GetStripeSubscriptionsUserUserIdParameters, GetStripeSubscriptionsUserUserIdError> | QueryFiltersByQueryKey<GetStripeSubscriptionsUserUserIdSchema, GetStripeSubscriptionsUserUserIdData, TInfinite, GetStripeSubscriptionsUserUserIdParameters, GetStripeSubscriptionsUserUserIdError>): void;
+        /**/
+        resetQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetStripeSubscriptionsUserUserIdSchema, GetStripeSubscriptionsUserUserIdData, TInfinite, GetStripeSubscriptionsUserUserIdParameters, GetStripeSubscriptionsUserUserIdError> | QueryFiltersByQueryKey<GetStripeSubscriptionsUserUserIdSchema, GetStripeSubscriptionsUserUserIdData, TInfinite, GetStripeSubscriptionsUserUserIdParameters, GetStripeSubscriptionsUserUserIdError>, options?: ResetOptions): Promise<void>;
+        /**/
+        setInfiniteQueryData(parameters: GetStripeSubscriptionsUserUserIdParameters | ServiceOperationInfiniteQueryKey<GetStripeSubscriptionsUserUserIdSchema, GetStripeSubscriptionsUserUserIdParameters>, updater: Updater<NoInfer<OperationInfiniteData<GetStripeSubscriptionsUserUserIdData, GetStripeSubscriptionsUserUserIdParameters>> | undefined, NoInfer<OperationInfiniteData<GetStripeSubscriptionsUserUserIdData, GetStripeSubscriptionsUserUserIdParameters>> | undefined>, options?: SetDataOptions): OperationInfiniteData<GetStripeSubscriptionsUserUserIdData, GetStripeSubscriptionsUserUserIdParameters> | undefined;
+        /**/
+        setQueriesData<TInfinite extends boolean = false>(filters: QueryFiltersByParameters<GetStripeSubscriptionsUserUserIdSchema, GetStripeSubscriptionsUserUserIdData, TInfinite, GetStripeSubscriptionsUserUserIdParameters, GetStripeSubscriptionsUserUserIdError> | QueryFiltersByQueryKey<GetStripeSubscriptionsUserUserIdSchema, GetStripeSubscriptionsUserUserIdData, TInfinite, GetStripeSubscriptionsUserUserIdParameters, GetStripeSubscriptionsUserUserIdError>, updater: Updater<NoInfer<GetStripeSubscriptionsUserUserIdData> | undefined, NoInfer<GetStripeSubscriptionsUserUserIdData> | undefined>, options?: SetDataOptions): Array<GetStripeSubscriptionsUserUserIdData | undefined>;
+        /**/
+        setQueryData(parameters: (GetStripeSubscriptionsUserUserIdParameters) | ServiceOperationQueryKey<GetStripeSubscriptionsUserUserIdSchema, GetStripeSubscriptionsUserUserIdParameters>, updater: Updater<NoInfer<GetStripeSubscriptionsUserUserIdData> | undefined, NoInfer<GetStripeSubscriptionsUserUserIdData> | undefined>, options?: SetDataOptions): GetStripeSubscriptionsUserUserIdData | undefined;
+        /**/
+        getInfiniteQueryKey(parameters: GetStripeSubscriptionsUserUserIdParameters): ServiceOperationInfiniteQueryKey<GetStripeSubscriptionsUserUserIdSchema, GetStripeSubscriptionsUserUserIdParameters>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useInfiniteQuery|`useInfiniteQuery(...)` documentation}
+         *
+         * @example Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getStripeSubscriptionsUserUserId.useInfiniteQuery({
+         *     path: {
+         *         userId: userId
+         *     }
+         * }, {
+         *     initialPageParam: {},
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useInfiniteQuery<TPageParam extends GetStripeSubscriptionsUserUserIdParameters, TData = GetStripeSubscriptionsUserUserIdData>(parameters: ServiceOperationInfiniteQueryKey<GetStripeSubscriptionsUserUserIdSchema, GetStripeSubscriptionsUserUserIdParameters> | (GetStripeSubscriptionsUserUserIdParameters), options: Omit<UndefinedInitialDataInfiniteOptions<GetStripeSubscriptionsUserUserIdData, GetStripeSubscriptionsUserUserIdError, OperationInfiniteData<TData, GetStripeSubscriptionsUserUserIdParameters>, ServiceOperationInfiniteQueryKey<GetStripeSubscriptionsUserUserIdSchema, GetStripeSubscriptionsUserUserIdParameters>, PartialParameters<TPageParam>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<GetStripeSubscriptionsUserUserIdData, PartialParameters<TPageParam>>): UseInfiniteQueryResult<OperationInfiniteData<TData, GetStripeSubscriptionsUserUserIdParameters>, GetStripeSubscriptionsUserUserIdError | Error>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useInfiniteQuery|`useInfiniteQuery(...)` documentation}
+         *
+         * @example Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getStripeSubscriptionsUserUserId.useInfiniteQuery({
+         *     path: {
+         *         userId: userId
+         *     }
+         * }, {
+         *     initialPageParam: {},
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useInfiniteQuery<TPageParam extends GetStripeSubscriptionsUserUserIdParameters, TData = GetStripeSubscriptionsUserUserIdData>(parameters: ServiceOperationInfiniteQueryKey<GetStripeSubscriptionsUserUserIdSchema, GetStripeSubscriptionsUserUserIdParameters> | (GetStripeSubscriptionsUserUserIdParameters), options: Omit<DefinedInitialDataInfiniteOptions<GetStripeSubscriptionsUserUserIdData, GetStripeSubscriptionsUserUserIdError, OperationInfiniteData<TData, GetStripeSubscriptionsUserUserIdParameters>, ServiceOperationInfiniteQueryKey<GetStripeSubscriptionsUserUserIdSchema, GetStripeSubscriptionsUserUserIdParameters>, PartialParameters<TPageParam>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<GetStripeSubscriptionsUserUserIdData, PartialParameters<TPageParam>>): DefinedUseInfiniteQueryResult<OperationInfiniteData<TData, GetStripeSubscriptionsUserUserIdParameters>, GetStripeSubscriptionsUserUserIdError | Error>;
+        /**
+         * Monitors the number of queries currently fetching, matching the provided filters.
+         * Useful for creating loading indicators or performing actions based on active requests.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsFetching|`useIsFetching(...)` documentation}
+         * @example Checks the total number of queries fetching from the specified service method,
+         * both normal and infinite. If no parameters are provided, no filtering is applied.
+         * ```ts
+         * const getStripeSubscriptionsUserUserIdTotal = qraft.v1Service.getStripeSubscriptionsUserUserId.useIsFetching()
+         * ```
+         * @example Checks the number of normal queries fetching with the specified parameters.
+         * ```ts
+         * const getStripeSubscriptionsUserUserIdByParametersTotal = qraft.v1Service.getStripeSubscriptionsUserUserId.useIsFetching({
+         *     infinite: false,
+         *     parameters: {
+         *         path: {
+         *             userId: userId
+         *         }
+         *     }
+         * })
+         * ```
+         */
+        useIsFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetStripeSubscriptionsUserUserIdSchema, GetStripeSubscriptionsUserUserIdData, TInfinite, GetStripeSubscriptionsUserUserIdParameters, GetStripeSubscriptionsUserUserIdError> | QueryFiltersByQueryKey<GetStripeSubscriptionsUserUserIdSchema, GetStripeSubscriptionsUserUserIdData, TInfinite, GetStripeSubscriptionsUserUserIdParameters, GetStripeSubscriptionsUserUserIdError>): number;
+        /**
+         * Allows you to execute multiple asynchronous data fetching operations concurrently. This is especially useful for managing complex data dependencies in parallel.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
+         * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
+         * ```ts
+         * const getStripeSubscriptionsUserUserIdResults = qraft.v1Service.getStripeSubscriptionsUserUserId.useQueries({
+         *     queries: [
+         *         {
+         *             path: {
+         *                 userId: userId1
+         *             }
+         *         },
+         *         {
+         *             path: {
+         *                 userId: userId2
+         *             }
+         *         }
+         *     ]
+         * });
+         * getStripeSubscriptionsUserUserIdResults.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
+         * ```
+         * @example Combined results. Only the data will be returned.
+         * ```ts
+         * const getStripeSubscriptionsUserUserIdCombinedResults = qraft.v1Service.getStripeSubscriptionsUserUserId.useQueries({
+         *     combine: results => results.map(result => result.data),
+         *     queries: [
+         *         {
+         *             path: {
+         *                 userId: userId1
+         *             }
+         *         },
+         *         {
+         *             path: {
+         *                 userId: userId2
+         *             }
+         *         }
+         *     ]
+         * });
+         * getStripeSubscriptionsUserUserIdCombinedResults.forEach(data => console.log({ data }));
+         * ```
+         */
+        useQueries<T extends Array<UseQueryOptionsForUseQueries<GetStripeSubscriptionsUserUserIdSchema, GetStripeSubscriptionsUserUserIdParameters, GetStripeSubscriptionsUserUserIdData, GetStripeSubscriptionsUserUserIdError>>, TCombinedResult = Array<UseQueryResult<GetStripeSubscriptionsUserUserIdData, GetStripeSubscriptionsUserUserIdError>>>(options: {
+            queries: T;
+            combine?: (results: Array<UseQueryResult<GetStripeSubscriptionsUserUserIdData, GetStripeSubscriptionsUserUserIdError>>) => TCombinedResult;
+        }): TCombinedResult;
+        /**/
+        getQueryKey(parameters: GetStripeSubscriptionsUserUserIdParameters): ServiceOperationQueryKey<GetStripeSubscriptionsUserUserIdSchema, GetStripeSubscriptionsUserUserIdParameters>;
+        /**
+         * Performs asynchronous data fetching, manages loading states and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
+         * @example Query with parameters
+         * ```ts
+         * const { data, isLoading } = qraft.v1Service.getStripeSubscriptionsUserUserId.useQuery({
+         *     path: {
+         *         userId: userId
+         *     }
+         * })
+         * ```
+         */
+        useQuery<TData = GetStripeSubscriptionsUserUserIdData>(parameters: ServiceOperationQueryKey<GetStripeSubscriptionsUserUserIdSchema, GetStripeSubscriptionsUserUserIdParameters> | (GetStripeSubscriptionsUserUserIdParameters), options?: Omit<UndefinedInitialDataOptions<GetStripeSubscriptionsUserUserIdData, GetStripeSubscriptionsUserUserIdError, TData, ServiceOperationQueryKey<GetStripeSubscriptionsUserUserIdSchema, GetStripeSubscriptionsUserUserIdParameters>>, "queryKey">): UseQueryResult<TData, GetStripeSubscriptionsUserUserIdError | Error>;
+        /**
+         * Performs asynchronous data fetching, manages loading states and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
+         * @example Query with parameters
+         * ```ts
+         * const { data, isLoading } = qraft.v1Service.getStripeSubscriptionsUserUserId.useQuery({
+         *     path: {
+         *         userId: userId
+         *     }
+         * })
+         * ```
+         */
+        useQuery<TData = GetStripeSubscriptionsUserUserIdData>(parameters: ServiceOperationQueryKey<GetStripeSubscriptionsUserUserIdSchema, GetStripeSubscriptionsUserUserIdParameters> | (GetStripeSubscriptionsUserUserIdParameters), options: Omit<DefinedInitialDataOptions<GetStripeSubscriptionsUserUserIdData, GetStripeSubscriptionsUserUserIdError, TData, ServiceOperationQueryKey<GetStripeSubscriptionsUserUserIdSchema, GetStripeSubscriptionsUserUserIdParameters>>, "queryKey">): DefinedUseQueryResult<TData, GetStripeSubscriptionsUserUserIdError | Error>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         * It functions similarly to `useInfiniteQuery`, but with added support for React Suspense.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseInfiniteQuery|`useSuspenseInfiniteQuery(...)` documentation}
+         *
+         * @example Suspense Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getStripeSubscriptionsUserUserId.useSuspenseInfiniteQuery({
+         *     path: {
+         *         userId: userId
+         *     }
+         * }, {
+         *     initialPageParam: {},
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useSuspenseInfiniteQuery<TPageParam extends GetStripeSubscriptionsUserUserIdParameters, TData = GetStripeSubscriptionsUserUserIdData>(parameters: ServiceOperationInfiniteQueryKey<GetStripeSubscriptionsUserUserIdSchema, GetStripeSubscriptionsUserUserIdParameters> | (GetStripeSubscriptionsUserUserIdParameters), options: Omit<UseSuspenseInfiniteQueryOptions<GetStripeSubscriptionsUserUserIdData, GetStripeSubscriptionsUserUserIdError, OperationInfiniteData<TData, GetStripeSubscriptionsUserUserIdParameters>, GetStripeSubscriptionsUserUserIdData, ServiceOperationInfiniteQueryKey<GetStripeSubscriptionsUserUserIdSchema, GetStripeSubscriptionsUserUserIdParameters>, PartialParameters<TPageParam>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<GetStripeSubscriptionsUserUserIdData, PartialParameters<TPageParam>>): UseSuspenseInfiniteQueryResult<OperationInfiniteData<TData, GetStripeSubscriptionsUserUserIdParameters>, GetStripeSubscriptionsUserUserIdError | Error>;
+        /**/
+        useSuspenseQueries<T extends Array<UseQueryOptionsForUseSuspenseQuery<GetStripeSubscriptionsUserUserIdSchema, GetStripeSubscriptionsUserUserIdParameters, GetStripeSubscriptionsUserUserIdData, GetStripeSubscriptionsUserUserIdError>>, TCombinedResult = Array<UseSuspenseQueryResult<GetStripeSubscriptionsUserUserIdData, GetStripeSubscriptionsUserUserIdError>>>(options: {
+            queries: T;
+            combine?: (results: Array<WithOptional<UseSuspenseQueryResult<GetStripeSubscriptionsUserUserIdData, GetStripeSubscriptionsUserUserIdError>, "data">>) => TCombinedResult;
+        }): TCombinedResult;
+        /**/
+        useSuspenseQuery<TData = GetStripeSubscriptionsUserUserIdData>(parameters: ServiceOperationQueryKey<GetStripeSubscriptionsUserUserIdSchema, GetStripeSubscriptionsUserUserIdParameters> | (GetStripeSubscriptionsUserUserIdParameters), options?: Omit<UseSuspenseQueryOptions<GetStripeSubscriptionsUserUserIdData, GetStripeSubscriptionsUserUserIdError, TData, ServiceOperationQueryKey<GetStripeSubscriptionsUserUserIdSchema, GetStripeSubscriptionsUserUserIdParameters>>, "queryKey">): UseSuspenseQueryResult<TData, GetStripeSubscriptionsUserUserIdError | Error>;
+        schema: GetStripeSubscriptionsUserUserIdSchema;
+        types: {
+            parameters: GetStripeSubscriptionsUserUserIdParameters;
+            data: GetStripeSubscriptionsUserUserIdData;
+            error: GetStripeSubscriptionsUserUserIdError;
+        };
+    };
+    getStripePaymentMethodsUserUserId: {
+        /**/
+        cancelQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetStripePaymentMethodsUserUserIdSchema, GetStripePaymentMethodsUserUserIdData, TInfinite, GetStripePaymentMethodsUserUserIdParameters, GetStripePaymentMethodsUserUserIdError> | QueryFiltersByQueryKey<GetStripePaymentMethodsUserUserIdSchema, GetStripePaymentMethodsUserUserIdData, TInfinite, GetStripePaymentMethodsUserUserIdParameters, GetStripePaymentMethodsUserUserIdError>, options?: CancelOptions): Promise<void>;
+        /**/
+        getQueryKey(parameters: GetStripePaymentMethodsUserUserIdParameters): ServiceOperationQueryKey<GetStripePaymentMethodsUserUserIdSchema, GetStripePaymentMethodsUserUserIdParameters>;
+        /**
+         * Performs asynchronous data fetching, manages loading states and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
+         * @example Query with parameters
+         * ```ts
+         * const { data, isLoading } = qraft.v1Service.getStripePaymentMethodsUserUserId.useQuery({
+         *     path: {
+         *         userId: userId
+         *     }
+         * })
+         * ```
+         */
+        useQuery<TData = GetStripePaymentMethodsUserUserIdData>(parameters: ServiceOperationQueryKey<GetStripePaymentMethodsUserUserIdSchema, GetStripePaymentMethodsUserUserIdParameters> | (GetStripePaymentMethodsUserUserIdParameters), options?: Omit<UndefinedInitialDataOptions<GetStripePaymentMethodsUserUserIdData, GetStripePaymentMethodsUserUserIdError, TData, ServiceOperationQueryKey<GetStripePaymentMethodsUserUserIdSchema, GetStripePaymentMethodsUserUserIdParameters>>, "queryKey">): UseQueryResult<TData, GetStripePaymentMethodsUserUserIdError | Error>;
+        /**
+         * Performs asynchronous data fetching, manages loading states and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
+         * @example Query with parameters
+         * ```ts
+         * const { data, isLoading } = qraft.v1Service.getStripePaymentMethodsUserUserId.useQuery({
+         *     path: {
+         *         userId: userId
+         *     }
+         * })
+         * ```
+         */
+        useQuery<TData = GetStripePaymentMethodsUserUserIdData>(parameters: ServiceOperationQueryKey<GetStripePaymentMethodsUserUserIdSchema, GetStripePaymentMethodsUserUserIdParameters> | (GetStripePaymentMethodsUserUserIdParameters), options: Omit<DefinedInitialDataOptions<GetStripePaymentMethodsUserUserIdData, GetStripePaymentMethodsUserUserIdError, TData, ServiceOperationQueryKey<GetStripePaymentMethodsUserUserIdSchema, GetStripePaymentMethodsUserUserIdParameters>>, "queryKey">): DefinedUseQueryResult<TData, GetStripePaymentMethodsUserUserIdError | Error>;
+        /**/
+        fetchInfiniteQuery<TPageParam extends GetStripePaymentMethodsUserUserIdParameters>(options: ServiceOperationFetchInfiniteQueryOptions<GetStripePaymentMethodsUserUserIdSchema, GetStripePaymentMethodsUserUserIdData, GetStripePaymentMethodsUserUserIdParameters, TPageParam, GetStripePaymentMethodsUserUserIdError>): Promise<OperationInfiniteData<GetStripePaymentMethodsUserUserIdData, GetStripePaymentMethodsUserUserIdParameters>>;
+        /**/
+        prefetchInfiniteQuery<TPageParam extends GetStripePaymentMethodsUserUserIdParameters>(options: ServiceOperationFetchInfiniteQueryOptions<GetStripePaymentMethodsUserUserIdSchema, GetStripePaymentMethodsUserUserIdData, GetStripePaymentMethodsUserUserIdParameters, TPageParam, GetStripePaymentMethodsUserUserIdError>): Promise<void>;
+        /**/
+        ensureInfiniteQueryData<TPageParam extends GetStripePaymentMethodsUserUserIdParameters>(options: ServiceOperationEnsureInfiniteQueryDataOptions<GetStripePaymentMethodsUserUserIdSchema, GetStripePaymentMethodsUserUserIdData, GetStripePaymentMethodsUserUserIdParameters, TPageParam, GetStripePaymentMethodsUserUserIdError>): Promise<OperationInfiniteData<GetStripePaymentMethodsUserUserIdData, GetStripePaymentMethodsUserUserIdParameters>>;
+        /**/
+        fetchQuery(options: ServiceOperationFetchQueryOptions<GetStripePaymentMethodsUserUserIdSchema, GetStripePaymentMethodsUserUserIdData, GetStripePaymentMethodsUserUserIdParameters, GetStripePaymentMethodsUserUserIdError>): Promise<GetStripePaymentMethodsUserUserIdData>;
+        /**/
+        prefetchQuery(options: ServiceOperationFetchQueryOptions<GetStripePaymentMethodsUserUserIdSchema, GetStripePaymentMethodsUserUserIdData, GetStripePaymentMethodsUserUserIdParameters, GetStripePaymentMethodsUserUserIdError>): Promise<void>;
+        /**/
+        ensureQueryData(options: ServiceOperationEnsureQueryDataOptions<GetStripePaymentMethodsUserUserIdSchema, GetStripePaymentMethodsUserUserIdData, GetStripePaymentMethodsUserUserIdParameters, GetStripePaymentMethodsUserUserIdError>): Promise<GetStripePaymentMethodsUserUserIdData>;
+        /**/
+        getInfiniteQueryData(parameters: ServiceOperationInfiniteQueryKey<GetStripePaymentMethodsUserUserIdSchema, GetStripePaymentMethodsUserUserIdParameters> | (GetStripePaymentMethodsUserUserIdParameters)): OperationInfiniteData<GetStripePaymentMethodsUserUserIdData, GetStripePaymentMethodsUserUserIdParameters> | undefined;
+        /**/
+        getQueriesData<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetStripePaymentMethodsUserUserIdSchema, GetStripePaymentMethodsUserUserIdData, TInfinite, GetStripePaymentMethodsUserUserIdParameters, GetStripePaymentMethodsUserUserIdError> | QueryFiltersByQueryKey<GetStripePaymentMethodsUserUserIdSchema, GetStripePaymentMethodsUserUserIdData, TInfinite, GetStripePaymentMethodsUserUserIdParameters, GetStripePaymentMethodsUserUserIdError>): TInfinite extends true ? Array<[
+            queryKey: ServiceOperationInfiniteQueryKey<GetStripePaymentMethodsUserUserIdSchema, GetStripePaymentMethodsUserUserIdParameters>,
+            data: NoInfer<OperationInfiniteData<GetStripePaymentMethodsUserUserIdData, GetStripePaymentMethodsUserUserIdParameters>> | undefined
+        ]> : Array<[
+            queryKey: ServiceOperationQueryKey<GetStripePaymentMethodsUserUserIdSchema, GetStripePaymentMethodsUserUserIdParameters>,
+            data: GetStripePaymentMethodsUserUserIdData | undefined
+        ]>;
+        /**/
+        getQueryData(parameters: ServiceOperationQueryKey<GetStripePaymentMethodsUserUserIdSchema, GetStripePaymentMethodsUserUserIdParameters> | (GetStripePaymentMethodsUserUserIdParameters)): GetStripePaymentMethodsUserUserIdData | undefined;
+        /**/
+        getQueryState(parameters: ServiceOperationQueryKey<GetStripePaymentMethodsUserUserIdSchema, GetStripePaymentMethodsUserUserIdParameters> | (GetStripePaymentMethodsUserUserIdParameters)): QueryState<GetStripePaymentMethodsUserUserIdData, GetStripePaymentMethodsUserUserIdError> | undefined;
+        /**/
+        getInfiniteQueryState(parameters: GetStripePaymentMethodsUserUserIdParameters | ServiceOperationInfiniteQueryKey<GetStripePaymentMethodsUserUserIdSchema, GetStripePaymentMethodsUserUserIdParameters>): QueryState<OperationInfiniteData<GetStripePaymentMethodsUserUserIdData, GetStripePaymentMethodsUserUserIdParameters>, GetStripePaymentMethodsUserUserIdError> | undefined;
+        /**/
+        invalidateQueries<TInfinite extends boolean = false>(filters?: InvalidateQueryFilters<GetStripePaymentMethodsUserUserIdSchema, GetStripePaymentMethodsUserUserIdData, TInfinite, GetStripePaymentMethodsUserUserIdParameters, GetStripePaymentMethodsUserUserIdError>, options?: InvalidateOptions): Promise<void>;
+        /**/
+        isFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetStripePaymentMethodsUserUserIdSchema, GetStripePaymentMethodsUserUserIdData, TInfinite, GetStripePaymentMethodsUserUserIdParameters, GetStripePaymentMethodsUserUserIdError> | QueryFiltersByQueryKey<GetStripePaymentMethodsUserUserIdSchema, GetStripePaymentMethodsUserUserIdData, TInfinite, GetStripePaymentMethodsUserUserIdParameters, GetStripePaymentMethodsUserUserIdError>): number;
+        /**/
+        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: QueryFnOptionsByQueryKey<GetStripePaymentMethodsUserUserIdSchema, GetStripePaymentMethodsUserUserIdParameters, TMeta, TSignal> | (QueryFnOptionsByParameters<GetStripePaymentMethodsUserUserIdParameters, TMeta, TSignal>), client?: (schema: GetStripePaymentMethodsUserUserIdSchema, options: {
+            parameters: GetStripePaymentMethodsUserUserIdParameters;
+            signal?: TSignal;
+            meta?: TMeta;
+        }) => Promise<RequestFnResponse<GetStripePaymentMethodsUserUserIdData, GetStripePaymentMethodsUserUserIdError>>): Promise<RequestFnResponse<GetStripePaymentMethodsUserUserIdData, GetStripePaymentMethodsUserUserIdError>>;
+        /**/
+        refetchQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetStripePaymentMethodsUserUserIdSchema, GetStripePaymentMethodsUserUserIdData, TInfinite, GetStripePaymentMethodsUserUserIdParameters, GetStripePaymentMethodsUserUserIdError> | QueryFiltersByQueryKey<GetStripePaymentMethodsUserUserIdSchema, GetStripePaymentMethodsUserUserIdData, TInfinite, GetStripePaymentMethodsUserUserIdParameters, GetStripePaymentMethodsUserUserIdError>, options?: RefetchOptions): Promise<void>;
+        /**/
+        removeQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetStripePaymentMethodsUserUserIdSchema, GetStripePaymentMethodsUserUserIdData, TInfinite, GetStripePaymentMethodsUserUserIdParameters, GetStripePaymentMethodsUserUserIdError> | QueryFiltersByQueryKey<GetStripePaymentMethodsUserUserIdSchema, GetStripePaymentMethodsUserUserIdData, TInfinite, GetStripePaymentMethodsUserUserIdParameters, GetStripePaymentMethodsUserUserIdError>): void;
+        /**/
+        resetQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetStripePaymentMethodsUserUserIdSchema, GetStripePaymentMethodsUserUserIdData, TInfinite, GetStripePaymentMethodsUserUserIdParameters, GetStripePaymentMethodsUserUserIdError> | QueryFiltersByQueryKey<GetStripePaymentMethodsUserUserIdSchema, GetStripePaymentMethodsUserUserIdData, TInfinite, GetStripePaymentMethodsUserUserIdParameters, GetStripePaymentMethodsUserUserIdError>, options?: ResetOptions): Promise<void>;
+        /**/
+        setInfiniteQueryData(parameters: GetStripePaymentMethodsUserUserIdParameters | ServiceOperationInfiniteQueryKey<GetStripePaymentMethodsUserUserIdSchema, GetStripePaymentMethodsUserUserIdParameters>, updater: Updater<NoInfer<OperationInfiniteData<GetStripePaymentMethodsUserUserIdData, GetStripePaymentMethodsUserUserIdParameters>> | undefined, NoInfer<OperationInfiniteData<GetStripePaymentMethodsUserUserIdData, GetStripePaymentMethodsUserUserIdParameters>> | undefined>, options?: SetDataOptions): OperationInfiniteData<GetStripePaymentMethodsUserUserIdData, GetStripePaymentMethodsUserUserIdParameters> | undefined;
+        /**/
+        setQueriesData<TInfinite extends boolean = false>(filters: QueryFiltersByParameters<GetStripePaymentMethodsUserUserIdSchema, GetStripePaymentMethodsUserUserIdData, TInfinite, GetStripePaymentMethodsUserUserIdParameters, GetStripePaymentMethodsUserUserIdError> | QueryFiltersByQueryKey<GetStripePaymentMethodsUserUserIdSchema, GetStripePaymentMethodsUserUserIdData, TInfinite, GetStripePaymentMethodsUserUserIdParameters, GetStripePaymentMethodsUserUserIdError>, updater: Updater<NoInfer<GetStripePaymentMethodsUserUserIdData> | undefined, NoInfer<GetStripePaymentMethodsUserUserIdData> | undefined>, options?: SetDataOptions): Array<GetStripePaymentMethodsUserUserIdData | undefined>;
+        /**/
+        setQueryData(parameters: (GetStripePaymentMethodsUserUserIdParameters) | ServiceOperationQueryKey<GetStripePaymentMethodsUserUserIdSchema, GetStripePaymentMethodsUserUserIdParameters>, updater: Updater<NoInfer<GetStripePaymentMethodsUserUserIdData> | undefined, NoInfer<GetStripePaymentMethodsUserUserIdData> | undefined>, options?: SetDataOptions): GetStripePaymentMethodsUserUserIdData | undefined;
+        /**/
+        getInfiniteQueryKey(parameters: GetStripePaymentMethodsUserUserIdParameters): ServiceOperationInfiniteQueryKey<GetStripePaymentMethodsUserUserIdSchema, GetStripePaymentMethodsUserUserIdParameters>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useInfiniteQuery|`useInfiniteQuery(...)` documentation}
+         *
+         * @example Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getStripePaymentMethodsUserUserId.useInfiniteQuery({
+         *     path: {
+         *         userId: userId
+         *     }
+         * }, {
+         *     initialPageParam: {},
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useInfiniteQuery<TPageParam extends GetStripePaymentMethodsUserUserIdParameters, TData = GetStripePaymentMethodsUserUserIdData>(parameters: ServiceOperationInfiniteQueryKey<GetStripePaymentMethodsUserUserIdSchema, GetStripePaymentMethodsUserUserIdParameters> | (GetStripePaymentMethodsUserUserIdParameters), options: Omit<UndefinedInitialDataInfiniteOptions<GetStripePaymentMethodsUserUserIdData, GetStripePaymentMethodsUserUserIdError, OperationInfiniteData<TData, GetStripePaymentMethodsUserUserIdParameters>, ServiceOperationInfiniteQueryKey<GetStripePaymentMethodsUserUserIdSchema, GetStripePaymentMethodsUserUserIdParameters>, PartialParameters<TPageParam>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<GetStripePaymentMethodsUserUserIdData, PartialParameters<TPageParam>>): UseInfiniteQueryResult<OperationInfiniteData<TData, GetStripePaymentMethodsUserUserIdParameters>, GetStripePaymentMethodsUserUserIdError | Error>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useInfiniteQuery|`useInfiniteQuery(...)` documentation}
+         *
+         * @example Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getStripePaymentMethodsUserUserId.useInfiniteQuery({
+         *     path: {
+         *         userId: userId
+         *     }
+         * }, {
+         *     initialPageParam: {},
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useInfiniteQuery<TPageParam extends GetStripePaymentMethodsUserUserIdParameters, TData = GetStripePaymentMethodsUserUserIdData>(parameters: ServiceOperationInfiniteQueryKey<GetStripePaymentMethodsUserUserIdSchema, GetStripePaymentMethodsUserUserIdParameters> | (GetStripePaymentMethodsUserUserIdParameters), options: Omit<DefinedInitialDataInfiniteOptions<GetStripePaymentMethodsUserUserIdData, GetStripePaymentMethodsUserUserIdError, OperationInfiniteData<TData, GetStripePaymentMethodsUserUserIdParameters>, ServiceOperationInfiniteQueryKey<GetStripePaymentMethodsUserUserIdSchema, GetStripePaymentMethodsUserUserIdParameters>, PartialParameters<TPageParam>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<GetStripePaymentMethodsUserUserIdData, PartialParameters<TPageParam>>): DefinedUseInfiniteQueryResult<OperationInfiniteData<TData, GetStripePaymentMethodsUserUserIdParameters>, GetStripePaymentMethodsUserUserIdError | Error>;
+        /**
+         * Monitors the number of queries currently fetching, matching the provided filters.
+         * Useful for creating loading indicators or performing actions based on active requests.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsFetching|`useIsFetching(...)` documentation}
+         * @example Checks the total number of queries fetching from the specified service method,
+         * both normal and infinite. If no parameters are provided, no filtering is applied.
+         * ```ts
+         * const getStripePaymentMethodsUserUserIdTotal = qraft.v1Service.getStripePaymentMethodsUserUserId.useIsFetching()
+         * ```
+         * @example Checks the number of normal queries fetching with the specified parameters.
+         * ```ts
+         * const getStripePaymentMethodsUserUserIdByParametersTotal = qraft.v1Service.getStripePaymentMethodsUserUserId.useIsFetching({
+         *     infinite: false,
+         *     parameters: {
+         *         path: {
+         *             userId: userId
+         *         }
+         *     }
+         * })
+         * ```
+         */
+        useIsFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetStripePaymentMethodsUserUserIdSchema, GetStripePaymentMethodsUserUserIdData, TInfinite, GetStripePaymentMethodsUserUserIdParameters, GetStripePaymentMethodsUserUserIdError> | QueryFiltersByQueryKey<GetStripePaymentMethodsUserUserIdSchema, GetStripePaymentMethodsUserUserIdData, TInfinite, GetStripePaymentMethodsUserUserIdParameters, GetStripePaymentMethodsUserUserIdError>): number;
+        /**
+         * Allows you to execute multiple asynchronous data fetching operations concurrently. This is especially useful for managing complex data dependencies in parallel.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
+         * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
+         * ```ts
+         * const getStripePaymentMethodsUserUserIdResults = qraft.v1Service.getStripePaymentMethodsUserUserId.useQueries({
+         *     queries: [
+         *         {
+         *             path: {
+         *                 userId: userId1
+         *             }
+         *         },
+         *         {
+         *             path: {
+         *                 userId: userId2
+         *             }
+         *         }
+         *     ]
+         * });
+         * getStripePaymentMethodsUserUserIdResults.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
+         * ```
+         * @example Combined results. Only the data will be returned.
+         * ```ts
+         * const getStripePaymentMethodsUserUserIdCombinedResults = qraft.v1Service.getStripePaymentMethodsUserUserId.useQueries({
+         *     combine: results => results.map(result => result.data),
+         *     queries: [
+         *         {
+         *             path: {
+         *                 userId: userId1
+         *             }
+         *         },
+         *         {
+         *             path: {
+         *                 userId: userId2
+         *             }
+         *         }
+         *     ]
+         * });
+         * getStripePaymentMethodsUserUserIdCombinedResults.forEach(data => console.log({ data }));
+         * ```
+         */
+        useQueries<T extends Array<UseQueryOptionsForUseQueries<GetStripePaymentMethodsUserUserIdSchema, GetStripePaymentMethodsUserUserIdParameters, GetStripePaymentMethodsUserUserIdData, GetStripePaymentMethodsUserUserIdError>>, TCombinedResult = Array<UseQueryResult<GetStripePaymentMethodsUserUserIdData, GetStripePaymentMethodsUserUserIdError>>>(options: {
+            queries: T;
+            combine?: (results: Array<UseQueryResult<GetStripePaymentMethodsUserUserIdData, GetStripePaymentMethodsUserUserIdError>>) => TCombinedResult;
+        }): TCombinedResult;
+        /**/
+        getQueryKey(parameters: GetStripePaymentMethodsUserUserIdParameters): ServiceOperationQueryKey<GetStripePaymentMethodsUserUserIdSchema, GetStripePaymentMethodsUserUserIdParameters>;
+        /**
+         * Performs asynchronous data fetching, manages loading states and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
+         * @example Query with parameters
+         * ```ts
+         * const { data, isLoading } = qraft.v1Service.getStripePaymentMethodsUserUserId.useQuery({
+         *     path: {
+         *         userId: userId
+         *     }
+         * })
+         * ```
+         */
+        useQuery<TData = GetStripePaymentMethodsUserUserIdData>(parameters: ServiceOperationQueryKey<GetStripePaymentMethodsUserUserIdSchema, GetStripePaymentMethodsUserUserIdParameters> | (GetStripePaymentMethodsUserUserIdParameters), options?: Omit<UndefinedInitialDataOptions<GetStripePaymentMethodsUserUserIdData, GetStripePaymentMethodsUserUserIdError, TData, ServiceOperationQueryKey<GetStripePaymentMethodsUserUserIdSchema, GetStripePaymentMethodsUserUserIdParameters>>, "queryKey">): UseQueryResult<TData, GetStripePaymentMethodsUserUserIdError | Error>;
+        /**
+         * Performs asynchronous data fetching, manages loading states and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
+         * @example Query with parameters
+         * ```ts
+         * const { data, isLoading } = qraft.v1Service.getStripePaymentMethodsUserUserId.useQuery({
+         *     path: {
+         *         userId: userId
+         *     }
+         * })
+         * ```
+         */
+        useQuery<TData = GetStripePaymentMethodsUserUserIdData>(parameters: ServiceOperationQueryKey<GetStripePaymentMethodsUserUserIdSchema, GetStripePaymentMethodsUserUserIdParameters> | (GetStripePaymentMethodsUserUserIdParameters), options: Omit<DefinedInitialDataOptions<GetStripePaymentMethodsUserUserIdData, GetStripePaymentMethodsUserUserIdError, TData, ServiceOperationQueryKey<GetStripePaymentMethodsUserUserIdSchema, GetStripePaymentMethodsUserUserIdParameters>>, "queryKey">): DefinedUseQueryResult<TData, GetStripePaymentMethodsUserUserIdError | Error>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         * It functions similarly to `useInfiniteQuery`, but with added support for React Suspense.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseInfiniteQuery|`useSuspenseInfiniteQuery(...)` documentation}
+         *
+         * @example Suspense Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getStripePaymentMethodsUserUserId.useSuspenseInfiniteQuery({
+         *     path: {
+         *         userId: userId
+         *     }
+         * }, {
+         *     initialPageParam: {},
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useSuspenseInfiniteQuery<TPageParam extends GetStripePaymentMethodsUserUserIdParameters, TData = GetStripePaymentMethodsUserUserIdData>(parameters: ServiceOperationInfiniteQueryKey<GetStripePaymentMethodsUserUserIdSchema, GetStripePaymentMethodsUserUserIdParameters> | (GetStripePaymentMethodsUserUserIdParameters), options: Omit<UseSuspenseInfiniteQueryOptions<GetStripePaymentMethodsUserUserIdData, GetStripePaymentMethodsUserUserIdError, OperationInfiniteData<TData, GetStripePaymentMethodsUserUserIdParameters>, GetStripePaymentMethodsUserUserIdData, ServiceOperationInfiniteQueryKey<GetStripePaymentMethodsUserUserIdSchema, GetStripePaymentMethodsUserUserIdParameters>, PartialParameters<TPageParam>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<GetStripePaymentMethodsUserUserIdData, PartialParameters<TPageParam>>): UseSuspenseInfiniteQueryResult<OperationInfiniteData<TData, GetStripePaymentMethodsUserUserIdParameters>, GetStripePaymentMethodsUserUserIdError | Error>;
+        /**/
+        useSuspenseQueries<T extends Array<UseQueryOptionsForUseSuspenseQuery<GetStripePaymentMethodsUserUserIdSchema, GetStripePaymentMethodsUserUserIdParameters, GetStripePaymentMethodsUserUserIdData, GetStripePaymentMethodsUserUserIdError>>, TCombinedResult = Array<UseSuspenseQueryResult<GetStripePaymentMethodsUserUserIdData, GetStripePaymentMethodsUserUserIdError>>>(options: {
+            queries: T;
+            combine?: (results: Array<WithOptional<UseSuspenseQueryResult<GetStripePaymentMethodsUserUserIdData, GetStripePaymentMethodsUserUserIdError>, "data">>) => TCombinedResult;
+        }): TCombinedResult;
+        /**/
+        useSuspenseQuery<TData = GetStripePaymentMethodsUserUserIdData>(parameters: ServiceOperationQueryKey<GetStripePaymentMethodsUserUserIdSchema, GetStripePaymentMethodsUserUserIdParameters> | (GetStripePaymentMethodsUserUserIdParameters), options?: Omit<UseSuspenseQueryOptions<GetStripePaymentMethodsUserUserIdData, GetStripePaymentMethodsUserUserIdError, TData, ServiceOperationQueryKey<GetStripePaymentMethodsUserUserIdSchema, GetStripePaymentMethodsUserUserIdParameters>>, "queryKey">): UseSuspenseQueryResult<TData, GetStripePaymentMethodsUserUserIdError | Error>;
+        schema: GetStripePaymentMethodsUserUserIdSchema;
+        types: {
+            parameters: GetStripePaymentMethodsUserUserIdParameters;
+            data: GetStripePaymentMethodsUserUserIdData;
+            error: GetStripePaymentMethodsUserUserIdError;
+        };
+    };
     getUsers: {
         /**/
         cancelQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetUsersSchema, GetUsersData, TInfinite, GetUsersParameters, GetUsersError> | QueryFiltersByQueryKey<GetUsersSchema, GetUsersData, TInfinite, GetUsersParameters, GetUsersError>, options?: CancelOptions): Promise<void>;
@@ -10042,6 +10904,45 @@ export const v1Service: {
             url: "/v1/servers/tiers";
         };
     };
+    postStripeSubscriptions: {
+        schema: {
+            method: "post";
+            url: "/v1/stripe/subscriptions";
+            mediaType: [
+                "application/json"
+            ];
+        };
+    };
+    putStripeSubscriptionsSubscriptionId: {
+        schema: {
+            method: "put";
+            url: "/v1/stripe/subscriptions/{subscriptionId}";
+            mediaType: [
+                "application/json"
+            ];
+        };
+    };
+    deleteStripeSubscriptionsSubscriptionIdCancel: {
+        schema: {
+            method: "delete";
+            url: "/v1/stripe/subscriptions/{subscriptionId}/cancel";
+            mediaType: [
+                "application/json"
+            ];
+        };
+    };
+    getStripeSubscriptionsUserUserId: {
+        schema: {
+            method: "get";
+            url: "/v1/stripe/subscriptions/user/{userId}";
+        };
+    };
+    getStripePaymentMethodsUserUserId: {
+        schema: {
+            method: "get";
+            url: "/v1/stripe/payment-methods/user/{userId}";
+        };
+    };
     getUsers: {
         schema: {
             method: "get";
@@ -10355,6 +11256,39 @@ export const v1Service: {
         schema: {
             method: "get",
             url: "/v1/servers/tiers"
+        }
+    },
+    postStripeSubscriptions: {
+        schema: {
+            method: "post",
+            url: "/v1/stripe/subscriptions",
+            mediaType: ["application/json"]
+        }
+    },
+    putStripeSubscriptionsSubscriptionId: {
+        schema: {
+            method: "put",
+            url: "/v1/stripe/subscriptions/{subscriptionId}",
+            mediaType: ["application/json"]
+        }
+    },
+    deleteStripeSubscriptionsSubscriptionIdCancel: {
+        schema: {
+            method: "delete",
+            url: "/v1/stripe/subscriptions/{subscriptionId}/cancel",
+            mediaType: ["application/json"]
+        }
+    },
+    getStripeSubscriptionsUserUserId: {
+        schema: {
+            method: "get",
+            url: "/v1/stripe/subscriptions/user/{userId}"
+        }
+    },
+    getStripePaymentMethodsUserUserId: {
+        schema: {
+            method: "get",
+            url: "/v1/stripe/payment-methods/user/{userId}"
         }
     },
     getUsers: {
@@ -10769,6 +11703,53 @@ type GetServersTiersSchema = {
 type GetServersTiersParameters = undefined;
 type GetServersTiersData = paths["/v1/servers/tiers"]["get"]["responses"]["200"]["content"]["application/json"];
 type GetServersTiersError = unknown;
+type PostStripeSubscriptionsSchema = {
+    method: "post";
+    url: "/v1/stripe/subscriptions";
+    mediaType: [
+        "application/json"
+    ];
+};
+type PostStripeSubscriptionsParameters = {};
+type PostStripeSubscriptionsData = paths["/v1/stripe/subscriptions"]["post"]["responses"]["200"]["content"]["application/json"];
+type PostStripeSubscriptionsError = unknown;
+type PostStripeSubscriptionsBody = NonNullable<paths["/v1/stripe/subscriptions"]["post"]["requestBody"]>["content"]["application/json"];
+type PutStripeSubscriptionsSubscriptionIdSchema = {
+    method: "put";
+    url: "/v1/stripe/subscriptions/{subscriptionId}";
+    mediaType: [
+        "application/json"
+    ];
+};
+type PutStripeSubscriptionsSubscriptionIdParameters = paths["/v1/stripe/subscriptions/{subscriptionId}"]["put"]["parameters"];
+type PutStripeSubscriptionsSubscriptionIdData = paths["/v1/stripe/subscriptions/{subscriptionId}"]["put"]["responses"]["200"]["content"]["application/json"];
+type PutStripeSubscriptionsSubscriptionIdError = unknown;
+type PutStripeSubscriptionsSubscriptionIdBody = NonNullable<paths["/v1/stripe/subscriptions/{subscriptionId}"]["put"]["requestBody"]>["content"]["application/json"];
+type DeleteStripeSubscriptionsSubscriptionIdCancelSchema = {
+    method: "delete";
+    url: "/v1/stripe/subscriptions/{subscriptionId}/cancel";
+    mediaType: [
+        "application/json"
+    ];
+};
+type DeleteStripeSubscriptionsSubscriptionIdCancelParameters = paths["/v1/stripe/subscriptions/{subscriptionId}/cancel"]["delete"]["parameters"];
+type DeleteStripeSubscriptionsSubscriptionIdCancelData = paths["/v1/stripe/subscriptions/{subscriptionId}/cancel"]["delete"]["responses"]["200"]["content"]["application/json"];
+type DeleteStripeSubscriptionsSubscriptionIdCancelError = unknown;
+type DeleteStripeSubscriptionsSubscriptionIdCancelBody = NonNullable<paths["/v1/stripe/subscriptions/{subscriptionId}/cancel"]["delete"]["requestBody"]>["content"]["application/json"];
+type GetStripeSubscriptionsUserUserIdSchema = {
+    method: "get";
+    url: "/v1/stripe/subscriptions/user/{userId}";
+};
+type GetStripeSubscriptionsUserUserIdParameters = paths["/v1/stripe/subscriptions/user/{userId}"]["get"]["parameters"];
+type GetStripeSubscriptionsUserUserIdData = paths["/v1/stripe/subscriptions/user/{userId}"]["get"]["responses"]["200"]["content"]["application/json"];
+type GetStripeSubscriptionsUserUserIdError = unknown;
+type GetStripePaymentMethodsUserUserIdSchema = {
+    method: "get";
+    url: "/v1/stripe/payment-methods/user/{userId}";
+};
+type GetStripePaymentMethodsUserUserIdParameters = paths["/v1/stripe/payment-methods/user/{userId}"]["get"]["parameters"];
+type GetStripePaymentMethodsUserUserIdData = paths["/v1/stripe/payment-methods/user/{userId}"]["get"]["responses"]["200"]["content"]["application/json"];
+type GetStripePaymentMethodsUserUserIdError = unknown;
 type GetUsersSchema = {
     method: "get";
     url: "/v1/users";

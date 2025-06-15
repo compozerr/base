@@ -13,6 +13,7 @@
     <ProjectReference Include="..\Api.Hosting\Api.Hosting.csproj" />
     <ProjectReference Include="..\..\modules\storage\backend\Storage\Storage.csproj" />
     <ProjectReference Include="..\..\modules\jobs\backend\Jobs\Jobs.csproj" />
+    <ProjectReference Include="..\..\modules\stripe\backend\Stripe\Stripe.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Include="../.env">

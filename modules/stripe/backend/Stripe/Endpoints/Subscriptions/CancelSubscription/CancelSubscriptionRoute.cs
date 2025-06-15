@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 using MediatR;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Stripe.Endpoints.Subscriptions.CancelSubscription;
 
@@ -15,7 +16,7 @@ public static class CancelSubscriptionRoute
 
     public static Task<CancelSubscriptionResponse> ExecuteAsync(
         string subscriptionId,
-        CancelSubscriptionCommand command,
+        [FromBody] CancelSubscriptionCommand command,
         IMediator mediator)
         => mediator.Send(command with { SubscriptionId = subscriptionId });
 }

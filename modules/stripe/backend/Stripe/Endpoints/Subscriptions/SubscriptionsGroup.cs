@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Routing;
 using Stripe.Endpoints.Subscriptions.CreateSubscription;
 using Stripe.Endpoints.UpdateSubscription;
 using Stripe.Endpoints.Subscriptions.CancelSubscription;
+using Stripe.Endpoints.Subscriptions.GetUserSubscriptions;
 
 namespace Stripe.Endpoints.Subscriptions;
 
@@ -17,6 +18,7 @@ public static class SubscriptionsGroup
         group.AddCreateSubscriptionRoute();
         group.AddUpdateSubscriptionRoute();
         group.AddCancelSubscriptionRoute();
+        group.AddGetUserSubscriptionsRoute();
 
         return group;
     }

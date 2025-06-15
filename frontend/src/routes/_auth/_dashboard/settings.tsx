@@ -25,6 +25,9 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip'
 import { useToast } from '@/hooks/use-toast'
+import { Separator } from '@/components/ui/separator'
+import SubscriptionList from '@repo/stripe/subscription-list'
+import PaymentMethods from '@repo/stripe/payment-methods'
 
 export const Route = createFileRoute('/_auth/_dashboard/settings')({
   component: RouteComponent,
@@ -249,6 +252,24 @@ function RouteComponent() {
             <p className="text-muted-foreground">
               Account settings coming soon...
             </p>
+          </CardContent>
+        </Card>
+        
+        <Card>
+          <CardHeader>
+            <CardTitle>Billing & Subscriptions</CardTitle>
+            <CardDescription>
+              Manage your subscriptions and billing information.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            {/* Import and use components from the Stripe module */}
+            {/* This would be populated with the actual user ID */}
+            <SubscriptionList userId="current-user-id" />
+            
+            <Separator className="my-6" />
+            
+            <PaymentMethods userId="current-user-id" />
           </CardContent>
         </Card>
 

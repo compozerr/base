@@ -3,7 +3,9 @@
     "version": "0.0.0",
     "private": true,
     "exports": {
-        "./stripe-component": "./src/stripe-component.tsx"
+        "./stripe-component": "./src/stripe-component.tsx",
+        "./subscription-list": "./src/subscription-list.tsx",
+        "./payment-methods": "./src/payment-methods.tsx"
     },
     "devDependencies": {
         "@repo/config": "*"

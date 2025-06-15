@@ -1778,6 +1778,201 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/stripe/subscriptions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["CreateSubscriptionCommand"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["CreateSubscriptionResponse"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/stripe/subscriptions/{subscriptionId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    subscriptionId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["UpdateSubscriptionCommand"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["UpdateSubscriptionResponse"];
+                    };
+                };
+            };
+        };
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/stripe/subscriptions/{subscriptionId}/cancel": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    subscriptionId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["CancelSubscriptionCommand"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["CancelSubscriptionResponse"];
+                    };
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/stripe/subscriptions/user/{userId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    userId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["GetUserSubscriptionsResponse"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/stripe/payment-methods/user/{userId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    userId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["GetUserPaymentMethodsResponse"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/users": {
         parameters: {
             query?: never;
@@ -1837,6 +2032,16 @@ export interface components {
         AddModuleResponse: {
             modules?: components["schemas"]["ModuleResult"][] | null;
         };
+        CancelSubscriptionCommand: {
+            subscriptionId?: string | null;
+            cancelImmediately?: boolean;
+        };
+        CancelSubscriptionResponse: {
+            subscriptionId?: string | null;
+            status?: string | null;
+            canceledAt?: string | null;
+            canceledImmediately?: boolean;
+        };
         ChangeDeploymentStatusRequest: {
             status?: string | null;
         };
@@ -1875,6 +2080,16 @@ export interface components {
             gitUrl?: string | null;
             repoName?: string | null;
             projectId?: string | null;
+        };
+        CreateSubscriptionCommand: {
+            projectId?: components["schemas"]["ProjectId"];
+            serverTierId?: components["schemas"]["ServerTierId"];
+        };
+        CreateSubscriptionResponse: {
+            sessionId?: string | null;
+            url?: string | null;
+            clientReferenceId?: string | null;
+            paymentStatus?: string | null;
         };
         /**
          * Format: int32
@@ -1997,6 +2212,12 @@ export interface components {
             /** Format: double */
             allocatedMemoryGb?: number;
         };
+        GetUserPaymentMethodsResponse: {
+            paymentMethods?: components["schemas"]["PaymentMethodDto"][] | null;
+        };
+        GetUserSubscriptionsResponse: {
+            subscriptions?: components["schemas"]["SubscriptionDto"][] | null;
+        };
         IDomainEvent: Record<string, never>;
         InstallationDto: {
             installationId?: string | null;
@@ -2033,6 +2254,17 @@ export interface components {
             readonly success?: boolean;
             module?: components["schemas"]["ModuleDto"];
             readonly errorMessage?: string | null;
+        };
+        PaymentMethodDto: {
+            id?: string | null;
+            type?: string | null;
+            brand?: string | null;
+            last4?: string | null;
+            /** Format: int32 */
+            expiryMonth?: number;
+            /** Format: int32 */
+            expiryYear?: number;
+            isDefault?: boolean;
         };
         Price: {
             /** Format: double */
@@ -2095,6 +2327,21 @@ export interface components {
         "String<>f__AnonymousType0": {
             installUrl?: string | null;
         };
+        SubscriptionDto: {
+            id?: string | null;
+            name?: string | null;
+            status?: string | null;
+            planId?: string | null;
+            serverTierId?: string | null;
+            /** Format: date-time */
+            currentPeriodStart?: string;
+            /** Format: date-time */
+            currentPeriodEnd?: string;
+            cancelAtPeriodEnd?: boolean;
+            /** Format: double */
+            amount?: number;
+            currency?: string | null;
+        };
         /** @enum {string} */
         SystemType: "Unknown" | "Frontend" | "Backend";
         UpdateServerRequest: {
@@ -2110,6 +2357,19 @@ export interface components {
         UpdateServerResponse: {
             success?: boolean;
             pemPublicKey?: string | null;
+        };
+        UpdateSubscriptionCommand: {
+            subscriptionId?: string | null;
+            newTierID?: components["schemas"]["ServerTierId"];
+            isUpgrade?: boolean;
+        };
+        UpdateSubscriptionResponse: {
+            subscriptionId?: string | null;
+            status?: string | null;
+            /** Format: double */
+            prorationAmount?: number;
+            nextBillingDate?: string | null;
+            isUpgrade?: boolean;
         };
         UpsertProjectEnvironmentVariablesRequest: {
             variables?: components["schemas"]["ProjectEnvironmentVariableDto"][] | null;

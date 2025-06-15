@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 using MediatR;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Stripe.Endpoints.Subscriptions.CreateSubscription;
 
@@ -14,7 +15,7 @@ public static class CreateSubscriptionRoute
 	}
 
 	public static Task<CreateSubscriptionResponse> ExecuteAsync(
-		CreateSubscriptionCommand command,
+		[FromBody] CreateSubscriptionCommand command,
 		IMediator mediator)
 		=> mediator.Send(command);
 }

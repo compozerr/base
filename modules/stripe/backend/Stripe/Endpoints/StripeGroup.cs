@@ -2,6 +2,7 @@
 using Carter;
 using Microsoft.AspNetCore.Routing;
 using Stripe.Endpoints.Subscriptions;
+using Stripe.Endpoints.PaymentMethods;
 
 namespace Stripe.Endpoints;
 
@@ -15,5 +16,6 @@ public class StripeGroup : CarterModule
     public override void AddRoutes(IEndpointRouteBuilder app)
     {
         app.AddSubscriptionsGroup();
+        app.AddPaymentMethodsGroup();
     }
 }
