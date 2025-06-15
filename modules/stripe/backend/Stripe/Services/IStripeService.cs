@@ -8,7 +8,6 @@ namespace Stripe.Services;
 public interface IStripeService
 {
     Task<List<Endpoints.Subscriptions.GetUserSubscriptions.SubscriptionDto>> GetSubscriptionsForUserAsync(
-        string userId, 
         CancellationToken cancellationToken = default);
         
     Task<Endpoints.Subscriptions.GetUserSubscriptions.SubscriptionDto> UpdateSubscriptionTierAsync(
@@ -22,11 +21,9 @@ public interface IStripeService
         CancellationToken cancellationToken = default);
         
     Task<List<PaymentMethodDto>> GetUserPaymentMethodsAsync(
-        string userId,
         CancellationToken cancellationToken = default);
         
     Task<PaymentMethodDto> AddPaymentMethodAsync(
-        string userId,
         string paymentMethodId,
         CancellationToken cancellationToken = default);
         
@@ -35,7 +32,6 @@ public interface IStripeService
         CancellationToken cancellationToken = default);
         
     Task<PaymentMethodDto> SetDefaultPaymentMethodAsync(
-        string userId,
         string paymentMethodId,
         CancellationToken cancellationToken = default);
 }

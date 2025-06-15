@@ -1,5 +1,4 @@
 using Api.Abstractions;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Serilog;
 using Stripe.Endpoints.Subscriptions.GetUserSubscriptions;
@@ -24,15 +23,16 @@ public class StripeService : IStripeService
     }
 
     public async Task<List<SubscriptionDto>> GetSubscriptionsForUserAsync(
-        string userId,
         CancellationToken cancellationToken = default)
     {
+        var stripeCustomerId = await _currentStripeCustomerIdAccessor.GetOrCreateStripeCustomerId();
+
         try
         {
             var service = new StripeSdk.SubscriptionService(_stripeClient);
             var options = new StripeSdk.SubscriptionListOptions
             {
-                Customer = userId,
+                Customer = stripeCustomerId,
                 Expand = new List<string> { "data.plan.product" }
             };
 
@@ -52,12 +52,12 @@ public class StripeService : IStripeService
         }
         catch (StripeException ex) when (ex.Message.ToLowerInvariant().Contains("no such customer"))
         {
-            Log.Warning("No user with id: {UserId} found in Stripe", userId);
+            Log.Warning("No user with id: {StripeCustomerId} found in Stripe", stripeCustomerId);
             return [];
         }
         catch (Exception ex)
         {
-            Log.Error(ex, "Error retrieving subscriptions for user {UserId}", userId);
+            Log.Error(ex, "Error retrieving subscriptions for user {StripeCustomerId}", stripeCustomerId);
             return [];
         }
     }
@@ -161,7 +161,6 @@ public class StripeService : IStripeService
     }
 
     public async Task<List<PaymentMethodDto>> GetUserPaymentMethodsAsync(
-        string userId,
         CancellationToken cancellationToken = default)
     {
         try
@@ -171,14 +170,15 @@ public class StripeService : IStripeService
             var customerService = new StripeSdk.CustomerService(_stripeClient);
             StripeSdk.Customer customer;
 
+            var stripeCustomerId = await _currentStripeCustomerIdAccessor.GetOrCreateStripeCustomerId();
+
             try
             {
-                // Try to get the customer
-                customer = await customerService.GetAsync(userId, cancellationToken: cancellationToken);
+                customer = await customerService.GetAsync(stripeCustomerId, cancellationToken: cancellationToken);
             }
             catch (StripeSdk.StripeException ex) when (ex.Message.ToLowerInvariant().Contains("no such customer"))
             {
-                Log.Information("No customer with id: {UserId} found in Stripe when retrieving payment methods", userId);
+                Log.Information("No customer with id: {StripeCustomerId} found in Stripe when retrieving payment methods", stripeCustomerId);
                 return new List<PaymentMethodDto>();
             }
 
@@ -189,7 +189,7 @@ public class StripeService : IStripeService
             var service = new StripeSdk.PaymentMethodService(_stripeClient);
             var options = new StripeSdk.PaymentMethodListOptions
             {
-                Customer = userId,
+                Customer = stripeCustomerId,
                 Type = "card"
             };
 
@@ -208,13 +208,12 @@ public class StripeService : IStripeService
         }
         catch (Exception ex)
         {
-            Log.Error(ex, "Error retrieving payment methods for user {UserId}", userId);
+            Log.Error(ex, "Error retrieving payment methods for user");
             return new List<PaymentMethodDto>();
         }
     }
 
     public async Task<PaymentMethodDto> AddPaymentMethodAsync(
-        string userId,
         string paymentMethodId,
         CancellationToken cancellationToken = default)
     {
@@ -234,11 +233,11 @@ public class StripeService : IStripeService
             var paymentMethod = await service.AttachAsync(paymentMethodId, options, cancellationToken: cancellationToken);
 
             // If this is the first payment method, make it the default
-            var paymentMethods = await GetUserPaymentMethodsAsync(stripeCustomerId, cancellationToken);
+            var paymentMethods = await GetUserPaymentMethodsAsync(cancellationToken);
             if (paymentMethods.Count == 1)
             {
-                await SetDefaultPaymentMethodAsync(stripeCustomerId, paymentMethodId, cancellationToken);
-                return await GetPaymentMethod(paymentMethodId, stripeCustomerId, cancellationToken);
+                await SetDefaultPaymentMethodAsync(paymentMethodId, cancellationToken);
+                return await GetPaymentMethod(paymentMethodId, cancellationToken);
             }
 
             return new PaymentMethodDto
@@ -254,7 +253,7 @@ public class StripeService : IStripeService
         }
         catch (Exception ex)
         {
-            Log.Error(ex, "Error adding payment method {PaymentMethodId} for user {UserId}", paymentMethodId, userId);
+            Log.Error(ex, "Error adding payment method {PaymentMethodId} for user", paymentMethodId);
             throw;
         }
     }
@@ -276,10 +275,10 @@ public class StripeService : IStripeService
             // If this was the default payment method, set another one as default if available
             if (paymentMethod.CustomerId != null)
             {
-                var methods = await GetUserPaymentMethodsAsync(paymentMethod.CustomerId, cancellationToken);
+                var methods = await GetUserPaymentMethodsAsync(cancellationToken);
                 if (methods.Count > 0)
                 {
-                    await SetDefaultPaymentMethodAsync(paymentMethod.CustomerId, methods[0].Id, cancellationToken);
+                    await SetDefaultPaymentMethodAsync(methods[0].Id, cancellationToken);
                 }
             }
 
@@ -299,7 +298,6 @@ public class StripeService : IStripeService
     }
 
     public async Task<PaymentMethodDto> SetDefaultPaymentMethodAsync(
-        string userId,
         string paymentMethodId,
         CancellationToken cancellationToken = default)
     {
@@ -322,11 +320,11 @@ public class StripeService : IStripeService
             await customerService.UpdateAsync(stripeCustomerId, options, cancellationToken: cancellationToken);
 
             // Return the updated payment method
-            return await GetPaymentMethod(paymentMethodId, stripeCustomerId, cancellationToken);
+            return await GetPaymentMethod(paymentMethodId, cancellationToken);
         }
         catch (Exception ex)
         {
-            Log.Error(ex, "Error setting default payment method {PaymentMethodId} for user {UserId}", paymentMethodId, userId);
+            Log.Error(ex, "Error setting default payment method {PaymentMethodId} for user", paymentMethodId);
             throw;
         }
     }
@@ -344,7 +342,7 @@ public class StripeService : IStripeService
             ?? throw new Exception($"No subscription item found for subscription {subscriptionId}");
     }
 
-    private async Task<PaymentMethodDto> GetPaymentMethod(string paymentMethodId, string userId, CancellationToken cancellationToken)
+    private async Task<PaymentMethodDto> GetPaymentMethod(string paymentMethodId, CancellationToken cancellationToken)
     {
         try
         {
@@ -374,10 +372,9 @@ public class StripeService : IStripeService
         }
         catch (Exception ex)
         {
-            Log.Error(ex, "Error retrieving payment method {PaymentMethodId} for user {UserId}", paymentMethodId, userId);
+            Log.Error(ex, "Error retrieving payment method {PaymentMethodId} for user", paymentMethodId);
             throw;
         }
     }
-
     #endregion
 }
