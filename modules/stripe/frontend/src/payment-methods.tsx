@@ -172,7 +172,7 @@ export const PaymentMethods: React.FC<PaymentMethodsProps> = () => {
                                     <div className="flex items-center space-x-2">
                                         <CreditCard className="h-4 w-4" />
                                         <CardTitle className="text-base">
-                                            {method.brand} •••• {method.last4}
+                                            {method.brand?.toUpperCase()} •••• {method.last4}
                                         </CardTitle>
                                     </div>
                                     {method.isDefault && (
@@ -180,7 +180,7 @@ export const PaymentMethods: React.FC<PaymentMethodsProps> = () => {
                                     )}
                                 </div>
                                 <CardDescription>
-                                    Expires {method.expiryMonth}/{method.expiryYear}
+                                    Expires {method.expiryMonth?.toString().padStart(2, '0')}/{method.expiryYear}
                                 </CardDescription>
                             </CardHeader>
                             <CardFooter className="pt-1">
