@@ -6,7 +6,7 @@ namespace Stripe.Endpoints.Subscriptions.CreateSubscription;
 
 public static class CreateSubscriptionRoute
 {
-	public const string Route = "create"; // Set your route path here
+	public const string Route = ""; 
 
 	public static RouteHandlerBuilder AddCreateSubscriptionRoute(this IEndpointRouteBuilder app)
 	{
