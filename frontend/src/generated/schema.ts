@@ -1973,6 +1973,45 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/stripe/payment-methods/attach": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["AttachPaymentMethodRequest"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["AttachPaymentMethodResponse"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/users": {
         parameters: {
             query?: never;
@@ -2031,6 +2070,13 @@ export interface components {
         };
         AddModuleResponse: {
             modules?: components["schemas"]["ModuleResult"][] | null;
+        };
+        AttachPaymentMethodRequest: {
+            userId?: string | null;
+            paymentMethodId?: string | null;
+        };
+        AttachPaymentMethodResponse: {
+            paymentMethod?: components["schemas"]["PaymentMethodDto"];
         };
         CancelSubscriptionCommand: {
             subscriptionId?: string | null;

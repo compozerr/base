@@ -1,5 +1,4 @@
 import React from 'react';
-import { api } from '@/api-client';
 
 // Utility hook to get current user information
 export const useCurrentUser = () => {

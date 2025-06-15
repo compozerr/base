@@ -10356,6 +10356,102 @@ export interface V1Service {
             error: GetStripePaymentMethodsUserUserIdError;
         };
     };
+    postStripePaymentMethodsAttach: {
+        /**/
+        getMutationKey(parameters: PostStripePaymentMethodsAttachParameters | void): ServiceOperationMutationKey<PostStripePaymentMethodsAttachSchema, PostStripePaymentMethodsAttachParameters>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.postStripePaymentMethodsAttach.useMutation({})
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.postStripePaymentMethodsAttach.useMutation()
+         * mutate({
+         *     body: bodyPayload
+         * });
+         * ```
+         */
+        useMutation<TVariables extends PostStripePaymentMethodsAttachBody, TContext = unknown>(parameters: PostStripePaymentMethodsAttachParameters, options?: ServiceOperationUseMutationOptions<PostStripePaymentMethodsAttachSchema, PostStripePaymentMethodsAttachData, PostStripePaymentMethodsAttachParameters, TVariables, PostStripePaymentMethodsAttachError, TContext>): UseMutationResult<PostStripePaymentMethodsAttachData, PostStripePaymentMethodsAttachError | Error, AreAllOptional<TVariables> extends true ? TVariables | void : TVariables, TContext>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.postStripePaymentMethodsAttach.useMutation({})
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.postStripePaymentMethodsAttach.useMutation()
+         * mutate({
+         *     body: bodyPayload
+         * });
+         * ```
+         */
+        useMutation<TVariables extends MutationVariables<PostStripePaymentMethodsAttachBody, PostStripePaymentMethodsAttachParameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<PostStripePaymentMethodsAttachSchema, PostStripePaymentMethodsAttachData, PostStripePaymentMethodsAttachParameters, TVariables, PostStripePaymentMethodsAttachError, TContext>): UseMutationResult<PostStripePaymentMethodsAttachData, PostStripePaymentMethodsAttachError | Error, TVariables, TContext>;
+        /**
+         * Returns the count of currently in-progress mutations.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
+         * @example Check how many mutations are currently in progress for the specified service method.
+         * ```ts
+         * const postStripePaymentMethodsAttachTotal = qraft.v1Service.postStripePaymentMethodsAttach.useIsMutating()
+         * ```
+         * @example Check how many mutations are currently in progress with the specified parameters.
+         * ```ts
+         * const postStripePaymentMethodsAttachTotal = qraft.v1Service.postStripePaymentMethodsAttach.useIsMutating({
+         *     parameters: {}
+         * })
+         * ```
+         */
+        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<PostStripePaymentMethodsAttachBody, PostStripePaymentMethodsAttachData, PostStripePaymentMethodsAttachParameters, PostStripePaymentMethodsAttachError, TContext> | MutationFiltersByMutationKey<PostStripePaymentMethodsAttachSchema, PostStripePaymentMethodsAttachBody, PostStripePaymentMethodsAttachData, PostStripePaymentMethodsAttachParameters, PostStripePaymentMethodsAttachError, TContext>): number;
+        /**/
+        isMutating<TContext>(filters?: MutationFiltersByParameters<PostStripePaymentMethodsAttachBody, PostStripePaymentMethodsAttachData, PostStripePaymentMethodsAttachParameters, PostStripePaymentMethodsAttachError, TContext> | MutationFiltersByMutationKey<PostStripePaymentMethodsAttachSchema, PostStripePaymentMethodsAttachBody, PostStripePaymentMethodsAttachData, PostStripePaymentMethodsAttachParameters, PostStripePaymentMethodsAttachError, TContext>): number;
+        /**/
+        (options: ServiceOperationMutationFnOptions<PostStripePaymentMethodsAttachBody, PostStripePaymentMethodsAttachParameters>, client?: (schema: PostStripePaymentMethodsAttachSchema, options: ServiceOperationMutationFnOptions<PostStripePaymentMethodsAttachBody, PostStripePaymentMethodsAttachParameters>) => Promise<RequestFnResponse<PostStripePaymentMethodsAttachData, PostStripePaymentMethodsAttachError>>): Promise<RequestFnResponse<PostStripePaymentMethodsAttachData, PostStripePaymentMethodsAttachError>>;
+        /**
+         * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
+         * @example Get all variables of all running mutations.
+         * ```ts
+         * const postStripePaymentMethodsAttachPendingMutationVariables = qraft.v1Service.postStripePaymentMethodsAttach.useMutationState({
+         *     filters: {
+         *         status: "pending"
+         *     },
+         *     select: mutation => mutation.state.variables
+         * })
+         * ```
+         * @example Get all data for specific mutations via the `parameters`.
+         * ```ts
+         * const postStripePaymentMethodsAttachMutationData = qraft.v1Service.postStripePaymentMethodsAttach.useMutationState({
+         *     filters: {
+         *         parameters: {}
+         *     },
+         *     select: mutation => mutation.state.data
+         * })
+         * ```
+         */
+        useMutationState<TContext = unknown, TResult = MutationState<PostStripePaymentMethodsAttachData, PostStripePaymentMethodsAttachError, MutationVariables<PostStripePaymentMethodsAttachBody, PostStripePaymentMethodsAttachParameters>, TContext>>(options?: {
+            filters?: MutationFiltersByParameters<PostStripePaymentMethodsAttachBody, PostStripePaymentMethodsAttachData, PostStripePaymentMethodsAttachParameters, PostStripePaymentMethodsAttachError, TContext> | MutationFiltersByMutationKey<PostStripePaymentMethodsAttachSchema, PostStripePaymentMethodsAttachBody, PostStripePaymentMethodsAttachData, PostStripePaymentMethodsAttachParameters, PostStripePaymentMethodsAttachError, TContext>;
+            select?: (mutation: Mutation<PostStripePaymentMethodsAttachData, PostStripePaymentMethodsAttachError, MutationVariables<PostStripePaymentMethodsAttachBody, PostStripePaymentMethodsAttachParameters>, TContext>) => TResult;
+        }): Array<TResult>;
+        schema: PostStripePaymentMethodsAttachSchema;
+        types: {
+            parameters: PostStripePaymentMethodsAttachParameters;
+            data: PostStripePaymentMethodsAttachData;
+            error: PostStripePaymentMethodsAttachError;
+            body: PostStripePaymentMethodsAttachBody;
+        };
+    };
     getUsers: {
         /**/
         cancelQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetUsersSchema, GetUsersData, TInfinite, GetUsersParameters, GetUsersError> | QueryFiltersByQueryKey<GetUsersSchema, GetUsersData, TInfinite, GetUsersParameters, GetUsersError>, options?: CancelOptions): Promise<void>;
@@ -10943,6 +11039,15 @@ export const v1Service: {
             url: "/v1/stripe/payment-methods/user/{userId}";
         };
     };
+    postStripePaymentMethodsAttach: {
+        schema: {
+            method: "post";
+            url: "/v1/stripe/payment-methods/attach";
+            mediaType: [
+                "application/json"
+            ];
+        };
+    };
     getUsers: {
         schema: {
             method: "get";
@@ -11289,6 +11394,13 @@ export const v1Service: {
         schema: {
             method: "get",
             url: "/v1/stripe/payment-methods/user/{userId}"
+        }
+    },
+    postStripePaymentMethodsAttach: {
+        schema: {
+            method: "post",
+            url: "/v1/stripe/payment-methods/attach",
+            mediaType: ["application/json"]
         }
     },
     getUsers: {
@@ -11750,6 +11862,17 @@ type GetStripePaymentMethodsUserUserIdSchema = {
 type GetStripePaymentMethodsUserUserIdParameters = paths["/v1/stripe/payment-methods/user/{userId}"]["get"]["parameters"];
 type GetStripePaymentMethodsUserUserIdData = paths["/v1/stripe/payment-methods/user/{userId}"]["get"]["responses"]["200"]["content"]["application/json"];
 type GetStripePaymentMethodsUserUserIdError = unknown;
+type PostStripePaymentMethodsAttachSchema = {
+    method: "post";
+    url: "/v1/stripe/payment-methods/attach";
+    mediaType: [
+        "application/json"
+    ];
+};
+type PostStripePaymentMethodsAttachParameters = {};
+type PostStripePaymentMethodsAttachData = paths["/v1/stripe/payment-methods/attach"]["post"]["responses"]["200"]["content"]["application/json"];
+type PostStripePaymentMethodsAttachError = unknown;
+type PostStripePaymentMethodsAttachBody = NonNullable<paths["/v1/stripe/payment-methods/attach"]["post"]["requestBody"]>["content"]["application/json"];
 type GetUsersSchema = {
     method: "get";
     url: "/v1/users";
