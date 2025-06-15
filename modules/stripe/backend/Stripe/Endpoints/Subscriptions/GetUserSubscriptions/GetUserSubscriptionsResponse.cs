@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace Stripe.Endpoints.Subscriptions.GetUserSubscriptions;
 
 public sealed record SubscriptionDto(

@@ -1899,7 +1899,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/stripe/subscriptions/user/{userId}": {
+    "/v1/stripe/subscriptions/user": {
         parameters: {
             query?: never;
             header?: never;
@@ -1910,9 +1910,7 @@ export interface paths {
             parameters: {
                 query?: never;
                 header?: never;
-                path: {
-                    userId: string;
-                };
+                path?: never;
                 cookie?: never;
             };
             requestBody?: never;
@@ -1936,7 +1934,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/stripe/payment-methods/user/{userId}": {
+    "/v1/stripe/payment-methods/user": {
         parameters: {
             query?: never;
             header?: never;
@@ -1947,9 +1945,7 @@ export interface paths {
             parameters: {
                 query?: never;
                 header?: never;
-                path: {
-                    userId: string;
-                };
+                path?: never;
                 cookie?: never;
             };
             requestBody?: never;
@@ -2148,7 +2144,6 @@ export interface components {
             modules?: components["schemas"]["ModuleResult"][] | null;
         };
         AttachPaymentMethodRequest: {
-            userId?: string | null;
             paymentMethodId?: string | null;
         };
         AttachPaymentMethodResponse: {
@@ -2447,7 +2442,6 @@ export interface components {
             type?: components["schemas"]["DefaultInstallationIdSelectionType"];
         };
         SetDefaultPaymentMethodRequest: {
-            userId?: string | null;
             paymentMethodId?: string | null;
         };
         SetDefaultPaymentMethodResponse: {

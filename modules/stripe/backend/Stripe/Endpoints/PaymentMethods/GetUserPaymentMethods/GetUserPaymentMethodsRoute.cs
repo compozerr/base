@@ -6,7 +6,7 @@ namespace Stripe.Endpoints.PaymentMethods.GetUserPaymentMethods;
 
 public static class GetUserPaymentMethodsRoute
 {
-	public const string Route = "user/{userId}";
+	public const string Route = "user";
 
 	public static RouteHandlerBuilder AddGetUserPaymentMethodsRoute(this IEndpointRouteBuilder app)
 	{
@@ -14,7 +14,6 @@ public static class GetUserPaymentMethodsRoute
 	}
 
 	public static Task<GetUserPaymentMethodsResponse> ExecuteAsync(
-		string userId,
 		IMediator mediator)
-		=> mediator.Send(new GetUserPaymentMethodsCommand(userId));
+		=> mediator.Send(new GetUserPaymentMethodsCommand());
 }

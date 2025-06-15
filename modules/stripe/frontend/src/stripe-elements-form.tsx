@@ -35,14 +35,12 @@ const cardElementStyle: StripeCardElementOptions = {
 };
 
 interface StripeElementsFormProps {
-    userId: string;
     onSuccess: (paymentMethodId: string) => void;
     onError: (error: string) => void;
     onCancel: () => void;
 }
 
 export const StripeElementsForm: React.FC<StripeElementsFormProps> = ({
-    userId,
     onSuccess,
     onError,
     onCancel

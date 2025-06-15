@@ -6,15 +6,14 @@ namespace Stripe.Endpoints.Subscriptions.GetUserSubscriptions;
 
 public static class GetUserSubscriptionsRoute
 {
-	public const string Route = "user/{userId}";
+    public const string Route = "user";
 
-	public static RouteHandlerBuilder AddGetUserSubscriptionsRoute(this IEndpointRouteBuilder app)
-	{
-		return app.MapGet(Route, ExecuteAsync);
-	}
+    public static RouteHandlerBuilder AddGetUserSubscriptionsRoute(this IEndpointRouteBuilder app)
+    {
+        return app.MapGet(Route, ExecuteAsync);
+    }
 
-	public static Task<GetUserSubscriptionsResponse> ExecuteAsync(
-		string userId,
-		IMediator mediator)
-		=> mediator.Send(new GetUserSubscriptionsCommand(userId));
+    public static Task<GetUserSubscriptionsResponse> ExecuteAsync(
+        IMediator mediator)
+        => mediator.Send(new GetUserSubscriptionsCommand());
 }

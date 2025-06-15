@@ -1,8 +1,5 @@
 using Core.MediatR;
-using MediatR;
 using Stripe.Services;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Stripe.Endpoints.PaymentMethods.AttachPaymentMethod;
 
@@ -20,7 +17,6 @@ public class AttachPaymentMethodCommandHandler : ICommandHandler<AttachPaymentMe
         CancellationToken cancellationToken)
     {
         var paymentMethod = await _stripeService.AddPaymentMethodAsync(
-            request.UserId,
             request.PaymentMethodId,
             cancellationToken);
 

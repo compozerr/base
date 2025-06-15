@@ -1,8 +1,6 @@
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using MediatR;
-using System.Threading.Tasks;
 
 namespace Stripe.Endpoints.PaymentMethods.RemovePaymentMethod;
 

@@ -29,16 +29,13 @@ import { Separator } from '@/components/ui/separator'
 import StripeProvider from '@repo/stripe/stripe-provider'
 import SubscriptionList from '@repo/stripe/subscription-list'
 import PaymentMethods from '@repo/stripe/payment-methods'
-import { useAuth } from '@/hooks/use-dynamic-auth'
 
 export const Route = createFileRoute('/_auth/_dashboard/settings')({
   component: RouteComponent,
 })
 
 function RouteComponent() {
-
   const { toast } = useToast();
-  const { user } = useAuth();
   // Add state to track the active user
   const {
     data: appUrlData,
@@ -268,11 +265,11 @@ function RouteComponent() {
           <CardContent className="space-y-6">
             <StripeProvider>
               {/* Using the current user ID from state */}
-              <SubscriptionList userId={user?.id!} />
+              <SubscriptionList />
 
               <Separator className="my-6" />
 
-              <PaymentMethods userId={user?.id!} />
+              <PaymentMethods />
             </StripeProvider>
           </CardContent>
         </Card>

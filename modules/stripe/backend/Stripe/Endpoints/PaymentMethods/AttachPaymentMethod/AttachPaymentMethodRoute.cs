@@ -1,8 +1,6 @@
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using MediatR;
-using System.Threading.Tasks;
 
 namespace Stripe.Endpoints.PaymentMethods.AttachPaymentMethod;
 
@@ -18,7 +16,7 @@ public static class AttachPaymentMethodRoute
     public static async Task<AttachPaymentMethodResponse> ExecuteAsync(
         AttachPaymentMethodRequest request,
         IMediator mediator)
-        => await mediator.Send(new AttachPaymentMethodCommand(request.UserId, request.PaymentMethodId));
+        => await mediator.Send(new AttachPaymentMethodCommand(request.PaymentMethodId));
 }
 
-public record AttachPaymentMethodRequest(string UserId, string PaymentMethodId);
+public record AttachPaymentMethodRequest(string PaymentMethodId);

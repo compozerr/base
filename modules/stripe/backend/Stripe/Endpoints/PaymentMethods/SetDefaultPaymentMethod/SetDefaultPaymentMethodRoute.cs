@@ -18,7 +18,7 @@ public static class SetDefaultPaymentMethodRoute
     public static async Task<SetDefaultPaymentMethodResponse> ExecuteAsync(
         SetDefaultPaymentMethodRequest request,
         IMediator mediator)
-        => await mediator.Send(new SetDefaultPaymentMethodCommand(request.UserId, request.PaymentMethodId));
+        => await mediator.Send(new SetDefaultPaymentMethodCommand(request.PaymentMethodId));
 }
 
-public record SetDefaultPaymentMethodRequest(string UserId, string PaymentMethodId);
+public record SetDefaultPaymentMethodRequest(string PaymentMethodId);

@@ -25,16 +25,13 @@ import StripeProvider from './stripe-provider';
 import StripeElementsForm from './stripe-elements-form';
 
 interface PaymentMethodsProps {
-    userId: string;
 }
 
-export const PaymentMethods: React.FC<PaymentMethodsProps> = ({ userId }) => {
+export const PaymentMethods: React.FC<PaymentMethodsProps> = () => {
     const { toast } = useToast();
     const [openDialog, setOpenDialog] = useState(false);
 
-    const { data: paymentMethodsData, isLoading, error, refetch } = api.v1.getStripePaymentMethodsUserUserId.useQuery({
-        path: { userId },
-    });
+    const { data: paymentMethodsData, isLoading, error, refetch } = api.v1.getStripePaymentMethodsUser.useQuery();
 
     const { mutateAsync: attachPaymentMethod } = api.v1.postStripePaymentMethodsAttach.useMutation();
     const { mutateAsync: setDefaultPaymentMethod } = api.v1.postStripePaymentMethodsDefault.useMutation();
@@ -45,7 +42,7 @@ export const PaymentMethods: React.FC<PaymentMethodsProps> = ({ userId }) => {
         try {
             // Call our API to associate the payment method with the user
             await attachPaymentMethod({
-                body: { paymentMethodId, userId }
+                body: { paymentMethodId }
             });
 
             toast({
@@ -69,7 +66,7 @@ export const PaymentMethods: React.FC<PaymentMethodsProps> = ({ userId }) => {
         try {
             // Call API to set default payment method
             await setDefaultPaymentMethod({
-                body: { paymentMethodId, userId }
+                body: { paymentMethodId }
             });
 
             toast({
@@ -150,7 +147,6 @@ export const PaymentMethods: React.FC<PaymentMethodsProps> = ({ userId }) => {
                             {/* Stripe Elements integration */}
                             <StripeProvider>
                                 <StripeElementsForm
-                                    userId={userId}
                                     onSuccess={handleCardAdded}
                                     onError={(errorMessage) => {
                                         toast({

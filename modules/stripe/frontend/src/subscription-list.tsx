@@ -12,13 +12,10 @@ import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 
 interface SubscriptionListProps {
-  userId: string;
 }
 
-export const SubscriptionList: React.FC<SubscriptionListProps> = ({ userId }) => {
-  const { data: subscriptionsData, isLoading, error } = api.v1.getStripeSubscriptionsUserUserId.useQuery({
-    path: { userId },
-  });
+export const SubscriptionList: React.FC<SubscriptionListProps> = () => {
+  const { data: subscriptionsData, isLoading, error } = api.v1.getStripeSubscriptionsUser.useQuery();
 
   if (isLoading) {
     return (
