@@ -1,12 +1,36 @@
-# GitHub Copilot Context for Endpoint Creation
+# GitHub Copilot Context
 
 This directory contains structured documentation to help GitHub Copilot understand how to create new endpoints and implement features in this codebase.
 
 ## Available Documentation
 
+### Backend Documentation
+
 1. [Endpoint Structure and Organization](./endpoint-context.md) - Core structure of endpoints, repositories, and entities
 2. [Endpoint Implementation Examples](./endpoint-examples.md) - Complete examples of implementing different types of endpoints
 3. [Advanced Patterns and Features](./advanced-patterns.md) - Advanced query patterns and architectural features
+
+### Frontend Documentation
+
+1. [Frontend Architecture Overview](./frontend-architecture.md) - Overview of the frontend architecture and technology stack
+2. [Routing with TanStack Router](./frontend-routing.md) - How routing is implemented using TanStack Router
+3. [API Client Integration](./frontend-api-client.md) - How the frontend integrates with the backend API
+4. [Component Patterns](./frontend-components.md) - Common component patterns and best practices
+5. [Advanced Frontend Patterns](./frontend-advanced-patterns.md) - Pagination, data management, and other advanced patterns
+6. [Frontend Implementation Examples](./frontend-examples.md) - Concrete examples of implementing common patterns
+
+### Integration Documentation
+
+1. [Frontend-Backend Integration](./frontend-backend-integration.md) - How the frontend and backend connect and communicate
+
+### Quick References
+
+1. [Quick Reference Guide](./quick-reference.md) - Cheat sheet for common development tasks
+
+### Architecture Guides
+
+1. [Module Architecture Guide](./module-architecture.md) - Understanding the monorepo module structure
+2. [Complete Module Implementation Example](./module-implementation-example.md) - End-to-end example of implementing a feature in a module
 
 ## Quick Reference
 
