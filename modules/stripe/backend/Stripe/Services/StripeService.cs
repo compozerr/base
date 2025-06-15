@@ -165,14 +165,27 @@ public class StripeService : IStripeService
     {
         try
         {
-            var service = new StripeSdk.PaymentMethodService(_stripeClient);
+            // For retrieving payment methods, we don't want to auto-create customers
+            // If no customer exists, just return an empty list
             var customerService = new StripeSdk.CustomerService(_stripeClient);
+            StripeSdk.Customer customer;
+            
+            try
+            {
+                // Try to get the customer
+                customer = await customerService.GetAsync(userId, cancellationToken: cancellationToken);
+            }
+            catch (StripeSdk.StripeException ex) when (ex.Message.ToLowerInvariant().Contains("no such customer"))
+            {
+                _logger.LogInformation("No customer with id: {UserId} found in Stripe when retrieving payment methods", userId);
+                return new List<PaymentMethodDto>();
+            }
 
-            // Get the customer to find the default payment method
-            var customer = await customerService.GetAsync(userId, cancellationToken: cancellationToken);
-            string defaultPaymentMethodId = customer.InvoiceSettings?.DefaultPaymentMethodId;
+            // Get the default payment method ID
+            string? defaultPaymentMethodId = customer.InvoiceSettings?.DefaultPaymentMethodId;
 
             // Retrieve all payment methods for the customer
+            var service = new StripeSdk.PaymentMethodService(_stripeClient);
             var options = new StripeSdk.PaymentMethodListOptions
             {
                 Customer = userId,
@@ -206,22 +219,25 @@ public class StripeService : IStripeService
     {
         try
         {
+            // Ensure the customer exists in Stripe (create if needed)
+            string stripeCustomerId = await EnsureCustomerExistsAsync(userId, cancellationToken);
+            
             var service = new StripeSdk.PaymentMethodService(_stripeClient);
-
+            
             // Attach the payment method to the customer
             var options = new StripeSdk.PaymentMethodAttachOptions
             {
-                Customer = userId
+                Customer = stripeCustomerId
             };
 
             var paymentMethod = await service.AttachAsync(paymentMethodId, options, cancellationToken: cancellationToken);
 
             // If this is the first payment method, make it the default
-            var paymentMethods = await GetUserPaymentMethodsAsync(userId, cancellationToken);
+            var paymentMethods = await GetUserPaymentMethodsAsync(stripeCustomerId, cancellationToken);
             if (paymentMethods.Count == 1)
             {
-                await SetDefaultPaymentMethodAsync(userId, paymentMethodId, cancellationToken);
-                return await GetPaymentMethod(paymentMethodId, userId, cancellationToken);
+                await SetDefaultPaymentMethodAsync(stripeCustomerId, paymentMethodId, cancellationToken);
+                return await GetPaymentMethod(paymentMethodId, stripeCustomerId, cancellationToken);
             }
 
             return new PaymentMethodDto
@@ -268,6 +284,12 @@ public class StripeService : IStripeService
 
             return true;
         }
+        catch (StripeSdk.StripeException ex) when (ex.Message.ToLowerInvariant().Contains("no such customer"))
+        {
+            _logger.LogWarning("Customer associated with payment method {PaymentMethodId} not found in Stripe", paymentMethodId);
+            // For removal, just return true as if successfully removed since it doesn't exist anyway
+            return true;
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error removing payment method {PaymentMethodId}", paymentMethodId);
@@ -282,6 +304,9 @@ public class StripeService : IStripeService
     {
         try
         {
+            // Ensure the customer exists in Stripe (create if needed)
+            string stripeCustomerId = await EnsureCustomerExistsAsync(userId, cancellationToken);
+            
             var customerService = new StripeSdk.CustomerService(_stripeClient);
 
             // Update the customer's default payment method
@@ -293,10 +318,10 @@ public class StripeService : IStripeService
                 }
             };
 
-            await customerService.UpdateAsync(userId, options, cancellationToken: cancellationToken);
+            await customerService.UpdateAsync(stripeCustomerId, options, cancellationToken: cancellationToken);
 
             // Return the updated payment method
-            return await GetPaymentMethod(paymentMethodId, userId, cancellationToken);
+            return await GetPaymentMethod(paymentMethodId, stripeCustomerId, cancellationToken);
         }
         catch (Exception ex)
         {
@@ -356,26 +381,70 @@ public class StripeService : IStripeService
 
     private async Task<PaymentMethodDto> GetPaymentMethod(string paymentMethodId, string userId, CancellationToken cancellationToken)
     {
-        var service = new StripeSdk.PaymentMethodService(_stripeClient);
+        try
+        {
+            // Ensure the customer exists in Stripe (create if needed)
+            string stripeCustomerId = await EnsureCustomerExistsAsync(userId, cancellationToken);
+            
+            var service = new StripeSdk.PaymentMethodService(_stripeClient);
+            var customerService = new StripeSdk.CustomerService(_stripeClient);
+
+            // Get the payment method
+            var paymentMethod = await service.GetAsync(paymentMethodId, cancellationToken: cancellationToken);
+
+            // Get the customer to check if this is the default payment method
+            var customer = await customerService.GetAsync(stripeCustomerId, cancellationToken: cancellationToken);
+            string? defaultPaymentMethodId = customer.InvoiceSettings?.DefaultPaymentMethodId;
+
+            return new PaymentMethodDto
+            {
+                Id = paymentMethod.Id,
+                Type = paymentMethod.Type,
+                Brand = paymentMethod.Card?.Brand ?? "",
+                Last4 = paymentMethod.Card?.Last4 ?? "",
+                ExpiryMonth = (int?)paymentMethod.Card?.ExpMonth ?? 0,
+                ExpiryYear = (int?)paymentMethod.Card?.ExpYear ?? 0,
+                IsDefault = paymentMethod.Id == defaultPaymentMethodId
+            };
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error retrieving payment method {PaymentMethodId} for user {UserId}", paymentMethodId, userId);
+            throw;
+        }
+    }
+
+    /// <summary>
+    /// Ensures that a customer exists in Stripe with the given ID
+    /// </summary>
+    /// <param name="stripeCustomerId">The user ID to check</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>The Stripe customer ID (may be different from userId if created)</returns>
+    private async Task<string> EnsureCustomerExistsAsync(string stripeCustomerId, CancellationToken cancellationToken = default)
+    {
         var customerService = new StripeSdk.CustomerService(_stripeClient);
 
-        // Get the payment method
-        var paymentMethod = await service.GetAsync(paymentMethodId, cancellationToken: cancellationToken);
-
-        // Get the customer to check if this is the default payment method
-        var customer = await customerService.GetAsync(userId, cancellationToken: cancellationToken);
-        string defaultPaymentMethodId = customer.InvoiceSettings?.DefaultPaymentMethodId;
-
-        return new PaymentMethodDto
+        try
         {
-            Id = paymentMethod.Id,
-            Type = paymentMethod.Type,
-            Brand = paymentMethod.Card?.Brand ?? "",
-            Last4 = paymentMethod.Card?.Last4 ?? "",
-            ExpiryMonth = (int?)paymentMethod.Card?.ExpMonth ?? 0,
-            ExpiryYear = (int?)paymentMethod.Card?.ExpYear ?? 0,
-            IsDefault = paymentMethod.Id == defaultPaymentMethodId
-        };
+            // Try to retrieve the customer
+            await customerService.GetAsync(stripeCustomerId, cancellationToken: cancellationToken);
+            return stripeCustomerId; // Customer exists, return the same ID
+        }
+        catch (StripeSdk.StripeException ex) when (ex.Message.ToLowerInvariant().Contains("no such customer"))
+        {
+            // Customer doesn't exist, create a new one
+            _logger.LogInformation("Customer {UserId} not found in Stripe, creating new customer", stripeCustomerId);
+            
+            var customerOptions = new StripeSdk.CustomerCreateOptions
+            {
+                Description = $"Auto-created for user {stripeCustomerId}"
+            };
+            
+            var customer = await customerService.CreateAsync(customerOptions, cancellationToken: cancellationToken);
+            _logger.LogInformation("Created Stripe customer with ID {StripeCustomerId} for user {UserId}", customer.Id, stripeCustomerId);
+            
+            return customer.Id;
+        }
     }
 
     #endregion
