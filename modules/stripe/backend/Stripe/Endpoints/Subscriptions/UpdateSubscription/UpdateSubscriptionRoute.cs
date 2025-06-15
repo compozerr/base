@@ -6,7 +6,7 @@ namespace Stripe.Endpoints.UpdateSubscription;
 
 public static class UpdateSubscriptionRoute
 {
-	public const string Route = ""; // Set your route path here
+	public const string Route = "{subscriptionId}"; // Route with subscription ID parameter
 
 	public static RouteHandlerBuilder AddUpdateSubscriptionRoute(this IEndpointRouteBuilder app)
 	{
@@ -14,7 +14,8 @@ public static class UpdateSubscriptionRoute
 	}
 
 	public static Task<UpdateSubscriptionResponse> ExecuteAsync(
+		string subscriptionId,
 		UpdateSubscriptionCommand command,
 		IMediator mediator)
-		=> mediator.Send(command);
+		=> mediator.Send(command with { SubscriptionId = subscriptionId });
 }
