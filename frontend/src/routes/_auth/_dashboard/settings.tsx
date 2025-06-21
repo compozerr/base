@@ -241,7 +241,7 @@ function RouteComponent() {
           </CardContent>
         </Card>
 
-        <Card>
+        {/* <Card>
           <CardHeader>
             <CardTitle>Account Settings</CardTitle>
             <CardDescription>
@@ -253,7 +253,7 @@ function RouteComponent() {
               Account settings coming soon...
             </p>
           </CardContent>
-        </Card>
+        </Card> */}
 
         <Card>
           <CardHeader>
@@ -265,11 +265,12 @@ function RouteComponent() {
           <CardContent className="space-y-6">
             <StripeProvider>
               {/* Using the current user ID from state */}
-              <SubscriptionList />
+              <PaymentMethods />
 
               <Separator className="my-6" />
+              
+              <SubscriptionList />
 
-              <PaymentMethods />
             </StripeProvider>
           </CardContent>
         </Card>

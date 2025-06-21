@@ -23,6 +23,7 @@ import {
 import { useToast } from '@/hooks/use-toast';
 import StripeProvider from './stripe-provider';
 import StripeElementsForm from './stripe-elements-form';
+import { CardElement, Elements, useElements, useStripe } from '@stripe/react-stripe-js';
 
 interface PaymentMethodsProps {
 }
@@ -129,13 +130,13 @@ export const PaymentMethods: React.FC<PaymentMethodsProps> = () => {
     return (
         <div className="space-y-4">
             <div className="flex items-center justify-between">
-                <h3 className="text-lg font-medium">Payment Methods</h3>
-                <Dialog open={openDialog} onOpenChange={setOpenDialog}>
-                    <DialogTrigger asChild>
+                <h3 className="text-lg font-medium">Payment Method</h3>
+                {paymentMethods.length < 1 && <Dialog open={openDialog} onOpenChange={setOpenDialog}>
+                    {/* <DialogTrigger asChild>
                         <Button size="sm" variant="outline">
                             <Plus className="h-4 w-4 mr-2" /> Add Payment Method
                         </Button>
-                    </DialogTrigger>
+                    </DialogTrigger> */}
                     <DialogContent>
                         <DialogHeader>
                             <DialogTitle>Add Payment Method</DialogTitle>
@@ -160,50 +161,54 @@ export const PaymentMethods: React.FC<PaymentMethodsProps> = () => {
                             </StripeProvider>
                         </div>
                     </DialogContent>
-                </Dialog>
+                </Dialog>}
             </div>
 
             {paymentMethods.length > 0 ? (
                 <div className="space-y-3">
                     {paymentMethods.map((method) => (
                         <Card key={method.id} className={method.isDefault ? 'border-primary/50' : ''}>
-                            <CardHeader className="pb-2">
-                                <div className="flex items-center justify-between">
-                                    <div className="flex items-center space-x-2">
-                                        <CreditCard className="h-4 w-4" />
-                                        <CardTitle className="text-base">
-                                            {method.brand?.toUpperCase()} •••• {method.last4}
-                                        </CardTitle>
-                                    </div>
-                                    {method.isDefault && (
+                            <CardHeader className="">
+                                <div className='flex flex-row justify-between items-center'>
+                                    <div className='flex flex-col w-full'>
+                                        <div className="flex items-center justify-between">
+                                            <div className="flex items-center space-x-2">
+                                                <CreditCard className="h-4 w-4" />
+                                                <CardTitle className="text-base">
+                                                    {method.brand?.toUpperCase()} •••• {method.last4}
+                                                </CardTitle>
+                                            </div>
+                                            {/* {method.isDefault && (
                                         <Badge variant="outline" className="ml-2">Default</Badge>
-                                    )}
-                                </div>
-                                <CardDescription>
-                                    Expires {method.expiryMonth?.toString().padStart(2, '0')}/{method.expiryYear}
-                                </CardDescription>
-                            </CardHeader>
-                            <CardFooter className="pt-1">
-                                <div className="flex justify-end space-x-2 w-full">
-                                    {!method.isDefault && (
+                                        )} */}
+                                        </div>
+                                        <CardDescription>
+
+                                            Expires {method.expiryMonth?.toString().padStart(2, '0')}/{method.expiryYear}
+                                        </CardDescription>
+                                    </div>
+
+                                    <div className="flex justify-end space-x-2 w-full">
+                                        {!method.isDefault && (
+                                            <Button
+                                                variant="ghost"
+                                                size="sm"
+                                                onClick={() => handleSetDefault(method.id!)}
+                                            >
+                                                Make Default
+                                            </Button>
+                                        )}
                                         <Button
                                             variant="ghost"
                                             size="sm"
-                                            onClick={() => handleSetDefault(method.id!)}
+                                            className="text-destructive"
+                                            onClick={() => handleDelete(method.id!)}
                                         >
-                                            Make Default
+                                            <Trash2 className="h-4 w-4 mr-1" /> Remove
                                         </Button>
-                                    )}
-                                    <Button
-                                        variant="ghost"
-                                        size="sm"
-                                        className="text-destructive"
-                                        onClick={() => handleDelete(method.id!)}
-                                    >
-                                        <Trash2 className="h-4 w-4 mr-1" /> Remove
-                                    </Button>
+                                    </div>
                                 </div>
-                            </CardFooter>
+                            </CardHeader>
                         </Card>
                     ))}
                 </div>
@@ -211,7 +216,7 @@ export const PaymentMethods: React.FC<PaymentMethodsProps> = () => {
                 <Card>
                     <CardContent className="py-6">
                         <div className="text-center space-y-3">
-                            <p className="text-muted-foreground">No payment methods added yet</p>
+                            <p className="text-muted-foreground">No payment method added yet</p>
                             <Button variant="outline" onClick={() => setOpenDialog(true)}>
                                 <Plus className="h-4 w-4 mr-2" /> Add Payment Method
                             </Button>
