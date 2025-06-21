@@ -104,7 +104,6 @@ export const SubscriptionList: React.FC<SubscriptionListProps> = () => {
           <CardContent className="py-6">
             <div className="text-center space-y-3">
               <p className="text-muted-foreground">No active subscriptions</p>
-              <Button variant="outline">Subscribe Now</Button>
             </div>
           </CardContent>
         </Card>
