@@ -50,7 +50,7 @@ function GeneralSettingsTab() {
 
   const { data: tiers } = api.v1.getServersTiers.useQuery();
 
-  const { mutateAsync } = api.v1.putProjectsProjectIdChangeTier.useMutation({ path: { projectId } });
+  const { mutateAsync: changeTierAsync } = api.v1.putProjectsProjectIdChangeTier.useMutation({ path: { projectId } });
 
   const [tier, setTier] = useState<string | null>(null);
 
@@ -67,7 +67,7 @@ function GeneralSettingsTab() {
   const { toast } = useToast();
 
   const handleTierChangeAsync = async () => {
-    await mutateAsync({
+    await changeTierAsync({
       tier
     })
 
