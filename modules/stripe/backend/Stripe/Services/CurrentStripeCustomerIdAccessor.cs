@@ -72,6 +72,7 @@ public sealed class CurrentStripeCustomerIdAccessor(
         var options = new CustomerCreateOptions
         {
             Description = $"Customer for user {internalId}",
+            Name= $"User {internalId}",
             Metadata = new Dictionary<string, string>
             {
                 { "InternalId", internalId }
