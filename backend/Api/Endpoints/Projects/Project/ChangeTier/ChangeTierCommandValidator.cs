@@ -1,5 +1,4 @@
 using Api.Abstractions;
-using Api.Data.Extensions;
 using FluentValidation;
 using MediatR;
 
@@ -20,6 +19,6 @@ public sealed class ChangeTierCommandValidator : AbstractValidator<ChangeTierCom
 		  .NotEmpty().WithMessage("Tier cannot be empty.")
 		  .NotNull().WithMessage("Tier cannot be null.");
 
-		RuleFor(x => x.ProjectId).MustBeOwnedByCallerAsync(scopeFactory);
+		// RuleFor(x => x.ProjectId).MustBeOwnedByCallerAsync(scopeFactory);
 	}
 }
