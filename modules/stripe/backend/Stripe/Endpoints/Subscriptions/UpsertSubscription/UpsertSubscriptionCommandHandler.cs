@@ -3,6 +3,7 @@ using Api.Abstractions;
 using Stripe.Services;
 using Core.Services;
 using MediatR;
+using Stripe.Events;
 
 namespace Stripe.Endpoints.Subscriptions.UpsertSubscription;
 
@@ -10,16 +11,16 @@ public sealed class UpsertSubscriptionCommandHandler : ICommandHandler<UpsertSub
 {
     private readonly IStripeService _stripeService;
     private readonly IFrontendLocation _frontendLocation;
-    private readonly ISender _mediator;
+    private readonly IPublisher _publisher;
 
     public UpsertSubscriptionCommandHandler(
         IStripeService stripeService,
         IFrontendLocation frontendLocation,
-        ISender mediator)
+        IPublisher publisher)
     {
         _stripeService = stripeService;
         _frontendLocation = frontendLocation;
-        _mediator = mediator;
+        _publisher = publisher;
     }
 
     public async Task<UpsertSubscriptionResponse> Handle(UpsertSubscriptionCommand command, CancellationToken cancellationToken = default)
@@ -37,9 +38,11 @@ public sealed class UpsertSubscriptionCommandHandler : ICommandHandler<UpsertSub
                 command.ServerTierId,
                 cancellationToken);
 
-            await _mediator.Send(new ChangeTierCommand(
-                ProjectId: command.ProjectId,
-                Tier: command.ServerTierId.Value),
+            await _publisher.Publish(
+                new StripeSubscriptionUpdatedEvent(
+                    SubscriptionId: updatedSubscription.Id,
+                    ProjectId: command.ProjectId,
+                    ServerTierId: command.ServerTierId),
                 cancellationToken);
 
             return new UpsertSubscriptionResponse(
@@ -50,6 +53,13 @@ public sealed class UpsertSubscriptionCommandHandler : ICommandHandler<UpsertSub
             var session = await _stripeService.CreateSubscriptionTierAsync(
                 command.ProjectId,
                 command.ServerTierId,
+                cancellationToken);
+
+            await _publisher.Publish(
+                new StripeSubscriptionUpdatedEvent(
+                    SubscriptionId: session.Id,
+                    ProjectId: command.ProjectId,
+                    ServerTierId: command.ServerTierId),
                 cancellationToken);
 
             return new UpsertSubscriptionResponse(
