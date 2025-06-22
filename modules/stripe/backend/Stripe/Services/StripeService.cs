@@ -101,7 +101,10 @@ public class StripeService : IStripeService
                 Expand = new List<string> { "plan.product" }
             };
 
-            var subscription = await service.UpdateAsync(subscriptionId, options, cancellationToken: cancellationToken);
+            var subscription = await service.UpdateAsync(
+                subscriptionId,
+                options,
+                cancellationToken: cancellationToken);
 
             await _publisher.Publish(
                 new StripeSubscriptionUpdatedEvent(
