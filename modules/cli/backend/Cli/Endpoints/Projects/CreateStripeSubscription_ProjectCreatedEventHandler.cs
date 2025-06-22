@@ -4,11 +4,11 @@ using Stripe.Endpoints.Subscriptions.UpsertSubscription;
 
 namespace Cli.Endpoints.Projects;
 
-public sealed class CreateStripeSubscription_ProjectCreatedEventHandler(
-    ISender sender) : IDomainEventHandler<ProjectCreatedEvent>
+public sealed class CreateStripeSubscription_ProjectCreatedEvent_AfterSaveHandler(
+    ISender sender) : IDomainEventHandler<ProjectCreatedEvent_AfterSave>
 {
     public async Task Handle(
-        ProjectCreatedEvent notification,
+        ProjectCreatedEvent_AfterSave notification,
         CancellationToken cancellationToken)
     {
         var command = new UpsertSubscriptionCommand(

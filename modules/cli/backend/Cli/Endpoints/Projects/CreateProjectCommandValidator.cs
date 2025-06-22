@@ -2,7 +2,6 @@ using Api.Abstractions;
 using Api.Data.Repositories;
 using Auth.Services;
 using FluentValidation;
-using Github.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Cli.Endpoints.Projects;
