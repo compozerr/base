@@ -28,7 +28,7 @@ public sealed class UpsertSubscriptionCommandHandler : ICommandHandler<UpsertSub
         var existingSubscriptions = await _stripeService.GetSubscriptionsForUserAsync(cancellationToken);
 
         var existingSubscription = existingSubscriptions
-            .FirstOrDefault(s => s.Status == "active" || s.Status == "trialing" && s.ProjectId == command.ProjectId);
+            .FirstOrDefault(s => (s.Status == "active" || s.Status == "trialing") && s.ProjectId == command.ProjectId);
 
         if (existingSubscription != null)
         {
