@@ -24,8 +24,7 @@ public sealed class CancelSubscriptionCommandHandler : ICommandHandler<CancelSub
                 command.SubscriptionId,
                 new Stripe.SubscriptionCancelOptions()
                 {
-                    Prorate = true, // Prorate the cancellation if applicable
-                    InvoiceNow = true // Optionally invoice immediately for any outstanding amounts
+                    
                 },
                 null,
                 cancellationToken);
