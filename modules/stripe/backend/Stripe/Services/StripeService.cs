@@ -10,7 +10,7 @@ namespace Stripe.Services;
 public class StripeService : IStripeService
 {
     private readonly StripeOptions _options;
-    private readonly StripeSdk.StripeClient _stripeClient;
+    private readonly StripeClient _stripeClient;
     private readonly ICurrentStripeCustomerIdAccessor _currentStripeCustomerIdAccessor;
 
     public StripeService(
@@ -18,7 +18,7 @@ public class StripeService : IStripeService
         ICurrentStripeCustomerIdAccessor currentStripeCustomerIdAccessor)
     {
         _options = options.Value;
-        _stripeClient = new StripeSdk.StripeClient(_options.ApiKey);
+        _stripeClient = new StripeClient(_options.ApiKey);
         _currentStripeCustomerIdAccessor = currentStripeCustomerIdAccessor;
     }
 
@@ -29,8 +29,8 @@ public class StripeService : IStripeService
 
         try
         {
-            var service = new StripeSdk.SubscriptionService(_stripeClient);
-            var options = new StripeSdk.SubscriptionListOptions
+            var service = new SubscriptionService(_stripeClient);
+            var options = new SubscriptionListOptions
             {
                 Customer = stripeCustomerId,
                 Expand = new List<string> { "data.plan.product" }
@@ -39,6 +39,7 @@ public class StripeService : IStripeService
             var subscriptions = await service.ListAsync(options, cancellationToken: cancellationToken);
             return [.. subscriptions.Select(s => new SubscriptionDto(
                                 Id: s.Id,
+                                ProjectId: ProjectId.Create(Guid.Parse(s.Metadata["project_id"])),
                                 Name: s.Items?.Data?.FirstOrDefault()?.Plan?.Product?.Name ?? "Subscription",
                                 Status: s.Status,
                                 PlanId: s.Items?.Data?.FirstOrDefault()?.Plan?.Id ?? "",
@@ -64,12 +65,13 @@ public class StripeService : IStripeService
 
     public async Task<SubscriptionDto> UpdateSubscriptionTierAsync(
         string subscriptionId,
+        ProjectId projectId,
         ServerTierId serverTierId,
         CancellationToken cancellationToken = default)
     {
         try
         {
-            var service = new StripeSdk.SubscriptionService(_stripeClient);
+            var service = new SubscriptionService(_stripeClient);
 
             // Get the subscription item ID
             var subscriptionItemId = await GetSubscriptionItemId(subscriptionId, cancellationToken);
@@ -77,15 +79,20 @@ public class StripeService : IStripeService
             // Map tier ID to price ID
             var priceId = Prices.GetPriceId(serverTierId.Value);
 
-            var options = new StripeSdk.SubscriptionUpdateOptions
+            var options = new SubscriptionUpdateOptions
             {
-                Items = new List<StripeSdk.SubscriptionItemOptions>
+                Items = new List<SubscriptionItemOptions>
                 {
-                    new StripeSdk.SubscriptionItemOptions
+                    new SubscriptionItemOptions
                     {
                         Id = subscriptionItemId,
                         Price = priceId
                     }
+                },
+                Metadata = new Dictionary<string, string>
+                {
+                    { "project_id", projectId.Value.ToString() },
+                    { "server_tier_id", serverTierId.Value.ToString() }
                 },
                 Expand = new List<string> { "plan.product" }
             };
@@ -94,6 +101,7 @@ public class StripeService : IStripeService
 
             return new SubscriptionDto(
                 Id: subscription.Id,
+                ProjectId: projectId,
                 Name: subscription.Items?.Data?.FirstOrDefault()?.Plan?.Product?.Name ?? "Subscription",
                 Status: subscription.Status,
                 PlanId: subscription.Items?.Data?.FirstOrDefault()?.Plan?.Id ?? "",
@@ -112,6 +120,62 @@ public class StripeService : IStripeService
         }
     }
 
+    public async Task<SubscriptionDto> CreateSubscriptionTierAsync(
+        ProjectId projectId,
+        ServerTierId serverTierId,
+        CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            string stripeCustomerId = await _currentStripeCustomerIdAccessor.GetOrCreateStripeCustomerId();
+
+            var service = new SubscriptionService(_stripeClient);
+            var options = new SubscriptionCreateOptions
+            {
+                Customer = stripeCustomerId,
+                Items = new List<SubscriptionItemOptions>
+                {
+                    new SubscriptionItemOptions
+                    {
+                        Price = Prices.GetPriceId(serverTierId.Value)
+                    }
+                },
+                Metadata = new Dictionary<string, string>
+                {
+                    { "project_id", projectId.Value.ToString() },
+                    { "server_tier_id", serverTierId.Value.ToString() }
+                },
+                Expand = new List<string> { "items.data.plan.product" }
+            };
+
+            var subscription = await service.CreateAsync(options, cancellationToken: cancellationToken);
+
+            if (subscription == null || subscription.Items == null || !subscription.Items.Data.Any())
+            {
+                throw new Exception("Failed to create subscription or retrieve items.");
+            }
+
+            return new SubscriptionDto(
+                Id: subscription.Id,
+                ProjectId: projectId,
+                Name: subscription.Items?.Data?.FirstOrDefault()?.Plan?.Product?.Name ?? "Subscription",
+                Status: subscription.Status,
+                PlanId: subscription.Items?.Data?.FirstOrDefault()?.Plan?.Id ?? "",
+                ServerTierId: serverTierId.Value,
+                CurrentPeriodStart: new DateTime(), //subscription.CurrentPeriodStart,
+                CurrentPeriodEnd: new DateTime(), //subscription.CurrentPeriodEnd,
+                CancelAtPeriodEnd: subscription.CancelAtPeriodEnd,
+                Amount: subscription.Items?.Data?.FirstOrDefault()?.Plan?.Amount / 100m ?? 0,
+                Currency: subscription.Items?.Data?.FirstOrDefault()?.Plan?.Currency?.ToUpper() ?? "USD"
+            );
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, "Error creating subscription to tier {TierId}", serverTierId.Value);
+            throw;
+        }
+    }
+
     public async Task<SubscriptionDto> CancelSubscriptionAsync(
         string subscriptionId,
         bool cancelImmediately,
@@ -119,9 +183,9 @@ public class StripeService : IStripeService
     {
         try
         {
-            var service = new StripeSdk.SubscriptionService(_stripeClient);
+            var service = new SubscriptionService(_stripeClient);
 
-            StripeSdk.Subscription subscription;
+            Subscription subscription;
 
             if (cancelImmediately)
             {
@@ -131,7 +195,7 @@ public class StripeService : IStripeService
             else
             {
                 // Cancel at period end
-                var options = new StripeSdk.SubscriptionUpdateOptions
+                var options = new SubscriptionUpdateOptions
                 {
                     CancelAtPeriodEnd = true,
                     Expand = new List<string> { "plan.product" }
@@ -142,6 +206,7 @@ public class StripeService : IStripeService
 
             return new SubscriptionDto(
                 Id: subscription.Id,
+                ProjectId: ProjectId.Create(Guid.Parse(subscription.Metadata["project_id"])),
                 Name: subscription.Items?.Data?.FirstOrDefault()?.Plan?.Product?.Name ?? "Subscription",
                 Status: subscription.Status,
                 PlanId: subscription.Items?.Data?.FirstOrDefault()?.Plan?.Id ?? "",
@@ -167,8 +232,8 @@ public class StripeService : IStripeService
         {
             // For retrieving payment methods, we don't want to auto-create customers
             // If no customer exists, just return an empty list
-            var customerService = new StripeSdk.CustomerService(_stripeClient);
-            StripeSdk.Customer customer;
+            var customerService = new CustomerService(_stripeClient);
+            Customer customer;
 
             var stripeCustomerId = await _currentStripeCustomerIdAccessor.GetOrCreateStripeCustomerId();
 
@@ -176,7 +241,7 @@ public class StripeService : IStripeService
             {
                 customer = await customerService.GetAsync(stripeCustomerId, cancellationToken: cancellationToken);
             }
-            catch (StripeSdk.StripeException ex) when (ex.Message.ToLowerInvariant().Contains("no such customer"))
+            catch (StripeException ex) when (ex.Message.ToLowerInvariant().Contains("no such customer"))
             {
                 Log.Information("No customer with id: {StripeCustomerId} found in Stripe when retrieving payment methods", stripeCustomerId);
                 return new List<PaymentMethodDto>();
@@ -186,8 +251,8 @@ public class StripeService : IStripeService
             string? defaultPaymentMethodId = customer.InvoiceSettings?.DefaultPaymentMethodId;
 
             // Retrieve all payment methods for the customer
-            var service = new StripeSdk.PaymentMethodService(_stripeClient);
-            var options = new StripeSdk.PaymentMethodListOptions
+            var service = new PaymentMethodService(_stripeClient);
+            var options = new PaymentMethodListOptions
             {
                 Customer = stripeCustomerId,
                 Type = "card"
@@ -222,10 +287,10 @@ public class StripeService : IStripeService
             // Ensure the customer exists in Stripe (create if needed)
             string stripeCustomerId = await _currentStripeCustomerIdAccessor.GetOrCreateStripeCustomerId();
 
-            var service = new StripeSdk.PaymentMethodService(_stripeClient);
+            var service = new PaymentMethodService(_stripeClient);
 
             // Attach the payment method to the customer
-            var options = new StripeSdk.PaymentMethodAttachOptions
+            var options = new PaymentMethodAttachOptions
             {
                 Customer = stripeCustomerId
             };
@@ -264,7 +329,7 @@ public class StripeService : IStripeService
     {
         try
         {
-            var service = new StripeSdk.PaymentMethodService(_stripeClient);
+            var service = new PaymentMethodService(_stripeClient);
 
             // First retrieve the payment method to get customer ID
             var paymentMethod = await service.GetAsync(paymentMethodId, cancellationToken: cancellationToken);
@@ -284,7 +349,7 @@ public class StripeService : IStripeService
 
             return true;
         }
-        catch (StripeSdk.StripeException ex) when (ex.Message.ToLowerInvariant().Contains("no such customer"))
+        catch (StripeException ex) when (ex.Message.ToLowerInvariant().Contains("no such customer"))
         {
             Log.Warning("Customer associated with payment method {PaymentMethodId} not found in Stripe", paymentMethodId);
             // For removal, just return true as if successfully removed since it doesn't exist anyway
@@ -306,12 +371,12 @@ public class StripeService : IStripeService
             // Ensure the customer exists in Stripe (create if needed)
             string stripeCustomerId = await _currentStripeCustomerIdAccessor.GetOrCreateStripeCustomerId();
 
-            var customerService = new StripeSdk.CustomerService(_stripeClient);
+            var customerService = new CustomerService(_stripeClient);
 
             // Update the customer's default payment method
-            var options = new StripeSdk.CustomerUpdateOptions
+            var options = new CustomerUpdateOptions
             {
-                InvoiceSettings = new StripeSdk.CustomerInvoiceSettingsOptions
+                InvoiceSettings = new CustomerInvoiceSettingsOptions
                 {
                     DefaultPaymentMethod = paymentMethodId
                 }
@@ -335,7 +400,7 @@ public class StripeService : IStripeService
 
     private async Task<string> GetSubscriptionItemId(string subscriptionId, CancellationToken cancellationToken)
     {
-        var service = new StripeSdk.SubscriptionService(_stripeClient);
+        var service = new SubscriptionService(_stripeClient);
         var subscription = await service.GetAsync(subscriptionId, cancellationToken: cancellationToken);
 
         return subscription.Items.Data.FirstOrDefault()?.Id
@@ -349,8 +414,8 @@ public class StripeService : IStripeService
             // Ensure the customer exists in Stripe (create if needed)
             string stripeCustomerId = await _currentStripeCustomerIdAccessor.GetOrCreateStripeCustomerId();
 
-            var service = new StripeSdk.PaymentMethodService(_stripeClient);
-            var customerService = new StripeSdk.CustomerService(_stripeClient);
+            var service = new PaymentMethodService(_stripeClient);
+            var customerService = new CustomerService(_stripeClient);
 
             // Get the payment method
             var paymentMethod = await service.GetAsync(paymentMethodId, cancellationToken: cancellationToken);

@@ -1249,47 +1249,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/projects/{projectId}/change-tier": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    projectId: string;
-                };
-                cookie?: never;
-            };
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["ChangeTierRequest"];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["ChangeTierResponse"];
-                    };
-                };
-            };
-        };
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/v1/projects/{projectId}/deployments": {
         parameters: {
             query?: never;
@@ -1778,86 +1737,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/stripe/subscriptions": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["CreateSubscriptionCommand"];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["CreateSubscriptionResponse"];
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/stripe/subscriptions/{subscriptionId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    subscriptionId: string;
-                };
-                cookie?: never;
-            };
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["UpdateSubscriptionCommand"];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["UpdateSubscriptionResponse"];
-                    };
-                };
-            };
-        };
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/v1/stripe/subscriptions/{subscriptionId}/cancel": {
         parameters: {
             query?: never;
@@ -1928,6 +1807,43 @@ export interface paths {
         };
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/stripe/subscriptions/upsert": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["UpsertSubscriptionRequest"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
         delete?: never;
         options?: never;
         head?: never;
@@ -2165,10 +2081,6 @@ export interface components {
         ChangeDeploymentStatusResponse: {
             success?: boolean;
         };
-        ChangeTierRequest: {
-            tier?: string | null;
-        };
-        ChangeTierResponse: Record<string, never>;
         CreateDeploymentRequest: {
             commitHash?: string | null;
             commitMessage?: string | null;
@@ -2197,16 +2109,6 @@ export interface components {
             gitUrl?: string | null;
             repoName?: string | null;
             projectId?: string | null;
-        };
-        CreateSubscriptionCommand: {
-            projectId?: components["schemas"]["ProjectId"];
-            serverTierId?: components["schemas"]["ServerTierId"];
-        };
-        CreateSubscriptionResponse: {
-            sessionId?: string | null;
-            url?: string | null;
-            clientReferenceId?: string | null;
-            paymentStatus?: string | null;
         };
         /**
          * Format: int32
@@ -2455,6 +2357,7 @@ export interface components {
         };
         SubscriptionDto: {
             id?: string | null;
+            projectId?: components["schemas"]["ProjectId"];
             name?: string | null;
             status?: string | null;
             planId?: string | null;
@@ -2484,21 +2387,13 @@ export interface components {
             success?: boolean;
             pemPublicKey?: string | null;
         };
-        UpdateSubscriptionCommand: {
-            subscriptionId?: string | null;
-            newTierID?: components["schemas"]["ServerTierId"];
-            isUpgrade?: boolean;
-        };
-        UpdateSubscriptionResponse: {
-            subscriptionId?: string | null;
-            status?: string | null;
-            /** Format: double */
-            prorationAmount?: number;
-            nextBillingDate?: string | null;
-            isUpgrade?: boolean;
-        };
         UpsertProjectEnvironmentVariablesRequest: {
             variables?: components["schemas"]["ProjectEnvironmentVariableDto"][] | null;
+        };
+        UpsertSubscriptionRequest: {
+            /** Format: uuid */
+            projectId?: string;
+            tier?: string | null;
         };
         UsagePoint: {
             /** Format: date-time */

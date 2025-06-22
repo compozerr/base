@@ -6482,124 +6482,6 @@ export interface V1Service {
             error: GetProjectsProjectIdUsageSpanError;
         };
     };
-    putProjectsProjectIdChangeTier: {
-        /**/
-        getMutationKey(parameters: PutProjectsProjectIdChangeTierParameters | void): ServiceOperationMutationKey<PutProjectsProjectIdChangeTierSchema, PutProjectsProjectIdChangeTierParameters>;
-        /**
-         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
-         * Handles loading state, optimistic updates, and error handling.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
-         * @example Mutation with predefined parameters, e.g., for updating
-         * ```ts
-         * const { mutate, isPending } = qraft.v1Service.putProjectsProjectIdChangeTier.useMutation({
-         *     path: {
-         *         projectId: projectId
-         *     }
-         * })
-         * mutate(body);
-         * ```
-         * @example Mutation without predefined parameters, e.g., for creating
-         * ```ts
-         * const { mutate, isPending } = qraft.v1Service.putProjectsProjectIdChangeTier.useMutation()
-         * mutate({
-         *     body: bodyPayload,
-         *     path: {
-         *         projectId: projectId
-         *     }
-         * });
-         * ```
-         */
-        useMutation<TVariables extends PutProjectsProjectIdChangeTierBody, TContext = unknown>(parameters: PutProjectsProjectIdChangeTierParameters, options?: ServiceOperationUseMutationOptions<PutProjectsProjectIdChangeTierSchema, PutProjectsProjectIdChangeTierData, PutProjectsProjectIdChangeTierParameters, TVariables, PutProjectsProjectIdChangeTierError, TContext>): UseMutationResult<PutProjectsProjectIdChangeTierData, PutProjectsProjectIdChangeTierError | Error, AreAllOptional<TVariables> extends true ? TVariables | void : TVariables, TContext>;
-        /**
-         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
-         * Handles loading state, optimistic updates, and error handling.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
-         * @example Mutation with predefined parameters, e.g., for updating
-         * ```ts
-         * const { mutate, isPending } = qraft.v1Service.putProjectsProjectIdChangeTier.useMutation({
-         *     path: {
-         *         projectId: projectId
-         *     }
-         * })
-         * mutate(body);
-         * ```
-         * @example Mutation without predefined parameters, e.g., for creating
-         * ```ts
-         * const { mutate, isPending } = qraft.v1Service.putProjectsProjectIdChangeTier.useMutation()
-         * mutate({
-         *     body: bodyPayload,
-         *     path: {
-         *         projectId: projectId
-         *     }
-         * });
-         * ```
-         */
-        useMutation<TVariables extends MutationVariables<PutProjectsProjectIdChangeTierBody, PutProjectsProjectIdChangeTierParameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<PutProjectsProjectIdChangeTierSchema, PutProjectsProjectIdChangeTierData, PutProjectsProjectIdChangeTierParameters, TVariables, PutProjectsProjectIdChangeTierError, TContext>): UseMutationResult<PutProjectsProjectIdChangeTierData, PutProjectsProjectIdChangeTierError | Error, TVariables, TContext>;
-        /**
-         * Returns the count of currently in-progress mutations.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
-         * @example Check how many mutations are currently in progress for the specified service method.
-         * ```ts
-         * const putProjectsProjectIdChangeTierTotal = qraft.v1Service.putProjectsProjectIdChangeTier.useIsMutating()
-         * ```
-         * @example Check how many mutations are currently in progress with the specified parameters.
-         * ```ts
-         * const putProjectsProjectIdChangeTierTotal = qraft.v1Service.putProjectsProjectIdChangeTier.useIsMutating({
-         *     parameters: {
-         *         path: {
-         *             projectId: projectId
-         *         }
-         *     }
-         * })
-         * ```
-         */
-        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<PutProjectsProjectIdChangeTierBody, PutProjectsProjectIdChangeTierData, PutProjectsProjectIdChangeTierParameters, PutProjectsProjectIdChangeTierError, TContext> | MutationFiltersByMutationKey<PutProjectsProjectIdChangeTierSchema, PutProjectsProjectIdChangeTierBody, PutProjectsProjectIdChangeTierData, PutProjectsProjectIdChangeTierParameters, PutProjectsProjectIdChangeTierError, TContext>): number;
-        /**/
-        isMutating<TContext>(filters?: MutationFiltersByParameters<PutProjectsProjectIdChangeTierBody, PutProjectsProjectIdChangeTierData, PutProjectsProjectIdChangeTierParameters, PutProjectsProjectIdChangeTierError, TContext> | MutationFiltersByMutationKey<PutProjectsProjectIdChangeTierSchema, PutProjectsProjectIdChangeTierBody, PutProjectsProjectIdChangeTierData, PutProjectsProjectIdChangeTierParameters, PutProjectsProjectIdChangeTierError, TContext>): number;
-        /**/
-        (options: ServiceOperationMutationFnOptions<PutProjectsProjectIdChangeTierBody, PutProjectsProjectIdChangeTierParameters>, client?: (schema: PutProjectsProjectIdChangeTierSchema, options: ServiceOperationMutationFnOptions<PutProjectsProjectIdChangeTierBody, PutProjectsProjectIdChangeTierParameters>) => Promise<RequestFnResponse<PutProjectsProjectIdChangeTierData, PutProjectsProjectIdChangeTierError>>): Promise<RequestFnResponse<PutProjectsProjectIdChangeTierData, PutProjectsProjectIdChangeTierError>>;
-        /**
-         * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
-         * @example Get all variables of all running mutations.
-         * ```ts
-         * const putProjectsProjectIdChangeTierPendingMutationVariables = qraft.v1Service.putProjectsProjectIdChangeTier.useMutationState({
-         *     filters: {
-         *         status: "pending"
-         *     },
-         *     select: mutation => mutation.state.variables
-         * })
-         * ```
-         * @example Get all data for specific mutations via the `parameters`.
-         * ```ts
-         * const putProjectsProjectIdChangeTierMutationData = qraft.v1Service.putProjectsProjectIdChangeTier.useMutationState({
-         *     filters: {
-         *         parameters: {
-         *             path: {
-         *                 projectId: projectId
-         *             }
-         *         }
-         *     },
-         *     select: mutation => mutation.state.data
-         * })
-         * ```
-         */
-        useMutationState<TContext = unknown, TResult = MutationState<PutProjectsProjectIdChangeTierData, PutProjectsProjectIdChangeTierError, MutationVariables<PutProjectsProjectIdChangeTierBody, PutProjectsProjectIdChangeTierParameters>, TContext>>(options?: {
-            filters?: MutationFiltersByParameters<PutProjectsProjectIdChangeTierBody, PutProjectsProjectIdChangeTierData, PutProjectsProjectIdChangeTierParameters, PutProjectsProjectIdChangeTierError, TContext> | MutationFiltersByMutationKey<PutProjectsProjectIdChangeTierSchema, PutProjectsProjectIdChangeTierBody, PutProjectsProjectIdChangeTierData, PutProjectsProjectIdChangeTierParameters, PutProjectsProjectIdChangeTierError, TContext>;
-            select?: (mutation: Mutation<PutProjectsProjectIdChangeTierData, PutProjectsProjectIdChangeTierError, MutationVariables<PutProjectsProjectIdChangeTierBody, PutProjectsProjectIdChangeTierParameters>, TContext>) => TResult;
-        }): Array<TResult>;
-        schema: PutProjectsProjectIdChangeTierSchema;
-        types: {
-            parameters: PutProjectsProjectIdChangeTierParameters;
-            data: PutProjectsProjectIdChangeTierData;
-            error: PutProjectsProjectIdChangeTierError;
-            body: PutProjectsProjectIdChangeTierBody;
-        };
-    };
     getProjectsProjectIdDeployments: {
         /**/
         cancelQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetProjectsProjectIdDeploymentsSchema, GetProjectsProjectIdDeploymentsData, TInfinite, GetProjectsProjectIdDeploymentsParameters, GetProjectsProjectIdDeploymentsError> | QueryFiltersByQueryKey<GetProjectsProjectIdDeploymentsSchema, GetProjectsProjectIdDeploymentsData, TInfinite, GetProjectsProjectIdDeploymentsParameters, GetProjectsProjectIdDeploymentsError>, options?: CancelOptions): Promise<void>;
@@ -9494,220 +9376,6 @@ export interface V1Service {
             error: GetServersTiersError;
         };
     };
-    postStripeSubscriptions: {
-        /**/
-        getMutationKey(parameters: PostStripeSubscriptionsParameters | void): ServiceOperationMutationKey<PostStripeSubscriptionsSchema, PostStripeSubscriptionsParameters>;
-        /**
-         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
-         * Handles loading state, optimistic updates, and error handling.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
-         * @example Mutation with predefined parameters, e.g., for updating
-         * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postStripeSubscriptions.useMutation({})
-         * mutate(body);
-         * ```
-         * @example Mutation without predefined parameters, e.g., for creating
-         * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postStripeSubscriptions.useMutation()
-         * mutate({
-         *     body: bodyPayload
-         * });
-         * ```
-         */
-        useMutation<TVariables extends PostStripeSubscriptionsBody, TContext = unknown>(parameters: PostStripeSubscriptionsParameters, options?: ServiceOperationUseMutationOptions<PostStripeSubscriptionsSchema, PostStripeSubscriptionsData, PostStripeSubscriptionsParameters, TVariables, PostStripeSubscriptionsError, TContext>): UseMutationResult<PostStripeSubscriptionsData, PostStripeSubscriptionsError | Error, AreAllOptional<TVariables> extends true ? TVariables | void : TVariables, TContext>;
-        /**
-         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
-         * Handles loading state, optimistic updates, and error handling.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
-         * @example Mutation with predefined parameters, e.g., for updating
-         * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postStripeSubscriptions.useMutation({})
-         * mutate(body);
-         * ```
-         * @example Mutation without predefined parameters, e.g., for creating
-         * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postStripeSubscriptions.useMutation()
-         * mutate({
-         *     body: bodyPayload
-         * });
-         * ```
-         */
-        useMutation<TVariables extends MutationVariables<PostStripeSubscriptionsBody, PostStripeSubscriptionsParameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<PostStripeSubscriptionsSchema, PostStripeSubscriptionsData, PostStripeSubscriptionsParameters, TVariables, PostStripeSubscriptionsError, TContext>): UseMutationResult<PostStripeSubscriptionsData, PostStripeSubscriptionsError | Error, TVariables, TContext>;
-        /**
-         * Returns the count of currently in-progress mutations.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
-         * @example Check how many mutations are currently in progress for the specified service method.
-         * ```ts
-         * const postStripeSubscriptionsTotal = qraft.v1Service.postStripeSubscriptions.useIsMutating()
-         * ```
-         * @example Check how many mutations are currently in progress with the specified parameters.
-         * ```ts
-         * const postStripeSubscriptionsTotal = qraft.v1Service.postStripeSubscriptions.useIsMutating({
-         *     parameters: {}
-         * })
-         * ```
-         */
-        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<PostStripeSubscriptionsBody, PostStripeSubscriptionsData, PostStripeSubscriptionsParameters, PostStripeSubscriptionsError, TContext> | MutationFiltersByMutationKey<PostStripeSubscriptionsSchema, PostStripeSubscriptionsBody, PostStripeSubscriptionsData, PostStripeSubscriptionsParameters, PostStripeSubscriptionsError, TContext>): number;
-        /**/
-        isMutating<TContext>(filters?: MutationFiltersByParameters<PostStripeSubscriptionsBody, PostStripeSubscriptionsData, PostStripeSubscriptionsParameters, PostStripeSubscriptionsError, TContext> | MutationFiltersByMutationKey<PostStripeSubscriptionsSchema, PostStripeSubscriptionsBody, PostStripeSubscriptionsData, PostStripeSubscriptionsParameters, PostStripeSubscriptionsError, TContext>): number;
-        /**/
-        (options: ServiceOperationMutationFnOptions<PostStripeSubscriptionsBody, PostStripeSubscriptionsParameters>, client?: (schema: PostStripeSubscriptionsSchema, options: ServiceOperationMutationFnOptions<PostStripeSubscriptionsBody, PostStripeSubscriptionsParameters>) => Promise<RequestFnResponse<PostStripeSubscriptionsData, PostStripeSubscriptionsError>>): Promise<RequestFnResponse<PostStripeSubscriptionsData, PostStripeSubscriptionsError>>;
-        /**
-         * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
-         * @example Get all variables of all running mutations.
-         * ```ts
-         * const postStripeSubscriptionsPendingMutationVariables = qraft.v1Service.postStripeSubscriptions.useMutationState({
-         *     filters: {
-         *         status: "pending"
-         *     },
-         *     select: mutation => mutation.state.variables
-         * })
-         * ```
-         * @example Get all data for specific mutations via the `parameters`.
-         * ```ts
-         * const postStripeSubscriptionsMutationData = qraft.v1Service.postStripeSubscriptions.useMutationState({
-         *     filters: {
-         *         parameters: {}
-         *     },
-         *     select: mutation => mutation.state.data
-         * })
-         * ```
-         */
-        useMutationState<TContext = unknown, TResult = MutationState<PostStripeSubscriptionsData, PostStripeSubscriptionsError, MutationVariables<PostStripeSubscriptionsBody, PostStripeSubscriptionsParameters>, TContext>>(options?: {
-            filters?: MutationFiltersByParameters<PostStripeSubscriptionsBody, PostStripeSubscriptionsData, PostStripeSubscriptionsParameters, PostStripeSubscriptionsError, TContext> | MutationFiltersByMutationKey<PostStripeSubscriptionsSchema, PostStripeSubscriptionsBody, PostStripeSubscriptionsData, PostStripeSubscriptionsParameters, PostStripeSubscriptionsError, TContext>;
-            select?: (mutation: Mutation<PostStripeSubscriptionsData, PostStripeSubscriptionsError, MutationVariables<PostStripeSubscriptionsBody, PostStripeSubscriptionsParameters>, TContext>) => TResult;
-        }): Array<TResult>;
-        schema: PostStripeSubscriptionsSchema;
-        types: {
-            parameters: PostStripeSubscriptionsParameters;
-            data: PostStripeSubscriptionsData;
-            error: PostStripeSubscriptionsError;
-            body: PostStripeSubscriptionsBody;
-        };
-    };
-    putStripeSubscriptionsSubscriptionId: {
-        /**/
-        getMutationKey(parameters: PutStripeSubscriptionsSubscriptionIdParameters | void): ServiceOperationMutationKey<PutStripeSubscriptionsSubscriptionIdSchema, PutStripeSubscriptionsSubscriptionIdParameters>;
-        /**
-         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
-         * Handles loading state, optimistic updates, and error handling.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
-         * @example Mutation with predefined parameters, e.g., for updating
-         * ```ts
-         * const { mutate, isPending } = qraft.v1Service.putStripeSubscriptionsSubscriptionId.useMutation({
-         *     path: {
-         *         subscriptionId: subscriptionId
-         *     }
-         * })
-         * mutate(body);
-         * ```
-         * @example Mutation without predefined parameters, e.g., for creating
-         * ```ts
-         * const { mutate, isPending } = qraft.v1Service.putStripeSubscriptionsSubscriptionId.useMutation()
-         * mutate({
-         *     body: bodyPayload,
-         *     path: {
-         *         subscriptionId: subscriptionId
-         *     }
-         * });
-         * ```
-         */
-        useMutation<TVariables extends PutStripeSubscriptionsSubscriptionIdBody, TContext = unknown>(parameters: PutStripeSubscriptionsSubscriptionIdParameters, options?: ServiceOperationUseMutationOptions<PutStripeSubscriptionsSubscriptionIdSchema, PutStripeSubscriptionsSubscriptionIdData, PutStripeSubscriptionsSubscriptionIdParameters, TVariables, PutStripeSubscriptionsSubscriptionIdError, TContext>): UseMutationResult<PutStripeSubscriptionsSubscriptionIdData, PutStripeSubscriptionsSubscriptionIdError | Error, AreAllOptional<TVariables> extends true ? TVariables | void : TVariables, TContext>;
-        /**
-         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
-         * Handles loading state, optimistic updates, and error handling.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
-         * @example Mutation with predefined parameters, e.g., for updating
-         * ```ts
-         * const { mutate, isPending } = qraft.v1Service.putStripeSubscriptionsSubscriptionId.useMutation({
-         *     path: {
-         *         subscriptionId: subscriptionId
-         *     }
-         * })
-         * mutate(body);
-         * ```
-         * @example Mutation without predefined parameters, e.g., for creating
-         * ```ts
-         * const { mutate, isPending } = qraft.v1Service.putStripeSubscriptionsSubscriptionId.useMutation()
-         * mutate({
-         *     body: bodyPayload,
-         *     path: {
-         *         subscriptionId: subscriptionId
-         *     }
-         * });
-         * ```
-         */
-        useMutation<TVariables extends MutationVariables<PutStripeSubscriptionsSubscriptionIdBody, PutStripeSubscriptionsSubscriptionIdParameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<PutStripeSubscriptionsSubscriptionIdSchema, PutStripeSubscriptionsSubscriptionIdData, PutStripeSubscriptionsSubscriptionIdParameters, TVariables, PutStripeSubscriptionsSubscriptionIdError, TContext>): UseMutationResult<PutStripeSubscriptionsSubscriptionIdData, PutStripeSubscriptionsSubscriptionIdError | Error, TVariables, TContext>;
-        /**
-         * Returns the count of currently in-progress mutations.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
-         * @example Check how many mutations are currently in progress for the specified service method.
-         * ```ts
-         * const putStripeSubscriptionsSubscriptionIdTotal = qraft.v1Service.putStripeSubscriptionsSubscriptionId.useIsMutating()
-         * ```
-         * @example Check how many mutations are currently in progress with the specified parameters.
-         * ```ts
-         * const putStripeSubscriptionsSubscriptionIdTotal = qraft.v1Service.putStripeSubscriptionsSubscriptionId.useIsMutating({
-         *     parameters: {
-         *         path: {
-         *             subscriptionId: subscriptionId
-         *         }
-         *     }
-         * })
-         * ```
-         */
-        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<PutStripeSubscriptionsSubscriptionIdBody, PutStripeSubscriptionsSubscriptionIdData, PutStripeSubscriptionsSubscriptionIdParameters, PutStripeSubscriptionsSubscriptionIdError, TContext> | MutationFiltersByMutationKey<PutStripeSubscriptionsSubscriptionIdSchema, PutStripeSubscriptionsSubscriptionIdBody, PutStripeSubscriptionsSubscriptionIdData, PutStripeSubscriptionsSubscriptionIdParameters, PutStripeSubscriptionsSubscriptionIdError, TContext>): number;
-        /**/
-        isMutating<TContext>(filters?: MutationFiltersByParameters<PutStripeSubscriptionsSubscriptionIdBody, PutStripeSubscriptionsSubscriptionIdData, PutStripeSubscriptionsSubscriptionIdParameters, PutStripeSubscriptionsSubscriptionIdError, TContext> | MutationFiltersByMutationKey<PutStripeSubscriptionsSubscriptionIdSchema, PutStripeSubscriptionsSubscriptionIdBody, PutStripeSubscriptionsSubscriptionIdData, PutStripeSubscriptionsSubscriptionIdParameters, PutStripeSubscriptionsSubscriptionIdError, TContext>): number;
-        /**/
-        (options: ServiceOperationMutationFnOptions<PutStripeSubscriptionsSubscriptionIdBody, PutStripeSubscriptionsSubscriptionIdParameters>, client?: (schema: PutStripeSubscriptionsSubscriptionIdSchema, options: ServiceOperationMutationFnOptions<PutStripeSubscriptionsSubscriptionIdBody, PutStripeSubscriptionsSubscriptionIdParameters>) => Promise<RequestFnResponse<PutStripeSubscriptionsSubscriptionIdData, PutStripeSubscriptionsSubscriptionIdError>>): Promise<RequestFnResponse<PutStripeSubscriptionsSubscriptionIdData, PutStripeSubscriptionsSubscriptionIdError>>;
-        /**
-         * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
-         * @example Get all variables of all running mutations.
-         * ```ts
-         * const putStripeSubscriptionsSubscriptionIdPendingMutationVariables = qraft.v1Service.putStripeSubscriptionsSubscriptionId.useMutationState({
-         *     filters: {
-         *         status: "pending"
-         *     },
-         *     select: mutation => mutation.state.variables
-         * })
-         * ```
-         * @example Get all data for specific mutations via the `parameters`.
-         * ```ts
-         * const putStripeSubscriptionsSubscriptionIdMutationData = qraft.v1Service.putStripeSubscriptionsSubscriptionId.useMutationState({
-         *     filters: {
-         *         parameters: {
-         *             path: {
-         *                 subscriptionId: subscriptionId
-         *             }
-         *         }
-         *     },
-         *     select: mutation => mutation.state.data
-         * })
-         * ```
-         */
-        useMutationState<TContext = unknown, TResult = MutationState<PutStripeSubscriptionsSubscriptionIdData, PutStripeSubscriptionsSubscriptionIdError, MutationVariables<PutStripeSubscriptionsSubscriptionIdBody, PutStripeSubscriptionsSubscriptionIdParameters>, TContext>>(options?: {
-            filters?: MutationFiltersByParameters<PutStripeSubscriptionsSubscriptionIdBody, PutStripeSubscriptionsSubscriptionIdData, PutStripeSubscriptionsSubscriptionIdParameters, PutStripeSubscriptionsSubscriptionIdError, TContext> | MutationFiltersByMutationKey<PutStripeSubscriptionsSubscriptionIdSchema, PutStripeSubscriptionsSubscriptionIdBody, PutStripeSubscriptionsSubscriptionIdData, PutStripeSubscriptionsSubscriptionIdParameters, PutStripeSubscriptionsSubscriptionIdError, TContext>;
-            select?: (mutation: Mutation<PutStripeSubscriptionsSubscriptionIdData, PutStripeSubscriptionsSubscriptionIdError, MutationVariables<PutStripeSubscriptionsSubscriptionIdBody, PutStripeSubscriptionsSubscriptionIdParameters>, TContext>) => TResult;
-        }): Array<TResult>;
-        schema: PutStripeSubscriptionsSubscriptionIdSchema;
-        types: {
-            parameters: PutStripeSubscriptionsSubscriptionIdParameters;
-            data: PutStripeSubscriptionsSubscriptionIdData;
-            error: PutStripeSubscriptionsSubscriptionIdError;
-            body: PutStripeSubscriptionsSubscriptionIdBody;
-        };
-    };
     deleteStripeSubscriptionsSubscriptionIdCancel: {
         /**/
         getMutationKey(parameters: DeleteStripeSubscriptionsSubscriptionIdCancelParameters | void): ServiceOperationMutationKey<DeleteStripeSubscriptionsSubscriptionIdCancelSchema, DeleteStripeSubscriptionsSubscriptionIdCancelParameters>;
@@ -10034,6 +9702,102 @@ export interface V1Service {
             parameters: GetStripeSubscriptionsUserParameters;
             data: GetStripeSubscriptionsUserData;
             error: GetStripeSubscriptionsUserError;
+        };
+    };
+    postStripeSubscriptionsUpsert: {
+        /**/
+        getMutationKey(parameters: PostStripeSubscriptionsUpsertParameters | void): ServiceOperationMutationKey<PostStripeSubscriptionsUpsertSchema, PostStripeSubscriptionsUpsertParameters>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.postStripeSubscriptionsUpsert.useMutation({})
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.postStripeSubscriptionsUpsert.useMutation()
+         * mutate({
+         *     body: bodyPayload
+         * });
+         * ```
+         */
+        useMutation<TVariables extends PostStripeSubscriptionsUpsertBody, TContext = unknown>(parameters: PostStripeSubscriptionsUpsertParameters, options?: ServiceOperationUseMutationOptions<PostStripeSubscriptionsUpsertSchema, PostStripeSubscriptionsUpsertData, PostStripeSubscriptionsUpsertParameters, TVariables, PostStripeSubscriptionsUpsertError, TContext>): UseMutationResult<PostStripeSubscriptionsUpsertData, PostStripeSubscriptionsUpsertError | Error, AreAllOptional<TVariables> extends true ? TVariables | void : TVariables, TContext>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.postStripeSubscriptionsUpsert.useMutation({})
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.postStripeSubscriptionsUpsert.useMutation()
+         * mutate({
+         *     body: bodyPayload
+         * });
+         * ```
+         */
+        useMutation<TVariables extends MutationVariables<PostStripeSubscriptionsUpsertBody, PostStripeSubscriptionsUpsertParameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<PostStripeSubscriptionsUpsertSchema, PostStripeSubscriptionsUpsertData, PostStripeSubscriptionsUpsertParameters, TVariables, PostStripeSubscriptionsUpsertError, TContext>): UseMutationResult<PostStripeSubscriptionsUpsertData, PostStripeSubscriptionsUpsertError | Error, TVariables, TContext>;
+        /**
+         * Returns the count of currently in-progress mutations.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
+         * @example Check how many mutations are currently in progress for the specified service method.
+         * ```ts
+         * const postStripeSubscriptionsUpsertTotal = qraft.v1Service.postStripeSubscriptionsUpsert.useIsMutating()
+         * ```
+         * @example Check how many mutations are currently in progress with the specified parameters.
+         * ```ts
+         * const postStripeSubscriptionsUpsertTotal = qraft.v1Service.postStripeSubscriptionsUpsert.useIsMutating({
+         *     parameters: {}
+         * })
+         * ```
+         */
+        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<PostStripeSubscriptionsUpsertBody, PostStripeSubscriptionsUpsertData, PostStripeSubscriptionsUpsertParameters, PostStripeSubscriptionsUpsertError, TContext> | MutationFiltersByMutationKey<PostStripeSubscriptionsUpsertSchema, PostStripeSubscriptionsUpsertBody, PostStripeSubscriptionsUpsertData, PostStripeSubscriptionsUpsertParameters, PostStripeSubscriptionsUpsertError, TContext>): number;
+        /**/
+        isMutating<TContext>(filters?: MutationFiltersByParameters<PostStripeSubscriptionsUpsertBody, PostStripeSubscriptionsUpsertData, PostStripeSubscriptionsUpsertParameters, PostStripeSubscriptionsUpsertError, TContext> | MutationFiltersByMutationKey<PostStripeSubscriptionsUpsertSchema, PostStripeSubscriptionsUpsertBody, PostStripeSubscriptionsUpsertData, PostStripeSubscriptionsUpsertParameters, PostStripeSubscriptionsUpsertError, TContext>): number;
+        /**/
+        (options: ServiceOperationMutationFnOptions<PostStripeSubscriptionsUpsertBody, PostStripeSubscriptionsUpsertParameters>, client?: (schema: PostStripeSubscriptionsUpsertSchema, options: ServiceOperationMutationFnOptions<PostStripeSubscriptionsUpsertBody, PostStripeSubscriptionsUpsertParameters>) => Promise<RequestFnResponse<PostStripeSubscriptionsUpsertData, PostStripeSubscriptionsUpsertError>>): Promise<RequestFnResponse<PostStripeSubscriptionsUpsertData, PostStripeSubscriptionsUpsertError>>;
+        /**
+         * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
+         * @example Get all variables of all running mutations.
+         * ```ts
+         * const postStripeSubscriptionsUpsertPendingMutationVariables = qraft.v1Service.postStripeSubscriptionsUpsert.useMutationState({
+         *     filters: {
+         *         status: "pending"
+         *     },
+         *     select: mutation => mutation.state.variables
+         * })
+         * ```
+         * @example Get all data for specific mutations via the `parameters`.
+         * ```ts
+         * const postStripeSubscriptionsUpsertMutationData = qraft.v1Service.postStripeSubscriptionsUpsert.useMutationState({
+         *     filters: {
+         *         parameters: {}
+         *     },
+         *     select: mutation => mutation.state.data
+         * })
+         * ```
+         */
+        useMutationState<TContext = unknown, TResult = MutationState<PostStripeSubscriptionsUpsertData, PostStripeSubscriptionsUpsertError, MutationVariables<PostStripeSubscriptionsUpsertBody, PostStripeSubscriptionsUpsertParameters>, TContext>>(options?: {
+            filters?: MutationFiltersByParameters<PostStripeSubscriptionsUpsertBody, PostStripeSubscriptionsUpsertData, PostStripeSubscriptionsUpsertParameters, PostStripeSubscriptionsUpsertError, TContext> | MutationFiltersByMutationKey<PostStripeSubscriptionsUpsertSchema, PostStripeSubscriptionsUpsertBody, PostStripeSubscriptionsUpsertData, PostStripeSubscriptionsUpsertParameters, PostStripeSubscriptionsUpsertError, TContext>;
+            select?: (mutation: Mutation<PostStripeSubscriptionsUpsertData, PostStripeSubscriptionsUpsertError, MutationVariables<PostStripeSubscriptionsUpsertBody, PostStripeSubscriptionsUpsertParameters>, TContext>) => TResult;
+        }): Array<TResult>;
+        schema: PostStripeSubscriptionsUpsertSchema;
+        types: {
+            parameters: PostStripeSubscriptionsUpsertParameters;
+            data: PostStripeSubscriptionsUpsertData;
+            error: PostStripeSubscriptionsUpsertError;
+            body: PostStripeSubscriptionsUpsertBody;
         };
     };
     getStripePaymentMethodsUser: {
@@ -11002,15 +10766,6 @@ export const v1Service: {
             url: "/v1/projects/{projectId}/{usageSpan}";
         };
     };
-    putProjectsProjectIdChangeTier: {
-        schema: {
-            method: "put";
-            url: "/v1/projects/{projectId}/change-tier";
-            mediaType: [
-                "application/json"
-            ];
-        };
-    };
     getProjectsProjectIdDeployments: {
         schema: {
             method: "get";
@@ -11104,24 +10859,6 @@ export const v1Service: {
             url: "/v1/servers/tiers";
         };
     };
-    postStripeSubscriptions: {
-        schema: {
-            method: "post";
-            url: "/v1/stripe/subscriptions";
-            mediaType: [
-                "application/json"
-            ];
-        };
-    };
-    putStripeSubscriptionsSubscriptionId: {
-        schema: {
-            method: "put";
-            url: "/v1/stripe/subscriptions/{subscriptionId}";
-            mediaType: [
-                "application/json"
-            ];
-        };
-    };
     deleteStripeSubscriptionsSubscriptionIdCancel: {
         schema: {
             method: "delete";
@@ -11135,6 +10872,15 @@ export const v1Service: {
         schema: {
             method: "get";
             url: "/v1/stripe/subscriptions/user";
+        };
+    };
+    postStripeSubscriptionsUpsert: {
+        schema: {
+            method: "post";
+            url: "/v1/stripe/subscriptions/upsert";
+            mediaType: [
+                "application/json"
+            ];
         };
     };
     getStripePaymentMethodsUser: {
@@ -11388,13 +11134,6 @@ export const v1Service: {
             url: "/v1/projects/{projectId}/{usageSpan}"
         }
     },
-    putProjectsProjectIdChangeTier: {
-        schema: {
-            method: "put",
-            url: "/v1/projects/{projectId}/change-tier",
-            mediaType: ["application/json"]
-        }
-    },
     getProjectsProjectIdDeployments: {
         schema: {
             method: "get",
@@ -11482,20 +11221,6 @@ export const v1Service: {
             url: "/v1/servers/tiers"
         }
     },
-    postStripeSubscriptions: {
-        schema: {
-            method: "post",
-            url: "/v1/stripe/subscriptions",
-            mediaType: ["application/json"]
-        }
-    },
-    putStripeSubscriptionsSubscriptionId: {
-        schema: {
-            method: "put",
-            url: "/v1/stripe/subscriptions/{subscriptionId}",
-            mediaType: ["application/json"]
-        }
-    },
     deleteStripeSubscriptionsSubscriptionIdCancel: {
         schema: {
             method: "delete",
@@ -11507,6 +11232,13 @@ export const v1Service: {
         schema: {
             method: "get",
             url: "/v1/stripe/subscriptions/user"
+        }
+    },
+    postStripeSubscriptionsUpsert: {
+        schema: {
+            method: "post",
+            url: "/v1/stripe/subscriptions/upsert",
+            mediaType: ["application/json"]
         }
     },
     getStripePaymentMethodsUser: {
@@ -11823,17 +11555,6 @@ type GetProjectsProjectIdUsageSpanSchema = {
 type GetProjectsProjectIdUsageSpanParameters = paths["/v1/projects/{projectId}/{usageSpan}"]["get"]["parameters"];
 type GetProjectsProjectIdUsageSpanData = paths["/v1/projects/{projectId}/{usageSpan}"]["get"]["responses"]["200"]["content"]["application/json"];
 type GetProjectsProjectIdUsageSpanError = unknown;
-type PutProjectsProjectIdChangeTierSchema = {
-    method: "put";
-    url: "/v1/projects/{projectId}/change-tier";
-    mediaType: [
-        "application/json"
-    ];
-};
-type PutProjectsProjectIdChangeTierParameters = paths["/v1/projects/{projectId}/change-tier"]["put"]["parameters"];
-type PutProjectsProjectIdChangeTierData = paths["/v1/projects/{projectId}/change-tier"]["put"]["responses"]["200"]["content"]["application/json"];
-type PutProjectsProjectIdChangeTierError = unknown;
-type PutProjectsProjectIdChangeTierBody = NonNullable<paths["/v1/projects/{projectId}/change-tier"]["put"]["requestBody"]>["content"]["application/json"];
 type GetProjectsProjectIdDeploymentsSchema = {
     method: "get";
     url: "/v1/projects/{projectId}/deployments";
@@ -11947,28 +11668,6 @@ type GetServersTiersSchema = {
 type GetServersTiersParameters = undefined;
 type GetServersTiersData = paths["/v1/servers/tiers"]["get"]["responses"]["200"]["content"]["application/json"];
 type GetServersTiersError = unknown;
-type PostStripeSubscriptionsSchema = {
-    method: "post";
-    url: "/v1/stripe/subscriptions";
-    mediaType: [
-        "application/json"
-    ];
-};
-type PostStripeSubscriptionsParameters = {};
-type PostStripeSubscriptionsData = paths["/v1/stripe/subscriptions"]["post"]["responses"]["200"]["content"]["application/json"];
-type PostStripeSubscriptionsError = unknown;
-type PostStripeSubscriptionsBody = NonNullable<paths["/v1/stripe/subscriptions"]["post"]["requestBody"]>["content"]["application/json"];
-type PutStripeSubscriptionsSubscriptionIdSchema = {
-    method: "put";
-    url: "/v1/stripe/subscriptions/{subscriptionId}";
-    mediaType: [
-        "application/json"
-    ];
-};
-type PutStripeSubscriptionsSubscriptionIdParameters = paths["/v1/stripe/subscriptions/{subscriptionId}"]["put"]["parameters"];
-type PutStripeSubscriptionsSubscriptionIdData = paths["/v1/stripe/subscriptions/{subscriptionId}"]["put"]["responses"]["200"]["content"]["application/json"];
-type PutStripeSubscriptionsSubscriptionIdError = unknown;
-type PutStripeSubscriptionsSubscriptionIdBody = NonNullable<paths["/v1/stripe/subscriptions/{subscriptionId}"]["put"]["requestBody"]>["content"]["application/json"];
 type DeleteStripeSubscriptionsSubscriptionIdCancelSchema = {
     method: "delete";
     url: "/v1/stripe/subscriptions/{subscriptionId}/cancel";
@@ -11987,6 +11686,17 @@ type GetStripeSubscriptionsUserSchema = {
 type GetStripeSubscriptionsUserParameters = undefined;
 type GetStripeSubscriptionsUserData = paths["/v1/stripe/subscriptions/user"]["get"]["responses"]["200"]["content"]["application/json"];
 type GetStripeSubscriptionsUserError = unknown;
+type PostStripeSubscriptionsUpsertSchema = {
+    method: "post";
+    url: "/v1/stripe/subscriptions/upsert";
+    mediaType: [
+        "application/json"
+    ];
+};
+type PostStripeSubscriptionsUpsertParameters = {};
+type PostStripeSubscriptionsUpsertData = unknown;
+type PostStripeSubscriptionsUpsertError = unknown;
+type PostStripeSubscriptionsUpsertBody = NonNullable<paths["/v1/stripe/subscriptions/upsert"]["post"]["requestBody"]>["content"]["application/json"];
 type GetStripePaymentMethodsUserSchema = {
     method: "get";
     url: "/v1/stripe/payment-methods/user";

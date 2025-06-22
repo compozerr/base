@@ -33,7 +33,5 @@ public class ProjectsGroup : CarterModule
         app.AddDomainsGroup();
 
         app.AddGetUsageRoute();
-
-        app.AddChangeTierRoute();
     }
 }

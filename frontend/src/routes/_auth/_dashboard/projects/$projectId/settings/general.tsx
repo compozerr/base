@@ -50,7 +50,7 @@ function GeneralSettingsTab() {
 
   const { data: tiers } = api.v1.getServersTiers.useQuery();
 
-  const { mutateAsync: changeTierAsync } = api.v1.putProjectsProjectIdChangeTier.useMutation({ path: { projectId } });
+  const { mutateAsync: changeTierAsync } = api.v1.postStripeSubscriptionsUpsert.useMutation();
 
   const [tier, setTier] = useState<string | null>(null);
 
@@ -68,7 +68,11 @@ function GeneralSettingsTab() {
 
   const handleTierChangeAsync = async () => {
     await changeTierAsync({
-      tier
+      body: {
+
+        projectId,
+        tier,
+      }
     })
 
     await api.v1.getProjectsProjectId.invalidateQueries({ parameters: { path: { projectId } } });

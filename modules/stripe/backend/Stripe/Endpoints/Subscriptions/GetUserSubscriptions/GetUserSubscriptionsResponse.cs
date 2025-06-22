@@ -1,7 +1,10 @@
+using Api.Abstractions;
+
 namespace Stripe.Endpoints.Subscriptions.GetUserSubscriptions;
 
 public sealed record SubscriptionDto(
     string Id,
+    ProjectId ProjectId,
     string Name,
     string Status,
     string PlanId,

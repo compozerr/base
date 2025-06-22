@@ -2,6 +2,7 @@ using Api.Abstractions;
 using Api.Data.Repositories;
 using Core.MediatR;
 using MediatR;
+using Stripe.Endpoints.Subscriptions.UpsertSubscription;
 
 namespace Api.Endpoints.Projects.Project.ChangeTier;
 
