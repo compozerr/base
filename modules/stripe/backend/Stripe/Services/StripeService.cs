@@ -1,9 +1,10 @@
 using Api.Abstractions;
+using MediatR;
 using Microsoft.Extensions.Options;
 using Serilog;
 using Stripe.Endpoints.Subscriptions.GetUserSubscriptions;
+using Stripe.Events;
 using Stripe.Options;
-using StripeSdk = global::Stripe;
 
 namespace Stripe.Services;
 
@@ -12,14 +13,17 @@ public class StripeService : IStripeService
     private readonly StripeOptions _options;
     private readonly StripeClient _stripeClient;
     private readonly ICurrentStripeCustomerIdAccessor _currentStripeCustomerIdAccessor;
+    private readonly IPublisher _publisher;
 
     public StripeService(
         IOptions<StripeOptions> options,
+        IPublisher publisher,
         ICurrentStripeCustomerIdAccessor currentStripeCustomerIdAccessor)
     {
         _options = options.Value;
         _stripeClient = new StripeClient(_options.ApiKey);
         _currentStripeCustomerIdAccessor = currentStripeCustomerIdAccessor;
+        _publisher = publisher;
     }
 
     public async Task<List<SubscriptionDto>> GetSubscriptionsForUserAsync(
@@ -98,6 +102,13 @@ public class StripeService : IStripeService
             };
 
             var subscription = await service.UpdateAsync(subscriptionId, options, cancellationToken: cancellationToken);
+
+            await _publisher.Publish(
+                new StripeSubscriptionUpdatedEvent(
+                    SubscriptionId: subscription.Id,
+                    ProjectId: projectId,
+                    ServerTierId: serverTierId),
+                cancellationToken);
 
             return new SubscriptionDto(
                 Id: subscription.Id,
