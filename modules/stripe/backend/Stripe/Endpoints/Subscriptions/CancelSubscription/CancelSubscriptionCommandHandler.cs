@@ -10,22 +10,26 @@ public sealed class CancelSubscriptionCommandHandler : ICommandHandler<CancelSub
     public async Task<CancelSubscriptionResponse> Handle(CancelSubscriptionCommand command, CancellationToken cancellationToken = default)
     {
         var subscriptionService = new Stripe.SubscriptionService();
-        
+
         // Cancel the subscription
         var options = new Stripe.SubscriptionUpdateOptions
         {
             CancelAtPeriodEnd = !command.CancelImmediately // If not immediate, cancel at period end
         };
-        
+
         if (command.CancelImmediately)
         {
             // For immediate cancellation, we need to use Cancel endpoint
             var cancelledSubscription = await subscriptionService.CancelAsync(
-                command.SubscriptionId, 
-                new Stripe.SubscriptionCancelOptions(), 
-                null, 
+                command.SubscriptionId,
+                new Stripe.SubscriptionCancelOptions()
+                {
+                    Prorate = true, // Prorate the cancellation if applicable
+                    InvoiceNow = true // Optionally invoice immediately for any outstanding amounts
+                },
+                null,
                 cancellationToken);
-            
+
             return new CancelSubscriptionResponse(
                 cancelledSubscription.Id,
                 cancelledSubscription.Status,
@@ -36,11 +40,11 @@ public sealed class CancelSubscriptionCommandHandler : ICommandHandler<CancelSub
         {
             // For cancellation at period end, we update the subscription
             var updatedSubscription = await subscriptionService.UpdateAsync(
-                command.SubscriptionId, 
-                options, 
-                null, 
+                command.SubscriptionId,
+                options,
+                null,
                 cancellationToken);
-            
+
             return new CancelSubscriptionResponse(
                 updatedSubscription.Id,
                 updatedSubscription.Status,

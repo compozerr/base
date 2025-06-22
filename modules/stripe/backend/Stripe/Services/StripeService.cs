@@ -95,7 +95,9 @@ public class StripeService : IStripeService
                     { "project_id", projectId.Value.ToString() },
                     { "server_tier_id", serverTierId.Value.ToString() }
                 },
-                Expand = new List<string> { "plan.product" }
+                Expand = new List<string> { "plan.product" },
+                ProrationBehavior = "create_prorations", // Ensure proration is applied
+                ProrationDate = DateTime.UtcNow // Set proration date to now
             };
 
             var subscription = await service.UpdateAsync(
