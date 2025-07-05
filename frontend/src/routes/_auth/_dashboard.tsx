@@ -10,7 +10,6 @@ import {
 import {
   FileText,
   Home,
-  LayoutDashboard,
   LogOut,
   Settings
 } from 'lucide-react'
