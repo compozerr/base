@@ -6,5 +6,10 @@
     "port": "",
     "frontend":{
         "routesDir": "frontend/src/routes"
+    },
+    "backend": {
+        "defaultEnvProperties": {
+            "STRIPE__API_KEY": "<YOUR_STRIPE_API_KEY>"
+        }
     }
 }
