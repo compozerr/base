@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { api } from '@/api-client';
 import {
   Card,
@@ -6,21 +6,48 @@ import {
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
-import { 
-  Table, 
-  TableHeader, 
-  TableBody, 
-  TableRow, 
-  TableHead, 
-  TableCell, 
-  TableFooter 
+import {
+  Table,
+  TableHeader,
+  TableBody,
+  TableRow,
+  TableHead,
+  TableCell,
+  TableFooter
 } from '@/components/ui/table';
+
+import { Link, useNavigate } from '@tanstack/react-router'
 
 interface SubscriptionListProps {
 }
 
 export const SubscriptionList: React.FC<SubscriptionListProps> = () => {
   const { data: subscriptionsData, isLoading, error } = api.v1.getStripeSubscriptionsUser.useQuery();
+
+  const subscriptions = subscriptionsData?.subscriptions || [];
+
+  const projectQueries = api.v1.getProjectsProjectId.useQueries({
+    queries: (subscriptions || []).map((s) => ({
+      parameters: {
+        path: {
+          projectId: s.projectId || ''
+        }
+      },
+      enabled: !!s.projectId
+    }))
+  });
+
+  const projects = useMemo(() => {
+    if (isLoading || error) return [];
+    return projectQueries.map(x => x.data).filter(Boolean);
+  }, [projectQueries, subscriptions]);
+
+  const getProjectNameById = useCallback((projectId: string) => {
+    const project = projects.find(p => p?.id === projectId);
+    return project ? project.name : 'Unknown Project';
+  }, [projects]);
+
+  const navigate = useNavigate();
 
   if (isLoading) {
     return (
@@ -32,7 +59,7 @@ export const SubscriptionList: React.FC<SubscriptionListProps> = () => {
               <Skeleton className="h-10 w-full" />
               <Skeleton className="h-10 w-full" />
               <Skeleton className="h-10 w-full" />
-            </div> 
+            </div>
           </CardContent>
         </Card>
       </div>
@@ -47,8 +74,6 @@ export const SubscriptionList: React.FC<SubscriptionListProps> = () => {
     );
   }
 
-  const subscriptions = subscriptionsData?.subscriptions || [];
-
   const formatCurrency = (amount: number, currency: string) => {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
@@ -58,27 +83,27 @@ export const SubscriptionList: React.FC<SubscriptionListProps> = () => {
 
   const calculateTotal = () => {
     if (subscriptions.length === 0) return { amount: 0, currency: 'USD' };
-    
+
     const total = subscriptions.reduce((sum, subscription) => {
       if (subscription.status === 'active' && !subscription.cancelAtPeriodEnd) {
         return sum + (subscription.amount || 0);
       }
       return sum;
     }, 0);
-    
-    return { 
-      amount: total, 
-      currency: subscriptions[0]?.currency || 'USD' 
+
+    return {
+      amount: total,
+      currency: subscriptions[0]?.currency || 'USD'
     };
   };
-  
+
   const total = calculateTotal();
 
   const navigateToProjectSettings = (projectId: string) => {
     if (!projectId) return;
     window.location.href = `/projects/${projectId}/settings/general`;
   };
-  
+
   return (
     <div className="space-y-4">
       <h3 className="text-lg font-medium">Your Subscriptions</h3>
@@ -100,7 +125,7 @@ export const SubscriptionList: React.FC<SubscriptionListProps> = () => {
               <TableBody>
                 {subscriptions.map((subscription) => (
                   <TableRow key={subscription.id}>
-                    <TableCell className="font-medium">{subscription.name}</TableCell>
+                    <TableCell className="font-medium"><Link to={`/projects/$projectId`} params={{ projectId: subscription.projectId! }}>{getProjectNameById(subscription.projectId!)}</Link></TableCell>
                     <TableCell>{subscription.serverTierId}</TableCell>
                     <TableCell>
                       {subscription.status!.charAt(0).toUpperCase() + subscription.status!.slice(1)}
@@ -117,7 +142,7 @@ export const SubscriptionList: React.FC<SubscriptionListProps> = () => {
                         <Button
                           variant="outline"
                           size="sm"
-                          onClick={() => navigateToProjectSettings(subscription.projectId || '')}
+                          onClick={() => navigate({ to: `/projects/${subscription.projectId}/settings/general` })}
                         >
                           Manage Subscription
                         </Button>
