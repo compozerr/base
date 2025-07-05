@@ -6,6 +6,7 @@ namespace Core.Feature;
 
 public interface IFeature
 {
+    public bool IsEnabled { get => true; }
     public virtual void ConfigureBuilder(WebApplicationBuilder builder) { }
     public virtual void ConfigureApp(WebApplication app) { }
     public virtual void ConfigureServices(IServiceCollection services) { }

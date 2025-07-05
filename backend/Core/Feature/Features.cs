@@ -16,7 +16,7 @@ public static class Features
         {
             if (_allFeatures is null)
             {
-                _allFeatures = GetFeaturesFromDlls();
+                _allFeatures = [.. GetFeaturesFromDlls().Where(f => f.IsEnabled)];
             }
             return _allFeatures;
         }
