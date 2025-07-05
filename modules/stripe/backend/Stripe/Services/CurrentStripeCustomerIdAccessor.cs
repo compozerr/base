@@ -1,4 +1,5 @@
 
+using System.Collections.Concurrent;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
@@ -14,19 +15,35 @@ public sealed class CurrentStripeCustomerIdAccessor(
 {
     private readonly StripeClient stripeClient = new(
         options.Value.ApiKey);
+    
+    private static readonly ConcurrentDictionary<string, SemaphoreSlim> UserLocks = new();
+    
+    private static SemaphoreSlim GetUserLock(string userId)
+    {
+        return UserLocks.GetOrAdd(userId, _ => new SemaphoreSlim(1, 1));
+    }
 
     public async Task<string> GetOrCreateStripeCustomerId()
     {
         var userId = GetUserIdFromContext();
+        var userLock = GetUserLock(userId);
 
-        var existingCustomerId = await stripeCustomerRepository.GetStripeCustomerIdByInternalId(userId);
-        if (existingCustomerId != null)
+        await userLock.WaitAsync();
+        try
         {
-            return await EnsureCustomerExistsAsync(existingCustomerId, userId);
-        }
+            var existingCustomerId = await stripeCustomerRepository.GetStripeCustomerIdByInternalId(userId);
+            if (existingCustomerId != null)
+            {
+                return await EnsureCustomerExistsAsync(existingCustomerId, userId);
+            }
 
-        var newCustomerId = await CreateCustomerAsync(userId);
-        return newCustomerId;
+            var newCustomerId = await CreateCustomerAsync(userId);
+            return newCustomerId;
+        }
+        finally
+        {
+            userLock.Release();
+        }
     }
 
     private Task SetStripeCustomerIdAsync(string customerId)
