@@ -76,7 +76,7 @@ function RouteComponent() {
         }
     );
 
-    const [lastValidPages, setLastValidPages] = useState<any[]>([]);
+    const [lastValidPages, setLastValidPages] = useState<typeof api.v1.getProjects.types.data[]>([]);
     useEffect(() => {
         if (projectsData?.pages && projectsData.pages.length > 0) {
             setLastValidPages(projectsData.pages);
@@ -167,6 +167,10 @@ function RouteComponent() {
                             </div>
                         </div>
                     }
+                },
+                {
+                    accessorKey: "serverTier",
+                    header: "Server Tier"
                 },
                 {
                     accessorKey: "state",

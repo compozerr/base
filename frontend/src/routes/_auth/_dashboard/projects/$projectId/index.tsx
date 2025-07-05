@@ -97,7 +97,7 @@ function RouteComponent() {
                                     </p>
                                 </div>
                                 <div>
-                                    <h3 className="text-sm font-medium text-muted-foreground">Hardware</h3>
+                                    <h3 className="text-sm font-medium text-muted-foreground">Hardware - {serverTier?.id?.value}</h3>
                                     {serverTier ? (
                                         <>
                                             <span className="flex items-center gap-2 text-sm">
