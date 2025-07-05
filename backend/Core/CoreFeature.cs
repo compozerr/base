@@ -28,8 +28,6 @@ public class CoreFeature : IFeature
             });
         }
 
-        builder.Configuration.AddEnvFile(".env");
-
         builder.Host.UseSerilog();
     }
 
