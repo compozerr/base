@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useDuration } from '@/hooks/use-duration';
-import { DeploymentStatus, getDeploymentStatusFromNumber } from '@/lib/deployment-status';
+import { DeploymentStatus } from '@/lib/deployment-status';
 import { getStatusDot } from '@/lib/deployment-status-component';
 import { Formatter } from '@/lib/formatter';
 import { cn } from '@/lib/utils';
@@ -36,13 +36,13 @@ function RouteComponent() {
         { path: { projectId, deploymentId } },
         {
             initialData,
-            refetchInterval: (ctx) => [DeploymentStatus.Deploying, DeploymentStatus.Queued].includes(getDeploymentStatusFromNumber(ctx.state.data?.status)) ? 10000 : false
+            refetchInterval: (ctx) => [DeploymentStatus.Deploying, DeploymentStatus.Queued].includes(ctx.state.data?.status as DeploymentStatus) ? 10000 : false
         }
     );
 
     const { data: logs } = api.v1.getProjectsProjectIdDeploymentsDeploymentIdLogs.useQuery({ path: { projectId, deploymentId } }, {
         enabled: !!deploymentId,
-        refetchInterval: () => getDeploymentStatusFromNumber(deployment?.status) === DeploymentStatus.Deploying ? 2000 : false,
+        refetchInterval: () => deployment?.status as DeploymentStatus === DeploymentStatus.Deploying ? 2000 : false,
     });
 
     const router = useRouter()
@@ -105,7 +105,7 @@ function RouteComponent() {
             </div>
         )
     }
-    const buildDuration = useDuration(deployment.buildDuration!, getDeploymentStatusFromNumber(deployment.status) === DeploymentStatus.Deploying);
+    const buildDuration = useDuration(deployment.buildDuration!, deployment.status as DeploymentStatus === DeploymentStatus.Deploying);
 
     return (
         <div className="space-y-6">
@@ -145,8 +145,8 @@ function RouteComponent() {
                         <div className="flex justify-between items-center">
                             <div className="text-sm text-muted-foreground">Status</div>
                             <div className="flex items-center font-medium">
-                                {getStatusDot(getDeploymentStatusFromNumber(deployment.status))}
-                                {getDeploymentStatusFromNumber(deployment.status)}
+                                {getStatusDot(deployment.status as DeploymentStatus)}
+                                {deployment.status}
                             </div>
                         </div>
                         <div className="flex justify-between items-center">

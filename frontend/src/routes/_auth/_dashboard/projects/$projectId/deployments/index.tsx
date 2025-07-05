@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useTimeAgo } from '@/hooks/useTimeAgo'
-import { DeploymentStatus, getDeploymentStatusFromNumber } from "@/lib/deployment-status"
+import { DeploymentStatus } from "@/lib/deployment-status"
 import { getStatusDot } from "@/lib/deployment-status-component"
 import { DeploymentStatusFilter } from "@/lib/deployment-status-filter"
 import { Formatter } from "@/lib/formatter"
@@ -39,7 +39,7 @@ function RouteComponent() {
         },
         {
             refetchInterval(ctx) {
-                return ctx.state.data?.pages.flatMap(page => page.items ?? []).some(p => [DeploymentStatus.Deploying, DeploymentStatus.Queued].includes(getDeploymentStatusFromNumber(p.status))) ? 10000 : false; // Refetch every 10 seconds if there are deployments that are deploying or queued
+                return ctx.state.data?.pages.flatMap(page => page.items ?? []).some(p => [DeploymentStatus.Deploying, DeploymentStatus.Queued].includes(p.status as DeploymentStatus)) ? 10000 : false; // Refetch every 10 seconds if there are deployments that are deploying or queued
             },
             getNextPageParam: (lastPage) => {
                 if (!lastPage) return undefined;
@@ -74,7 +74,7 @@ function RouteComponent() {
         setRotation((prev) => prev + 360);
     };
 
-    function DeploymentRow({ deployment, projectId, router }: { deployment: any, projectId: string, router: any }) {
+    function DeploymentRow({ deployment, projectId, router }: { deployment: typeof deployments[number], projectId: string, router: any }) {
         const timeAgo = useTimeAgo(deployment.createdAt!);
         return (
             <div key={deployment.id} className={`flex items-center justify-between py-4 px-4 border-b bg-muted/50 hover:bg-muted/70 hover:cursor-pointer`}
@@ -106,8 +106,8 @@ function RouteComponent() {
 
                 <div className="flex items-center gap-2 flex-1">
                     <div className="flex items-center">
-                        {getStatusDot(getDeploymentStatusFromNumber(deployment.status))}
-                        <span>{getDeploymentStatusFromNumber(deployment.status)}</span>
+                        {getStatusDot(deployment.status as DeploymentStatus)}
+                        <span>{deployment.status}</span>
                     </div>
                     <div className="text-sm text-muted-foreground">{timeAgo}</div>
                 </div>

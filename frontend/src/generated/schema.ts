@@ -2120,11 +2120,8 @@ export interface components {
         DeployProjectResponse: {
             statusUrl?: string | null;
         };
-        /**
-         * Format: int32
-         * @enum {integer}
-         */
-        DeploymentStatus: 0 | 1 | 2 | 3 | 4 | 5;
+        /** @enum {string} */
+        DeploymentStatus: "Unknown" | "Deploying" | "Completed" | "Queued" | "Failed" | "Cancelled";
         DomainDto: {
             serviceName?: string | null;
             port?: string | null;
