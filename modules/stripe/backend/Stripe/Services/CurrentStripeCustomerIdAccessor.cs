@@ -60,7 +60,7 @@ public sealed class CurrentStripeCustomerIdAccessor(
             await customerService.GetAsync(stripeCustomerId, cancellationToken: cancellationToken);
             return stripeCustomerId; // Customer exists, return the same ID
         }
-        catch (StripeException ex) when (ex.Message.ToLowerInvariant().Contains("no such customer"))
+        catch (StripeException ex) when (ex.ToString().Contains("no such customer", StringComparison.InvariantCultureIgnoreCase))
         {
             return await CreateCustomerAsync(internalId, cancellationToken);
         }
