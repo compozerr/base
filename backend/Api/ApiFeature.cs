@@ -26,6 +26,11 @@ public class ApiFeature : IFeature
                 Timeout = TimeSpan.FromSeconds(5),
             });
         });
+        
+        services.ConfigureHttpJsonOptions(options =>
+        {
+            Core.Helpers.Json.ConfigureOptions(options.SerializerOptions);
+        });
 
         Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Information()
