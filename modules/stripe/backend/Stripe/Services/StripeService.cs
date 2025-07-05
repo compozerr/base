@@ -1,5 +1,7 @@
 using Api.Abstractions;
 using MediatR;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Serilog;
 using Stripe.Endpoints.Subscriptions.GetUserSubscriptions;
@@ -14,13 +16,17 @@ public class StripeService : IStripeService
     private readonly StripeClient _stripeClient;
     private readonly ICurrentStripeCustomerIdAccessor _currentStripeCustomerIdAccessor;
 
+    private readonly bool _isProduction;
+
     public StripeService(
         IOptions<StripeOptions> options,
+        IWebHostEnvironment environment,
         ICurrentStripeCustomerIdAccessor currentStripeCustomerIdAccessor)
     {
         _options = options.Value;
         _stripeClient = new StripeClient(_options.ApiKey);
         _currentStripeCustomerIdAccessor = currentStripeCustomerIdAccessor;
+        _isProduction = environment.IsProduction();
     }
 
     public async Task<List<SubscriptionDto>> GetSubscriptionsForUserAsync(
@@ -46,7 +52,7 @@ public class StripeService : IStripeService
                                 Name: s.Items?.Data?.FirstOrDefault()?.Plan?.Product?.Name ?? "Subscription",
                                 Status: s.Status,
                                 PlanId: s.Items?.Data?.FirstOrDefault()?.Plan?.Id ?? "",
-                                ServerTierId: Prices.GetInternalId(s.Items?.Data?.FirstOrDefault()?.Plan?.Id ?? ""),
+                                ServerTierId: Prices.GetInternalId(s.Items?.Data?.FirstOrDefault()?.Plan?.Id ?? "", _isProduction),
                                 CurrentPeriodStart: s.Items?.Data?.FirstOrDefault()?.CurrentPeriodStart ?? DateTime.UtcNow,
                                 CurrentPeriodEnd: s.Items?.Data?.FirstOrDefault()?.CurrentPeriodEnd ?? DateTime.UtcNow,
                                 CancelAtPeriodEnd: s.CancelAtPeriodEnd,
@@ -80,7 +86,7 @@ public class StripeService : IStripeService
             var subscriptionItemId = await GetSubscriptionItemId(subscriptionId, cancellationToken);
 
             // Map tier ID to price ID
-            var priceId = Prices.GetPriceId(serverTierId.Value);
+            var priceId = Prices.GetPriceId(serverTierId.Value, _isProduction);
 
             var options = new SubscriptionUpdateOptions
             {
@@ -145,7 +151,7 @@ public class StripeService : IStripeService
                 {
                     new SubscriptionItemOptions
                     {
-                        Price = Prices.GetPriceId(serverTierId.Value)
+                        Price = Prices.GetPriceId(serverTierId.Value, _isProduction)
                     }
                 },
                 Metadata = new Dictionary<string, string>
@@ -218,7 +224,7 @@ public class StripeService : IStripeService
                 Name: subscription.Items?.Data?.FirstOrDefault()?.Plan?.Product?.Name ?? "Subscription",
                 Status: subscription.Status,
                 PlanId: subscription.Items?.Data?.FirstOrDefault()?.Plan?.Id ?? "",
-                ServerTierId: Prices.GetInternalId(subscription.Items?.Data?.FirstOrDefault()?.Plan?.Id ?? ""),
+                ServerTierId: Prices.GetInternalId(subscription.Items?.Data?.FirstOrDefault()?.Plan?.Id ?? "", _isProduction),
                 CurrentPeriodStart: new DateTime(), //subscription.CurrentPeriodStart,
                 CurrentPeriodEnd: new DateTime(), //subscription.CurrentPeriodEnd,
                 CancelAtPeriodEnd: subscription.CancelAtPeriodEnd,
