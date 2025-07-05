@@ -76,7 +76,7 @@ export const SubscriptionList: React.FC<SubscriptionListProps> = () => {
 
   const navigateToProjectSettings = (projectId: string) => {
     if (!projectId) return;
-    window.location.href = `/projects/${projectId}/settings/general#danger-zone`;
+    window.location.href = `/projects/${projectId}/settings/general`;
   };
   
   return (
