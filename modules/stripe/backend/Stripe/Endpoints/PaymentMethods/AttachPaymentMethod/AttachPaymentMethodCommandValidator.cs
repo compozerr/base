@@ -12,13 +12,6 @@ public sealed class AttachPaymentMethodCommandValidator : AbstractValidator<Atta
 
         var stripeService = scope.ServiceProvider.GetRequiredService<IStripeService>();
 
-        RuleFor(x => x).MustAsync(async (id, cancellation) =>
-        {
-            var paymentMethodsAttachedToUser = await stripeService.GetUserPaymentMethodsAsync(cancellationToken: cancellation);
-            return paymentMethodsAttachedToUser.Count == 0;
-        }).WithMessage("User already has a payment method attached")
-          .WithErrorCode("403");
-
         RuleFor(x => x.PaymentMethodId)
             .NotEmpty()
             .WithMessage("Payment method ID cannot be empty")

@@ -137,11 +137,13 @@ export const PaymentMethods: React.FC<PaymentMethodsProps> = () => {
 
     const paymentMethods = paymentMethodsData?.paymentMethods || [];
 
+    const shouldReplace = paymentMethods.length > 0;
+
     return (
         <div className="space-y-4">
             <div className="flex items-center justify-between">
                 <h3 className="text-lg font-medium">Payment Method</h3>
-                {paymentMethods.length < 1 && <Dialog open={openDialog} onOpenChange={setOpenDialog}>
+                {<Dialog open={openDialog} onOpenChange={setOpenDialog}>
                     {/* <DialogTrigger asChild>
                         <Button size="sm" variant="outline">
                             <Plus className="h-4 w-4 mr-2" /> Add Payment Method
@@ -149,7 +151,7 @@ export const PaymentMethods: React.FC<PaymentMethodsProps> = () => {
                     </DialogTrigger> */}
                     <DialogContent>
                         <DialogHeader>
-                            <DialogTitle>Add Payment Method</DialogTitle>
+                            <DialogTitle>{shouldReplace ? "Replace" : "Add"} Payment Method</DialogTitle>
                             <DialogDescription>
                                 Enter your card information to add a new payment method.
                             </DialogDescription>
@@ -158,6 +160,7 @@ export const PaymentMethods: React.FC<PaymentMethodsProps> = () => {
                             {/* Stripe Elements integration */}
                             <StripeProvider>
                                 <StripeElementsForm
+                                    shouldReplace={shouldReplace}
                                     onSuccess={handleCardAdded}
                                     onError={(errorMessage) => {
                                         toast({
@@ -206,6 +209,16 @@ export const PaymentMethods: React.FC<PaymentMethodsProps> = () => {
                                                 onClick={() => handleSetDefault(method.id!)}
                                             >
                                                 Make Default
+                                            </Button>
+                                        )}
+                                        {(
+                                            <Button
+                                                variant="ghost"
+                                                size="sm"
+                                                className='text-muted-foreground'
+                                                onClick={() => setOpenDialog(true)}
+                                            >
+                                                Replace
                                             </Button>
                                         )}
                                         <LoadingButton

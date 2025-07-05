@@ -38,12 +38,14 @@ interface StripeElementsFormProps {
     onSuccess: (paymentMethodId: string) => Promise<void> | void;
     onError: (error: string) => Promise<void> | void;
     onCancel: () => Promise<void> | void;
+    shouldReplace: boolean;
 }
 
 export const StripeElementsForm: React.FC<StripeElementsFormProps> = ({
     onSuccess,
     onError,
-    onCancel
+    onCancel,
+    shouldReplace = false
 }) => {
     const stripe = useStripe();
     const elements = useElements();
@@ -74,7 +76,7 @@ export const StripeElementsForm: React.FC<StripeElementsFormProps> = ({
             const { error, paymentMethod } = await stripe.createPaymentMethod({
                 type: 'card',
                 card: cardElement,
-            });
+            })
 
             if (error) {
                 setErrorMessage(error.message || "An error occurred with your card");
@@ -127,7 +129,7 @@ export const StripeElementsForm: React.FC<StripeElementsFormProps> = ({
                     disabled={!stripe || isLoading}
                     className="min-w-[100px]"
                 >
-                    {isLoading ? "Processing..." : "Add Card"}
+                    {isLoading ? "Processing..." : shouldReplace ? "Replace Card" : "Add Card"}
                 </Button>
             </div>
         </form>
