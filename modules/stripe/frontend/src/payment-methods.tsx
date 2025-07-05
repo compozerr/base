@@ -90,7 +90,7 @@ export const PaymentMethods: React.FC<PaymentMethodsProps> = () => {
 
     const handleDelete = async (paymentMethodId: string) => {
         if (deleteIsLoading) return; // Prevent multiple clicks
-        const confirmDelete = window.confirm("Are you sure you want to remove this payment method? This action cannot be undone.");
+        const confirmDelete = window.confirm("Are you sure you want to remove this payment method?");
         if (!confirmDelete) return;
         setDeleteIsLoading(true);
         try {
