@@ -103,7 +103,7 @@ export const SubscriptionList: React.FC<SubscriptionListProps> = () => {
                     <TableCell className="font-medium">{subscription.name}</TableCell>
                     <TableCell>{subscription.serverTierId}</TableCell>
                     <TableCell>
-                      {subscription.status}
+                      {subscription.status!.charAt(0).toUpperCase() + subscription.status!.slice(1)}
                       {subscription.cancelAtPeriodEnd ? ' (Cancels at period end)' : ''}
                     </TableCell>
                     <TableCell>
