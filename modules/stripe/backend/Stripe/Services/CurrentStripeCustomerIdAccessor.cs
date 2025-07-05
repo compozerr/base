@@ -57,10 +57,14 @@ public sealed class CurrentStripeCustomerIdAccessor(
         try
         {
             // Try to retrieve the customer
-            await customerService.GetAsync(stripeCustomerId, cancellationToken: cancellationToken);
+            var customer = await customerService.GetAsync(stripeCustomerId, cancellationToken: cancellationToken);
+            if (customer.Deleted ?? false)
+            {
+                return await CreateCustomerAsync(internalId, cancellationToken);
+            }
             return stripeCustomerId; // Customer exists, return the same ID
         }
-        catch (StripeException ex) when (ex.ToString().Contains("no such customer", StringComparison.InvariantCultureIgnoreCase))
+        catch (StripeException ex) when (ex.Message.Contains("no such customer", StringComparison.InvariantCultureIgnoreCase))
         {
             return await CreateCustomerAsync(internalId, cancellationToken);
         }
@@ -72,7 +76,7 @@ public sealed class CurrentStripeCustomerIdAccessor(
         var options = new CustomerCreateOptions
         {
             Description = $"Customer for user {internalId}",
-            Name= $"User {internalId}",
+            Name = $"User {internalId}",
             Metadata = new Dictionary<string, string>
             {
                 { "InternalId", internalId }
