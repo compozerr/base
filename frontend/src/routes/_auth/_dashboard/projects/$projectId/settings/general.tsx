@@ -164,7 +164,7 @@ function GeneralSettingsTab() {
         </CardFooter>
       </Card>
 
-      <Card className='border-destructive border-dashed'>
+      <Card id="danger-zone" className='border-destructive border-dashed'>
         <CardHeader>
           <CardTitle>Danger Zone</CardTitle>
           <CardDescription>Irreversible and destructive actions.</CardDescription>
@@ -174,7 +174,7 @@ function GeneralSettingsTab() {
             <div>
               <h3 className="font-medium text-destructive">Delete Project</h3>
               <p className="text-sm text-muted-foreground">
-                Permanently delete this project and all its resources.
+                Delete this project and all its resources. This action will also cancel your subscription.
               </p>
             </div>
             <LoadingButton isLoading={wantsDeletion} variant="destructive" onClick={() => {

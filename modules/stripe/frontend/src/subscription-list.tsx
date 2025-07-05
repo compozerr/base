@@ -74,9 +74,9 @@ export const SubscriptionList: React.FC<SubscriptionListProps> = () => {
   
   const total = calculateTotal();
 
-  const navigateToProject = (projectId: string) => {
+  const navigateToProjectSettings = (projectId: string) => {
     if (!projectId) return;
-    window.location.href = `/projects/${projectId}`;
+    window.location.href = `/projects/${projectId}/settings/general#danger-zone`;
   };
   
   return (
@@ -117,7 +117,7 @@ export const SubscriptionList: React.FC<SubscriptionListProps> = () => {
                         <Button
                           variant="outline"
                           size="sm"
-                          onClick={() => navigateToProject(subscription.projectId || '')}
+                          onClick={() => navigateToProjectSettings(subscription.projectId || '')}
                         >
                           Manage Subscription
                         </Button>
