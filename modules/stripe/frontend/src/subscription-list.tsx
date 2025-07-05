@@ -2,14 +2,19 @@ import React from 'react';
 import { api } from '@/api-client';
 import {
   Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
   CardContent,
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
+import { 
+  Table, 
+  TableHeader, 
+  TableBody, 
+  TableRow, 
+  TableHead, 
+  TableCell, 
+  TableFooter 
+} from '@/components/ui/table';
 
 interface SubscriptionListProps {
 }
@@ -19,10 +24,17 @@ export const SubscriptionList: React.FC<SubscriptionListProps> = () => {
 
   if (isLoading) {
     return (
-      <div className="space-y-3">
-        <Skeleton className="h-4 w-3/4" />
-        <Skeleton className="h-12 w-full" />
-        <Skeleton className="h-12 w-full" />
+      <div className="space-y-4">
+        <Skeleton className="h-8 w-64" />
+        <Card>
+          <CardContent className="p-0">
+            <div className="space-y-2 p-4">
+              <Skeleton className="h-10 w-full" />
+              <Skeleton className="h-10 w-full" />
+              <Skeleton className="h-10 w-full" />
+            </div> 
+          </CardContent>
+        </Card>
       </div>
     );
   }
@@ -37,68 +49,93 @@ export const SubscriptionList: React.FC<SubscriptionListProps> = () => {
 
   const subscriptions = subscriptionsData?.subscriptions || [];
 
+  const formatCurrency = (amount: number, currency: string) => {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: currency,
+    }).format(amount);
+  };
+
+  const calculateTotal = () => {
+    if (subscriptions.length === 0) return { amount: 0, currency: 'USD' };
+    
+    const total = subscriptions.reduce((sum, subscription) => {
+      if (subscription.status === 'active' && !subscription.cancelAtPeriodEnd) {
+        return sum + (subscription.amount || 0);
+      }
+      return sum;
+    }, 0);
+    
+    return { 
+      amount: total, 
+      currency: subscriptions[0]?.currency || 'USD' 
+    };
+  };
+  
+  const total = calculateTotal();
+
+  const navigateToProject = (projectId: string) => {
+    if (!projectId) return;
+    window.location.href = `/projects/${projectId}`;
+  };
+  
   return (
     <div className="space-y-4">
       <h3 className="text-lg font-medium">Your Subscriptions</h3>
 
       {subscriptions.length > 0 ? (
-        <div className="space-y-4">
-          {subscriptions.map((subscription) => (
-            <Card key={subscription.id} className="overflow-hidden">
-              <CardHeader className="bg-muted/50">
-                <div className="flex items-center justify-between">
-                  <CardTitle className="text-base">{subscription.name}</CardTitle>
-                  <Badge variant={
-                    subscription.status === 'active' ? 'default' :
-                    subscription.status === 'canceled' ? 'destructive' :
-                    subscription.status === 'past_due' ? 'destructive' :
-                    subscription.status === 'trialing' ? 'secondary' :
-                    'outline'
-                  }>
-                    {subscription.status}
-                    {subscription.cancelAtPeriodEnd ? ' (Cancels at period end)' : ''}
-                  </Badge>
-                </div>
-                <CardDescription>
-                  Tier: {subscription.serverTierId}
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="pt-4">
-                <div className="space-y-2">
-                  <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Amount:</span>
-                    <span className="font-medium">
-                      {new Intl.NumberFormat('en-US', {
-                        style: 'currency',
-                        currency: subscription.currency!,
-                      }).format(subscription.amount!)}
-                    </span>
-                  </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Current period:</span>
-                    <span>
+        <Card>
+          <CardContent className="p-0">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Name</TableHead>
+                  <TableHead>Tier</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead>Period</TableHead>
+                  <TableHead className="text-right">Amount</TableHead>
+                  <TableHead></TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {subscriptions.map((subscription) => (
+                  <TableRow key={subscription.id}>
+                    <TableCell className="font-medium">{subscription.name}</TableCell>
+                    <TableCell>{subscription.serverTierId}</TableCell>
+                    <TableCell>
+                      {subscription.status}
+                      {subscription.cancelAtPeriodEnd ? ' (Cancels at period end)' : ''}
+                    </TableCell>
+                    <TableCell>
                       {new Date(subscription.currentPeriodStart!).toLocaleDateString()} - {new Date(subscription.currentPeriodEnd!).toLocaleDateString()}
-                    </span>
-                  </div>
-                  {subscription.status === 'active' && !subscription.cancelAtPeriodEnd && (
-                    <div className="pt-2">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => {
-                          // Would normally implement cancel subscription functionality here
-                          console.log('Cancel subscription', subscription.id);
-                        }}
-                      >
-                        Cancel Subscription
-                      </Button>
-                    </div>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+                    </TableCell>
+                    <TableCell className="text-right">
+                      {formatCurrency(subscription.amount || 0, subscription.currency || 'USD')}
+                    </TableCell>
+                    <TableCell className='text-right'>
+                      {subscription.status === 'active' && !subscription.cancelAtPeriodEnd && subscription.projectId && (
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => navigateToProject(subscription.projectId || '')}
+                        >
+                          Manage Subscription
+                        </Button>
+                      )}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+              <TableFooter>
+                <TableRow>
+                  <TableCell colSpan={4}>Total</TableCell>
+                  <TableCell className="text-right">{formatCurrency(total.amount, total.currency)}</TableCell>
+                  <TableCell></TableCell>
+                </TableRow>
+              </TableFooter>
+            </Table>
+          </CardContent>
+        </Card>
       ) : (
         <Card>
           <CardContent className="py-6">

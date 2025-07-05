@@ -37,7 +37,9 @@ public class StripeService : IStripeService
                 Expand = new List<string> { "data.plan.product" }
             };
 
+
             var subscriptions = await service.ListAsync(options, cancellationToken: cancellationToken);
+
             return [.. subscriptions.Select(s => new SubscriptionDto(
                                 Id: s.Id,
                                 ProjectId: ProjectId.Create(Guid.Parse(s.Metadata["project_id"])),
@@ -45,8 +47,8 @@ public class StripeService : IStripeService
                                 Status: s.Status,
                                 PlanId: s.Items?.Data?.FirstOrDefault()?.Plan?.Id ?? "",
                                 ServerTierId: Prices.GetInternalId(s.Items?.Data?.FirstOrDefault()?.Plan?.Id ?? ""),
-                                CurrentPeriodStart: new DateTime(), //s.CurrentPeriodStart,
-                                CurrentPeriodEnd: new DateTime(), //s.CurrentPeriodEnd,
+                                CurrentPeriodStart: s.Items?.Data?.FirstOrDefault()?.CurrentPeriodStart ?? DateTime.UtcNow,
+                                CurrentPeriodEnd: s.Items?.Data?.FirstOrDefault()?.CurrentPeriodEnd ?? DateTime.UtcNow,
                                 CancelAtPeriodEnd: s.CancelAtPeriodEnd,
                                 Amount: s.Items?.Data?.FirstOrDefault()?.Plan?.Amount / 100m ?? 0,
                                 Currency: s.Items?.Data?.FirstOrDefault()?.Plan?.Currency?.ToUpper() ?? "USD"
