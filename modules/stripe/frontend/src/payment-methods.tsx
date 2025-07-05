@@ -24,6 +24,7 @@ import { useToast } from '@/hooks/use-toast';
 import StripeProvider from './stripe-provider';
 import StripeElementsForm from './stripe-elements-form';
 import { CardElement, Elements, useElements, useStripe } from '@stripe/react-stripe-js';
+import LoadingButton from '@/components/loading-button';
 
 interface PaymentMethodsProps {
 }
@@ -37,6 +38,8 @@ export const PaymentMethods: React.FC<PaymentMethodsProps> = () => {
     const { mutateAsync: attachPaymentMethod } = api.v1.postStripePaymentMethodsAttach.useMutation();
     const { mutateAsync: setDefaultPaymentMethod } = api.v1.postStripePaymentMethodsDefault.useMutation();
     const { mutateAsync: removePaymentMethod } = api.v1.deleteStripePaymentMethods.useMutation();
+
+    const [deleteIsLoading, setDeleteIsLoading] = useState(false);
 
     // Handler for when a payment method is successfully created by the Stripe Elements form
     const handleCardAdded = async (paymentMethodId: string) => {
@@ -86,24 +89,31 @@ export const PaymentMethods: React.FC<PaymentMethodsProps> = () => {
     };
 
     const handleDelete = async (paymentMethodId: string) => {
+        if (deleteIsLoading) return; // Prevent multiple clicks
+        const confirmDelete = window.confirm("Are you sure you want to remove this payment method? This action cannot be undone.");
+        if (!confirmDelete) return;
+        setDeleteIsLoading(true);
         try {
             // Call API to delete payment method
             await removePaymentMethod({
                 query: { paymentMethodId }
             });
 
+            await refetch();
+
             toast({
                 title: "Payment method removed",
                 description: "Your payment method has been removed.",
                 variant: "success",
             });
-            await refetch();
         } catch (err) {
             toast({
                 title: "Error removing payment method",
                 description: err instanceof Error ? err.message : "An unknown error occurred",
                 variant: "destructive",
             });
+        } finally {
+            setDeleteIsLoading(false);
         }
     };
 
@@ -198,14 +208,15 @@ export const PaymentMethods: React.FC<PaymentMethodsProps> = () => {
                                                 Make Default
                                             </Button>
                                         )}
-                                        <Button
+                                        <LoadingButton
+                                            isLoading={deleteIsLoading}
                                             variant="ghost"
                                             size="sm"
                                             className="text-destructive"
                                             onClick={() => handleDelete(method.id!)}
                                         >
                                             <Trash2 className="h-4 w-4 mr-1" /> Remove
-                                        </Button>
+                                        </LoadingButton>
                                     </div>
                                 </div>
                             </CardHeader>

@@ -35,9 +35,9 @@ const cardElementStyle: StripeCardElementOptions = {
 };
 
 interface StripeElementsFormProps {
-    onSuccess: (paymentMethodId: string) => void;
-    onError: (error: string) => void;
-    onCancel: () => void;
+    onSuccess: (paymentMethodId: string) => Promise<void> | void;
+    onError: (error: string) => Promise<void> | void;
+    onCancel: () => Promise<void> | void;
 }
 
 export const StripeElementsForm: React.FC<StripeElementsFormProps> = ({
@@ -78,15 +78,15 @@ export const StripeElementsForm: React.FC<StripeElementsFormProps> = ({
 
             if (error) {
                 setErrorMessage(error.message || "An error occurred with your card");
-                onError(error.message || "Payment method creation failed");
+                await onError(error.message || "Payment method creation failed");
             } else if (paymentMethod) {
                 // Send the payment method ID to your server to save with the customer
-                onSuccess(paymentMethod.id);
+                await onSuccess(paymentMethod.id);
             }
         } catch (err) {
             const errorMessage = err instanceof Error ? err.message : "An unknown error occurred";
             setErrorMessage(errorMessage);
-            onError(errorMessage);
+            await onError(errorMessage);
         } finally {
             setIsLoading(false);
         }
