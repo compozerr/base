@@ -3,3 +3,4 @@ services:
     image: mcr.microsoft.com/dotnet/aspire-dashboard:latest
     ports:
       - "18888:18888"
+      - "18889:18889"

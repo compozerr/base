@@ -1,5 +1,8 @@
-﻿using Core.Feature;
+﻿using Core.Extensions;
+using Core.Feature;
+using Core.Helpers;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using OpenTelemetry.Logs;
@@ -13,7 +16,7 @@ public class OpenTelemetryFeature : IFeature
 {
     private const string serviceName = "base";
     
-    void IFeature.ConfigureServices(IServiceCollection services)
+    void IFeature.ConfigureServices(IServiceCollection services, IConfiguration configuration)
     {
         services.AddOpenTelemetry()
             .ConfigureResource(resource => resource.AddService(serviceName))
@@ -21,17 +24,15 @@ public class OpenTelemetryFeature : IFeature
                 .AddAspNetCoreInstrumentation()
                 .AddHttpClientInstrumentation()
                 .AddEntityFrameworkCoreInstrumentation()
-                .AddOtlpExporter(options =>
-                {
-                    options.Endpoint = new Uri("http://openTelemetry:18889");
-                }))
+                .AddOtlpExporter(
+                    options => options.Endpoint = new Uri(configuration["OtelExporterOtlpEndpoint"].ThrowIfNullOrWhiteSpace("OTEL_EXPORTER_OTLP_ENDPOINT configuration key is required"))
+                ))
             .WithMetrics(metrics => metrics
                 .AddAspNetCoreInstrumentation()
                 .AddHttpClientInstrumentation()
-                .AddOtlpExporter(options =>
-                {
-                    options.Endpoint = new Uri("http://openTelemetry:18889");
-                }));
+                .AddOtlpExporter(
+                    options => options.Endpoint = new Uri(configuration["OtelExporterOtlpEndpoint"].ThrowIfNullOrWhiteSpace("OTEL_EXPORTER_OTLP_ENDPOINT configuration key is required"))
+                ));
     }
 
     void IFeature.ConfigureBuilder(WebApplicationBuilder builder)
