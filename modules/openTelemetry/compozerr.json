@@ -1,0 +1,13 @@
+{
+    "type": "module",
+    "name": "openTelemetry",
+    "start": "docker-compose up",
+    "dockerComposeFile": "docker-compose.yml",
+    "end": "docker-compose down",
+    "readyMessage": "Now listening on: http://[::]",
+    "backend": {
+        "defaultEnvProperties": {
+            "OTEL_EXPORTER_OTLP_ENDPOINT": "http://openTelemetry:18889"
+        }
+    }
+}

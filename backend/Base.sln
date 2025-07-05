@@ -47,6 +47,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stripe", "..\modules\stripe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stripe.Abstractions", "..\modules\stripe\backend\Stripe.Abstractions\Stripe.Abstractions.csproj", "{A7356926-982C-4591-8BA8-4B51D0609670}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenTelemetryModule", "..\modules\openTelemetry\backend\OpenTelemetry\OpenTelemetryModule.csproj", "{265BD62E-3D5F-4B9F-99B8-4034B26E66AB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -309,6 +311,18 @@ Global
 		{A7356926-982C-4591-8BA8-4B51D0609670}.Release|x64.Build.0 = Release|Any CPU
 		{A7356926-982C-4591-8BA8-4B51D0609670}.Release|x86.ActiveCfg = Release|Any CPU
 		{A7356926-982C-4591-8BA8-4B51D0609670}.Release|x86.Build.0 = Release|Any CPU
+		{265BD62E-3D5F-4B9F-99B8-4034B26E66AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{265BD62E-3D5F-4B9F-99B8-4034B26E66AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{265BD62E-3D5F-4B9F-99B8-4034B26E66AB}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{265BD62E-3D5F-4B9F-99B8-4034B26E66AB}.Debug|x64.Build.0 = Debug|Any CPU
+		{265BD62E-3D5F-4B9F-99B8-4034B26E66AB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{265BD62E-3D5F-4B9F-99B8-4034B26E66AB}.Debug|x86.Build.0 = Debug|Any CPU
+		{265BD62E-3D5F-4B9F-99B8-4034B26E66AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{265BD62E-3D5F-4B9F-99B8-4034B26E66AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{265BD62E-3D5F-4B9F-99B8-4034B26E66AB}.Release|x64.ActiveCfg = Release|Any CPU
+		{265BD62E-3D5F-4B9F-99B8-4034B26E66AB}.Release|x64.Build.0 = Release|Any CPU
+		{265BD62E-3D5F-4B9F-99B8-4034B26E66AB}.Release|x86.ActiveCfg = Release|Any CPU
+		{265BD62E-3D5F-4B9F-99B8-4034B26E66AB}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -316,5 +330,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{2CECF8BC-A426-460C-A7D5-438D2742F450} = {CA253913-39DE-BFD0-C9A3-4B7EC6FBDF17}
 		{A7356926-982C-4591-8BA8-4B51D0609670} = {CA253913-39DE-BFD0-C9A3-4B7EC6FBDF17}
+		{265BD62E-3D5F-4B9F-99B8-4034B26E66AB} = {CA253913-39DE-BFD0-C9A3-4B7EC6FBDF17}
 	EndGlobalSection
 EndGlobal
