@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { api } from '@/api-client';
 import {
     Card,
@@ -29,6 +29,12 @@ interface PaymentMethodsProps {
 export const PaymentMethods: React.FC<PaymentMethodsProps> = ({ openAddPaymentMethodDialogOnInit }) => {
     const { toast } = useToast();
     const [openDialog, setOpenDialog] = useState(openAddPaymentMethodDialogOnInit ?? false);
+
+    useEffect(() => {
+        if (openAddPaymentMethodDialogOnInit) {
+            setOpenDialog(true);
+        }
+    }, [openAddPaymentMethodDialogOnInit]);
 
     const { data: paymentMethodsData, isLoading, error, refetch } = api.v1.getStripePaymentMethodsUser.useQuery();
 

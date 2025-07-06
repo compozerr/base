@@ -119,6 +119,7 @@ function RouteComponent() {
 
   React.useEffect(() => {
     if(!addPaymentMethod) return;
+    
     navigate({ to: Route.to })
   }, [addPaymentMethod])
 
