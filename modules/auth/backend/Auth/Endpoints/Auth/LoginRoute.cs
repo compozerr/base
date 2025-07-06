@@ -13,7 +13,8 @@ public static class LoginRoute
     {
         return app.MapGet("/login", (
             HttpContext context,
-            IDateTimeProvider dateTimeProvider) =>
+            IDateTimeProvider dateTimeProvider,
+            IFrontendLocation frontendLocation) =>
         {
             try
             {
@@ -35,7 +36,7 @@ public static class LoginRoute
                 if (!string.IsNullOrEmpty(optionalSessionId))
                 {
                     properties.Items["session_id"] = optionalSessionId;
-                    properties.RedirectUri = $"/v1/auth/{CloseWindowMessageRoute.Route}";
+                    properties.RedirectUri = frontendLocation.GetFromPath("/").ToString();
                 }
 
                 Log.ForContext("ReturnUrl", returnUrl)

@@ -21,6 +21,7 @@ import { Route as ExampleIndexImport } from './../../modules/template/frontend/s
 import { Route as AuthLogoutImport } from './../../modules/auth/frontend/src/routes/_auth/logout'
 import { Route as AuthDashboardImport } from './routes/_auth/_dashboard'
 import { Route as AuthDashboardSettingsImport } from './routes/_auth/_dashboard/settings'
+import { Route as AuthDashboardIntroFlowImport } from './routes/_auth/_dashboard/intro-flow'
 import { Route as AuthDashboardDashboardImport } from './routes/_auth/_dashboard/dashboard'
 import { Route as AuthDashboardProjectsIndexImport } from './routes/_auth/_dashboard/projects/index'
 import { Route as AuthDashboardProjectsProjectIdRouteImport } from './routes/_auth/_dashboard/projects/$projectId/route'
@@ -90,6 +91,12 @@ const AuthDashboardRoute = AuthDashboardImport.update({
 const AuthDashboardSettingsRoute = AuthDashboardSettingsImport.update({
   id: '/settings',
   path: '/settings',
+  getParentRoute: () => AuthDashboardRoute,
+} as any)
+
+const AuthDashboardIntroFlowRoute = AuthDashboardIntroFlowImport.update({
+  id: '/intro-flow',
+  path: '/intro-flow',
   getParentRoute: () => AuthDashboardRoute,
 } as any)
 
@@ -244,6 +251,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthDashboardDashboardImport
       parentRoute: typeof AuthDashboardImport
     }
+    '/_auth/_dashboard/intro-flow': {
+      id: '/_auth/_dashboard/intro-flow'
+      path: '/intro-flow'
+      fullPath: '/intro-flow'
+      preLoaderRoute: typeof AuthDashboardIntroFlowImport
+      parentRoute: typeof AuthDashboardImport
+    }
     '/_auth/_dashboard/settings': {
       id: '/_auth/_dashboard/settings'
       path: '/settings'
@@ -376,6 +390,7 @@ const AuthDashboardProjectsProjectIdRouteRouteWithChildren =
 
 interface AuthDashboardRouteChildren {
   AuthDashboardDashboardRoute: typeof AuthDashboardDashboardRoute
+  AuthDashboardIntroFlowRoute: typeof AuthDashboardIntroFlowRoute
   AuthDashboardSettingsRoute: typeof AuthDashboardSettingsRoute
   AuthDashboardProjectsProjectIdRouteRoute: typeof AuthDashboardProjectsProjectIdRouteRouteWithChildren
   AuthDashboardProjectsIndexRoute: typeof AuthDashboardProjectsIndexRoute
@@ -383,6 +398,7 @@ interface AuthDashboardRouteChildren {
 
 const AuthDashboardRouteChildren: AuthDashboardRouteChildren = {
   AuthDashboardDashboardRoute: AuthDashboardDashboardRoute,
+  AuthDashboardIntroFlowRoute: AuthDashboardIntroFlowRoute,
   AuthDashboardSettingsRoute: AuthDashboardSettingsRoute,
   AuthDashboardProjectsProjectIdRouteRoute:
     AuthDashboardProjectsProjectIdRouteRouteWithChildren,
@@ -415,6 +431,7 @@ export interface FileRoutesByFullPath {
   '/example': typeof ExampleIndexRoute
   '/stripe': typeof StripeIndexRoute
   '/dashboard': typeof AuthDashboardDashboardRoute
+  '/intro-flow': typeof AuthDashboardIntroFlowRoute
   '/settings': typeof AuthDashboardSettingsRoute
   '/projects/$projectId': typeof AuthDashboardProjectsProjectIdRouteRouteWithChildren
   '/projects': typeof AuthDashboardProjectsIndexRoute
@@ -438,6 +455,7 @@ export interface FileRoutesByTo {
   '/example': typeof ExampleIndexRoute
   '/stripe': typeof StripeIndexRoute
   '/dashboard': typeof AuthDashboardDashboardRoute
+  '/intro-flow': typeof AuthDashboardIntroFlowRoute
   '/settings': typeof AuthDashboardSettingsRoute
   '/projects': typeof AuthDashboardProjectsIndexRoute
   '/projects/$projectId': typeof AuthDashboardProjectsProjectIdIndexRoute
@@ -461,6 +479,7 @@ export interface FileRoutesById {
   '/example/': typeof ExampleIndexRoute
   '/stripe/': typeof StripeIndexRoute
   '/_auth/_dashboard/dashboard': typeof AuthDashboardDashboardRoute
+  '/_auth/_dashboard/intro-flow': typeof AuthDashboardIntroFlowRoute
   '/_auth/_dashboard/settings': typeof AuthDashboardSettingsRoute
   '/_auth/_dashboard/projects/$projectId': typeof AuthDashboardProjectsProjectIdRouteRouteWithChildren
   '/_auth/_dashboard/projects/': typeof AuthDashboardProjectsIndexRoute
@@ -486,6 +505,7 @@ export interface FileRouteTypes {
     | '/example'
     | '/stripe'
     | '/dashboard'
+    | '/intro-flow'
     | '/settings'
     | '/projects/$projectId'
     | '/projects'
@@ -508,6 +528,7 @@ export interface FileRouteTypes {
     | '/example'
     | '/stripe'
     | '/dashboard'
+    | '/intro-flow'
     | '/settings'
     | '/projects'
     | '/projects/$projectId'
@@ -529,6 +550,7 @@ export interface FileRouteTypes {
     | '/example/'
     | '/stripe/'
     | '/_auth/_dashboard/dashboard'
+    | '/_auth/_dashboard/intro-flow'
     | '/_auth/_dashboard/settings'
     | '/_auth/_dashboard/projects/$projectId'
     | '/_auth/_dashboard/projects/'
@@ -606,6 +628,7 @@ export const routeTree = rootRoute
       "parent": "/_auth",
       "children": [
         "/_auth/_dashboard/dashboard",
+        "/_auth/_dashboard/intro-flow",
         "/_auth/_dashboard/settings",
         "/_auth/_dashboard/projects/$projectId",
         "/_auth/_dashboard/projects/"
@@ -623,6 +646,10 @@ export const routeTree = rootRoute
     },
     "/_auth/_dashboard/dashboard": {
       "filePath": "./_auth/_dashboard/dashboard.tsx",
+      "parent": "/_auth/_dashboard"
+    },
+    "/_auth/_dashboard/intro-flow": {
+      "filePath": "./_auth/_dashboard/intro-flow.tsx",
       "parent": "/_auth/_dashboard"
     },
     "/_auth/_dashboard/settings": {

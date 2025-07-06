@@ -29,6 +29,7 @@ import { Separator } from '@/components/ui/separator'
 import StripeProvider from '@repo/stripe/stripe-provider'
 import SubscriptionList from '@repo/stripe/subscription-list'
 import PaymentMethods from '@repo/stripe/payment-methods'
+import { IntroFlow } from '@/components/intro-flow'
 import { z } from 'zod'
 
 const optionalSearchParamsSchema = z.object({
@@ -42,6 +43,7 @@ export const Route = createFileRoute('/_auth/_dashboard/settings')({
 
 function RouteComponent() {
   const { toast } = useToast();
+  
   // Add state to track the active user
   const {
     data: appUrlData,
@@ -124,8 +126,9 @@ function RouteComponent() {
   }, [addPaymentMethod])
 
   return (
-    <main>
-      <h1 className="text-3xl font-bold mb-6">Settings</h1>
+    <>
+      <main>
+        <h1 className="text-3xl font-bold mb-6">Settings</h1>
       <div className="space-y-6">
         <Card>
           <CardHeader>
@@ -305,5 +308,6 @@ function RouteComponent() {
         </Card>
       </div>
     </main>
+    </>
   )
 }
