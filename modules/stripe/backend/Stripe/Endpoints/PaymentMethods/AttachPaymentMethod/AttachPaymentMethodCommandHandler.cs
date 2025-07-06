@@ -1,32 +1,38 @@
+using System.Security.Claims;
 using Core.Extensions;
 using Core.MediatR;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Caching.Memory;
 using Stripe.Services;
 
 namespace Stripe.Endpoints.PaymentMethods.AttachPaymentMethod;
 
-public class AttachPaymentMethodCommandHandler : ICommandHandler<AttachPaymentMethodCommand, AttachPaymentMethodResponse>
+public class AttachPaymentMethodCommandHandler(
+    IStripeService stripeService,
+    IMemoryCache memoryCache,
+    IHttpContextAccessor accessor) : ICommandHandler<AttachPaymentMethodCommand, AttachPaymentMethodResponse>
 {
-    private readonly IStripeService _stripeService;
-
-    public AttachPaymentMethodCommandHandler(IStripeService stripeService)
-    {
-        _stripeService = stripeService;
-    }
-
     public async Task<AttachPaymentMethodResponse> Handle(
         AttachPaymentMethodCommand request,
         CancellationToken cancellationToken)
     {
-        var userPaymentMethods = await _stripeService.GetUserPaymentMethodsAsync(cancellationToken);
+        var userId = accessor.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (string.IsNullOrEmpty(userId))
+        {
+            throw new UnauthorizedAccessException("User is not authenticated.");
+        }
 
-        var paymentMethod = await _stripeService.AddPaymentMethodAsync(
+        var userPaymentMethods = await stripeService.GetUserPaymentMethodsAsync(cancellationToken);
+
+        var paymentMethod = await stripeService.AddPaymentMethodAsync(
             request.PaymentMethodId,
             cancellationToken);
 
         //Remove old payment methods if the user already has one
         await userPaymentMethods.ApplyAsync(
-            (p) => _stripeService.RemovePaymentMethodAsync(p.Id, cancellationToken));
+            (p) => stripeService.RemovePaymentMethodAsync(p.Id, cancellationToken));
 
+        memoryCache.Remove($"UserPaymentMethods-{userId}");
         return new AttachPaymentMethodResponse(paymentMethod);
     }
 }

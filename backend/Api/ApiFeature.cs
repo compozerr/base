@@ -17,6 +17,8 @@ public class ApiFeature : IFeature
         services.AddScoped<IServerService, ServerService>();
         services.AddScoped<IDefaultEnvironmentVariablesAppender, DefaultEnvironmentVariablesAppender>();
 
+        services.AddMemoryCache();
+
         services.AddRequiredConfigurationOptions<EncryptionOptions>("Encryption");
 
         services.AddSingleton<ILookupClient>(sp =>

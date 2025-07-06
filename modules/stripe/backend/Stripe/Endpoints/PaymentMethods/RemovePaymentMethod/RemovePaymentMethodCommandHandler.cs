@@ -1,27 +1,31 @@
+using System.Security.Claims;
 using Core.MediatR;
-using MediatR;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Caching.Memory;
 using Stripe.Services;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Stripe.Endpoints.PaymentMethods.RemovePaymentMethod;
 
-public class RemovePaymentMethodCommandHandler : ICommandHandler<RemovePaymentMethodCommand, RemovePaymentMethodResponse>
+public class RemovePaymentMethodCommandHandler(
+    IStripeService stripeService,
+    IMemoryCache memoryCache,
+    IHttpContextAccessor accessor) : ICommandHandler<RemovePaymentMethodCommand, RemovePaymentMethodResponse>
 {
-    private readonly IStripeService _stripeService;
-
-    public RemovePaymentMethodCommandHandler(IStripeService stripeService)
-    {
-        _stripeService = stripeService;
-    }
-
     public async Task<RemovePaymentMethodResponse> Handle(
-        RemovePaymentMethodCommand request, 
+        RemovePaymentMethodCommand request,
         CancellationToken cancellationToken)
     {
-        var result = await _stripeService.RemovePaymentMethodAsync(
+        var userId = accessor.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (string.IsNullOrEmpty(userId))
+        {
+            throw new UnauthorizedAccessException("User is not authenticated.");
+        }
+
+        var result = await stripeService.RemovePaymentMethodAsync(
             request.PaymentMethodId,
             cancellationToken);
+
+        memoryCache.Remove($"UserPaymentMethods-{userId}");
 
         return new RemovePaymentMethodResponse(result);
     }
