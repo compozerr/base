@@ -1,19 +1,10 @@
-import { Button } from '@/components/ui/button'
-import { useAuth } from '@/hooks/use-dynamic-auth'
-import { getLink } from '@/links'
 import {
   createFileRoute,
-  Outlet,
-  useNavigate,
-  useRouter,
+  Outlet
 } from '@tanstack/react-router'
-import {
-  FileText,
-  Home,
-  LogOut,
-  Settings
-} from 'lucide-react'
 
+import { AppSidebar } from '@/components/app-sidebar'
+import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 import StripeAddPaymentMethodBanner from '@repo/stripe/stripe-add-payment-method-banner'
 
 export const Route = createFileRoute('/_auth/_dashboard')({
@@ -21,94 +12,23 @@ export const Route = createFileRoute('/_auth/_dashboard')({
 })
 
 function RouteComponent() {
-  const router = useRouter()
-  const navigate = useNavigate()
-  const { user, logout } = useAuth()
-
-  const handleLogout = () => {
-    if (window.confirm('Are you sure you want to logout?')) {
-      logout().then(() => {
-        router.invalidate().finally(() => {
-          navigate({ to: '/' })
-        })
-      })
-    }
-  }
 
   return (
-    <div className="min-h-screen bg-black text-white">
-      <StripeAddPaymentMethodBanner />
-      <div className="grid lg:grid-cols-[280px_1fr]">
-        <aside className="fixed top-0 bottom-0 w-[280px] border-r bg-background/50 backdrop-blur flex flex-col justify-between max-h-screen">
-          <div>
-            <div className="flex h-16 items-center gap-4 border-b px-6">
-              <img
-                src={user?.avatarUrl}
-                alt={`${user?.name}-avatar`}
-                className="h-8 w-8 rounded-full"
-              />
-              <span className="font-bold">Hi, {user?.name}</span>
-            </div>
-            <div className="px-4 py-2">
-              {/* <Input placeholder="Search" className="bg-background/50" /> */}
-            </div>
-            <nav className="space-y-2 px-2">
-              {/* <Button
-                variant="ghost"
-                onClick={() =>
-                  navigate({ viewTransition: true, to: '/dashboard' })
-                }
-                className="w-full justify-start gap-2"
-              >
-                <LayoutDashboard className="h-4 w-4" />
-                Dashboard
-              </Button> */}
-              <Button
-                variant="ghost"
-                onClick={() =>
-                  navigate({ viewTransition: true, to: '/projects' })
-                }
-                className="w-full justify-start gap-2"
-              >
-                <Home className="h-4 w-4" />
-                Projects
-              </Button>
-              <Button
-                variant="ghost"
-                onClick={() =>
-                  navigate({ viewTransition: true, to: '/settings' })
-                }
-                className="w-full justify-start gap-2"
-              >
-                <Settings className="h-4 w-4" />
-                Settings
-              </Button>
-            </nav>
-          </div>
-
-          <nav className="px-2 py-2">
-            <Button
-              onClick={() => open(getLink('documentation'), '_blank')}
-              variant="ghost"
-              className="w-full justify-start gap-2"
-            >
-              <FileText className="h-4 w-4" />
-              Documentation
-            </Button>
-            <Button
-              onClick={handleLogout}
-              variant="ghost"
-              className="w-full justify-start gap-2"
-            >
-              <LogOut className="h-4 w-4" />
-              Logout
-            </Button>
-          </nav>
-        </aside>
-        <main className="p-6 pl-[300px] overflow-y-auto w-screen">
-          <Outlet />
-        </main>
+    <>
+      <div className="min-h-screen bg-black text-white">
+        <SidebarProvider>
+          <AppSidebar />
+          <main className='w-full'>
+            <StripeAddPaymentMethodBanner />
+            <section className='flex flex-row justify-between sticky top-0 bg-black z-10 pb-3'>
+              <SidebarTrigger className='mt-4 ml-4' />
+            </section>
+            <main className='p-4 w-full'>
+              <Outlet />
+            </main>
+          </main>
+        </SidebarProvider>
       </div>
-    </div>
+    </>
   )
 }
