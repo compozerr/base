@@ -13,7 +13,7 @@ export const StripeAddPaymentMethodBanner: React.FC<StripeAddPaymentMethodBanner
     if (hasPaymentMethodOrLoading) return null;
 
     return (
-        <div className="w-full h-12 flex flex-row items-center justify-center bg-slate-500">
+        <div className="w-full h-16 flex flex-row items-center justify-center bg-green-700">
             <Link to={"/settings"} search={
                 { addPaymentMethod: true }
             }>Add a payment method - no costs involved</Link>
