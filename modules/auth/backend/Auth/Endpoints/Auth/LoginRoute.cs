@@ -36,7 +36,7 @@ public static class LoginRoute
                 if (!string.IsNullOrEmpty(optionalSessionId))
                 {
                     properties.Items["session_id"] = optionalSessionId;
-                    properties.RedirectUri = frontendLocation.GetFromPath("/").ToString();
+                    properties.RedirectUri = frontendLocation.GetFromPath("/projects").ToString();
                 }
 
                 Log.ForContext("ReturnUrl", returnUrl)
