@@ -8,7 +8,8 @@
         "./payment-methods": "./src/payment-methods.tsx",
         "./stripe-elements-form": "./src/stripe-elements-form.tsx",
         "./stripe-provider": "./src/stripe-provider.tsx",
-        "./hooks/use-current-user": "./src/hooks/use-current-user.ts"
+        "./hooks/use-current-user": "./src/hooks/use-current-user.ts",
+        "./stripe-add-payment-method-banner": "./src/stripe-add-payment-method-banner.tsx"
     },
     "devDependencies": {
         "@repo/config": "*"

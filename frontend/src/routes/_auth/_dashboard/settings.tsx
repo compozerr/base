@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, useSearch } from '@tanstack/react-router'
 import { api } from '@/api-client'
 import { Github, CircleHelp } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -29,9 +29,15 @@ import { Separator } from '@/components/ui/separator'
 import StripeProvider from '@repo/stripe/stripe-provider'
 import SubscriptionList from '@repo/stripe/subscription-list'
 import PaymentMethods from '@repo/stripe/payment-methods'
+import { z } from 'zod'
+
+const optionalSearchParamsSchema = z.object({
+  addPaymentMethod: z.boolean().optional(),
+})
 
 export const Route = createFileRoute('/_auth/_dashboard/settings')({
   component: RouteComponent,
+  validateSearch: optionalSearchParamsSchema
 })
 
 function RouteComponent() {
@@ -107,6 +113,14 @@ function RouteComponent() {
     },
     [defaultOrganizationMutation],
   )
+
+  const { addPaymentMethod } = Route.useSearch();
+  const navigate = Route.useNavigate();
+
+  React.useEffect(() => {
+    if(!addPaymentMethod) return;
+    navigate({ to: Route.to })
+  }, [addPaymentMethod])
 
   return (
     <main>
@@ -265,10 +279,10 @@ function RouteComponent() {
           <CardContent className="space-y-6">
             <StripeProvider>
               {/* Using the current user ID from state */}
-              <PaymentMethods />
+              <PaymentMethods openAddPaymentMethodDialogOnInit={addPaymentMethod} />
 
               <Separator className="my-6" />
-              
+
               <SubscriptionList />
 
             </StripeProvider>

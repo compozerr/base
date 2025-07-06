@@ -6,11 +6,9 @@ import {
     CardTitle,
     CardDescription,
     CardContent,
-    CardFooter,
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Badge } from '@/components/ui/badge';
 import { CreditCard, Plus, Trash2 } from 'lucide-react';
 import {
     Dialog,
@@ -18,20 +16,19 @@ import {
     DialogDescription,
     DialogHeader,
     DialogTitle,
-    DialogTrigger,
 } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
 import StripeProvider from './stripe-provider';
 import StripeElementsForm from './stripe-elements-form';
-import { CardElement, Elements, useElements, useStripe } from '@stripe/react-stripe-js';
 import LoadingButton from '@/components/loading-button';
 
 interface PaymentMethodsProps {
+    openAddPaymentMethodDialogOnInit?: boolean;
 }
 
-export const PaymentMethods: React.FC<PaymentMethodsProps> = () => {
+export const PaymentMethods: React.FC<PaymentMethodsProps> = ({ openAddPaymentMethodDialogOnInit }) => {
     const { toast } = useToast();
-    const [openDialog, setOpenDialog] = useState(false);
+    const [openDialog, setOpenDialog] = useState(openAddPaymentMethodDialogOnInit ?? false);
 
     const { data: paymentMethodsData, isLoading, error, refetch } = api.v1.getStripePaymentMethodsUser.useQuery();
 

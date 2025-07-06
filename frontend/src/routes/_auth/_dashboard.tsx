@@ -14,6 +14,8 @@ import {
   Settings
 } from 'lucide-react'
 
+import StripeAddPaymentMethodBanner from '@repo/stripe/stripe-add-payment-method-banner'
+
 export const Route = createFileRoute('/_auth/_dashboard')({
   component: RouteComponent,
 })
@@ -35,6 +37,7 @@ function RouteComponent() {
 
   return (
     <div className="min-h-screen bg-black text-white">
+      <StripeAddPaymentMethodBanner />
       <div className="grid lg:grid-cols-[280px_1fr]">
         <aside className="fixed top-0 bottom-0 w-[280px] border-r bg-background/50 backdrop-blur flex flex-col justify-between max-h-screen">
           <div>
