@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts"
+import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis, ReferenceLine } from "recharts"
 import { format } from "date-fns"
 import { Card, CardContent } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -244,6 +244,15 @@ export function UsageGraph({ projectId }: UsageGraphProps) {
                           wrapperStyle={{ zIndex: 100, pointerEvents: "none" }}
                           isAnimationActive={false}
                         />
+                        {selectedMetric === UsagePointType.Ram && (
+                          <ReferenceLine 
+                            y={usageData?.allocatedMemoryGb ?? 0} 
+                            stroke="#ef4444" 
+                            strokeDasharray="5 5" 
+                            strokeWidth={2}
+                            label={{ value: `Allocated: ${usageData?.allocatedMemoryGb ?? 0}GB`, position: "top", fill: "#ef4444", fontSize: 12 }}
+                          />
+                        )}
                         <Area
                           type="monotone"
                           dataKey="value"

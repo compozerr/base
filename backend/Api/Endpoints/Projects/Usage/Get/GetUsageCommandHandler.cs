@@ -1,10 +1,12 @@
+using Api.Abstractions;
 using Api.Data.Repositories;
 using Core.MediatR;
 
 namespace Api.Endpoints.Projects.Usage.Get;
 
 public sealed class GetUsageCommandHandler(
-    IProjectUsageRepository projectUsageRepository) : ICommandHandler<GetUsageCommand, GetUsageResponse>
+    IProjectUsageRepository projectUsageRepository,
+    IProjectRepository projectRepository) : ICommandHandler<GetUsageCommand, GetUsageResponse>
 {
     public async Task<GetUsageResponse> Handle(GetUsageCommand command, CancellationToken cancellationToken = default)
     {
@@ -38,9 +40,13 @@ public sealed class GetUsageCommandHandler(
             points[UsagePointType.NetworkOut].Add(new UsagePoint(point.CreatedAtUtc, point.NetworkOutBytesPerSec / 1024)); // KB/s
         }
 
+        var project = await projectRepository.GetByIdAsync(command.ProjectId);
+
+        var serverTier = ServerTiers.GetById(project!.ServerTierId);
+
         return new GetUsageResponse(
             points,
             command.UsageSpan,
-            data.FirstOrDefault()?.TotalMemoryGb ?? 0.0m);
+            serverTier.RamGb);
     }
 }
