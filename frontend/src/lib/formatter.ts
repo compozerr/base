@@ -4,13 +4,15 @@ export class Formatter {
             date = new Date(date);
         }
 
-        if (!date) return "";
+        if (!date || isNaN(date.getTime())) return "";
+
+        const localDate = new Date(date.getTime());
 
         switch (format) {
             case "long":
-                return `${date.getDate().toString().padStart(2, "0")}.${(date.getMonth() + 1).toString().padStart(2, "0")}.${date.getFullYear()} ${date.getHours().toString().padStart(2, "0")}:${date.getMinutes().toString().padStart(2, "0")}`;
+                return `${localDate.getDate().toString().padStart(2, "0")}.${(localDate.getMonth() + 1).toString().padStart(2, "0")}.${localDate.getFullYear()} ${localDate.getHours().toString().padStart(2, "0")}:${localDate.getMinutes().toString().padStart(2, "0")}`;
             case "short":
-                return `${date.getDate().toString().padStart(2, "0")}.${(date.getMonth() + 1).toString().padStart(2, "0")}.${date.getFullYear()}`;
+                return `${localDate.getDate().toString().padStart(2, "0")}.${(localDate.getMonth() + 1).toString().padStart(2, "0")}.${localDate.getFullYear()}`;
         }
     }
 
