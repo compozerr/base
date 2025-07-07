@@ -80,7 +80,7 @@ function RouteComponent() {
             <div className="flex items-start gap-1 mb-1">
                 <div className='flex items-center gap-2 mr-1'>
                     <span className="text-gray-500 mr-2 whitespace-nowrap">
-                        {logEntry.timestamp && Formatter.fromDate(new Date(logEntry.timestamp), "long")}
+                        {logEntry.timestamp && Formatter.fromDate(new Date(new Date(logEntry.timestamp).getTime() - new Date(logEntry.timestamp).getTimezoneOffset() * 60000), "long")}
                     </span>
                     {getIcon()}
                 </div>
