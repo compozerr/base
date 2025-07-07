@@ -6,7 +6,7 @@ export class Formatter {
 
         if (!date || isNaN(date.getTime())) return "";
 
-        const localDate = new Date(date.getTime());
+        const localDate = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
 
         switch (format) {
             case "long":
