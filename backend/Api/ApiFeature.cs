@@ -8,9 +8,10 @@ public class ApiFeature : IFeature
 {
     void IFeature.ConfigureServices(IServiceCollection services, IConfiguration configuration)
     {
+        var isProd = configuration["ASPNETCORE_ENVIRONMENT"] == "Production";
         Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Information()
-            .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+            .MinimumLevel.Override("Microsoft", isProd ? LogEventLevel.Warning : LogEventLevel.Information)
             .Enrich.FromLogContext()
             .WriteTo.Console()
             .WriteTo.HumioSink(new HumioSinkConfiguration
@@ -20,7 +21,7 @@ public class ApiFeature : IFeature
                 {
                     {"system", "compozerr"},
                     {"platform", "web"},
-                    {"environment", configuration["ASPNETCORE_ENVIRONMENT"] == "Production" ? "prod" : "dev"}
+                    {"environment", isProd ? "prod" : "dev"}
                 },
                 Url = "https://cloud.community.humio.com",
             })
