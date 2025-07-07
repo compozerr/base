@@ -3,6 +3,7 @@ using Api.Data.Repositories;
 using Auth.Services;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
+using Stripe.Extensions;
 
 namespace Cli.Endpoints.Projects;
 
@@ -31,5 +32,6 @@ public sealed class CreateProjectCommandValidator : AbstractValidator<CreateProj
           .NotEmpty().WithMessage("Tier cannot be empty.")
           .NotNull().WithMessage("Tier cannot be null.");
 
+        RuleFor(x => x).UserMustHavePaymentMethod(scopeFactory);
     }
 }

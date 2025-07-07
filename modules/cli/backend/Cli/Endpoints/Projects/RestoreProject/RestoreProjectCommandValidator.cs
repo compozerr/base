@@ -1,6 +1,7 @@
 using Api.Data.Extensions;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
+using Stripe.Extensions;
 
 namespace Cli.Endpoints.Projects.RestoreProject;
 
@@ -9,5 +10,6 @@ public sealed class RestoreProjectCommandValidator : AbstractValidator<RestorePr
 	public RestoreProjectCommandValidator(IServiceScopeFactory scopeFactory)
 	{
 		RuleFor(x => x.ProjectId).MustBeOwnedByCallerAsync(scopeFactory);
+		RuleFor(x => x).UserMustHavePaymentMethod(scopeFactory);
 	}
 }
