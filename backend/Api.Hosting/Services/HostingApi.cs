@@ -95,7 +95,7 @@ public sealed class HostingApi(
                          .Information("Sending deploy command to server");
 
         var deploymentStatus = DeploymentStatus.Deploying;
-        var timeout = TimeSpan.FromMinutes(30);
+        var timeout = TimeSpan.FromMinutes(45);
         var cts = new CancellationTokenSource(timeout);
 
         HttpClient.SetRequestTimeout(timeout.Add(TimeSpan.FromSeconds(10)));
@@ -128,7 +128,7 @@ public sealed class HostingApi(
         {
             loggerWithContext.ForContext("cancellationReason", ex)
                              .Error("Deployment timed out after {timeout} minutes", timeout.TotalMinutes);
-                             
+
             deploymentStatus = DeploymentStatus.Failed;
         }
         catch (Exception ex)
