@@ -98,6 +98,8 @@ public sealed class HostingApi(
         var timeout = TimeSpan.FromMinutes(30);
         var cts = new CancellationTokenSource(timeout);
 
+        HttpClient.SetRequestTimeout(timeout);
+
         try
         {
             var deployResponse = await HttpClient.PostAsync("/projects/deploy", JsonContent.Create(new

@@ -8,6 +8,11 @@ public class HostingServerHttpClient(
     ICryptoService cryptoService)
 {
     public string BaseDomain => httpClient.BaseAddress!.ToString();
+
+    public void SetRequestTimeout(TimeSpan timeout)
+    {
+        httpClient.Timeout = timeout;
+    }
     
     public async Task<HttpResponseMessage> SendAsync(
         HttpRequestMessage request,
