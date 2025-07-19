@@ -98,7 +98,7 @@ public sealed class HostingApi(
         var timeout = TimeSpan.FromMinutes(30);
         var cts = new CancellationTokenSource(timeout);
 
-        HttpClient.SetRequestTimeout(timeout);
+        HttpClient.SetRequestTimeout(timeout.Add(TimeSpan.FromSeconds(10)));
 
         try
         {
@@ -118,10 +118,17 @@ public sealed class HostingApi(
                 deploymentStatus = DeploymentStatus.Failed;
             }
         }
-        catch (OperationCanceledException ex)
+        catch (OperationCanceledException ex) when (cts.Token.IsCancellationRequested)
         {
-            loggerWithContext.ForContext("cancellationReason", ex, true)
+            loggerWithContext.ForContext("cancellationReason", ex)
+                             .Error("Deployment was cancelled due to something else");
+            deploymentStatus = DeploymentStatus.Failed;
+        }
+        catch(OperationCanceledException ex)
+        {
+            loggerWithContext.ForContext("cancellationReason", ex)
                              .Error("Deployment timed out after {timeout} minutes", timeout.TotalMinutes);
+                             
             deploymentStatus = DeploymentStatus.Failed;
         }
         catch (Exception ex)
