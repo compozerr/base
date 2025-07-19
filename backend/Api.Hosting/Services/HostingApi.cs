@@ -116,9 +116,10 @@ public sealed class HostingApi(
                 deploymentStatus = DeploymentStatus.Failed;
             }
         }
-        catch (OperationCanceledException)
+        catch (OperationCanceledException ex)
         {
-            loggerWithContext.Error("Deployment timed out after {timeout} minutes", timeout.TotalMinutes);
+            loggerWithContext.ForContext("cancellationReason", ex, true)
+                             .Error("Deployment timed out after {timeout} minutes", timeout.TotalMinutes);
             deploymentStatus = DeploymentStatus.Failed;
         }
         catch (Exception ex)
