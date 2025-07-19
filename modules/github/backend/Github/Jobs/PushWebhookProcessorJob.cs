@@ -61,6 +61,15 @@ public sealed class PushWebhookProcessorJob(
                 CommitEmail: pushWebhookEvent.Event.HeadCommit!.Author!.Email!,
                 OverrideAuthorization: true);
 
+            if (deployCommand.CommitMessage.Contains("[skip deploy]"))
+            {
+                Log.ForContext(nameof(deployCommand), deployCommand)
+                   .ForContext(nameof(pushWebhookEvent), pushWebhookEvent.Id)
+                   .Information("Skipping deployment for commit message '[skip deploy]' in PushWebhookEvent {PushWebhookEventId}",
+                                pushWebhookEvent.Id);
+                return;    
+            }
+
             if (deployCommand.CommitBranch is not "main")
             {
                 Log.ForContext(nameof(deployCommand), deployCommand)
