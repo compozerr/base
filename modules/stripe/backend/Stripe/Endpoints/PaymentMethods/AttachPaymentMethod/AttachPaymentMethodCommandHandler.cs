@@ -32,6 +32,14 @@ public class AttachPaymentMethodCommandHandler(
                 request.PaymentMethodId,
                 cancellationToken);
         }
+        else
+        {
+            // If already added set it as default
+            paymentMethod = userPaymentMethods.Single(p => p.Id == request.PaymentMethodId);
+            await stripeService.SetDefaultPaymentMethodAsync(
+                paymentMethod!.Id,
+                cancellationToken);
+        }
 
         //Remove old payment methods if the user already has one
         await userPaymentMethods.Where(p => p.Id != request.PaymentMethodId)
@@ -39,6 +47,6 @@ public class AttachPaymentMethodCommandHandler(
                                     (p) => stripeService.RemovePaymentMethodAsync(p.Id, cancellationToken));
 
         memoryCache.Remove($"UserPaymentMethods-{userId}");
-        return new AttachPaymentMethodResponse(paymentMethod ?? userPaymentMethods.Single(p => p.Id == request.PaymentMethodId));
+        return new AttachPaymentMethodResponse(paymentMethod!);
     }
 }
