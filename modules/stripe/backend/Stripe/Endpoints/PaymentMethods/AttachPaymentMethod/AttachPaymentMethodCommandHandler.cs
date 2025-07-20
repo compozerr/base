@@ -24,15 +24,21 @@ public class AttachPaymentMethodCommandHandler(
 
         var userPaymentMethods = await stripeService.GetUserPaymentMethodsAsync(cancellationToken);
 
-        var paymentMethod = await stripeService.AddPaymentMethodAsync(
-            request.PaymentMethodId,
-            cancellationToken);
+        PaymentMethodDto? paymentMethod = null;
+
+        if (!userPaymentMethods.Any(p => p.Id == request.PaymentMethodId))
+        {
+            paymentMethod = await stripeService.AddPaymentMethodAsync(
+                request.PaymentMethodId,
+                cancellationToken);
+        }
 
         //Remove old payment methods if the user already has one
-        await userPaymentMethods.ApplyAsync(
-            (p) => stripeService.RemovePaymentMethodAsync(p.Id, cancellationToken));
+        await userPaymentMethods.Where(p => p.Id != request.PaymentMethodId)
+                                .ApplyAsync(
+                                    (p) => stripeService.RemovePaymentMethodAsync(p.Id, cancellationToken));
 
         memoryCache.Remove($"UserPaymentMethods-{userId}");
-        return new AttachPaymentMethodResponse(paymentMethod);
+        return new AttachPaymentMethodResponse(paymentMethod ?? userPaymentMethods.Single(p => p.Id == request.PaymentMethodId));
     }
 }
