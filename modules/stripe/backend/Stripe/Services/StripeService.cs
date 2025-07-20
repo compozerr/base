@@ -412,7 +412,6 @@ public class StripeService : IStripeService
     {
         try
         {
-            // Ensure the customer exists in Stripe (create if needed)
             string stripeCustomerId = await _currentStripeCustomerIdAccessor.GetOrCreateStripeCustomerId();
 
             var service = new SetupIntentService(_stripeClient);
@@ -420,7 +419,12 @@ public class StripeService : IStripeService
             {
                 Customer = stripeCustomerId,
                 PaymentMethodTypes = new List<string> { "card" },
-                Usage = "off_session"
+                Usage = "off_session",
+                Confirm = false,
+                AutomaticPaymentMethods = new SetupIntentAutomaticPaymentMethodsOptions
+                {
+                    Enabled = false
+                }
             };
 
             var setupIntent = await service.CreateAsync(options, cancellationToken: cancellationToken);
