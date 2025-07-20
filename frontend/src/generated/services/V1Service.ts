@@ -10320,6 +10320,102 @@ export interface V1Service {
             body: DeleteStripePaymentMethodsBody;
         };
     };
+    postStripePaymentMethodsSetupIntent: {
+        /**/
+        getMutationKey(parameters: PostStripePaymentMethodsSetupIntentParameters | void): ServiceOperationMutationKey<PostStripePaymentMethodsSetupIntentSchema, PostStripePaymentMethodsSetupIntentParameters>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.postStripePaymentMethodsSetupIntent.useMutation({})
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.postStripePaymentMethodsSetupIntent.useMutation()
+         * mutate({
+         *     body: bodyPayload
+         * });
+         * ```
+         */
+        useMutation<TVariables extends PostStripePaymentMethodsSetupIntentBody, TContext = unknown>(parameters: PostStripePaymentMethodsSetupIntentParameters, options?: ServiceOperationUseMutationOptions<PostStripePaymentMethodsSetupIntentSchema, PostStripePaymentMethodsSetupIntentData, PostStripePaymentMethodsSetupIntentParameters, TVariables, PostStripePaymentMethodsSetupIntentError, TContext>): UseMutationResult<PostStripePaymentMethodsSetupIntentData, PostStripePaymentMethodsSetupIntentError | Error, AreAllOptional<TVariables> extends true ? TVariables | void : TVariables, TContext>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.postStripePaymentMethodsSetupIntent.useMutation({})
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.postStripePaymentMethodsSetupIntent.useMutation()
+         * mutate({
+         *     body: bodyPayload
+         * });
+         * ```
+         */
+        useMutation<TVariables extends MutationVariables<PostStripePaymentMethodsSetupIntentBody, PostStripePaymentMethodsSetupIntentParameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<PostStripePaymentMethodsSetupIntentSchema, PostStripePaymentMethodsSetupIntentData, PostStripePaymentMethodsSetupIntentParameters, TVariables, PostStripePaymentMethodsSetupIntentError, TContext>): UseMutationResult<PostStripePaymentMethodsSetupIntentData, PostStripePaymentMethodsSetupIntentError | Error, TVariables, TContext>;
+        /**
+         * Returns the count of currently in-progress mutations.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
+         * @example Check how many mutations are currently in progress for the specified service method.
+         * ```ts
+         * const postStripePaymentMethodsSetupIntentTotal = qraft.v1Service.postStripePaymentMethodsSetupIntent.useIsMutating()
+         * ```
+         * @example Check how many mutations are currently in progress with the specified parameters.
+         * ```ts
+         * const postStripePaymentMethodsSetupIntentTotal = qraft.v1Service.postStripePaymentMethodsSetupIntent.useIsMutating({
+         *     parameters: {}
+         * })
+         * ```
+         */
+        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<PostStripePaymentMethodsSetupIntentBody, PostStripePaymentMethodsSetupIntentData, PostStripePaymentMethodsSetupIntentParameters, PostStripePaymentMethodsSetupIntentError, TContext> | MutationFiltersByMutationKey<PostStripePaymentMethodsSetupIntentSchema, PostStripePaymentMethodsSetupIntentBody, PostStripePaymentMethodsSetupIntentData, PostStripePaymentMethodsSetupIntentParameters, PostStripePaymentMethodsSetupIntentError, TContext>): number;
+        /**/
+        isMutating<TContext>(filters?: MutationFiltersByParameters<PostStripePaymentMethodsSetupIntentBody, PostStripePaymentMethodsSetupIntentData, PostStripePaymentMethodsSetupIntentParameters, PostStripePaymentMethodsSetupIntentError, TContext> | MutationFiltersByMutationKey<PostStripePaymentMethodsSetupIntentSchema, PostStripePaymentMethodsSetupIntentBody, PostStripePaymentMethodsSetupIntentData, PostStripePaymentMethodsSetupIntentParameters, PostStripePaymentMethodsSetupIntentError, TContext>): number;
+        /**/
+        (options: ServiceOperationMutationFnOptions<PostStripePaymentMethodsSetupIntentBody, PostStripePaymentMethodsSetupIntentParameters>, client?: (schema: PostStripePaymentMethodsSetupIntentSchema, options: ServiceOperationMutationFnOptions<PostStripePaymentMethodsSetupIntentBody, PostStripePaymentMethodsSetupIntentParameters>) => Promise<RequestFnResponse<PostStripePaymentMethodsSetupIntentData, PostStripePaymentMethodsSetupIntentError>>): Promise<RequestFnResponse<PostStripePaymentMethodsSetupIntentData, PostStripePaymentMethodsSetupIntentError>>;
+        /**
+         * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
+         * @example Get all variables of all running mutations.
+         * ```ts
+         * const postStripePaymentMethodsSetupIntentPendingMutationVariables = qraft.v1Service.postStripePaymentMethodsSetupIntent.useMutationState({
+         *     filters: {
+         *         status: "pending"
+         *     },
+         *     select: mutation => mutation.state.variables
+         * })
+         * ```
+         * @example Get all data for specific mutations via the `parameters`.
+         * ```ts
+         * const postStripePaymentMethodsSetupIntentMutationData = qraft.v1Service.postStripePaymentMethodsSetupIntent.useMutationState({
+         *     filters: {
+         *         parameters: {}
+         *     },
+         *     select: mutation => mutation.state.data
+         * })
+         * ```
+         */
+        useMutationState<TContext = unknown, TResult = MutationState<PostStripePaymentMethodsSetupIntentData, PostStripePaymentMethodsSetupIntentError, MutationVariables<PostStripePaymentMethodsSetupIntentBody, PostStripePaymentMethodsSetupIntentParameters>, TContext>>(options?: {
+            filters?: MutationFiltersByParameters<PostStripePaymentMethodsSetupIntentBody, PostStripePaymentMethodsSetupIntentData, PostStripePaymentMethodsSetupIntentParameters, PostStripePaymentMethodsSetupIntentError, TContext> | MutationFiltersByMutationKey<PostStripePaymentMethodsSetupIntentSchema, PostStripePaymentMethodsSetupIntentBody, PostStripePaymentMethodsSetupIntentData, PostStripePaymentMethodsSetupIntentParameters, PostStripePaymentMethodsSetupIntentError, TContext>;
+            select?: (mutation: Mutation<PostStripePaymentMethodsSetupIntentData, PostStripePaymentMethodsSetupIntentError, MutationVariables<PostStripePaymentMethodsSetupIntentBody, PostStripePaymentMethodsSetupIntentParameters>, TContext>) => TResult;
+        }): Array<TResult>;
+        schema: PostStripePaymentMethodsSetupIntentSchema;
+        types: {
+            parameters: PostStripePaymentMethodsSetupIntentParameters;
+            data: PostStripePaymentMethodsSetupIntentData;
+            error: PostStripePaymentMethodsSetupIntentError;
+            body: PostStripePaymentMethodsSetupIntentBody;
+        };
+    };
     getUsers: {
         /**/
         cancelQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetUsersSchema, GetUsersData, TInfinite, GetUsersParameters, GetUsersError> | QueryFiltersByQueryKey<GetUsersSchema, GetUsersData, TInfinite, GetUsersParameters, GetUsersError>, options?: CancelOptions): Promise<void>;
@@ -10913,6 +11009,12 @@ export const v1Service: {
             url: "/v1/stripe/payment-methods";
         };
     };
+    postStripePaymentMethodsSetupIntent: {
+        schema: {
+            method: "post";
+            url: "/v1/stripe/payment-methods/setup-intent";
+        };
+    };
     getUsers: {
         schema: {
             method: "get";
@@ -11265,6 +11367,12 @@ export const v1Service: {
         schema: {
             method: "delete",
             url: "/v1/stripe/payment-methods"
+        }
+    },
+    postStripePaymentMethodsSetupIntent: {
+        schema: {
+            method: "post",
+            url: "/v1/stripe/payment-methods/setup-intent"
         }
     },
     getUsers: {
@@ -11734,6 +11842,14 @@ type DeleteStripePaymentMethodsParameters = paths["/v1/stripe/payment-methods"][
 type DeleteStripePaymentMethodsData = paths["/v1/stripe/payment-methods"]["delete"]["responses"]["200"]["content"]["application/json"];
 type DeleteStripePaymentMethodsError = unknown;
 type DeleteStripePaymentMethodsBody = undefined;
+type PostStripePaymentMethodsSetupIntentSchema = {
+    method: "post";
+    url: "/v1/stripe/payment-methods/setup-intent";
+};
+type PostStripePaymentMethodsSetupIntentParameters = {};
+type PostStripePaymentMethodsSetupIntentData = paths["/v1/stripe/payment-methods/setup-intent"]["post"]["responses"]["200"]["content"]["application/json"];
+type PostStripePaymentMethodsSetupIntentError = unknown;
+type PostStripePaymentMethodsSetupIntentBody = undefined;
 type GetUsersSchema = {
     method: "get";
     url: "/v1/users";

@@ -408,6 +408,31 @@ public class StripeService : IStripeService
         }
     }
 
+    public async Task<string> CreateSetupIntentAsync(CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            // Ensure the customer exists in Stripe (create if needed)
+            string stripeCustomerId = await _currentStripeCustomerIdAccessor.GetOrCreateStripeCustomerId();
+
+            var service = new SetupIntentService(_stripeClient);
+            var options = new SetupIntentCreateOptions
+            {
+                Customer = stripeCustomerId,
+                PaymentMethodTypes = new List<string> { "card" },
+                Usage = "off_session"
+            };
+
+            var setupIntent = await service.CreateAsync(options, cancellationToken: cancellationToken);
+            return setupIntent.ClientSecret;
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, "Error creating setup intent for user");
+            throw;
+        }
+    }
+
     #region Private Helper Methods
 
 

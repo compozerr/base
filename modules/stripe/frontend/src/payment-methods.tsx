@@ -28,26 +28,22 @@ interface PaymentMethodsProps {
 
 export const PaymentMethods: React.FC<PaymentMethodsProps> = ({ openAddPaymentMethodDialogOnInit }) => {
     const { toast } = useToast();
-    const [openDialog, setOpenDialog] = useState(openAddPaymentMethodDialogOnInit ?? false);
-
-    useEffect(() => {
-        if (openAddPaymentMethodDialogOnInit) {
-            setOpenDialog(true);
-        }
-    }, [openAddPaymentMethodDialogOnInit]);
+    const [openDialog, setOpenDialog] = useState(false);
 
     const { data: paymentMethodsData, isLoading, error, refetch } = api.v1.getStripePaymentMethodsUser.useQuery();
 
+    const { mutateAsync: createSetupIntent } = api.v1.postStripePaymentMethodsSetupIntent.useMutation();
     const { mutateAsync: attachPaymentMethod } = api.v1.postStripePaymentMethodsAttach.useMutation();
     const { mutateAsync: setDefaultPaymentMethod } = api.v1.postStripePaymentMethodsDefault.useMutation();
     const { mutateAsync: removePaymentMethod } = api.v1.deleteStripePaymentMethods.useMutation();
 
     const [deleteIsLoading, setDeleteIsLoading] = useState(false);
+    const [clientSecret, setClientSecret] = useState<string | null>(null);
+    const [isCreatingSetupIntent, setIsCreatingSetupIntent] = useState(false);
 
     // Handler for when a payment method is successfully created by the Stripe Elements form
     const handleCardAdded = async (paymentMethodId: string) => {
         try {
-            // Call our API to associate the payment method with the user
             await attachPaymentMethod({
                 body: { paymentMethodId }
             });
@@ -58,8 +54,9 @@ export const PaymentMethods: React.FC<PaymentMethodsProps> = ({ openAddPaymentMe
                 variant: "success",
             });
 
-            await refetch(); // Refresh the payment methods list
+            await refetch();
             setOpenDialog(false);
+            setClientSecret(null);
         } catch (err) {
             toast({
                 title: "Error adding card",
@@ -68,6 +65,31 @@ export const PaymentMethods: React.FC<PaymentMethodsProps> = ({ openAddPaymentMe
             });
         }
     };
+
+    const handleOpenDialog = async () => {
+        try {
+            setIsCreatingSetupIntent(true);
+            const response = await createSetupIntent({});
+            if (response.clientSecret) {
+                setClientSecret(response.clientSecret);
+                setOpenDialog(true);
+            }
+        } catch (err) {
+            toast({
+                title: "Error preparing payment form",
+                description: err instanceof Error ? err.message : "An unknown error occurred",
+                variant: "destructive",
+            });
+        } finally {
+            setIsCreatingSetupIntent(false);
+        }
+    };
+
+    useEffect(() => {
+        if (openAddPaymentMethodDialogOnInit) {
+            handleOpenDialog();
+        }
+    }, [openAddPaymentMethodDialogOnInit]);
 
     const handleSetDefault = async (paymentMethodId: string) => {
         try {
@@ -146,7 +168,12 @@ export const PaymentMethods: React.FC<PaymentMethodsProps> = ({ openAddPaymentMe
         <div className="space-y-4">
             <div className="flex items-center justify-between">
                 <h3 className="text-lg font-medium">Payment Method</h3>
-                {<Dialog open={openDialog} onOpenChange={setOpenDialog}>
+                {<Dialog open={openDialog} onOpenChange={(open) => {
+                    setOpenDialog(open);
+                    if (!open) {
+                        setClientSecret(null);
+                    }
+                }}>
                     {/* <DialogTrigger asChild>
                         <Button size="sm" variant="outline">
                             <Plus className="h-4 w-4 mr-2" /> Add Payment Method
@@ -160,21 +187,32 @@ export const PaymentMethods: React.FC<PaymentMethodsProps> = ({ openAddPaymentMe
                             </DialogDescription>
                         </DialogHeader>
                         <div className="py-4">
-                            {/* Stripe Elements integration */}
-                            <StripeProvider>
-                                <StripeElementsForm
-                                    shouldReplace={shouldReplace}
-                                    onSuccess={handleCardAdded}
-                                    onError={(errorMessage) => {
-                                        toast({
-                                            title: "Error",
-                                            description: errorMessage,
-                                            variant: "destructive",
-                                        });
-                                    }}
-                                    onCancel={() => setOpenDialog(false)}
-                                />
-                            </StripeProvider>
+                            {clientSecret ? (
+                                <StripeProvider>
+                                    <StripeElementsForm
+                                        shouldReplace={shouldReplace}
+                                        clientSecret={clientSecret}
+                                        onSuccess={handleCardAdded}
+                                        onError={(errorMessage) => {
+                                            toast({
+                                                title: "Error",
+                                                description: errorMessage,
+                                                variant: "destructive",
+                                            });
+                                        }}
+                                        onCancel={() => {
+                                            setOpenDialog(false);
+                                            setClientSecret(null);
+                                        }}
+                                    />
+                                </StripeProvider>
+                            ) : (
+                                <div className="flex items-center justify-center p-4">
+                                    <div className="text-center">
+                                        {isCreatingSetupIntent ? "Preparing form..." : "Loading..."}
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     </DialogContent>
                 </Dialog>}
@@ -219,7 +257,7 @@ export const PaymentMethods: React.FC<PaymentMethodsProps> = ({ openAddPaymentMe
                                                 variant="ghost"
                                                 size="sm"
                                                 className='text-muted-foreground'
-                                                onClick={() => setOpenDialog(true)}
+                                                onClick={handleOpenDialog}
                                             >
                                                 Replace
                                             </Button>
@@ -244,7 +282,7 @@ export const PaymentMethods: React.FC<PaymentMethodsProps> = ({ openAddPaymentMe
                     <CardContent className="py-6">
                         <div className="text-center space-y-3">
                             <p className="text-muted-foreground">No payment method added yet</p>
-                            <Button variant="outline" onClick={() => setOpenDialog(true)}>
+                            <Button variant="outline" onClick={handleOpenDialog}>
                                 <Plus className="h-4 w-4 mr-2" /> Add Payment Method
                             </Button>
                         </div>

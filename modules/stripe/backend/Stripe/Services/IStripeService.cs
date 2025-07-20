@@ -41,6 +41,9 @@ public interface IStripeService
     Task<PaymentMethodDto> SetDefaultPaymentMethodAsync(
         string paymentMethodId,
         CancellationToken cancellationToken = default);
+        
+    Task<string> CreateSetupIntentAsync(
+        CancellationToken cancellationToken = default);
 }
 
 public class PaymentMethodDto

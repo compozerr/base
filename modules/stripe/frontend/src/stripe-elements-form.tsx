@@ -39,13 +39,15 @@ interface StripeElementsFormProps {
     onError: (error: string) => Promise<void> | void;
     onCancel: () => Promise<void> | void;
     shouldReplace: boolean;
+    clientSecret: string;
 }
 
 export const StripeElementsForm: React.FC<StripeElementsFormProps> = ({
     onSuccess,
     onError,
     onCancel,
-    shouldReplace = false
+    shouldReplace = false,
+    clientSecret
 }) => {
     const stripe = useStripe();
     const elements = useElements();
@@ -73,17 +75,20 @@ export const StripeElementsForm: React.FC<StripeElementsFormProps> = ({
         }
 
         try {
-            const { error, paymentMethod } = await stripe.createPaymentMethod({
-                type: 'card',
-                card: cardElement,
-            })
+            const { error, setupIntent } = await stripe.confirmCardSetup(
+                clientSecret,
+                {
+                    payment_method: {
+                        card: cardElement,
+                    }
+                }
+            );
 
             if (error) {
                 setErrorMessage(error.message || "An error occurred with your card");
-                await onError(error.message || "Payment method creation failed");
-            } else if (paymentMethod) {
-                // Send the payment method ID to your server to save with the customer
-                await onSuccess(paymentMethod.id);
+                await onError(error.message || "Payment method setup failed");
+            } else if (setupIntent && setupIntent.status === 'succeeded') {
+                await onSuccess(setupIntent.payment_method as string);
             }
         } catch (err) {
             const errorMessage = err instanceof Error ? err.message : "An unknown error occurred";
