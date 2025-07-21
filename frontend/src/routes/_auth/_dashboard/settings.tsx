@@ -29,7 +29,6 @@ import { Separator } from '@/components/ui/separator'
 import StripeProvider from '@repo/stripe/stripe-provider'
 import SubscriptionList from '@repo/stripe/subscription-list'
 import PaymentMethods from '@repo/stripe/payment-methods'
-import { IntroFlow } from '@/components/intro-flow'
 import { z } from 'zod'
 
 const optionalSearchParamsSchema = z.object({
