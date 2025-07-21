@@ -152,8 +152,8 @@ function DomainsSettingsTab() {
               return (
                 <div key={index}>
                   <div className="flex items-center justify-between">
-                    <div>
-                      <h3 className="font-medium">{d.value}</h3>
+                    <div className="min-w-0 flex-1">
+                      <h3 className="font-medium truncate">{d.value}</h3>
                       <p className="text-sm text-muted-foreground">
                         {d.serviceName}
                       </p>

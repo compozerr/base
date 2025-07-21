@@ -25,7 +25,7 @@ function RouteComponent() {
             </div>
 
             <Tabs className="w-full" value={tabRoute}>
-                <TabsList className="grid w-full grid-cols-3 lg:w-auto">
+                <TabsList className="grid w-full grid-cols-1 md:grid-cols-3 lg:w-auto h-full">
                     <TabsTrigger value="general" asChild>
                         <Link to="/projects/$projectId/settings/general" params={params} viewTransition>General</Link>
                     </TabsTrigger>
