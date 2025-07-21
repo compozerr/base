@@ -184,7 +184,7 @@ function RouteComponent() {
                       </TooltipProvider>
                     </div>
                     {isLoading ? (
-                      <Skeleton className="h-10 w-1/2" />
+                      <Skeleton className="h-10 w-full sm:w-1/2" />
                     ) : (
                       <Select
                         value={selectedProjectsInstallationId}
@@ -192,7 +192,7 @@ function RouteComponent() {
                           handleDefaultOrganizationChange(value, 1)
                         }
                       >
-                        <SelectTrigger id="projects-org" className="w-1/2">
+                        <SelectTrigger id="projects-org" className="w-full sm:w-1/2">
                           <SelectValue placeholder="Select organization" />
                         </SelectTrigger>
                         <SelectContent>
@@ -229,7 +229,7 @@ function RouteComponent() {
                       </TooltipProvider>
                     </div>
                     {isLoading ? (
-                      <Skeleton className="h-10 w-1/2" />
+                      <Skeleton className="h-10 w-full sm:w-1/2" />
                     ) : (
                       <Select
                         value={selectedModulesInstallationId}
@@ -237,7 +237,7 @@ function RouteComponent() {
                           handleDefaultOrganizationChange(value, 2)
                         }
                       >
-                        <SelectTrigger className="w-1/2" id="modules-org">
+                        <SelectTrigger className="w-full sm:w-1/2" id="modules-org">
                           <SelectValue placeholder="Select organization" />
                         </SelectTrigger>
                         <SelectContent>

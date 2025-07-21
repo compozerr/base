@@ -146,7 +146,7 @@ function RouteComponent() {
                         </SelectContent>
                     </Select>
                 </div>
-                <Button onClick={() => open(getLink('addNewService'), '_blank')}>
+                <Button className="hidden md:flex" onClick={() => open(getLink('addNewService'), '_blank')}>
                     <Plus className="mr-2 h-4 w-4" /> Add New Service
                 </Button>
             </div>
