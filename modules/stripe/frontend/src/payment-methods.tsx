@@ -258,77 +258,75 @@ export const PaymentMethods: React.FC<PaymentMethodsProps> = ({ openAddPaymentMe
                             const brandLower = brand.toLowerCase();
                             switch (brandLower) {
                                 case 'visa':
-                                    return <div className="text-blue-300 font-bold text-xs tracking-wider">VISA</div>;
+                                    return <div className="text-blue-300 font-bold text-base sm:text-lg tracking-wider">VISA</div>;
                                 case 'mastercard':
                                     return (
-                                        <div className="flex items-center gap-0.5">
-                                            <div className="w-3 h-3 rounded-full bg-red-400/80"></div>
-                                            <div className="w-3 h-3 rounded-full bg-yellow-400/80 -ml-1.5"></div>
+                                        <div className="flex items-center gap-0.5 sm:gap-1">
+                                            <div className="w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-red-400/80"></div>
+                                            <div className="w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-yellow-400/80 -ml-1.5 sm:-ml-2"></div>
                                         </div>
                                     );
                                 case 'amex':
-                                    return <div className="text-teal-300 font-bold text-[10px] tracking-wider">AMEX</div>;
+                                    return <div className="text-teal-300 font-bold text-[10px] sm:text-xs tracking-wider">AMEX</div>;
                                 default:
-                                    return <CreditCard className="h-3 w-3 text-zinc-300" />;
+                                    return <CreditCard className="h-3 w-3 sm:h-4 sm:w-4 text-zinc-300" />;
                             }
                         };
 
                         return (
-                            <div key={method.id} className="group max-w-sm">
+                            <div key={method.id} className="group w-full max-w-sm">
                                 <Card className={`payment-card border-zinc-800 bg-zinc-900/70 backdrop-blur-sm overflow-hidden transition-all duration-300 hover:border-zinc-700 aspect-[1.586/1] ${method.isDefault ? 'ring-1 ring-blue-500/30' : ''}`}>
                                     <CardContent className="p-0 h-full flex flex-col">
-                                        <div className={`relative p-4 bg-gradient-to-br ${getCardAccent(method.brand || '')} border-b border-zinc-800/50 flex-1`}>
+                                        <div className={`relative p-3 sm:p-4 bg-gradient-to-br ${getCardAccent(method.brand || '')} border-b border-zinc-800/50 flex-1`}>
                                             <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-purple-500/5 to-transparent"></div>
-                                            <div className="absolute top-2 right-2 w-8 h-8 rounded-full border border-zinc-700/30 opacity-20"></div>
-                                            <div className="absolute top-3 right-3 w-6 h-6 rounded-full border border-zinc-600/20 opacity-15"></div>
+                                            <div className="absolute top-2 right-2 w-6 h-6 sm:w-8 sm:h-8 rounded-full border border-zinc-700/30 opacity-20"></div>
+                                            <div className="absolute top-2.5 right-2.5 w-4 h-4 sm:w-6 sm:h-6 rounded-full border border-zinc-600/20 opacity-15"></div>
                                             
                                             <div className="relative z-10 h-full flex flex-col justify-between">
                                                 <div className="flex items-center justify-between">
                                                     {getBrandIcon(method.brand || '')}
-                                                    <span className="inline-flex items-center px-1.5 py-0.5 text-xs font-medium bg-green-500/20 text-green-300 rounded border border-green-500/30">
-                                                        <Shield className="w-2.5 h-2.5 mr-1 fill-current" />
-                                                        Secured
+                                                    <span className="inline-flex items-center justify-center w-6 h-6 sm:w-7 sm:h-7 text-xs sm:text-sm font-medium bg-green-500/20 text-green-300 rounded border border-green-500/30">
+                                                        <Shield className="w-3 h-3 sm:w-3.5 sm:h-3.5 fill-current" />
                                                     </span>
                                                 </div>
                                                 
                                                 <div className="space-y-2">
-                                                    <div className="font-mono text-sm font-medium text-white tracking-[0.15em]">
+                                                    <div className="font-mono text-xs sm:text-base font-medium text-white tracking-[0.1em] sm:tracking-[0.15em]">
                                                         •••• •••• •••• {method.last4}
                                                     </div>
                                                     
-                                                    <div className="flex items-center justify-between text-xs text-zinc-400">
+                                                    <div className="flex items-center text-xs sm:text-sm text-zinc-400">
                                                         <div className="flex items-center gap-1">
-                                                            <Calendar className="w-2.5 h-2.5" />
+                                                            <Calendar className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
                                                             <span>{method.expiryMonth?.toString().padStart(2, '0')}/{method.expiryYear}</span>
                                                         </div>
-                                                        
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         
-                                        <div className="p-3 flex flex-col justify-center">
-                                            <div className="mb-2">
-                                                <h4 className="font-medium text-white text-xs mb-0.5">
+                                        <div className="p-2 sm:p-3 flex flex-col justify-center min-h-0">
+                                            <div className="mb-1.5 sm:mb-2">
+                                                <h4 className="font-medium text-white text-xs sm:text-base mb-0.5">
                                                     {method.brand?.toUpperCase()} Card
                                                 </h4>
-                                                <p className="text-xs text-zinc-400">
+                                                <p className="text-xs sm:text-sm text-zinc-400 leading-tight">
                                                     {method.isDefault 
-                                                        ? "Your default payment method" 
+                                                        ? "Default payment method" 
                                                         : "Available for billing"
                                                     }
                                                 </p>
                                             </div>
                                             
-                                            <div className="flex flex-wrap gap-1.5">
+                                            <div className="flex flex-wrap gap-1 sm:gap-2">
                                                 {!method.isDefault && (
                                                     <Button
                                                         variant="ghost"
                                                         size="sm"
                                                         onClick={() => handleSetDefault(method.id!)}
-                                                        className="h-6 px-2 text-xs text-zinc-300 hover:text-white hover:bg-zinc-800 border border-zinc-700 hover:border-zinc-600 transition-all duration-200"
+                                                        className="h-5 sm:h-7 px-1.5 sm:px-3 text-xs text-zinc-300 hover:text-white hover:bg-zinc-800 border border-zinc-700 hover:border-zinc-600 transition-all duration-200 sm:text-sm"
                                                     >
-                                                        <Star className="w-2 h-2 mr-1" />
+                                                        <Star className="w-2 h-2 sm:w-2.5 sm:h-2.5 mr-0.5 sm:mr-1" />
                                                         Default
                                                     </Button>
                                                 )}
@@ -336,7 +334,7 @@ export const PaymentMethods: React.FC<PaymentMethodsProps> = ({ openAddPaymentMe
                                                     variant="ghost"
                                                     size="sm"
                                                     onClick={handleOpenDialog}
-                                                    className="h-6 px-2 text-xs text-zinc-300 hover:text-white hover:bg-zinc-800 border border-zinc-700 hover:border-zinc-600 transition-all duration-200"
+                                                    className="h-5 sm:h-7 px-1.5 sm:px-3 text-xs sm:text-sm text-zinc-300 hover:text-white hover:bg-zinc-800 border border-zinc-700 hover:border-zinc-600 transition-all duration-200"
                                                 >
                                                     Replace
                                                 </Button>
@@ -344,7 +342,7 @@ export const PaymentMethods: React.FC<PaymentMethodsProps> = ({ openAddPaymentMe
                                                     isLoading={deleteIsLoading}
                                                     variant="ghost"
                                                     size="sm"
-                                                    className="h-6 px-2 text-xs text-red-400 hover:text-red-300 hover:bg-red-500/10 border border-zinc-700 hover:border-red-500/30 transition-all duration-200"
+                                                    className="h-5 sm:h-7 px-1.5 sm:px-3 text-xs sm:text-sm text-red-400 hover:text-red-300 hover:bg-red-500/10 border border-zinc-700 hover:border-red-500/30 transition-all duration-200"
                                                     onClick={() => handleDelete(method.id!)}
                                                 >
                                                     Remove
@@ -361,12 +359,12 @@ export const PaymentMethods: React.FC<PaymentMethodsProps> = ({ openAddPaymentMe
                 <Card className="border-zinc-800 bg-zinc-900/50 backdrop-blur-sm border-dashed hover:bg-zinc-900/70 hover:border-zinc-700 transition-all duration-200">
                     <CardContent className="py-8">
                         <div className="text-center space-y-4">
-                            <div className="mx-auto w-12 h-12 rounded-full bg-zinc-800/50 flex items-center justify-center">
-                                <CreditCard className="h-5 w-5 text-zinc-500" />
+                            <div className="mx-auto w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-zinc-800/50 flex items-center justify-center">
+                                <CreditCard className="h-5 w-5 sm:h-7 sm:w-7 text-zinc-500" />
                             </div>
                             <div className="space-y-2">
-                                <h4 className="font-medium text-white text-sm">No payment method</h4>
-                                <p className="text-xs text-zinc-500 max-w-xs mx-auto">
+                                <h4 className="font-medium text-white text-sm sm:text-lg">No payment method</h4>
+                                <p className="text-xs sm:text-sm text-zinc-500 max-w-xs mx-auto">
                                     Add a payment method to enable billing
                                 </p>
                             </div>
@@ -374,9 +372,9 @@ export const PaymentMethods: React.FC<PaymentMethodsProps> = ({ openAddPaymentMe
                                 variant="ghost"
                                 size="sm"
                                 onClick={handleOpenDialog}
-                                className="bg-white text-black hover:bg-zinc-200 font-medium px-4 py-2 text-sm transition-all duration-200"
+                                className="bg-white text-black hover:bg-zinc-200 font-medium px-4 py-2 text-sm sm:text-base transition-all duration-200"
                             >
-                                <Plus className="h-3.5 w-3.5 mr-1.5" /> 
+                                <Plus className="h-3.5 w-3.5 sm:h-4 sm:w-4 mr-1.5" /> 
                                 Add Payment Method
                             </Button>
                         </div>
