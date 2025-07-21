@@ -1430,6 +1430,47 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/projects/{projectId}/environment/change-auto-deploy": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    projectId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["ChangeAutoDeployRequest"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["ChangeAutoDeployResponse"];
+                    };
+                };
+            };
+        };
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/projects/{projectId}/domains": {
         parameters: {
             query?: never;
@@ -2110,6 +2151,10 @@ export interface components {
             canceledAt?: string | null;
             canceledImmediately?: boolean;
         };
+        ChangeAutoDeployRequest: {
+            autoDeploy?: boolean;
+        };
+        ChangeAutoDeployResponse: Record<string, never>;
         ChangeDeploymentStatusRequest: {
             status?: string | null;
         };
@@ -2227,6 +2272,7 @@ export interface components {
             repoUrl?: string | null;
         };
         GetProjectEnvironmentResponse: {
+            autoDeploy?: boolean;
             variables?: components["schemas"]["ProjectEnvironmentVariableDto"][] | null;
         };
         GetProjectResponse: {

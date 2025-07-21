@@ -7789,6 +7789,124 @@ export interface V1Service {
             body: PutProjectsProjectIdEnvironmentBody;
         };
     };
+    putProjectsProjectIdEnvironmentChangeAutoDeploy: {
+        /**/
+        getMutationKey(parameters: PutProjectsProjectIdEnvironmentChangeAutoDeployParameters | void): ServiceOperationMutationKey<PutProjectsProjectIdEnvironmentChangeAutoDeploySchema, PutProjectsProjectIdEnvironmentChangeAutoDeployParameters>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.putProjectsProjectIdEnvironmentChangeAutoDeploy.useMutation({
+         *     path: {
+         *         projectId: projectId
+         *     }
+         * })
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.putProjectsProjectIdEnvironmentChangeAutoDeploy.useMutation()
+         * mutate({
+         *     body: bodyPayload,
+         *     path: {
+         *         projectId: projectId
+         *     }
+         * });
+         * ```
+         */
+        useMutation<TVariables extends PutProjectsProjectIdEnvironmentChangeAutoDeployBody, TContext = unknown>(parameters: PutProjectsProjectIdEnvironmentChangeAutoDeployParameters, options?: ServiceOperationUseMutationOptions<PutProjectsProjectIdEnvironmentChangeAutoDeploySchema, PutProjectsProjectIdEnvironmentChangeAutoDeployData, PutProjectsProjectIdEnvironmentChangeAutoDeployParameters, TVariables, PutProjectsProjectIdEnvironmentChangeAutoDeployError, TContext>): UseMutationResult<PutProjectsProjectIdEnvironmentChangeAutoDeployData, PutProjectsProjectIdEnvironmentChangeAutoDeployError | Error, AreAllOptional<TVariables> extends true ? TVariables | void : TVariables, TContext>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.putProjectsProjectIdEnvironmentChangeAutoDeploy.useMutation({
+         *     path: {
+         *         projectId: projectId
+         *     }
+         * })
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.putProjectsProjectIdEnvironmentChangeAutoDeploy.useMutation()
+         * mutate({
+         *     body: bodyPayload,
+         *     path: {
+         *         projectId: projectId
+         *     }
+         * });
+         * ```
+         */
+        useMutation<TVariables extends MutationVariables<PutProjectsProjectIdEnvironmentChangeAutoDeployBody, PutProjectsProjectIdEnvironmentChangeAutoDeployParameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<PutProjectsProjectIdEnvironmentChangeAutoDeploySchema, PutProjectsProjectIdEnvironmentChangeAutoDeployData, PutProjectsProjectIdEnvironmentChangeAutoDeployParameters, TVariables, PutProjectsProjectIdEnvironmentChangeAutoDeployError, TContext>): UseMutationResult<PutProjectsProjectIdEnvironmentChangeAutoDeployData, PutProjectsProjectIdEnvironmentChangeAutoDeployError | Error, TVariables, TContext>;
+        /**
+         * Returns the count of currently in-progress mutations.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
+         * @example Check how many mutations are currently in progress for the specified service method.
+         * ```ts
+         * const putProjectsProjectIdEnvironmentChangeAutoDeployTotal = qraft.v1Service.putProjectsProjectIdEnvironmentChangeAutoDeploy.useIsMutating()
+         * ```
+         * @example Check how many mutations are currently in progress with the specified parameters.
+         * ```ts
+         * const putProjectsProjectIdEnvironmentChangeAutoDeployTotal = qraft.v1Service.putProjectsProjectIdEnvironmentChangeAutoDeploy.useIsMutating({
+         *     parameters: {
+         *         path: {
+         *             projectId: projectId
+         *         }
+         *     }
+         * })
+         * ```
+         */
+        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<PutProjectsProjectIdEnvironmentChangeAutoDeployBody, PutProjectsProjectIdEnvironmentChangeAutoDeployData, PutProjectsProjectIdEnvironmentChangeAutoDeployParameters, PutProjectsProjectIdEnvironmentChangeAutoDeployError, TContext> | MutationFiltersByMutationKey<PutProjectsProjectIdEnvironmentChangeAutoDeploySchema, PutProjectsProjectIdEnvironmentChangeAutoDeployBody, PutProjectsProjectIdEnvironmentChangeAutoDeployData, PutProjectsProjectIdEnvironmentChangeAutoDeployParameters, PutProjectsProjectIdEnvironmentChangeAutoDeployError, TContext>): number;
+        /**/
+        isMutating<TContext>(filters?: MutationFiltersByParameters<PutProjectsProjectIdEnvironmentChangeAutoDeployBody, PutProjectsProjectIdEnvironmentChangeAutoDeployData, PutProjectsProjectIdEnvironmentChangeAutoDeployParameters, PutProjectsProjectIdEnvironmentChangeAutoDeployError, TContext> | MutationFiltersByMutationKey<PutProjectsProjectIdEnvironmentChangeAutoDeploySchema, PutProjectsProjectIdEnvironmentChangeAutoDeployBody, PutProjectsProjectIdEnvironmentChangeAutoDeployData, PutProjectsProjectIdEnvironmentChangeAutoDeployParameters, PutProjectsProjectIdEnvironmentChangeAutoDeployError, TContext>): number;
+        /**/
+        (options: ServiceOperationMutationFnOptions<PutProjectsProjectIdEnvironmentChangeAutoDeployBody, PutProjectsProjectIdEnvironmentChangeAutoDeployParameters>, client?: (schema: PutProjectsProjectIdEnvironmentChangeAutoDeploySchema, options: ServiceOperationMutationFnOptions<PutProjectsProjectIdEnvironmentChangeAutoDeployBody, PutProjectsProjectIdEnvironmentChangeAutoDeployParameters>) => Promise<RequestFnResponse<PutProjectsProjectIdEnvironmentChangeAutoDeployData, PutProjectsProjectIdEnvironmentChangeAutoDeployError>>): Promise<RequestFnResponse<PutProjectsProjectIdEnvironmentChangeAutoDeployData, PutProjectsProjectIdEnvironmentChangeAutoDeployError>>;
+        /**
+         * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
+         * @example Get all variables of all running mutations.
+         * ```ts
+         * const putProjectsProjectIdEnvironmentChangeAutoDeployPendingMutationVariables = qraft.v1Service.putProjectsProjectIdEnvironmentChangeAutoDeploy.useMutationState({
+         *     filters: {
+         *         status: "pending"
+         *     },
+         *     select: mutation => mutation.state.variables
+         * })
+         * ```
+         * @example Get all data for specific mutations via the `parameters`.
+         * ```ts
+         * const putProjectsProjectIdEnvironmentChangeAutoDeployMutationData = qraft.v1Service.putProjectsProjectIdEnvironmentChangeAutoDeploy.useMutationState({
+         *     filters: {
+         *         parameters: {
+         *             path: {
+         *                 projectId: projectId
+         *             }
+         *         }
+         *     },
+         *     select: mutation => mutation.state.data
+         * })
+         * ```
+         */
+        useMutationState<TContext = unknown, TResult = MutationState<PutProjectsProjectIdEnvironmentChangeAutoDeployData, PutProjectsProjectIdEnvironmentChangeAutoDeployError, MutationVariables<PutProjectsProjectIdEnvironmentChangeAutoDeployBody, PutProjectsProjectIdEnvironmentChangeAutoDeployParameters>, TContext>>(options?: {
+            filters?: MutationFiltersByParameters<PutProjectsProjectIdEnvironmentChangeAutoDeployBody, PutProjectsProjectIdEnvironmentChangeAutoDeployData, PutProjectsProjectIdEnvironmentChangeAutoDeployParameters, PutProjectsProjectIdEnvironmentChangeAutoDeployError, TContext> | MutationFiltersByMutationKey<PutProjectsProjectIdEnvironmentChangeAutoDeploySchema, PutProjectsProjectIdEnvironmentChangeAutoDeployBody, PutProjectsProjectIdEnvironmentChangeAutoDeployData, PutProjectsProjectIdEnvironmentChangeAutoDeployParameters, PutProjectsProjectIdEnvironmentChangeAutoDeployError, TContext>;
+            select?: (mutation: Mutation<PutProjectsProjectIdEnvironmentChangeAutoDeployData, PutProjectsProjectIdEnvironmentChangeAutoDeployError, MutationVariables<PutProjectsProjectIdEnvironmentChangeAutoDeployBody, PutProjectsProjectIdEnvironmentChangeAutoDeployParameters>, TContext>) => TResult;
+        }): Array<TResult>;
+        schema: PutProjectsProjectIdEnvironmentChangeAutoDeploySchema;
+        types: {
+            parameters: PutProjectsProjectIdEnvironmentChangeAutoDeployParameters;
+            data: PutProjectsProjectIdEnvironmentChangeAutoDeployData;
+            error: PutProjectsProjectIdEnvironmentChangeAutoDeployError;
+            body: PutProjectsProjectIdEnvironmentChangeAutoDeployBody;
+        };
+    };
     getProjectsProjectIdDomains: {
         /**/
         cancelQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetProjectsProjectIdDomainsSchema, GetProjectsProjectIdDomainsData, TInfinite, GetProjectsProjectIdDomainsParameters, GetProjectsProjectIdDomainsError> | QueryFiltersByQueryKey<GetProjectsProjectIdDomainsSchema, GetProjectsProjectIdDomainsData, TInfinite, GetProjectsProjectIdDomainsParameters, GetProjectsProjectIdDomainsError>, options?: CancelOptions): Promise<void>;
@@ -10895,6 +11013,15 @@ export const v1Service: {
             ];
         };
     };
+    putProjectsProjectIdEnvironmentChangeAutoDeploy: {
+        schema: {
+            method: "put";
+            url: "/v1/projects/{projectId}/environment/change-auto-deploy";
+            mediaType: [
+                "application/json"
+            ];
+        };
+    };
     getProjectsProjectIdDomains: {
         schema: {
             method: "get";
@@ -11264,6 +11391,13 @@ export const v1Service: {
         schema: {
             method: "put",
             url: "/v1/projects/{projectId}/environment",
+            mediaType: ["application/json"]
+        }
+    },
+    putProjectsProjectIdEnvironmentChangeAutoDeploy: {
+        schema: {
+            method: "put",
+            url: "/v1/projects/{projectId}/environment/change-auto-deploy",
             mediaType: ["application/json"]
         }
     },
@@ -11702,6 +11836,17 @@ type PutProjectsProjectIdEnvironmentParameters = paths["/v1/projects/{projectId}
 type PutProjectsProjectIdEnvironmentData = unknown;
 type PutProjectsProjectIdEnvironmentError = unknown;
 type PutProjectsProjectIdEnvironmentBody = NonNullable<paths["/v1/projects/{projectId}/environment"]["put"]["requestBody"]>["content"]["application/json"];
+type PutProjectsProjectIdEnvironmentChangeAutoDeploySchema = {
+    method: "put";
+    url: "/v1/projects/{projectId}/environment/change-auto-deploy";
+    mediaType: [
+        "application/json"
+    ];
+};
+type PutProjectsProjectIdEnvironmentChangeAutoDeployParameters = paths["/v1/projects/{projectId}/environment/change-auto-deploy"]["put"]["parameters"];
+type PutProjectsProjectIdEnvironmentChangeAutoDeployData = paths["/v1/projects/{projectId}/environment/change-auto-deploy"]["put"]["responses"]["200"]["content"]["application/json"];
+type PutProjectsProjectIdEnvironmentChangeAutoDeployError = unknown;
+type PutProjectsProjectIdEnvironmentChangeAutoDeployBody = NonNullable<paths["/v1/projects/{projectId}/environment/change-auto-deploy"]["put"]["requestBody"]>["content"]["application/json"];
 type GetProjectsProjectIdDomainsSchema = {
     method: "get";
     url: "/v1/projects/{projectId}/domains";

@@ -29,9 +29,24 @@ export const Route = createFileRoute(
   '/_auth/_dashboard/projects/$projectId/settings/general',
 )({
   component: GeneralSettingsTab,
+  loader: ({ params: { projectId } }) => {
+    return api.v1.getProjectsProjectIdEnvironment({
+      parameters: {
+        path: {
+          projectId
+        },
+        query: {
+          branch: "main"
+        }
+      }
+    })
+  },
 })
 
 function GeneralSettingsTab() {
+  const { data: projectEnvironmentData, error } = Route.useLoaderData();
+
+  const [autoDeploy, setAutoDeploy] = useState(projectEnvironmentData?.autoDeploy ?? false);
 
   const [wantsDeletion, setWantsDeletion] = useState(false);
 
@@ -51,6 +66,7 @@ function GeneralSettingsTab() {
   const { data: tiers } = api.v1.getServersTiers.useQuery();
 
   const { mutateAsync: changeTierAsync } = api.v1.postStripeSubscriptionsUpsert.useMutation();
+  const { mutateAsync: changeAutoDeployAsync } = api.v1.putProjectsProjectIdEnvironmentChangeAutoDeploy.useMutation({ path: { projectId } });
 
   const [tier, setTier] = useState<string | null>(null);
 
@@ -134,7 +150,21 @@ function GeneralSettingsTab() {
                 </p>
               </div>
 
-              <Switch id="auto-deploy" defaultChecked disabled={true} />
+              <Switch id="auto-deploy" checked={autoDeploy} disabled={!!error || !projectEnvironmentData} onCheckedChange={async (checked) => {
+                setAutoDeploy(checked);
+                await changeAutoDeployAsync({ autoDeploy: checked }).then(() => {
+                  toast({
+                    title: 'Auto Deploy changed',
+                    description: `Auto Deploy is now ${checked ? 'enabled' : 'disabled'}.`
+                  });
+                }).catch((err) => {
+                  toast({
+                    title: 'Error changing Auto Deploy',
+                    description: err.message,
+                    variant: 'destructive'
+                  });
+                })
+              }} />
             </div>
 
             <div className="space-y-2">

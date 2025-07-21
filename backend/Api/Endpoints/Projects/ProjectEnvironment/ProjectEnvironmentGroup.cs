@@ -1,3 +1,5 @@
+using Api.Endpoints.Projects.ProjectEnvironment.ChangeAutoDeploy;
+
 namespace Api.Endpoints.Projects.ProjectEnvironment;
 
 public static class ProjectEnvironmentGroup
@@ -10,6 +12,7 @@ public static class ProjectEnvironmentGroup
 
         group.AddGetProjectEnvironmentRoute();
         group.AddUpsertProjectEnvironmentVariablesRoute();
+        group.AddChangeAutoDeployRoute();
 
         return group;
     }

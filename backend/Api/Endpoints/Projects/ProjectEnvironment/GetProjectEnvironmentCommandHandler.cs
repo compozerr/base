@@ -29,6 +29,6 @@ public class GetProjectEnvironmentCommandHandler(
             environmentVariables,
             command.ProjectId);
 
-        return new(environmentVariables);
+        return new(environment?.AutoDeploy ?? false, environmentVariables);
     }
 }
