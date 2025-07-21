@@ -376,15 +376,15 @@ export const PaymentMethods: React.FC<PaymentMethodsProps> = ({ openAddPaymentMe
                                             const maxDistance = 100;
                                             
                                             if (distance < maxDistance) {
-                                                const intensity = 1 - (distance / maxDistance);
-                                                const scale = 1 + intensity * 0.8;
-                                                const opacity = 0.3 + intensity * 0.7;
-                                                const hue = intensity > 0.5 ? '280' : '220';
+                                                const intensity = Math.pow(1 - (distance / maxDistance), 3);
+                                                const scale = 1 + intensity * 0.15;
+                                                const opacity = 0.3 + intensity * 0.25;
+                                                const hue = intensity > 0.2 ? '280' : '220';
                                                 
                                                 htmlDot.style.transform = `scale(${scale})`;
                                                 htmlDot.style.opacity = opacity.toString();
-                                                htmlDot.style.background = `radial-gradient(circle, hsl(${hue}, 60%, 60%), hsl(${hue}, 60%, 40%))`;
-                                                htmlDot.style.boxShadow = `0 0 ${intensity * 20}px hsl(${hue}, 60%, 50%)`;
+                                                htmlDot.style.background = `radial-gradient(circle, hsl(${hue}, 25%, 40%), hsl(${hue}, 25%, 25%))`;
+                                                htmlDot.style.boxShadow = `0 0 ${intensity * 4}px hsl(${hue}, 25%, 30%)`;
                                             } else {
                                                 htmlDot.style.transform = '';
                                                 htmlDot.style.opacity = '';
@@ -418,16 +418,18 @@ export const PaymentMethods: React.FC<PaymentMethodsProps> = ({ openAddPaymentMe
 
                                     <div className="absolute inset-0 pointer-events-none overflow-hidden">
                                         <div 
-                                            className="dots-container grid gap-4 p-2" 
+                                            className="dots-container absolute inset-0 grid gap-2 p-2" 
                                             style={{ 
-                                                gridTemplateColumns: 'repeat(15, minmax(3px, 1fr))',
-                                                gridTemplateRows: 'repeat(8, minmax(3px, 1fr))'
+                                                gridTemplateColumns: 'repeat(18, minmax(2px, 1fr))',
+                                                gridTemplateRows: 'repeat(14, minmax(2px, 1fr))',
+                                                width: '100%',
+                                                height: '100%'
                                             }}
                                         >
-                                            {Array.from({ length: 120 }, (_, i) => {
-                                                const row = Math.floor(i / 15);
-                                                const col = i % 15;
-                                                const delay = (row * 0.1 + col * 0.05) % 4;
+                                            {Array.from({ length: 252 }, (_, i) => {
+                                                const row = Math.floor(i / 18);
+                                                const col = i % 18;
+                                                const delay = (row * 0.08 + col * 0.04) % 4;
                                                 return (
                                                     <div
                                                         key={i}
@@ -553,15 +555,15 @@ export const PaymentMethods: React.FC<PaymentMethodsProps> = ({ openAddPaymentMe
                                 const maxDistance = 120;
                                 
                                 if (distance < maxDistance) {
-                                    const intensity = 1 - (distance / maxDistance);
-                                    const scale = 1 + intensity * 1.2;
-                                    const opacity = 0.15 + intensity * 0.8;
-                                    const hue = intensity > 0.5 ? '280' : '220';
+                                    const intensity = Math.pow(1 - (distance / maxDistance), 3);
+                                    const scale = 1 + intensity * 0.2;
+                                    const opacity = 0.15 + intensity * 0.3;
+                                    const hue = intensity > 0.2 ? '280' : '220';
                                     
                                     htmlDot.style.transform = `scale(${scale})`;
                                     htmlDot.style.opacity = opacity.toString();
-                                    htmlDot.style.background = `radial-gradient(circle, hsl(${hue}, 60%, 60%), hsl(${hue}, 60%, 40%))`;
-                                    htmlDot.style.boxShadow = `0 0 ${intensity * 15}px hsl(${hue}, 60%, 50%)`;
+                                    htmlDot.style.background = `radial-gradient(circle, hsl(${hue}, 20%, 35%), hsl(${hue}, 20%, 20%))`;
+                                    htmlDot.style.boxShadow = `0 0 ${intensity * 3}px hsl(${hue}, 20%, 25%)`;
                                 } else {
                                     htmlDot.style.transform = '';
                                     htmlDot.style.opacity = '';
@@ -609,16 +611,18 @@ export const PaymentMethods: React.FC<PaymentMethodsProps> = ({ openAddPaymentMe
                             }
                         `}</style>
                         <div 
-                            className="empty-dots-container grid gap-3 p-4" 
+                            className="empty-dots-container absolute inset-0 grid gap-2 p-3" 
                             style={{ 
-                                gridTemplateColumns: 'repeat(20, minmax(2px, 1fr))',
-                                gridTemplateRows: 'repeat(12, minmax(2px, 1fr))'
+                                gridTemplateColumns: 'repeat(25, minmax(1px, 1fr))',
+                                gridTemplateRows: 'repeat(18, minmax(1px, 1fr))',
+                                width: '100%',
+                                height: '100%'
                             }}
                         >
-                            {Array.from({ length: 240 }, (_, i) => {
-                                const row = Math.floor(i / 20);
-                                const col = i % 20;
-                                const delay = (row * 0.1 + col * 0.05) % 5;
+                            {Array.from({ length: 450 }, (_, i) => {
+                                const row = Math.floor(i / 25);
+                                const col = i % 25;
+                                const delay = (row * 0.08 + col * 0.03) % 5;
                                 return (
                                     <div
                                         key={i}
