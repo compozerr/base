@@ -91,10 +91,9 @@ public abstract class BaseDbContext<TDbContext>(
         foreach (var entity in entries)
         {
             var events = entity.DomainEvents.Where(e => e is IDispatchBeforeSaveChanges).ToArray();
+            entity.DomainEvents.RemoveAll(e => e is IDispatchBeforeSaveChanges);
 
             await events.ApplyAsync(domainEvent => mediator.Publish(domainEvent, cancellationToken));
-
-            entity.DomainEvents.RemoveAll(e => e is IDispatchBeforeSaveChanges);
         }
     }
 
