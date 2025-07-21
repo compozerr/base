@@ -26,6 +26,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { CopyButton } from '@/components/copy-button'
 
 export const Route = createFileRoute(
   '/_auth/_dashboard/projects/$projectId/settings/domains',
@@ -178,6 +179,17 @@ function DomainsSettingsTab() {
                                 Verify
                               </DropdownMenuItem>
                             )}
+                            {
+                              d.value && (
+                                  <CopyButton
+                                    value={d.value}
+                                    className="gap-4"
+                                    iconClassName='text-primary'
+                                  >
+                                    <span className="text-sm">Copy Domain</span>
+                                  </CopyButton>
+                              )
+                            }
                             {
                               d.isVerified && !d.isPrimary && (
                                 <DropdownMenuItem onClick={() => {
