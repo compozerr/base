@@ -41,7 +41,7 @@ function GeneralSettingsTab() {
 
   const { data: project } = api.v1.getProjectsProjectId.useQuery({ path: { projectId } })
 
-  const { mutateAsync: deleteAsync } = api.v1.deleteProjectsProjectId.useMutation({ path: { projectId: params.projectId } })
+  const { mutateAsync: deleteAsync, isPending: deleteIsLoading } = api.v1.deleteProjectsProjectId.useMutation({ path: { projectId: params.projectId } })
   const deleteProjectAsync = async () => {
     if (!wantsDeletion) return;
     await deleteAsync();
@@ -177,7 +177,7 @@ function GeneralSettingsTab() {
                 Delete this project and all its resources. This action will also cancel your subscription.
               </p>
             </div>
-            <LoadingButton isLoading={wantsDeletion} variant="destructive" onClick={() => {
+            <LoadingButton isLoading={wantsDeletion || deleteIsLoading} variant="destructive" onClick={() => {
               setWantsDeletion(true);
             }}>Delete</LoadingButton>
             <AreYouSureDialogConfirmWithText
