@@ -24,7 +24,8 @@ public sealed class ProjectEnvironmentRepository(
         environment ??= new ProjectEnvironment
         {
             Branches = [branch],
-            ProjectId = projectId
+            ProjectId = projectId,
+            AutoDeploy = true
         };
 
         var variables = environment.ProjectEnvironmentVariables ?? [];

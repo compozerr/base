@@ -10,7 +10,8 @@ public sealed class AddProjectEnvironment_ProjectCreatedEventHandler : IDomainEv
         var defaultEnvironment = new ProjectEnvironment
         {
             ProjectId = notification.Entity.Id,
-            Branches = ["main"]
+            Branches = ["main"],
+            AutoDeploy = true
         };
 
         notification.Entity.ProjectEnvironments = [defaultEnvironment];
