@@ -1,4 +1,5 @@
 using Api.Abstractions;
+using Api.Data.Repositories;
 using Github.Abstractions;
 using Github.Models;
 using Github.Repositories;
@@ -10,6 +11,7 @@ namespace Github.Jobs;
 
 public sealed class PushWebhookProcessorJob(
     IPushWebhookEventRepository pushWebhookEventRepository,
+    IProjectEnvironmentRepository projectEnvironmentRepository,
     IMediator mediator) : JobBase<PushWebhookProcessorJob, PushWebhookEventId>
 {
     public override async Task ExecuteAsync(PushWebhookEventId pushWebhookEventId)
@@ -40,7 +42,6 @@ public sealed class PushWebhookProcessorJob(
 
             var projectId = await pushWebhookEventRepository.GetProjectIdFromGitUrlAsync(
                 gitUrl) ?? throw new CouldNotFindProjectFromGitUrlException(gitUrl);
-
 
             if (pushWebhookEvent.Event.HeadCommit is
                 {
@@ -76,6 +77,18 @@ public sealed class PushWebhookProcessorJob(
                    .ForContext(nameof(pushWebhookEvent), pushWebhookEvent.Id)
                    .Information("Skipping deployment for non-main branch {Branch} in PushWebhookEvent {PushWebhookEventId}",
                                 deployCommand.CommitBranch, pushWebhookEvent.Id);
+                return;
+            }
+
+            var projectEnvironment = await projectEnvironmentRepository.GetProjectEnvironmentByBranchAsync(
+                projectId, deployCommand.CommitBranch) ?? throw new ArgumentException($"Project environment for branch {deployCommand.CommitBranch} not found.");
+
+            if (projectEnvironment.AutoDeploy is false)
+            {
+                Log.ForContext(nameof(deployCommand), deployCommand)
+                   .ForContext(nameof(pushWebhookEvent), pushWebhookEvent.Id)
+                   .Information("Auto-deploy is disabled for project {ProjectId} on branch {Branch} in PushWebhookEvent {PushWebhookEventId}",
+                                projectId, deployCommand.CommitBranch, pushWebhookEvent.Id);
                 return;
             }
 
