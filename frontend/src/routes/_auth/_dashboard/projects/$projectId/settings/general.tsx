@@ -114,7 +114,7 @@ function GeneralSettingsTab() {
                 value={'main'}
                 onValueChange={(value) => console.log(value)}
               >
-                <SelectTrigger className="w-1/2" id="modules-org">
+                <SelectTrigger className="w-full sm:w-1/2" id="modules-org">
                   <SelectValue placeholder="Select organization" />
                 </SelectTrigger>
                 <SelectContent>
@@ -129,7 +129,7 @@ function GeneralSettingsTab() {
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label htmlFor="auto-deploy">Auto Deploy</Label>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-sm text-muted-foreground pr-3">
                   Automatically deploy when you push to the main branch.
                 </p>
               </div>
@@ -145,7 +145,7 @@ function GeneralSettingsTab() {
                   setTier(value === '' ? null : value)
                 }
               >
-                <SelectTrigger className="w-1/2" id="modules-org">
+                <SelectTrigger className="w-full sm:w-1/2" id="modules-org">
                   <SelectValue placeholder="Select organization" />
                 </SelectTrigger>
                 <SelectContent>
@@ -173,7 +173,7 @@ function GeneralSettingsTab() {
           <div className="flex items-center justify-between">
             <div>
               <h3 className="font-medium text-destructive">Delete Project</h3>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm text-muted-foreground pr-3">
                 Delete this project and all its resources. This action will also cancel your subscription.
               </p>
             </div>
