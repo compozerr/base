@@ -220,37 +220,114 @@ export const PaymentMethods: React.FC<PaymentMethodsProps> = ({ openAddPaymentMe
             </div>
 
             {paymentMethods.length > 0 ? (
-                <div className="space-y-3">
+                <div className="space-y-6">
                     <style>{`
-                        @keyframes subtle-glow {
+                        @keyframes wave {
                             0%, 100% {
-                                box-shadow: 0 0 15px rgba(59, 130, 246, 0.05);
+                                transform: scale(0.8);
+                                opacity: 0.2;
                             }
                             50% {
-                                box-shadow: 0 0 25px rgba(147, 51, 234, 0.1);
+                                transform: scale(1);
+                                opacity: 0.4;
                             }
                         }
-                        .payment-card {
-                            animation: subtle-glow 4s ease-in-out infinite;
+                        @keyframes rotate3d {
+                            0% {
+                                transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+                            }
+                            33% {
+                                transform: rotateX(120deg) rotateY(120deg) rotateZ(0deg);
+                            }
+                            66% {
+                                transform: rotateX(240deg) rotateY(240deg) rotateZ(120deg);
+                            }
+                            100% {
+                                transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg);
+                            }
                         }
-                        .payment-card:hover {
-                            transform: translateY(-1px);
+                        @keyframes float {
+                            0%, 100% {
+                                transform: translateZ(0px);
+                            }
+                            50% {
+                                transform: translateZ(15px);
+                            }
+                        }
+                        @keyframes glow {
+                            0%, 100% {
+                                box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
+                            }
+                            50% {
+                                box-shadow: 0 0 35px rgba(147, 51, 234, 0.3);
+                            }
+                        }
+                        @keyframes slideUp {
+                            from {
+                                transform: translateY(20px);
+                                opacity: 0;
+                            }
+                            to {
+                                transform: translateY(0);
+                                opacity: 1;
+                            }
+                        }
+                        .wave-dot {
+                            animation: wave 4s ease-in-out infinite;
+                        }
+                        .cube-3d {
+                            transform-style: preserve-3d;
+                            animation: rotate3d 12s linear infinite;
+                        }                                        .cube-face {
+                                            position: absolute;
+                                            width: 24px;
+                                            height: 24px;
+                                            background: linear-gradient(45deg, rgba(59, 130, 246, 0.15), rgba(147, 51, 234, 0.15));
+                                            border: 1px solid rgba(59, 130, 246, 0.2);
+                                            animation: glow 4s ease-in-out infinite;
+                                        }
+                                        .cube-face:nth-child(1) { transform: rotateY(0deg) translateZ(12px); }
+                                        .cube-face:nth-child(2) { transform: rotateY(90deg) translateZ(12px); }
+                                        .cube-face:nth-child(3) { transform: rotateY(180deg) translateZ(12px); }
+                                        .cube-face:nth-child(4) { transform: rotateY(-90deg) translateZ(12px); }
+                                        .cube-face:nth-child(5) { transform: rotateX(90deg) translateZ(12px); }
+                                        .cube-face:nth-child(6) { transform: rotateX(-90deg) translateZ(12px); }
+                        .payment-card {
+                            animation: slideUp 0.6s ease-out;
                         }
                     `}</style>
-                    {paymentMethods.map((method) => {
-                        const getCardAccent = (brand: string) => {
+                    {paymentMethods.map((method, index) => {
+                        const getCardTheme = (brand: string) => {
                             const brandLower = brand.toLowerCase();
                             switch (brandLower) {
                                 case 'visa':
-                                    return 'from-blue-500/20 to-blue-600/30 border-blue-500/30';
+                                    return {
+                                        gradient: 'from-blue-500/10 via-blue-600/5 to-transparent',
+                                        border: 'border-blue-500/20',
+                                        ring: method.isDefault ? 'ring-1 ring-blue-500/40' : '',
+                                        accent: 'text-blue-300'
+                                    };
                                 case 'mastercard':
-                                    return 'from-red-500/20 to-orange-500/30 border-red-500/30';
+                                    return {
+                                        gradient: 'from-red-500/10 via-orange-500/5 to-transparent',
+                                        border: 'border-red-500/20',
+                                        ring: method.isDefault ? 'ring-1 ring-red-500/40' : '',
+                                        accent: 'text-red-300'
+                                    };
                                 case 'amex':
-                                    return 'from-teal-500/20 to-cyan-500/30 border-teal-500/30';
-                                case 'discover':
-                                    return 'from-orange-500/20 to-amber-500/30 border-orange-500/30';
+                                    return {
+                                        gradient: 'from-teal-500/10 via-cyan-500/5 to-transparent',
+                                        border: 'border-teal-500/20',
+                                        ring: method.isDefault ? 'ring-1 ring-teal-500/40' : '',
+                                        accent: 'text-teal-300'
+                                    };
                                 default:
-                                    return 'from-zinc-500/20 to-zinc-600/30 border-zinc-500/30';
+                                    return {
+                                        gradient: 'from-purple-500/10 via-blue-500/5 to-transparent',
+                                        border: 'border-zinc-600/30',
+                                        ring: method.isDefault ? 'ring-1 ring-purple-500/40' : '',
+                                        accent: 'text-purple-300'
+                                    };
                             }
                         };
 
@@ -258,128 +335,356 @@ export const PaymentMethods: React.FC<PaymentMethodsProps> = ({ openAddPaymentMe
                             const brandLower = brand.toLowerCase();
                             switch (brandLower) {
                                 case 'visa':
-                                    return <div className="text-blue-300 font-bold text-base sm:text-lg tracking-wider">VISA</div>;
+                                    return <div className="text-blue-300 font-bold text-lg tracking-wider">VISA</div>;
                                 case 'mastercard':
                                     return (
-                                        <div className="flex items-center gap-0.5 sm:gap-1">
-                                            <div className="w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-red-400/80"></div>
-                                            <div className="w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-yellow-400/80 -ml-1.5 sm:-ml-2"></div>
+                                        <div className="flex items-center gap-1">
+                                            <div className="w-4 h-4 rounded-full bg-red-400"></div>
+                                            <div className="w-4 h-4 rounded-full bg-yellow-400 -ml-2"></div>
                                         </div>
                                     );
                                 case 'amex':
-                                    return <div className="text-teal-300 font-bold text-[10px] sm:text-xs tracking-wider">AMEX</div>;
+                                    return <div className="text-teal-300 font-bold text-sm tracking-wider">AMEX</div>;
                                 default:
-                                    return <CreditCard className="h-3 w-3 sm:h-4 sm:w-4 text-zinc-300" />;
+                                    return <CreditCard className="h-5 w-5 text-zinc-300" />;
                             }
                         };
 
+                        const theme = getCardTheme(method.brand || '');
+                        
                         return (
-                            <div key={method.id} className="group w-full max-w-sm">
-                                <Card className={`payment-card border-zinc-800 bg-zinc-900/70 backdrop-blur-sm overflow-hidden transition-all duration-300 hover:border-zinc-700 aspect-[1.586/1] ${method.isDefault ? 'ring-1 ring-blue-500/30' : ''}`}>
-                                    <CardContent className="p-0 h-full flex flex-col">
-                                        <div className={`relative p-3 sm:p-4 bg-gradient-to-br ${getCardAccent(method.brand || '')} border-b border-zinc-800/50 flex-1`}>
-                                            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-purple-500/5 to-transparent"></div>
-                                            <div className="absolute top-2 right-2 w-6 h-6 sm:w-8 sm:h-8 rounded-full border border-zinc-700/30 opacity-20"></div>
-                                            <div className="absolute top-2.5 right-2.5 w-4 h-4 sm:w-6 sm:h-6 rounded-full border border-zinc-600/20 opacity-15"></div>
+                            <div 
+                                key={method.id} 
+                                className="group w-full max-w-md payment-card"
+                                style={{ animationDelay: `${index * 0.1}s` }}
+                                onMouseMove={(e) => {
+                                    const card = e.currentTarget;
+                                    const rect = card.getBoundingClientRect();
+                                    const x = e.clientX - rect.left;
+                                    const y = e.clientY - rect.top;
+                                    
+                                    const dotsContainer = card.querySelector('.dots-container');
+                                    if (dotsContainer) {
+                                        const dots = dotsContainer.querySelectorAll('.wave-dot');
+                                        dots.forEach((dot: Element, dotIndex: number) => {
+                                            const htmlDot = dot as HTMLElement;
+                                            const dotRect = htmlDot.getBoundingClientRect();
+                                            const cardRect = card.getBoundingClientRect();
+                                            const dotX = dotRect.left - cardRect.left + dotRect.width / 2;
+                                            const dotY = dotRect.top - cardRect.top + dotRect.height / 2;
+                                            const distance = Math.sqrt(Math.pow(x - dotX, 2) + Math.pow(y - dotY, 2));
+                                            const maxDistance = 100;
                                             
-                                            <div className="relative z-10 h-full flex flex-col justify-between">
-                                                <div className="flex items-center justify-between">
-                                                    {getBrandIcon(method.brand || '')}
-                                                    <span className="inline-flex items-center justify-center w-6 h-6 sm:w-7 sm:h-7 text-xs sm:text-sm font-medium bg-green-500/20 text-green-300 rounded border border-green-500/30">
-                                                        <Shield className="w-3 h-3 sm:w-3.5 sm:h-3.5 fill-current" />
-                                                    </span>
-                                                </div>
+                                            if (distance < maxDistance) {
+                                                const intensity = 1 - (distance / maxDistance);
+                                                const scale = 1 + intensity * 0.8;
+                                                const opacity = 0.3 + intensity * 0.7;
+                                                const hue = intensity > 0.5 ? '280' : '220';
                                                 
-                                                <div className="space-y-2">
-                                                    <div className="font-mono text-xs sm:text-base font-medium text-white tracking-[0.1em] sm:tracking-[0.15em]">
-                                                        •••• •••• •••• {method.last4}
+                                                htmlDot.style.transform = `scale(${scale})`;
+                                                htmlDot.style.opacity = opacity.toString();
+                                                htmlDot.style.background = `radial-gradient(circle, hsl(${hue}, 60%, 60%), hsl(${hue}, 60%, 40%))`;
+                                                htmlDot.style.boxShadow = `0 0 ${intensity * 20}px hsl(${hue}, 60%, 50%)`;
+                                            } else {
+                                                htmlDot.style.transform = '';
+                                                htmlDot.style.opacity = '';
+                                                htmlDot.style.background = '';
+                                                htmlDot.style.boxShadow = '';
+                                            }
+                                        });
+                                    }
+                                }}
+                                onMouseLeave={(e) => {
+                                    const card = e.currentTarget;
+                                    const dotsContainer = card.querySelector('.dots-container');
+                                    if (dotsContainer) {
+                                        const dots = dotsContainer.querySelectorAll('.wave-dot');
+                                        dots.forEach((dot: Element) => {
+                                            const htmlDot = dot as HTMLElement;
+                                            htmlDot.style.transform = '';
+                                            htmlDot.style.opacity = '';
+                                            htmlDot.style.background = '';
+                                            htmlDot.style.boxShadow = '';
+                                        });
+                                    }
+                                }}
+                            >
+                                <div className={`relative overflow-hidden bg-black border ${theme.border} ${theme.ring} rounded-xl transition-all duration-500 hover:border-opacity-60`}>
+                                    <div className="pointer-events-none absolute inset-0">
+                                        <div className={`absolute inset-0 bg-gradient-to-br ${theme.gradient}`} />
+                                        <div className="absolute right-0 top-0 h-32 w-32 bg-blue-500/5 blur-[50px]" />
+                                        <div className="absolute bottom-0 left-0 h-32 w-32 bg-purple-500/5 blur-[50px]" />
+                                    </div>
+
+                                    <div className="absolute inset-0 pointer-events-none overflow-hidden">
+                                        <div 
+                                            className="dots-container grid gap-4 p-2" 
+                                            style={{ 
+                                                gridTemplateColumns: 'repeat(15, minmax(3px, 1fr))',
+                                                gridTemplateRows: 'repeat(8, minmax(3px, 1fr))'
+                                            }}
+                                        >
+                                            {Array.from({ length: 120 }, (_, i) => {
+                                                const row = Math.floor(i / 15);
+                                                const col = i % 15;
+                                                const delay = (row * 0.1 + col * 0.05) % 4;
+                                                return (
+                                                    <div
+                                                        key={i}
+                                                        className="w-1 h-1 bg-blue-500/30 rounded-full wave-dot transition-all duration-200"
+                                                        style={{
+                                                            animationDelay: `${delay}s`,
+                                                        }}
+                                                        data-dot-index={i}
+                                                    />
+                                                );
+                                            })}
+                                        </div>
+                                    </div>
+
+                                    <div className="relative z-10 p-6 space-y-6">
+                                        <div className="flex items-start justify-between">
+                                            <div className="space-y-4">
+                                                {getBrandIcon(method.brand || '')}
+                                            </div>
+
+                                            {method.isDefault && (
+                                                <div className="relative" style={{ perspective: '100px' }}>
+                                                    <div className="cube-3d relative w-6 h-6">
+                                                        <div className="cube-face"></div>
+                                                        <div className="cube-face"></div>
+                                                        <div className="cube-face"></div>
+                                                        <div className="cube-face"></div>
+                                                        <div className="cube-face"></div>
+                                                        <div className="cube-face"></div>
                                                     </div>
-                                                    
-                                                    <div className="flex items-center text-xs sm:text-sm text-zinc-400">
-                                                        <div className="flex items-center gap-1">
-                                                            <Calendar className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
-                                                            <span>{method.expiryMonth?.toString().padStart(2, '0')}/{method.expiryYear}</span>
-                                                        </div>
-                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+
+                                        <div className="space-y-3">
+                                            <div className="font-mono text-xl font-medium text-white tracking-[0.2em]">
+                                                •••• •••• •••• {method.last4}
+                                            </div>
+                                            
+                                            <div className="flex items-center justify-between text-sm">
+                                                <div className="flex items-center space-x-2 text-zinc-400">
+                                                    <Calendar className="w-4 h-4" />
+                                                    <span>{method.expiryMonth?.toString().padStart(2, '0')}/{method.expiryYear}</span>
+                                                </div>
+                                                <div className="flex items-center space-x-1 text-green-400">
+                                                    <Shield className="w-4 h-4" />
+                                                    <span className="text-xs">Secure</span>
                                                 </div>
                                             </div>
                                         </div>
-                                        
-                                        <div className="p-2 sm:p-3 flex flex-col justify-center min-h-0">
-                                            <div className="mb-1.5 sm:mb-2">
-                                                <h4 className="font-medium text-white text-xs sm:text-base mb-0.5">
-                                                    {method.brand?.toUpperCase()} Card
-                                                </h4>
-                                                <p className="text-xs sm:text-sm text-zinc-400 leading-tight">
-                                                    {method.isDefault 
-                                                        ? "Default payment method" 
-                                                        : "Available for billing"
-                                                    }
-                                                </p>
-                                            </div>
-                                            
-                                            <div className="flex flex-wrap gap-1 sm:gap-2">
-                                                {!method.isDefault && (
+
+                                        <div className="pt-4 border-t border-zinc-800/50">
+                                            <div className="space-y-3">
+                                                <div>
+                                                    <h4 className="font-medium text-white text-base">
+                                                        {method.brand?.toUpperCase()} Card
+                                                    </h4>
+                                                    <p className="text-sm text-zinc-400">
+                                                        {method.isDefault 
+                                                            ? "Primary payment method" 
+                                                            : "Available for billing"
+                                                        }
+                                                    </p>
+                                                </div>
+                                                
+                                                <div className="flex flex-wrap gap-2 pt-2">
+                                                    {!method.isDefault && (
+                                                        <Button
+                                                            variant="ghost"
+                                                            size="sm"
+                                                            onClick={() => handleSetDefault(method.id!)}
+                                                            className="px-3 py-1.5 text-sm bg-zinc-900/80 border border-zinc-700 text-zinc-300 hover:text-white hover:bg-zinc-800 hover:border-zinc-600 transition-all duration-200"
+                                                        >
+                                                            <Star className="w-3 h-3 mr-1.5" />
+                                                            Set Default
+                                                        </Button>
+                                                    )}
                                                     <Button
                                                         variant="ghost"
                                                         size="sm"
-                                                        onClick={() => handleSetDefault(method.id!)}
-                                                        className="h-5 sm:h-7 px-1.5 sm:px-3 text-xs text-zinc-300 hover:text-white hover:bg-zinc-800 border border-zinc-700 hover:border-zinc-600 transition-all duration-200 sm:text-sm"
+                                                        onClick={handleOpenDialog}
+                                                        className="px-3 py-1.5 text-sm bg-zinc-900/80 border border-zinc-700 text-zinc-300 hover:text-white hover:bg-zinc-800 hover:border-zinc-600 transition-all duration-200"
                                                     >
-                                                        <Star className="w-2 h-2 sm:w-2.5 sm:h-2.5 mr-0.5 sm:mr-1" />
-                                                        Default
+                                                        Replace
                                                     </Button>
-                                                )}
-                                                <Button
-                                                    variant="ghost"
-                                                    size="sm"
-                                                    onClick={handleOpenDialog}
-                                                    className="h-5 sm:h-7 px-1.5 sm:px-3 text-xs sm:text-sm text-zinc-300 hover:text-white hover:bg-zinc-800 border border-zinc-700 hover:border-zinc-600 transition-all duration-200"
-                                                >
-                                                    Replace
-                                                </Button>
-                                                <LoadingButton
-                                                    isLoading={deleteIsLoading}
-                                                    variant="ghost"
-                                                    size="sm"
-                                                    className="h-5 sm:h-7 px-1.5 sm:px-3 text-xs sm:text-sm text-red-400 hover:text-red-300 hover:bg-red-500/10 border border-zinc-700 hover:border-red-500/30 transition-all duration-200"
-                                                    onClick={() => handleDelete(method.id!)}
-                                                >
-                                                    Remove
-                                                </LoadingButton>
+                                                    <LoadingButton
+                                                        isLoading={deleteIsLoading}
+                                                        variant="ghost"
+                                                        size="sm"
+                                                        className="px-3 py-1.5 text-sm bg-red-500/10 border border-red-500/20 text-red-400 hover:text-red-300 hover:bg-red-500/20 hover:border-red-500/30 transition-all duration-200"
+                                                        onClick={() => handleDelete(method.id!)}
+                                                    >
+                                                        Remove
+                                                    </LoadingButton>
+                                                </div>
                                             </div>
                                         </div>
-                                    </CardContent>
-                                </Card>
+                                    </div>
+                                </div>
                             </div>
                         );
                     })}
                 </div>
             ) : (
-                <Card className="border-zinc-800 bg-zinc-900/50 backdrop-blur-sm border-dashed hover:bg-zinc-900/70 hover:border-zinc-700 transition-all duration-200">
-                    <CardContent className="py-8">
-                        <div className="text-center space-y-4">
-                            <div className="mx-auto w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-zinc-800/50 flex items-center justify-center">
-                                <CreditCard className="h-5 w-5 sm:h-7 sm:w-7 text-zinc-500" />
+                <div 
+                    className="relative overflow-hidden bg-black border border-zinc-600/30 rounded-xl"
+                    onMouseMove={(e) => {
+                        const card = e.currentTarget;
+                        const rect = card.getBoundingClientRect();
+                        const x = e.clientX - rect.left;
+                        const y = e.clientY - rect.top;
+                        
+                        const dotsContainer = card.querySelector('.empty-dots-container');
+                        if (dotsContainer) {
+                            const dots = dotsContainer.querySelectorAll('.wave-dot-empty');
+                            dots.forEach((dot: Element) => {
+                                const htmlDot = dot as HTMLElement;
+                                const dotRect = htmlDot.getBoundingClientRect();
+                                const cardRect = card.getBoundingClientRect();
+                                const dotX = dotRect.left - cardRect.left + dotRect.width / 2;
+                                const dotY = dotRect.top - cardRect.top + dotRect.height / 2;
+                                const distance = Math.sqrt(Math.pow(x - dotX, 2) + Math.pow(y - dotY, 2));
+                                const maxDistance = 120;
+                                
+                                if (distance < maxDistance) {
+                                    const intensity = 1 - (distance / maxDistance);
+                                    const scale = 1 + intensity * 1.2;
+                                    const opacity = 0.15 + intensity * 0.8;
+                                    const hue = intensity > 0.5 ? '280' : '220';
+                                    
+                                    htmlDot.style.transform = `scale(${scale})`;
+                                    htmlDot.style.opacity = opacity.toString();
+                                    htmlDot.style.background = `radial-gradient(circle, hsl(${hue}, 60%, 60%), hsl(${hue}, 60%, 40%))`;
+                                    htmlDot.style.boxShadow = `0 0 ${intensity * 15}px hsl(${hue}, 60%, 50%)`;
+                                } else {
+                                    htmlDot.style.transform = '';
+                                    htmlDot.style.opacity = '';
+                                    htmlDot.style.background = '';
+                                    htmlDot.style.boxShadow = '';
+                                }
+                            });
+                        }
+                    }}
+                    onMouseLeave={(e) => {
+                        const card = e.currentTarget;
+                        const dotsContainer = card.querySelector('.empty-dots-container');
+                        if (dotsContainer) {
+                            const dots = dotsContainer.querySelectorAll('.wave-dot-empty');
+                            dots.forEach((dot: Element) => {
+                                const htmlDot = dot as HTMLElement;
+                                htmlDot.style.transform = '';
+                                htmlDot.style.opacity = '';
+                                htmlDot.style.background = '';
+                                htmlDot.style.boxShadow = '';
+                            });
+                        }
+                    }}
+                >
+                    <div className="pointer-events-none absolute inset-0">
+                        <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-blue-500/5 to-transparent" />
+                        <div className="absolute right-0 top-0 h-40 w-40 bg-blue-500/5 blur-[60px]" />
+                        <div className="absolute bottom-0 left-0 h-40 w-40 bg-purple-500/5 blur-[60px]" />
+                    </div>
+
+                    <div className="absolute inset-0 pointer-events-none overflow-hidden">
+                        <style>{`
+                            @keyframes wave-empty {
+                                0%, 100% {
+                                    transform: scale(0.8);
+                                    opacity: 0.15;
+                                }
+                                50% {
+                                    transform: scale(1);
+                                    opacity: 0.3;
+                                }
+                            }
+                            .wave-dot-empty {
+                                animation: wave-empty 5s ease-in-out infinite;
+                            }
+                        `}</style>
+                        <div 
+                            className="empty-dots-container grid gap-3 p-4" 
+                            style={{ 
+                                gridTemplateColumns: 'repeat(20, minmax(2px, 1fr))',
+                                gridTemplateRows: 'repeat(12, minmax(2px, 1fr))'
+                            }}
+                        >
+                            {Array.from({ length: 240 }, (_, i) => {
+                                const row = Math.floor(i / 20);
+                                const col = i % 20;
+                                const delay = (row * 0.1 + col * 0.05) % 5;
+                                return (
+                                    <div
+                                        key={i}
+                                        className="w-0.5 h-0.5 bg-blue-500/25 rounded-full wave-dot-empty transition-all duration-200"
+                                        style={{
+                                            animationDelay: `${delay}s`,
+                                        }}
+                                    />
+                                );
+                            })}
+                        </div>
+                    </div>
+
+                    <div className="relative z-10 py-12 px-8">
+                        <div className="text-center space-y-8">
+                            <div className="relative mx-auto w-20 h-20" style={{ perspective: '150px' }}>
+                                <style>{`
+                                    .empty-cube-3d {
+                                        transform-style: preserve-3d;
+                                        animation: rotate3d 10s linear infinite;
+                                    }
+                                    .empty-cube-face {
+                                        position: absolute;
+                                        width: 40px;
+                                        height: 40px;
+                                        background: linear-gradient(45deg, rgba(59, 130, 246, 0.1), rgba(147, 51, 234, 0.1));
+                                        border: 1px solid rgba(59, 130, 246, 0.2);
+                                        animation: glow 3s ease-in-out infinite;
+                                    }
+                                    .empty-cube-face:nth-child(1) { transform: rotateY(0deg) translateZ(20px); }
+                                    .empty-cube-face:nth-child(2) { transform: rotateY(90deg) translateZ(20px); }
+                                    .empty-cube-face:nth-child(3) { transform: rotateY(180deg) translateZ(20px); }
+                                    .empty-cube-face:nth-child(4) { transform: rotateY(-90deg) translateZ(20px); }
+                                    .empty-cube-face:nth-child(5) { transform: rotateX(90deg) translateZ(20px); }
+                                    .empty-cube-face:nth-child(6) { transform: rotateX(-90deg) translateZ(20px); }
+                                `}</style>
+                                <div className="empty-cube-3d relative w-10 h-10 mx-auto">
+                                    <div className="empty-cube-face"></div>
+                                    <div className="empty-cube-face"></div>
+                                    <div className="empty-cube-face"></div>
+                                    <div className="empty-cube-face"></div>
+                                    <div className="empty-cube-face"></div>
+                                    <div className="empty-cube-face"></div>
+                                </div>
+                                <div className="absolute inset-0 flex items-center justify-center">
+                                    <CreditCard className="h-8 w-8 text-zinc-400" />
+                                </div>
                             </div>
-                            <div className="space-y-2">
-                                <h4 className="font-medium text-white text-sm sm:text-lg">No payment method</h4>
-                                <p className="text-xs sm:text-sm text-zinc-500 max-w-xs mx-auto">
-                                    Add a payment method to enable billing
+                            
+                            <div className="space-y-4">
+                                <h4 className="font-medium text-white text-xl">No Payment Method</h4>
+                                <p className="text-zinc-400 max-w-sm mx-auto leading-relaxed">
+                                    Add a payment method to enable billing and start deploying your projects
                                 </p>
                             </div>
+                            
                             <Button 
-                                variant="ghost"
-                                size="sm"
                                 onClick={handleOpenDialog}
-                                className="bg-white text-black hover:bg-zinc-200 font-medium px-4 py-2 text-sm sm:text-base transition-all duration-200"
+                                className="bg-white text-black hover:bg-zinc-200 font-medium px-6 py-3 text-base transition-all duration-300 hover:scale-105"
                             >
-                                <Plus className="h-3.5 w-3.5 sm:h-4 sm:w-4 mr-1.5" /> 
+                                <Plus className="h-4 w-4 mr-2" /> 
                                 Add Payment Method
                             </Button>
                         </div>
-                    </CardContent>
-                </Card>
+                    </div>
+                </div>
             )}
         </div>
     );
