@@ -23,6 +23,18 @@ for (const module of modulesWithDockerComposeFile) {
 
 const moduleComposeContextsEnvironmentVars = Object.entries(moduleComposeContexts).map(([name, path]) => `COMPOSE_${name.toUpperCase()}_CONTEXT=${path}`).join(" ");
 
+if (!Deno.args.includes("--no-build")) {
+    console.log("🧹 Cleaning old build cache...");
+    const cleanCommand = "docker builder prune --filter until=168h --keep-storage=20GB -f";
+    const cleanProcess = new Command(cleanCommand);
+    try {
+        await cleanProcess.spawn();
+        console.log("✅ Cache cleanup completed");
+    } catch (error) {
+        console.log("⚠️  Cache cleanup failed, continuing anyway:", error);
+    }
+}
+
 const commandFlags = `-f ${dockerComposeFiles.join(" -f ")}`
 const upCommand = `${moduleComposeContextsEnvironmentVars} docker-compose ${commandFlags} up${Deno.args.includes("--no-build") ? "" : " --build"}${Deno.args.includes("-d") ? " -d" : ""}`;
 
