@@ -27,7 +27,7 @@
         "openapi-zod-client": "^1.18.3",
         "postcss": "^8.5.3",
         "tailwindcss": "^4.1.7",
-        "vite": "^6.3.5"
+        "vite": "^7.0.6"
     },
     "dependencies": {
         "@openapi-qraft/react": "^2.6.1",
