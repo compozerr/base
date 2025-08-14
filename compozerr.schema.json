@@ -35,6 +35,18 @@
     "port": {
       "type": "string"
     },
+    "backend": {
+      "type": "object",
+      "properties": {
+        "defaultEnvProperties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
     "frontend": {
       "type": "object",
       "properties": {
@@ -60,18 +72,6 @@
         "alias": "@/*",
         "srcDir": "frontend/src"
       }
-    },
-    "backend": {
-      "type": "object",
-      "properties": {
-        "defaultEnvProperties": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          }
-        }
-      },
-      "additionalProperties": false
     },
     "dockerComposeFile": {
       "type": "string"

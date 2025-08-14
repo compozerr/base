@@ -11,10 +11,14 @@ export const CompozerrFile = z.object({
     readyMessage: z.string().optional(),
     end: z.string().optional(),
     port: z.string().optional(),
+    backend: z.object({
+        defaultEnvProperties: z.record(z.string()).optional(),
+    }).optional(),
     frontend: z.object({
         srcDir: z.string().optional().default(Config.defaults.frontend.srcDir),
         routesDir: z.string().optional(),
         routePrefix: z.string().optional(),
+        defaultEnvProperties: z.record(z.string()).optional(),
     }).optional().default(Config.defaults.frontend),
     dockerComposeFile: z.string().optional()
 }).superRefine((data, ctx) => {
