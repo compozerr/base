@@ -5011,214 +5011,100 @@ export interface V1Service {
             body: PutHostingProjectsProjectIdStateBody;
         };
     };
-    getMailresend: {
+    postMailSend: {
         /**/
-        cancelQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetMailresendSchema, GetMailresendData, TInfinite, GetMailresendParameters, GetMailresendError> | QueryFiltersByQueryKey<GetMailresendSchema, GetMailresendData, TInfinite, GetMailresendParameters, GetMailresendError>, options?: CancelOptions): Promise<void>;
-        /**/
-        getQueryKey(parameters: GetMailresendParameters | void): ServiceOperationQueryKey<GetMailresendSchema, GetMailresendParameters>;
+        getMutationKey(parameters: PostMailSendParameters | void): ServiceOperationMutationKey<PostMailSendSchema, PostMailSendParameters>;
         /**
-         * Performs asynchronous data fetching, manages loading states and error handling.
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
          *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
-         * @example Query without parameters
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getMailresend.useQuery()
+         * const { mutate, isPending } = qraft.v1Service.postMailSend.useMutation({})
+         * mutate(body);
          * ```
-         */
-        useQuery<TData = GetMailresendData>(parameters: ServiceOperationQueryKey<GetMailresendSchema, GetMailresendParameters> | (GetMailresendParameters | void), options?: Omit<UndefinedInitialDataOptions<GetMailresendData, GetMailresendError, TData, ServiceOperationQueryKey<GetMailresendSchema, GetMailresendParameters>>, "queryKey">): UseQueryResult<TData, GetMailresendError | Error>;
-        /**
-         * Performs asynchronous data fetching, manages loading states and error handling.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
-         * @example Query without parameters
+         * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getMailresend.useQuery()
-         * ```
-         */
-        useQuery<TData = GetMailresendData>(parameters: ServiceOperationQueryKey<GetMailresendSchema, GetMailresendParameters> | (GetMailresendParameters | void), options: Omit<DefinedInitialDataOptions<GetMailresendData, GetMailresendError, TData, ServiceOperationQueryKey<GetMailresendSchema, GetMailresendParameters>>, "queryKey">): DefinedUseQueryResult<TData, GetMailresendError | Error>;
-        /**/
-        fetchInfiniteQuery<TPageParam extends GetMailresendParameters>(options: ServiceOperationFetchInfiniteQueryOptions<GetMailresendSchema, GetMailresendData, GetMailresendParameters, TPageParam, GetMailresendError>): Promise<OperationInfiniteData<GetMailresendData, GetMailresendParameters>>;
-        /**/
-        prefetchInfiniteQuery<TPageParam extends GetMailresendParameters>(options: ServiceOperationFetchInfiniteQueryOptions<GetMailresendSchema, GetMailresendData, GetMailresendParameters, TPageParam, GetMailresendError>): Promise<void>;
-        /**/
-        ensureInfiniteQueryData<TPageParam extends GetMailresendParameters>(options: ServiceOperationEnsureInfiniteQueryDataOptions<GetMailresendSchema, GetMailresendData, GetMailresendParameters, TPageParam, GetMailresendError>): Promise<OperationInfiniteData<GetMailresendData, GetMailresendParameters>>;
-        /**/
-        fetchQuery(options: ServiceOperationFetchQueryOptions<GetMailresendSchema, GetMailresendData, GetMailresendParameters, GetMailresendError> | void): Promise<GetMailresendData>;
-        /**/
-        prefetchQuery(options: ServiceOperationFetchQueryOptions<GetMailresendSchema, GetMailresendData, GetMailresendParameters, GetMailresendError> | void): Promise<void>;
-        /**/
-        ensureQueryData(options: ServiceOperationEnsureQueryDataOptions<GetMailresendSchema, GetMailresendData, GetMailresendParameters, GetMailresendError> | void): Promise<GetMailresendData>;
-        /**/
-        getInfiniteQueryData(parameters: ServiceOperationInfiniteQueryKey<GetMailresendSchema, GetMailresendParameters> | (GetMailresendParameters | void)): OperationInfiniteData<GetMailresendData, GetMailresendParameters> | undefined;
-        /**/
-        getQueriesData<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetMailresendSchema, GetMailresendData, TInfinite, GetMailresendParameters, GetMailresendError> | QueryFiltersByQueryKey<GetMailresendSchema, GetMailresendData, TInfinite, GetMailresendParameters, GetMailresendError>): TInfinite extends true ? Array<[
-            queryKey: ServiceOperationInfiniteQueryKey<GetMailresendSchema, GetMailresendParameters>,
-            data: NoInfer<OperationInfiniteData<GetMailresendData, GetMailresendParameters>> | undefined
-        ]> : Array<[
-            queryKey: ServiceOperationQueryKey<GetMailresendSchema, GetMailresendParameters>,
-            data: GetMailresendData | undefined
-        ]>;
-        /**/
-        getQueryData(parameters: ServiceOperationQueryKey<GetMailresendSchema, GetMailresendParameters> | (GetMailresendParameters | void)): GetMailresendData | undefined;
-        /**/
-        getQueryState(parameters: ServiceOperationQueryKey<GetMailresendSchema, GetMailresendParameters> | (GetMailresendParameters | void)): QueryState<GetMailresendData, GetMailresendError> | undefined;
-        /**/
-        getInfiniteQueryState(parameters: GetMailresendParameters | ServiceOperationInfiniteQueryKey<GetMailresendSchema, GetMailresendParameters> | void): QueryState<OperationInfiniteData<GetMailresendData, GetMailresendParameters>, GetMailresendError> | undefined;
-        /**/
-        invalidateQueries<TInfinite extends boolean = false>(filters?: InvalidateQueryFilters<GetMailresendSchema, GetMailresendData, TInfinite, GetMailresendParameters, GetMailresendError>, options?: InvalidateOptions): Promise<void>;
-        /**/
-        isFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetMailresendSchema, GetMailresendData, TInfinite, GetMailresendParameters, GetMailresendError> | QueryFiltersByQueryKey<GetMailresendSchema, GetMailresendData, TInfinite, GetMailresendParameters, GetMailresendError>): number;
-        /**/
-        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: QueryFnOptionsByQueryKey<GetMailresendSchema, GetMailresendParameters, TMeta, TSignal> | (QueryFnOptionsByParameters<GetMailresendParameters, TMeta, TSignal> | void), client?: (schema: GetMailresendSchema, options: {
-            parameters: GetMailresendParameters;
-            signal?: TSignal;
-            meta?: TMeta;
-        }) => Promise<RequestFnResponse<GetMailresendData, GetMailresendError>>): Promise<RequestFnResponse<GetMailresendData, GetMailresendError>>;
-        /**/
-        refetchQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetMailresendSchema, GetMailresendData, TInfinite, GetMailresendParameters, GetMailresendError> | QueryFiltersByQueryKey<GetMailresendSchema, GetMailresendData, TInfinite, GetMailresendParameters, GetMailresendError>, options?: RefetchOptions): Promise<void>;
-        /**/
-        removeQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetMailresendSchema, GetMailresendData, TInfinite, GetMailresendParameters, GetMailresendError> | QueryFiltersByQueryKey<GetMailresendSchema, GetMailresendData, TInfinite, GetMailresendParameters, GetMailresendError>): void;
-        /**/
-        resetQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetMailresendSchema, GetMailresendData, TInfinite, GetMailresendParameters, GetMailresendError> | QueryFiltersByQueryKey<GetMailresendSchema, GetMailresendData, TInfinite, GetMailresendParameters, GetMailresendError>, options?: ResetOptions): Promise<void>;
-        /**/
-        setInfiniteQueryData(parameters: GetMailresendParameters | ServiceOperationInfiniteQueryKey<GetMailresendSchema, GetMailresendParameters>, updater: Updater<NoInfer<OperationInfiniteData<GetMailresendData, GetMailresendParameters>> | undefined, NoInfer<OperationInfiniteData<GetMailresendData, GetMailresendParameters>> | undefined>, options?: SetDataOptions): OperationInfiniteData<GetMailresendData, GetMailresendParameters> | undefined;
-        /**/
-        setQueriesData<TInfinite extends boolean = false>(filters: QueryFiltersByParameters<GetMailresendSchema, GetMailresendData, TInfinite, GetMailresendParameters, GetMailresendError> | QueryFiltersByQueryKey<GetMailresendSchema, GetMailresendData, TInfinite, GetMailresendParameters, GetMailresendError>, updater: Updater<NoInfer<GetMailresendData> | undefined, NoInfer<GetMailresendData> | undefined>, options?: SetDataOptions): Array<GetMailresendData | undefined>;
-        /**/
-        setQueryData(parameters: (GetMailresendParameters | undefined) | ServiceOperationQueryKey<GetMailresendSchema, GetMailresendParameters>, updater: Updater<NoInfer<GetMailresendData> | undefined, NoInfer<GetMailresendData> | undefined>, options?: SetDataOptions): GetMailresendData | undefined;
-        /**/
-        getInfiniteQueryKey(parameters: GetMailresendParameters | void): ServiceOperationInfiniteQueryKey<GetMailresendSchema, GetMailresendParameters>;
-        /**
-         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
-         * Manages paginated data and provides utilities for fetching additional pages.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useInfiniteQuery|`useInfiniteQuery(...)` documentation}
-         *
-         * @example Infinite Query
-         * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getMailresend.useInfiniteQuery({}, {
-         *     initialPageParam: {},
-         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
-         * })
-         *
-         * console.log(data);
-         * fetchNextPage(); // Fetch the next page
-         * ```
-         */
-        useInfiniteQuery<TPageParam extends GetMailresendParameters, TData = GetMailresendData>(parameters: ServiceOperationInfiniteQueryKey<GetMailresendSchema, GetMailresendParameters> | (GetMailresendParameters | void), options: Omit<UndefinedInitialDataInfiniteOptions<GetMailresendData, GetMailresendError, OperationInfiniteData<TData, GetMailresendParameters>, ServiceOperationInfiniteQueryKey<GetMailresendSchema, GetMailresendParameters>, PartialParameters<TPageParam>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<GetMailresendData, PartialParameters<TPageParam>>): UseInfiniteQueryResult<OperationInfiniteData<TData, GetMailresendParameters>, GetMailresendError | Error>;
-        /**
-         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
-         * Manages paginated data and provides utilities for fetching additional pages.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useInfiniteQuery|`useInfiniteQuery(...)` documentation}
-         *
-         * @example Infinite Query
-         * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getMailresend.useInfiniteQuery({}, {
-         *     initialPageParam: {},
-         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
-         * })
-         *
-         * console.log(data);
-         * fetchNextPage(); // Fetch the next page
-         * ```
-         */
-        useInfiniteQuery<TPageParam extends GetMailresendParameters, TData = GetMailresendData>(parameters: ServiceOperationInfiniteQueryKey<GetMailresendSchema, GetMailresendParameters> | (GetMailresendParameters | void), options: Omit<DefinedInitialDataInfiniteOptions<GetMailresendData, GetMailresendError, OperationInfiniteData<TData, GetMailresendParameters>, ServiceOperationInfiniteQueryKey<GetMailresendSchema, GetMailresendParameters>, PartialParameters<TPageParam>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<GetMailresendData, PartialParameters<TPageParam>>): DefinedUseInfiniteQueryResult<OperationInfiniteData<TData, GetMailresendParameters>, GetMailresendError | Error>;
-        /**
-         * Monitors the number of queries currently fetching, matching the provided filters.
-         * Useful for creating loading indicators or performing actions based on active requests.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsFetching|`useIsFetching(...)` documentation}
-         * @example Checks the total number of queries fetching from the specified service method,
-         * both normal and infinite. If no parameters are provided, no filtering is applied.
-         * ```ts
-         * const getMailresendTotal = qraft.v1Service.getMailresend.useIsFetching()
-         * ```
-         */
-        useIsFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetMailresendSchema, GetMailresendData, TInfinite, GetMailresendParameters, GetMailresendError> | QueryFiltersByQueryKey<GetMailresendSchema, GetMailresendData, TInfinite, GetMailresendParameters, GetMailresendError>): number;
-        /**
-         * Allows you to execute multiple asynchronous data fetching operations concurrently. This is especially useful for managing complex data dependencies in parallel.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
-         * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
-         * ```ts
-         * const getMailresendResults = qraft.v1Service.getMailresend.useQueries({
-         *     queries: [
-         *         {},
-         *         {}
-         *     ]
+         * const { mutate, isPending } = qraft.v1Service.postMailSend.useMutation()
+         * mutate({
+         *     body: bodyPayload
          * });
-         * getMailresendResults.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
          * ```
-         * @example Combined results. Only the data will be returned.
+         */
+        useMutation<TVariables extends PostMailSendBody, TContext = unknown>(parameters: PostMailSendParameters, options?: ServiceOperationUseMutationOptions<PostMailSendSchema, PostMailSendData, PostMailSendParameters, TVariables, PostMailSendError, TContext>): UseMutationResult<PostMailSendData, PostMailSendError | Error, AreAllOptional<TVariables> extends true ? TVariables | void : TVariables, TContext>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const getMailresendCombinedResults = qraft.v1Service.getMailresend.useQueries({
-         *     combine: results => results.map(result => result.data),
-         *     queries: [
-         *         {},
-         *         {}
-         *     ]
+         * const { mutate, isPending } = qraft.v1Service.postMailSend.useMutation({})
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.postMailSend.useMutation()
+         * mutate({
+         *     body: bodyPayload
          * });
-         * getMailresendCombinedResults.forEach(data => console.log({ data }));
          * ```
          */
-        useQueries<T extends Array<UseQueryOptionsForUseQueries<GetMailresendSchema, GetMailresendParameters, GetMailresendData, GetMailresendError>>, TCombinedResult = Array<UseQueryResult<GetMailresendData, GetMailresendError>>>(options: {
-            queries: T;
-            combine?: (results: Array<UseQueryResult<GetMailresendData, GetMailresendError>>) => TCombinedResult;
-        }): TCombinedResult;
-        /**/
-        getQueryKey(parameters: GetMailresendParameters | void): ServiceOperationQueryKey<GetMailresendSchema, GetMailresendParameters>;
+        useMutation<TVariables extends MutationVariables<PostMailSendBody, PostMailSendParameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<PostMailSendSchema, PostMailSendData, PostMailSendParameters, TVariables, PostMailSendError, TContext>): UseMutationResult<PostMailSendData, PostMailSendError | Error, TVariables, TContext>;
         /**
-         * Performs asynchronous data fetching, manages loading states and error handling.
+         * Returns the count of currently in-progress mutations.
          *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
-         * @example Query without parameters
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
+         * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getMailresend.useQuery()
+         * const postMailSendTotal = qraft.v1Service.postMailSend.useIsMutating()
          * ```
-         */
-        useQuery<TData = GetMailresendData>(parameters: ServiceOperationQueryKey<GetMailresendSchema, GetMailresendParameters> | (GetMailresendParameters | void), options?: Omit<UndefinedInitialDataOptions<GetMailresendData, GetMailresendError, TData, ServiceOperationQueryKey<GetMailresendSchema, GetMailresendParameters>>, "queryKey">): UseQueryResult<TData, GetMailresendError | Error>;
-        /**
-         * Performs asynchronous data fetching, manages loading states and error handling.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
-         * @example Query without parameters
+         * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getMailresend.useQuery()
-         * ```
-         */
-        useQuery<TData = GetMailresendData>(parameters: ServiceOperationQueryKey<GetMailresendSchema, GetMailresendParameters> | (GetMailresendParameters | void), options: Omit<DefinedInitialDataOptions<GetMailresendData, GetMailresendError, TData, ServiceOperationQueryKey<GetMailresendSchema, GetMailresendParameters>>, "queryKey">): DefinedUseQueryResult<TData, GetMailresendError | Error>;
-        /**
-         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
-         * Manages paginated data and provides utilities for fetching additional pages.
-         * It functions similarly to `useInfiniteQuery`, but with added support for React Suspense.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseInfiniteQuery|`useSuspenseInfiniteQuery(...)` documentation}
-         *
-         * @example Suspense Infinite Query
-         * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getMailresend.useSuspenseInfiniteQuery({}, {
-         *     initialPageParam: {},
-         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * const postMailSendTotal = qraft.v1Service.postMailSend.useIsMutating({
+         *     parameters: {}
          * })
-         *
-         * console.log(data);
-         * fetchNextPage(); // Fetch the next page
          * ```
          */
-        useSuspenseInfiniteQuery<TPageParam extends GetMailresendParameters, TData = GetMailresendData>(parameters: ServiceOperationInfiniteQueryKey<GetMailresendSchema, GetMailresendParameters> | (GetMailresendParameters | void), options: Omit<UseSuspenseInfiniteQueryOptions<GetMailresendData, GetMailresendError, OperationInfiniteData<TData, GetMailresendParameters>, GetMailresendData, ServiceOperationInfiniteQueryKey<GetMailresendSchema, GetMailresendParameters>, PartialParameters<TPageParam>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<GetMailresendData, PartialParameters<TPageParam>>): UseSuspenseInfiniteQueryResult<OperationInfiniteData<TData, GetMailresendParameters>, GetMailresendError | Error>;
+        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<PostMailSendBody, PostMailSendData, PostMailSendParameters, PostMailSendError, TContext> | MutationFiltersByMutationKey<PostMailSendSchema, PostMailSendBody, PostMailSendData, PostMailSendParameters, PostMailSendError, TContext>): number;
         /**/
-        useSuspenseQueries<T extends Array<UseQueryOptionsForUseSuspenseQuery<GetMailresendSchema, GetMailresendParameters, GetMailresendData, GetMailresendError>>, TCombinedResult = Array<UseSuspenseQueryResult<GetMailresendData, GetMailresendError>>>(options: {
-            queries: T;
-            combine?: (results: Array<WithOptional<UseSuspenseQueryResult<GetMailresendData, GetMailresendError>, "data">>) => TCombinedResult;
-        }): TCombinedResult;
+        isMutating<TContext>(filters?: MutationFiltersByParameters<PostMailSendBody, PostMailSendData, PostMailSendParameters, PostMailSendError, TContext> | MutationFiltersByMutationKey<PostMailSendSchema, PostMailSendBody, PostMailSendData, PostMailSendParameters, PostMailSendError, TContext>): number;
         /**/
-        useSuspenseQuery<TData = GetMailresendData>(parameters: ServiceOperationQueryKey<GetMailresendSchema, GetMailresendParameters> | (GetMailresendParameters | void), options?: Omit<UseSuspenseQueryOptions<GetMailresendData, GetMailresendError, TData, ServiceOperationQueryKey<GetMailresendSchema, GetMailresendParameters>>, "queryKey">): UseSuspenseQueryResult<TData, GetMailresendError | Error>;
-        schema: GetMailresendSchema;
+        (options: ServiceOperationMutationFnOptions<PostMailSendBody, PostMailSendParameters>, client?: (schema: PostMailSendSchema, options: ServiceOperationMutationFnOptions<PostMailSendBody, PostMailSendParameters>) => Promise<RequestFnResponse<PostMailSendData, PostMailSendError>>): Promise<RequestFnResponse<PostMailSendData, PostMailSendError>>;
+        /**
+         * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
+         * @example Get all variables of all running mutations.
+         * ```ts
+         * const postMailSendPendingMutationVariables = qraft.v1Service.postMailSend.useMutationState({
+         *     filters: {
+         *         status: "pending"
+         *     },
+         *     select: mutation => mutation.state.variables
+         * })
+         * ```
+         * @example Get all data for specific mutations via the `parameters`.
+         * ```ts
+         * const postMailSendMutationData = qraft.v1Service.postMailSend.useMutationState({
+         *     filters: {
+         *         parameters: {}
+         *     },
+         *     select: mutation => mutation.state.data
+         * })
+         * ```
+         */
+        useMutationState<TContext = unknown, TResult = MutationState<PostMailSendData, PostMailSendError, MutationVariables<PostMailSendBody, PostMailSendParameters>, TContext>>(options?: {
+            filters?: MutationFiltersByParameters<PostMailSendBody, PostMailSendData, PostMailSendParameters, PostMailSendError, TContext> | MutationFiltersByMutationKey<PostMailSendSchema, PostMailSendBody, PostMailSendData, PostMailSendParameters, PostMailSendError, TContext>;
+            select?: (mutation: Mutation<PostMailSendData, PostMailSendError, MutationVariables<PostMailSendBody, PostMailSendParameters>, TContext>) => TResult;
+        }): Array<TResult>;
+        schema: PostMailSendSchema;
         types: {
-            parameters: GetMailresendParameters;
-            data: GetMailresendData;
-            error: GetMailresendError;
+            parameters: PostMailSendParameters;
+            data: PostMailSendData;
+            error: PostMailSendError;
+            body: PostMailSendBody;
         };
     };
     getProjectsProjectId: {
@@ -11250,10 +11136,13 @@ export const v1Service: {
             ];
         };
     };
-    getMailresend: {
+    postMailSend: {
         schema: {
-            method: "get";
-            url: "/v1/mailresend";
+            method: "post";
+            url: "/v1/mail/send";
+            mediaType: [
+                "application/json"
+            ];
         };
     };
     getProjectsProjectId: {
@@ -11645,10 +11534,11 @@ export const v1Service: {
             mediaType: ["application/json"]
         }
     },
-    getMailresend: {
+    postMailSend: {
         schema: {
-            method: "get",
-            url: "/v1/mailresend"
+            method: "post",
+            url: "/v1/mail/send",
+            mediaType: ["application/json"]
         }
     },
     getProjectsProjectId: {
@@ -12084,13 +11974,17 @@ type PutHostingProjectsProjectIdStateParameters = paths["/v1/hosting/projects/{p
 type PutHostingProjectsProjectIdStateData = paths["/v1/hosting/projects/{projectId}/state"]["put"]["responses"]["200"]["content"]["application/json"];
 type PutHostingProjectsProjectIdStateError = unknown;
 type PutHostingProjectsProjectIdStateBody = NonNullable<paths["/v1/hosting/projects/{projectId}/state"]["put"]["requestBody"]>["content"]["application/json"];
-type GetMailresendSchema = {
-    method: "get";
-    url: "/v1/mailresend";
+type PostMailSendSchema = {
+    method: "post";
+    url: "/v1/mail/send";
+    mediaType: [
+        "application/json"
+    ];
 };
-type GetMailresendParameters = undefined;
-type GetMailresendData = unknown;
-type GetMailresendError = unknown;
+type PostMailSendParameters = {};
+type PostMailSendData = unknown;
+type PostMailSendError = unknown;
+type PostMailSendBody = NonNullable<paths["/v1/mail/send"]["post"]["requestBody"]>["content"]["application/json"];
 type GetProjectsProjectIdSchema = {
     method: "get";
     url: "/v1/projects/{projectId}";

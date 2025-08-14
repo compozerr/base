@@ -17,7 +17,7 @@ import { Route as AboutImport } from './routes/about'
 import { Route as AuthImport } from './../../modules/auth/frontend/src/routes/_auth'
 import { Route as IndexImport } from './routes/index'
 import { Route as StripeIndexImport } from './../../modules/stripe/frontend/src/routes/stripe/index'
-import { Route as MailresendIndexImport } from './../../modules/mail-resend/frontend/src/routes/mailresend/index'
+import { Route as MailIndexImport } from './../../modules/mail/frontend/src/routes/mail/index'
 import { Route as ExampleIndexImport } from './../../modules/template/frontend/src/routes/example/index'
 import { Route as AuthLogoutImport } from './../../modules/auth/frontend/src/routes/_auth/logout'
 import { Route as AuthDashboardImport } from './routes/_auth/_dashboard'
@@ -72,9 +72,9 @@ const StripeIndexRoute = StripeIndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const MailresendIndexRoute = MailresendIndexImport.update({
-  id: '/mailresend/',
-  path: '/mailresend/',
+const MailIndexRoute = MailIndexImport.update({
+  id: '/mail/',
+  path: '/mail/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -244,11 +244,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ExampleIndexImport
       parentRoute: typeof rootRoute
     }
-    '/mailresend/': {
-      id: '/mailresend/'
-      path: '/mailresend'
-      fullPath: '/mailresend'
-      preLoaderRoute: typeof MailresendIndexImport
+    '/mail/': {
+      id: '/mail/'
+      path: '/mail'
+      fullPath: '/mail'
+      preLoaderRoute: typeof MailIndexImport
       parentRoute: typeof rootRoute
     }
     '/stripe/': {
@@ -443,7 +443,7 @@ export interface FileRoutesByFullPath {
   '/using-module-component': typeof UsingModuleComponentRoute
   '/logout': typeof AuthLogoutRoute
   '/example': typeof ExampleIndexRoute
-  '/mailresend': typeof MailresendIndexRoute
+  '/mail': typeof MailIndexRoute
   '/stripe': typeof StripeIndexRoute
   '/dashboard': typeof AuthDashboardDashboardRoute
   '/intro-flow': typeof AuthDashboardIntroFlowRoute
@@ -468,7 +468,7 @@ export interface FileRoutesByTo {
   '/using-module-component': typeof UsingModuleComponentRoute
   '/logout': typeof AuthLogoutRoute
   '/example': typeof ExampleIndexRoute
-  '/mailresend': typeof MailresendIndexRoute
+  '/mail': typeof MailIndexRoute
   '/stripe': typeof StripeIndexRoute
   '/dashboard': typeof AuthDashboardDashboardRoute
   '/intro-flow': typeof AuthDashboardIntroFlowRoute
@@ -493,7 +493,7 @@ export interface FileRoutesById {
   '/_auth/_dashboard': typeof AuthDashboardRouteWithChildren
   '/_auth/logout': typeof AuthLogoutRoute
   '/example/': typeof ExampleIndexRoute
-  '/mailresend/': typeof MailresendIndexRoute
+  '/mail/': typeof MailIndexRoute
   '/stripe/': typeof StripeIndexRoute
   '/_auth/_dashboard/dashboard': typeof AuthDashboardDashboardRoute
   '/_auth/_dashboard/intro-flow': typeof AuthDashboardIntroFlowRoute
@@ -520,7 +520,7 @@ export interface FileRouteTypes {
     | '/using-module-component'
     | '/logout'
     | '/example'
-    | '/mailresend'
+    | '/mail'
     | '/stripe'
     | '/dashboard'
     | '/intro-flow'
@@ -544,7 +544,7 @@ export interface FileRouteTypes {
     | '/using-module-component'
     | '/logout'
     | '/example'
-    | '/mailresend'
+    | '/mail'
     | '/stripe'
     | '/dashboard'
     | '/intro-flow'
@@ -567,7 +567,7 @@ export interface FileRouteTypes {
     | '/_auth/_dashboard'
     | '/_auth/logout'
     | '/example/'
-    | '/mailresend/'
+    | '/mail/'
     | '/stripe/'
     | '/_auth/_dashboard/dashboard'
     | '/_auth/_dashboard/intro-flow'
@@ -592,7 +592,7 @@ export interface RootRouteChildren {
   LoginRoute: typeof LoginRoute
   UsingModuleComponentRoute: typeof UsingModuleComponentRoute
   ExampleIndexRoute: typeof ExampleIndexRoute
-  MailresendIndexRoute: typeof MailresendIndexRoute
+  MailIndexRoute: typeof MailIndexRoute
   StripeIndexRoute: typeof StripeIndexRoute
 }
 
@@ -603,7 +603,7 @@ const rootRouteChildren: RootRouteChildren = {
   LoginRoute: LoginRoute,
   UsingModuleComponentRoute: UsingModuleComponentRoute,
   ExampleIndexRoute: ExampleIndexRoute,
-  MailresendIndexRoute: MailresendIndexRoute,
+  MailIndexRoute: MailIndexRoute,
   StripeIndexRoute: StripeIndexRoute,
 }
 
@@ -623,7 +623,7 @@ export const routeTree = rootRoute
         "/login",
         "/using-module-component",
         "/example/",
-        "/mailresend/",
+        "/mail/",
         "/stripe/"
       ]
     },
@@ -664,8 +664,8 @@ export const routeTree = rootRoute
     "/example/": {
       "filePath": "../../../modules/template/frontend/src/routes/example/index.tsx"
     },
-    "/mailresend/": {
-      "filePath": "../../../modules/mail-resend/frontend/src/routes/mailresend/index.tsx"
+    "/mail/": {
+      "filePath": "../../../modules/mail/frontend/src/routes/mail/index.tsx"
     },
     "/stripe/": {
       "filePath": "../../../modules/stripe/frontend/src/routes/stripe/index.tsx"

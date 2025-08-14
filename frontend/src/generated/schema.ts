@@ -1043,21 +1043,27 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/v1/mailresend": {
+    "/v1/mail/send": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        get: {
+        get?: never;
+        put?: never;
+        post: {
             parameters: {
                 query?: never;
                 header?: never;
                 path?: never;
                 cookie?: never;
             };
-            requestBody?: never;
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["SendMailCommand"];
+                };
+            };
             responses: {
                 /** @description OK */
                 200: {
@@ -1068,8 +1074,6 @@ export interface paths {
                 };
             };
         };
-        put?: never;
-        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -2472,6 +2476,12 @@ export interface components {
             name?: string | null;
         };
         RestoreProjectResponse: Record<string, never>;
+        SendMailCommand: {
+            from?: string | null;
+            to?: string | null;
+            subject?: string | null;
+            htmlBody?: string | null;
+        };
         ServerTier: {
             id?: components["schemas"]["ServerTierId"];
             /** Format: double */
