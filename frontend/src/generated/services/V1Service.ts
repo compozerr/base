@@ -10534,6 +10534,102 @@ export interface V1Service {
             body: PostStripePaymentMethodsSetupIntentBody;
         };
     };
+    postStripeWebhooks: {
+        /**/
+        getMutationKey(parameters: PostStripeWebhooksParameters | void): ServiceOperationMutationKey<PostStripeWebhooksSchema, PostStripeWebhooksParameters>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.postStripeWebhooks.useMutation({})
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.postStripeWebhooks.useMutation()
+         * mutate({
+         *     body: bodyPayload
+         * });
+         * ```
+         */
+        useMutation<TVariables extends PostStripeWebhooksBody, TContext = unknown>(parameters: PostStripeWebhooksParameters, options?: ServiceOperationUseMutationOptions<PostStripeWebhooksSchema, PostStripeWebhooksData, PostStripeWebhooksParameters, TVariables, PostStripeWebhooksError, TContext>): UseMutationResult<PostStripeWebhooksData, PostStripeWebhooksError | Error, AreAllOptional<TVariables> extends true ? TVariables | void : TVariables, TContext>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.postStripeWebhooks.useMutation({})
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.postStripeWebhooks.useMutation()
+         * mutate({
+         *     body: bodyPayload
+         * });
+         * ```
+         */
+        useMutation<TVariables extends MutationVariables<PostStripeWebhooksBody, PostStripeWebhooksParameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<PostStripeWebhooksSchema, PostStripeWebhooksData, PostStripeWebhooksParameters, TVariables, PostStripeWebhooksError, TContext>): UseMutationResult<PostStripeWebhooksData, PostStripeWebhooksError | Error, TVariables, TContext>;
+        /**
+         * Returns the count of currently in-progress mutations.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
+         * @example Check how many mutations are currently in progress for the specified service method.
+         * ```ts
+         * const postStripeWebhooksTotal = qraft.v1Service.postStripeWebhooks.useIsMutating()
+         * ```
+         * @example Check how many mutations are currently in progress with the specified parameters.
+         * ```ts
+         * const postStripeWebhooksTotal = qraft.v1Service.postStripeWebhooks.useIsMutating({
+         *     parameters: {}
+         * })
+         * ```
+         */
+        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<PostStripeWebhooksBody, PostStripeWebhooksData, PostStripeWebhooksParameters, PostStripeWebhooksError, TContext> | MutationFiltersByMutationKey<PostStripeWebhooksSchema, PostStripeWebhooksBody, PostStripeWebhooksData, PostStripeWebhooksParameters, PostStripeWebhooksError, TContext>): number;
+        /**/
+        isMutating<TContext>(filters?: MutationFiltersByParameters<PostStripeWebhooksBody, PostStripeWebhooksData, PostStripeWebhooksParameters, PostStripeWebhooksError, TContext> | MutationFiltersByMutationKey<PostStripeWebhooksSchema, PostStripeWebhooksBody, PostStripeWebhooksData, PostStripeWebhooksParameters, PostStripeWebhooksError, TContext>): number;
+        /**/
+        (options: ServiceOperationMutationFnOptions<PostStripeWebhooksBody, PostStripeWebhooksParameters>, client?: (schema: PostStripeWebhooksSchema, options: ServiceOperationMutationFnOptions<PostStripeWebhooksBody, PostStripeWebhooksParameters>) => Promise<RequestFnResponse<PostStripeWebhooksData, PostStripeWebhooksError>>): Promise<RequestFnResponse<PostStripeWebhooksData, PostStripeWebhooksError>>;
+        /**
+         * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
+         * @example Get all variables of all running mutations.
+         * ```ts
+         * const postStripeWebhooksPendingMutationVariables = qraft.v1Service.postStripeWebhooks.useMutationState({
+         *     filters: {
+         *         status: "pending"
+         *     },
+         *     select: mutation => mutation.state.variables
+         * })
+         * ```
+         * @example Get all data for specific mutations via the `parameters`.
+         * ```ts
+         * const postStripeWebhooksMutationData = qraft.v1Service.postStripeWebhooks.useMutationState({
+         *     filters: {
+         *         parameters: {}
+         *     },
+         *     select: mutation => mutation.state.data
+         * })
+         * ```
+         */
+        useMutationState<TContext = unknown, TResult = MutationState<PostStripeWebhooksData, PostStripeWebhooksError, MutationVariables<PostStripeWebhooksBody, PostStripeWebhooksParameters>, TContext>>(options?: {
+            filters?: MutationFiltersByParameters<PostStripeWebhooksBody, PostStripeWebhooksData, PostStripeWebhooksParameters, PostStripeWebhooksError, TContext> | MutationFiltersByMutationKey<PostStripeWebhooksSchema, PostStripeWebhooksBody, PostStripeWebhooksData, PostStripeWebhooksParameters, PostStripeWebhooksError, TContext>;
+            select?: (mutation: Mutation<PostStripeWebhooksData, PostStripeWebhooksError, MutationVariables<PostStripeWebhooksBody, PostStripeWebhooksParameters>, TContext>) => TResult;
+        }): Array<TResult>;
+        schema: PostStripeWebhooksSchema;
+        types: {
+            parameters: PostStripeWebhooksParameters;
+            data: PostStripeWebhooksData;
+            error: PostStripeWebhooksError;
+            body: PostStripeWebhooksBody;
+        };
+    };
     getUsers: {
         /**/
         cancelQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetUsersSchema, GetUsersData, TInfinite, GetUsersParameters, GetUsersError> | QueryFiltersByQueryKey<GetUsersSchema, GetUsersData, TInfinite, GetUsersParameters, GetUsersError>, options?: CancelOptions): Promise<void>;
@@ -10742,102 +10838,6 @@ export interface V1Service {
             parameters: GetUsersParameters;
             data: GetUsersData;
             error: GetUsersError;
-        };
-    };
-    processStripeWebhook: {
-        /**/
-        getMutationKey(parameters: ProcessStripeWebhookParameters | void): ServiceOperationMutationKey<ProcessStripeWebhookSchema, ProcessStripeWebhookParameters>;
-        /**
-         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
-         * Handles loading state, optimistic updates, and error handling.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
-         * @example Mutation with predefined parameters, e.g., for updating
-         * ```ts
-         * const { mutate, isPending } = qraft.v1Service.processStripeWebhook.useMutation({})
-         * mutate(body);
-         * ```
-         * @example Mutation without predefined parameters, e.g., for creating
-         * ```ts
-         * const { mutate, isPending } = qraft.v1Service.processStripeWebhook.useMutation()
-         * mutate({
-         *     body: bodyPayload
-         * });
-         * ```
-         */
-        useMutation<TVariables extends ProcessStripeWebhookBody, TContext = unknown>(parameters: ProcessStripeWebhookParameters, options?: ServiceOperationUseMutationOptions<ProcessStripeWebhookSchema, ProcessStripeWebhookData, ProcessStripeWebhookParameters, TVariables, ProcessStripeWebhookError, TContext>): UseMutationResult<ProcessStripeWebhookData, ProcessStripeWebhookError | Error, AreAllOptional<TVariables> extends true ? TVariables | void : TVariables, TContext>;
-        /**
-         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
-         * Handles loading state, optimistic updates, and error handling.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
-         * @example Mutation with predefined parameters, e.g., for updating
-         * ```ts
-         * const { mutate, isPending } = qraft.v1Service.processStripeWebhook.useMutation({})
-         * mutate(body);
-         * ```
-         * @example Mutation without predefined parameters, e.g., for creating
-         * ```ts
-         * const { mutate, isPending } = qraft.v1Service.processStripeWebhook.useMutation()
-         * mutate({
-         *     body: bodyPayload
-         * });
-         * ```
-         */
-        useMutation<TVariables extends MutationVariables<ProcessStripeWebhookBody, ProcessStripeWebhookParameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<ProcessStripeWebhookSchema, ProcessStripeWebhookData, ProcessStripeWebhookParameters, TVariables, ProcessStripeWebhookError, TContext>): UseMutationResult<ProcessStripeWebhookData, ProcessStripeWebhookError | Error, TVariables, TContext>;
-        /**
-         * Returns the count of currently in-progress mutations.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
-         * @example Check how many mutations are currently in progress for the specified service method.
-         * ```ts
-         * const processStripeWebhookTotal = qraft.v1Service.processStripeWebhook.useIsMutating()
-         * ```
-         * @example Check how many mutations are currently in progress with the specified parameters.
-         * ```ts
-         * const processStripeWebhookTotal = qraft.v1Service.processStripeWebhook.useIsMutating({
-         *     parameters: {}
-         * })
-         * ```
-         */
-        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<ProcessStripeWebhookBody, ProcessStripeWebhookData, ProcessStripeWebhookParameters, ProcessStripeWebhookError, TContext> | MutationFiltersByMutationKey<ProcessStripeWebhookSchema, ProcessStripeWebhookBody, ProcessStripeWebhookData, ProcessStripeWebhookParameters, ProcessStripeWebhookError, TContext>): number;
-        /**/
-        isMutating<TContext>(filters?: MutationFiltersByParameters<ProcessStripeWebhookBody, ProcessStripeWebhookData, ProcessStripeWebhookParameters, ProcessStripeWebhookError, TContext> | MutationFiltersByMutationKey<ProcessStripeWebhookSchema, ProcessStripeWebhookBody, ProcessStripeWebhookData, ProcessStripeWebhookParameters, ProcessStripeWebhookError, TContext>): number;
-        /**/
-        (options: ServiceOperationMutationFnOptions<ProcessStripeWebhookBody, ProcessStripeWebhookParameters>, client?: (schema: ProcessStripeWebhookSchema, options: ServiceOperationMutationFnOptions<ProcessStripeWebhookBody, ProcessStripeWebhookParameters>) => Promise<RequestFnResponse<ProcessStripeWebhookData, ProcessStripeWebhookError>>): Promise<RequestFnResponse<ProcessStripeWebhookData, ProcessStripeWebhookError>>;
-        /**
-         * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
-         * @example Get all variables of all running mutations.
-         * ```ts
-         * const processStripeWebhookPendingMutationVariables = qraft.v1Service.processStripeWebhook.useMutationState({
-         *     filters: {
-         *         status: "pending"
-         *     },
-         *     select: mutation => mutation.state.variables
-         * })
-         * ```
-         * @example Get all data for specific mutations via the `parameters`.
-         * ```ts
-         * const processStripeWebhookMutationData = qraft.v1Service.processStripeWebhook.useMutationState({
-         *     filters: {
-         *         parameters: {}
-         *     },
-         *     select: mutation => mutation.state.data
-         * })
-         * ```
-         */
-        useMutationState<TContext = unknown, TResult = MutationState<ProcessStripeWebhookData, ProcessStripeWebhookError, MutationVariables<ProcessStripeWebhookBody, ProcessStripeWebhookParameters>, TContext>>(options?: {
-            filters?: MutationFiltersByParameters<ProcessStripeWebhookBody, ProcessStripeWebhookData, ProcessStripeWebhookParameters, ProcessStripeWebhookError, TContext> | MutationFiltersByMutationKey<ProcessStripeWebhookSchema, ProcessStripeWebhookBody, ProcessStripeWebhookData, ProcessStripeWebhookParameters, ProcessStripeWebhookError, TContext>;
-            select?: (mutation: Mutation<ProcessStripeWebhookData, ProcessStripeWebhookError, MutationVariables<ProcessStripeWebhookBody, ProcessStripeWebhookParameters>, TContext>) => TResult;
-        }): Array<TResult>;
-        schema: ProcessStripeWebhookSchema;
-        types: {
-            parameters: ProcessStripeWebhookParameters;
-            data: ProcessStripeWebhookData;
-            error: ProcessStripeWebhookError;
-            body: ProcessStripeWebhookBody;
         };
     };
 }
@@ -11238,16 +11238,16 @@ export const v1Service: {
             url: "/v1/stripe/payment-methods/setup-intent";
         };
     };
+    postStripeWebhooks: {
+        schema: {
+            method: "post";
+            url: "/v1/stripe/webhooks";
+        };
+    };
     getUsers: {
         schema: {
             method: "get";
             url: "/v1/users";
-        };
-    };
-    processStripeWebhook: {
-        schema: {
-            method: "post";
-            url: "/v1/stripe/webhooks";
         };
     };
 } = {
@@ -11611,16 +11611,16 @@ export const v1Service: {
             url: "/v1/stripe/payment-methods/setup-intent"
         }
     },
+    postStripeWebhooks: {
+        schema: {
+            method: "post",
+            url: "/v1/stripe/webhooks"
+        }
+    },
     getUsers: {
         schema: {
             method: "get",
             url: "/v1/users"
-        }
-    },
-    processStripeWebhook: {
-        schema: {
-            method: "post",
-            url: "/v1/stripe/webhooks"
         }
     }
 };
@@ -12103,6 +12103,14 @@ type PostStripePaymentMethodsSetupIntentParameters = {};
 type PostStripePaymentMethodsSetupIntentData = paths["/v1/stripe/payment-methods/setup-intent"]["post"]["responses"]["200"]["content"]["application/json"];
 type PostStripePaymentMethodsSetupIntentError = unknown;
 type PostStripePaymentMethodsSetupIntentBody = undefined;
+type PostStripeWebhooksSchema = {
+    method: "post";
+    url: "/v1/stripe/webhooks";
+};
+type PostStripeWebhooksParameters = {};
+type PostStripeWebhooksData = unknown;
+type PostStripeWebhooksError = unknown;
+type PostStripeWebhooksBody = undefined;
 type GetUsersSchema = {
     method: "get";
     url: "/v1/users";
@@ -12110,11 +12118,3 @@ type GetUsersSchema = {
 type GetUsersParameters = undefined;
 type GetUsersData = paths["/v1/users"]["get"]["responses"]["200"]["content"]["application/json"];
 type GetUsersError = unknown;
-type ProcessStripeWebhookSchema = {
-    method: "post";
-    url: "/v1/stripe/webhooks";
-};
-type ProcessStripeWebhookParameters = {};
-type ProcessStripeWebhookData = unknown;
-type ProcessStripeWebhookError = unknown;
-type ProcessStripeWebhookBody = undefined;
