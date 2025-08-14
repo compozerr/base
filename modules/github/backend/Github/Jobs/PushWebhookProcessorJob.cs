@@ -81,7 +81,7 @@ public sealed class PushWebhookProcessorJob(
             }
 
             var projectEnvironment = await projectEnvironmentRepository.GetProjectEnvironmentByBranchAsync(
-                projectId, deployCommand.CommitBranch) ?? throw new ArgumentException($"Project environment for branch {deployCommand.CommitBranch} not found.");
+                projectId, deployCommand.CommitBranch) ?? throw new ArgumentException($"Project environment for branch {deployCommand.CommitBranch} not found, for project {projectId}.");
 
             if (projectEnvironment.AutoDeploy is false)
             {
