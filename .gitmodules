@@ -8,3 +8,7 @@
 	path = modules/mail-resend
 	url = https://github.com/compozerr-lib/mail-resend.git
 	branch = main
+[submodule "modules/mail"]
+	path = modules/mail
+	url = https://github.com/compozerr-lib/mail.git
+	branch = main
