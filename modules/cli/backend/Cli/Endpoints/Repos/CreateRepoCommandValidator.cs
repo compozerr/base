@@ -20,7 +20,7 @@ public sealed class CreateRepoCommandValidator : AbstractValidator<CreateRepoCom
 
         RuleFor(x => x.Name)
             .Matches(@"^[a-z0-9]+(?:(?:(?:[._]|__|[-]*)[a-z0-9]+)+)?$")
-            .WithMessage("Repository name must adhere to the pattern [a-z0-9]+(?:(?:(?:[._]|__|[-]*)[a-z0-9]+)+)?");
+            .WithMessage("Repository name must adhere to the pattern [a-z0-9]+(?:(?:(?:[._]|__|[-]*)[a-z0-9]+)+)? (e.g. my-module).");
 
         RuleFor(x => x.Name).MustAsync(async (command, name, cancellationToken) =>
         {
