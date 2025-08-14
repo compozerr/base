@@ -2478,6 +2478,7 @@ export interface components {
         RestoreProjectResponse: Record<string, never>;
         SendMailCommand: {
             from?: string | null;
+            displayName?: string | null;
             to?: string | null;
             subject?: string | null;
             htmlBody?: string | null;
