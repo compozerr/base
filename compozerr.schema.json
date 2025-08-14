@@ -47,6 +47,12 @@
         },
         "routePrefix": {
           "type": "string"
+        },
+        "defaultEnvProperties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
         }
       },
       "additionalProperties": false,
@@ -54,6 +60,18 @@
         "alias": "@/*",
         "srcDir": "frontend/src"
       }
+    },
+    "backend": {
+      "type": "object",
+      "properties": {
+        "defaultEnvProperties": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
     },
     "dockerComposeFile": {
       "type": "string"
