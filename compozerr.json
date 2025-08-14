@@ -1,6 +1,7 @@
 {
     "type": "project",
     "name": "web",
+    "id": "0198a99a-d92f-70ff-b90d-201bc173963a",
     "dependencies": {
         "template": "latest",
         "database": "latest",
