@@ -38,7 +38,7 @@ function RouteComponent() {
           <AppSidebar />
           <main className='w-full'>
             <StripeAddPaymentMethodBanner />
-            <section className='flex flex-row justify-between sticky top-0 bg-black z-10 pb-3'>
+            <section className='flex flex-row justify-between sticky top-0 bg-black z-50 pb-3'>
               <SidebarTrigger className='mt-4 ml-4' />
             </section>
             <main className='p-4 w-full'>
