@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using Core.MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
@@ -28,7 +29,7 @@ public static class ExceptionHandlerExtensions
                 var instance = context.Request.Path;
 
                 ApiProblemDetails problemDetails;
-                
+
                 // Handle specific exception types with appropriate status codes
                 switch (exception)
                 {
@@ -37,25 +38,32 @@ public static class ExceptionHandlerExtensions
                         problemDetails = ApiProblemDetails.BadRequest(exception.Message, traceId, instance);
                         Log.Warning(exception, "Bad request: {Message}", exception.Message);
                         break;
-                    
+
+                    case RequestValidationException:
+                        context.Response.StatusCode = StatusCodes.Status400BadRequest;
+                        var message = $"Validation errors: {string.Join(',', ((RequestValidationException)exception).Errors)}";
+                        problemDetails = ApiProblemDetails.BadRequest(message, traceId, instance);
+                        Log.Warning(exception, "Validation error: {Message}", message);
+                        break;
+
                     case UnauthorizedAccessException:
                         context.Response.StatusCode = StatusCodes.Status401Unauthorized;
                         problemDetails = ApiProblemDetails.Unauthorized(exception.Message, traceId, instance);
                         Log.Warning(exception, "Unauthorized access: {Message}", exception.Message);
                         break;
-                    
+
                     case KeyNotFoundException or FileNotFoundException:
                         context.Response.StatusCode = StatusCodes.Status404NotFound;
                         problemDetails = ApiProblemDetails.NotFound(exception.Message, traceId, instance);
                         Log.Warning(exception, "Resource not found: {Message}", exception.Message);
                         break;
-                    
+
                     case InvalidOperationException:
                         context.Response.StatusCode = StatusCodes.Status409Conflict;
                         problemDetails = ApiProblemDetails.Conflict(exception.Message, traceId, instance);
                         Log.Warning(exception, "Operation conflict: {Message}", exception.Message);
                         break;
-                    
+
                     case OperationCanceledException:
                         context.Response.StatusCode = StatusCodes.Status408RequestTimeout;
                         problemDetails = new ApiProblemDetails
@@ -69,17 +77,17 @@ public static class ExceptionHandlerExtensions
                         };
                         Log.Warning(exception, "Operation canceled: {Message}", exception.Message);
                         break;
-                    
+
                     default:
                         // For all other exceptions, return a 500 Internal Server Error
                         context.Response.StatusCode = StatusCodes.Status500InternalServerError;
                         string detail = exception?.Message ?? "An unexpected error occurred";
-                        
+
                         // In development, provide more details about the exception
                         if (app.Environment.IsDevelopment())
                         {
                             detail = exception?.ToString() ?? detail;
-                            
+
                             // Add stack trace as an extension property in development
                             problemDetails = ApiProblemDetails.InternalServerError(detail, traceId, instance);
                             if (exception?.StackTrace != null)
@@ -94,11 +102,11 @@ public static class ExceptionHandlerExtensions
                         {
                             // In production, keep details limited
                             problemDetails = ApiProblemDetails.InternalServerError(
-                                "An unexpected error occurred. Please contact support if the problem persists.", 
-                                traceId, 
+                                "An unexpected error occurred. Please contact support if the problem persists.",
+                                traceId,
                                 instance);
                         }
-                        
+
                         Log.Error(exception, "Unhandled exception occurred: {Message}", exception?.Message);
                         break;
                 }
