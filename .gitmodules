@@ -4,7 +4,3 @@
 [submodule "modules/config"]
 	path = modules/config
 	url = https://github.com/compozerr-lib/config
-[submodule "modules/mail-resenderr"]
-	path = modules/mail-resenderr
-	url = https://github.com/compozerr-test2/mail-resenderr.git
-	branch = main
