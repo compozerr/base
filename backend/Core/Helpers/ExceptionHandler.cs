@@ -41,8 +41,9 @@ public static class ExceptionHandlerExtensions
 
                     case RequestValidationException:
                         context.Response.StatusCode = StatusCodes.Status400BadRequest;
-                        problemDetails = ApiProblemDetails.BadRequest($"Validation errors: {string.Join(',', ((RequestValidationException)exception).Errors)}", traceId, instance);
-                        Log.Warning(exception, "Validation error: {Message}", exception.Message);
+                        var message = $"Validation errors: {string.Join(',', ((RequestValidationException)exception).Errors)}";
+                        problemDetails = ApiProblemDetails.BadRequest(message, traceId, instance);
+                        Log.Warning(exception, "Validation error: {Message}", message);
                         break;
 
                     case UnauthorizedAccessException:

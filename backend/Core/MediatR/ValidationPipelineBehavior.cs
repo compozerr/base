@@ -23,7 +23,7 @@ public class ValidationPipelineBehavior<TRequest, TResponse>(
 
         if (errors.Count > 0)
         {
-            _logger.LogDebug(string.Join(Environment.NewLine, errors.Select(e => e.ErrorMessage)));
+            _logger.LogWarning(string.Join(Environment.NewLine, errors.Select(e => e.ErrorMessage)));
             throw new RequestValidationException(typeof(TRequest).Name, errors);
         }
 
