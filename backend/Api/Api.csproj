@@ -15,6 +15,7 @@
     <ProjectReference Include="..\..\modules\jobs\backend\Jobs\Jobs.csproj" />
     <ProjectReference Include="..\..\modules\stripe\backend\Stripe\Stripe.csproj" />
     <ProjectReference Include="..\..\modules\openTelemetry\backend\OpenTelemetry\OpenTelemetryModule.csproj" />
+    <ProjectReference Include="..\..\modules\mail-resend\backend\MailResend\MailResend.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Include="../.env">
