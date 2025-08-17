@@ -8,351 +8,453 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-// Import Routes
+import { Route as rootRouteImport } from './routes/__root'
+import { Route as UsingModuleComponentRouteImport } from './routes/using-module-component'
+import { Route as LoginRouteImport } from './../../modules/auth/frontend/src/routes/login'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as AuthRouteImport } from './../../modules/auth/frontend/src/routes/_auth'
+import { Route as IndexRouteImport } from './routes/index'
+import { Route as StripeIndexRouteImport } from './../../modules/stripe/frontend/src/routes/stripe/index'
+import { Route as ExampleIndexRouteImport } from './../../modules/template/frontend/src/routes/example/index'
+import { Route as AuthLogoutRouteImport } from './../../modules/auth/frontend/src/routes/_auth/logout'
+import { Route as AuthDashboardRouteImport } from './routes/_auth/_dashboard'
+import { Route as AuthDashboardSettingsRouteImport } from './routes/_auth/_dashboard/settings'
+import { Route as AuthDashboardIntroFlowRouteImport } from './routes/_auth/_dashboard/intro-flow'
+import { Route as AuthDashboardDashboardRouteImport } from './routes/_auth/_dashboard/dashboard'
+import { Route as AuthDashboardProjectsIndexRouteImport } from './routes/_auth/_dashboard/projects/index'
+import { Route as AuthDashboardProjectsProjectIdRouteRouteImport } from './routes/_auth/_dashboard/projects/$projectId/route'
+import { Route as AuthDashboardProjectsProjectIdIndexRouteImport } from './routes/_auth/_dashboard/projects/$projectId/index'
+import { Route as AuthDashboardProjectsProjectIdSettingsRouteRouteImport } from './routes/_auth/_dashboard/projects/$projectId/settings/route'
+import { Route as AuthDashboardProjectsProjectIdSettingsIndexRouteImport } from './routes/_auth/_dashboard/projects/$projectId/settings/index'
+import { Route as AuthDashboardProjectsProjectIdDeploymentsIndexRouteImport } from './routes/_auth/_dashboard/projects/$projectId/deployments/index'
+import { Route as AuthDashboardProjectsProjectIdSettingsGeneralRouteImport } from './routes/_auth/_dashboard/projects/$projectId/settings/general'
+import { Route as AuthDashboardProjectsProjectIdSettingsEnvironmentRouteImport } from './routes/_auth/_dashboard/projects/$projectId/settings/environment'
+import { Route as AuthDashboardProjectsProjectIdSettingsDomainsRouteImport } from './routes/_auth/_dashboard/projects/$projectId/settings/domains'
+import { Route as AuthDashboardProjectsProjectIdDeploymentsDeploymentIdIndexRouteImport } from './routes/_auth/_dashboard/projects/$projectId/deployments/$deploymentId/index'
 
-import { Route as rootRoute } from './routes/__root'
-import { Route as UsingModuleComponentImport } from './routes/using-module-component'
-import { Route as LoginImport } from './../../modules/auth/frontend/src/routes/login'
-import { Route as AboutImport } from './routes/about'
-import { Route as AuthImport } from './../../modules/auth/frontend/src/routes/_auth'
-import { Route as IndexImport } from './routes/index'
-import { Route as StripeIndexImport } from './../../modules/stripe/frontend/src/routes/stripe/index'
-import { Route as MailIndexImport } from './../../modules/mail/frontend/src/routes/mail/index'
-import { Route as ExampleIndexImport } from './../../modules/template/frontend/src/routes/example/index'
-import { Route as AuthLogoutImport } from './../../modules/auth/frontend/src/routes/_auth/logout'
-import { Route as AuthDashboardImport } from './routes/_auth/_dashboard'
-import { Route as AuthDashboardSettingsImport } from './routes/_auth/_dashboard/settings'
-import { Route as AuthDashboardIntroFlowImport } from './routes/_auth/_dashboard/intro-flow'
-import { Route as AuthDashboardDashboardImport } from './routes/_auth/_dashboard/dashboard'
-import { Route as AuthDashboardProjectsIndexImport } from './routes/_auth/_dashboard/projects/index'
-import { Route as AuthDashboardProjectsProjectIdRouteImport } from './routes/_auth/_dashboard/projects/$projectId/route'
-import { Route as AuthDashboardProjectsProjectIdIndexImport } from './routes/_auth/_dashboard/projects/$projectId/index'
-import { Route as AuthDashboardProjectsProjectIdSettingsRouteImport } from './routes/_auth/_dashboard/projects/$projectId/settings/route'
-import { Route as AuthDashboardProjectsProjectIdSettingsIndexImport } from './routes/_auth/_dashboard/projects/$projectId/settings/index'
-import { Route as AuthDashboardProjectsProjectIdDeploymentsIndexImport } from './routes/_auth/_dashboard/projects/$projectId/deployments/index'
-import { Route as AuthDashboardProjectsProjectIdSettingsGeneralImport } from './routes/_auth/_dashboard/projects/$projectId/settings/general'
-import { Route as AuthDashboardProjectsProjectIdSettingsEnvironmentImport } from './routes/_auth/_dashboard/projects/$projectId/settings/environment'
-import { Route as AuthDashboardProjectsProjectIdSettingsDomainsImport } from './routes/_auth/_dashboard/projects/$projectId/settings/domains'
-import { Route as AuthDashboardProjectsProjectIdDeploymentsDeploymentIdIndexImport } from './routes/_auth/_dashboard/projects/$projectId/deployments/$deploymentId/index'
-
-// Create/Update Routes
-
-const UsingModuleComponentRoute = UsingModuleComponentImport.update({
+const UsingModuleComponentRoute = UsingModuleComponentRouteImport.update({
   id: '/using-module-component',
   path: '/using-module-component',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const LoginRoute = LoginImport.update({
+const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const AboutRoute = AboutImport.update({
+const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const AuthRoute = AuthImport.update({
+const AuthRoute = AuthRouteImport.update({
   id: '/_auth',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const IndexRoute = IndexImport.update({
+const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const StripeIndexRoute = StripeIndexImport.update({
+const StripeIndexRoute = StripeIndexRouteImport.update({
   id: '/stripe/',
   path: '/stripe/',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const MailIndexRoute = MailIndexImport.update({
-  id: '/mail/',
-  path: '/mail/',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const ExampleIndexRoute = ExampleIndexImport.update({
+const ExampleIndexRoute = ExampleIndexRouteImport.update({
   id: '/example/',
   path: '/example/',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const AuthLogoutRoute = AuthLogoutImport.update({
+const AuthLogoutRoute = AuthLogoutRouteImport.update({
   id: '/logout',
   path: '/logout',
   getParentRoute: () => AuthRoute,
 } as any)
-
-const AuthDashboardRoute = AuthDashboardImport.update({
+const AuthDashboardRoute = AuthDashboardRouteImport.update({
   id: '/_dashboard',
   getParentRoute: () => AuthRoute,
 } as any)
-
-const AuthDashboardSettingsRoute = AuthDashboardSettingsImport.update({
+const AuthDashboardSettingsRoute = AuthDashboardSettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
   getParentRoute: () => AuthDashboardRoute,
 } as any)
-
-const AuthDashboardIntroFlowRoute = AuthDashboardIntroFlowImport.update({
+const AuthDashboardIntroFlowRoute = AuthDashboardIntroFlowRouteImport.update({
   id: '/intro-flow',
   path: '/intro-flow',
   getParentRoute: () => AuthDashboardRoute,
 } as any)
-
-const AuthDashboardDashboardRoute = AuthDashboardDashboardImport.update({
+const AuthDashboardDashboardRoute = AuthDashboardDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
   getParentRoute: () => AuthDashboardRoute,
 } as any)
-
-const AuthDashboardProjectsIndexRoute = AuthDashboardProjectsIndexImport.update(
-  {
+const AuthDashboardProjectsIndexRoute =
+  AuthDashboardProjectsIndexRouteImport.update({
     id: '/projects/',
     path: '/projects/',
     getParentRoute: () => AuthDashboardRoute,
-  } as any,
-)
-
+  } as any)
 const AuthDashboardProjectsProjectIdRouteRoute =
-  AuthDashboardProjectsProjectIdRouteImport.update({
+  AuthDashboardProjectsProjectIdRouteRouteImport.update({
     id: '/projects/$projectId',
     path: '/projects/$projectId',
     getParentRoute: () => AuthDashboardRoute,
   } as any)
-
 const AuthDashboardProjectsProjectIdIndexRoute =
-  AuthDashboardProjectsProjectIdIndexImport.update({
+  AuthDashboardProjectsProjectIdIndexRouteImport.update({
     id: '/',
     path: '/',
     getParentRoute: () => AuthDashboardProjectsProjectIdRouteRoute,
   } as any)
-
 const AuthDashboardProjectsProjectIdSettingsRouteRoute =
-  AuthDashboardProjectsProjectIdSettingsRouteImport.update({
+  AuthDashboardProjectsProjectIdSettingsRouteRouteImport.update({
     id: '/settings',
     path: '/settings',
     getParentRoute: () => AuthDashboardProjectsProjectIdRouteRoute,
   } as any)
-
 const AuthDashboardProjectsProjectIdSettingsIndexRoute =
-  AuthDashboardProjectsProjectIdSettingsIndexImport.update({
+  AuthDashboardProjectsProjectIdSettingsIndexRouteImport.update({
     id: '/',
     path: '/',
     getParentRoute: () => AuthDashboardProjectsProjectIdSettingsRouteRoute,
   } as any)
-
 const AuthDashboardProjectsProjectIdDeploymentsIndexRoute =
-  AuthDashboardProjectsProjectIdDeploymentsIndexImport.update({
+  AuthDashboardProjectsProjectIdDeploymentsIndexRouteImport.update({
     id: '/deployments/',
     path: '/deployments/',
     getParentRoute: () => AuthDashboardProjectsProjectIdRouteRoute,
   } as any)
-
 const AuthDashboardProjectsProjectIdSettingsGeneralRoute =
-  AuthDashboardProjectsProjectIdSettingsGeneralImport.update({
+  AuthDashboardProjectsProjectIdSettingsGeneralRouteImport.update({
     id: '/general',
     path: '/general',
     getParentRoute: () => AuthDashboardProjectsProjectIdSettingsRouteRoute,
   } as any)
-
 const AuthDashboardProjectsProjectIdSettingsEnvironmentRoute =
-  AuthDashboardProjectsProjectIdSettingsEnvironmentImport.update({
+  AuthDashboardProjectsProjectIdSettingsEnvironmentRouteImport.update({
     id: '/environment',
     path: '/environment',
     getParentRoute: () => AuthDashboardProjectsProjectIdSettingsRouteRoute,
   } as any)
-
 const AuthDashboardProjectsProjectIdSettingsDomainsRoute =
-  AuthDashboardProjectsProjectIdSettingsDomainsImport.update({
+  AuthDashboardProjectsProjectIdSettingsDomainsRouteImport.update({
     id: '/domains',
     path: '/domains',
     getParentRoute: () => AuthDashboardProjectsProjectIdSettingsRouteRoute,
   } as any)
-
 const AuthDashboardProjectsProjectIdDeploymentsDeploymentIdIndexRoute =
-  AuthDashboardProjectsProjectIdDeploymentsDeploymentIdIndexImport.update({
+  AuthDashboardProjectsProjectIdDeploymentsDeploymentIdIndexRouteImport.update({
     id: '/deployments/$deploymentId/',
     path: '/deployments/$deploymentId/',
     getParentRoute: () => AuthDashboardProjectsProjectIdRouteRoute,
   } as any)
 
-// Populate the FileRoutesByPath interface
+export interface FileRoutesByFullPath {
+  '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/login': typeof LoginRoute
+  '/using-module-component': typeof UsingModuleComponentRoute
+  '/logout': typeof AuthLogoutRoute
+  '/example': typeof ExampleIndexRoute
+  '/stripe': typeof StripeIndexRoute
+  '/dashboard': typeof AuthDashboardDashboardRoute
+  '/intro-flow': typeof AuthDashboardIntroFlowRoute
+  '/settings': typeof AuthDashboardSettingsRoute
+  '/projects/$projectId': typeof AuthDashboardProjectsProjectIdRouteRouteWithChildren
+  '/projects': typeof AuthDashboardProjectsIndexRoute
+  '/projects/$projectId/settings': typeof AuthDashboardProjectsProjectIdSettingsRouteRouteWithChildren
+  '/projects/$projectId/': typeof AuthDashboardProjectsProjectIdIndexRoute
+  '/projects/$projectId/settings/domains': typeof AuthDashboardProjectsProjectIdSettingsDomainsRoute
+  '/projects/$projectId/settings/environment': typeof AuthDashboardProjectsProjectIdSettingsEnvironmentRoute
+  '/projects/$projectId/settings/general': typeof AuthDashboardProjectsProjectIdSettingsGeneralRoute
+  '/projects/$projectId/deployments': typeof AuthDashboardProjectsProjectIdDeploymentsIndexRoute
+  '/projects/$projectId/settings/': typeof AuthDashboardProjectsProjectIdSettingsIndexRoute
+  '/projects/$projectId/deployments/$deploymentId': typeof AuthDashboardProjectsProjectIdDeploymentsDeploymentIdIndexRoute
+}
+export interface FileRoutesByTo {
+  '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/login': typeof LoginRoute
+  '/using-module-component': typeof UsingModuleComponentRoute
+  '/logout': typeof AuthLogoutRoute
+  '/example': typeof ExampleIndexRoute
+  '/stripe': typeof StripeIndexRoute
+  '/dashboard': typeof AuthDashboardDashboardRoute
+  '/intro-flow': typeof AuthDashboardIntroFlowRoute
+  '/settings': typeof AuthDashboardSettingsRoute
+  '/projects': typeof AuthDashboardProjectsIndexRoute
+  '/projects/$projectId': typeof AuthDashboardProjectsProjectIdIndexRoute
+  '/projects/$projectId/settings/domains': typeof AuthDashboardProjectsProjectIdSettingsDomainsRoute
+  '/projects/$projectId/settings/environment': typeof AuthDashboardProjectsProjectIdSettingsEnvironmentRoute
+  '/projects/$projectId/settings/general': typeof AuthDashboardProjectsProjectIdSettingsGeneralRoute
+  '/projects/$projectId/deployments': typeof AuthDashboardProjectsProjectIdDeploymentsIndexRoute
+  '/projects/$projectId/settings': typeof AuthDashboardProjectsProjectIdSettingsIndexRoute
+  '/projects/$projectId/deployments/$deploymentId': typeof AuthDashboardProjectsProjectIdDeploymentsDeploymentIdIndexRoute
+}
+export interface FileRoutesById {
+  __root__: typeof rootRouteImport
+  '/': typeof IndexRoute
+  '/_auth': typeof AuthRouteWithChildren
+  '/about': typeof AboutRoute
+  '/login': typeof LoginRoute
+  '/using-module-component': typeof UsingModuleComponentRoute
+  '/_auth/_dashboard': typeof AuthDashboardRouteWithChildren
+  '/_auth/logout': typeof AuthLogoutRoute
+  '/example/': typeof ExampleIndexRoute
+  '/stripe/': typeof StripeIndexRoute
+  '/_auth/_dashboard/dashboard': typeof AuthDashboardDashboardRoute
+  '/_auth/_dashboard/intro-flow': typeof AuthDashboardIntroFlowRoute
+  '/_auth/_dashboard/settings': typeof AuthDashboardSettingsRoute
+  '/_auth/_dashboard/projects/$projectId': typeof AuthDashboardProjectsProjectIdRouteRouteWithChildren
+  '/_auth/_dashboard/projects/': typeof AuthDashboardProjectsIndexRoute
+  '/_auth/_dashboard/projects/$projectId/settings': typeof AuthDashboardProjectsProjectIdSettingsRouteRouteWithChildren
+  '/_auth/_dashboard/projects/$projectId/': typeof AuthDashboardProjectsProjectIdIndexRoute
+  '/_auth/_dashboard/projects/$projectId/settings/domains': typeof AuthDashboardProjectsProjectIdSettingsDomainsRoute
+  '/_auth/_dashboard/projects/$projectId/settings/environment': typeof AuthDashboardProjectsProjectIdSettingsEnvironmentRoute
+  '/_auth/_dashboard/projects/$projectId/settings/general': typeof AuthDashboardProjectsProjectIdSettingsGeneralRoute
+  '/_auth/_dashboard/projects/$projectId/deployments/': typeof AuthDashboardProjectsProjectIdDeploymentsIndexRoute
+  '/_auth/_dashboard/projects/$projectId/settings/': typeof AuthDashboardProjectsProjectIdSettingsIndexRoute
+  '/_auth/_dashboard/projects/$projectId/deployments/$deploymentId/': typeof AuthDashboardProjectsProjectIdDeploymentsDeploymentIdIndexRoute
+}
+export interface FileRouteTypes {
+  fileRoutesByFullPath: FileRoutesByFullPath
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/login'
+    | '/using-module-component'
+    | '/logout'
+    | '/example'
+    | '/stripe'
+    | '/dashboard'
+    | '/intro-flow'
+    | '/settings'
+    | '/projects/$projectId'
+    | '/projects'
+    | '/projects/$projectId/settings'
+    | '/projects/$projectId/'
+    | '/projects/$projectId/settings/domains'
+    | '/projects/$projectId/settings/environment'
+    | '/projects/$projectId/settings/general'
+    | '/projects/$projectId/deployments'
+    | '/projects/$projectId/settings/'
+    | '/projects/$projectId/deployments/$deploymentId'
+  fileRoutesByTo: FileRoutesByTo
+  to:
+    | '/'
+    | '/about'
+    | '/login'
+    | '/using-module-component'
+    | '/logout'
+    | '/example'
+    | '/stripe'
+    | '/dashboard'
+    | '/intro-flow'
+    | '/settings'
+    | '/projects'
+    | '/projects/$projectId'
+    | '/projects/$projectId/settings/domains'
+    | '/projects/$projectId/settings/environment'
+    | '/projects/$projectId/settings/general'
+    | '/projects/$projectId/deployments'
+    | '/projects/$projectId/settings'
+    | '/projects/$projectId/deployments/$deploymentId'
+  id:
+    | '__root__'
+    | '/'
+    | '/_auth'
+    | '/about'
+    | '/login'
+    | '/using-module-component'
+    | '/_auth/_dashboard'
+    | '/_auth/logout'
+    | '/example/'
+    | '/stripe/'
+    | '/_auth/_dashboard/dashboard'
+    | '/_auth/_dashboard/intro-flow'
+    | '/_auth/_dashboard/settings'
+    | '/_auth/_dashboard/projects/$projectId'
+    | '/_auth/_dashboard/projects/'
+    | '/_auth/_dashboard/projects/$projectId/settings'
+    | '/_auth/_dashboard/projects/$projectId/'
+    | '/_auth/_dashboard/projects/$projectId/settings/domains'
+    | '/_auth/_dashboard/projects/$projectId/settings/environment'
+    | '/_auth/_dashboard/projects/$projectId/settings/general'
+    | '/_auth/_dashboard/projects/$projectId/deployments/'
+    | '/_auth/_dashboard/projects/$projectId/settings/'
+    | '/_auth/_dashboard/projects/$projectId/deployments/$deploymentId/'
+  fileRoutesById: FileRoutesById
+}
+export interface RootRouteChildren {
+  IndexRoute: typeof IndexRoute
+  AuthRoute: typeof AuthRouteWithChildren
+  AboutRoute: typeof AboutRoute
+  LoginRoute: typeof LoginRoute
+  UsingModuleComponentRoute: typeof UsingModuleComponentRoute
+  ExampleIndexRoute: typeof ExampleIndexRoute
+  StripeIndexRoute: typeof StripeIndexRoute
+}
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexImport
-      parentRoute: typeof rootRoute
-    }
-    '/_auth': {
-      id: '/_auth'
-      path: ''
-      fullPath: ''
-      preLoaderRoute: typeof AuthImport
-      parentRoute: typeof rootRoute
-    }
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutImport
-      parentRoute: typeof rootRoute
+    '/using-module-component': {
+      id: '/using-module-component'
+      path: '/using-module-component'
+      fullPath: '/using-module-component'
+      preLoaderRoute: typeof UsingModuleComponentRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/login': {
       id: '/login'
       path: '/login'
       fullPath: '/login'
-      preLoaderRoute: typeof LoginImport
-      parentRoute: typeof rootRoute
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/using-module-component': {
-      id: '/using-module-component'
-      path: '/using-module-component'
-      fullPath: '/using-module-component'
-      preLoaderRoute: typeof UsingModuleComponentImport
-      parentRoute: typeof rootRoute
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/_auth/_dashboard': {
-      id: '/_auth/_dashboard'
+    '/_auth': {
+      id: '/_auth'
       path: ''
       fullPath: ''
-      preLoaderRoute: typeof AuthDashboardImport
-      parentRoute: typeof AuthImport
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/_auth/logout': {
-      id: '/_auth/logout'
-      path: '/logout'
-      fullPath: '/logout'
-      preLoaderRoute: typeof AuthLogoutImport
-      parentRoute: typeof AuthImport
-    }
-    '/example/': {
-      id: '/example/'
-      path: '/example'
-      fullPath: '/example'
-      preLoaderRoute: typeof ExampleIndexImport
-      parentRoute: typeof rootRoute
-    }
-    '/mail/': {
-      id: '/mail/'
-      path: '/mail'
-      fullPath: '/mail'
-      preLoaderRoute: typeof MailIndexImport
-      parentRoute: typeof rootRoute
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/stripe/': {
       id: '/stripe/'
       path: '/stripe'
       fullPath: '/stripe'
-      preLoaderRoute: typeof StripeIndexImport
-      parentRoute: typeof rootRoute
+      preLoaderRoute: typeof StripeIndexRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/_auth/_dashboard/dashboard': {
-      id: '/_auth/_dashboard/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof AuthDashboardDashboardImport
-      parentRoute: typeof AuthDashboardImport
+    '/example/': {
+      id: '/example/'
+      path: '/example'
+      fullPath: '/example'
+      preLoaderRoute: typeof ExampleIndexRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/_auth/_dashboard/intro-flow': {
-      id: '/_auth/_dashboard/intro-flow'
-      path: '/intro-flow'
-      fullPath: '/intro-flow'
-      preLoaderRoute: typeof AuthDashboardIntroFlowImport
-      parentRoute: typeof AuthDashboardImport
+    '/_auth/logout': {
+      id: '/_auth/logout'
+      path: '/logout'
+      fullPath: '/logout'
+      preLoaderRoute: typeof AuthLogoutRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/_auth/_dashboard': {
+      id: '/_auth/_dashboard'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof AuthDashboardRouteImport
+      parentRoute: typeof AuthRoute
     }
     '/_auth/_dashboard/settings': {
       id: '/_auth/_dashboard/settings'
       path: '/settings'
       fullPath: '/settings'
-      preLoaderRoute: typeof AuthDashboardSettingsImport
-      parentRoute: typeof AuthDashboardImport
+      preLoaderRoute: typeof AuthDashboardSettingsRouteImport
+      parentRoute: typeof AuthDashboardRoute
     }
-    '/_auth/_dashboard/projects/$projectId': {
-      id: '/_auth/_dashboard/projects/$projectId'
-      path: '/projects/$projectId'
-      fullPath: '/projects/$projectId'
-      preLoaderRoute: typeof AuthDashboardProjectsProjectIdRouteImport
-      parentRoute: typeof AuthDashboardImport
+    '/_auth/_dashboard/intro-flow': {
+      id: '/_auth/_dashboard/intro-flow'
+      path: '/intro-flow'
+      fullPath: '/intro-flow'
+      preLoaderRoute: typeof AuthDashboardIntroFlowRouteImport
+      parentRoute: typeof AuthDashboardRoute
+    }
+    '/_auth/_dashboard/dashboard': {
+      id: '/_auth/_dashboard/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AuthDashboardDashboardRouteImport
+      parentRoute: typeof AuthDashboardRoute
     }
     '/_auth/_dashboard/projects/': {
       id: '/_auth/_dashboard/projects/'
       path: '/projects'
       fullPath: '/projects'
-      preLoaderRoute: typeof AuthDashboardProjectsIndexImport
-      parentRoute: typeof AuthDashboardImport
+      preLoaderRoute: typeof AuthDashboardProjectsIndexRouteImport
+      parentRoute: typeof AuthDashboardRoute
     }
-    '/_auth/_dashboard/projects/$projectId/settings': {
-      id: '/_auth/_dashboard/projects/$projectId/settings'
-      path: '/settings'
-      fullPath: '/projects/$projectId/settings'
-      preLoaderRoute: typeof AuthDashboardProjectsProjectIdSettingsRouteImport
-      parentRoute: typeof AuthDashboardProjectsProjectIdRouteImport
+    '/_auth/_dashboard/projects/$projectId': {
+      id: '/_auth/_dashboard/projects/$projectId'
+      path: '/projects/$projectId'
+      fullPath: '/projects/$projectId'
+      preLoaderRoute: typeof AuthDashboardProjectsProjectIdRouteRouteImport
+      parentRoute: typeof AuthDashboardRoute
     }
     '/_auth/_dashboard/projects/$projectId/': {
       id: '/_auth/_dashboard/projects/$projectId/'
       path: '/'
       fullPath: '/projects/$projectId/'
-      preLoaderRoute: typeof AuthDashboardProjectsProjectIdIndexImport
-      parentRoute: typeof AuthDashboardProjectsProjectIdRouteImport
+      preLoaderRoute: typeof AuthDashboardProjectsProjectIdIndexRouteImport
+      parentRoute: typeof AuthDashboardProjectsProjectIdRouteRoute
     }
-    '/_auth/_dashboard/projects/$projectId/settings/domains': {
-      id: '/_auth/_dashboard/projects/$projectId/settings/domains'
-      path: '/domains'
-      fullPath: '/projects/$projectId/settings/domains'
-      preLoaderRoute: typeof AuthDashboardProjectsProjectIdSettingsDomainsImport
-      parentRoute: typeof AuthDashboardProjectsProjectIdSettingsRouteImport
-    }
-    '/_auth/_dashboard/projects/$projectId/settings/environment': {
-      id: '/_auth/_dashboard/projects/$projectId/settings/environment'
-      path: '/environment'
-      fullPath: '/projects/$projectId/settings/environment'
-      preLoaderRoute: typeof AuthDashboardProjectsProjectIdSettingsEnvironmentImport
-      parentRoute: typeof AuthDashboardProjectsProjectIdSettingsRouteImport
-    }
-    '/_auth/_dashboard/projects/$projectId/settings/general': {
-      id: '/_auth/_dashboard/projects/$projectId/settings/general'
-      path: '/general'
-      fullPath: '/projects/$projectId/settings/general'
-      preLoaderRoute: typeof AuthDashboardProjectsProjectIdSettingsGeneralImport
-      parentRoute: typeof AuthDashboardProjectsProjectIdSettingsRouteImport
-    }
-    '/_auth/_dashboard/projects/$projectId/deployments/': {
-      id: '/_auth/_dashboard/projects/$projectId/deployments/'
-      path: '/deployments'
-      fullPath: '/projects/$projectId/deployments'
-      preLoaderRoute: typeof AuthDashboardProjectsProjectIdDeploymentsIndexImport
-      parentRoute: typeof AuthDashboardProjectsProjectIdRouteImport
+    '/_auth/_dashboard/projects/$projectId/settings': {
+      id: '/_auth/_dashboard/projects/$projectId/settings'
+      path: '/settings'
+      fullPath: '/projects/$projectId/settings'
+      preLoaderRoute: typeof AuthDashboardProjectsProjectIdSettingsRouteRouteImport
+      parentRoute: typeof AuthDashboardProjectsProjectIdRouteRoute
     }
     '/_auth/_dashboard/projects/$projectId/settings/': {
       id: '/_auth/_dashboard/projects/$projectId/settings/'
       path: '/'
       fullPath: '/projects/$projectId/settings/'
-      preLoaderRoute: typeof AuthDashboardProjectsProjectIdSettingsIndexImport
-      parentRoute: typeof AuthDashboardProjectsProjectIdSettingsRouteImport
+      preLoaderRoute: typeof AuthDashboardProjectsProjectIdSettingsIndexRouteImport
+      parentRoute: typeof AuthDashboardProjectsProjectIdSettingsRouteRoute
+    }
+    '/_auth/_dashboard/projects/$projectId/deployments/': {
+      id: '/_auth/_dashboard/projects/$projectId/deployments/'
+      path: '/deployments'
+      fullPath: '/projects/$projectId/deployments'
+      preLoaderRoute: typeof AuthDashboardProjectsProjectIdDeploymentsIndexRouteImport
+      parentRoute: typeof AuthDashboardProjectsProjectIdRouteRoute
+    }
+    '/_auth/_dashboard/projects/$projectId/settings/general': {
+      id: '/_auth/_dashboard/projects/$projectId/settings/general'
+      path: '/general'
+      fullPath: '/projects/$projectId/settings/general'
+      preLoaderRoute: typeof AuthDashboardProjectsProjectIdSettingsGeneralRouteImport
+      parentRoute: typeof AuthDashboardProjectsProjectIdSettingsRouteRoute
+    }
+    '/_auth/_dashboard/projects/$projectId/settings/environment': {
+      id: '/_auth/_dashboard/projects/$projectId/settings/environment'
+      path: '/environment'
+      fullPath: '/projects/$projectId/settings/environment'
+      preLoaderRoute: typeof AuthDashboardProjectsProjectIdSettingsEnvironmentRouteImport
+      parentRoute: typeof AuthDashboardProjectsProjectIdSettingsRouteRoute
+    }
+    '/_auth/_dashboard/projects/$projectId/settings/domains': {
+      id: '/_auth/_dashboard/projects/$projectId/settings/domains'
+      path: '/domains'
+      fullPath: '/projects/$projectId/settings/domains'
+      preLoaderRoute: typeof AuthDashboardProjectsProjectIdSettingsDomainsRouteImport
+      parentRoute: typeof AuthDashboardProjectsProjectIdSettingsRouteRoute
     }
     '/_auth/_dashboard/projects/$projectId/deployments/$deploymentId/': {
       id: '/_auth/_dashboard/projects/$projectId/deployments/$deploymentId/'
       path: '/deployments/$deploymentId'
       fullPath: '/projects/$projectId/deployments/$deploymentId'
-      preLoaderRoute: typeof AuthDashboardProjectsProjectIdDeploymentsDeploymentIdIndexImport
-      parentRoute: typeof AuthDashboardProjectsProjectIdRouteImport
+      preLoaderRoute: typeof AuthDashboardProjectsProjectIdDeploymentsDeploymentIdIndexRouteImport
+      parentRoute: typeof AuthDashboardProjectsProjectIdRouteRoute
     }
   }
 }
-
-// Create and export the route tree
 
 interface AuthDashboardProjectsProjectIdSettingsRouteRouteChildren {
   AuthDashboardProjectsProjectIdSettingsDomainsRoute: typeof AuthDashboardProjectsProjectIdSettingsDomainsRoute
@@ -435,167 +537,6 @@ const AuthRouteChildren: AuthRouteChildren = {
 
 const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 
-export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '': typeof AuthDashboardRouteWithChildren
-  '/about': typeof AboutRoute
-  '/login': typeof LoginRoute
-  '/using-module-component': typeof UsingModuleComponentRoute
-  '/logout': typeof AuthLogoutRoute
-  '/example': typeof ExampleIndexRoute
-  '/mail': typeof MailIndexRoute
-  '/stripe': typeof StripeIndexRoute
-  '/dashboard': typeof AuthDashboardDashboardRoute
-  '/intro-flow': typeof AuthDashboardIntroFlowRoute
-  '/settings': typeof AuthDashboardSettingsRoute
-  '/projects/$projectId': typeof AuthDashboardProjectsProjectIdRouteRouteWithChildren
-  '/projects': typeof AuthDashboardProjectsIndexRoute
-  '/projects/$projectId/settings': typeof AuthDashboardProjectsProjectIdSettingsRouteRouteWithChildren
-  '/projects/$projectId/': typeof AuthDashboardProjectsProjectIdIndexRoute
-  '/projects/$projectId/settings/domains': typeof AuthDashboardProjectsProjectIdSettingsDomainsRoute
-  '/projects/$projectId/settings/environment': typeof AuthDashboardProjectsProjectIdSettingsEnvironmentRoute
-  '/projects/$projectId/settings/general': typeof AuthDashboardProjectsProjectIdSettingsGeneralRoute
-  '/projects/$projectId/deployments': typeof AuthDashboardProjectsProjectIdDeploymentsIndexRoute
-  '/projects/$projectId/settings/': typeof AuthDashboardProjectsProjectIdSettingsIndexRoute
-  '/projects/$projectId/deployments/$deploymentId': typeof AuthDashboardProjectsProjectIdDeploymentsDeploymentIdIndexRoute
-}
-
-export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '': typeof AuthDashboardRouteWithChildren
-  '/about': typeof AboutRoute
-  '/login': typeof LoginRoute
-  '/using-module-component': typeof UsingModuleComponentRoute
-  '/logout': typeof AuthLogoutRoute
-  '/example': typeof ExampleIndexRoute
-  '/mail': typeof MailIndexRoute
-  '/stripe': typeof StripeIndexRoute
-  '/dashboard': typeof AuthDashboardDashboardRoute
-  '/intro-flow': typeof AuthDashboardIntroFlowRoute
-  '/settings': typeof AuthDashboardSettingsRoute
-  '/projects': typeof AuthDashboardProjectsIndexRoute
-  '/projects/$projectId': typeof AuthDashboardProjectsProjectIdIndexRoute
-  '/projects/$projectId/settings/domains': typeof AuthDashboardProjectsProjectIdSettingsDomainsRoute
-  '/projects/$projectId/settings/environment': typeof AuthDashboardProjectsProjectIdSettingsEnvironmentRoute
-  '/projects/$projectId/settings/general': typeof AuthDashboardProjectsProjectIdSettingsGeneralRoute
-  '/projects/$projectId/deployments': typeof AuthDashboardProjectsProjectIdDeploymentsIndexRoute
-  '/projects/$projectId/settings': typeof AuthDashboardProjectsProjectIdSettingsIndexRoute
-  '/projects/$projectId/deployments/$deploymentId': typeof AuthDashboardProjectsProjectIdDeploymentsDeploymentIdIndexRoute
-}
-
-export interface FileRoutesById {
-  __root__: typeof rootRoute
-  '/': typeof IndexRoute
-  '/_auth': typeof AuthRouteWithChildren
-  '/about': typeof AboutRoute
-  '/login': typeof LoginRoute
-  '/using-module-component': typeof UsingModuleComponentRoute
-  '/_auth/_dashboard': typeof AuthDashboardRouteWithChildren
-  '/_auth/logout': typeof AuthLogoutRoute
-  '/example/': typeof ExampleIndexRoute
-  '/mail/': typeof MailIndexRoute
-  '/stripe/': typeof StripeIndexRoute
-  '/_auth/_dashboard/dashboard': typeof AuthDashboardDashboardRoute
-  '/_auth/_dashboard/intro-flow': typeof AuthDashboardIntroFlowRoute
-  '/_auth/_dashboard/settings': typeof AuthDashboardSettingsRoute
-  '/_auth/_dashboard/projects/$projectId': typeof AuthDashboardProjectsProjectIdRouteRouteWithChildren
-  '/_auth/_dashboard/projects/': typeof AuthDashboardProjectsIndexRoute
-  '/_auth/_dashboard/projects/$projectId/settings': typeof AuthDashboardProjectsProjectIdSettingsRouteRouteWithChildren
-  '/_auth/_dashboard/projects/$projectId/': typeof AuthDashboardProjectsProjectIdIndexRoute
-  '/_auth/_dashboard/projects/$projectId/settings/domains': typeof AuthDashboardProjectsProjectIdSettingsDomainsRoute
-  '/_auth/_dashboard/projects/$projectId/settings/environment': typeof AuthDashboardProjectsProjectIdSettingsEnvironmentRoute
-  '/_auth/_dashboard/projects/$projectId/settings/general': typeof AuthDashboardProjectsProjectIdSettingsGeneralRoute
-  '/_auth/_dashboard/projects/$projectId/deployments/': typeof AuthDashboardProjectsProjectIdDeploymentsIndexRoute
-  '/_auth/_dashboard/projects/$projectId/settings/': typeof AuthDashboardProjectsProjectIdSettingsIndexRoute
-  '/_auth/_dashboard/projects/$projectId/deployments/$deploymentId/': typeof AuthDashboardProjectsProjectIdDeploymentsDeploymentIdIndexRoute
-}
-
-export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths:
-    | '/'
-    | ''
-    | '/about'
-    | '/login'
-    | '/using-module-component'
-    | '/logout'
-    | '/example'
-    | '/mail'
-    | '/stripe'
-    | '/dashboard'
-    | '/intro-flow'
-    | '/settings'
-    | '/projects/$projectId'
-    | '/projects'
-    | '/projects/$projectId/settings'
-    | '/projects/$projectId/'
-    | '/projects/$projectId/settings/domains'
-    | '/projects/$projectId/settings/environment'
-    | '/projects/$projectId/settings/general'
-    | '/projects/$projectId/deployments'
-    | '/projects/$projectId/settings/'
-    | '/projects/$projectId/deployments/$deploymentId'
-  fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/'
-    | ''
-    | '/about'
-    | '/login'
-    | '/using-module-component'
-    | '/logout'
-    | '/example'
-    | '/mail'
-    | '/stripe'
-    | '/dashboard'
-    | '/intro-flow'
-    | '/settings'
-    | '/projects'
-    | '/projects/$projectId'
-    | '/projects/$projectId/settings/domains'
-    | '/projects/$projectId/settings/environment'
-    | '/projects/$projectId/settings/general'
-    | '/projects/$projectId/deployments'
-    | '/projects/$projectId/settings'
-    | '/projects/$projectId/deployments/$deploymentId'
-  id:
-    | '__root__'
-    | '/'
-    | '/_auth'
-    | '/about'
-    | '/login'
-    | '/using-module-component'
-    | '/_auth/_dashboard'
-    | '/_auth/logout'
-    | '/example/'
-    | '/mail/'
-    | '/stripe/'
-    | '/_auth/_dashboard/dashboard'
-    | '/_auth/_dashboard/intro-flow'
-    | '/_auth/_dashboard/settings'
-    | '/_auth/_dashboard/projects/$projectId'
-    | '/_auth/_dashboard/projects/'
-    | '/_auth/_dashboard/projects/$projectId/settings'
-    | '/_auth/_dashboard/projects/$projectId/'
-    | '/_auth/_dashboard/projects/$projectId/settings/domains'
-    | '/_auth/_dashboard/projects/$projectId/settings/environment'
-    | '/_auth/_dashboard/projects/$projectId/settings/general'
-    | '/_auth/_dashboard/projects/$projectId/deployments/'
-    | '/_auth/_dashboard/projects/$projectId/settings/'
-    | '/_auth/_dashboard/projects/$projectId/deployments/$deploymentId/'
-  fileRoutesById: FileRoutesById
-}
-
-export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  AuthRoute: typeof AuthRouteWithChildren
-  AboutRoute: typeof AboutRoute
-  LoginRoute: typeof LoginRoute
-  UsingModuleComponentRoute: typeof UsingModuleComponentRoute
-  ExampleIndexRoute: typeof ExampleIndexRoute
-  MailIndexRoute: typeof MailIndexRoute
-  StripeIndexRoute: typeof StripeIndexRoute
-}
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRoute: AuthRouteWithChildren,
@@ -603,137 +544,8 @@ const rootRouteChildren: RootRouteChildren = {
   LoginRoute: LoginRoute,
   UsingModuleComponentRoute: UsingModuleComponentRoute,
   ExampleIndexRoute: ExampleIndexRoute,
-  MailIndexRoute: MailIndexRoute,
   StripeIndexRoute: StripeIndexRoute,
 }
-
-export const routeTree = rootRoute
+export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-/* ROUTE_MANIFEST_START
-{
-  "routes": {
-    "__root__": {
-      "filePath": "__root.tsx",
-      "children": [
-        "/",
-        "/_auth",
-        "/about",
-        "/login",
-        "/using-module-component",
-        "/example/",
-        "/mail/",
-        "/stripe/"
-      ]
-    },
-    "/": {
-      "filePath": "./index.tsx"
-    },
-    "/_auth": {
-      "filePath": "../../../modules/auth/frontend/src/routes/_auth.tsx",
-      "children": [
-        "/_auth/_dashboard",
-        "/_auth/logout"
-      ]
-    },
-    "/about": {
-      "filePath": "./about.tsx"
-    },
-    "/login": {
-      "filePath": "../../../modules/auth/frontend/src/routes/login.tsx"
-    },
-    "/using-module-component": {
-      "filePath": "./using-module-component.tsx"
-    },
-    "/_auth/_dashboard": {
-      "filePath": "./_auth/_dashboard.tsx",
-      "parent": "/_auth",
-      "children": [
-        "/_auth/_dashboard/dashboard",
-        "/_auth/_dashboard/intro-flow",
-        "/_auth/_dashboard/settings",
-        "/_auth/_dashboard/projects/$projectId",
-        "/_auth/_dashboard/projects/"
-      ]
-    },
-    "/_auth/logout": {
-      "filePath": "../../../modules/auth/frontend/src/routes/_auth/logout.tsx",
-      "parent": "/_auth"
-    },
-    "/example/": {
-      "filePath": "../../../modules/template/frontend/src/routes/example/index.tsx"
-    },
-    "/mail/": {
-      "filePath": "../../../modules/mail/frontend/src/routes/mail/index.tsx"
-    },
-    "/stripe/": {
-      "filePath": "../../../modules/stripe/frontend/src/routes/stripe/index.tsx"
-    },
-    "/_auth/_dashboard/dashboard": {
-      "filePath": "./_auth/_dashboard/dashboard.tsx",
-      "parent": "/_auth/_dashboard"
-    },
-    "/_auth/_dashboard/intro-flow": {
-      "filePath": "./_auth/_dashboard/intro-flow.tsx",
-      "parent": "/_auth/_dashboard"
-    },
-    "/_auth/_dashboard/settings": {
-      "filePath": "./_auth/_dashboard/settings.tsx",
-      "parent": "/_auth/_dashboard"
-    },
-    "/_auth/_dashboard/projects/$projectId": {
-      "filePath": "./_auth/_dashboard/projects/$projectId/route.tsx",
-      "parent": "/_auth/_dashboard",
-      "children": [
-        "/_auth/_dashboard/projects/$projectId/settings",
-        "/_auth/_dashboard/projects/$projectId/",
-        "/_auth/_dashboard/projects/$projectId/deployments/",
-        "/_auth/_dashboard/projects/$projectId/deployments/$deploymentId/"
-      ]
-    },
-    "/_auth/_dashboard/projects/": {
-      "filePath": "./_auth/_dashboard/projects/index.tsx",
-      "parent": "/_auth/_dashboard"
-    },
-    "/_auth/_dashboard/projects/$projectId/settings": {
-      "filePath": "./_auth/_dashboard/projects/$projectId/settings/route.tsx",
-      "parent": "/_auth/_dashboard/projects/$projectId",
-      "children": [
-        "/_auth/_dashboard/projects/$projectId/settings/domains",
-        "/_auth/_dashboard/projects/$projectId/settings/environment",
-        "/_auth/_dashboard/projects/$projectId/settings/general",
-        "/_auth/_dashboard/projects/$projectId/settings/"
-      ]
-    },
-    "/_auth/_dashboard/projects/$projectId/": {
-      "filePath": "./_auth/_dashboard/projects/$projectId/index.tsx",
-      "parent": "/_auth/_dashboard/projects/$projectId"
-    },
-    "/_auth/_dashboard/projects/$projectId/settings/domains": {
-      "filePath": "./_auth/_dashboard/projects/$projectId/settings/domains.tsx",
-      "parent": "/_auth/_dashboard/projects/$projectId/settings"
-    },
-    "/_auth/_dashboard/projects/$projectId/settings/environment": {
-      "filePath": "./_auth/_dashboard/projects/$projectId/settings/environment.tsx",
-      "parent": "/_auth/_dashboard/projects/$projectId/settings"
-    },
-    "/_auth/_dashboard/projects/$projectId/settings/general": {
-      "filePath": "./_auth/_dashboard/projects/$projectId/settings/general.tsx",
-      "parent": "/_auth/_dashboard/projects/$projectId/settings"
-    },
-    "/_auth/_dashboard/projects/$projectId/deployments/": {
-      "filePath": "./_auth/_dashboard/projects/$projectId/deployments/index.tsx",
-      "parent": "/_auth/_dashboard/projects/$projectId"
-    },
-    "/_auth/_dashboard/projects/$projectId/settings/": {
-      "filePath": "./_auth/_dashboard/projects/$projectId/settings/index.tsx",
-      "parent": "/_auth/_dashboard/projects/$projectId/settings"
-    },
-    "/_auth/_dashboard/projects/$projectId/deployments/$deploymentId/": {
-      "filePath": "./_auth/_dashboard/projects/$projectId/deployments/$deploymentId/index.tsx",
-      "parent": "/_auth/_dashboard/projects/$projectId"
-    }
-  }
-}
-ROUTE_MANIFEST_END */
