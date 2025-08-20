@@ -1,20 +1,16 @@
+using Core.MediatR;
 using MediatR;
 using Stripe.Services;
 
 namespace Stripe.Endpoints.PaymentMethods.CreateSetupIntent;
 
-public class CreateSetupIntentCommandHandler : IRequestHandler<CreateSetupIntentCommand, CreateSetupIntentResponse>
+public class CreateSetupIntentCommandHandler(IPaymentMethodsService paymentMethodsService) : ICommandHandler<CreateSetupIntentCommand, CreateSetupIntentResponse>
 {
-    private readonly IStripeService _stripeService;
-
-    public CreateSetupIntentCommandHandler(IStripeService stripeService)
+    public async Task<CreateSetupIntentResponse> Handle(
+        CreateSetupIntentCommand command,
+        CancellationToken cancellationToken)
     {
-        _stripeService = stripeService;
-    }
-
-    public async Task<CreateSetupIntentResponse> Handle(CreateSetupIntentCommand request, CancellationToken cancellationToken)
-    {
-        var clientSecret = await _stripeService.CreateSetupIntentAsync(cancellationToken);
+        var clientSecret = await paymentMethodsService.CreateSetupIntentAsync(cancellationToken);
         return new CreateSetupIntentResponse(clientSecret);
     }
 }

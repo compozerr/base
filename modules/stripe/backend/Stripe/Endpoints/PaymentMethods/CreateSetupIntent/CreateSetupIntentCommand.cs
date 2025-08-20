@@ -1,5 +1,5 @@
-using MediatR;
+using Core.MediatR;
 
 namespace Stripe.Endpoints.PaymentMethods.CreateSetupIntent;
 
-public record CreateSetupIntentCommand : IRequest<CreateSetupIntentResponse>;
+public record CreateSetupIntentCommand : ICommand<CreateSetupIntentResponse>;

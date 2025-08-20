@@ -7,7 +7,7 @@ using Stripe.Services;
 namespace Stripe.Endpoints.PaymentMethods.GetUserPaymentMethods;
 
 public class GetUserPaymentMethodsCommandHandler(
-    IStripeService stripeService,
+    IPaymentMethodsService paymentMethodsService,
     IMemoryCache memoryCache,
     IHttpContextAccessor accessor) : ICommandHandler<GetUserPaymentMethodsCommand, GetUserPaymentMethodsResponse>
 {
@@ -25,7 +25,7 @@ public class GetUserPaymentMethodsCommandHandler(
         {
             entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5);
 
-            return await stripeService.GetUserPaymentMethodsAsync(cancellationToken);
+            return await paymentMethodsService.GetUserPaymentMethodsAsync(cancellationToken);
         });
 
         return new GetUserPaymentMethodsResponse(paymentMethods ?? []);

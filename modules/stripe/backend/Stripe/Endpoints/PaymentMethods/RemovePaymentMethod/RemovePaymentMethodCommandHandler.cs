@@ -7,7 +7,7 @@ using Stripe.Services;
 namespace Stripe.Endpoints.PaymentMethods.RemovePaymentMethod;
 
 public class RemovePaymentMethodCommandHandler(
-    IStripeService stripeService,
+    IPaymentMethodsService paymentMethodsService,
     IMemoryCache memoryCache,
     IHttpContextAccessor accessor) : ICommandHandler<RemovePaymentMethodCommand, RemovePaymentMethodResponse>
 {
@@ -21,7 +21,7 @@ public class RemovePaymentMethodCommandHandler(
             throw new UnauthorizedAccessException("User is not authenticated.");
         }
 
-        var result = await stripeService.RemovePaymentMethodAsync(
+        var result = await paymentMethodsService.RemovePaymentMethodAsync(
             request.PaymentMethodId,
             cancellationToken);
 

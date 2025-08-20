@@ -6,10 +6,10 @@ public sealed class CancelSubscriptionCommandHandler : ICommandHandler<CancelSub
 {
     public async Task<CancelSubscriptionResponse> Handle(CancelSubscriptionCommand command, CancellationToken cancellationToken = default)
     {
-        var subscriptionService = new Stripe.SubscriptionService();
+        var subscriptionService = new SubscriptionService();
 
         // Cancel the subscription
-        var options = new Stripe.SubscriptionUpdateOptions
+        var options = new SubscriptionUpdateOptions
         {
             CancelAtPeriodEnd = !command.CancelImmediately // If not immediate, cancel at period end
         };
@@ -19,9 +19,9 @@ public sealed class CancelSubscriptionCommandHandler : ICommandHandler<CancelSub
             // For immediate cancellation, we need to use Cancel endpoint
             var cancelledSubscription = await subscriptionService.CancelAsync(
                 command.SubscriptionId,
-                new Stripe.SubscriptionCancelOptions()
+                new SubscriptionCancelOptions()
                 {
-                    
+
                 },
                 null,
                 cancellationToken);

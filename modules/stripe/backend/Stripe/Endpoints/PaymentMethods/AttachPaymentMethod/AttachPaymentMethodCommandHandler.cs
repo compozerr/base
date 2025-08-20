@@ -8,7 +8,7 @@ using Stripe.Services;
 namespace Stripe.Endpoints.PaymentMethods.AttachPaymentMethod;
 
 public class AttachPaymentMethodCommandHandler(
-    IStripeService stripeService,
+    IPaymentMethodsService paymentMethodsService,
     IMemoryCache memoryCache,
     IHttpContextAccessor accessor) : ICommandHandler<AttachPaymentMethodCommand, AttachPaymentMethodResponse>
 {
@@ -22,13 +22,13 @@ public class AttachPaymentMethodCommandHandler(
             throw new UnauthorizedAccessException("User is not authenticated.");
         }
 
-        var userPaymentMethods = await stripeService.GetUserPaymentMethodsAsync(cancellationToken);
+        var userPaymentMethods = await paymentMethodsService.GetUserPaymentMethodsAsync(cancellationToken);
 
         PaymentMethodDto? paymentMethod = null;
 
         if (!userPaymentMethods.Any(p => p.Id == request.PaymentMethodId))
         {
-            paymentMethod = await stripeService.AddPaymentMethodAsync(
+            paymentMethod = await paymentMethodsService.AddPaymentMethodAsync(
                 request.PaymentMethodId,
                 cancellationToken);
         }
@@ -36,7 +36,7 @@ public class AttachPaymentMethodCommandHandler(
         {
             // If already added set it as default
             paymentMethod = userPaymentMethods.Single(p => p.Id == request.PaymentMethodId);
-            await stripeService.SetDefaultPaymentMethodAsync(
+            await paymentMethodsService.SetDefaultPaymentMethodAsync(
                 paymentMethod!.Id,
                 cancellationToken);
         }
@@ -44,7 +44,7 @@ public class AttachPaymentMethodCommandHandler(
         //Remove old payment methods if the user already has one
         await userPaymentMethods.Where(p => p.Id != request.PaymentMethodId)
                                 .ApplyAsync(
-                                    (p) => stripeService.RemovePaymentMethodAsync(p.Id, cancellationToken));
+                                    (p) => paymentMethodsService.RemovePaymentMethodAsync(p.Id, cancellationToken));
 
         memoryCache.Remove($"UserPaymentMethods-{userId}");
         return new AttachPaymentMethodResponse(paymentMethod!);
