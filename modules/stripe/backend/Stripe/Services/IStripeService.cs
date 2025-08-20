@@ -7,26 +7,7 @@ using Microsoft.Build.Evaluation;
 namespace Stripe.Services;
 
 public interface IStripeService
-{
-    Task<List<Endpoints.Subscriptions.GetUserSubscriptions.SubscriptionDto>> GetSubscriptionsForUserAsync(
-        CancellationToken cancellationToken = default);
-        
-    Task<Endpoints.Subscriptions.GetUserSubscriptions.SubscriptionDto> UpdateSubscriptionTierAsync(
-        string subscriptionId,
-        ProjectId projectId,
-        ServerTierId serverTierId,
-        CancellationToken cancellationToken = default);
-
-    Task<Endpoints.Subscriptions.GetUserSubscriptions.SubscriptionDto> CreateSubscriptionTierAsync(
-        ProjectId projectId,
-        ServerTierId serverTierId,
-        CancellationToken cancellationToken = default);
-        
-    Task<Endpoints.Subscriptions.GetUserSubscriptions.SubscriptionDto> CancelSubscriptionAsync(
-        string subscriptionId,
-        bool cancelImmediately,
-        CancellationToken cancellationToken = default);
-        
+{        
     Task<List<PaymentMethodDto>> GetUserPaymentMethodsAsync(
         CancellationToken cancellationToken = default);
         

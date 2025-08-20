@@ -1,7 +1,4 @@
 using Core.MediatR;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Stripe.Endpoints.Subscriptions.CancelSubscription;
 

@@ -3,20 +3,14 @@ using Stripe.Services;
 
 namespace Stripe.Endpoints.Subscriptions.GetUserSubscriptions;
 
-public class GetUserSubscriptionsCommandHandler : ICommandHandler<GetUserSubscriptionsCommand, GetUserSubscriptionsResponse>
+public class GetUserSubscriptionsCommandHandler(ISubscriptionService subscriptionService) : ICommandHandler<GetUserSubscriptionsCommand, GetUserSubscriptionsResponse>
 {
-    private readonly IStripeService _stripeService;
-
-    public GetUserSubscriptionsCommandHandler(IStripeService stripeService)
-    {
-        _stripeService = stripeService;
-    }
 
     public async Task<GetUserSubscriptionsResponse> Handle(
-        GetUserSubscriptionsCommand request, 
+        GetUserSubscriptionsCommand request,
         CancellationToken cancellationToken)
     {
-        var subscriptions = await _stripeService.GetSubscriptionsForUserAsync(
+        var subscriptions = await subscriptionService.GetSubscriptionsForUserAsync(
             cancellationToken);
 
         return new GetUserSubscriptionsResponse(subscriptions);

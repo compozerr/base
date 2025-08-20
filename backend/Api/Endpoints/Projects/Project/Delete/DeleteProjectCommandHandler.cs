@@ -14,7 +14,7 @@ public sealed class DeleteProjectCommandHandler(
     IProjectRepository projectRepository,
     IHostingApiFactory hostingApiFactory,
     ISender sender,
-    IStripeService stripeService,
+    ISubscriptionService subscriptionService,
     IDeploymentRepository deploymentRepository) : ICommandHandler<DeleteProjectCommand, DeleteProjectResponse>
 {
     public async Task<DeleteProjectResponse> Handle(DeleteProjectCommand command, CancellationToken cancellationToken = default)
@@ -46,12 +46,14 @@ public sealed class DeleteProjectCommandHandler(
         return new();
     }
 
-    private async Task CancelSubscriptionAsync(ProjectId projectId, CancellationToken cancellationToken)
+    private async Task CancelSubscriptionAsync(
+        ProjectId projectId,
+        CancellationToken cancellationToken)
     {
         var loggerWithContext = Log.ForContext("ProjectId", projectId);
         loggerWithContext.Information("Cancelling subscription for project {ProjectId}.", projectId);
 
-        var subscriptions = await stripeService.GetSubscriptionsForUserAsync(cancellationToken);
+        var subscriptions = await subscriptionService.GetSubscriptionsForUserAsync(cancellationToken);
 
         if (subscriptions is null || !subscriptions.Any())
         {
