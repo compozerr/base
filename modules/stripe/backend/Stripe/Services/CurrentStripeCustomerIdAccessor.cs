@@ -31,7 +31,7 @@ public sealed class CurrentStripeCustomerIdAccessor(
         await userLock.WaitAsync();
         try
         {
-            var existingCustomerId = await stripeCustomerRepository.GetStripeCustomerIdByInternalId(userId);
+            var existingCustomerId = await stripeCustomerRepository.GetStripeCustomerIdByInternalIdAsync(userId);
             if (existingCustomerId != null)
             {
                 return await EnsureCustomerExistsAsync(existingCustomerId, userId);
