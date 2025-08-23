@@ -30,7 +30,8 @@ public class StripeFeature : IFeature
 
         services.AddScoped<IStripeCustomerRepository, StripeCustomerRepository>();
         services.AddScoped<IPaymentMethodsService, PaymentMethodsService>();
-        services.AddScoped<ISubscriptionService, Services.SubscriptionService>();
+        services.AddScoped<ISubscriptionsService, SubscriptionsService>();
+        services.AddScoped<IInvoicesService, InvoicesService>();
     }
 
     void IFeature.ConfigureApp(WebApplication app)

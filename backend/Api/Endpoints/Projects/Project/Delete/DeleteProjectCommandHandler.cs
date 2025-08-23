@@ -14,7 +14,7 @@ public sealed class DeleteProjectCommandHandler(
     IProjectRepository projectRepository,
     IHostingApiFactory hostingApiFactory,
     ISender sender,
-    ISubscriptionService subscriptionService,
+    ISubscriptionsService subscriptionService,
     IDeploymentRepository deploymentRepository) : ICommandHandler<DeleteProjectCommand, DeleteProjectResponse>
 {
     public async Task<DeleteProjectResponse> Handle(DeleteProjectCommand command, CancellationToken cancellationToken = default)

@@ -3,7 +3,7 @@ using Stripe.Services;
 
 namespace Stripe.Endpoints.Subscriptions.GetUserSubscriptions;
 
-public class GetUserSubscriptionsCommandHandler(ISubscriptionService subscriptionService) : ICommandHandler<GetUserSubscriptionsCommand, GetUserSubscriptionsResponse>
+public class GetUserSubscriptionsCommandHandler(ISubscriptionsService subscriptionService) : ICommandHandler<GetUserSubscriptionsCommand, GetUserSubscriptionsResponse>
 {
 
     public async Task<GetUserSubscriptionsResponse> Handle(

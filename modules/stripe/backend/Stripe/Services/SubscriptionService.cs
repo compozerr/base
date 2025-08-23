@@ -8,7 +8,7 @@ using Microsoft.Extensions.Hosting;
 
 namespace Stripe.Services;
 
-public interface ISubscriptionService
+public interface ISubscriptionsService
 {
     Task<List<SubscriptionDto>> GetSubscriptionsForUserAsync(
             CancellationToken cancellationToken = default);
@@ -30,10 +30,10 @@ public interface ISubscriptionService
         CancellationToken cancellationToken = default);
 }
 
-public sealed class SubscriptionService(
+public sealed class SubscriptionsService(
     IOptions<StripeOptions> options,
     IWebHostEnvironment environment,
-    ICurrentStripeCustomerIdAccessor currentStripeCustomerIdAccessor) : ISubscriptionService
+    ICurrentStripeCustomerIdAccessor currentStripeCustomerIdAccessor) : ISubscriptionsService
 {
     private readonly StripeClient _stripeClient = new StripeClient(options.Value.ApiKey);
 

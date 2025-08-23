@@ -6,7 +6,7 @@ using Stripe.Events;
 namespace Stripe.Endpoints.Subscriptions.UpsertSubscription;
 
 public sealed class UpsertSubscriptionCommandHandler(
-    ISubscriptionService subscriptionService,
+    ISubscriptionsService subscriptionService,
     IPublisher publisher) : ICommandHandler<UpsertSubscriptionCommand, UpsertSubscriptionResponse>
 {
     public async Task<UpsertSubscriptionResponse> Handle(UpsertSubscriptionCommand command, CancellationToken cancellationToken = default)
