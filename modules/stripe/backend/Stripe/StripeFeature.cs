@@ -30,6 +30,8 @@ public class StripeFeature : IFeature
         services.AddScoped<ICurrentStripeCustomerIdAccessor, CurrentStripeCustomerIdAccessor>();
 
         services.AddScoped<IStripeCustomerRepository, StripeCustomerRepository>();
+        services.AddScoped<IPaymentMethodsService, PaymentMethodsService>();
+        services.AddScoped<ISubscriptionService, Services.SubscriptionService>();
     }
 
     void IFeature.ConfigureApp(WebApplication app)
@@ -40,7 +42,7 @@ public class StripeFeature : IFeature
         StripeConfiguration.ApiKey = stripeOptions.ApiKey;
 
         var context = scope.ServiceProvider.GetRequiredService<StripeDbContext>();
-        
+
         context.Database.Migrate();
     }
 }
