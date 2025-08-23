@@ -25,7 +25,6 @@ public class StripeFeature : IFeature
         });
 
         services.AddRequiredConfigurationOptions<StripeOptions>("Stripe");
-        services.AddScoped<IStripeService, StripeService>();
 
         services.AddScoped<ICurrentStripeCustomerIdAccessor, CurrentStripeCustomerIdAccessor>();
 
