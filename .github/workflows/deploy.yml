@@ -31,3 +31,14 @@ jobs:
         steps:
             - name: Checkout
               uses: actions/checkout@v3
+
+            - name: Deploy to remote server
+              uses: appleboy/ssh-action@v1.0.3
+              with:
+                  host: ${{ secrets.DEPLOY_HOST }}
+                  username: ${{ secrets.DEPLOY_USER }}
+                  key: ${{ secrets.DEPLOY_KEY }}
+                  script: |
+                      cd ${{ secrets.DEPLOY_PATH }}
+                      git pull
+                      npm run serve -- -d
