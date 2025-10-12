@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 using MediatR;
 
-namespace Stripe.Endpoints.PaymentMethods.GetInvoices;
+namespace Stripe.Endpoints.Invoices.GetInvoices;
 
 public static class GetInvoicesRoute
 {

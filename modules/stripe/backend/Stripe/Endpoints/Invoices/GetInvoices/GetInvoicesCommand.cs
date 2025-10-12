@@ -1,6 +1,5 @@
 using Core.MediatR;
 
-namespace Stripe.Endpoints.PaymentMethods.GetInvoices;
+namespace Stripe.Endpoints.Invoices.GetInvoices;
 
-public sealed record GetInvoicesCommand(
-	string Property1) : ICommand<GetInvoicesResponse>;
+public sealed record GetInvoicesCommand : ICommand<GetInvoicesResponse>;

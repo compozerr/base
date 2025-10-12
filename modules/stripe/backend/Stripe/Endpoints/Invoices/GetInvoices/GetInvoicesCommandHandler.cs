@@ -1,14 +1,16 @@
 using Core.MediatR;
 using Stripe.Services;
 
-namespace Stripe.Endpoints.PaymentMethods.GetInvoices;
+namespace Stripe.Endpoints.Invoices.GetInvoices;
 
 public sealed class GetInvoicesCommandHandler(
 	IInvoicesService invoicesService) : ICommandHandler<GetInvoicesCommand, GetInvoicesResponse>
 {
 	public async Task<GetInvoicesResponse> Handle(GetInvoicesCommand command, CancellationToken cancellationToken = default)
 	{
-		// Implementation goes here
-		return new GetInvoicesResponse();
+		var invoices = await invoicesService.GetInvoicesForCurrentCustomerAsync(
+			cancellationToken);
+
+		return new GetInvoicesResponse(invoices);
 	}
 }

@@ -1,9 +1,8 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
-using Stripe.Endpoints.PaymentMethods.GetInvoices;
+using Stripe.Endpoints.Invoices.GetInvoices;
 
-
-namespace Stripe.Endpoints.PaymentMethods;
+namespace Stripe.Endpoints.Invoices;
 
 public static class InvoicesGroup
 {

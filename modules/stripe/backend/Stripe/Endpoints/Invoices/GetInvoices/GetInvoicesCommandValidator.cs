@@ -1,7 +1,7 @@
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Stripe.Endpoints.PaymentMethods.GetInvoices;
+namespace Stripe.Endpoints.Invoices.GetInvoices;
 
 public sealed class GetInvoicesCommandValidator : AbstractValidator<GetInvoicesCommand>
 {

@@ -1,3 +1,6 @@
-namespace Stripe.Endpoints.PaymentMethods.GetInvoices;
+using Stripe.Services;
 
-public sealed record GetInvoicesResponse();
+namespace Stripe.Endpoints.Invoices.GetInvoices;
+
+public sealed record GetInvoicesResponse(
+    List<InvoiceDto> Invoices);

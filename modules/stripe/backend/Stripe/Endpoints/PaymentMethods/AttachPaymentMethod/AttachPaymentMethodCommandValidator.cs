@@ -10,8 +10,6 @@ public sealed class AttachPaymentMethodCommandValidator : AbstractValidator<Atta
     {
         var scope = serviceScopeFactory.CreateScope();
 
-        var stripeService = scope.ServiceProvider.GetRequiredService<IStripeService>();
-
         RuleFor(x => x.PaymentMethodId)
             .NotEmpty()
             .WithMessage("Payment method ID cannot be empty")

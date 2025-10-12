@@ -15,6 +15,7 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as AuthRouteImport } from './../../modules/auth/frontend/src/routes/_auth'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as StripeIndexRouteImport } from './../../modules/stripe/frontend/src/routes/stripe/index'
+import { Route as InvoicesIndexRouteImport } from './../../modules/stripe/frontend/src/routes/invoices/index'
 import { Route as ExampleIndexRouteImport } from './../../modules/template/frontend/src/routes/example/index'
 import { Route as AuthLogoutRouteImport } from './../../modules/auth/frontend/src/routes/_auth/logout'
 import { Route as AuthDashboardRouteImport } from './routes/_auth/_dashboard'
@@ -59,6 +60,11 @@ const IndexRoute = IndexRouteImport.update({
 const StripeIndexRoute = StripeIndexRouteImport.update({
   id: '/stripe/',
   path: '/stripe/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InvoicesIndexRoute = InvoicesIndexRouteImport.update({
+  id: '/invoices/',
+  path: '/invoices/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ExampleIndexRoute = ExampleIndexRouteImport.update({
@@ -158,6 +164,7 @@ export interface FileRoutesByFullPath {
   '/using-module-component': typeof UsingModuleComponentRoute
   '/logout': typeof AuthLogoutRoute
   '/example': typeof ExampleIndexRoute
+  '/invoices': typeof InvoicesIndexRoute
   '/stripe': typeof StripeIndexRoute
   '/dashboard': typeof AuthDashboardDashboardRoute
   '/intro-flow': typeof AuthDashboardIntroFlowRoute
@@ -180,6 +187,7 @@ export interface FileRoutesByTo {
   '/using-module-component': typeof UsingModuleComponentRoute
   '/logout': typeof AuthLogoutRoute
   '/example': typeof ExampleIndexRoute
+  '/invoices': typeof InvoicesIndexRoute
   '/stripe': typeof StripeIndexRoute
   '/dashboard': typeof AuthDashboardDashboardRoute
   '/intro-flow': typeof AuthDashboardIntroFlowRoute
@@ -203,6 +211,7 @@ export interface FileRoutesById {
   '/_auth/_dashboard': typeof AuthDashboardRouteWithChildren
   '/_auth/logout': typeof AuthLogoutRoute
   '/example/': typeof ExampleIndexRoute
+  '/invoices/': typeof InvoicesIndexRoute
   '/stripe/': typeof StripeIndexRoute
   '/_auth/_dashboard/dashboard': typeof AuthDashboardDashboardRoute
   '/_auth/_dashboard/intro-flow': typeof AuthDashboardIntroFlowRoute
@@ -227,6 +236,7 @@ export interface FileRouteTypes {
     | '/using-module-component'
     | '/logout'
     | '/example'
+    | '/invoices'
     | '/stripe'
     | '/dashboard'
     | '/intro-flow'
@@ -249,6 +259,7 @@ export interface FileRouteTypes {
     | '/using-module-component'
     | '/logout'
     | '/example'
+    | '/invoices'
     | '/stripe'
     | '/dashboard'
     | '/intro-flow'
@@ -271,6 +282,7 @@ export interface FileRouteTypes {
     | '/_auth/_dashboard'
     | '/_auth/logout'
     | '/example/'
+    | '/invoices/'
     | '/stripe/'
     | '/_auth/_dashboard/dashboard'
     | '/_auth/_dashboard/intro-flow'
@@ -294,6 +306,7 @@ export interface RootRouteChildren {
   LoginRoute: typeof LoginRoute
   UsingModuleComponentRoute: typeof UsingModuleComponentRoute
   ExampleIndexRoute: typeof ExampleIndexRoute
+  InvoicesIndexRoute: typeof InvoicesIndexRoute
   StripeIndexRoute: typeof StripeIndexRoute
 }
 
@@ -339,6 +352,13 @@ declare module '@tanstack/react-router' {
       path: '/stripe'
       fullPath: '/stripe'
       preLoaderRoute: typeof StripeIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/invoices/': {
+      id: '/invoices/'
+      path: '/invoices'
+      fullPath: '/invoices'
+      preLoaderRoute: typeof InvoicesIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/example/': {
@@ -544,6 +564,7 @@ const rootRouteChildren: RootRouteChildren = {
   LoginRoute: LoginRoute,
   UsingModuleComponentRoute: UsingModuleComponentRoute,
   ExampleIndexRoute: ExampleIndexRoute,
+  InvoicesIndexRoute: InvoicesIndexRoute,
   StripeIndexRoute: StripeIndexRoute,
 }
 export const routeTree = rootRouteImport
