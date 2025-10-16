@@ -19,6 +19,7 @@ public class ApiDbContext(
     public DbSet<Server> Servers => Set<Server>();
     public DbSet<Secret> Secrets => Set<Secret>();
     public DbSet<Domain> Domains => Set<Domain>();
+    public DbSet<ProjectService> ProjectServices => Set<ProjectService>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -26,6 +27,7 @@ public class ApiDbContext(
 
         modelBuilder.ApplyConfiguration(new DomainConfiguration());
         modelBuilder.ApplyConfiguration(new ProjectConfiguration());
+        modelBuilder.ApplyConfiguration(new ProjectServiceConfiguration());
 
         modelBuilder.Entity<Server>()
             .HasOne(s => s.Secret)

@@ -1,6 +1,8 @@
+using Api.Data;
 using Api.Data.Repositories;
 using Auth.Services;
 using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 
 namespace Api.Endpoints.Projects.Domains.Add;
 
@@ -13,6 +15,7 @@ public sealed class AddDomainCommandValidator : AbstractValidator<AddDomainComma
         var domainRepository = scope.ServiceProvider.GetRequiredService<IDomainRepository>();
         var projectRepository = scope.ServiceProvider.GetRequiredService<IProjectRepository>();
         var currentUserAccessor = scope.ServiceProvider.GetRequiredService<ICurrentUserAccessor>();
+        var context = scope.ServiceProvider.GetRequiredService<ApiDbContext>();
 
         RuleFor(x => x.Domain)
             .NotEmpty()
@@ -46,9 +49,14 @@ public sealed class AddDomainCommandValidator : AbstractValidator<AddDomainComma
             })
             .WithMessage("Domain already exists");
 
-        //TODO: This should be its own entity
         RuleFor(x => x.ServiceName)
-            .Must(x => x == "Frontend" || x == "Backend")
-            .WithMessage("Service name must be either 'Frontend' or 'Backend'");
+            .MustAsync(async (command, serviceName, cancellationToken) =>
+            {
+                var serviceExists = await context.ProjectServices
+                    .AnyAsync(s => s.ProjectId == command.ProjectId && s.Name == serviceName, cancellationToken);
+
+                return serviceExists;
+            })
+            .WithMessage("Service does not exist for this project");
     }
 }

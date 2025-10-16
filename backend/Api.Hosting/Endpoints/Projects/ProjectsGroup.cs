@@ -1,6 +1,7 @@
 using Api.Hosting.Endpoints.Projects.ProjectDomains;
 using Api.Hosting.Endpoints.Projects.ProjectEnvironment;
 using Api.Hosting.Endpoints.Projects.ProjectState;
+using Api.Hosting.Endpoints.Projects.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 
@@ -17,6 +18,7 @@ public static class ProjectsGroup
         group.AddProjectDomainsGroup();
         group.AddProjectEnvironmentGroup();
         group.AddProjectStateRoute();
+        group.AddReportServicesRoute();
 
         return group;
     }

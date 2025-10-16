@@ -12,9 +12,8 @@ import {
 import { Separator } from '@/components/ui/separator'
 import { TabsContent } from '@/components/ui/tabs'
 import { createFileRoute, useRouter } from '@tanstack/react-router'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import { z } from "zod"
-import { SystemType, SystemTypes } from '../../../../../../lib/system-type'
 
 import VerifyDnsDialog from './!components/verify-dns-dialog'
 import AreYouSureDialog from '@/components/are-you-sure-dialog'
@@ -32,15 +31,13 @@ export const Route = createFileRoute(
   '/_auth/_dashboard/projects/$projectId/settings/domains',
 )({
   component: DomainsSettingsTab,
-  loader: ({ params: { projectId } }) => {
-    return api.v1.getProjectsProjectIdDomains.prefetchQuery({ parameters: { path: { projectId } } });
+  loader: async ({ params: { projectId } }) => {
+    await Promise.all([
+      api.v1.getProjectsProjectIdDomains.prefetchQuery({ parameters: { path: { projectId } } }),
+      api.v1.getProjectsProjectIdServices.prefetchQuery({ parameters: { path: { projectId } } })
+    ]);
   }
 })
-
-const addDomainSchema = z.object({
-  domain: z.string().min(4).max(255).regex(/^[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,}$/, 'Invalid domain name').transform((val) => val.trim()),
-  serviceName: z.enum(SystemTypes)
-});
 
 function DomainsSettingsTab() {
   const { projectId } = Route.useParams();
@@ -49,6 +46,24 @@ function DomainsSettingsTab() {
       projectId
     }
   });
+
+  const { data: servicesData } = api.v1.getProjectsProjectIdServices.useQuery({
+    path: {
+      projectId
+    }
+  });
+
+  const availableServices = useMemo(() =>
+    servicesData?.services?.map(s => s.name).filter((name): name is string => !!name) ?? [],
+    [servicesData]
+  );
+
+  const addDomainSchema = useMemo(() => z.object({
+    domain: z.string().min(4).max(255).regex(/^[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,}$/, 'Invalid domain name').transform((val) => val.trim()),
+    serviceName: availableServices.length > 0
+      ? z.enum(availableServices as [string, ...string[]])
+      : z.string()
+  }), [availableServices]);
 
   const [deleteDomainId, setDeleteDomainId] = useState<string | null>(null);
 
@@ -130,7 +145,7 @@ function DomainsSettingsTab() {
   const addDomainForm = useAppForm({
     defaultValues: {
       domain: '',
-      serviceName: "Frontend" satisfies SystemType
+      serviceName: availableServices[0] ?? ''
     },
     validators: {
       onChange: addDomainSchema
@@ -231,7 +246,7 @@ function DomainsSettingsTab() {
                   <field.TextField className='w-full' placeholder='example.com' />
                 )} />
                 <addDomainForm.AppField name="serviceName" children={(field) => (
-                  <field.SelectField className='w-[250px]' values={SystemTypes} />
+                  <field.SelectField className='w-[250px]' values={availableServices} />
                 )} />
               </section>
               <addDomainForm.Subscribe

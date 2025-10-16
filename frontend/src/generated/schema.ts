@@ -1043,6 +1043,47 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/hosting/projects/{projectId}/services": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    projectId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["GetServicesRequest"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["GetServicesResponse"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/mail/send": {
         parameters: {
             query?: never;
@@ -1722,6 +1763,68 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/projects/{projectId}/services": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    projectId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["GetProjectServicesResponse"];
+                    };
+                };
+            };
+        };
+        put: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    projectId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["UpsertProjectServicesRequest"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["UpsertProjectServicesResponse"];
+                    };
+                };
+            };
+        };
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/servers": {
         parameters: {
             query?: never;
@@ -2355,6 +2458,9 @@ export interface components {
             serverTier?: string | null;
             primaryDomain?: string | null;
         };
+        GetProjectServicesResponse: {
+            services?: components["schemas"]["ProjectServiceDto"][] | null;
+        };
         GetProjectsResponse: {
             /** Format: int32 */
             totalProjectsCount?: number;
@@ -2365,6 +2471,13 @@ export interface components {
             page?: number;
             /** Format: int32 */
             pageSize?: number;
+        };
+        GetServicesRequest: {
+            services?: components["schemas"]["ServicePortInfo"][] | null;
+        };
+        GetServicesResponse: {
+            /** Format: int32 */
+            servicesUpdated?: number;
         };
         GetTiersResponse: {
             tiers?: components["schemas"]["ServerTier"][] | null;
@@ -2457,6 +2570,11 @@ export interface components {
         };
         /** Format: uuid */
         ProjectId: string;
+        ProjectServiceDto: {
+            name?: string | null;
+            port?: string | null;
+            isSystem?: boolean;
+        };
         /** @enum {string} */
         ProjectState: "Unknown" | "Running" | "Starting" | "Stopped" | "Deleting";
         ProjectStateRequest: {
@@ -2496,6 +2614,14 @@ export interface components {
         };
         ServerTierId: {
             value?: string | null;
+        };
+        ServiceInfo: {
+            name?: string | null;
+            port?: string | null;
+        };
+        ServicePortInfo: {
+            name?: string | null;
+            port?: string | null;
         };
         SetDefaultInstallationRequest: {
             installationId?: string | null;
@@ -2547,6 +2673,13 @@ export interface components {
         };
         UpsertProjectEnvironmentVariablesRequest: {
             variables?: components["schemas"]["ProjectEnvironmentVariableDto"][] | null;
+        };
+        UpsertProjectServicesRequest: {
+            services?: components["schemas"]["ServiceInfo"][] | null;
+        };
+        UpsertProjectServicesResponse: {
+            /** Format: int32 */
+            servicesUpdated?: number;
         };
         UpsertSubscriptionRequest: {
             /** Format: uuid */
