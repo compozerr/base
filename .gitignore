@@ -15,3 +15,5 @@ flyio.generated.json
 
 *.DotSettings.user
 **/.idea
+
+settings.local.json
