@@ -6,7 +6,7 @@ namespace Stripe.Endpoints.Invoices.GetInvoices;
 
 public static class GetInvoicesRoute
 {
-	public const string Route = ""; // Set your route path here
+	public const string Route = "";
 
 	public static RouteHandlerBuilder AddGetInvoicesRoute(this IEndpointRouteBuilder app)
 	{
