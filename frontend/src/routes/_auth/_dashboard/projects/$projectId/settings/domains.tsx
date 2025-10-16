@@ -130,7 +130,7 @@ function DomainsSettingsTab() {
   const addDomainForm = useAppForm({
     defaultValues: {
       domain: '',
-      serviceName: "Frontend" as SystemType
+      serviceName: "Frontend" satisfies SystemType
     },
     validators: {
       onChange: addDomainSchema
