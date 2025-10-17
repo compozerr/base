@@ -34,6 +34,7 @@ public class ApiDataFeature : IFeature
         services.AddScoped<ILocationRepository, LocationRepository>();
         services.AddScoped<IDomainRepository, DomainRepository>();
         services.AddScoped<IModuleRepository, ModuleRepository>();
+        services.AddScoped<IProjectServiceRepository, ProjectServiceRepository>();
     }
 
     void IFeature.ConfigureApp(WebApplication app)

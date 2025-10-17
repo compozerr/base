@@ -1,4 +1,3 @@
 namespace Api.Hosting.Endpoints.Projects.Services;
 
-public sealed record ReportServicesResponse(
-    int ServicesUpdated);
+public sealed record ReportServicesResponse;
