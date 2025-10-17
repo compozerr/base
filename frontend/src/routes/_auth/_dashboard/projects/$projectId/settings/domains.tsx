@@ -12,7 +12,7 @@ import {
 import { Separator } from '@/components/ui/separator'
 import { TabsContent } from '@/components/ui/tabs'
 import { createFileRoute, useRouter } from '@tanstack/react-router'
-import { useEffect, useState, useMemo, useCallback } from 'react'
+import { useEffect, useState, useMemo, useCallback, useRef } from 'react'
 import { z } from "zod"
 
 import VerifyDnsDialog from './!components/verify-dns-dialog'
@@ -179,16 +179,24 @@ function DomainsSettingsTab() {
     }
   });
 
+  const prevServiceNameRef = useRef<string>('');
+
   // Update protocol when service name changes
   useEffect(() => {
     const currentServiceName = addDomainForm.store.state.values.serviceName;
-    const guessedProtocol = guessProtocol(currentServiceName);
 
-    // Only update if protocol field hasn't been touched
-    if (!addDomainForm.store.state.fieldMeta.protocol?.isTouched) {
-      addDomainForm.setFieldValue('protocol', guessedProtocol);
+    // Only proceed if service name actually changed
+    if (prevServiceNameRef.current !== currentServiceName) {
+      prevServiceNameRef.current = currentServiceName;
+
+      const guessedProtocol = guessProtocol(currentServiceName);
+
+      // Only update if protocol field hasn't been touched
+      if (!addDomainForm.store.state.fieldMeta.protocol?.isTouched) {
+        addDomainForm.setFieldValue('protocol', guessedProtocol);
+      }
     }
-  }, [addDomainForm.store.state.values.serviceName, guessProtocol]);
+  });
 
   return (
     <TabsContent value="domains" className="space-y-4 mt-6">
