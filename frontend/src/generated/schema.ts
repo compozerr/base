@@ -1063,7 +1063,7 @@ export interface paths {
             };
             requestBody: {
                 content: {
-                    "application/json": components["schemas"]["GetServicesRequest"];
+                    "application/json": components["schemas"]["ReportServicesRequest"];
                 };
             };
             responses: {
@@ -1073,7 +1073,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": components["schemas"]["GetServicesResponse"];
+                        "application/json": components["schemas"]["ReportServicesResponse"];
                     };
                 };
             };
@@ -1792,32 +1792,7 @@ export interface paths {
                 };
             };
         };
-        put: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    projectId: string;
-                };
-                cookie?: never;
-            };
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["UpsertProjectServicesRequest"];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["UpsertProjectServicesResponse"];
-                    };
-                };
-            };
-        };
+        put?: never;
         post?: never;
         delete?: never;
         options?: never;
@@ -2291,6 +2266,7 @@ export interface components {
         AddDomainRequest: {
             domain?: string | null;
             serviceName?: string | null;
+            protocol?: string | null;
         };
         AddDomainResponse: {
             domainId?: string | null;
@@ -2381,6 +2357,7 @@ export interface components {
         DomainDto: {
             serviceName?: string | null;
             port?: string | null;
+            protocol?: string | null;
             value?: string | null;
         };
         ForkModuleRequest: {
@@ -2471,13 +2448,6 @@ export interface components {
             page?: number;
             /** Format: int32 */
             pageSize?: number;
-        };
-        GetServicesRequest: {
-            services?: components["schemas"]["ServicePortInfo"][] | null;
-        };
-        GetServicesResponse: {
-            /** Format: int32 */
-            servicesUpdated?: number;
         };
         GetTiersResponse: {
             tiers?: components["schemas"]["ServerTier"][] | null;
@@ -2573,6 +2543,7 @@ export interface components {
         ProjectServiceDto: {
             name?: string | null;
             port?: string | null;
+            protocol?: string | null;
             isSystem?: boolean;
         };
         /** @enum {string} */
@@ -2588,6 +2559,13 @@ export interface components {
         Provider: 1;
         RemovePaymentMethodResponse: {
             success?: boolean;
+        };
+        ReportServicesRequest: {
+            services?: components["schemas"]["ServicePortInfo"][] | null;
+        };
+        ReportServicesResponse: {
+            /** Format: int32 */
+            servicesUpdated?: number;
         };
         RepositoryDto: {
             ownedByInstallationId?: string | null;
@@ -2615,13 +2593,10 @@ export interface components {
         ServerTierId: {
             value?: string | null;
         };
-        ServiceInfo: {
-            name?: string | null;
-            port?: string | null;
-        };
         ServicePortInfo: {
             name?: string | null;
             port?: string | null;
+            protocol?: string | null;
         };
         SetDefaultInstallationRequest: {
             installationId?: string | null;
@@ -2673,13 +2648,6 @@ export interface components {
         };
         UpsertProjectEnvironmentVariablesRequest: {
             variables?: components["schemas"]["ProjectEnvironmentVariableDto"][] | null;
-        };
-        UpsertProjectServicesRequest: {
-            services?: components["schemas"]["ServiceInfo"][] | null;
-        };
-        UpsertProjectServicesResponse: {
-            /** Format: int32 */
-            servicesUpdated?: number;
         };
         UpsertSubscriptionRequest: {
             /** Format: uuid */

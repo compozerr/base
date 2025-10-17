@@ -6,6 +6,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is a modular monorepo combining a .NET 9.0 backend with a React + TypeScript frontend. The architecture uses a feature-based module system where each module can contribute both backend functionality and frontend routes/components.
 
+**Related Repository**: There is a separate hosting repository at `/Users/milo/milodev/gits/hosting` that manages the deployment infrastructure. This repository contains:
+- Node.js/TypeScript services that run on hosting servers
+- Docker Compose management for deployed projects
+- Port detection and service discovery
+- Traefik dynamic configuration for HTTP and TCP routing
+- Deployment orchestration and monitoring
+
 ## Prerequisites
 
 - Node.js >= 18

@@ -15,6 +15,7 @@ public sealed class ReportServicesCommandHandler(ApiDbContext context)
     {
         var project = await context.Projects
             .Include(p => p.ProjectServices)
+            .Include(p => p.Domains)
             .FirstOrDefaultAsync(p => p.Id == command.ProjectId, cancellationToken);
 
         if (project is null)
@@ -22,6 +23,10 @@ public sealed class ReportServicesCommandHandler(ApiDbContext context)
 
         var existingServices = project.ProjectServices?.ToDictionary(s => s.Name, s => s)
             ?? new Dictionary<string, ProjectService>();
+
+        // Create a map of port -> old service name for detecting name changes
+        var portToServiceName = project.ProjectServices?.ToDictionary(s => s.Port, s => s.Name)
+            ?? new Dictionary<string, string>();
 
         var servicesUpdated = 0;
 
@@ -48,18 +53,53 @@ public sealed class ReportServicesCommandHandler(ApiDbContext context)
             }
             else
             {
-                // Add new service
-                var newService = new ProjectService
+                // Check if this port was used by a different service name
+                if (portToServiceName.TryGetValue(serviceInfo.Port, out var oldServiceName))
                 {
-                    ProjectId = command.ProjectId,
-                    Name = serviceInfo.Name,
-                    Port = serviceInfo.Port,
-                    Protocol = serviceInfo.Protocol,
-                    IsSystem = SystemServices.Contains(serviceInfo.Name)
-                };
+                    // Port exists but with a different name - rename the service
+                    var serviceToRename = existingServices[oldServiceName];
 
-                context.ProjectServices.Add(newService);
-                servicesUpdated++;
+                    // Update domains that use the old service name on this port
+                    var domainsToUpdate = project.Domains?
+                        .Where(d => d.ServiceName == oldServiceName && d.Port == serviceInfo.Port)
+                        .ToList();
+
+                    if (domainsToUpdate != null)
+                    {
+                        foreach (var domain in domainsToUpdate)
+                        {
+                            domain.ServiceName = serviceInfo.Name;
+                        }
+                    }
+
+                    // Remove old service and add new one
+                    context.ProjectServices.Remove(serviceToRename);
+                    context.ProjectServices.Add(new ProjectService
+                    {
+                        ProjectId = command.ProjectId,
+                        Name = serviceInfo.Name,
+                        Port = serviceInfo.Port,
+                        Protocol = serviceInfo.Protocol,
+                        IsSystem = SystemServices.Contains(serviceInfo.Name)
+                    });
+
+                    servicesUpdated++;
+                }
+                else
+                {
+                    // Add new service
+                    var newService = new ProjectService
+                    {
+                        ProjectId = command.ProjectId,
+                        Name = serviceInfo.Name,
+                        Port = serviceInfo.Port,
+                        Protocol = serviceInfo.Protocol,
+                        IsSystem = SystemServices.Contains(serviceInfo.Name)
+                    };
+
+                    context.ProjectServices.Add(newService);
+                    servicesUpdated++;
+                }
             }
         }
 

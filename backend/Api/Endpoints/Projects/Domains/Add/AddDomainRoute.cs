@@ -5,7 +5,8 @@ namespace Api.Endpoints.Projects.Domains.Add;
 
 public sealed record AddDomainRequest(
     string Domain,
-    string ServiceName);
+    string ServiceName,
+    string Protocol);
 
 public static class AddDomainRoute
 {
@@ -24,5 +25,6 @@ public static class AddDomainRoute
             new AddDomainCommand(
                 projectId,
                 request.Domain,
-                request.ServiceName));
+                request.ServiceName,
+                request.Protocol));
 }

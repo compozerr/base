@@ -9571,124 +9571,6 @@ export interface V1Service {
             error: GetProjectsProjectIdServicesError;
         };
     };
-    putProjectsProjectIdServices: {
-        /**/
-        getMutationKey(parameters: PutProjectsProjectIdServicesParameters | void): ServiceOperationMutationKey<PutProjectsProjectIdServicesSchema, PutProjectsProjectIdServicesParameters>;
-        /**
-         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
-         * Handles loading state, optimistic updates, and error handling.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
-         * @example Mutation with predefined parameters, e.g., for updating
-         * ```ts
-         * const { mutate, isPending } = qraft.v1Service.putProjectsProjectIdServices.useMutation({
-         *     path: {
-         *         projectId: projectId
-         *     }
-         * })
-         * mutate(body);
-         * ```
-         * @example Mutation without predefined parameters, e.g., for creating
-         * ```ts
-         * const { mutate, isPending } = qraft.v1Service.putProjectsProjectIdServices.useMutation()
-         * mutate({
-         *     body: bodyPayload,
-         *     path: {
-         *         projectId: projectId
-         *     }
-         * });
-         * ```
-         */
-        useMutation<TVariables extends PutProjectsProjectIdServicesBody, TContext = unknown>(parameters: PutProjectsProjectIdServicesParameters, options?: ServiceOperationUseMutationOptions<PutProjectsProjectIdServicesSchema, PutProjectsProjectIdServicesData, PutProjectsProjectIdServicesParameters, TVariables, PutProjectsProjectIdServicesError, TContext>): UseMutationResult<PutProjectsProjectIdServicesData, PutProjectsProjectIdServicesError | Error, AreAllOptional<TVariables> extends true ? TVariables | void : TVariables, TContext>;
-        /**
-         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
-         * Handles loading state, optimistic updates, and error handling.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
-         * @example Mutation with predefined parameters, e.g., for updating
-         * ```ts
-         * const { mutate, isPending } = qraft.v1Service.putProjectsProjectIdServices.useMutation({
-         *     path: {
-         *         projectId: projectId
-         *     }
-         * })
-         * mutate(body);
-         * ```
-         * @example Mutation without predefined parameters, e.g., for creating
-         * ```ts
-         * const { mutate, isPending } = qraft.v1Service.putProjectsProjectIdServices.useMutation()
-         * mutate({
-         *     body: bodyPayload,
-         *     path: {
-         *         projectId: projectId
-         *     }
-         * });
-         * ```
-         */
-        useMutation<TVariables extends MutationVariables<PutProjectsProjectIdServicesBody, PutProjectsProjectIdServicesParameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<PutProjectsProjectIdServicesSchema, PutProjectsProjectIdServicesData, PutProjectsProjectIdServicesParameters, TVariables, PutProjectsProjectIdServicesError, TContext>): UseMutationResult<PutProjectsProjectIdServicesData, PutProjectsProjectIdServicesError | Error, TVariables, TContext>;
-        /**
-         * Returns the count of currently in-progress mutations.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
-         * @example Check how many mutations are currently in progress for the specified service method.
-         * ```ts
-         * const putProjectsProjectIdServicesTotal = qraft.v1Service.putProjectsProjectIdServices.useIsMutating()
-         * ```
-         * @example Check how many mutations are currently in progress with the specified parameters.
-         * ```ts
-         * const putProjectsProjectIdServicesTotal = qraft.v1Service.putProjectsProjectIdServices.useIsMutating({
-         *     parameters: {
-         *         path: {
-         *             projectId: projectId
-         *         }
-         *     }
-         * })
-         * ```
-         */
-        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<PutProjectsProjectIdServicesBody, PutProjectsProjectIdServicesData, PutProjectsProjectIdServicesParameters, PutProjectsProjectIdServicesError, TContext> | MutationFiltersByMutationKey<PutProjectsProjectIdServicesSchema, PutProjectsProjectIdServicesBody, PutProjectsProjectIdServicesData, PutProjectsProjectIdServicesParameters, PutProjectsProjectIdServicesError, TContext>): number;
-        /**/
-        isMutating<TContext>(filters?: MutationFiltersByParameters<PutProjectsProjectIdServicesBody, PutProjectsProjectIdServicesData, PutProjectsProjectIdServicesParameters, PutProjectsProjectIdServicesError, TContext> | MutationFiltersByMutationKey<PutProjectsProjectIdServicesSchema, PutProjectsProjectIdServicesBody, PutProjectsProjectIdServicesData, PutProjectsProjectIdServicesParameters, PutProjectsProjectIdServicesError, TContext>): number;
-        /**/
-        (options: ServiceOperationMutationFnOptions<PutProjectsProjectIdServicesBody, PutProjectsProjectIdServicesParameters>, client?: (schema: PutProjectsProjectIdServicesSchema, options: ServiceOperationMutationFnOptions<PutProjectsProjectIdServicesBody, PutProjectsProjectIdServicesParameters>) => Promise<RequestFnResponse<PutProjectsProjectIdServicesData, PutProjectsProjectIdServicesError>>): Promise<RequestFnResponse<PutProjectsProjectIdServicesData, PutProjectsProjectIdServicesError>>;
-        /**
-         * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
-         * @example Get all variables of all running mutations.
-         * ```ts
-         * const putProjectsProjectIdServicesPendingMutationVariables = qraft.v1Service.putProjectsProjectIdServices.useMutationState({
-         *     filters: {
-         *         status: "pending"
-         *     },
-         *     select: mutation => mutation.state.variables
-         * })
-         * ```
-         * @example Get all data for specific mutations via the `parameters`.
-         * ```ts
-         * const putProjectsProjectIdServicesMutationData = qraft.v1Service.putProjectsProjectIdServices.useMutationState({
-         *     filters: {
-         *         parameters: {
-         *             path: {
-         *                 projectId: projectId
-         *             }
-         *         }
-         *     },
-         *     select: mutation => mutation.state.data
-         * })
-         * ```
-         */
-        useMutationState<TContext = unknown, TResult = MutationState<PutProjectsProjectIdServicesData, PutProjectsProjectIdServicesError, MutationVariables<PutProjectsProjectIdServicesBody, PutProjectsProjectIdServicesParameters>, TContext>>(options?: {
-            filters?: MutationFiltersByParameters<PutProjectsProjectIdServicesBody, PutProjectsProjectIdServicesData, PutProjectsProjectIdServicesParameters, PutProjectsProjectIdServicesError, TContext> | MutationFiltersByMutationKey<PutProjectsProjectIdServicesSchema, PutProjectsProjectIdServicesBody, PutProjectsProjectIdServicesData, PutProjectsProjectIdServicesParameters, PutProjectsProjectIdServicesError, TContext>;
-            select?: (mutation: Mutation<PutProjectsProjectIdServicesData, PutProjectsProjectIdServicesError, MutationVariables<PutProjectsProjectIdServicesBody, PutProjectsProjectIdServicesParameters>, TContext>) => TResult;
-        }): Array<TResult>;
-        schema: PutProjectsProjectIdServicesSchema;
-        types: {
-            parameters: PutProjectsProjectIdServicesParameters;
-            data: PutProjectsProjectIdServicesData;
-            error: PutProjectsProjectIdServicesError;
-            body: PutProjectsProjectIdServicesBody;
-        };
-    };
     postServers: {
         /**/
         getMutationKey(parameters: PostServersParameters | void): ServiceOperationMutationKey<PostServersSchema, PostServersParameters>;
@@ -11778,15 +11660,6 @@ export const v1Service: {
             url: "/v1/projects/{projectId}/services";
         };
     };
-    putProjectsProjectIdServices: {
-        schema: {
-            method: "put";
-            url: "/v1/projects/{projectId}/services";
-            mediaType: [
-                "application/json"
-            ];
-        };
-    };
     postServers: {
         schema: {
             method: "post";
@@ -12188,13 +12061,6 @@ export const v1Service: {
         schema: {
             method: "get",
             url: "/v1/projects/{projectId}/services"
-        }
-    },
-    putProjectsProjectIdServices: {
-        schema: {
-            method: "put",
-            url: "/v1/projects/{projectId}/services",
-            mediaType: ["application/json"]
         }
     },
     postServers: {
@@ -12689,17 +12555,6 @@ type GetProjectsProjectIdServicesSchema = {
 type GetProjectsProjectIdServicesParameters = paths["/v1/projects/{projectId}/services"]["get"]["parameters"];
 type GetProjectsProjectIdServicesData = paths["/v1/projects/{projectId}/services"]["get"]["responses"]["200"]["content"]["application/json"];
 type GetProjectsProjectIdServicesError = unknown;
-type PutProjectsProjectIdServicesSchema = {
-    method: "put";
-    url: "/v1/projects/{projectId}/services";
-    mediaType: [
-        "application/json"
-    ];
-};
-type PutProjectsProjectIdServicesParameters = paths["/v1/projects/{projectId}/services"]["put"]["parameters"];
-type PutProjectsProjectIdServicesData = paths["/v1/projects/{projectId}/services"]["put"]["responses"]["200"]["content"]["application/json"];
-type PutProjectsProjectIdServicesError = unknown;
-type PutProjectsProjectIdServicesBody = NonNullable<paths["/v1/projects/{projectId}/services"]["put"]["requestBody"]>["content"]["application/json"];
 type PostServersSchema = {
     method: "post";
     url: "/v1/servers";

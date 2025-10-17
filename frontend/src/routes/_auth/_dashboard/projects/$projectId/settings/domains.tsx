@@ -58,11 +58,34 @@ function DomainsSettingsTab() {
     [servicesData]
   );
 
+  // Map service names to their ports for protocol guessing
+  const servicePortMap = useMemo(() => {
+    const map = new Map<string, string>();
+    servicesData?.services?.forEach(s => {
+      if (s.name && s.port) {
+        map.set(s.name, s.port);
+      }
+    });
+    return map;
+  }, [servicesData]);
+
+  // Guess protocol based on common port mappings
+  const guessProtocol = (serviceName: string): 'HTTP' | 'TCP' => {
+    const port = servicePortMap.get(serviceName);
+    if (!port) return 'HTTP';
+
+    const portNum = parseInt(port);
+    const tcpPorts = [5432, 3306, 6379, 27017, 1433, 5433, 3389, 22, 21, 25, 110, 143, 587];
+
+    return tcpPorts.includes(portNum) ? 'TCP' : 'HTTP';
+  };
+
   const addDomainSchema = useMemo(() => z.object({
     domain: z.string().min(4).max(255).regex(/^[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,}$/, 'Invalid domain name').transform((val) => val.trim()),
     serviceName: availableServices.length > 0
       ? z.enum(availableServices as [string, ...string[]])
-      : z.string()
+      : z.string(),
+    protocol: z.enum(['HTTP', 'TCP']).transform((val) => val.toLowerCase()),
   }), [availableServices]);
 
   const [deleteDomainId, setDeleteDomainId] = useState<string | null>(null);
@@ -145,7 +168,8 @@ function DomainsSettingsTab() {
   const addDomainForm = useAppForm({
     defaultValues: {
       domain: '',
-      serviceName: availableServices[0] ?? ''
+      serviceName: availableServices[0] ?? '',
+      protocol: guessProtocol(availableServices[0] ?? '') as 'HTTP' | 'TCP'
     },
     validators: {
       onChange: addDomainSchema
@@ -154,6 +178,23 @@ function DomainsSettingsTab() {
       await mutateAsync(value);
     }
   });
+
+  // Update protocol when service changes
+  useEffect(() => {
+    const unsubscribe = addDomainForm.store.subscribe(() => {
+      const state = addDomainForm.store.state;
+      const serviceName = state.values.serviceName;
+      const currentProtocol = state.values.protocol;
+      const guessedProtocol = guessProtocol(serviceName);
+
+      // Only update if the protocol hasn't been manually changed
+      if (currentProtocol !== guessedProtocol && !state.fieldMeta.protocol?.isTouched) {
+        addDomainForm.setFieldValue('protocol', guessedProtocol);
+      }
+    });
+
+    return unsubscribe;
+  }, [addDomainForm, guessProtocol]);
 
   return (
     <TabsContent value="domains" className="space-y-4 mt-6">
@@ -196,13 +237,13 @@ function DomainsSettingsTab() {
                             )}
                             {
                               d.value && (
-                                  <CopyButton
-                                    value={d.value}
-                                    className="gap-4"
-                                    iconClassName='text-primary'
-                                  >
-                                    <span className="text-sm">Copy Domain</span>
-                                  </CopyButton>
+                                <CopyButton
+                                  value={d.value}
+                                  className="gap-4"
+                                  iconClassName='text-primary'
+                                >
+                                  <span className="text-sm">Copy Domain</span>
+                                </CopyButton>
                               )
                             }
                             {
@@ -246,7 +287,10 @@ function DomainsSettingsTab() {
                   <field.TextField className='w-full' placeholder='example.com' />
                 )} />
                 <addDomainForm.AppField name="serviceName" children={(field) => (
-                  <field.SelectField className='w-[250px]' values={availableServices} />
+                  <field.SelectField className='w-[200px]' values={availableServices} />
+                )} />
+                <addDomainForm.AppField name="protocol" children={(field) => (
+                  <field.SelectField className='w-[120px]' values={['HTTP', 'TCP']} />
                 )} />
               </section>
               <addDomainForm.Subscribe

@@ -1,5 +1,4 @@
 using Api.Endpoints.Projects.Services.Get;
-using Api.Endpoints.Projects.Services.Upsert;
 
 namespace Api.Endpoints.Projects.Services;
 
@@ -12,7 +11,6 @@ public static class ServicesGroup
         var group = app.MapGroup(Route);
 
         group.AddGetProjectServicesRoute();
-        group.AddUpsertProjectServicesRoute();
 
         return group;
     }
