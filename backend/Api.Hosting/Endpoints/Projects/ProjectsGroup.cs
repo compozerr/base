@@ -1,3 +1,4 @@
+using Api.Hosting.Endpoints.Projects.GetAll;
 using Api.Hosting.Endpoints.Projects.ProjectDomains;
 using Api.Hosting.Endpoints.Projects.ProjectEnvironment;
 using Api.Hosting.Endpoints.Projects.ProjectState;
@@ -15,6 +16,7 @@ public static class ProjectsGroup
     {
         var group = app.MapGroup(Route);
 
+        group.AddGetAllProjectsRoute();
         group.AddProjectDomainsGroup();
         group.AddProjectEnvironmentGroup();
         group.AddProjectStateRoute();
