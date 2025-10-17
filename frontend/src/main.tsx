@@ -46,7 +46,7 @@ const App = () => {
     <AuthProvider>
       <QueryClientProvider client={queryClient}>
         <InnerApp />
-        <Toaster/>
+        <Toaster />
       </QueryClientProvider>
     </AuthProvider>
   );
