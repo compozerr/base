@@ -216,6 +216,11 @@ function DomainsSettingsTab() {
                       </p>
                     </div>
                     <section className='flex items-center gap-2'>
+                      {d.protocol && (
+                        <Badge variant="secondary" className="uppercase">
+                          {d.protocol}
+                        </Badge>
+                      )}
                       {selectedSetPrimaryDomainId === d.domainId && <Badge variant="secondary">Setting as primary...</Badge>}
                       {d.isPrimary && <Badge variant="outline">Primary</Badge>}
                       {d.isVerified
