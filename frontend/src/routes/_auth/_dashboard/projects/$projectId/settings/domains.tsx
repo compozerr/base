@@ -179,7 +179,7 @@ function DomainsSettingsTab() {
     }
   });
 
-  const prevServiceNameRef = useRef<string>('');
+  const prevServiceNameRef = useRef<string>(addDomainForm.store.state.values.serviceName);
 
   // Update protocol when service name changes
   useEffect(() => {
@@ -187,12 +187,15 @@ function DomainsSettingsTab() {
 
     // Only proceed if service name actually changed
     if (prevServiceNameRef.current !== currentServiceName) {
+      console.log('Service name changed from', prevServiceNameRef.current, 'to', currentServiceName);
       prevServiceNameRef.current = currentServiceName;
 
       const guessedProtocol = guessProtocol(currentServiceName);
+      console.log('Guessed protocol:', guessedProtocol, 'isTouched:', addDomainForm.store.state.fieldMeta.protocol?.isTouched);
 
       // Only update if protocol field hasn't been touched
       if (!addDomainForm.store.state.fieldMeta.protocol?.isTouched) {
+        console.log('Setting protocol to:', guessedProtocol);
         addDomainForm.setFieldValue('protocol', guessedProtocol);
       }
     }
