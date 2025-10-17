@@ -2399,6 +2399,7 @@ export interface components {
             /** Format: uuid */
             domainId?: string;
             serviceName?: string | null;
+            protocol?: string | null;
             value?: string | null;
             isInternal?: boolean;
             isVerified?: boolean;
