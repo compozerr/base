@@ -15,7 +15,7 @@ public sealed class GetProjectServicesCommandHandler(ApiDbContext context)
             .Where(s => s.ProjectId == command.ProjectId)
             .OrderByDescending(s => s.IsSystem)
             .ThenBy(s => s.Name)
-            .Select(s => new ProjectServiceDto(s.Name, s.Port, s.IsSystem))
+            .Select(s => new ProjectServiceDto(s.Name, s.Port, s.Protocol, s.IsSystem))
             .ToListAsync(cancellationToken);
 
         return new GetProjectServicesResponse(services);

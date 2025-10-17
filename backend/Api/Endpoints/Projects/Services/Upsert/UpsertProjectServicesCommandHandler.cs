@@ -23,37 +23,30 @@ public sealed class UpsertProjectServicesCommandHandler(ApiDbContext context)
         var existingServices = project.ProjectServices?.ToDictionary(s => s.Name, s => s)
             ?? new Dictionary<string, ProjectService>();
 
-        var servicesUpdated = 0;
-
         foreach (var serviceInfo in command.Services)
         {
             if (existingServices.TryGetValue(serviceInfo.Name, out var existingService))
             {
-                // Update port if changed
-                if (existingService.Port != serviceInfo.Port)
-                {
-                    existingService.Port = serviceInfo.Port;
-                    servicesUpdated++;
-                }
+                existingService.Port = serviceInfo.Port;
+                existingService.Protocol = serviceInfo.Protocol;
             }
             else
             {
-                // Add new service
                 var newService = new ProjectService
                 {
                     ProjectId = command.ProjectId,
                     Name = serviceInfo.Name,
                     Port = serviceInfo.Port,
+                    Protocol = serviceInfo.Protocol,
                     IsSystem = SystemServices.Contains(serviceInfo.Name)
                 };
 
                 context.ProjectServices.Add(newService);
-                servicesUpdated++;
             }
         }
 
         await context.SaveChangesAsync(cancellationToken);
 
-        return new UpsertProjectServicesResponse(servicesUpdated);
+        return new UpsertProjectServicesResponse();
     }
 }

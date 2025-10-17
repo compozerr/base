@@ -3,6 +3,7 @@ namespace Api.Endpoints.Projects.Services.Get;
 public sealed record ProjectServiceDto(
     string Name,
     string Port,
+    string Protocol,
     bool IsSystem);
 
 public sealed record GetProjectServicesResponse(

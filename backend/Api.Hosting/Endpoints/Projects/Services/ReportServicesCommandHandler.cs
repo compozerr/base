@@ -29,10 +29,20 @@ public sealed class ReportServicesCommandHandler(ApiDbContext context)
         {
             if (existingServices.TryGetValue(serviceInfo.Name, out var existingService))
             {
-                // Update port if changed
+                // Update port or protocol if changed
+                var updated = false;
                 if (existingService.Port != serviceInfo.Port)
                 {
                     existingService.Port = serviceInfo.Port;
+                    updated = true;
+                }
+                if (existingService.Protocol != serviceInfo.Protocol)
+                {
+                    existingService.Protocol = serviceInfo.Protocol;
+                    updated = true;
+                }
+                if (updated)
+                {
                     servicesUpdated++;
                 }
             }
@@ -44,6 +54,7 @@ public sealed class ReportServicesCommandHandler(ApiDbContext context)
                     ProjectId = command.ProjectId,
                     Name = serviceInfo.Name,
                     Port = serviceInfo.Port,
+                    Protocol = serviceInfo.Protocol,
                     IsSystem = SystemServices.Contains(serviceInfo.Name)
                 };
 
