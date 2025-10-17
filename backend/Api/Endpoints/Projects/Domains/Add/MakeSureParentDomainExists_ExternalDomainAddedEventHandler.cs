@@ -13,8 +13,8 @@ public sealed class MakeSureParentDomainExists_ExternalDomainAddedEventHandler(
     private readonly Serilog.ILogger _logger = Log.Logger.ForContext<MakeSureParentDomainExists_ExternalDomainAddedEventHandler>();
     public async Task Handle(ExternalDomainAddedEvent notification, CancellationToken cancellationToken)
     {
-        var currentDomains = await domainRepository.GetAllAsync(
-           x => x.Where(x => x.ProjectId == notification.Entity.ProjectId),
+        var currentDomains = await domainRepository.GetFilteredAsync(
+           x => x.ProjectId == notification.Entity.ProjectId,
            cancellationToken);
 
         if (
