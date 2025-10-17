@@ -30,8 +30,16 @@ public sealed class MakeSureParentDomainExists_ExternalDomainAddedEventHandler(
                 notification.Entity.Protocol);
 
             var projectService = await projectServiceRepository.GetSingleAsync(
-                x => x.Port == notification.Entity.Port && x.Protocol == notification.Entity.Protocol && x.ProjectId == notification.Entity.ProjectId,
+                x => x.Port == notification.Entity.Port && x.Name == notification.Entity.ServiceName && x.ProjectId == notification.Entity.ProjectId,
                 cancellationToken) ?? throw new InvalidOperationException("Project service not found");
+
+            if (projectService.Protocol != notification.Entity.Protocol)
+            {
+                projectService.Protocol = notification.Entity.Protocol;
+                await projectServiceRepository.UpdateAsync(
+                    projectService,
+                    cancellationToken);
+            }
 
             var project = await projectRepository.GetByIdAsync(
                 notification.Entity.ProjectId,
