@@ -10,6 +10,7 @@ public sealed class MakeSureParentDomainExists_ExternalDomainAddedEventHandler(
     IProjectRepository projectRepository,
     IProjectServiceRepository projectServiceRepository) : IDomainEventHandler<ExternalDomainAddedEvent>
 {
+    private readonly Serilog.ILogger _logger = Log.Logger.ForContext<MakeSureParentDomainExists_ExternalDomainAddedEventHandler>();
     public async Task Handle(ExternalDomainAddedEvent notification, CancellationToken cancellationToken)
     {
         var currentDomains = await domainRepository.GetAllAsync(
@@ -20,6 +21,11 @@ public sealed class MakeSureParentDomainExists_ExternalDomainAddedEventHandler(
             !currentDomains.Any(
                 x => x.Port == notification.Entity.Port && x.Protocol == notification.Entity.Protocol))
         {
+            _logger.Information("No parent domain found for project {ProjectId} on port {Port} and protocol {Protocol}. Creating one.",
+                notification.Entity.ProjectId,
+                notification.Entity.Port,
+                notification.Entity.Protocol);
+
             var projectService = await projectServiceRepository.GetSingleAsync(
                 x => x.Port == notification.Entity.Port && x.Protocol == notification.Entity.Protocol && x.ProjectId == notification.Entity.ProjectId,
                 cancellationToken) ?? throw new InvalidOperationException("Project service not found");
@@ -35,6 +41,13 @@ public sealed class MakeSureParentDomainExists_ExternalDomainAddedEventHandler(
             await domainRepository.AddAsync(
                 parentDomain,
                 cancellationToken);
+        }
+        else
+        {
+            _logger.Information("Parent domain already exists for project {ProjectId} on port {Port} and protocol {Protocol}. No action needed.",
+                notification.Entity.ProjectId,
+                notification.Entity.Port,
+                notification.Entity.Protocol);
         }
     }
 
