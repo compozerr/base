@@ -25,6 +25,7 @@ public sealed class AddDomainCommandHandler(
             ProjectId = command.ProjectId,
             ServiceName = command.ServiceName,
             Port = service.Port,
+            Protocol = service.Protocol,
             Value = command.Domain,
             IsVerified = false,
         };

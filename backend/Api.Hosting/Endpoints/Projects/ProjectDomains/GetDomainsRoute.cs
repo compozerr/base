@@ -11,6 +11,7 @@ namespace Api.Hosting.Endpoints.Projects.ProjectDomains;
 public sealed record DomainDto(
     string ServiceName,
     string Port,
+    string Protocol,
     string Value);
 
 public static class GetDomainsRoute
@@ -50,6 +51,7 @@ public static class GetDomainsRoute
                     new DomainDto(
                         domain.ServiceName,
                         domain.Port,
+                        domain.Protocol,
                         value));
             }
         }

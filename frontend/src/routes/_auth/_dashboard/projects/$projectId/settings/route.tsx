@@ -25,12 +25,15 @@ function RouteComponent() {
             </div>
 
             <Tabs className="w-full" value={tabRoute}>
-                <TabsList className="grid w-full grid-cols-1 md:grid-cols-3 lg:w-auto h-full">
+                <TabsList className="grid w-full grid-cols-1 md:grid-cols-4 lg:w-auto h-full">
                     <TabsTrigger value="general" asChild>
                         <Link to="/projects/$projectId/settings/general" params={params} viewTransition>General</Link>
                     </TabsTrigger>
                     <TabsTrigger value="environment" asChild>
                         <Link to="/projects/$projectId/settings/environment" params={params} viewTransition>Environment Variables</Link>
+                    </TabsTrigger>
+                    <TabsTrigger value="services" asChild>
+                        <Link to="/projects/$projectId/settings/services" params={params} viewTransition>Services</Link>
                     </TabsTrigger>
                     <TabsTrigger value="domains" asChild>
                         <Link to="/projects/$projectId/settings/domains" params={params} viewTransition>Domains</Link>

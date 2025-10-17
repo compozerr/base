@@ -34,6 +34,7 @@ public sealed class AllocateDomains_ProjectCreatedEventHandler : IDomainEventHan
             ProjectId = projectId,
             ServiceName = "Frontend",
             Port = "1234",
+            Protocol = "http",
             IsPrimary = true,
             Subdomain = $"{hash}",
         };
@@ -44,6 +45,7 @@ public sealed class AllocateDomains_ProjectCreatedEventHandler : IDomainEventHan
             ProjectId = projectId,
             ServiceName = "Backend",
             Port = "1235",
+            Protocol = "http",
             Subdomain = $"api.{hash}",
         };
 }
