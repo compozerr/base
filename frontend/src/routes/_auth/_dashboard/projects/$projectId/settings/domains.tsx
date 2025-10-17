@@ -179,27 +179,14 @@ function DomainsSettingsTab() {
     }
   });
 
-  // Subscribe to serviceName changes
-  const serviceName = addDomainForm.useStore((state) => state.values.serviceName);
+  const [serviceName, setServiceName] = useState("");
   const prevServiceNameRef = useRef<string>(serviceName);
 
-  // Update protocol when service name changes
   useEffect(() => {
-    console.log('Effect running, current:', serviceName, 'prev:', prevServiceNameRef.current);
-
-    // Only proceed if service name actually changed
     if (prevServiceNameRef.current !== serviceName) {
-      console.log('Service name changed from', prevServiceNameRef.current, 'to', serviceName);
       prevServiceNameRef.current = serviceName;
-
       const guessedProtocol = guessProtocol(serviceName);
-      console.log('Guessed protocol:', guessedProtocol, 'isTouched:', addDomainForm.store.state.fieldMeta.protocol?.isTouched);
-
-      // Only update if protocol field hasn't been touched
-      if (!addDomainForm.store.state.fieldMeta.protocol?.isTouched) {
-        console.log('Setting protocol to:', guessedProtocol);
-        addDomainForm.setFieldValue('protocol', guessedProtocol);
-      }
+      addDomainForm.setFieldValue('protocol', guessedProtocol, { dontUpdateMeta: true });
     }
   }, [serviceName, guessProtocol, addDomainForm]);
 
@@ -298,7 +285,9 @@ function DomainsSettingsTab() {
                 <addDomainForm.AppField name='domain' children={(field) => (
                   <field.TextField className='w-full' placeholder='example.com' />
                 )} />
-                <addDomainForm.AppField name="serviceName" children={(field) => (
+                <addDomainForm.AppField name="serviceName" listeners={{
+                  onChange: (field) => setServiceName(field.value)
+                }} children={(field) => (
                   <field.SelectField className='w-[200px]' values={availableServices} />
                 )} />
                 <addDomainForm.AppField name="protocol" children={(field) => (
