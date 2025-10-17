@@ -54,6 +54,7 @@ public sealed class ReportServicesCommandHandler(
                     {
                         domain.ServiceName = serviceInfo.Name;
                         domain.Port = serviceInfo.Port;
+                        domain.Protocol = serviceInfo.Protocol;
                     }
                 }
 

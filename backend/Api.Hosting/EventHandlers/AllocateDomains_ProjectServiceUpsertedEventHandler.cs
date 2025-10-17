@@ -8,7 +8,7 @@ using Database.Extensions;
 
 namespace Api.Hosting.EventHandlers;
 
-public sealed class AllocateInternalDomains_ProjectServiceUpsertedEventHandler(
+public sealed class AllocateDomains_ProjectServiceUpsertedEventHandler(
     IProjectRepository projectRepository) : IDomainEventHandler<ProjectServiceUpsertedEvent>
 {
     public async Task Handle(ProjectServiceUpsertedEvent notification, CancellationToken cancellationToken)
