@@ -179,22 +179,16 @@ function DomainsSettingsTab() {
     }
   });
 
-  // Update protocol when service changes
+  // Update protocol when service name changes
   useEffect(() => {
-    const unsubscribe = addDomainForm.store.subscribe(() => {
-      const state = addDomainForm.store.state;
-      const serviceName = state.values.serviceName;
-      const currentProtocol = state.values.protocol;
-      const guessedProtocol = guessProtocol(serviceName);
+    const currentServiceName = addDomainForm.store.state.values.serviceName;
+    const guessedProtocol = guessProtocol(currentServiceName);
 
-      // Only update if the protocol hasn't been manually changed
-      if (currentProtocol !== guessedProtocol && !state.fieldMeta.protocol?.isTouched) {
-        addDomainForm.setFieldValue('protocol', guessedProtocol);
-      }
-    });
-
-    return unsubscribe;
-  }, [addDomainForm, guessProtocol]);
+    // Only update if protocol field hasn't been touched
+    if (!addDomainForm.store.state.fieldMeta.protocol?.isTouched) {
+      addDomainForm.setFieldValue('protocol', guessedProtocol);
+    }
+  }, [addDomainForm.store.state.values.serviceName, guessProtocol]);
 
   return (
     <TabsContent value="domains" className="space-y-4 mt-6">
