@@ -16,7 +16,7 @@ public sealed class GetDomainsCommandHandler(
 
         var domainDtos = new List<GetDomainDto>();
 
-        foreach (var domain in project.Domains!)
+        foreach (var domain in project.Domains!.Where(x => x.DeletedAtUtc == null))
         {
             var value = domain switch
             {
