@@ -7,7 +7,7 @@ const AuthContext = React.createContext<AuthContextType | null>(null)
 
 const key = 'auth.user'
 
-async function fetchAndSetUser(setUser: React.Dispatch<React.SetStateAction<AuthUserType | null>>, onUnauthorized?: () => void) {
+async function fetchAndSetUser(setUser: React.Dispatch<React.SetStateAction<AuthUserType | null>>) {
     let response = null;
 
     try {
@@ -17,7 +17,6 @@ async function fetchAndSetUser(setUser: React.Dispatch<React.SetStateAction<Auth
     if (!response) {
         setUser(null);
         setStoredUser(null);
-        onUnauthorized?.();
         return;
     }
 
@@ -71,11 +70,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }, [])
 
     React.useEffect(() => {
-        fetchAndSetUser(setUser, () => {
-            api.v1.getAuthLogout.fetchQuery().finally(() => {
-                window.location.reload();
-            })
-        })
+        fetchAndSetUser(setUser);
     }, [])
 
     return (
