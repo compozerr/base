@@ -19,7 +19,10 @@ public sealed class MakeSureParentDomainExists_ExternalDomainAddedEventHandler(
 
         if (
             !currentDomains.Any(
-                x => x.Port == notification.Entity.Port && x.Protocol == notification.Entity.Protocol))
+                x =>
+                x.Id != notification.Entity.Id &&
+                x.Port == notification.Entity.Port &&
+                x.Protocol == notification.Entity.Protocol))
         {
             _logger.Information("No parent domain found for project {ProjectId} on port {Port} and protocol {Protocol}. Creating one.",
                 notification.Entity.ProjectId,
