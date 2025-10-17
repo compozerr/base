@@ -78,7 +78,7 @@ function DomainsSettingsTab() {
     const tcpPorts = [5432, 3306, 6379, 27017, 1433, 5433, 3389, 22, 21, 25, 110, 143, 587];
 
     return tcpPorts.includes(portNum) ? 'TCP' : 'HTTP';
-  };
+  }, [servicePortMap]);
 
   const addDomainSchema = useMemo(() => z.object({
     domain: z.string().min(4).max(255).regex(/^[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,}$/, 'Invalid domain name').transform((val) => val.trim()),
