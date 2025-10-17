@@ -12,7 +12,7 @@ import {
 import { Separator } from '@/components/ui/separator'
 import { TabsContent } from '@/components/ui/tabs'
 import { createFileRoute, useRouter } from '@tanstack/react-router'
-import { useEffect, useState, useMemo } from 'react'
+import { useEffect, useState, useMemo, useCallback } from 'react'
 import { z } from "zod"
 
 import VerifyDnsDialog from './!components/verify-dns-dialog'
@@ -70,7 +70,7 @@ function DomainsSettingsTab() {
   }, [servicesData]);
 
   // Guess protocol based on common port mappings
-  const guessProtocol = (serviceName: string): 'HTTP' | 'TCP' => {
+  const guessProtocol = useCallback((serviceName: string): 'HTTP' | 'TCP' => {
     const port = servicePortMap.get(serviceName);
     if (!port) return 'HTTP';
 
