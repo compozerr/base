@@ -1,10 +1,13 @@
 using Api.Data;
+using Api.Data.Repositories;
 using Core.MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace Api.Hosting.Endpoints.Projects.Services;
 
-public sealed class ReportServicesCommandHandler(ApiDbContext context)
+public sealed class ReportServicesCommandHandler(
+    ApiDbContext context,
+    IProjectRepository projectRepository)
     : ICommandHandler<ReportServicesCommand, ReportServicesResponse>
 {
     private static readonly string[] SystemServices = ["Frontend", "Backend"];
@@ -13,10 +16,7 @@ public sealed class ReportServicesCommandHandler(ApiDbContext context)
         ReportServicesCommand command,
         CancellationToken cancellationToken)
     {
-        var project = await context.Projects
-            .Include(p => p.ProjectServices)
-            .Include(p => p.Domains)
-            .FirstOrDefaultAsync(p => p.Id == command.ProjectId, cancellationToken);
+        var project = await projectRepository.GetSingleAsync(x => x.Id == command.ProjectId, i => i.Include(x => x.ProjectServices).Include(x => x.Domains), cancellationToken);
 
         if (project is null)
             throw new InvalidOperationException($"Project with ID {command.ProjectId} not found");
@@ -34,22 +34,8 @@ public sealed class ReportServicesCommandHandler(ApiDbContext context)
         {
             if (existingServices.TryGetValue(serviceInfo.Name, out var existingService))
             {
-                // Update port or protocol if changed
-                var updated = false;
-                if (existingService.Port != serviceInfo.Port)
-                {
-                    existingService.Port = serviceInfo.Port;
-                    updated = true;
-                }
-                if (existingService.Protocol != serviceInfo.Protocol)
-                {
-                    existingService.Protocol = serviceInfo.Protocol;
-                    updated = true;
-                }
-                if (updated)
-                {
-                    servicesUpdated++;
-                }
+                existingService.Port = serviceInfo.Port;
+                existingService.Protocol = serviceInfo.Protocol;
             }
             else
             {
@@ -69,6 +55,7 @@ public sealed class ReportServicesCommandHandler(ApiDbContext context)
                         foreach (var domain in domainsToUpdate)
                         {
                             domain.ServiceName = serviceInfo.Name;
+                            domain.Port = serviceInfo.Port;
                         }
                     }
 
