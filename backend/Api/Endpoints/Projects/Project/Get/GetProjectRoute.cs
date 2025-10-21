@@ -27,14 +27,16 @@ public static class GetProjectRoute
             throw new ArgumentException("Project not found");
         }
 
+        var projectDomains = project.Domains?.Where(x => x.DeletedAtUtc == null).ToList();
+
         return new GetProjectResponse(
             project.Id.Value,
             project.Name,
             RepoUri.Parse(project.RepoUri).RepoName,
             project.State,
-            [.. project.Domains?.Select(x => x.GetValue) ?? []],
+            [.. projectDomains?.Select(x => x.GetValue) ?? []],
             project.ServerTierId.Value,
-            project.Domains?.GetPrimary()?.GetValue
+            projectDomains?.GetPrimary()?.GetValue
         );
     }
 }
