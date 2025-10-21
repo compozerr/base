@@ -5,6 +5,7 @@
     "dockerComposeFile": "docker-compose.yml",
     "end": "docker-compose down",
     "readyMessage": "Now listening on: http://[::]",
+    "startupTimeoutMs": 15000,
     "backend": {
         "defaultEnvProperties": {
             "OTEL_EXPORTER_OTLP_ENDPOINT": "http://openTelemetry:18889"
