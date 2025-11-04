@@ -32,6 +32,26 @@ jobs:
             - name: Checkout
               uses: actions/checkout@v3
 
+            - name: Validate secrets
+              run: |
+                  if [ -z "${{ secrets.DEPLOY_HOST }}" ]; then
+                      echo "Error: DEPLOY_HOST secret is not set"
+                      exit 1
+                  fi
+                  if [ -z "${{ secrets.DEPLOY_USER }}" ]; then
+                      echo "Error: DEPLOY_USER secret is not set"
+                      exit 1
+                  fi
+                  if [ -z "${{ secrets.DEPLOY_KEY }}" ]; then
+                      echo "Error: DEPLOY_KEY secret is not set"
+                      exit 1
+                  fi
+                  if [ -z "${{ secrets.DEPLOY_PATH }}" ]; then
+                      echo "Error: DEPLOY_PATH secret is not set"
+                      exit 1
+                  fi
+                  echo "All deployment secrets are configured"
+
             - name: Deploy to remote server
               uses: appleboy/ssh-action@v1.0.3
               with:
