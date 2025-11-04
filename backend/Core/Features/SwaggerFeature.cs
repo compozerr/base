@@ -18,6 +18,9 @@ public class SwaggerFeature : IFeature
 
             c.SchemaFilter<IdBaseSchemaFilter>();
 
+            // Use fully-qualified names for schema Ids to avoid collisions between same-named DTOs
+            c.CustomSchemaIds(type => type.FullName);
+
             c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
             {
                 Name = "Authorization",
