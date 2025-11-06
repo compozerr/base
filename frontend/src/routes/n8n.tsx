@@ -5,6 +5,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button'
 import LoadingButton from '@/components/loading-button'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 import { useAuth } from '@/hooks/use-dynamic-auth'
 import { Badge } from '@/components/ui/badge'
 import { Check, Zap, Shield, DollarSign, Rocket, Globe } from 'lucide-react'
@@ -17,29 +19,30 @@ export const Route = createFileRoute('/n8n')({
 function N8nLandingPage() {
   const navigate = useNavigate()
   const { user, login, isAuthenticated } = useAuth()
-  const { data: projectsData, isLoading: isProjectsLoading } = api.v1.getProjects.useQuery(
-    {},
-    { enabled: isAuthenticated }
-  )
+  const { data: locationsData } = api.v1.getLocations.useQuery({}, { enabled: isAuthenticated })
+  const { data: tiersData } = api.v1.getServerTiers.useQuery({}, { enabled: isAuthenticated })
 
-  const projects = useMemo(() => projectsData?.projects ?? [], [projectsData])
-  const validProjects = useMemo(() => projects.filter(p => p.id?.value), [projects])
-  const [selectedProjectId, setSelectedProjectId] = useState<string | undefined>(() => validProjects[0]?.id?.value)
+  const locations = useMemo(() => locationsData ?? [], [locationsData])
+  const tiers = useMemo(() => tiersData ?? [], [tiersData])
+
+  const [projectName, setProjectName] = useState('My n8n Workflow')
+  const [selectedLocation, setSelectedLocation] = useState<string>('')
+  const [selectedTier, setSelectedTier] = useState<string>('')
+
+  // Set defaults when data loads
+  useEffect(() => {
+    if (locations.length > 0 && !selectedLocation) {
+      setSelectedLocation(locations[0].isoCountryCode ?? '')
+    }
+  }, [locations, selectedLocation])
 
   useEffect(() => {
-    if (validProjects.length > 0 && !selectedProjectId) {
-      const firstValidId = validProjects[0]?.id?.value
-      if (firstValidId) {
-        setSelectedProjectId(firstValidId)
-      }
+    if (tiers.length > 0 && !selectedTier) {
+      setSelectedTier(tiers[0].id ?? '')
     }
-  }, [validProjects, selectedProjectId])
+  }, [tiers, selectedTier])
 
-  const { mutateAsync: createService, isPending } = api.v1.postHostingProjectsProjectIdServices.useMutation({
-    path: {
-      projectId: selectedProjectId as string,
-    },
-  })
+  const { mutateAsync: createProject, isPending } = api.v1.postCliProjects.useMutation()
 
   const handleGetStarted = () => {
     // Store intent in sessionStorage for after login redirect
@@ -49,28 +52,25 @@ function N8nLandingPage() {
   }
 
   const handleCreate = async () => {
-    if (!selectedProjectId) return
+    if (!projectName || !selectedLocation || !selectedTier) return
     try {
-      await createService({
-        services: [
-          {
-            name: 'n8n',
-            port: '5678',
-            protocol: 'http',
-          },
-        ],
-      } as any)
+      const result = await createProject({
+        repoName: projectName,
+        repoUrl: 'https://github.com/compozerr/n8n-template',
+        locationIso: selectedLocation,
+        tier: selectedTier,
+      })
 
-      await Promise.all([
-        api.v1.getProjectsProjectIdServices.invalidateQueries({
-          parameters: { path: { projectId: selectedProjectId } },
-        }),
-        api.v1.getProjects.invalidateQueries({}),
-      ])
+      if (result.projectId) {
+        // Invalidate queries to refresh data
+        await api.v1.getProjects.invalidateQueries({})
 
-      navigate({ to: '/_auth/_dashboard/projects/$projectId', params: { projectId: selectedProjectId } })
+        // Navigate to the new project
+        navigate({ to: '/_auth/_dashboard/projects/$projectId', params: { projectId: result.projectId } })
+      }
     } catch (err) {
       // Errors will be surfaced by the request layer/UI
+      console.error('Failed to create n8n project:', err)
     }
   }
 
@@ -232,61 +232,98 @@ function N8nLandingPage() {
     )
   }
 
-  // Authenticated user - show service creation UI
+  // Authenticated user - show project creation UI
   return (
     <div className="container mx-auto max-w-4xl py-10">
       <div className="mb-8 text-center">
         <Badge className="mb-4 bg-red-600 text-white">Black Friday Special - $5/mo</Badge>
-        <h1 className="text-4xl font-bold mb-2">Deploy n8n Service</h1>
+        <h1 className="text-4xl font-bold mb-2">Create n8n Project</h1>
         <p className="text-muted-foreground">
-          Add n8n to your project with one click. Runs on port 5678 with HTTP protocol.
+          Launch your own n8n automation workflow instance in seconds.
         </p>
       </div>
 
       <Card>
         <CardHeader>
-          <CardTitle>Select Project</CardTitle>
+          <CardTitle>Project Configuration</CardTitle>
           <CardDescription>
-            Choose which project to add the n8n service to.
+            Configure your n8n project settings. Your instance will be deployed automatically.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="space-y-2">
-            <label className="text-sm font-medium">Project</label>
-            <div className="max-w-sm">
-              <Select
-                value={selectedProjectId}
-                onValueChange={(v) => setSelectedProjectId(v)}
-                disabled={isProjectsLoading || validProjects.length === 0}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder={isProjectsLoading ? 'Loading projects…' : validProjects.length === 0 ? 'No projects available' : 'Choose a project'} />
-                </SelectTrigger>
-                <SelectContent>
-                  {validProjects.map((p, idx) => (
-                    <SelectItem key={idx} value={p.id!.value!}>
-                      {p.name ?? p.id!.value}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
+            <Label htmlFor="projectName">Project Name</Label>
+            <Input
+              id="projectName"
+              placeholder="My n8n Workflow"
+              value={projectName}
+              onChange={(e) => setProjectName(e.target.value)}
+            />
+            <p className="text-xs text-muted-foreground">
+              Choose a descriptive name for your n8n project
+            </p>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="location">Location</Label>
+            <Select
+              value={selectedLocation}
+              onValueChange={setSelectedLocation}
+              disabled={locations.length === 0}
+            >
+              <SelectTrigger id="location">
+                <SelectValue placeholder={locations.length === 0 ? 'Loading locations...' : 'Choose a location'} />
+              </SelectTrigger>
+              <SelectContent>
+                {locations.map((loc, idx) => (
+                  <SelectItem key={idx} value={loc.isoCountryCode ?? ''}>
+                    {loc.isoCountryCode}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <p className="text-xs text-muted-foreground">
+              Select the server location closest to you
+            </p>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="tier">Server Tier</Label>
+            <Select
+              value={selectedTier}
+              onValueChange={setSelectedTier}
+              disabled={tiers.length === 0}
+            >
+              <SelectTrigger id="tier">
+                <SelectValue placeholder={tiers.length === 0 ? 'Loading tiers...' : 'Choose a tier'} />
+              </SelectTrigger>
+              <SelectContent>
+                {tiers.map((tier, idx) => (
+                  <SelectItem key={idx} value={tier.id ?? ''}>
+                    {tier.id} - ${tier.price}/mo
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <p className="text-xs text-muted-foreground">
+              Select your preferred server tier and pricing
+            </p>
           </div>
 
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
             <Globe className="h-4 w-4" />
-            <span>After creation, assign a custom domain in Project Settings → Domains</span>
+            <span>After creation, manage domains and settings in Project Settings</span>
           </div>
 
           <div>
             <LoadingButton
               isLoading={!!isPending}
-              disabled={!selectedProjectId || isProjectsLoading}
+              disabled={!projectName || !selectedLocation || !selectedTier}
               onClick={handleCreate}
               className="w-full"
             >
               <Rocket className="mr-2 h-4 w-4" />
-              Deploy n8n Service
+              Create n8n Project
             </LoadingButton>
           </div>
         </CardContent>

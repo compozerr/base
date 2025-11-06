@@ -1,3 +1,4 @@
+using Api.Abstractions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -11,5 +12,12 @@ public sealed class ProjectConfiguration : IEntityTypeConfiguration<Project>
             .HasConversion(
                 v => v.Value,
                 v => new ServerTierId(v));
+
+        builder.Property(x => x.Type)
+            .HasConversion(
+                v => v.ToString().ToLower(),
+                v => Enum.Parse<ProjectType>(v, true))
+            .IsRequired()
+            .HasDefaultValue(ProjectType.Compozerr);
     }
 }

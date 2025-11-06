@@ -16,7 +16,7 @@ import { Formatter } from '@/lib/formatter'
 import { ProjectStateFilter } from '@/lib/project-state-filter'
 import { getLink } from '@/links'
 import { createFileRoute, useRouter } from '@tanstack/react-router'
-import { MoreVertical, Plus, Search } from 'lucide-react'
+import { MoreVertical, Plus, Search, Workflow } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
 
 
@@ -146,9 +146,14 @@ function RouteComponent() {
                         </SelectContent>
                     </Select>
                 </div>
-                <Button className="hidden md:flex" onClick={() => open(getLink('addNewService'), '_blank')}>
-                    <Plus className="mr-2 h-4 w-4" /> Add New Service
-                </Button>
+                <div className="flex gap-2">
+                    <Button className="hidden md:flex" variant="outline" onClick={() => router.navigate({ to: '/n8n' })}>
+                        <Workflow className="mr-2 h-4 w-4" /> Create n8n Project
+                    </Button>
+                    <Button className="hidden md:flex" onClick={() => open(getLink('addNewService'), '_blank')}>
+                        <Plus className="mr-2 h-4 w-4" /> Add New Service
+                    </Button>
+                </div>
             </div>
 
             <DataTable onRowClick={(row) => {
@@ -159,8 +164,13 @@ function RouteComponent() {
                     accessorKey: 'name',
                     header: 'Project',
                     cell: ({ row }) => {
+                        const isN8n = row.original.type === 'n8n';
                         return <div className="flex items-center gap-2">
-
+                            {isN8n && (
+                                <div className="flex items-center justify-center w-8 h-8 rounded-md bg-primary/10">
+                                    <Workflow className="h-4 w-4 text-primary" />
+                                </div>
+                            )}
                             <div>
                                 <div className="font-medium">{row.original.name}</div>
                                 <div className="text-xs text-muted-foreground">{row.original.repoName}</div>

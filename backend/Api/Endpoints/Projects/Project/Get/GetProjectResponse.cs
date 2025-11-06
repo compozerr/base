@@ -9,4 +9,5 @@ public sealed record GetProjectResponse(
     ProjectState State,
     List<string> Domains,
     string ServerTier,
-    string? PrimaryDomain);
+    string? PrimaryDomain,
+    string? Type);

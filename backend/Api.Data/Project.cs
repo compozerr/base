@@ -1,3 +1,4 @@
+using Api.Abstractions;
 using Auth.Abstractions;
 
 namespace Api.Data;
@@ -10,6 +11,7 @@ public class Project : BaseEntityWithId<ProjectId>
     public required LocationId LocationId { get; set; }
     public required ProjectState State { get; set; }
     public required ServerTierId ServerTierId { get; set; }
+    public ProjectType Type { get; set; } = ProjectType.Compozerr;
 
     public ServerId? ServerId { get; set; }
     public virtual Server? Server { get; set; }
