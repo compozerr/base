@@ -11,6 +11,7 @@ import { useAuth } from '@/hooks/use-dynamic-auth'
 import { Badge } from '@/components/ui/badge'
 import { Check, Zap, Shield, DollarSign, Rocket, Globe } from 'lucide-react'
 import Navbar from '@/components/navbar'
+import { Price } from '@/lib/price'
 
 export const Route = createFileRoute('/n8n')({
   component: N8nLandingPage,
@@ -18,12 +19,13 @@ export const Route = createFileRoute('/n8n')({
 
 function N8nLandingPage() {
   const navigate = useNavigate()
-  const { user, login, isAuthenticated } = useAuth()
-  const { data: locationsData } = api.v1.getLocations.useQuery({}, { enabled: isAuthenticated })
-  const { data: tiersData } = api.v1.getServerTiers.useQuery({}, { enabled: isAuthenticated })
+  const { isAuthenticated } = useAuth();
+
+  const { data: locationsData } = api.v1.getCliLocations.useQuery(undefined, { enabled: isAuthenticated });
+  const { data: tiersData } = api.v1.getServersTiers.useQuery(undefined, { enabled: isAuthenticated })
 
   const locations = useMemo(() => locationsData ?? [], [locationsData])
-  const tiers = useMemo(() => tiersData ?? [], [tiersData])
+  const tiers = useMemo(() => tiersData?.tiers ?? [], [tiersData])
 
   const [projectName, setProjectName] = useState('My n8n Workflow')
   const [selectedLocation, setSelectedLocation] = useState<string>('')
@@ -32,13 +34,13 @@ function N8nLandingPage() {
   // Set defaults when data loads
   useEffect(() => {
     if (locations.length > 0 && !selectedLocation) {
-      setSelectedLocation(locations[0].isoCountryCode ?? '')
+      setSelectedLocation(locations[0] ?? '')
     }
   }, [locations, selectedLocation])
 
   useEffect(() => {
     if (tiers.length > 0 && !selectedTier) {
-      setSelectedTier(tiers[0].id ?? '')
+      setSelectedTier(tiers[0]?.id?.value ?? '')
     }
   }, [tiers, selectedTier])
 
@@ -55,21 +57,21 @@ function N8nLandingPage() {
     if (!projectName || !selectedLocation || !selectedTier) return
     try {
       const result = await createProject({
-        repoName: projectName,
-        repoUrl: 'https://github.com/compozerr/n8n-template',
-        locationIso: selectedLocation,
-        tier: selectedTier,
+        body: {
+
+          repoName: projectName,
+          repoUrl: 'https://github.com/compozerr/n8n-template',
+          locationIso: selectedLocation,
+          tier: selectedTier,
+        }
       })
 
       if (result.projectId) {
-        // Invalidate queries to refresh data
         await api.v1.getProjects.invalidateQueries({})
 
-        // Navigate to the new project
-        navigate({ to: '/_auth/_dashboard/projects/$projectId', params: { projectId: result.projectId } })
+        navigate({ to: '/projects/$projectId', params: { projectId: result.projectId } })
       }
     } catch (err) {
-      // Errors will be surfaced by the request layer/UI
       console.error('Failed to create n8n project:', err)
     }
   }
@@ -109,7 +111,7 @@ function N8nLandingPage() {
                   <span className="text-red-500">Not on GAFM</span>
                 </h1>
                 <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto">
-                  Self-host your n8n automation workflows with complete control. 
+                  Self-host your n8n automation workflows with complete control.
                   No Google, Amazon, Facebook, or Microsoft lock-in. Just pure, independent hosting.
                 </p>
 
@@ -124,9 +126,9 @@ function N8nLandingPage() {
                   </Badge>
                 </div>
 
-                <Button 
+                <Button
                   onClick={handleGetStarted}
-                  size="lg" 
+                  size="lg"
                   className="bg-white text-black hover:bg-zinc-200 font-semibold text-lg px-8 py-6 h-auto"
                 >
                   <Rocket className="mr-2 h-5 w-5" />
@@ -148,7 +150,7 @@ function N8nLandingPage() {
                   </CardHeader>
                   <CardContent>
                     <p className="text-muted-foreground">
-                      Your data, your rules. No dependency on Big Tech platforms. 
+                      Your data, your rules. No dependency on Big Tech platforms.
                       Complete independence and control over your automation workflows.
                     </p>
                   </CardContent>
@@ -163,7 +165,7 @@ function N8nLandingPage() {
                   </CardHeader>
                   <CardContent>
                     <p className="text-muted-foreground">
-                      Deploy n8n in seconds, not hours. Our automated setup handles 
+                      Deploy n8n in seconds, not hours. Our automated setup handles
                       everything from configuration to domain assignment.
                     </p>
                   </CardContent>
@@ -178,7 +180,7 @@ function N8nLandingPage() {
                   </CardHeader>
                   <CardContent>
                     <p className="text-muted-foreground">
-                      Simple, predictable pricing. No hidden fees, no surprise charges. 
+                      Simple, predictable pricing. No hidden fees, no surprise charges.
                       Just $5/month for your n8n instance during this Black Friday special.
                     </p>
                   </CardContent>
@@ -210,12 +212,12 @@ function N8nLandingPage() {
                 <CardContent className="p-8 text-center space-y-6">
                   <h3 className="text-2xl font-bold">Ready to Take Control?</h3>
                   <p className="text-muted-foreground">
-                    Join thousands of developers who've chosen independence over convenience. 
+                    Join thousands of developers who've chosen independence over convenience.
                     Deploy your n8n instance today and experience the freedom of self-hosted automation.
                   </p>
-                  <Button 
+                  <Button
                     onClick={handleGetStarted}
-                    size="lg" 
+                    size="lg"
                     className="bg-white text-black hover:bg-zinc-200 font-semibold text-lg px-8 py-6 h-auto"
                   >
                     Start Free - No Credit Card Required
@@ -276,8 +278,8 @@ function N8nLandingPage() {
               </SelectTrigger>
               <SelectContent>
                 {locations.map((loc, idx) => (
-                  <SelectItem key={idx} value={loc.isoCountryCode ?? ''}>
-                    {loc.isoCountryCode}
+                  <SelectItem key={idx} value={loc ?? ''}>
+                    {loc}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -299,8 +301,8 @@ function N8nLandingPage() {
               </SelectTrigger>
               <SelectContent>
                 {tiers.map((tier, idx) => (
-                  <SelectItem key={idx} value={tier.id ?? ''}>
-                    {tier.id} - ${tier.price}/mo
+                  <SelectItem key={idx} value={tier.id?.value ?? ''}>
+                    {tier.id?.value} - {Price.formatPrice(tier.price)}/mo
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -351,7 +353,7 @@ function MouseMoveEffect() {
           animation: wave 3s ease-in-out infinite;
         }
       `}</style>
-      <div className="grid gap-6 p-4" style={{ 
+      <div className="grid gap-6 p-4" style={{
         gridTemplateColumns: 'repeat(auto-fit, minmax(6px, 1fr))',
         minHeight: '100vh',
         width: '100vw'
