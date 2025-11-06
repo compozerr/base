@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Routing;
 using Stripe.Endpoints.Subscriptions;
 using Stripe.Endpoints.PaymentMethods;
 using Stripe.Endpoints.Webhooks;
+using Stripe.Endpoints.Invoices;
 
 namespace Stripe.Endpoints;
 
@@ -20,5 +21,6 @@ public class StripeGroup : CarterModule
         app.AddSubscriptionsGroup();
         app.AddPaymentMethodsGroup();
         app.AddWebhooksGroup();
+        app.AddInvoicesGroup();
     }
 }

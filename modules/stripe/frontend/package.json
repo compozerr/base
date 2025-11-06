@@ -9,7 +9,8 @@
         "./stripe-elements-form": "./src/stripe-elements-form.tsx",
         "./stripe-provider": "./src/stripe-provider.tsx",
         "./hooks/use-current-user": "./src/hooks/use-current-user.ts",
-        "./stripe-add-payment-method-banner": "./src/stripe-add-payment-method-banner.tsx"
+        "./stripe-add-payment-method-banner": "./src/stripe-add-payment-method-banner.tsx",
+        "./invoices-list": "./src/invoices-list.tsx"
     },
     "devDependencies": {
         "@repo/config": "*"

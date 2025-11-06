@@ -29,6 +29,7 @@ import { Separator } from '@/components/ui/separator'
 import StripeProvider from '@repo/stripe/stripe-provider'
 import SubscriptionList from '@repo/stripe/subscription-list'
 import PaymentMethods from '@repo/stripe/payment-methods'
+import InvoicesList from '@repo/stripe/invoices-list'
 import { z } from 'zod'
 
 const optionalSearchParamsSchema = z.object({
@@ -287,6 +288,10 @@ function RouteComponent() {
               <Separator className="my-6" />
 
               <SubscriptionList />
+
+              <Separator className="my-6" />
+
+              <InvoicesList />
 
             </StripeProvider>
           </CardContent>
