@@ -13,13 +13,13 @@ jobs:
             - name: Checkout
               uses: actions/checkout@v3
               with:
-                submodules: 'true'
-            
+                  submodules: "true"
+
             - name: Setup .NET
               uses: actions/setup-dotnet@v1
               with:
-                dotnet-version: "9.0.200"
-                    
+                  dotnet-version: "9.0.200"
+
             - name: Create .env file
               run: touch backend/.env
 
@@ -61,5 +61,6 @@ jobs:
                   port: ${{ secrets.DEPLOY_PORT || 22 }}
                   script: |
                       cd ${{ secrets.DEPLOY_PATH }}
-                      git pull
+                      git fetch --tags
+                      git checkout ${{ github.ref_name }}
                       npm run serve -- -d
