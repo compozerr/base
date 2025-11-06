@@ -2453,6 +2453,7 @@ export interface components {
             domains?: string[] | null;
             serverTier?: string | null;
             primaryDomain?: string | null;
+            type?: string | null;
         };
         "Api.Endpoints.Projects.ProjectEnvironment.ChangeAutoDeploy.ChangeAutoDeployRequest": {
             autoDeploy?: boolean;

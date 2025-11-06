@@ -1,6 +1,7 @@
 using Api.Abstractions;
 using Api.Data;
 using Api.Hosting.Services;
+using Cli.Abstractions;
 using Core.Abstractions;
 
 namespace Cli.Endpoints.Projects;

@@ -2,6 +2,7 @@ using Api.Abstractions;
 using Api.Data;
 using Api.Data.Repositories;
 using Auth.Services;
+using Cli.Abstractions;
 using Core.MediatR;
 using Database.Extensions;
 

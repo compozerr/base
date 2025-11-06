@@ -1,6 +1,6 @@
 using Api.Abstractions;
 using Api.Data;
-using Cli.Endpoints.Projects;
+using Cli.Abstractions;
 using Core.Abstractions;
 
 namespace Api.EventHandlers.Projects;

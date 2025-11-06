@@ -1,4 +1,5 @@
 using Api.Data;
+using Cli.Abstractions;
 using Core.Abstractions;
 
 namespace Cli.Endpoints.Projects;
