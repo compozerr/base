@@ -17,28 +17,9 @@ import {
 interface InvoicesListProps {
 }
 
-// Type definitions matching the backend DTOs
-interface Money {
-  amount: number;
-  currency: string;
-}
-
-interface InvoiceLineDto {
-  id: string;
-  amount: Money;
-  description: string;
-}
-
-interface InvoiceDto {
-  id: string;
-  total: Money;
-  lines: InvoiceLineDto[];
-}
-
 export const InvoicesList: React.FC<InvoicesListProps> = () => {
   // Use the API endpoint - will work once OpenAPI schema is regenerated
-  // @ts-expect-error - API method may not be in generated schema yet
-  const { data: invoicesData, isLoading, error } = (api.v1 as any).postStripeInvoices.useQuery({ body: {} });
+  const { data: invoicesData, isLoading, error } = api.v1.getStripeInvoices.useQuery();
 
   const invoices = invoicesData?.invoices || [];
 
@@ -89,20 +70,20 @@ export const InvoicesList: React.FC<InvoicesListProps> = () => {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {invoices.map((invoice: InvoiceDto) => (
+                  {invoices.map((invoice) => (
                     <TableRow key={invoice.id}>
                       <TableCell className="font-mono text-sm">
                         {invoice.id}
                       </TableCell>
                       <TableCell className="font-semibold">
                         {formatCurrency(
-                          invoice.total.amount,
-                          invoice.total.currency
+                          invoice!.total!.amount!,
+                          invoice!.total!.currency!
                         )}
                       </TableCell>
                       <TableCell>
                         <div className="space-y-1">
-                          {invoice.lines.map((line: InvoiceLineDto) => (
+                          {invoice!.lines?.map((line) => (
                             <div
                               key={line.id}
                               className="text-sm flex justify-between gap-4"
@@ -112,8 +93,8 @@ export const InvoicesList: React.FC<InvoicesListProps> = () => {
                               </span>
                               <span className="font-medium whitespace-nowrap">
                                 {formatCurrency(
-                                  line.amount.amount,
-                                  line.amount.currency
+                                  line!.amount!.amount!,
+                                  line!.amount!.currency!
                                 )}
                               </span>
                             </div>

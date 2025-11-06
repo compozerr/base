@@ -16,6 +16,7 @@ import {
 } from '@/components/ui/table'
 import { Skeleton } from '@/components/ui/skeleton'
 import { FileText } from 'lucide-react'
+import { api } from '@/api-client'
 
 export const Route = createFileRoute('/invoices/')({
   component: RouteComponent,
@@ -44,15 +45,7 @@ interface GetInvoicesResponse {
 }
 
 function RouteComponent() {
-  // TODO: Once the OpenAPI schema is regenerated, use:
-  // const { data: invoicesData, isLoading, error } = api.v1.postStripeInvoices.useQuery({ body: {} })
-
-  // Mock data for now - replace with actual API call once backend generates OpenAPI spec
-  const isLoading = false
-  const error = null
-  const invoicesData: GetInvoicesResponse | undefined = {
-    invoices: []
-  }
+  const { data: invoicesData, isLoading, error } = api.v1.getStripeInvoices.useQuery();
 
   const formatCurrency = (amount: number, currency: string) => {
     return new Intl.NumberFormat('en-US', {
@@ -102,20 +95,20 @@ function RouteComponent() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {invoicesData.invoices.map((invoice: InvoiceDto) => (
+                  {invoicesData.invoices.map((invoice) => (
                     <TableRow key={invoice.id}>
                       <TableCell className="font-mono text-sm">
                         {invoice.id}
                       </TableCell>
                       <TableCell className="font-semibold">
                         {formatCurrency(
-                          invoice.total.amount,
-                          invoice.total.currency
+                          invoice.total!.amount!,
+                          invoice.total!.currency!
                         )}
                       </TableCell>
                       <TableCell>
                         <div className="space-y-1">
-                          {invoice.lines.map((line: InvoiceLineDto) => (
+                          {invoice.lines?.map((line) => (
                             <div
                               key={line.id}
                               className="text-sm flex justify-between gap-4"
@@ -125,8 +118,8 @@ function RouteComponent() {
                               </span>
                               <span className="font-medium whitespace-nowrap">
                                 {formatCurrency(
-                                  line.amount.amount,
-                                  line.amount.currency
+                                  line!.amount!.amount!,
+                                  line!.amount!.currency!
                                 )}
                               </span>
                             </div>
