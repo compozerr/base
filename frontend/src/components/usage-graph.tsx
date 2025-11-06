@@ -139,7 +139,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 }
 
 export function UsageGraph({ projectId }: UsageGraphProps) {
-  const [timeRange, setTimeRange] = useState<components["schemas"]["UsageSpan"]>("Day")
+  const [timeRange, setTimeRange] = useState<components["schemas"]["Api.Endpoints.Projects.Usage.Get.UsageSpan"]>("Day")
   const [selectedMetric, setSelectedMetric] = useState<UsagePointType>(UsagePointType.CPU)
 
   const { data: usageData, error: usageError } = api.v1.getProjectsProjectIdUsageSpan.useQuery({
@@ -191,7 +191,7 @@ export function UsageGraph({ projectId }: UsageGraphProps) {
             </div>
           </div>
 
-          <Tabs defaultValue="Day" value={timeRange} onValueChange={(x) => setTimeRange(x as components["schemas"]["UsageSpan"])}>
+          <Tabs defaultValue="Day" value={timeRange} onValueChange={(x) => setTimeRange(x as components["schemas"]["Api.Endpoints.Projects.Usage.Get.UsageSpan"])}>
             <TabsList className="grid w-full grid-cols-5">
               <TabsTrigger value="Day">Day</TabsTrigger>
               <TabsTrigger value="Week">Week</TabsTrigger>
@@ -245,10 +245,10 @@ export function UsageGraph({ projectId }: UsageGraphProps) {
                           isAnimationActive={false}
                         />
                         {selectedMetric === UsagePointType.Ram && (
-                          <ReferenceLine 
-                            y={usageData?.allocatedMemoryGb ?? 0} 
-                            stroke="#ef4444" 
-                            strokeDasharray="5 5" 
+                          <ReferenceLine
+                            y={usageData?.allocatedMemoryGb ?? 0}
+                            stroke="#ef4444"
+                            strokeDasharray="5 5"
                             strokeWidth={2}
                             label={{ value: `Allocated: ${usageData?.allocatedMemoryGb ?? 0}GB`, position: "top", fill: "#ef4444", fontSize: 12 }}
                           />

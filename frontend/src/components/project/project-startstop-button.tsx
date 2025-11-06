@@ -8,7 +8,7 @@ import { getRouteApi } from '@tanstack/react-router';
 
 interface Props extends ButtonProps {
     projectId: string,
-    state: components["schemas"]["ProjectState"]
+    state: components["schemas"]["Api.Data.ProjectState"]
 }
 
 const StartStopProjectButton: React.FC<Props> = (props) => {

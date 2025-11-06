@@ -8,7 +8,7 @@ export enum ProjectState {
     Deleting = "Deleting"
 }
 
-export function getProjectStateFromNumber(stateNum?: components["schemas"]["ProjectState"]): ProjectState {
+export function getProjectStateFromNumber(stateNum?: components["schemas"]["Api.Data.ProjectState"]): ProjectState {
     switch (stateNum) {
         case "Unknown": return ProjectState.Unknown;
         case "Running": return ProjectState.Running;
