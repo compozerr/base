@@ -1,6 +1,7 @@
 using Api.Abstractions;
 using Api.Data.Repositories;
 using Auth.Services;
+using Cli.Abstractions;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using Stripe.Extensions;
@@ -17,6 +18,11 @@ public sealed class CreateProjectCommandValidator : AbstractValidator<CreateProj
 
         RuleFor(x => x.RepoUrl).MustAsync(async (command, repoUrl, cancellationToken) =>
         {
+            // Template repositories can be reused - skip uniqueness check
+            if (TemplateRepositories.IsTemplateRepository(repoUrl, out _))
+                return true;
+
+            // For non-template repositories, enforce uniqueness per user
             var projectsForCurrentUser = await projectRepository.GetProjectsForUserAsync(
                 currentUserAccessor.CurrentUserId!);
 

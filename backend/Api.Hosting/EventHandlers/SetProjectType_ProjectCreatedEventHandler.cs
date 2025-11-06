@@ -19,15 +19,9 @@ public sealed class SetProjectType_ProjectCreatedEventHandler : IDomainEventHand
 
     private static ProjectType DetermineProjectType(string repoUrl)
     {
-        var uri = new Uri(repoUrl);
-        var repoPath = uri.AbsolutePath.TrimStart('/').TrimEnd('/');
-
-        // Check if it's the n8n template repository
-        if (repoPath.Equals("compozerr/n8n-template", StringComparison.OrdinalIgnoreCase) ||
-            repoPath.Equals("compozerr/n8n-template.git", StringComparison.OrdinalIgnoreCase))
-        {
-            return ProjectType.N8n;
-        }
+        // Check if it's a known template repository
+        if (TemplateRepositories.IsTemplateRepository(repoUrl, out var projectType))
+            return projectType ?? ProjectType.Compozerr;
 
         return ProjectType.Compozerr;
     }
