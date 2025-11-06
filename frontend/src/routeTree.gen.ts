@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as UsingModuleComponentRouteImport } from './routes/using-module-component'
+import { Route as N8nRouteImport } from './routes/n8n'
 import { Route as LoginRouteImport } from './../../modules/auth/frontend/src/routes/login'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AuthRouteImport } from './../../modules/auth/frontend/src/routes/_auth'
@@ -36,6 +37,11 @@ import { Route as AuthDashboardProjectsProjectIdDeploymentsDeploymentIdIndexRout
 const UsingModuleComponentRoute = UsingModuleComponentRouteImport.update({
   id: '/using-module-component',
   path: '/using-module-component',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const N8nRoute = N8nRouteImport.update({
+  id: '/n8n',
+  path: '/n8n',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRoute = LoginRouteImport.update({
@@ -161,6 +167,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/login': typeof LoginRoute
+  '/n8n': typeof N8nRoute
   '/using-module-component': typeof UsingModuleComponentRoute
   '/logout': typeof AuthLogoutRoute
   '/example': typeof ExampleIndexRoute
@@ -184,6 +191,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/login': typeof LoginRoute
+  '/n8n': typeof N8nRoute
   '/using-module-component': typeof UsingModuleComponentRoute
   '/logout': typeof AuthLogoutRoute
   '/example': typeof ExampleIndexRoute
@@ -207,6 +215,7 @@ export interface FileRoutesById {
   '/_auth': typeof AuthRouteWithChildren
   '/about': typeof AboutRoute
   '/login': typeof LoginRoute
+  '/n8n': typeof N8nRoute
   '/using-module-component': typeof UsingModuleComponentRoute
   '/_auth/_dashboard': typeof AuthDashboardRouteWithChildren
   '/_auth/logout': typeof AuthLogoutRoute
@@ -233,6 +242,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/login'
+    | '/n8n'
     | '/using-module-component'
     | '/logout'
     | '/example'
@@ -256,6 +266,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/login'
+    | '/n8n'
     | '/using-module-component'
     | '/logout'
     | '/example'
@@ -278,6 +289,7 @@ export interface FileRouteTypes {
     | '/_auth'
     | '/about'
     | '/login'
+    | '/n8n'
     | '/using-module-component'
     | '/_auth/_dashboard'
     | '/_auth/logout'
@@ -304,6 +316,7 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRouteWithChildren
   AboutRoute: typeof AboutRoute
   LoginRoute: typeof LoginRoute
+  N8nRoute: typeof N8nRoute
   UsingModuleComponentRoute: typeof UsingModuleComponentRoute
   ExampleIndexRoute: typeof ExampleIndexRoute
   InvoicesIndexRoute: typeof InvoicesIndexRoute
@@ -317,6 +330,13 @@ declare module '@tanstack/react-router' {
       path: '/using-module-component'
       fullPath: '/using-module-component'
       preLoaderRoute: typeof UsingModuleComponentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/n8n': {
+      id: '/n8n'
+      path: '/n8n'
+      fullPath: '/n8n'
+      preLoaderRoute: typeof N8nRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -562,6 +582,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRouteWithChildren,
   AboutRoute: AboutRoute,
   LoginRoute: LoginRoute,
+  N8nRoute: N8nRoute,
   UsingModuleComponentRoute: UsingModuleComponentRoute,
   ExampleIndexRoute: ExampleIndexRoute,
   InvoicesIndexRoute: InvoicesIndexRoute,

@@ -160,7 +160,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": components["schemas"]["MeResponse"];
+                        "application/json": components["schemas"]["Auth.Endpoints.Auth.MeResponse"];
                     };
                 };
             };
@@ -220,7 +220,7 @@ export interface paths {
         get: {
             parameters: {
                 query: {
-                    type: components["schemas"]["DefaultInstallationIdSelectionType"];
+                    type: components["schemas"]["Github.Endpoints.SetDefaultInstallationId.DefaultInstallationIdSelectionType"];
                 };
                 header?: never;
                 path?: never;
@@ -234,7 +234,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": components["schemas"]["RepositoryDto"][];
+                        "application/json": components["schemas"]["Github.Services.RepositoryDto"][];
                     };
                 };
             };
@@ -249,7 +249,7 @@ export interface paths {
             };
             requestBody: {
                 content: {
-                    "application/json": components["schemas"]["CreateRepoRequest"];
+                    "application/json": components["schemas"]["Cli.Endpoints.Repos.CreateRepoRequest"];
                 };
             };
             responses: {
@@ -259,7 +259,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": components["schemas"]["CreateRepoResponse"];
+                        "application/json": components["schemas"]["Cli.Endpoints.Repos.CreateRepoResponse"];
                     };
                 };
             };
@@ -290,7 +290,7 @@ export interface paths {
             };
             requestBody: {
                 content: {
-                    "application/json": components["schemas"]["CreateDeploymentRequest"];
+                    "application/json": components["schemas"]["Cli.Endpoints.Projects.Deployments.CreateDeploymentRequest"];
                 };
             };
             responses: {
@@ -300,7 +300,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": components["schemas"]["DeployProjectResponse"];
+                        "application/json": components["schemas"]["Api.Abstractions.DeployProjectResponse"];
                     };
                 };
             };
@@ -329,7 +329,7 @@ export interface paths {
             };
             requestBody: {
                 content: {
-                    "application/json": components["schemas"]["CreateProjectRequest"];
+                    "application/json": components["schemas"]["Cli.Endpoints.Projects.CreateProjectRequest"];
                 };
             };
             responses: {
@@ -339,7 +339,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": components["schemas"]["CreateProjectResponse"];
+                        "application/json": components["schemas"]["Cli.Endpoints.Projects.CreateProjectResponse"];
                     };
                 };
             };
@@ -374,7 +374,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": components["schemas"]["ProjectDto"];
+                        "application/json": components["schemas"]["Cli.Endpoints.Projects.ProjectDto"];
                     };
                 };
                 /** @description Not Found */
@@ -412,7 +412,7 @@ export interface paths {
             };
             requestBody: {
                 content: {
-                    "application/json": components["schemas"]["GetProjectByRepoUrlRequest"];
+                    "application/json": components["schemas"]["Cli.Endpoints.Projects.GetProjectByRepoUrlRequest"];
                 };
             };
             responses: {
@@ -422,7 +422,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": components["schemas"]["ProjectDto"];
+                        "application/json": components["schemas"]["Cli.Endpoints.Projects.ProjectDto"];
                     };
                 };
             };
@@ -459,7 +459,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": components["schemas"]["RestoreProjectResponse"];
+                        "application/json": components["schemas"]["Cli.Endpoints.Projects.RestoreProject.RestoreProjectResponse"];
                     };
                 };
             };
@@ -523,7 +523,7 @@ export interface paths {
             };
             requestBody: {
                 content: {
-                    "application/json": components["schemas"]["AddModuleCommand"];
+                    "application/json": components["schemas"]["Cli.Endpoints.Modules.Add.AddModuleCommand"];
                 };
             };
             responses: {
@@ -533,7 +533,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": components["schemas"]["AddModuleResponse"];
+                        "application/json": components["schemas"]["Cli.Endpoints.Modules.Add.AddModuleResponse"];
                     };
                 };
             };
@@ -562,7 +562,7 @@ export interface paths {
             };
             requestBody: {
                 content: {
-                    "application/json": components["schemas"]["ForkModuleRequest"];
+                    "application/json": components["schemas"]["Cli.Endpoints.Modules.ForkModule.ForkModuleRequest"];
                 };
             };
             responses: {
@@ -572,7 +572,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": components["schemas"]["ForkModuleResponse"];
+                        "application/json": components["schemas"]["Cli.Endpoints.Modules.ForkModule.ForkModuleResponse"];
                     };
                 };
             };
@@ -607,7 +607,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": components["schemas"]["GetExampleResponse"];
+                        "application/json": components["schemas"]["Template.Endpoints.Example.GetExampleResponse"];
                     };
                 };
             };
@@ -642,7 +642,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": components["schemas"]["String<>f__AnonymousType0"];
+                        "application/json": components["schemas"]["<>f__AnonymousType0`1[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]"];
                     };
                 };
             };
@@ -677,7 +677,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": components["schemas"]["GetInstallationsResponse"];
+                        "application/json": components["schemas"]["Github.Endpoints.GetInstallationsResponse"];
                     };
                 };
             };
@@ -708,7 +708,7 @@ export interface paths {
             };
             requestBody: {
                 content: {
-                    "application/json": components["schemas"]["SetDefaultInstallationRequest"];
+                    "application/json": components["schemas"]["Github.Endpoints.SetDefaultInstallationRequest"];
                 };
             };
             responses: {
@@ -856,7 +856,7 @@ export interface paths {
             };
             requestBody: {
                 content: {
-                    "application/json": components["schemas"]["ChangeDeploymentStatusRequest"];
+                    "application/json": components["schemas"]["Api.Hosting.Endpoints.Deployments.ChangeDeploymentStatus.ChangeDeploymentStatusRequest"];
                 };
             };
             responses: {
@@ -866,7 +866,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": components["schemas"]["ChangeDeploymentStatusResponse"];
+                        "application/json": components["schemas"]["Api.Hosting.Endpoints.Deployments.ChangeDeploymentStatus.ChangeDeploymentStatusResponse"];
                     };
                 };
             };
@@ -898,7 +898,7 @@ export interface paths {
             };
             requestBody: {
                 content: {
-                    "application/json": components["schemas"]["AddLogRequest"];
+                    "application/json": components["schemas"]["Api.Hosting.Endpoints.Deployments.Logs.Add.AddLogRequest"];
                 };
             };
             responses: {
@@ -908,7 +908,124 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": components["schemas"]["AddLogResponse"];
+                        "application/json": components["schemas"]["Api.Hosting.Endpoints.Deployments.Logs.Add.AddLogResponse"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/hosting/projects": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Api.Hosting.Endpoints.Projects.GetAll.ProjectDto"][];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/hosting/projects/{projectId}/state": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    projectId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["Api.Hosting.Endpoints.Projects.ProjectState.ProjectStateRequest"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Api.Hosting.Endpoints.Projects.ProjectState.ProjectStateResponse"];
+                    };
+                };
+            };
+        };
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/hosting/projects/{projectId}/services": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    projectId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["Api.Hosting.Endpoints.Projects.Services.ReportServicesRequest"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Api.Hosting.Endpoints.Projects.Services.ReportServicesResponse"];
                     };
                 };
             };
@@ -943,7 +1060,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": components["schemas"]["DomainDto"][];
+                        "application/json": components["schemas"]["Api.Hosting.Endpoints.Projects.ProjectDomains.DomainDto"][];
                     };
                 };
                 /** @description No Content */
@@ -989,95 +1106,13 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": components["schemas"]["GetProjectEnvironmentResponse"];
+                        "application/json": components["schemas"]["Api.Data.GetProjectEnvironmentResponse"];
                     };
                 };
             };
         };
         put?: never;
         post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/hosting/projects/{projectId}/state": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    projectId: string;
-                };
-                cookie?: never;
-            };
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["ProjectStateRequest"];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["ProjectStateResponse"];
-                    };
-                };
-            };
-        };
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/hosting/projects/{projectId}/services": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    projectId: string;
-                };
-                cookie?: never;
-            };
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["ReportServicesRequest"];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["ReportServicesResponse"];
-                    };
-                };
-            };
-        };
         delete?: never;
         options?: never;
         head?: never;
@@ -1102,7 +1137,7 @@ export interface paths {
             };
             requestBody: {
                 content: {
-                    "application/json": components["schemas"]["SendMailCommand"];
+                    "application/json": components["schemas"]["Mail.Endpoints.Mail.SendMail.SendMailCommand"];
                 };
             };
             responses: {
@@ -1145,7 +1180,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": components["schemas"]["GetProjectResponse"];
+                        "application/json": components["schemas"]["Api.Endpoints.Projects.Project.Get.GetProjectResponse"];
                     };
                 };
             };
@@ -1169,7 +1204,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": components["schemas"]["DeleteProjectResponse"];
+                        "application/json": components["schemas"]["Api.Endpoints.Projects.Project.Delete.DeleteProjectResponse"];
                     };
                 };
             };
@@ -1276,7 +1311,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": components["schemas"]["GetProjectsResponse"];
+                        "application/json": components["schemas"]["Api.Endpoints.Projects.GetProjectsResponse"];
                     };
                 };
             };
@@ -1302,7 +1337,7 @@ export interface paths {
                 header?: never;
                 path: {
                     projectId: string;
-                    usageSpan: components["schemas"]["UsageSpan"];
+                    usageSpan: components["schemas"]["Api.Endpoints.Projects.Usage.Get.UsageSpan"];
                 };
                 cookie?: never;
             };
@@ -1314,7 +1349,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": components["schemas"]["GetUsageResponse"];
+                        "application/json": components["schemas"]["Api.Endpoints.Projects.Usage.Get.GetUsageResponse"];
                     };
                 };
             };
@@ -1355,7 +1390,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": components["schemas"]["GetDeploymentResponsePagedResult"];
+                        "application/json": components["schemas"]["Core.Results.PagedResult`1[[Api.Endpoints.Projects.Deployments.GetDeploymentResponse, Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"];
                     };
                 };
             };
@@ -1393,7 +1428,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": components["schemas"]["GetDeploymentResponse"];
+                        "application/json": components["schemas"]["Api.Endpoints.Projects.Deployments.GetDeploymentResponse"];
                     };
                 };
             };
@@ -1431,7 +1466,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": components["schemas"]["LogEntry"][];
+                        "application/json": components["schemas"]["Api.Endpoints.Projects.Deployments.Logs.Get.LogEntry"][];
                     };
                 };
             };
@@ -1470,7 +1505,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": components["schemas"]["GetProjectEnvironmentResponse"];
+                        "application/json": components["schemas"]["Api.Data.GetProjectEnvironmentResponse"];
                     };
                 };
             };
@@ -1488,7 +1523,7 @@ export interface paths {
             };
             requestBody: {
                 content: {
-                    "application/json": components["schemas"]["UpsertProjectEnvironmentVariablesRequest"];
+                    "application/json": components["schemas"]["Api.Endpoints.Projects.ProjectEnvironment.UpsertProjectEnvironmentVariablesRequest"];
                 };
             };
             responses: {
@@ -1527,7 +1562,7 @@ export interface paths {
             };
             requestBody: {
                 content: {
-                    "application/json": components["schemas"]["ChangeAutoDeployRequest"];
+                    "application/json": components["schemas"]["Api.Endpoints.Projects.ProjectEnvironment.ChangeAutoDeploy.ChangeAutoDeployRequest"];
                 };
             };
             responses: {
@@ -1537,7 +1572,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": components["schemas"]["ChangeAutoDeployResponse"];
+                        "application/json": components["schemas"]["Api.Endpoints.Projects.ProjectEnvironment.ChangeAutoDeploy.ChangeAutoDeployResponse"];
                     };
                 };
             };
@@ -1573,7 +1608,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": components["schemas"]["GetDomainsResponse"];
+                        "application/json": components["schemas"]["Api.Endpoints.Projects.Domains.Get.GetDomainsResponse"];
                     };
                 };
             };
@@ -1590,7 +1625,7 @@ export interface paths {
             };
             requestBody: {
                 content: {
-                    "application/json": components["schemas"]["AddDomainRequest"];
+                    "application/json": components["schemas"]["Api.Endpoints.Projects.Domains.Add.AddDomainRequest"];
                 };
             };
             responses: {
@@ -1600,7 +1635,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": components["schemas"]["AddDomainResponse"];
+                        "application/json": components["schemas"]["Api.Endpoints.Projects.Domains.Add.AddDomainResponse"];
                     };
                 };
             };
@@ -1639,7 +1674,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": components["schemas"]["DeleteDomainResponse"];
+                        "application/json": components["schemas"]["Api.Endpoints.Projects.Domains.Delete.DeleteDomainResponse"];
                     };
                 };
             };
@@ -1714,7 +1749,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": components["schemas"]["SetPrimaryResponse"];
+                        "application/json": components["schemas"]["Api.Endpoints.Projects.Domains.SetPrimary.SetPrimaryResponse"];
                     };
                 };
             };
@@ -1750,7 +1785,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": components["schemas"]["GetParentDomainResponse"];
+                        "application/json": components["schemas"]["Api.Endpoints.Projects.Domains.Parent.Get.GetParentDomainResponse"];
                     };
                 };
             };
@@ -1787,7 +1822,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": components["schemas"]["GetProjectServicesResponse"];
+                        "application/json": components["schemas"]["Api.Endpoints.Projects.Services.Get.GetProjectServicesResponse"];
                     };
                 };
             };
@@ -1817,7 +1852,7 @@ export interface paths {
             };
             requestBody: {
                 content: {
-                    "application/json": components["schemas"]["UpdateServerRequest"];
+                    "application/json": components["schemas"]["Api.Endpoints.Server.UpdateServerRequest"];
                 };
             };
             responses: {
@@ -1827,7 +1862,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": components["schemas"]["UpdateServerResponse"];
+                        "application/json": components["schemas"]["Api.Endpoints.Server.UpdateServerResponse"];
                     };
                 };
             };
@@ -1880,7 +1915,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": components["schemas"]["GetTiersResponse"];
+                        "application/json": components["schemas"]["Api.Endpoints.Server.Tiers.Get.GetTiersResponse"];
                     };
                 };
             };
@@ -1914,7 +1949,7 @@ export interface paths {
             };
             requestBody: {
                 content: {
-                    "application/json": components["schemas"]["CancelSubscriptionCommand"];
+                    "application/json": components["schemas"]["Stripe.Endpoints.Subscriptions.CancelSubscription.CancelSubscriptionCommand"];
                 };
             };
             responses: {
@@ -1924,7 +1959,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": components["schemas"]["CancelSubscriptionResponse"];
+                        "application/json": components["schemas"]["Stripe.Endpoints.Subscriptions.CancelSubscription.CancelSubscriptionResponse"];
                     };
                 };
             };
@@ -1956,7 +1991,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": components["schemas"]["GetUserSubscriptionsResponse"];
+                        "application/json": components["schemas"]["Stripe.Endpoints.Subscriptions.GetUserSubscriptions.GetUserSubscriptionsResponse"];
                     };
                 };
             };
@@ -1987,7 +2022,7 @@ export interface paths {
             };
             requestBody: {
                 content: {
-                    "application/json": components["schemas"]["UpsertSubscriptionRequest"];
+                    "application/json": components["schemas"]["Stripe.Endpoints.Subscriptions.UpsertSubscription.UpsertSubscriptionRequest"];
                 };
             };
             responses: {
@@ -2028,7 +2063,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": components["schemas"]["GetUserPaymentMethodsResponse"];
+                        "application/json": components["schemas"]["Stripe.Endpoints.PaymentMethods.GetUserPaymentMethods.GetUserPaymentMethodsResponse"];
                     };
                 };
             };
@@ -2059,7 +2094,7 @@ export interface paths {
             };
             requestBody: {
                 content: {
-                    "application/json": components["schemas"]["AttachPaymentMethodRequest"];
+                    "application/json": components["schemas"]["Stripe.Endpoints.PaymentMethods.AttachPaymentMethod.AttachPaymentMethodRequest"];
                 };
             };
             responses: {
@@ -2069,7 +2104,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": components["schemas"]["AttachPaymentMethodResponse"];
+                        "application/json": components["schemas"]["Stripe.Endpoints.PaymentMethods.AttachPaymentMethod.AttachPaymentMethodResponse"];
                     };
                 };
             };
@@ -2098,7 +2133,7 @@ export interface paths {
             };
             requestBody: {
                 content: {
-                    "application/json": components["schemas"]["SetDefaultPaymentMethodRequest"];
+                    "application/json": components["schemas"]["Stripe.Endpoints.PaymentMethods.SetDefaultPaymentMethod.SetDefaultPaymentMethodRequest"];
                 };
             };
             responses: {
@@ -2108,7 +2143,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": components["schemas"]["SetDefaultPaymentMethodResponse"];
+                        "application/json": components["schemas"]["Stripe.Endpoints.PaymentMethods.SetDefaultPaymentMethod.SetDefaultPaymentMethodResponse"];
                     };
                 };
             };
@@ -2146,7 +2181,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": components["schemas"]["RemovePaymentMethodResponse"];
+                        "application/json": components["schemas"]["Stripe.Endpoints.PaymentMethods.RemovePaymentMethod.RemovePaymentMethodResponse"];
                     };
                 };
             };
@@ -2180,7 +2215,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": components["schemas"]["CreateSetupIntentResponse"];
+                        "application/json": components["schemas"]["Stripe.Endpoints.PaymentMethods.CreateSetupIntent.CreateSetupIntentResponse"];
                     };
                 };
             };
@@ -2224,6 +2259,45 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/stripe/invoices": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["Stripe.Endpoints.Invoices.GetInvoices.GetInvoicesCommand"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Stripe.Endpoints.Invoices.GetInvoices.GetInvoicesResponse"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/users": {
         parameters: {
             query?: never;
@@ -2246,7 +2320,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": components["schemas"]["User"][];
+                        "application/json": components["schemas"]["Auth.Models.User"][];
                     };
                 };
             };
@@ -2263,116 +2337,56 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
-        AddDomainRequest: {
-            domain?: string | null;
-            serviceName?: string | null;
-            protocol?: string | null;
+        "<>f__AnonymousType0`1[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]": {
+            installUrl?: string | null;
         };
-        AddDomainResponse: {
-            domainId?: string | null;
-        };
-        AddLogRequest: {
-            log?: string | null;
-            level?: components["schemas"]["LogLevel"];
-        };
-        AddLogResponse: Record<string, never>;
-        AddModuleCommand: {
-            organization?: string | null;
-            moduleName?: string | null;
-            commitHash?: string | null;
-        };
-        AddModuleResponse: {
-            modules?: components["schemas"]["ModuleResult"][] | null;
-        };
-        AttachPaymentMethodRequest: {
-            paymentMethodId?: string | null;
-        };
-        AttachPaymentMethodResponse: {
-            paymentMethod?: components["schemas"]["PaymentMethodDto"];
-        };
-        CancelSubscriptionCommand: {
-            subscriptionId?: string | null;
-            cancelImmediately?: boolean;
-        };
-        CancelSubscriptionResponse: {
-            subscriptionId?: string | null;
-            status?: string | null;
-            canceledAt?: string | null;
-            canceledImmediately?: boolean;
-        };
-        ChangeAutoDeployRequest: {
-            autoDeploy?: boolean;
-        };
-        ChangeAutoDeployResponse: Record<string, never>;
-        ChangeDeploymentStatusRequest: {
-            status?: string | null;
-        };
-        ChangeDeploymentStatusResponse: {
-            success?: boolean;
-        };
-        CreateDeploymentRequest: {
-            commitHash?: string | null;
-            commitMessage?: string | null;
-            commitAuthor?: string | null;
-            commitBranch?: string | null;
-            commitEmail?: string | null;
-        };
-        CreateProjectRequest: {
-            repoName?: string | null;
-            repoUrl?: string | null;
-            locationIso?: string | null;
-            tier?: string | null;
-        };
-        CreateProjectResponse: {
-            projectId?: components["schemas"]["ProjectId"];
-        };
-        CreateRepoRequest: {
-            name?: string | null;
-            type?: components["schemas"]["DefaultInstallationIdSelectionType"];
-            locationIsoCode?: string | null;
-            tier?: string | null;
-            projectId?: string | null;
-        };
-        CreateRepoResponse: {
-            cloneUrl?: string | null;
-            gitUrl?: string | null;
-            repoName?: string | null;
-            projectId?: string | null;
-        };
-        CreateSetupIntentResponse: {
-            clientSecret?: string | null;
-        };
-        /**
-         * Format: int32
-         * @enum {integer}
-         */
-        DefaultInstallationIdSelectionType: 1 | 2;
-        DeleteDomainResponse: Record<string, never>;
-        DeleteProjectResponse: Record<string, never>;
-        DeployProjectResponse: {
+        "Api.Abstractions.DeployProjectResponse": {
             statusUrl?: string | null;
         };
         /** @enum {string} */
-        DeploymentStatus: "Unknown" | "Deploying" | "Completed" | "Queued" | "Failed" | "Cancelled";
-        DomainDto: {
-            serviceName?: string | null;
-            port?: string | null;
-            protocol?: string | null;
+        "Api.Abstractions.LogLevel": "Info" | "Warning" | "Error" | "Success";
+        "Api.Abstractions.Price": {
+            /** Format: double */
+            value?: number;
+            currency?: string | null;
+        };
+        /** Format: uuid */
+        "Api.Abstractions.ProjectId": string;
+        "Api.Abstractions.ServerTier": {
+            id?: components["schemas"]["Api.Abstractions.ServerTierId"];
+            /** Format: double */
+            ramGb?: number;
+            /** Format: double */
+            cores?: number;
+            /** Format: double */
+            diskGb?: number;
+            price?: components["schemas"]["Api.Abstractions.Price"];
+            promotionalText?: string | null;
+        };
+        "Api.Abstractions.ServerTierId": {
             value?: string | null;
         };
-        ForkModuleRequest: {
-            modulesToFork?: components["schemas"]["ModuleDto"][] | null;
-            projectId?: string | null;
+        /** @enum {string} */
+        "Api.Data.DeploymentStatus": "Unknown" | "Deploying" | "Completed" | "Queued" | "Failed" | "Cancelled";
+        "Api.Data.GetProjectEnvironmentResponse": {
+            autoDeploy?: boolean;
+            variables?: components["schemas"]["Api.Data.ProjectEnvironmentVariableDto"][] | null;
         };
-        ForkModuleResponse: {
-            forkedModules?: components["schemas"]["ModuleDto"][] | null;
-            sharedBranchName?: string | null;
+        "Api.Data.ProjectEnvironmentVariableDto": {
+            systemType?: components["schemas"]["Api.Data.SystemType"];
+            key?: string | null;
+            value?: string | null;
+            isGenerated?: boolean;
         };
-        GetDeploymentResponse: {
+        /** @enum {string} */
+        "Api.Data.ProjectState": "Unknown" | "Running" | "Starting" | "Stopped" | "Deleting";
+        /** @enum {string} */
+        "Api.Data.SystemType": "Unknown" | "Frontend" | "Backend";
+        "Api.Endpoints.Projects.Deployments.GetDeploymentResponse": {
             /** Format: uuid */
             id?: string;
             url?: string | null;
-            status?: components["schemas"]["DeploymentStatus"];
+            status?: components["schemas"]["Api.Data.DeploymentStatus"];
             environment?: string | null;
             branch?: string | null;
             commitHash?: string | null;
@@ -2386,16 +2400,24 @@ export interface components {
             region?: string | null;
             buildLogs?: string[] | null;
         };
-        GetDeploymentResponsePagedResult: {
-            /** Format: int32 */
-            page?: number;
-            /** Format: int32 */
-            pageSize?: number;
-            /** Format: int32 */
-            totalCount?: number;
-            items?: components["schemas"]["GetDeploymentResponse"][] | null;
+        "Api.Endpoints.Projects.Deployments.Logs.Get.LogEntry": {
+            /** Format: date-time */
+            timestamp?: string;
+            level?: components["schemas"]["Api.Endpoints.Projects.Deployments.Logs.Get.LogEntryLevel"];
+            message?: string | null;
         };
-        GetDomainDto: {
+        /** @enum {string} */
+        "Api.Endpoints.Projects.Deployments.Logs.Get.LogEntryLevel": "Info" | "Warning" | "Error" | "Success";
+        "Api.Endpoints.Projects.Domains.Add.AddDomainRequest": {
+            domain?: string | null;
+            serviceName?: string | null;
+            protocol?: string | null;
+        };
+        "Api.Endpoints.Projects.Domains.Add.AddDomainResponse": {
+            domainId?: string | null;
+        };
+        "Api.Endpoints.Projects.Domains.Delete.DeleteDomainResponse": Record<string, never>;
+        "Api.Endpoints.Projects.Domains.Get.GetDomainDto": {
             /** Format: uuid */
             domainId?: string;
             serviceName?: string | null;
@@ -2405,97 +2427,179 @@ export interface components {
             isVerified?: boolean;
             isPrimary?: boolean;
         };
-        GetDomainsResponse: {
-            domains?: components["schemas"]["GetDomainDto"][] | null;
+        "Api.Endpoints.Projects.Domains.Get.GetDomainsResponse": {
+            domains?: components["schemas"]["Api.Endpoints.Projects.Domains.Get.GetDomainDto"][] | null;
         };
-        GetExampleResponse: {
-            message?: string | null;
-        };
-        GetInstallationsResponse: {
-            selectedProjectsInstallationId?: string | null;
-            selectedModulesInstallationId?: string | null;
-            installations?: components["schemas"]["InstallationDto"][] | null;
-        };
-        GetParentDomainResponse: {
+        "Api.Endpoints.Projects.Domains.Parent.Get.GetParentDomainResponse": {
             domain?: string | null;
         };
-        GetProjectByRepoUrlRequest: {
-            repoUrl?: string | null;
+        "Api.Endpoints.Projects.Domains.SetPrimary.SetPrimaryResponse": {
+            success?: boolean;
         };
-        GetProjectEnvironmentResponse: {
-            autoDeploy?: boolean;
-            variables?: components["schemas"]["ProjectEnvironmentVariableDto"][] | null;
-        };
-        GetProjectResponse: {
-            /** Format: uuid */
-            id?: string;
-            name?: string | null;
-            repoName?: string | null;
-            state?: components["schemas"]["ProjectState"];
-            domains?: string[] | null;
-            serverTier?: string | null;
-            primaryDomain?: string | null;
-        };
-        GetProjectServicesResponse: {
-            services?: components["schemas"]["ProjectServiceDto"][] | null;
-        };
-        GetProjectsResponse: {
+        "Api.Endpoints.Projects.GetProjectsResponse": {
             /** Format: int32 */
             totalProjectsCount?: number;
             /** Format: int32 */
             runningProjectsCount?: number;
-            projects?: components["schemas"]["GetProjectResponse"][] | null;
+            projects?: components["schemas"]["Api.Endpoints.Projects.Project.Get.GetProjectResponse"][] | null;
             /** Format: int32 */
             page?: number;
             /** Format: int32 */
             pageSize?: number;
         };
-        GetTiersResponse: {
-            tiers?: components["schemas"]["ServerTier"][] | null;
+        "Api.Endpoints.Projects.Project.Delete.DeleteProjectResponse": Record<string, never>;
+        "Api.Endpoints.Projects.Project.Get.GetProjectResponse": {
+            /** Format: uuid */
+            id?: string;
+            name?: string | null;
+            repoName?: string | null;
+            state?: components["schemas"]["Api.Data.ProjectState"];
+            domains?: string[] | null;
+            serverTier?: string | null;
+            primaryDomain?: string | null;
         };
-        GetUsageResponse: {
+        "Api.Endpoints.Projects.ProjectEnvironment.ChangeAutoDeploy.ChangeAutoDeployRequest": {
+            autoDeploy?: boolean;
+        };
+        "Api.Endpoints.Projects.ProjectEnvironment.ChangeAutoDeploy.ChangeAutoDeployResponse": Record<string, never>;
+        "Api.Endpoints.Projects.ProjectEnvironment.UpsertProjectEnvironmentVariablesRequest": {
+            variables?: components["schemas"]["Api.Data.ProjectEnvironmentVariableDto"][] | null;
+        };
+        "Api.Endpoints.Projects.Services.Get.GetProjectServicesResponse": {
+            services?: components["schemas"]["Api.Endpoints.Projects.Services.Get.ProjectServiceDto"][] | null;
+        };
+        "Api.Endpoints.Projects.Services.Get.ProjectServiceDto": {
+            name?: string | null;
+            port?: string | null;
+            protocol?: string | null;
+            isSystem?: boolean;
+        };
+        "Api.Endpoints.Projects.Usage.Get.GetUsageResponse": {
             points?: {
-                CPU?: components["schemas"]["UsagePoint"][];
-                Ram?: components["schemas"]["UsagePoint"][];
-                DiskWrite?: components["schemas"]["UsagePoint"][];
-                DiskRead?: components["schemas"]["UsagePoint"][];
-                NetworkIn?: components["schemas"]["UsagePoint"][];
-                NetworkOut?: components["schemas"]["UsagePoint"][];
+                CPU?: components["schemas"]["Api.Endpoints.Projects.Usage.Get.UsagePoint"][];
+                Ram?: components["schemas"]["Api.Endpoints.Projects.Usage.Get.UsagePoint"][];
+                DiskWrite?: components["schemas"]["Api.Endpoints.Projects.Usage.Get.UsagePoint"][];
+                DiskRead?: components["schemas"]["Api.Endpoints.Projects.Usage.Get.UsagePoint"][];
+                NetworkIn?: components["schemas"]["Api.Endpoints.Projects.Usage.Get.UsagePoint"][];
+                NetworkOut?: components["schemas"]["Api.Endpoints.Projects.Usage.Get.UsagePoint"][];
             } | null;
-            usageSpan?: components["schemas"]["UsageSpan"];
+            usageSpan?: components["schemas"]["Api.Endpoints.Projects.Usage.Get.UsageSpan"];
             /** Format: double */
             allocatedMemoryGb?: number;
         };
-        GetUserPaymentMethodsResponse: {
-            paymentMethods?: components["schemas"]["PaymentMethodDto"][] | null;
-        };
-        GetUserSubscriptionsResponse: {
-            subscriptions?: components["schemas"]["SubscriptionDto"][] | null;
-        };
-        IDomainEvent: Record<string, never>;
-        InstallationDto: {
-            installationId?: string | null;
-            name?: string | null;
-            type?: string | null;
-        };
-        LogEntry: {
+        "Api.Endpoints.Projects.Usage.Get.UsagePoint": {
             /** Format: date-time */
             timestamp?: string;
-            level?: components["schemas"]["LogEntryLevel"];
-            message?: string | null;
+            /** Format: double */
+            value?: number;
         };
         /** @enum {string} */
-        LogEntryLevel: "Info" | "Warning" | "Error" | "Success";
-        /** @enum {string} */
-        LogLevel: "Info" | "Warning" | "Error" | "Success";
-        MeResponse: {
+        "Api.Endpoints.Projects.Usage.Get.UsageSpan": "Total" | "Day" | "Week" | "Month" | "Year";
+        "Api.Endpoints.Server.Tiers.Get.GetTiersResponse": {
+            tiers?: components["schemas"]["Api.Abstractions.ServerTier"][] | null;
+        };
+        "Api.Endpoints.Server.UpdateServerRequest": {
+            secret?: string | null;
+            isoCountryCode?: string | null;
+            machineId?: string | null;
+            ram?: string | null;
+            vCpu?: string | null;
+            ip?: string | null;
+            hostName?: string | null;
+            apiDomain?: string | null;
+        };
+        "Api.Endpoints.Server.UpdateServerResponse": {
+            success?: boolean;
+            pemPublicKey?: string | null;
+        };
+        "Api.Hosting.Endpoints.Deployments.ChangeDeploymentStatus.ChangeDeploymentStatusRequest": {
+            status?: string | null;
+        };
+        "Api.Hosting.Endpoints.Deployments.ChangeDeploymentStatus.ChangeDeploymentStatusResponse": {
+            success?: boolean;
+        };
+        "Api.Hosting.Endpoints.Deployments.Logs.Add.AddLogRequest": {
+            log?: string | null;
+            level?: components["schemas"]["Api.Abstractions.LogLevel"];
+        };
+        "Api.Hosting.Endpoints.Deployments.Logs.Add.AddLogResponse": Record<string, never>;
+        "Api.Hosting.Endpoints.Projects.GetAll.ProjectDto": {
+            projectId?: components["schemas"]["Api.Abstractions.ProjectId"];
+        };
+        "Api.Hosting.Endpoints.Projects.ProjectDomains.DomainDto": {
+            serviceName?: string | null;
+            port?: string | null;
+            protocol?: string | null;
+            value?: string | null;
+        };
+        "Api.Hosting.Endpoints.Projects.ProjectState.ProjectStateRequest": {
+            state?: components["schemas"]["Api.Data.ProjectState"];
+        };
+        "Api.Hosting.Endpoints.Projects.ProjectState.ProjectStateResponse": Record<string, never>;
+        "Api.Hosting.Endpoints.Projects.Services.ReportServicesRequest": {
+            services?: components["schemas"]["Api.Hosting.Endpoints.Projects.Services.ServicePortInfo"][] | null;
+        };
+        "Api.Hosting.Endpoints.Projects.Services.ReportServicesResponse": Record<string, never>;
+        "Api.Hosting.Endpoints.Projects.Services.ServicePortInfo": {
+            name?: string | null;
+            port?: string | null;
+            protocol?: string | null;
+        };
+        /** Format: uuid */
+        "Auth.Abstractions.UserId": string;
+        /** Format: uuid */
+        "Auth.Abstractions.UserLoginId": string;
+        "Auth.Endpoints.Auth.MeResponse": {
             /** Format: uuid */
             id?: string;
             name?: string | null;
             email?: string | null;
             avatarUrl?: string | null;
         };
-        ModuleDto: {
+        /**
+         * Format: int32
+         * @enum {integer}
+         */
+        "Auth.Models.Provider": 1;
+        "Auth.Models.User": {
+            /** Format: date-time */
+            createdAtUtc?: string;
+            /** Format: date-time */
+            updatedAtUtc?: string | null;
+            /** Format: date-time */
+            deletedAtUtc?: string | null;
+            readonly isDeleted?: boolean;
+            readonly domainEvents?: components["schemas"]["Core.Abstractions.IDomainEvent"][] | null;
+            id?: components["schemas"]["Auth.Abstractions.UserId"];
+            name?: string | null;
+            email?: string | null;
+            avatarUrl?: string | null;
+            roles?: string[] | null;
+            logins?: components["schemas"]["Auth.Models.UserLogin"][] | null;
+        };
+        "Auth.Models.UserLogin": {
+            /** Format: date-time */
+            createdAtUtc?: string;
+            /** Format: date-time */
+            updatedAtUtc?: string | null;
+            /** Format: date-time */
+            deletedAtUtc?: string | null;
+            readonly isDeleted?: boolean;
+            readonly domainEvents?: components["schemas"]["Core.Abstractions.IDomainEvent"][] | null;
+            id?: components["schemas"]["Auth.Abstractions.UserLoginId"];
+            userId: components["schemas"]["Auth.Abstractions.UserId"];
+            provider: components["schemas"]["Auth.Models.Provider"];
+            providerUserId: string | null;
+        };
+        "Cli.Endpoints.Modules.Add.AddModuleCommand": {
+            organization?: string | null;
+            moduleName?: string | null;
+            commitHash?: string | null;
+        };
+        "Cli.Endpoints.Modules.Add.AddModuleResponse": {
+            modules?: components["schemas"]["Cli.Endpoints.Modules.Add.ModuleResult"][] | null;
+        };
+        "Cli.Endpoints.Modules.Add.ModuleDto": {
             value?: string | null;
             hash?: string | null;
             readonly organization?: string | null;
@@ -2504,28 +2608,39 @@ export interface components {
             readonly commitHash?: string | null;
             readonly cloneUrl?: string | null;
         };
-        ModuleResult: {
+        "Cli.Endpoints.Modules.Add.ModuleResult": {
             readonly success?: boolean;
-            module?: components["schemas"]["ModuleDto"];
+            module?: components["schemas"]["Cli.Endpoints.Modules.Add.ModuleDto"];
             readonly errorMessage?: string | null;
         };
-        PaymentMethodDto: {
-            id?: string | null;
-            type?: string | null;
-            brand?: string | null;
-            last4?: string | null;
-            /** Format: int32 */
-            expiryMonth?: number;
-            /** Format: int32 */
-            expiryYear?: number;
-            isDefault?: boolean;
+        "Cli.Endpoints.Modules.ForkModule.ForkModuleRequest": {
+            modulesToFork?: components["schemas"]["Cli.Endpoints.Modules.Add.ModuleDto"][] | null;
+            projectId?: string | null;
         };
-        Price: {
-            /** Format: double */
-            value?: number;
-            currency?: string | null;
+        "Cli.Endpoints.Modules.ForkModule.ForkModuleResponse": {
+            forkedModules?: components["schemas"]["Cli.Endpoints.Modules.Add.ModuleDto"][] | null;
+            sharedBranchName?: string | null;
         };
-        ProjectDto: {
+        "Cli.Endpoints.Projects.CreateProjectRequest": {
+            repoName?: string | null;
+            repoUrl?: string | null;
+            locationIso?: string | null;
+            tier?: string | null;
+        };
+        "Cli.Endpoints.Projects.CreateProjectResponse": {
+            projectId?: components["schemas"]["Api.Abstractions.ProjectId"];
+        };
+        "Cli.Endpoints.Projects.Deployments.CreateDeploymentRequest": {
+            commitHash?: string | null;
+            commitMessage?: string | null;
+            commitAuthor?: string | null;
+            commitBranch?: string | null;
+            commitEmail?: string | null;
+        };
+        "Cli.Endpoints.Projects.GetProjectByRepoUrlRequest": {
+            repoUrl?: string | null;
+        };
+        "Cli.Endpoints.Projects.ProjectDto": {
             name?: string | null;
             repoUri?: string | null;
             /** Format: uuid */
@@ -2533,91 +2648,101 @@ export interface components {
             /** Format: uuid */
             serverId?: string;
         };
-        ProjectEnvironmentVariableDto: {
-            systemType?: components["schemas"]["SystemType"];
-            key?: string | null;
-            value?: string | null;
-            isGenerated?: boolean;
-        };
-        /** Format: uuid */
-        ProjectId: string;
-        ProjectServiceDto: {
+        "Cli.Endpoints.Projects.RestoreProject.RestoreProjectResponse": Record<string, never>;
+        "Cli.Endpoints.Repos.CreateRepoRequest": {
             name?: string | null;
-            port?: string | null;
-            protocol?: string | null;
-            isSystem?: boolean;
+            type?: components["schemas"]["Github.Endpoints.SetDefaultInstallationId.DefaultInstallationIdSelectionType"];
+            locationIsoCode?: string | null;
+            tier?: string | null;
+            projectId?: string | null;
         };
-        /** @enum {string} */
-        ProjectState: "Unknown" | "Running" | "Starting" | "Stopped" | "Deleting";
-        ProjectStateRequest: {
-            state?: components["schemas"]["ProjectState"];
+        "Cli.Endpoints.Repos.CreateRepoResponse": {
+            cloneUrl?: string | null;
+            gitUrl?: string | null;
+            repoName?: string | null;
+            projectId?: string | null;
         };
-        ProjectStateResponse: Record<string, never>;
+        "Core.Abstractions.IDomainEvent": Record<string, never>;
+        "Core.Results.PagedResult`1[[Api.Endpoints.Projects.Deployments.GetDeploymentResponse, Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": {
+            /** Format: int32 */
+            page?: number;
+            /** Format: int32 */
+            pageSize?: number;
+            /** Format: int32 */
+            totalCount?: number;
+            items?: components["schemas"]["Api.Endpoints.Projects.Deployments.GetDeploymentResponse"][] | null;
+        };
+        "Github.Endpoints.GetInstallationsResponse": {
+            selectedProjectsInstallationId?: string | null;
+            selectedModulesInstallationId?: string | null;
+            installations?: components["schemas"]["Github.Endpoints.InstallationDto"][] | null;
+        };
+        "Github.Endpoints.InstallationDto": {
+            installationId?: string | null;
+            name?: string | null;
+            type?: string | null;
+        };
         /**
          * Format: int32
          * @enum {integer}
          */
-        Provider: 1;
-        RemovePaymentMethodResponse: {
-            success?: boolean;
+        "Github.Endpoints.SetDefaultInstallationId.DefaultInstallationIdSelectionType": 1 | 2;
+        "Github.Endpoints.SetDefaultInstallationRequest": {
+            installationId?: string | null;
+            type?: components["schemas"]["Github.Endpoints.SetDefaultInstallationId.DefaultInstallationIdSelectionType"];
         };
-        ReportServicesRequest: {
-            services?: components["schemas"]["ServicePortInfo"][] | null;
-        };
-        ReportServicesResponse: {
-            /** Format: int32 */
-            servicesUpdated?: number;
-        };
-        RepositoryDto: {
+        "Github.Services.RepositoryDto": {
             ownedByInstallationId?: string | null;
             name?: string | null;
         };
-        RestoreProjectResponse: Record<string, never>;
-        SendMailCommand: {
+        "Mail.Endpoints.Mail.SendMail.SendMailCommand": {
             from?: string | null;
             displayName?: string | null;
             to?: string | null;
             subject?: string | null;
             htmlBody?: string | null;
         };
-        ServerTier: {
-            id?: components["schemas"]["ServerTierId"];
-            /** Format: double */
-            ramGb?: number;
-            /** Format: double */
-            cores?: number;
-            /** Format: double */
-            diskGb?: number;
-            price?: components["schemas"]["Price"];
-            promotionalText?: string | null;
+        "Stripe.Endpoints.Invoices.GetInvoices.GetInvoicesCommand": Record<string, never>;
+        "Stripe.Endpoints.Invoices.GetInvoices.GetInvoicesResponse": {
+            invoices?: components["schemas"]["Stripe.Services.InvoiceDto"][] | null;
         };
-        ServerTierId: {
-            value?: string | null;
-        };
-        ServicePortInfo: {
-            name?: string | null;
-            port?: string | null;
-            protocol?: string | null;
-        };
-        SetDefaultInstallationRequest: {
-            installationId?: string | null;
-            type?: components["schemas"]["DefaultInstallationIdSelectionType"];
-        };
-        SetDefaultPaymentMethodRequest: {
+        "Stripe.Endpoints.PaymentMethods.AttachPaymentMethod.AttachPaymentMethodRequest": {
             paymentMethodId?: string | null;
         };
-        SetDefaultPaymentMethodResponse: {
-            paymentMethod?: components["schemas"]["PaymentMethodDto"];
+        "Stripe.Endpoints.PaymentMethods.AttachPaymentMethod.AttachPaymentMethodResponse": {
+            paymentMethod?: components["schemas"]["Stripe.Services.PaymentMethodDto"];
         };
-        SetPrimaryResponse: {
+        "Stripe.Endpoints.PaymentMethods.CreateSetupIntent.CreateSetupIntentResponse": {
+            clientSecret?: string | null;
+        };
+        "Stripe.Endpoints.PaymentMethods.GetUserPaymentMethods.GetUserPaymentMethodsResponse": {
+            paymentMethods?: components["schemas"]["Stripe.Services.PaymentMethodDto"][] | null;
+        };
+        "Stripe.Endpoints.PaymentMethods.RemovePaymentMethod.RemovePaymentMethodResponse": {
             success?: boolean;
         };
-        "String<>f__AnonymousType0": {
-            installUrl?: string | null;
+        "Stripe.Endpoints.PaymentMethods.SetDefaultPaymentMethod.SetDefaultPaymentMethodRequest": {
+            paymentMethodId?: string | null;
         };
-        SubscriptionDto: {
+        "Stripe.Endpoints.PaymentMethods.SetDefaultPaymentMethod.SetDefaultPaymentMethodResponse": {
+            paymentMethod?: components["schemas"]["Stripe.Services.PaymentMethodDto"];
+        };
+        "Stripe.Endpoints.Subscriptions.CancelSubscription.CancelSubscriptionCommand": {
+            subscriptionId?: string | null;
+            cancelImmediately?: boolean;
+        };
+        "Stripe.Endpoints.Subscriptions.CancelSubscription.CancelSubscriptionResponse": {
+            subscriptionId?: string | null;
+            status?: string | null;
+            canceledAt?: string | null;
+            canceledImmediately?: boolean;
+        };
+        "Stripe.Endpoints.Subscriptions.GetUserSubscriptions.GetUserSubscriptionsResponse": {
+            subscriptions?: components["schemas"]["Stripe.Endpoints.Subscriptions.GetUserSubscriptions.SubscriptionDto"][] | null;
+        };
+        "Stripe.Endpoints.Subscriptions.GetUserSubscriptions.SubscriptionDto": {
             id?: string | null;
-            projectId?: components["schemas"]["ProjectId"];
+            projectId?: components["schemas"]["Api.Abstractions.ProjectId"];
             name?: string | null;
             status?: string | null;
             planId?: string | null;
@@ -2631,72 +2756,40 @@ export interface components {
             amount?: number;
             currency?: string | null;
         };
-        /** @enum {string} */
-        SystemType: "Unknown" | "Frontend" | "Backend";
-        UpdateServerRequest: {
-            secret?: string | null;
-            isoCountryCode?: string | null;
-            machineId?: string | null;
-            ram?: string | null;
-            vCpu?: string | null;
-            ip?: string | null;
-            hostName?: string | null;
-            apiDomain?: string | null;
-        };
-        UpdateServerResponse: {
-            success?: boolean;
-            pemPublicKey?: string | null;
-        };
-        UpsertProjectEnvironmentVariablesRequest: {
-            variables?: components["schemas"]["ProjectEnvironmentVariableDto"][] | null;
-        };
-        UpsertSubscriptionRequest: {
+        "Stripe.Endpoints.Subscriptions.UpsertSubscription.UpsertSubscriptionRequest": {
             /** Format: uuid */
             projectId?: string;
             tier?: string | null;
         };
-        UsagePoint: {
-            /** Format: date-time */
-            timestamp?: string;
+        "Stripe.Services.InvoiceDto": {
+            id?: string | null;
+            total?: components["schemas"]["Stripe.Services.Money"];
+            lines?: components["schemas"]["Stripe.Services.InvoiceLineDto"][] | null;
+        };
+        "Stripe.Services.InvoiceLineDto": {
+            id?: string | null;
+            amount?: components["schemas"]["Stripe.Services.Money"];
+            description?: string | null;
+        };
+        "Stripe.Services.Money": {
             /** Format: double */
-            value?: number;
+            amount?: number;
+            currency?: string | null;
         };
-        /** @enum {string} */
-        UsageSpan: "Total" | "Day" | "Week" | "Month" | "Year";
-        User: {
-            /** Format: date-time */
-            createdAtUtc?: string;
-            /** Format: date-time */
-            updatedAtUtc?: string | null;
-            /** Format: date-time */
-            deletedAtUtc?: string | null;
-            readonly isDeleted?: boolean;
-            readonly domainEvents?: components["schemas"]["IDomainEvent"][] | null;
-            id?: components["schemas"]["UserId"];
-            name?: string | null;
-            email?: string | null;
-            avatarUrl?: string | null;
-            roles?: string[] | null;
-            logins?: components["schemas"]["UserLogin"][] | null;
+        "Stripe.Services.PaymentMethodDto": {
+            id?: string | null;
+            type?: string | null;
+            brand?: string | null;
+            last4?: string | null;
+            /** Format: int32 */
+            expiryMonth?: number;
+            /** Format: int32 */
+            expiryYear?: number;
+            isDefault?: boolean;
         };
-        /** Format: uuid */
-        UserId: string;
-        UserLogin: {
-            /** Format: date-time */
-            createdAtUtc?: string;
-            /** Format: date-time */
-            updatedAtUtc?: string | null;
-            /** Format: date-time */
-            deletedAtUtc?: string | null;
-            readonly isDeleted?: boolean;
-            readonly domainEvents?: components["schemas"]["IDomainEvent"][] | null;
-            id?: components["schemas"]["UserLoginId"];
-            userId: components["schemas"]["UserId"];
-            provider: components["schemas"]["Provider"];
-            providerUserId: string | null;
+        "Template.Endpoints.Example.GetExampleResponse": {
+            message?: string | null;
         };
-        /** Format: uuid */
-        UserLoginId: string;
     };
     responses: never;
     parameters: never;
