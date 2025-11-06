@@ -11319,100 +11319,214 @@ export interface V1Service {
             body: PostStripeWebhooksBody;
         };
     };
-    postStripeInvoices: {
+    getStripeInvoices: {
         /**/
-        getMutationKey(parameters: PostStripeInvoicesParameters | void): ServiceOperationMutationKey<PostStripeInvoicesSchema, PostStripeInvoicesParameters>;
+        cancelQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetStripeInvoicesSchema, GetStripeInvoicesData, TInfinite, GetStripeInvoicesParameters, GetStripeInvoicesError> | QueryFiltersByQueryKey<GetStripeInvoicesSchema, GetStripeInvoicesData, TInfinite, GetStripeInvoicesParameters, GetStripeInvoicesError>, options?: CancelOptions): Promise<void>;
+        /**/
+        getQueryKey(parameters: GetStripeInvoicesParameters | void): ServiceOperationQueryKey<GetStripeInvoicesSchema, GetStripeInvoicesParameters>;
         /**
-         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
-         * Handles loading state, optimistic updates, and error handling.
+         * Performs asynchronous data fetching, manages loading states and error handling.
          *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
-         * @example Mutation with predefined parameters, e.g., for updating
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
+         * @example Query without parameters
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postStripeInvoices.useMutation({})
-         * mutate(body);
+         * const { data, isLoading } = qraft.v1Service.getStripeInvoices.useQuery()
          * ```
-         * @example Mutation without predefined parameters, e.g., for creating
+         */
+        useQuery<TData = GetStripeInvoicesData>(parameters: ServiceOperationQueryKey<GetStripeInvoicesSchema, GetStripeInvoicesParameters> | (GetStripeInvoicesParameters | void), options?: Omit<UndefinedInitialDataOptions<GetStripeInvoicesData, GetStripeInvoicesError, TData, ServiceOperationQueryKey<GetStripeInvoicesSchema, GetStripeInvoicesParameters>>, "queryKey">): UseQueryResult<TData, GetStripeInvoicesError | Error>;
+        /**
+         * Performs asynchronous data fetching, manages loading states and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
+         * @example Query without parameters
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postStripeInvoices.useMutation()
-         * mutate({
-         *     body: bodyPayload
+         * const { data, isLoading } = qraft.v1Service.getStripeInvoices.useQuery()
+         * ```
+         */
+        useQuery<TData = GetStripeInvoicesData>(parameters: ServiceOperationQueryKey<GetStripeInvoicesSchema, GetStripeInvoicesParameters> | (GetStripeInvoicesParameters | void), options: Omit<DefinedInitialDataOptions<GetStripeInvoicesData, GetStripeInvoicesError, TData, ServiceOperationQueryKey<GetStripeInvoicesSchema, GetStripeInvoicesParameters>>, "queryKey">): DefinedUseQueryResult<TData, GetStripeInvoicesError | Error>;
+        /**/
+        fetchInfiniteQuery<TPageParam extends GetStripeInvoicesParameters>(options: ServiceOperationFetchInfiniteQueryOptions<GetStripeInvoicesSchema, GetStripeInvoicesData, GetStripeInvoicesParameters, TPageParam, GetStripeInvoicesError>): Promise<OperationInfiniteData<GetStripeInvoicesData, GetStripeInvoicesParameters>>;
+        /**/
+        prefetchInfiniteQuery<TPageParam extends GetStripeInvoicesParameters>(options: ServiceOperationFetchInfiniteQueryOptions<GetStripeInvoicesSchema, GetStripeInvoicesData, GetStripeInvoicesParameters, TPageParam, GetStripeInvoicesError>): Promise<void>;
+        /**/
+        ensureInfiniteQueryData<TPageParam extends GetStripeInvoicesParameters>(options: ServiceOperationEnsureInfiniteQueryDataOptions<GetStripeInvoicesSchema, GetStripeInvoicesData, GetStripeInvoicesParameters, TPageParam, GetStripeInvoicesError>): Promise<OperationInfiniteData<GetStripeInvoicesData, GetStripeInvoicesParameters>>;
+        /**/
+        fetchQuery(options: ServiceOperationFetchQueryOptions<GetStripeInvoicesSchema, GetStripeInvoicesData, GetStripeInvoicesParameters, GetStripeInvoicesError> | void): Promise<GetStripeInvoicesData>;
+        /**/
+        prefetchQuery(options: ServiceOperationFetchQueryOptions<GetStripeInvoicesSchema, GetStripeInvoicesData, GetStripeInvoicesParameters, GetStripeInvoicesError> | void): Promise<void>;
+        /**/
+        ensureQueryData(options: ServiceOperationEnsureQueryDataOptions<GetStripeInvoicesSchema, GetStripeInvoicesData, GetStripeInvoicesParameters, GetStripeInvoicesError> | void): Promise<GetStripeInvoicesData>;
+        /**/
+        getInfiniteQueryData(parameters: ServiceOperationInfiniteQueryKey<GetStripeInvoicesSchema, GetStripeInvoicesParameters> | (GetStripeInvoicesParameters | void)): OperationInfiniteData<GetStripeInvoicesData, GetStripeInvoicesParameters> | undefined;
+        /**/
+        getQueriesData<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetStripeInvoicesSchema, GetStripeInvoicesData, TInfinite, GetStripeInvoicesParameters, GetStripeInvoicesError> | QueryFiltersByQueryKey<GetStripeInvoicesSchema, GetStripeInvoicesData, TInfinite, GetStripeInvoicesParameters, GetStripeInvoicesError>): TInfinite extends true ? Array<[
+            queryKey: ServiceOperationInfiniteQueryKey<GetStripeInvoicesSchema, GetStripeInvoicesParameters>,
+            data: NoInfer<OperationInfiniteData<GetStripeInvoicesData, GetStripeInvoicesParameters>> | undefined
+        ]> : Array<[
+            queryKey: ServiceOperationQueryKey<GetStripeInvoicesSchema, GetStripeInvoicesParameters>,
+            data: GetStripeInvoicesData | undefined
+        ]>;
+        /**/
+        getQueryData(parameters: ServiceOperationQueryKey<GetStripeInvoicesSchema, GetStripeInvoicesParameters> | (GetStripeInvoicesParameters | void)): GetStripeInvoicesData | undefined;
+        /**/
+        getQueryState(parameters: ServiceOperationQueryKey<GetStripeInvoicesSchema, GetStripeInvoicesParameters> | (GetStripeInvoicesParameters | void)): QueryState<GetStripeInvoicesData, GetStripeInvoicesError> | undefined;
+        /**/
+        getInfiniteQueryState(parameters: GetStripeInvoicesParameters | ServiceOperationInfiniteQueryKey<GetStripeInvoicesSchema, GetStripeInvoicesParameters> | void): QueryState<OperationInfiniteData<GetStripeInvoicesData, GetStripeInvoicesParameters>, GetStripeInvoicesError> | undefined;
+        /**/
+        invalidateQueries<TInfinite extends boolean = false>(filters?: InvalidateQueryFilters<GetStripeInvoicesSchema, GetStripeInvoicesData, TInfinite, GetStripeInvoicesParameters, GetStripeInvoicesError>, options?: InvalidateOptions): Promise<void>;
+        /**/
+        isFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetStripeInvoicesSchema, GetStripeInvoicesData, TInfinite, GetStripeInvoicesParameters, GetStripeInvoicesError> | QueryFiltersByQueryKey<GetStripeInvoicesSchema, GetStripeInvoicesData, TInfinite, GetStripeInvoicesParameters, GetStripeInvoicesError>): number;
+        /**/
+        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: QueryFnOptionsByQueryKey<GetStripeInvoicesSchema, GetStripeInvoicesParameters, TMeta, TSignal> | (QueryFnOptionsByParameters<GetStripeInvoicesParameters, TMeta, TSignal> | void), client?: (schema: GetStripeInvoicesSchema, options: {
+            parameters: GetStripeInvoicesParameters;
+            signal?: TSignal;
+            meta?: TMeta;
+        }) => Promise<RequestFnResponse<GetStripeInvoicesData, GetStripeInvoicesError>>): Promise<RequestFnResponse<GetStripeInvoicesData, GetStripeInvoicesError>>;
+        /**/
+        refetchQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetStripeInvoicesSchema, GetStripeInvoicesData, TInfinite, GetStripeInvoicesParameters, GetStripeInvoicesError> | QueryFiltersByQueryKey<GetStripeInvoicesSchema, GetStripeInvoicesData, TInfinite, GetStripeInvoicesParameters, GetStripeInvoicesError>, options?: RefetchOptions): Promise<void>;
+        /**/
+        removeQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetStripeInvoicesSchema, GetStripeInvoicesData, TInfinite, GetStripeInvoicesParameters, GetStripeInvoicesError> | QueryFiltersByQueryKey<GetStripeInvoicesSchema, GetStripeInvoicesData, TInfinite, GetStripeInvoicesParameters, GetStripeInvoicesError>): void;
+        /**/
+        resetQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetStripeInvoicesSchema, GetStripeInvoicesData, TInfinite, GetStripeInvoicesParameters, GetStripeInvoicesError> | QueryFiltersByQueryKey<GetStripeInvoicesSchema, GetStripeInvoicesData, TInfinite, GetStripeInvoicesParameters, GetStripeInvoicesError>, options?: ResetOptions): Promise<void>;
+        /**/
+        setInfiniteQueryData(parameters: GetStripeInvoicesParameters | ServiceOperationInfiniteQueryKey<GetStripeInvoicesSchema, GetStripeInvoicesParameters>, updater: Updater<NoInfer<OperationInfiniteData<GetStripeInvoicesData, GetStripeInvoicesParameters>> | undefined, NoInfer<OperationInfiniteData<GetStripeInvoicesData, GetStripeInvoicesParameters>> | undefined>, options?: SetDataOptions): OperationInfiniteData<GetStripeInvoicesData, GetStripeInvoicesParameters> | undefined;
+        /**/
+        setQueriesData<TInfinite extends boolean = false>(filters: QueryFiltersByParameters<GetStripeInvoicesSchema, GetStripeInvoicesData, TInfinite, GetStripeInvoicesParameters, GetStripeInvoicesError> | QueryFiltersByQueryKey<GetStripeInvoicesSchema, GetStripeInvoicesData, TInfinite, GetStripeInvoicesParameters, GetStripeInvoicesError>, updater: Updater<NoInfer<GetStripeInvoicesData> | undefined, NoInfer<GetStripeInvoicesData> | undefined>, options?: SetDataOptions): Array<GetStripeInvoicesData | undefined>;
+        /**/
+        setQueryData(parameters: (GetStripeInvoicesParameters | undefined) | ServiceOperationQueryKey<GetStripeInvoicesSchema, GetStripeInvoicesParameters>, updater: Updater<NoInfer<GetStripeInvoicesData> | undefined, NoInfer<GetStripeInvoicesData> | undefined>, options?: SetDataOptions): GetStripeInvoicesData | undefined;
+        /**/
+        getInfiniteQueryKey(parameters: GetStripeInvoicesParameters | void): ServiceOperationInfiniteQueryKey<GetStripeInvoicesSchema, GetStripeInvoicesParameters>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useInfiniteQuery|`useInfiniteQuery(...)` documentation}
+         *
+         * @example Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getStripeInvoices.useInfiniteQuery({}, {
+         *     initialPageParam: {},
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useInfiniteQuery<TPageParam extends GetStripeInvoicesParameters, TData = GetStripeInvoicesData>(parameters: ServiceOperationInfiniteQueryKey<GetStripeInvoicesSchema, GetStripeInvoicesParameters> | (GetStripeInvoicesParameters | void), options: Omit<UndefinedInitialDataInfiniteOptions<GetStripeInvoicesData, GetStripeInvoicesError, OperationInfiniteData<TData, GetStripeInvoicesParameters>, ServiceOperationInfiniteQueryKey<GetStripeInvoicesSchema, GetStripeInvoicesParameters>, PartialParameters<TPageParam>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<GetStripeInvoicesData, PartialParameters<TPageParam>>): UseInfiniteQueryResult<OperationInfiniteData<TData, GetStripeInvoicesParameters>, GetStripeInvoicesError | Error>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useInfiniteQuery|`useInfiniteQuery(...)` documentation}
+         *
+         * @example Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getStripeInvoices.useInfiniteQuery({}, {
+         *     initialPageParam: {},
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useInfiniteQuery<TPageParam extends GetStripeInvoicesParameters, TData = GetStripeInvoicesData>(parameters: ServiceOperationInfiniteQueryKey<GetStripeInvoicesSchema, GetStripeInvoicesParameters> | (GetStripeInvoicesParameters | void), options: Omit<DefinedInitialDataInfiniteOptions<GetStripeInvoicesData, GetStripeInvoicesError, OperationInfiniteData<TData, GetStripeInvoicesParameters>, ServiceOperationInfiniteQueryKey<GetStripeInvoicesSchema, GetStripeInvoicesParameters>, PartialParameters<TPageParam>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<GetStripeInvoicesData, PartialParameters<TPageParam>>): DefinedUseInfiniteQueryResult<OperationInfiniteData<TData, GetStripeInvoicesParameters>, GetStripeInvoicesError | Error>;
+        /**
+         * Monitors the number of queries currently fetching, matching the provided filters.
+         * Useful for creating loading indicators or performing actions based on active requests.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsFetching|`useIsFetching(...)` documentation}
+         * @example Checks the total number of queries fetching from the specified service method,
+         * both normal and infinite. If no parameters are provided, no filtering is applied.
+         * ```ts
+         * const getStripeInvoicesTotal = qraft.v1Service.getStripeInvoices.useIsFetching()
+         * ```
+         */
+        useIsFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetStripeInvoicesSchema, GetStripeInvoicesData, TInfinite, GetStripeInvoicesParameters, GetStripeInvoicesError> | QueryFiltersByQueryKey<GetStripeInvoicesSchema, GetStripeInvoicesData, TInfinite, GetStripeInvoicesParameters, GetStripeInvoicesError>): number;
+        /**
+         * Allows you to execute multiple asynchronous data fetching operations concurrently. This is especially useful for managing complex data dependencies in parallel.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
+         * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
+         * ```ts
+         * const getStripeInvoicesResults = qraft.v1Service.getStripeInvoices.useQueries({
+         *     queries: [
+         *         {},
+         *         {}
+         *     ]
          * });
+         * getStripeInvoicesResults.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
          * ```
-         */
-        useMutation<TVariables extends PostStripeInvoicesBody, TContext = unknown>(parameters: PostStripeInvoicesParameters, options?: ServiceOperationUseMutationOptions<PostStripeInvoicesSchema, PostStripeInvoicesData, PostStripeInvoicesParameters, TVariables, PostStripeInvoicesError, TContext>): UseMutationResult<PostStripeInvoicesData, PostStripeInvoicesError | Error, AreAllOptional<TVariables> extends true ? TVariables | void : TVariables, TContext>;
-        /**
-         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
-         * Handles loading state, optimistic updates, and error handling.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
-         * @example Mutation with predefined parameters, e.g., for updating
+         * @example Combined results. Only the data will be returned.
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postStripeInvoices.useMutation({})
-         * mutate(body);
-         * ```
-         * @example Mutation without predefined parameters, e.g., for creating
-         * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postStripeInvoices.useMutation()
-         * mutate({
-         *     body: bodyPayload
+         * const getStripeInvoicesCombinedResults = qraft.v1Service.getStripeInvoices.useQueries({
+         *     combine: results => results.map(result => result.data),
+         *     queries: [
+         *         {},
+         *         {}
+         *     ]
          * });
+         * getStripeInvoicesCombinedResults.forEach(data => console.log({ data }));
          * ```
          */
-        useMutation<TVariables extends MutationVariables<PostStripeInvoicesBody, PostStripeInvoicesParameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<PostStripeInvoicesSchema, PostStripeInvoicesData, PostStripeInvoicesParameters, TVariables, PostStripeInvoicesError, TContext>): UseMutationResult<PostStripeInvoicesData, PostStripeInvoicesError | Error, TVariables, TContext>;
-        /**
-         * Returns the count of currently in-progress mutations.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
-         * @example Check how many mutations are currently in progress for the specified service method.
-         * ```ts
-         * const postStripeInvoicesTotal = qraft.v1Service.postStripeInvoices.useIsMutating()
-         * ```
-         * @example Check how many mutations are currently in progress with the specified parameters.
-         * ```ts
-         * const postStripeInvoicesTotal = qraft.v1Service.postStripeInvoices.useIsMutating({
-         *     parameters: {}
-         * })
-         * ```
-         */
-        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<PostStripeInvoicesBody, PostStripeInvoicesData, PostStripeInvoicesParameters, PostStripeInvoicesError, TContext> | MutationFiltersByMutationKey<PostStripeInvoicesSchema, PostStripeInvoicesBody, PostStripeInvoicesData, PostStripeInvoicesParameters, PostStripeInvoicesError, TContext>): number;
+        useQueries<T extends Array<UseQueryOptionsForUseQueries<GetStripeInvoicesSchema, GetStripeInvoicesParameters, GetStripeInvoicesData, GetStripeInvoicesError>>, TCombinedResult = Array<UseQueryResult<GetStripeInvoicesData, GetStripeInvoicesError>>>(options: {
+            queries: T;
+            combine?: (results: Array<UseQueryResult<GetStripeInvoicesData, GetStripeInvoicesError>>) => TCombinedResult;
+        }): TCombinedResult;
         /**/
-        isMutating<TContext>(filters?: MutationFiltersByParameters<PostStripeInvoicesBody, PostStripeInvoicesData, PostStripeInvoicesParameters, PostStripeInvoicesError, TContext> | MutationFiltersByMutationKey<PostStripeInvoicesSchema, PostStripeInvoicesBody, PostStripeInvoicesData, PostStripeInvoicesParameters, PostStripeInvoicesError, TContext>): number;
-        /**/
-        (options: ServiceOperationMutationFnOptions<PostStripeInvoicesBody, PostStripeInvoicesParameters>, client?: (schema: PostStripeInvoicesSchema, options: ServiceOperationMutationFnOptions<PostStripeInvoicesBody, PostStripeInvoicesParameters>) => Promise<RequestFnResponse<PostStripeInvoicesData, PostStripeInvoicesError>>): Promise<RequestFnResponse<PostStripeInvoicesData, PostStripeInvoicesError>>;
+        getQueryKey(parameters: GetStripeInvoicesParameters | void): ServiceOperationQueryKey<GetStripeInvoicesSchema, GetStripeInvoicesParameters>;
         /**
-         * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
+         * Performs asynchronous data fetching, manages loading states and error handling.
          *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
-         * @example Get all variables of all running mutations.
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
+         * @example Query without parameters
          * ```ts
-         * const postStripeInvoicesPendingMutationVariables = qraft.v1Service.postStripeInvoices.useMutationState({
-         *     filters: {
-         *         status: "pending"
-         *     },
-         *     select: mutation => mutation.state.variables
-         * })
-         * ```
-         * @example Get all data for specific mutations via the `parameters`.
-         * ```ts
-         * const postStripeInvoicesMutationData = qraft.v1Service.postStripeInvoices.useMutationState({
-         *     filters: {
-         *         parameters: {}
-         *     },
-         *     select: mutation => mutation.state.data
-         * })
+         * const { data, isLoading } = qraft.v1Service.getStripeInvoices.useQuery()
          * ```
          */
-        useMutationState<TContext = unknown, TResult = MutationState<PostStripeInvoicesData, PostStripeInvoicesError, MutationVariables<PostStripeInvoicesBody, PostStripeInvoicesParameters>, TContext>>(options?: {
-            filters?: MutationFiltersByParameters<PostStripeInvoicesBody, PostStripeInvoicesData, PostStripeInvoicesParameters, PostStripeInvoicesError, TContext> | MutationFiltersByMutationKey<PostStripeInvoicesSchema, PostStripeInvoicesBody, PostStripeInvoicesData, PostStripeInvoicesParameters, PostStripeInvoicesError, TContext>;
-            select?: (mutation: Mutation<PostStripeInvoicesData, PostStripeInvoicesError, MutationVariables<PostStripeInvoicesBody, PostStripeInvoicesParameters>, TContext>) => TResult;
-        }): Array<TResult>;
-        schema: PostStripeInvoicesSchema;
+        useQuery<TData = GetStripeInvoicesData>(parameters: ServiceOperationQueryKey<GetStripeInvoicesSchema, GetStripeInvoicesParameters> | (GetStripeInvoicesParameters | void), options?: Omit<UndefinedInitialDataOptions<GetStripeInvoicesData, GetStripeInvoicesError, TData, ServiceOperationQueryKey<GetStripeInvoicesSchema, GetStripeInvoicesParameters>>, "queryKey">): UseQueryResult<TData, GetStripeInvoicesError | Error>;
+        /**
+         * Performs asynchronous data fetching, manages loading states and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
+         * @example Query without parameters
+         * ```ts
+         * const { data, isLoading } = qraft.v1Service.getStripeInvoices.useQuery()
+         * ```
+         */
+        useQuery<TData = GetStripeInvoicesData>(parameters: ServiceOperationQueryKey<GetStripeInvoicesSchema, GetStripeInvoicesParameters> | (GetStripeInvoicesParameters | void), options: Omit<DefinedInitialDataOptions<GetStripeInvoicesData, GetStripeInvoicesError, TData, ServiceOperationQueryKey<GetStripeInvoicesSchema, GetStripeInvoicesParameters>>, "queryKey">): DefinedUseQueryResult<TData, GetStripeInvoicesError | Error>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         * It functions similarly to `useInfiniteQuery`, but with added support for React Suspense.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseInfiniteQuery|`useSuspenseInfiniteQuery(...)` documentation}
+         *
+         * @example Suspense Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getStripeInvoices.useSuspenseInfiniteQuery({}, {
+         *     initialPageParam: {},
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useSuspenseInfiniteQuery<TPageParam extends GetStripeInvoicesParameters, TData = GetStripeInvoicesData>(parameters: ServiceOperationInfiniteQueryKey<GetStripeInvoicesSchema, GetStripeInvoicesParameters> | (GetStripeInvoicesParameters | void), options: Omit<UseSuspenseInfiniteQueryOptions<GetStripeInvoicesData, GetStripeInvoicesError, OperationInfiniteData<TData, GetStripeInvoicesParameters>, GetStripeInvoicesData, ServiceOperationInfiniteQueryKey<GetStripeInvoicesSchema, GetStripeInvoicesParameters>, PartialParameters<TPageParam>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<GetStripeInvoicesData, PartialParameters<TPageParam>>): UseSuspenseInfiniteQueryResult<OperationInfiniteData<TData, GetStripeInvoicesParameters>, GetStripeInvoicesError | Error>;
+        /**/
+        useSuspenseQueries<T extends Array<UseQueryOptionsForUseSuspenseQuery<GetStripeInvoicesSchema, GetStripeInvoicesParameters, GetStripeInvoicesData, GetStripeInvoicesError>>, TCombinedResult = Array<UseSuspenseQueryResult<GetStripeInvoicesData, GetStripeInvoicesError>>>(options: {
+            queries: T;
+            combine?: (results: Array<WithOptional<UseSuspenseQueryResult<GetStripeInvoicesData, GetStripeInvoicesError>, "data">>) => TCombinedResult;
+        }): TCombinedResult;
+        /**/
+        useSuspenseQuery<TData = GetStripeInvoicesData>(parameters: ServiceOperationQueryKey<GetStripeInvoicesSchema, GetStripeInvoicesParameters> | (GetStripeInvoicesParameters | void), options?: Omit<UseSuspenseQueryOptions<GetStripeInvoicesData, GetStripeInvoicesError, TData, ServiceOperationQueryKey<GetStripeInvoicesSchema, GetStripeInvoicesParameters>>, "queryKey">): UseSuspenseQueryResult<TData, GetStripeInvoicesError | Error>;
+        schema: GetStripeInvoicesSchema;
         types: {
-            parameters: PostStripeInvoicesParameters;
-            data: PostStripeInvoicesData;
-            error: PostStripeInvoicesError;
-            body: PostStripeInvoicesBody;
+            parameters: GetStripeInvoicesParameters;
+            data: GetStripeInvoicesData;
+            error: GetStripeInvoicesError;
         };
     };
     getUsers: {
@@ -12059,13 +12173,10 @@ export const v1Service: {
             url: "/v1/stripe/webhooks";
         };
     };
-    postStripeInvoices: {
+    getStripeInvoices: {
         schema: {
-            method: "post";
+            method: "get";
             url: "/v1/stripe/invoices";
-            mediaType: [
-                "application/json"
-            ];
         };
     };
     getUsers: {
@@ -12467,11 +12578,10 @@ export const v1Service: {
             url: "/v1/stripe/webhooks"
         }
     },
-    postStripeInvoices: {
+    getStripeInvoices: {
         schema: {
-            method: "post",
-            url: "/v1/stripe/invoices",
-            mediaType: ["application/json"]
+            method: "get",
+            url: "/v1/stripe/invoices"
         }
     },
     getUsers: {
@@ -13004,17 +13114,13 @@ type PostStripeWebhooksParameters = {};
 type PostStripeWebhooksData = unknown;
 type PostStripeWebhooksError = unknown;
 type PostStripeWebhooksBody = undefined;
-type PostStripeInvoicesSchema = {
-    method: "post";
+type GetStripeInvoicesSchema = {
+    method: "get";
     url: "/v1/stripe/invoices";
-    mediaType: [
-        "application/json"
-    ];
 };
-type PostStripeInvoicesParameters = {};
-type PostStripeInvoicesData = paths["/v1/stripe/invoices"]["post"]["responses"]["200"]["content"]["application/json"];
-type PostStripeInvoicesError = unknown;
-type PostStripeInvoicesBody = NonNullable<paths["/v1/stripe/invoices"]["post"]["requestBody"]>["content"]["application/json"];
+type GetStripeInvoicesParameters = undefined;
+type GetStripeInvoicesData = paths["/v1/stripe/invoices"]["get"]["responses"]["200"]["content"]["application/json"];
+type GetStripeInvoicesError = unknown;
 type GetUsersSchema = {
     method: "get";
     url: "/v1/users";

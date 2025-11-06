@@ -10,11 +10,10 @@ public static class GetInvoicesRoute
 
 	public static RouteHandlerBuilder AddGetInvoicesRoute(this IEndpointRouteBuilder app)
 	{
-		return app.MapPost(Route, ExecuteAsync);
+		return app.MapGet(Route, ExecuteAsync);
 	}
 
-	public static Task<GetInvoicesResponse> ExecuteAsync(
-		GetInvoicesCommand command,
-		IMediator mediator)
-		=> mediator.Send(command);
+	public static Task<GetInvoicesResponse> ExecuteAsync(IMediator mediator)
+		=> mediator.Send(
+			new GetInvoicesCommand());
 }

@@ -2266,20 +2266,14 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get?: never;
-        put?: never;
-        post: {
+        get: {
             parameters: {
                 query?: never;
                 header?: never;
                 path?: never;
                 cookie?: never;
             };
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["Stripe.Endpoints.Invoices.GetInvoices.GetInvoicesCommand"];
-                };
-            };
+            requestBody?: never;
             responses: {
                 /** @description OK */
                 200: {
@@ -2292,6 +2286,8 @@ export interface paths {
                 };
             };
         };
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -2702,7 +2698,6 @@ export interface components {
             subject?: string | null;
             htmlBody?: string | null;
         };
-        "Stripe.Endpoints.Invoices.GetInvoices.GetInvoicesCommand": Record<string, never>;
         "Stripe.Endpoints.Invoices.GetInvoices.GetInvoicesResponse": {
             invoices?: components["schemas"]["Stripe.Services.InvoiceDto"][] | null;
         };
