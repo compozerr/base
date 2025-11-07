@@ -44,7 +44,7 @@ function N8nLandingPage() {
     }
   }, [tiers, selectedTier])
 
-  const { mutateAsync: createProject, isPending } = api.v1.postCliProjects.useMutation()
+  const { mutateAsync: createProject, isPending } = api.v1.postCliN8nProjects.useMutation()
 
   const handleGetStarted = () => {
     // Store intent in sessionStorage for after login redirect
@@ -58,9 +58,7 @@ function N8nLandingPage() {
     try {
       const result = await createProject({
         body: {
-
-          repoName: projectName,
-          repoUrl: 'https://github.com/compozerr/n8n-template',
+          projectName: projectName,
           locationIso: selectedLocation,
           tier: selectedTier,
         }

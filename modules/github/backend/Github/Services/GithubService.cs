@@ -48,6 +48,9 @@ public interface IGithubService
         string repo,
         string branchName,
         string baseBranchName = "main");
+
+    Task<GitHubCommit> GetLatestCommitAsync(
+        Uri repoUri);
 }
 
 public sealed class GithubService(
@@ -175,7 +178,7 @@ public sealed class GithubService(
 
             if (user is null)
                 return null;
-            
+
             // Defensively check for null Logins collection
             if (user.Logins is null)
             {
@@ -194,7 +197,7 @@ public sealed class GithubService(
                .ForContext("ExceptionType", ex.GetType().Name)
                .ForContext("ExceptionMessage", ex.Message)
                .Error(ex, "Exception occurred when retrieving GitHub user login");
-            
+
             // Since this is called in various places, returning null is safer than throwing
             return null;
         }
@@ -362,5 +365,16 @@ public sealed class GithubService(
         }
 
         throw new TimeoutException($"Repository {owner}/{repoName} did not become available after forking");
+    }
+    public async Task<GitHubCommit> GetLatestCommitAsync(Uri repoUri)
+    {
+        var client = GetClient();
+
+        var owner = repoUri.Host.Split('/')[0];
+        var name = repoUri.AbsolutePath.TrimStart('/').Replace(".git", "");
+
+        var commits = await client.Repository.Commit.GetAll(owner, name);
+
+        return commits[0];
     }
 }
