@@ -44,7 +44,7 @@ function N8nLandingPage() {
     }
   }, [tiers, selectedTier])
 
-  const { mutateAsync: createProject, isPending } = api.v1.postCliN8nProjects.useMutation()
+  const { mutateAsync: createN8nProject, isPending } = api.v1.postN8nProjects.useMutation()
 
   const handleGetStarted = () => {
     // Store intent in sessionStorage for after login redirect
@@ -56,7 +56,7 @@ function N8nLandingPage() {
   const handleCreate = async () => {
     if (!projectName || !selectedLocation || !selectedTier) return
     try {
-      const result = await createProject({
+      const result = await createN8nProject({
         body: {
           projectName: projectName,
           locationIso: selectedLocation,

@@ -2,16 +2,16 @@ using Api.Features.N8n.Endpoints.CreateN8nProject;
 
 namespace Api.Features.N8n.Endpoints;
 
-public static class N8nGroup
+public class N8nGroup : CarterModule
 {
-    public const string Route = "n8n";
-
-    public static RouteGroupBuilder AddN8nGroup(this IEndpointRouteBuilder app)
+    public N8nGroup() : base("/n8n")
     {
-        var group = app.MapGroup(Route);
+        WithTags(nameof(N8nGroup));
+        RequireAuthorization();
+    }
 
-        group.AddCreateN8nProjectRoute();
-
-        return group;
+    public override void AddRoutes(IEndpointRouteBuilder app)
+    {
+        app.AddCreateN8nProjectRoute();
     }
 }

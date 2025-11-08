@@ -1156,6 +1156,45 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/n8n/projects": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["Api.Features.N8n.Endpoints.CreateN8nProject.CreateN8nProjectRequest"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Api.Features.N8n.Endpoints.CreateN8nProject.CreateN8nProjectResponse"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/projects/{projectId}": {
         parameters: {
             query?: never;
@@ -2508,6 +2547,14 @@ export interface components {
         "Api.Endpoints.Server.UpdateServerResponse": {
             success?: boolean;
             pemPublicKey?: string | null;
+        };
+        "Api.Features.N8n.Endpoints.CreateN8nProject.CreateN8nProjectRequest": {
+            projectName?: string | null;
+            locationIso?: string | null;
+            tier?: string | null;
+        };
+        "Api.Features.N8n.Endpoints.CreateN8nProject.CreateN8nProjectResponse": {
+            projectId?: components["schemas"]["Api.Abstractions.ProjectId"];
         };
         "Api.Hosting.Endpoints.Deployments.ChangeDeploymentStatus.ChangeDeploymentStatusRequest": {
             status?: string | null;

@@ -5435,6 +5435,102 @@ export interface V1Service {
             body: PostMailSendBody;
         };
     };
+    postN8nProjects: {
+        /**/
+        getMutationKey(parameters: PostN8nProjectsParameters | void): ServiceOperationMutationKey<PostN8nProjectsSchema, PostN8nProjectsParameters>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.postN8nProjects.useMutation({})
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.postN8nProjects.useMutation()
+         * mutate({
+         *     body: bodyPayload
+         * });
+         * ```
+         */
+        useMutation<TVariables extends PostN8nProjectsBody, TContext = unknown>(parameters: PostN8nProjectsParameters, options?: ServiceOperationUseMutationOptions<PostN8nProjectsSchema, PostN8nProjectsData, PostN8nProjectsParameters, TVariables, PostN8nProjectsError, TContext>): UseMutationResult<PostN8nProjectsData, PostN8nProjectsError | Error, AreAllOptional<TVariables> extends true ? TVariables | void : TVariables, TContext>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.postN8nProjects.useMutation({})
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.postN8nProjects.useMutation()
+         * mutate({
+         *     body: bodyPayload
+         * });
+         * ```
+         */
+        useMutation<TVariables extends MutationVariables<PostN8nProjectsBody, PostN8nProjectsParameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<PostN8nProjectsSchema, PostN8nProjectsData, PostN8nProjectsParameters, TVariables, PostN8nProjectsError, TContext>): UseMutationResult<PostN8nProjectsData, PostN8nProjectsError | Error, TVariables, TContext>;
+        /**
+         * Returns the count of currently in-progress mutations.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
+         * @example Check how many mutations are currently in progress for the specified service method.
+         * ```ts
+         * const postN8nProjectsTotal = qraft.v1Service.postN8nProjects.useIsMutating()
+         * ```
+         * @example Check how many mutations are currently in progress with the specified parameters.
+         * ```ts
+         * const postN8nProjectsTotal = qraft.v1Service.postN8nProjects.useIsMutating({
+         *     parameters: {}
+         * })
+         * ```
+         */
+        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<PostN8nProjectsBody, PostN8nProjectsData, PostN8nProjectsParameters, PostN8nProjectsError, TContext> | MutationFiltersByMutationKey<PostN8nProjectsSchema, PostN8nProjectsBody, PostN8nProjectsData, PostN8nProjectsParameters, PostN8nProjectsError, TContext>): number;
+        /**/
+        isMutating<TContext>(filters?: MutationFiltersByParameters<PostN8nProjectsBody, PostN8nProjectsData, PostN8nProjectsParameters, PostN8nProjectsError, TContext> | MutationFiltersByMutationKey<PostN8nProjectsSchema, PostN8nProjectsBody, PostN8nProjectsData, PostN8nProjectsParameters, PostN8nProjectsError, TContext>): number;
+        /**/
+        (options: ServiceOperationMutationFnOptions<PostN8nProjectsBody, PostN8nProjectsParameters>, client?: (schema: PostN8nProjectsSchema, options: ServiceOperationMutationFnOptions<PostN8nProjectsBody, PostN8nProjectsParameters>) => Promise<RequestFnResponse<PostN8nProjectsData, PostN8nProjectsError>>): Promise<RequestFnResponse<PostN8nProjectsData, PostN8nProjectsError>>;
+        /**
+         * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
+         * @example Get all variables of all running mutations.
+         * ```ts
+         * const postN8nProjectsPendingMutationVariables = qraft.v1Service.postN8nProjects.useMutationState({
+         *     filters: {
+         *         status: "pending"
+         *     },
+         *     select: mutation => mutation.state.variables
+         * })
+         * ```
+         * @example Get all data for specific mutations via the `parameters`.
+         * ```ts
+         * const postN8nProjectsMutationData = qraft.v1Service.postN8nProjects.useMutationState({
+         *     filters: {
+         *         parameters: {}
+         *     },
+         *     select: mutation => mutation.state.data
+         * })
+         * ```
+         */
+        useMutationState<TContext = unknown, TResult = MutationState<PostN8nProjectsData, PostN8nProjectsError, MutationVariables<PostN8nProjectsBody, PostN8nProjectsParameters>, TContext>>(options?: {
+            filters?: MutationFiltersByParameters<PostN8nProjectsBody, PostN8nProjectsData, PostN8nProjectsParameters, PostN8nProjectsError, TContext> | MutationFiltersByMutationKey<PostN8nProjectsSchema, PostN8nProjectsBody, PostN8nProjectsData, PostN8nProjectsParameters, PostN8nProjectsError, TContext>;
+            select?: (mutation: Mutation<PostN8nProjectsData, PostN8nProjectsError, MutationVariables<PostN8nProjectsBody, PostN8nProjectsParameters>, TContext>) => TResult;
+        }): Array<TResult>;
+        schema: PostN8nProjectsSchema;
+        types: {
+            parameters: PostN8nProjectsParameters;
+            data: PostN8nProjectsData;
+            error: PostN8nProjectsError;
+            body: PostN8nProjectsBody;
+        };
+    };
     getProjectsProjectId: {
         /**/
         cancelQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetProjectsProjectIdSchema, GetProjectsProjectIdData, TInfinite, GetProjectsProjectIdParameters, GetProjectsProjectIdError> | QueryFiltersByQueryKey<GetProjectsProjectIdSchema, GetProjectsProjectIdData, TInfinite, GetProjectsProjectIdParameters, GetProjectsProjectIdError>, options?: CancelOptions): Promise<void>;
@@ -11963,6 +12059,15 @@ export const v1Service: {
             ];
         };
     };
+    postN8nProjects: {
+        schema: {
+            method: "post";
+            url: "/v1/n8n/projects";
+            mediaType: [
+                "application/json"
+            ];
+        };
+    };
     getProjectsProjectId: {
         schema: {
             method: "get";
@@ -12381,6 +12486,13 @@ export const v1Service: {
         schema: {
             method: "post",
             url: "/v1/mail/send",
+            mediaType: ["application/json"]
+        }
+    },
+    postN8nProjects: {
+        schema: {
+            method: "post",
+            url: "/v1/n8n/projects",
             mediaType: ["application/json"]
         }
     },
@@ -12858,6 +12970,17 @@ type PostMailSendParameters = {};
 type PostMailSendData = unknown;
 type PostMailSendError = unknown;
 type PostMailSendBody = NonNullable<paths["/v1/mail/send"]["post"]["requestBody"]>["content"]["application/json"];
+type PostN8nProjectsSchema = {
+    method: "post";
+    url: "/v1/n8n/projects";
+    mediaType: [
+        "application/json"
+    ];
+};
+type PostN8nProjectsParameters = {};
+type PostN8nProjectsData = paths["/v1/n8n/projects"]["post"]["responses"]["200"]["content"]["application/json"];
+type PostN8nProjectsError = unknown;
+type PostN8nProjectsBody = NonNullable<paths["/v1/n8n/projects"]["post"]["requestBody"]>["content"]["application/json"];
 type GetProjectsProjectIdSchema = {
     method: "get";
     url: "/v1/projects/{projectId}";
