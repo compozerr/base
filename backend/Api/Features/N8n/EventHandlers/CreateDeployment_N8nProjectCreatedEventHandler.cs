@@ -9,15 +9,17 @@ namespace Api.Features.N8n.EventHandlers;
 public sealed class CreateDeployment_N8nProjectCreatedEventHandler(
     ISender sender,
     IGithubService githubService)
-    : IDomainEventHandler<N8nProjectCreatedEvent>
+    : DomainEventHandlerBase<N8nProjectCreatedEvent>
 {
-    public async Task Handle(N8nProjectCreatedEvent notification, CancellationToken cancellationToken)
+    public override async Task HandleAfterSaveChangesAsync(
+        N8nProjectCreatedEvent domainEvent,
+        CancellationToken cancellationToken)
     {
-        var latestCommit = await githubService.GetLatestCommitAsync(notification.Entity.RepoUri);
+        var latestCommit = await githubService.GetLatestCommitAsync(domainEvent.Entity.RepoUri);
 
         await sender.Send(
             new DeployProjectCommand(
-                notification.Entity.Id,
+                domainEvent.Entity.Id,
                 latestCommit.Sha,
                 latestCommit.Commit.Message,
                 latestCommit.Commit.Author.Name,

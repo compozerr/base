@@ -1,3 +1,4 @@
+using Core.Abstractions;
 using Core.Extensions;
 using Core.Feature;
 using Database.Events;
@@ -74,6 +75,8 @@ public abstract class BaseDbContext<TDbContext>(
 
         await DispatchDomainEvents_AfterSaveChangesAsync(cancellationToken);
 
+        await DispatchDomainEvents_SingleInstancesAsync(cancellationToken);
+
         return response;
     }
 
@@ -84,32 +87,57 @@ public abstract class BaseDbContext<TDbContext>(
                             .Where(e => e.DomainEvents.Count > 0)];
     }
 
+    private IReadOnlyList<IDomainEvent> GetDomainEventsAndRemoveWhen(DomainEventTriggerTiming when)
+    {
+        var entities = GetEntitiesWithDomainEvents();
+
+        var domainEvents = new List<DomainEventWithTriggerTiming>();
+
+        foreach (var entity in entities)
+        {
+            var events = entity.DomainEvents
+                               .OfType<DomainEventWithTriggerTiming>()
+                               .Where(e => e.When == when)
+                               .ToArray();
+
+            domainEvents.AddRange(events);
+
+            entity.DomainEvents.RemoveAll(e => events.Contains(e));
+        }
+
+        return [.. domainEvents.Select(d => d.DomainEvent)];
+    }
     private async Task DispatchDomainEvents_BeforeSaveChangesAsync(CancellationToken cancellationToken = default)
     {
-        var entries = GetEntitiesWithDomainEvents();
+        var domainEvents = GetDomainEventsAndRemoveWhen(DomainEventTriggerTiming.IsBeforeSaveChanges);
 
-        foreach (var entity in entries)
-        {
-            var events = entity.DomainEvents.Where(e => e is IDispatchBeforeSaveChanges).ToArray();
-            entity.DomainEvents.RemoveAll(e => e is IDispatchBeforeSaveChanges);
-
-            await events.ApplyAsync(domainEvent => mediator.Publish(domainEvent, cancellationToken));
-        }
+        await domainEvents.ApplyAsync(domainEvent => mediator.Publish(domainEvent, cancellationToken));
     }
 
     private async Task DispatchDomainEvents_AfterSaveChangesAsync(CancellationToken cancellationToken = default)
     {
-        var entries = ChangeTracker.Entries<BaseEntity>()
-                                   .Select(e => e.Entity)
-                                   .Where(e => e.DomainEvents.Count > 0)
-                                   .ToArray();
+        var domainEvents = GetDomainEventsAndRemoveWhen(DomainEventTriggerTiming.IsAfterSaveChanges);
 
-        foreach (var entity in entries)
+        await domainEvents.ApplyAsync(domainEvent => mediator.Publish(domainEvent, cancellationToken));
+    }
+
+    private async Task DispatchDomainEvents_SingleInstancesAsync(CancellationToken cancellationToken = default)
+    {
+        var entities = GetEntitiesWithDomainEvents();
+
+        var domainEvents = new List<IDomainEvent>();
+
+        foreach (var entity in entities)
         {
-            var events = entity.DomainEvents.ToArray();
-            entity.DomainEvents.Clear();
+            var events = entity.DomainEvents
+                               .Where(e => e is not DomainEventWithTriggerTiming)
+                               .ToArray();
 
-            await events.ApplyAsync(domainEvent => mediator.Publish(domainEvent, cancellationToken));
+            domainEvents.AddRange(events);
+
+            entity.DomainEvents.RemoveAll(e => events.Contains(e));
         }
+
+        await domainEvents.ApplyAsync(domainEvent => mediator.Publish(domainEvent, cancellationToken));
     }
 }

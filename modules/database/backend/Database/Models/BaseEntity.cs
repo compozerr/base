@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using Core.Abstractions;
+using Database.DomainEventQueuers;
 
 namespace Database.Models;
 
@@ -14,8 +15,16 @@ public abstract class BaseEntity
     [NotMapped]
     public List<IDomainEvent> DomainEvents { get; } = [];
 
-    public void QueueDomainEvent(IDomainEvent domainEvent)
-      => DomainEvents.Add(domainEvent);
+    public void QueueDomainEvent(
+        IDomainEvent domainEvent,
+        DomainEventQueuerTypes domainEventQueuersTypes)
+    {
+        var eventQueuer = DomainEventQueuerFactory.Create(
+            domainEventQueuersTypes,
+            DomainEvents);
+
+        eventQueuer.EnqueueEvent(domainEvent);
+    }
 }
 
 public abstract class BaseEntityWithId<TId> : BaseEntity where TId : IdBase<TId>, IId<TId>
