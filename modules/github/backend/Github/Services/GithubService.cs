@@ -368,12 +368,14 @@ public sealed class GithubService(
     }
     public async Task<GitHubCommit> GetLatestCommitAsync(Uri repoUri)
     {
-        var client = GetClient();
+        // Use unauthenticated client for public repositories
+        var client = new GitHubClient(new ProductHeaderValue("compozerr"));
 
-        var owner = repoUri.Host.Split('/')[0];
         var name = repoUri.AbsolutePath.TrimStart('/').Replace(".git", "");
+        var owner = name.Split('/')[0];
+        var repo = name.Split('/')[1];
 
-        var commits = await client.Repository.Commit.GetAll(owner, name);
+        var commits = await client.Repository.Commit.GetAll(owner, repo);
 
         return commits[0];
     }
