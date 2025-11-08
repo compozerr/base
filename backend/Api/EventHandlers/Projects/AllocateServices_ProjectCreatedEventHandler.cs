@@ -5,11 +5,11 @@ using Core.Abstractions;
 
 namespace Api.EventHandlers.Projects;
 
-public sealed class AllocateServices_ProjectCreatedEventHandler : IDomainEventHandler<ProjectCreatedEvent>
+public sealed class AllocateServices_ProjectCreatedEventHandler : EntityDomainEventHandlerBase<ProjectCreatedEvent>
 {
-    public Task Handle(ProjectCreatedEvent notification, CancellationToken cancellationToken)
+    protected override Task HandleBeforeSaveAsync(ProjectCreatedEvent domainEvent, CancellationToken cancellationToken)
     {
-        notification.Entity.ProjectServices = [.. GetDefaultServices(notification.Entity.Id)];
+        domainEvent.Entity.ProjectServices = [.. GetDefaultServices(domainEvent.Entity.Id)];
 
         return Task.CompletedTask;
     }

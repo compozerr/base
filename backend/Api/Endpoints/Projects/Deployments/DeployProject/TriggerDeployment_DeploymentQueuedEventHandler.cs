@@ -6,9 +6,9 @@ using MediatR;
 namespace Api.Endpoints.Projects.Deployments.DeployProject;
 
 public sealed class TriggerDeployment_DeploymentQueuedEventHandler(
-    IMediator mediator) : DomainEventHandlerBase<DeploymentQueuedEvent>
+    IMediator mediator) : EntityDomainEventHandlerBase<DeploymentQueuedEvent>
 {
-    public override async Task HandleBeforeSaveChangesAsync(DeploymentQueuedEvent domainEvent, CancellationToken cancellationToken)
+    protected override async Task HandleBeforeSaveAsync(DeploymentQueuedEvent domainEvent, CancellationToken cancellationToken)
     {
         Log.ForContext("DeploymentId", domainEvent.Entity.Id)
           .Information("Deployment queued, triggering deployment");

@@ -9,9 +9,9 @@ namespace Api.Features.N8n.EventHandlers;
 public sealed class CreateDeployment_N8nProjectCreatedEventHandler(
     ISender sender,
     IGithubService githubService)
-    : DomainEventHandlerBase<N8nProjectCreatedEvent>
+    : EntityDomainEventHandlerBase<N8nProjectCreatedEvent>
 {
-    public override async Task HandleAfterSaveChangesAsync(
+    protected override async Task HandleAfterSaveAsync(
         N8nProjectCreatedEvent domainEvent,
         CancellationToken cancellationToken)
     {

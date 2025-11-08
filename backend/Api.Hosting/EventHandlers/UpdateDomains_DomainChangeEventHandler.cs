@@ -8,18 +8,18 @@ namespace Api.Hosting.EventHandlers;
 
 public sealed class UpdateDomains_DomainChangeEventHandler(
     IProjectRepository projectRepository,
-    IHostingApiFactory hostingApiFactory) : IDomainEventHandler<DomainChangeEvent>
+    IHostingApiFactory hostingApiFactory) : EntityDomainEventHandlerBase<DomainChangeEvent>
 {
-    public async Task Handle(DomainChangeEvent notification, CancellationToken cancellationToken)
+    protected override async Task HandleAfterSaveAsync(DomainChangeEvent domainEvent, CancellationToken cancellationToken)
     {
         var domainProject = await projectRepository.GetByIdAsync(
-            notification.Entity.ProjectId,
+            domainEvent.Entity.ProjectId,
             cancellationToken) ?? throw new ArgumentException("Project not found");
 
         var hostingApi = await hostingApiFactory.GetHostingApiAsync(domainProject.ServerId ?? throw new ArgumentException("Server id not found"));
 
-        hostingApi.UpdateDomainsForProjectAsync(notification.Entity.ProjectId)
+        hostingApi.UpdateDomainsForProjectAsync(domainEvent.Entity.ProjectId)
                   .LogAndSilence();
-                  
+
     }
 }

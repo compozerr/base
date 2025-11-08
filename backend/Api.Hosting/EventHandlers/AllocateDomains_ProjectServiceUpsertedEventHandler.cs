@@ -9,19 +9,19 @@ using Database.Extensions;
 namespace Api.Hosting.EventHandlers;
 
 public sealed class AllocateDomains_ProjectServiceUpsertedEventHandler(
-    IProjectRepository projectRepository) : IDomainEventHandler<ProjectServiceUpsertedEvent>
+    IProjectRepository projectRepository) : EntityDomainEventHandlerBase<ProjectServiceUpsertedEvent>
 {
-    public async Task Handle(ProjectServiceUpsertedEvent notification, CancellationToken cancellationToken)
+    protected override async Task HandleBeforeSaveAsync(ProjectServiceUpsertedEvent domainEvent, CancellationToken cancellationToken)
     {
         var project = await projectRepository.GetByIdAsync(
-            notification.Entity.ProjectId,
+            domainEvent.Entity.ProjectId,
             cancellationToken) ?? throw new ArgumentException("Project not found");
 
         project.Domains ??= [];
-        var existingDomain = project.Domains.FirstOrDefault(d => d.ServiceName == notification.Entity.Name && d.Port == notification.Entity.Port);
+        var existingDomain = project.Domains.FirstOrDefault(d => d.ServiceName == domainEvent.Entity.Name && d.Port == domainEvent.Entity.Port);
         if (existingDomain == null)
         {
-            var newDomain = BuildCustomInternalDomain(project, notification.Entity);
+            var newDomain = BuildCustomInternalDomain(project, domainEvent.Entity);
             newDomain.QueueDomainEvent<DomainChangeEvent>();
             project.Domains.Add(newDomain);
             await projectRepository.UpdateAsync(project, cancellationToken);

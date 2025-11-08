@@ -4,4 +4,4 @@ using Database.Events;
 namespace Cli.Abstractions;
 
 public sealed record ProjectCreatedEvent(
-    Project Entity) : IEntityDomainEvent<Project>, IDispatchBeforeSaveChanges;
+    Project Entity) : IEntityDomainEvent<Project>;

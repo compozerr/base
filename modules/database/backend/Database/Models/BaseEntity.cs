@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using Core.Abstractions;
-using Database.DomainEventQueuers;
+using Database.Events;
 
 namespace Database.Models;
 
@@ -15,15 +15,33 @@ public abstract class BaseEntity
     [NotMapped]
     public List<IDomainEvent> DomainEvents { get; } = [];
 
-    public void QueueDomainEvent(
-        IDomainEvent domainEvent,
-        DomainEventQueuerTypes domainEventQueuersTypes)
+    /// <summary>
+    /// Queues a domain event to be dispatched.
+    ///
+    /// Timing behavior:
+    /// - IDispatchBeforeSaveChanges: Dispatched at BOTH before AND after save
+    ///   (handlers can implement HandleBeforeSaveAsync and/or HandleAfterSaveAsync)
+    ///
+    /// - IDispatchAfterSaveChanges: Dispatched ONLY after save
+    ///   (handlers receive event once after save completes)
+    ///
+    /// - Neither marker: Dispatched ONLY after save (default)
+    ///   (handlers receive event once after save completes)
+    /// </summary>
+    public void QueueDomainEvent(IDomainEvent domainEvent)
     {
-        var eventQueuer = DomainEventQueuerFactory.Create(
-            domainEventQueuersTypes,
-            DomainEvents);
+        // If event has IDispatchBeforeSaveChanges, it will be dispatched at BOTH timings
+        // Otherwise, it's dispatched once at the appropriate timing
+        DomainEvents.Add(domainEvent);
+    }
 
-        eventQueuer.EnqueueEvent(domainEvent);
+    /// <summary>
+    /// Clears all queued domain events.
+    /// This is called automatically by BaseDbContext after dispatching events.
+    /// </summary>
+    public void ClearDomainEvents()
+    {
+        DomainEvents.Clear();
     }
 }
 

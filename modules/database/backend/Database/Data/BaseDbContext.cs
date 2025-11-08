@@ -6,7 +6,6 @@ using MediatR;
 
 namespace Database.Data;
 
-
 public abstract class BaseDbContext<TDbContext>(
     string schema,
     DbContextOptions options,
@@ -49,6 +48,7 @@ public abstract class BaseDbContext<TDbContext>(
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
+        // Update timestamps
         var entries = ChangeTracker
             .Entries()
             .Where(e => (e.Entity is BaseEntity || e.Entity.GetType().IsSubclassOf(typeof(BaseEntity))) && (
@@ -69,13 +69,14 @@ public abstract class BaseDbContext<TDbContext>(
             }
         }
 
-        await DispatchDomainEvents_BeforeSaveChangesAsync(cancellationToken);
+        // Dispatch events at BEFORE timing
+        await DispatchDomainEventsAsync(DomainEventTiming.BeforeSaveChanges, cancellationToken);
 
+        // Save changes to database
         var response = await base.SaveChangesAsync(cancellationToken);
 
-        await DispatchDomainEvents_AfterSaveChangesAsync(cancellationToken);
-
-        await DispatchDomainEvents_SingleInstancesAsync(cancellationToken);
+        // Dispatch events at AFTER timing
+        await DispatchDomainEventsAsync(DomainEventTiming.AfterSaveChanges, cancellationToken);
 
         return response;
     }
@@ -87,57 +88,70 @@ public abstract class BaseDbContext<TDbContext>(
                             .Where(e => e.DomainEvents.Count > 0)];
     }
 
-    private IReadOnlyList<IDomainEvent> GetDomainEventsAndRemoveWhen(DomainEventTriggerTiming when)
+    /// <summary>
+    /// Dispatches domain events at the specified timing.
+    ///
+    /// Behavior:
+    /// - IEntityDomainEvent events: Dispatched at BOTH before and after timing
+    ///   (wrapped in envelope so handlers can choose which timing to handle)
+    ///
+    /// - IDomainEvent (non-entity) events: Dispatched ONLY at after timing
+    /// </summary>
+    private async Task DispatchDomainEventsAsync(
+        DomainEventTiming timing,
+        CancellationToken cancellationToken)
     {
         var entities = GetEntitiesWithDomainEvents();
-
-        var domainEvents = new List<DomainEventWithTriggerTiming>();
+        var eventsToDispatch = new List<IDomainEvent>();
 
         foreach (var entity in entities)
         {
-            var events = entity.DomainEvents
-                               .OfType<DomainEventWithTriggerTiming>()
-                               .Where(e => e.When == when)
-                               .ToArray();
+            foreach (var domainEvent in entity.DomainEvents.ToArray())
+            {
+                var isEntityEvent = IsEntityDomainEvent(domainEvent);
 
-            domainEvents.AddRange(events);
+                var shouldDispatch = timing switch
+                {
+                    DomainEventTiming.BeforeSaveChanges => isEntityEvent,
+                    DomainEventTiming.AfterSaveChanges => true,
+                    _ => false
+                };
 
-            entity.DomainEvents.RemoveAll(e => events.Contains(e));
+                if (shouldDispatch)
+                {
+                    var wrappedEvent = CreateEventEnvelope(domainEvent, timing);
+                    eventsToDispatch.Add(wrappedEvent);
+
+                    if (timing == DomainEventTiming.AfterSaveChanges)
+                    {
+                        entity.DomainEvents.Remove(domainEvent);
+                    }
+                }
+            }
         }
 
-        return [.. domainEvents.Select(d => d.DomainEvent)];
-    }
-    private async Task DispatchDomainEvents_BeforeSaveChangesAsync(CancellationToken cancellationToken = default)
-    {
-        var domainEvents = GetDomainEventsAndRemoveWhen(DomainEventTriggerTiming.IsBeforeSaveChanges);
-
-        await domainEvents.ApplyAsync(domainEvent => mediator.Publish(domainEvent, cancellationToken));
+        await eventsToDispatch.ApplyAsync(evt => mediator.Publish(evt, cancellationToken));
     }
 
-    private async Task DispatchDomainEvents_AfterSaveChangesAsync(CancellationToken cancellationToken = default)
+    /// <summary>
+    /// Checks if an event implements IEntityDomainEvent&lt;T&gt; interface.
+    /// </summary>
+    private static bool IsEntityDomainEvent(IDomainEvent domainEvent)
     {
-        var domainEvents = GetDomainEventsAndRemoveWhen(DomainEventTriggerTiming.IsAfterSaveChanges);
-
-        await domainEvents.ApplyAsync(domainEvent => mediator.Publish(domainEvent, cancellationToken));
+        var eventType = domainEvent.GetType();
+        return eventType.GetInterfaces()
+            .Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IEntityDomainEvent<>));
     }
 
-    private async Task DispatchDomainEvents_SingleInstancesAsync(CancellationToken cancellationToken = default)
+    /// <summary>
+    /// Creates an envelope wrapping the event with timing information.
+    /// Uses reflection to create the correct generic type.
+    /// </summary>
+    private static IDomainEvent CreateEventEnvelope(IDomainEvent domainEvent, DomainEventTiming timing)
     {
-        var entities = GetEntitiesWithDomainEvents();
-
-        var domainEvents = new List<IDomainEvent>();
-
-        foreach (var entity in entities)
-        {
-            var events = entity.DomainEvents
-                               .Where(e => e is not DomainEventWithTriggerTiming)
-                               .ToArray();
-
-            domainEvents.AddRange(events);
-
-            entity.DomainEvents.RemoveAll(e => events.Contains(e));
-        }
-
-        await domainEvents.ApplyAsync(domainEvent => mediator.Publish(domainEvent, cancellationToken));
+        var eventType = domainEvent.GetType();
+        var envelopeType = typeof(DomainEventEnvelope<>).MakeGenericType(eventType);
+        var envelope = Activator.CreateInstance(envelopeType, domainEvent, timing);
+        return (IDomainEvent)envelope!;
     }
 }

@@ -26,7 +26,7 @@ public sealed record TestEntityId : IdBase<TestEntityId>, IId<TestEntityId>
 
 public class TestEntity : BaseEntityWithId<TestEntityId> { }
 
-public record TestDomainEventBeforeSaveChanges(TestEntity Entity) : IEntityDomainEvent<TestEntity>, IDispatchBeforeSaveChanges;
+public record TestDomainEventBeforeSaveChanges(TestEntity Entity) : IEntityDomainEvent<TestEntity>;
 public record TestDomainEventAfterSaveChanges(TestEntity Entity) : IEntityDomainEvent<TestEntity>;
 
 public class TestDbContext(DbContextOptions options, IMediator mediator) : BaseDbContext<TestDbContext>("test", options, mediator)

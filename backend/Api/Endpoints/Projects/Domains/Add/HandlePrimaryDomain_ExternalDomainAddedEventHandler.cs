@@ -5,17 +5,17 @@ using Core.Abstractions;
 namespace Api.Endpoints.Projects.Domains.Add;
 
 public sealed class HandlePrimaryDomain_ExternalDomainAddedEventHandler(
-    IDomainRepository domainRepository) : IDomainEventHandler<ExternalDomainAddedEvent>
+    IDomainRepository domainRepository) : EntityDomainEventHandlerBase<ExternalDomainAddedEvent>
 {
-    public async Task Handle(ExternalDomainAddedEvent notification, CancellationToken cancellationToken)
+    protected override async Task HandleBeforeSaveAsync(ExternalDomainAddedEvent domainEvent, CancellationToken cancellationToken)
     {
         var currentDomains = await domainRepository.GetAllAsync(
-           x => x.Where(x => x.ProjectId == notification.Entity.ProjectId),
+           x => x.Where(x => x.ProjectId == domainEvent.Entity.ProjectId),
            cancellationToken);
 
         if (!currentDomains.Where(x => x.Type == DomainType.External).Any())
         {
-            notification.Entity.IsPrimary = true;
+            domainEvent.Entity.IsPrimary = true;
         }
 
         // Set others as not primary

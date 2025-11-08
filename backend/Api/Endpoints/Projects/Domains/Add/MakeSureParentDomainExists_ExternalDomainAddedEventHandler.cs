@@ -8,41 +8,41 @@ namespace Api.Endpoints.Projects.Domains.Add;
 public sealed class MakeSureParentDomainExists_ExternalDomainAddedEventHandler(
     IDomainRepository domainRepository,
     IProjectRepository projectRepository,
-    IProjectServiceRepository projectServiceRepository) : IDomainEventHandler<ExternalDomainAddedEvent>
+    IProjectServiceRepository projectServiceRepository) : EntityDomainEventHandlerBase<ExternalDomainAddedEvent>
 {
     private readonly Serilog.ILogger _logger = Log.Logger.ForContext<MakeSureParentDomainExists_ExternalDomainAddedEventHandler>();
-    public async Task Handle(ExternalDomainAddedEvent notification, CancellationToken cancellationToken)
+    protected override async Task HandleBeforeSaveAsync(ExternalDomainAddedEvent domainEvent, CancellationToken cancellationToken)
     {
         var currentDomains = await domainRepository.GetFilteredAsync(
-           x => x.ProjectId == notification.Entity.ProjectId,
+           x => x.ProjectId == domainEvent.Entity.ProjectId,
            cancellationToken);
 
         if (
             !currentDomains.Any(
                 x =>
-                x.Id != notification.Entity.Id &&
-                x.Port == notification.Entity.Port &&
-                x.Protocol == notification.Entity.Protocol))
+                x.Id != domainEvent.Entity.Id &&
+                x.Port == domainEvent.Entity.Port &&
+                x.Protocol == domainEvent.Entity.Protocol))
         {
             _logger.Information("No parent domain found for project {ProjectId} on port {Port} and protocol {Protocol}. Creating one.",
-                notification.Entity.ProjectId,
-                notification.Entity.Port,
-                notification.Entity.Protocol);
+                domainEvent.Entity.ProjectId,
+                domainEvent.Entity.Port,
+                domainEvent.Entity.Protocol);
 
             var projectService = await projectServiceRepository.GetSingleAsync(
-                x => x.Port == notification.Entity.Port && x.Name == notification.Entity.ServiceName && x.ProjectId == notification.Entity.ProjectId,
+                x => x.Port == domainEvent.Entity.Port && x.Name == domainEvent.Entity.ServiceName && x.ProjectId == domainEvent.Entity.ProjectId,
                 cancellationToken) ?? throw new InvalidOperationException("Project service not found");
 
-            if (projectService.Protocol != notification.Entity.Protocol)
+            if (projectService.Protocol != domainEvent.Entity.Protocol)
             {
-                projectService.Protocol = notification.Entity.Protocol;
+                projectService.Protocol = domainEvent.Entity.Protocol;
                 await projectServiceRepository.UpdateAsync(
                     projectService,
                     cancellationToken);
             }
 
             var project = await projectRepository.GetByIdAsync(
-                notification.Entity.ProjectId,
+                domainEvent.Entity.ProjectId,
                 cancellationToken) ?? throw new InvalidOperationException("Project not found");
 
             var parentDomain = BuildCustomInternalDomain(
@@ -56,9 +56,9 @@ public sealed class MakeSureParentDomainExists_ExternalDomainAddedEventHandler(
         else
         {
             _logger.Information("Parent domain already exists for project {ProjectId} on port {Port} and protocol {Protocol}. No action needed.",
-                notification.Entity.ProjectId,
-                notification.Entity.Port,
-                notification.Entity.Protocol);
+                domainEvent.Entity.ProjectId,
+                domainEvent.Entity.Port,
+                domainEvent.Entity.Protocol);
         }
     }
 
