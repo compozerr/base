@@ -69,10 +69,10 @@ export class Command {
     async cleanupPortAsync() {
         if (!this.options?.port?.trim()) return;
 
-        // const process = new Deno.Command("sh", {
-        //     args: ["-c", `lsof -t -i:${this.options.port} | xargs kill -9`],
-        // });
-        // await process.output();
+        const process = new Deno.Command("sh", {
+            args: ["-c", `lsof -t -i:${this.options.port} | xargs kill -9`],
+        });
+        await process.output();
     }
 
     async spawn() {
@@ -171,7 +171,7 @@ export class Command {
             const process = new Deno.Command("sh", {
                 args: ["-c", this.options.endCommand],
             });
-            
+
             process.outputSync();
         }
 
