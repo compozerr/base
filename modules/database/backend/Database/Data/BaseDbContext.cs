@@ -133,9 +133,6 @@ public abstract class BaseDbContext<TDbContext>(
         await eventsToDispatch.ApplyAsync(evt => mediator.Publish(evt, cancellationToken));
     }
 
-    /// <summary>
-    /// Checks if an event implements IEntityDomainEvent&lt;T&gt; interface.
-    /// </summary>
     private static bool IsEntityDomainEvent(IDomainEvent domainEvent)
     {
         var eventType = domainEvent.GetType();
@@ -143,10 +140,6 @@ public abstract class BaseDbContext<TDbContext>(
             .Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IEntityDomainEvent<>));
     }
 
-    /// <summary>
-    /// Creates an envelope wrapping the event with timing information.
-    /// Uses reflection to create the correct generic type.
-    /// </summary>
     private static IDomainEvent CreateEventEnvelope(IDomainEvent domainEvent, DomainEventTiming timing)
     {
         var eventType = domainEvent.GetType();
