@@ -1,3 +1,4 @@
+using Api.Abstractions;
 using Api.Data;
 
 namespace Api.Endpoints.Projects.Project.Get;
@@ -10,4 +11,4 @@ public sealed record GetProjectResponse(
     List<string> Domains,
     string ServerTier,
     string? PrimaryDomain,
-    string? Type);
+    ProjectType? Type);

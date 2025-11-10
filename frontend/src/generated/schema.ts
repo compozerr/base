@@ -2387,6 +2387,8 @@ export interface components {
         };
         /** Format: uuid */
         "Api.Abstractions.ProjectId": string;
+        /** @enum {string} */
+        "Api.Abstractions.ProjectType": "Compozerr" | "N8n";
         "Api.Abstractions.ServerTier": {
             id?: components["schemas"]["Api.Abstractions.ServerTierId"];
             /** Format: double */
@@ -2492,7 +2494,7 @@ export interface components {
             domains?: string[] | null;
             serverTier?: string | null;
             primaryDomain?: string | null;
-            type?: string | null;
+            type?: components["schemas"]["Api.Abstractions.ProjectType"];
         };
         "Api.Endpoints.Projects.ProjectEnvironment.ChangeAutoDeploy.ChangeAutoDeployRequest": {
             autoDeploy?: boolean;

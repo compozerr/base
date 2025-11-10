@@ -37,7 +37,7 @@ public static class GetProjectRoute
             [.. projectDomains?.Select(x => x.GetValue) ?? []],
             project.ServerTierId.Value,
             projectDomains?.GetPrimary()?.GetValue,
-            project.Type.ToString().ToLower()
+            project.Type
         );
     }
 }
