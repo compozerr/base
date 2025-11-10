@@ -1,3 +1,4 @@
+import { api } from '@/api-client';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { createFileRoute, Link, Outlet, useParams, useRouterState } from '@tanstack/react-router'
 import { useMemo } from 'react';
@@ -12,6 +13,8 @@ function RouteComponent() {
     const params = Route.useParams();
 
     const { location: { pathname } } = useRouterState();
+
+    const { data: project } = api.v1.getProjectsProjectId.useQuery({ path: { projectId: params.projectId } });
 
     const tabRoute = useMemo(() => pathname.split('/').pop(), [pathname]);
 
@@ -29,9 +32,13 @@ function RouteComponent() {
                     <TabsTrigger value="general" asChild>
                         <Link to="/projects/$projectId/settings/general" params={params} viewTransition>General</Link>
                     </TabsTrigger>
-                    <TabsTrigger value="environment" asChild>
-                        <Link to="/projects/$projectId/settings/environment" params={params} viewTransition>Environment Variables</Link>
-                    </TabsTrigger>
+                    {
+                        project?.type !== "N8n" && (
+                            <TabsTrigger value="environment" asChild>
+                                <Link to="/projects/$projectId/settings/environment" params={params} viewTransition>Environment Variables</Link>
+                            </TabsTrigger>
+                        )
+                    }
                     <TabsTrigger value="domains" asChild>
                         <Link to="/projects/$projectId/settings/domains" params={params} viewTransition>Domains</Link>
                     </TabsTrigger>
