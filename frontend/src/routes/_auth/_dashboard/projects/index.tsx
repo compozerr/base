@@ -164,7 +164,7 @@ function RouteComponent() {
                     accessorKey: 'name',
                     header: 'Project',
                     cell: ({ row }) => {
-                        const isN8n = row.original.type === 'n8n';
+                        const isN8n = row.original.type === 'N8n';
                         return <div className="flex items-center gap-2">
                             {isN8n && (
                                 <div className="flex items-center justify-center w-8 h-8 rounded-md bg-primary/10">
