@@ -19,15 +19,41 @@ export const Route = createFileRoute('/n8n')({
 
 function N8nLandingPage() {
   const navigate = useNavigate()
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user } = useAuth();
 
   const { data: locationsData } = api.v1.getCliLocations.useQuery(undefined, { enabled: isAuthenticated });
   const { data: tiersData } = api.v1.getServersTiers.useQuery(undefined, { enabled: isAuthenticated })
+  const { data: projectsData } = api.v1.getProjects.useInfiniteQuery(
+    { query: { } },
+    {
+      enabled: isAuthenticated,
+      getNextPageParam: (lastPage) => {
+        if (!lastPage) return undefined;
+        const currentPage = lastPage.page ?? 1;
+        const total = lastPage.totalProjectsCount ?? 0;
+        const pageSize = lastPage.pageSize ?? 20;
+        const totalPages = Math.ceil(total / pageSize);
+        if (currentPage < totalPages) {
+          return { query: { page: currentPage + 1 } };
+        }
+        return undefined;
+      },
+      initialPageParam: { query: { page: 1 } }
+    }
+  );
 
   const locations = useMemo(() => locationsData ?? [], [locationsData])
   const tiers = useMemo(() => tiersData?.tiers ?? [], [tiersData])
 
-  const [projectName, setProjectName] = useState('My n8n Workflow')
+  // Check if "My n8n service" already exists
+  const existingProjects = useMemo(() => {
+    return projectsData?.pages.flatMap(page => page.projects ?? []) ?? []
+  }, [projectsData])
+
+  const defaultName = 'My n8n service'
+  const nameExists = existingProjects.some(p => p?.name === defaultName)
+
+  const [projectName, setProjectName] = useState(defaultName)
   const [selectedLocation, setSelectedLocation] = useState<string>('')
   const [selectedTier, setSelectedTier] = useState<string>('')
 
@@ -40,11 +66,19 @@ function N8nLandingPage() {
 
   useEffect(() => {
     if (tiers.length > 0 && !selectedTier) {
-      setSelectedTier(tiers[0]?.id?.value ?? '')
+      // Default to T1 tier
+      const t1Tier = tiers.find(t => t.id?.value === 'T1')
+      setSelectedTier(t1Tier?.id?.value ?? tiers[0]?.id?.value ?? '')
     }
   }, [tiers, selectedTier])
 
-  const { mutateAsync: createN8nProject, isPending } = api.v1.postN8nProjects.useMutation()
+  const { mutateAsync: createN8nProject, isPending: isCreatingProject } = api.v1.postN8nProjects.useMutation()
+  const { mutateAsync: createSubscription, isPending: isCreatingSubscription } = api.v1.postStripeSubscriptionsUpsert.useMutation()
+
+  const isPending = isCreatingProject || isCreatingSubscription
+
+  // Black Friday coupon code - auto-applied for T1 tier
+  const BLACK_FRIDAY_COUPON = 'BLACK_FRIDAY_2025'
 
   const handleGetStarted = () => {
     // Store intent in sessionStorage for after login redirect
@@ -56,6 +90,7 @@ function N8nLandingPage() {
   const handleCreate = async () => {
     if (!projectName || !selectedLocation || !selectedTier) return
     try {
+      // Step 1: Create the n8n project
       const result = await createN8nProject({
         body: {
           projectName: projectName,
@@ -65,6 +100,17 @@ function N8nLandingPage() {
       })
 
       if (result.projectId) {
+        // Step 2: Create subscription with Black Friday coupon (auto-applied for T1)
+        const shouldApplyCoupon = selectedTier === 'T1'
+
+        await createSubscription({
+          body: {
+            projectId: result.projectId,
+            tier: selectedTier,
+            couponCode: shouldApplyCoupon ? BLACK_FRIDAY_COUPON : undefined,
+          } as any
+        })
+
         await api.v1.getProjects.invalidateQueries({})
 
         navigate({ to: '/projects/$projectId', params: { projectId: result.projectId } })
@@ -234,101 +280,117 @@ function N8nLandingPage() {
 
   // Authenticated user - show project creation UI
   return (
-    <div className="container mx-auto max-w-4xl py-10">
-      <div className="mb-8 text-center">
-        <Badge className="mb-4 bg-red-600 text-white">Black Friday Special - $5/mo</Badge>
-        <h1 className="text-4xl font-bold mb-2">Create n8n Project</h1>
-        <p className="text-muted-foreground">
-          Launch your own n8n automation workflow instance in seconds.
-        </p>
+    <>
+      <MouseMoveEffect />
+      <div className="relative min-h-screen">
+        {/* Background gradients */}
+        <div className="pointer-events-none fixed inset-0">
+          <div className="absolute inset-0 bg-gradient-to-b from-background via-background/90 to-background" />
+          <div className="absolute right-0 top-0 h-[500px] w-[500px] bg-blue-500/10 blur-[100px]" />
+          <div className="absolute bottom-0 left-0 h-[500px] w-[500px] bg-purple-500/10 blur-[100px]" />
+        </div>
+
+        <div className="relative z-10">
+          <Navbar />
+          <div className="container mx-auto px-4 py-16 md:py-24">
+            {/* Hero Section with Welcome */}
+            <div className="text-center space-y-8 max-w-4xl mx-auto">
+              <Badge className="mb-4 bg-red-600 text-white hover:bg-red-700">
+                🎉 Black Friday Special - 44% OFF
+              </Badge>
+              <h1 className="bg-gradient-to-br from-foreground from-30% via-foreground/90 to-foreground/70 bg-clip-text text-5xl font-bold tracking-tight text-transparent sm:text-6xl md:text-7xl">
+                Hello {user?.name}!
+              </h1>
+              <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto">
+                You're one click away from deploying your own n8n automation instance.
+                Self-hosted, independent, and ready in seconds.
+              </p>
+
+              {/* Pricing Highlight */}
+              <div className="flex items-center justify-center gap-4 pt-4">
+                <div className="text-center">
+                  <div className="text-5xl md:text-6xl font-bold text-red-500">
+                    $5<span className="text-3xl text-muted-foreground">/mo</span>
+                  </div>
+                  <div className="text-lg text-muted-foreground line-through">$8/mo</div>
+                </div>
+                <Badge variant="outline" className="text-lg px-4 py-2">
+                  Limited Time
+                </Badge>
+              </div>
+
+              {/* Conditional Name Input */}
+              {nameExists && (
+                <Card className="max-w-md mx-auto border-zinc-800 bg-zinc-900/50 backdrop-blur-sm">
+                  <CardContent className="pt-6 space-y-2">
+                    <Label htmlFor="projectName" className="text-base">Project Name</Label>
+                    <Input
+                      id="projectName"
+                      placeholder="My n8n service"
+                      value={projectName}
+                      onChange={(e) => setProjectName(e.target.value)}
+                      className="h-12 text-base"
+                    />
+                    <p className="text-sm text-muted-foreground">
+                      A project with this name already exists. Please choose a different name.
+                    </p>
+                  </CardContent>
+                </Card>
+              )}
+
+              {/* Big Create Button */}
+              <div className="pt-8">
+                <LoadingButton
+                  isLoading={!!isPending}
+                  disabled={!projectName || !selectedLocation || !selectedTier}
+                  onClick={handleCreate}
+                  size="lg"
+                  className="bg-white text-black hover:bg-zinc-200 font-semibold text-xl px-12 py-8 h-auto shadow-2xl hover:shadow-white/20 transition-all"
+                >
+                  <Rocket className="mr-3 h-6 w-6" />
+                  Create My n8n Instance
+                </LoadingButton>
+              </div>
+
+              <p className="text-sm text-muted-foreground pt-4">
+                Deploy instantly • T1 Server • Fully managed • Cancel anytime
+              </p>
+
+              {/* Feature Highlights */}
+              <div className="grid md:grid-cols-3 gap-6 pt-12 max-w-3xl mx-auto">
+                <div className="text-center space-y-2">
+                  <div className="w-12 h-12 rounded-full bg-blue-500/10 flex items-center justify-center mx-auto">
+                    <Zap className="h-6 w-6 text-blue-400" />
+                  </div>
+                  <h3 className="font-semibold">Instant Setup</h3>
+                  <p className="text-sm text-muted-foreground">
+                    Your instance will be live in under 60 seconds
+                  </p>
+                </div>
+                <div className="text-center space-y-2">
+                  <div className="w-12 h-12 rounded-full bg-green-500/10 flex items-center justify-center mx-auto">
+                    <Shield className="h-6 w-6 text-green-400" />
+                  </div>
+                  <h3 className="font-semibold">GAFM-Free</h3>
+                  <p className="text-sm text-muted-foreground">
+                    No Big Tech dependencies, complete control
+                  </p>
+                </div>
+                <div className="text-center space-y-2">
+                  <div className="w-12 h-12 rounded-full bg-purple-500/10 flex items-center justify-center mx-auto">
+                    <Globe className="h-6 w-6 text-purple-400" />
+                  </div>
+                  <h3 className="font-semibold">Custom Domains</h3>
+                  <p className="text-sm text-muted-foreground">
+                    Add your own domain after deployment
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-
-      <Card>
-        <CardHeader>
-          <CardTitle>Project Configuration</CardTitle>
-          <CardDescription>
-            Configure your n8n project settings. Your instance will be deployed automatically.
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-6">
-          <div className="space-y-2">
-            <Label htmlFor="projectName">Project Name</Label>
-            <Input
-              id="projectName"
-              placeholder="My n8n Workflow"
-              value={projectName}
-              onChange={(e) => setProjectName(e.target.value)}
-            />
-            <p className="text-xs text-muted-foreground">
-              Choose a descriptive name for your n8n project
-            </p>
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="location">Location</Label>
-            <Select
-              value={selectedLocation}
-              onValueChange={setSelectedLocation}
-              disabled={locations.length === 0}
-            >
-              <SelectTrigger id="location">
-                <SelectValue placeholder={locations.length === 0 ? 'Loading locations...' : 'Choose a location'} />
-              </SelectTrigger>
-              <SelectContent>
-                {locations.map((loc, idx) => (
-                  <SelectItem key={idx} value={loc ?? ''}>
-                    {loc}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            <p className="text-xs text-muted-foreground">
-              Select the server location closest to you
-            </p>
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="tier">Server Tier</Label>
-            <Select
-              value={selectedTier}
-              onValueChange={setSelectedTier}
-              disabled={tiers.length === 0}
-            >
-              <SelectTrigger id="tier">
-                <SelectValue placeholder={tiers.length === 0 ? 'Loading tiers...' : 'Choose a tier'} />
-              </SelectTrigger>
-              <SelectContent>
-                {tiers.map((tier, idx) => (
-                  <SelectItem key={idx} value={tier.id?.value ?? ''}>
-                    {tier.id?.value} - {Price.formatPrice(tier.price)}/mo
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            <p className="text-xs text-muted-foreground">
-              Select your preferred server tier and pricing
-            </p>
-          </div>
-
-          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <Globe className="h-4 w-4" />
-            <span>After creation, manage domains and settings in Project Settings</span>
-          </div>
-
-          <div>
-            <LoadingButton
-              isLoading={!!isPending}
-              disabled={!projectName || !selectedLocation || !selectedTier}
-              onClick={handleCreate}
-              className="w-full"
-            >
-              <Rocket className="mr-2 h-4 w-4" />
-              Create n8n Project
-            </LoadingButton>
-          </div>
-        </CardContent>
-      </Card>
-    </div>
+    </>
   )
 }
 
