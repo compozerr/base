@@ -1,5 +1,6 @@
 import { api } from '@/api-client';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { cn } from '@/lib/utils';
 import { createFileRoute, Link, Outlet, useParams, useRouterState } from '@tanstack/react-router'
 import { useMemo } from 'react';
 
@@ -28,7 +29,10 @@ function RouteComponent() {
             </div>
 
             <Tabs className="w-full" value={tabRoute}>
-                <TabsList className="grid w-full grid-cols-1 md:grid-cols-3 lg:w-auto h-full">
+                <TabsList className={cn("grid w-full grid-cols-1 lg:w-auto h-full", {
+                    "md:grid-cols-3": project?.type !== "N8n",
+                    "md:grid-cols-2": project?.type === "N8n",
+                })}>
                     <TabsTrigger value="general" asChild>
                         <Link to="/projects/$projectId/settings/general" params={params} viewTransition>General</Link>
                     </TabsTrigger>
