@@ -22,6 +22,7 @@ public interface ISubscriptionsService
     Task<SubscriptionDto> CreateSubscriptionTierAsync(
         ProjectId projectId,
         ServerTierId serverTierId,
+        string? couponCode = null,
         CancellationToken cancellationToken = default);
 
     Task<SubscriptionDto> CancelSubscriptionAsync(
@@ -122,6 +123,7 @@ public sealed class SubscriptionsService(
     public async Task<SubscriptionDto> CreateSubscriptionTierAsync(
         ProjectId projectId,
         ServerTierId serverTierId,
+        string? couponCode = null,
         CancellationToken cancellationToken = default)
     {
         try
@@ -146,6 +148,18 @@ public sealed class SubscriptionsService(
                 },
                 Expand = new List<string> { "items.data.plan.product" }
             };
+
+            // Apply coupon code if provided
+            if (!string.IsNullOrWhiteSpace(couponCode))
+            {
+                options.Discounts = new List<SubscriptionDiscountOptions>
+                {
+                    new SubscriptionDiscountOptions
+                    {
+                        Coupon = couponCode
+                    }
+                };
+            }
 
             var subscription = await service.CreateAsync(options, cancellationToken: cancellationToken);
 

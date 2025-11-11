@@ -39,6 +39,7 @@ public sealed class UpsertSubscriptionCommandHandler(
             var session = await subscriptionService.CreateSubscriptionTierAsync(
                 command.ProjectId,
                 command.ServerTierId,
+                command.CouponCode,
                 cancellationToken);
 
             await publisher.Publish(

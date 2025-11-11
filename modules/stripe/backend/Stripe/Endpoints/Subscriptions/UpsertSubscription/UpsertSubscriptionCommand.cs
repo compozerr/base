@@ -5,4 +5,5 @@ namespace Stripe.Endpoints.Subscriptions.UpsertSubscription;
 
 public sealed record UpsertSubscriptionCommand(
     ProjectId ProjectId,
-    ServerTierId ServerTierId) : ICommand<UpsertSubscriptionResponse>;
+    ServerTierId ServerTierId,
+    string? CouponCode = null) : ICommand<UpsertSubscriptionResponse>;
