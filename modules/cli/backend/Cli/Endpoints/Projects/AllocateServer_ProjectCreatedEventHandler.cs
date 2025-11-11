@@ -6,15 +6,15 @@ using Core.Abstractions;
 namespace Cli.Endpoints.Projects;
 
 public sealed class AllocateServer_ProjectCreatedEventHandler(
-    IServerRepository serverRepository) : IDomainEventHandler<ProjectCreatedEvent>
+    IServerRepository serverRepository) : EntityDomainEventHandlerBase<ProjectCreatedEvent>
 {
-    public async Task Handle(ProjectCreatedEvent notification, CancellationToken cancellationToken)
+    protected override async Task HandleBeforeSaveAsync(ProjectCreatedEvent domainEvent, CancellationToken cancellationToken)
     {
-        var bestServerInLocationResponse = await GetBestServerInLocationAsync(notification.Entity.LocationId);
-        notification.Entity.ServerId = bestServerInLocationResponse.ServerId;
+        var bestServerInLocationResponse = await GetBestServerInLocationAsync(domainEvent.Entity.LocationId);
+        domainEvent.Entity.ServerId = bestServerInLocationResponse.ServerId;
 
         if (bestServerInLocationResponse.ChangedToLocationId is { } changedToLocationId)
-            notification.Entity.LocationId = changedToLocationId;
+            domainEvent.Entity.LocationId = changedToLocationId;
     }
 
     private sealed record BestServerInLocationResponse(ServerId ServerId, LocationId? ChangedToLocationId);

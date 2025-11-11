@@ -6,11 +6,11 @@ using Core.Abstractions;
 
 namespace Cli.Endpoints.Projects;
 
-public sealed class AllocateDomains_ProjectCreatedEventHandler : IDomainEventHandler<ProjectCreatedEvent>
+public sealed class AllocateDomains_ProjectCreatedEventHandler : EntityDomainEventHandlerBase<ProjectCreatedEvent>
 {
-    public Task Handle(ProjectCreatedEvent notification, CancellationToken cancellationToken)
+    protected override Task HandleBeforeSaveAsync(ProjectCreatedEvent domainEvent, CancellationToken cancellationToken)
     {
-        notification.Entity.Domains = [.. GetDomains(notification.Entity)];
+        domainEvent.Entity.Domains = [.. GetDomains(domainEvent.Entity)];
 
         return Task.CompletedTask;
     }

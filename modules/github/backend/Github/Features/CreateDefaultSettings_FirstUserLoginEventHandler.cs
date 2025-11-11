@@ -8,20 +8,21 @@ namespace Github.Features;
 
 public sealed class CreateDefaultSettings_UserCreatedEventHandler(
     GithubDbContext dbContext,
-    IGithubService githubService) : IDomainEventHandler<FirstUserLoginEvent>
+    IGithubService githubService) : EntityDomainEventHandlerBase<FirstUserLoginEvent>
 {
-    public async Task Handle(FirstUserLoginEvent notification, CancellationToken cancellationToken)
+    protected override async Task HandleBeforeSaveAsync(FirstUserLoginEvent domainEvent, CancellationToken cancellationToken)
     {
         string? selectedInstallationId = null;
 
-        var userInstallations = await githubService.GetInstallationsForUserByAccessTokenAsync(notification.AccessToken);
+        var userInstallations = await githubService.GetInstallationsForUserByAccessTokenAsync(
+            domainEvent.AccessToken);
 
         if (userInstallations.Count > 0)
             selectedInstallationId = userInstallations[0].InstallationId;
 
         var settings = new GithubUserSettings
         {
-            UserId = notification.UserId,
+            UserId = domainEvent.UserId,
             SelectedProjectsInstallationId = selectedInstallationId,
             SelectedModulesInstallationId = selectedInstallationId
         };

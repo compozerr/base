@@ -4,18 +4,18 @@ using Core.Abstractions;
 
 namespace Cli.Endpoints.Projects;
 
-public sealed class AddProjectEnvironment_ProjectCreatedEventHandler : IDomainEventHandler<ProjectCreatedEvent>
+public sealed class AddProjectEnvironment_ProjectCreatedEventHandler : EntityDomainEventHandlerBase<ProjectCreatedEvent>
 {
-    public Task Handle(ProjectCreatedEvent notification, CancellationToken cancellationToken)
+    protected override Task HandleBeforeSaveAsync(ProjectCreatedEvent domainEvent, CancellationToken cancellationToken)
     {
         var defaultEnvironment = new ProjectEnvironment
         {
-            ProjectId = notification.Entity.Id,
+            ProjectId = domainEvent.Entity.Id,
             Branches = ["main"],
             AutoDeploy = true
         };
 
-        notification.Entity.ProjectEnvironments = [defaultEnvironment];
+        domainEvent.Entity.ProjectEnvironments = [defaultEnvironment];
 
         return Task.CompletedTask;
     }
