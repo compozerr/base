@@ -138,6 +138,7 @@ export const InvoicesList: React.FC<InvoicesListProps> = () => {
   if (isLoading) {
     return (
       <div className="space-y-4">
+        <h2 className="text-2xl font-bold">Invoices</h2>
         <Skeleton className="h-32 w-full" />
         <Skeleton className="h-32 w-full" />
         <Skeleton className="h-32 w-full" />
@@ -147,18 +148,22 @@ export const InvoicesList: React.FC<InvoicesListProps> = () => {
 
   if (error) {
     return (
-      <Card>
-        <CardContent className="py-8">
-          <p className="text-destructive text-center">
-            Error loading invoices: {(error as Error).message}
-          </p>
-        </CardContent>
-      </Card>
+      <div className="space-y-4">
+        <h2 className="text-2xl font-bold">Invoices</h2>
+        <Card>
+          <CardContent className="py-8">
+            <p className="text-destructive text-center">
+              Error loading invoices: {(error as Error).message}
+            </p>
+          </CardContent>
+        </Card>
+      </div>
     );
   }
 
   return (
     <div className="space-y-6">
+      <h2 className="text-2xl font-bold">Invoices</h2>
       {invoicesData?.monthlyGroups && invoicesData.monthlyGroups.length > 0 ? (
         invoicesData.monthlyGroups.map((group) => (
           <MonthlyInvoiceCard key={group.yearMonth} group={group!} />
