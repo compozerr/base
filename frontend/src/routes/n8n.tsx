@@ -24,7 +24,7 @@ function N8nLandingPage() {
   const { data: locationsData } = api.v1.getCliLocations.useQuery(undefined, { enabled: isAuthenticated });
   const { data: tiersData } = api.v1.getServersTiers.useQuery(undefined, { enabled: isAuthenticated })
   const { data: projectsData } = api.v1.getProjects.useInfiniteQuery(
-    { query: { } },
+    { query: {} },
     {
       enabled: isAuthenticated,
       getNextPageParam: (lastPage) => {
@@ -155,15 +155,16 @@ function N8nLandingPage() {
                   <span className="text-red-500">Not on GAFM</span>
                 </h1>
                 <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto">
-                  Self-host your n8n automation workflows with complete control.
-                  No Google, Amazon, Facebook, or Microsoft lock-in. Just pure, independent hosting.
+                  Create n8n automation workflows with complete control.
+                  <br />
+                  No Google, Amazon, Facebook, or Microsoft. Just pure, independent hosting - powered by <a href='https://www.ovhcloud.com/en/' className="underline" target="_blank" rel="noopener noreferrer">OVHcloud®</a>.
                 </p>
 
                 {/* Pricing Highlight */}
                 <div className="flex items-center justify-center gap-4 pt-4">
                   <div className="text-center">
                     <div className="text-4xl md:text-5xl font-bold text-red-500">$5<span className="text-2xl text-muted-foreground">/mo</span></div>
-                    <div className="text-sm text-muted-foreground line-through">$9/mo</div>
+                    <div className="text-sm text-muted-foreground line-through">$28/mo</div>
                   </div>
                   <Badge variant="outline" className="text-lg px-4 py-2">
                     Limited Time Offer
@@ -232,9 +233,9 @@ function N8nLandingPage() {
               </div>
 
               {/* Why Choose Us */}
-              <div className="max-w-3xl mx-auto mb-16">
+              <div className="max-w-2xl mx-auto mb-16">
                 <h2 className="text-3xl font-bold text-center mb-8">Why Choose Independent Hosting?</h2>
-                <div className="space-y-4">
+                <div className="space-y-4 w-fit mx-auto">
                   {[
                     'Complete control over your data and workflows',
                     'No vendor lock-in or platform dependencies',
@@ -256,8 +257,7 @@ function N8nLandingPage() {
                 <CardContent className="p-8 text-center space-y-6">
                   <h3 className="text-2xl font-bold">Ready to Take Control?</h3>
                   <p className="text-muted-foreground">
-                    Join thousands of developers who've chosen independence over convenience.
-                    Deploy your n8n instance today and experience the freedom of self-hosted automation.
+                    Deploy your n8n instance today and experience the freedom of automation.
                   </p>
                   <Button
                     onClick={handleGetStarted}
@@ -267,7 +267,7 @@ function N8nLandingPage() {
                     Start Free - No Credit Card Required
                   </Button>
                   <p className="text-xs text-muted-foreground">
-                    Black Friday pricing: $5/month (normally $9/month) • Offer expires soon
+                    Black Friday pricing: $5/month (on n8n cloud it is $28/month) • Offer expires soon
                   </p>
                 </CardContent>
               </Card>
