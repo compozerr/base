@@ -1119,6 +1119,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/stripe/invoices/monthly/{yearMonth}/download": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["DownloadMonthlyInvoice"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/mail/send": {
         parameters: {
             query?: never;
@@ -2749,7 +2765,7 @@ export interface components {
             htmlBody?: string | null;
         };
         "Stripe.Endpoints.Invoices.GetInvoices.GetInvoicesResponse": {
-            invoices?: components["schemas"]["Stripe.Services.InvoiceDto"][] | null;
+            monthlyGroups?: components["schemas"]["Stripe.Services.MonthlyInvoiceGroup"][] | null;
         };
         "Stripe.Endpoints.PaymentMethods.AttachPaymentMethod.AttachPaymentMethodRequest": {
             paymentMethodId?: string | null;
@@ -2810,6 +2826,14 @@ export interface components {
             id?: string | null;
             total?: components["schemas"]["Stripe.Services.Money"];
             lines?: components["schemas"]["Stripe.Services.InvoiceLineDto"][] | null;
+            hostedInvoiceUrl?: string | null;
+            invoicePdf?: string | null;
+            /** Format: int64 */
+            periodStart?: number;
+            /** Format: int64 */
+            periodEnd?: number;
+            /** Format: int64 */
+            created?: number;
         };
         "Stripe.Services.InvoiceLineDto": {
             id?: string | null;
@@ -2820,6 +2844,13 @@ export interface components {
             /** Format: double */
             amount?: number;
             currency?: string | null;
+        };
+        "Stripe.Services.MonthlyInvoiceGroup": {
+            yearMonth?: string | null;
+            monthLabel?: string | null;
+            isOngoing?: boolean;
+            monthTotal?: components["schemas"]["Stripe.Services.Money"];
+            invoices?: components["schemas"]["Stripe.Services.InvoiceDto"][] | null;
         };
         "Stripe.Services.PaymentMethodDto": {
             id?: string | null;
@@ -2843,4 +2874,34 @@ export interface components {
     pathItems: never;
 }
 export type $defs = Record<string, never>;
-export type operations = Record<string, never>;
+export interface operations {
+    DownloadMonthlyInvoice: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                yearMonth: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/pdf": string;
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+}

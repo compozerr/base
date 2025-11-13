@@ -1,10 +1,12 @@
 {
     "type": "module",
     "name": "stripe",
-    "dependencies": { },
+    "dependencies": {
+        "compozerr-lib/auth": "*"
+    },
     "end": "",
     "port": "",
-    "frontend":{
+    "frontend": {
         "routesDir": "frontend/src/routes"
     },
     "backend": {

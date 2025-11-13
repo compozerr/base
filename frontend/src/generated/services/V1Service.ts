@@ -5339,6 +5339,124 @@ export interface V1Service {
             error: GetHostingProjectsProjectIdEnvironmentError;
         };
     };
+    downloadMonthlyInvoice: {
+        /**/
+        getMutationKey(parameters: DownloadMonthlyInvoiceParameters | void): ServiceOperationMutationKey<DownloadMonthlyInvoiceSchema, DownloadMonthlyInvoiceParameters>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.downloadMonthlyInvoice.useMutation({
+         *     path: {
+         *         yearMonth: yearMonth
+         *     }
+         * })
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.downloadMonthlyInvoice.useMutation()
+         * mutate({
+         *     body: bodyPayload,
+         *     path: {
+         *         yearMonth: yearMonth
+         *     }
+         * });
+         * ```
+         */
+        useMutation<TVariables extends DownloadMonthlyInvoiceBody, TContext = unknown>(parameters: DownloadMonthlyInvoiceParameters, options?: ServiceOperationUseMutationOptions<DownloadMonthlyInvoiceSchema, DownloadMonthlyInvoiceData, DownloadMonthlyInvoiceParameters, TVariables, DownloadMonthlyInvoiceError, TContext>): UseMutationResult<DownloadMonthlyInvoiceData, DownloadMonthlyInvoiceError | Error, AreAllOptional<TVariables> extends true ? TVariables | void : TVariables, TContext>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.downloadMonthlyInvoice.useMutation({
+         *     path: {
+         *         yearMonth: yearMonth
+         *     }
+         * })
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.downloadMonthlyInvoice.useMutation()
+         * mutate({
+         *     body: bodyPayload,
+         *     path: {
+         *         yearMonth: yearMonth
+         *     }
+         * });
+         * ```
+         */
+        useMutation<TVariables extends MutationVariables<DownloadMonthlyInvoiceBody, DownloadMonthlyInvoiceParameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<DownloadMonthlyInvoiceSchema, DownloadMonthlyInvoiceData, DownloadMonthlyInvoiceParameters, TVariables, DownloadMonthlyInvoiceError, TContext>): UseMutationResult<DownloadMonthlyInvoiceData, DownloadMonthlyInvoiceError | Error, TVariables, TContext>;
+        /**
+         * Returns the count of currently in-progress mutations.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
+         * @example Check how many mutations are currently in progress for the specified service method.
+         * ```ts
+         * const downloadMonthlyInvoiceTotal = qraft.v1Service.downloadMonthlyInvoice.useIsMutating()
+         * ```
+         * @example Check how many mutations are currently in progress with the specified parameters.
+         * ```ts
+         * const downloadMonthlyInvoiceTotal = qraft.v1Service.downloadMonthlyInvoice.useIsMutating({
+         *     parameters: {
+         *         path: {
+         *             yearMonth: yearMonth
+         *         }
+         *     }
+         * })
+         * ```
+         */
+        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<DownloadMonthlyInvoiceBody, DownloadMonthlyInvoiceData, DownloadMonthlyInvoiceParameters, DownloadMonthlyInvoiceError, TContext> | MutationFiltersByMutationKey<DownloadMonthlyInvoiceSchema, DownloadMonthlyInvoiceBody, DownloadMonthlyInvoiceData, DownloadMonthlyInvoiceParameters, DownloadMonthlyInvoiceError, TContext>): number;
+        /**/
+        isMutating<TContext>(filters?: MutationFiltersByParameters<DownloadMonthlyInvoiceBody, DownloadMonthlyInvoiceData, DownloadMonthlyInvoiceParameters, DownloadMonthlyInvoiceError, TContext> | MutationFiltersByMutationKey<DownloadMonthlyInvoiceSchema, DownloadMonthlyInvoiceBody, DownloadMonthlyInvoiceData, DownloadMonthlyInvoiceParameters, DownloadMonthlyInvoiceError, TContext>): number;
+        /**/
+        (options: ServiceOperationMutationFnOptions<DownloadMonthlyInvoiceBody, DownloadMonthlyInvoiceParameters>, client?: (schema: DownloadMonthlyInvoiceSchema, options: ServiceOperationMutationFnOptions<DownloadMonthlyInvoiceBody, DownloadMonthlyInvoiceParameters>) => Promise<RequestFnResponse<DownloadMonthlyInvoiceData, DownloadMonthlyInvoiceError>>): Promise<RequestFnResponse<DownloadMonthlyInvoiceData, DownloadMonthlyInvoiceError>>;
+        /**
+         * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
+         * @example Get all variables of all running mutations.
+         * ```ts
+         * const downloadMonthlyInvoicePendingMutationVariables = qraft.v1Service.downloadMonthlyInvoice.useMutationState({
+         *     filters: {
+         *         status: "pending"
+         *     },
+         *     select: mutation => mutation.state.variables
+         * })
+         * ```
+         * @example Get all data for specific mutations via the `parameters`.
+         * ```ts
+         * const downloadMonthlyInvoiceMutationData = qraft.v1Service.downloadMonthlyInvoice.useMutationState({
+         *     filters: {
+         *         parameters: {
+         *             path: {
+         *                 yearMonth: yearMonth
+         *             }
+         *         }
+         *     },
+         *     select: mutation => mutation.state.data
+         * })
+         * ```
+         */
+        useMutationState<TContext = unknown, TResult = MutationState<DownloadMonthlyInvoiceData, DownloadMonthlyInvoiceError, MutationVariables<DownloadMonthlyInvoiceBody, DownloadMonthlyInvoiceParameters>, TContext>>(options?: {
+            filters?: MutationFiltersByParameters<DownloadMonthlyInvoiceBody, DownloadMonthlyInvoiceData, DownloadMonthlyInvoiceParameters, DownloadMonthlyInvoiceError, TContext> | MutationFiltersByMutationKey<DownloadMonthlyInvoiceSchema, DownloadMonthlyInvoiceBody, DownloadMonthlyInvoiceData, DownloadMonthlyInvoiceParameters, DownloadMonthlyInvoiceError, TContext>;
+            select?: (mutation: Mutation<DownloadMonthlyInvoiceData, DownloadMonthlyInvoiceError, MutationVariables<DownloadMonthlyInvoiceBody, DownloadMonthlyInvoiceParameters>, TContext>) => TResult;
+        }): Array<TResult>;
+        schema: DownloadMonthlyInvoiceSchema;
+        types: {
+            parameters: DownloadMonthlyInvoiceParameters;
+            data: DownloadMonthlyInvoiceData;
+            error: DownloadMonthlyInvoiceError;
+            body: DownloadMonthlyInvoiceBody;
+        };
+    };
     postMailSend: {
         /**/
         getMutationKey(parameters: PostMailSendParameters | void): ServiceOperationMutationKey<PostMailSendSchema, PostMailSendParameters>;
@@ -12050,6 +12168,12 @@ export const v1Service: {
             url: "/v1/hosting/projects/{projectId}/environment";
         };
     };
+    downloadMonthlyInvoice: {
+        schema: {
+            method: "post";
+            url: "/v1/stripe/invoices/monthly/{yearMonth}/download";
+        };
+    };
     postMailSend: {
         schema: {
             method: "post";
@@ -12480,6 +12604,12 @@ export const v1Service: {
         schema: {
             method: "get",
             url: "/v1/hosting/projects/{projectId}/environment"
+        }
+    },
+    downloadMonthlyInvoice: {
+        schema: {
+            method: "post",
+            url: "/v1/stripe/invoices/monthly/{yearMonth}/download"
         }
     },
     postMailSend: {
@@ -12959,6 +13089,14 @@ type GetHostingProjectsProjectIdEnvironmentSchema = {
 type GetHostingProjectsProjectIdEnvironmentParameters = paths["/v1/hosting/projects/{projectId}/environment"]["get"]["parameters"];
 type GetHostingProjectsProjectIdEnvironmentData = paths["/v1/hosting/projects/{projectId}/environment"]["get"]["responses"]["200"]["content"]["application/json"];
 type GetHostingProjectsProjectIdEnvironmentError = unknown;
+type DownloadMonthlyInvoiceSchema = {
+    method: "post";
+    url: "/v1/stripe/invoices/monthly/{yearMonth}/download";
+};
+type DownloadMonthlyInvoiceParameters = paths["/v1/stripe/invoices/monthly/{yearMonth}/download"]["post"]["parameters"];
+type DownloadMonthlyInvoiceData = paths["/v1/stripe/invoices/monthly/{yearMonth}/download"]["post"]["responses"]["200"]["content"]["application/pdf"];
+type DownloadMonthlyInvoiceError = unknown;
+type DownloadMonthlyInvoiceBody = undefined;
 type PostMailSendSchema = {
     method: "post";
     url: "/v1/mail/send";
