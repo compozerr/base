@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.Extensions.Options;
 using Serilog;
 using Stripe.Events;
+using Stripe.Jobs;
 using Stripe.Options;
 
 namespace Stripe.Endpoints.Webhooks.ProcessWebhook;
@@ -46,7 +47,9 @@ public class ProcessWebhookCommandHandler(
         switch (stripeEvent.Type)
         {
             case "invoice.payment_failed":
-                await HandleInvoicePaymentFailed(stripeEvent, cancellationToken);
+                await HandleInvoicePaymentFailed(
+                    stripeEvent,
+                    cancellationToken);
                 break;
 
             case "invoice.payment_succeeded":
@@ -74,16 +77,25 @@ public class ProcessWebhookCommandHandler(
             subscriptionId = line?.SubscriptionId ?? "";
         }
 
+        var dueDate = invoice.DueDate ?? DateTime.UtcNow;
+
+        var daysOverdue = (DateTime.UtcNow - dueDate).Days;
+
         var failedPaymentEvent = new StripeInvoicePaymentFailedEvent(
             InvoiceId: invoice.Id,
             CustomerId: invoice.CustomerId,
             SubscriptionId: subscriptionId,
             AmountDue: invoice.AmountDue / 100m,
+            Currency: invoice.Currency,
+            DueDate: dueDate,
+            DaysOverdue: daysOverdue,
+            PaymentLink: invoice.HostedInvoiceUrl ?? "",
             AttemptCount: (int)invoice.AttemptCount,
             FailureReason: invoice.LastFinalizationError?.Message,
             NextPaymentAttempt: invoice.NextPaymentAttempt);
 
-        await publisher.Publish(failedPaymentEvent, cancellationToken);
+        StripeInvoicePaymentFailedJob.Enqueue(
+            failedPaymentEvent);
 
         _logger.Information("Published StripeInvoicePaymentFailedEvent for invoice: {InvoiceId}", invoice.Id);
     }

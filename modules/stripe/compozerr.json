@@ -2,7 +2,8 @@
     "type": "module",
     "name": "stripe",
     "dependencies": {
-        "compozerr-lib/auth": "*"
+        "compozerr-lib/auth": "*",
+        "compozerr-lib/jobs": "*"
     },
     "end": "",
     "port": "",
