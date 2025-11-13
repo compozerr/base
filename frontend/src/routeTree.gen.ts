@@ -22,7 +22,6 @@ import { Route as AuthLogoutRouteImport } from './../../modules/auth/frontend/sr
 import { Route as AuthDashboardRouteImport } from './routes/_auth/_dashboard'
 import { Route as AuthDashboardSettingsRouteImport } from './routes/_auth/_dashboard/settings'
 import { Route as AuthDashboardIntroFlowRouteImport } from './routes/_auth/_dashboard/intro-flow'
-import { Route as AuthDashboardDashboardRouteImport } from './routes/_auth/_dashboard/dashboard'
 import { Route as AuthDashboardProjectsIndexRouteImport } from './routes/_auth/_dashboard/projects/index'
 import { Route as AuthDashboardProjectsProjectIdRouteRouteImport } from './routes/_auth/_dashboard/projects/$projectId/route'
 import { Route as AuthDashboardProjectsProjectIdIndexRouteImport } from './routes/_auth/_dashboard/projects/$projectId/index'
@@ -97,11 +96,6 @@ const AuthDashboardIntroFlowRoute = AuthDashboardIntroFlowRouteImport.update({
   path: '/intro-flow',
   getParentRoute: () => AuthDashboardRoute,
 } as any)
-const AuthDashboardDashboardRoute = AuthDashboardDashboardRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
-  getParentRoute: () => AuthDashboardRoute,
-} as any)
 const AuthDashboardProjectsIndexRoute =
   AuthDashboardProjectsIndexRouteImport.update({
     id: '/projects/',
@@ -173,7 +167,6 @@ export interface FileRoutesByFullPath {
   '/example': typeof ExampleIndexRoute
   '/invoices': typeof InvoicesIndexRoute
   '/stripe': typeof StripeIndexRoute
-  '/dashboard': typeof AuthDashboardDashboardRoute
   '/intro-flow': typeof AuthDashboardIntroFlowRoute
   '/settings': typeof AuthDashboardSettingsRoute
   '/projects/$projectId': typeof AuthDashboardProjectsProjectIdRouteRouteWithChildren
@@ -197,7 +190,6 @@ export interface FileRoutesByTo {
   '/example': typeof ExampleIndexRoute
   '/invoices': typeof InvoicesIndexRoute
   '/stripe': typeof StripeIndexRoute
-  '/dashboard': typeof AuthDashboardDashboardRoute
   '/intro-flow': typeof AuthDashboardIntroFlowRoute
   '/settings': typeof AuthDashboardSettingsRoute
   '/projects': typeof AuthDashboardProjectsIndexRoute
@@ -222,7 +214,6 @@ export interface FileRoutesById {
   '/example/': typeof ExampleIndexRoute
   '/invoices/': typeof InvoicesIndexRoute
   '/stripe/': typeof StripeIndexRoute
-  '/_auth/_dashboard/dashboard': typeof AuthDashboardDashboardRoute
   '/_auth/_dashboard/intro-flow': typeof AuthDashboardIntroFlowRoute
   '/_auth/_dashboard/settings': typeof AuthDashboardSettingsRoute
   '/_auth/_dashboard/projects/$projectId': typeof AuthDashboardProjectsProjectIdRouteRouteWithChildren
@@ -248,7 +239,6 @@ export interface FileRouteTypes {
     | '/example'
     | '/invoices'
     | '/stripe'
-    | '/dashboard'
     | '/intro-flow'
     | '/settings'
     | '/projects/$projectId'
@@ -272,7 +262,6 @@ export interface FileRouteTypes {
     | '/example'
     | '/invoices'
     | '/stripe'
-    | '/dashboard'
     | '/intro-flow'
     | '/settings'
     | '/projects'
@@ -296,7 +285,6 @@ export interface FileRouteTypes {
     | '/example/'
     | '/invoices/'
     | '/stripe/'
-    | '/_auth/_dashboard/dashboard'
     | '/_auth/_dashboard/intro-flow'
     | '/_auth/_dashboard/settings'
     | '/_auth/_dashboard/projects/$projectId'
@@ -414,13 +402,6 @@ declare module '@tanstack/react-router' {
       path: '/intro-flow'
       fullPath: '/intro-flow'
       preLoaderRoute: typeof AuthDashboardIntroFlowRouteImport
-      parentRoute: typeof AuthDashboardRoute
-    }
-    '/_auth/_dashboard/dashboard': {
-      id: '/_auth/_dashboard/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof AuthDashboardDashboardRouteImport
       parentRoute: typeof AuthDashboardRoute
     }
     '/_auth/_dashboard/projects/': {
@@ -545,7 +526,6 @@ const AuthDashboardProjectsProjectIdRouteRouteWithChildren =
   )
 
 interface AuthDashboardRouteChildren {
-  AuthDashboardDashboardRoute: typeof AuthDashboardDashboardRoute
   AuthDashboardIntroFlowRoute: typeof AuthDashboardIntroFlowRoute
   AuthDashboardSettingsRoute: typeof AuthDashboardSettingsRoute
   AuthDashboardProjectsProjectIdRouteRoute: typeof AuthDashboardProjectsProjectIdRouteRouteWithChildren
@@ -553,7 +533,6 @@ interface AuthDashboardRouteChildren {
 }
 
 const AuthDashboardRouteChildren: AuthDashboardRouteChildren = {
-  AuthDashboardDashboardRoute: AuthDashboardDashboardRoute,
   AuthDashboardIntroFlowRoute: AuthDashboardIntroFlowRoute,
   AuthDashboardSettingsRoute: AuthDashboardSettingsRoute,
   AuthDashboardProjectsProjectIdRouteRoute:
