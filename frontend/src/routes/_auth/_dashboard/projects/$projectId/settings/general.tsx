@@ -19,7 +19,7 @@ import {
 import { Switch } from '@/components/ui/switch'
 import { TabsContent } from '@/components/ui/tabs'
 import { createFileRoute, getRouteApi, useNavigate, } from '@tanstack/react-router'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 
 import { api } from '@/api-client'
 import LoadingButton from '@/components/loading-button'
@@ -113,6 +113,8 @@ function GeneralSettingsTab() {
     setSavingChanges(false);
   }
 
+  const isN8nProject = useMemo(() => project?.type === "N8n", [project]);
+
   return (
     <TabsContent value="general" className="space-y-4 mt-6">
       <Card>
@@ -124,49 +126,55 @@ function GeneralSettingsTab() {
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="project-name">Deployment branch</Label>
-              <Select
-                value={'main'}
-                onValueChange={(value) => console.log(value)}
-              >
-                <SelectTrigger className="w-full sm:w-1/2" id="modules-org">
-                  <SelectValue placeholder="Select organization" />
-                </SelectTrigger>
-                <SelectContent>
-                  {['main'].map((i) => (
-                    <SelectItem key={i} value={i!}>
-                      {i}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="flex items-center justify-between">
-              <div className="space-y-0.5">
-                <Label htmlFor="auto-deploy">Auto Deploy</Label>
-                <p className="text-sm text-muted-foreground pr-3">
-                  Automatically deploy when you push to the main branch.
-                </p>
-              </div>
+            {
+              !isN8nProject && (
+                <div className="space-y-2">
+                  <Label htmlFor="project-name">Deployment branch</Label>
+                  <Select
+                    value={'main'}
+                    onValueChange={(value) => console.log(value)}
+                  >
+                    <SelectTrigger className="w-full sm:w-1/2" id="modules-org">
+                      <SelectValue placeholder="Select organization" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {['main'].map((i) => (
+                        <SelectItem key={i} value={i!}>
+                          {i}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              )
+            }
+            {
+              !isN8nProject && (
+                <div className="flex items-center justify-between">
+                  <div className="space-y-0.5">
+                    <Label htmlFor="auto-deploy">Auto Deploy</Label>
+                    <p className="text-sm text-muted-foreground pr-3">
+                      Automatically deploy when you push to the main branch.
+                    </p>
+                  </div>
 
-              <Switch id="auto-deploy" checked={autoDeploy} disabled={!!error || !projectEnvironmentData} onCheckedChange={async (checked) => {
-                setAutoDeploy(checked);
-                await changeAutoDeployAsync({ autoDeploy: checked }).then(() => {
-                  toast({
-                    title: 'Auto Deploy changed',
-                    description: `Auto Deploy is now ${checked ? 'enabled' : 'disabled'}.`
-                  });
-                }).catch((err) => {
-                  toast({
-                    title: 'Error changing Auto Deploy',
-                    description: err.message,
-                    variant: 'destructive'
-                  });
-                })
-              }} />
-            </div>
-
+                  <Switch id="auto-deploy" checked={autoDeploy} disabled={!!error || !projectEnvironmentData} onCheckedChange={async (checked) => {
+                    setAutoDeploy(checked);
+                    await changeAutoDeployAsync({ autoDeploy: checked }).then(() => {
+                      toast({
+                        title: 'Auto Deploy changed',
+                        description: `Auto Deploy is now ${checked ? 'enabled' : 'disabled'}.`
+                      });
+                    }).catch((err) => {
+                      toast({
+                        title: 'Error changing Auto Deploy',
+                        description: err.message,
+                        variant: 'destructive'
+                      });
+                    })
+                  }} />
+                </div>
+              )}
             <div className="space-y-2">
               <Label htmlFor="project-name">Server tier</Label>
               <Select
