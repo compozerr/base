@@ -19,7 +19,7 @@ export const Route = createFileRoute('/n8n')({
 
 function N8nLandingPage() {
   const navigate = useNavigate()
-  const { isAuthenticated, user } = useAuth();
+  const { isAuthenticated, user, login } = useAuth();
 
   const { data: locationsData } = api.v1.getCliLocations.useQuery(undefined, { enabled: isAuthenticated });
   const { data: tiersData } = api.v1.getServersTiers.useQuery(undefined, { enabled: isAuthenticated })
@@ -81,10 +81,9 @@ function N8nLandingPage() {
   const BLACK_FRIDAY_COUPON = 'BLACK_FRIDAY_2025'
 
   const handleGetStarted = () => {
-    // Store intent in sessionStorage for after login redirect
     sessionStorage.setItem('n8nIntent', 'create')
     // Navigate to login with redirect back to /n8n
-    window.location.href = `/login?redirect=${encodeURIComponent('/n8n')}`
+    login();
   }
 
   const handleCreate = async () => {
@@ -312,7 +311,7 @@ function N8nLandingPage() {
                   <div className="text-5xl md:text-6xl font-bold text-red-500">
                     $5<span className="text-3xl text-muted-foreground">/mo</span>
                   </div>
-                  <div className="text-lg text-muted-foreground line-through">$8/mo</div>
+                  <div className="text-lg text-muted-foreground line-through">$28/mo</div>
                 </div>
                 <Badge variant="outline" className="text-lg px-4 py-2">
                   Limited Time
