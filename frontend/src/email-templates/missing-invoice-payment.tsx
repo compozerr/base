@@ -100,7 +100,7 @@ export default MissingInvoiceEmail;
 const main = {
   backgroundColor: '#0a0a0a',
   fontFamily: '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Ubuntu,sans-serif',
-  padding: '40px 20px',
+  padding: '',
 };
 
 const container = {
