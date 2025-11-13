@@ -85,6 +85,8 @@ public class StripeInvoicePaymentFailedEventHandler(
                 });
 
             await mailService.SendEmailAsync(mail);
+
+            _logger.Information("Successfully sent payment failed notification for invoice: {InvoiceId}", notification.InvoiceId);
         }
         catch (Exception ex)
         {

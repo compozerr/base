@@ -112,7 +112,15 @@ function N8nLandingPage() {
 
         await api.v1.getProjects.invalidateQueries({})
 
-        navigate({ to: '/projects/$projectId', params: { projectId: result.projectId } })
+        // Store n8n creation intent for projects page
+        sessionStorage.setItem('n8nIntent', JSON.stringify({
+          action: 'created',
+          projectId: result.projectId,
+          timestamp: Date.now()
+        }))
+
+        // Navigate to projects list page
+        navigate({ to: '/projects' })
       }
     } catch (err) {
       console.error('Failed to create n8n project:', err)
