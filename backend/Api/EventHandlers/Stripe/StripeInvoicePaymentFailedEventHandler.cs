@@ -53,22 +53,33 @@ public class StripeInvoicePaymentFailedEventHandler(
             return;
         }
 
+        var currency = notification.Currency.ToUpper();
+
+        if (currency == "USD")
+        {
+            currency = "$";
+        }
+        else if (currency == "EUR")
+        {
+            currency = "€";
+        }
+
         try
         {
             var mail = await ReactEmail.CreateAsync(
-                new EmailAddress("no-reply@notifications.compozerr.com", "Compozerr Accounting"),
+                new EmailAddress("no-reply@notifications.compozerr.com", "compozerr hosting"),
                 [new EmailAddress(user.Email, user.Name)],
                 "Action Required: Payment Failed for Your Compozerr Invoice",
                 new Emails.MissingInvoicePaymentTemplate()
                 {
                     DueDate = notification.DueDate.ToString("MMMM dd, yyyy"),
-                    CompanyName = "compozerr",
+                    CompanyName = "compozerr hosting",
                     CustomerName = user.Name,
-                    Currency = notification.Currency.ToUpper(),
-                    AmountDue = (notification.AmountDue / 100m).ToString("F2"),
+                    Currency = currency,
+                    AmountDue = notification.AmountDue.ToString("F2"),
                     DaysOverdue = notification.DaysOverdue.ToString(),
                     PaymentLink = notification.PaymentLink,
-                    DashboardLink = frontendLocation.GetFromPath("/dashboard").ToString(),
+                    DashboardLink = frontendLocation.GetFromPath("/projects").ToString(),
                     ContactLink = frontendLocation.GetFromPath("/contact").ToString(),
                     CompanyAddress = "Vilh. Bergsøes Vej 11, 8210 Aarhus V, Denmark"
                 });
