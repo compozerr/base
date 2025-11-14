@@ -26,8 +26,8 @@ public sealed record TestEntityId : IdBase<TestEntityId>, IId<TestEntityId>
 
 public class TestEntity : BaseEntityWithId<TestEntityId> { }
 
-public record TestDomainEventBeforeSaveChanges(TestEntity Entity) : IEntityDomainEvent<TestEntity>;
-public record TestDomainEventAfterSaveChanges(TestEntity Entity) : IEntityDomainEvent<TestEntity>;
+public record TestEntityDomainEvent(TestEntity Entity) : IEntityDomainEvent<TestEntity>;
+public record TestDomainEvent(string SomeValue) : IDomainEvent;
 
 public class TestDbContext(DbContextOptions options, IMediator mediator) : BaseDbContext<TestDbContext>("test", options, mediator)
 {
@@ -49,7 +49,7 @@ public class TestDbContext(DbContextOptions options, IMediator mediator) : BaseD
 public class BaseDbContextTests
 {
     [Fact]
-    public async Task SaveChangesAsync_DispatchesDomainEvents_BeforeSaveChanges()
+    public async Task SaveChangesAsync_DispatchesDomainEvents_BothSaves()
     {
         var mediatorMock = new Mock<IMediator>();
 
@@ -59,7 +59,11 @@ public class BaseDbContextTests
 
         var entity = new TestEntity();
 
-        entity.QueueDomainEvent<TestDomainEventBeforeSaveChanges>();
+        entity.QueueDomainEvent<TestEntityDomainEvent>();
+
+        var publishedEvents = new List<IDomainEvent>();
+        mediatorMock.Setup(m => m.Publish(It.IsAny<IDomainEvent>(), It.IsAny<CancellationToken>()))
+                   .Callback<IDomainEvent, CancellationToken>((evt, _) => publishedEvents.Add(evt));
 
         using var ctx = new TestDbContext(options, mediatorMock.Object);
 
@@ -67,11 +71,19 @@ public class BaseDbContextTests
 
         await ctx.SaveChangesAsync();
 
-        mediatorMock.Verify(m => m.Publish(It.Is<IDomainEvent>(e => e is TestDomainEventBeforeSaveChanges), It.IsAny<CancellationToken>()), Times.Once);
+        Assert.Equal(2, publishedEvents.Count);
+
+        Assert.Single(
+            publishedEvents.OfType<DomainEventEnvelope<TestEntityDomainEvent>>(),
+            e => e.Timing == DomainEventTiming.BeforeSaveChanges);
+
+        Assert.Single(
+            publishedEvents.OfType<DomainEventEnvelope<TestEntityDomainEvent>>(),
+            e => e.Timing == DomainEventTiming.AfterSaveChanges);
     }
 
     [Fact]
-    public async Task SaveChangesAsync_DispatchesDomainEvents_BeforeAndAfterSave()
+    public async Task SaveChangesAsync_DispatchesDomainEvents_NormalDispatch()
     {
         var mediatorMock = new Mock<IMediator>();
 
@@ -81,9 +93,11 @@ public class BaseDbContextTests
 
         var entity = new TestEntity();
 
-        entity.QueueDomainEvent<TestDomainEventBeforeSaveChanges>();
-        entity.QueueDomainEvent<TestDomainEventAfterSaveChanges>();
-        entity.QueueDomainEvent<TestDomainEventAfterSaveChanges>();
+        entity.QueueDomainEvent(new TestDomainEvent("TestValue"));
+
+        var publishedEvents = new List<IDomainEvent>();
+        mediatorMock.Setup(m => m.Publish(It.IsAny<IDomainEvent>(), It.IsAny<CancellationToken>()))
+                   .Callback<IDomainEvent, CancellationToken>((evt, _) => publishedEvents.Add(evt));
 
         using var ctx = new TestDbContext(options, mediatorMock.Object);
 
@@ -91,7 +105,10 @@ public class BaseDbContextTests
 
         await ctx.SaveChangesAsync();
 
-        mediatorMock.Verify(m => m.Publish(It.Is<IDomainEvent>(e => e is TestDomainEventBeforeSaveChanges), It.IsAny<CancellationToken>()), Times.Once);
-        mediatorMock.Verify(m => m.Publish(It.Is<IDomainEvent>(e => e is TestDomainEventAfterSaveChanges), It.IsAny<CancellationToken>()), Times.Exactly(2));
+        Assert.Single(publishedEvents);
+
+        Assert.Single(
+            publishedEvents.OfType<DomainEventEnvelope<TestDomainEvent>>(),
+            e => e.Timing == DomainEventTiming.AfterSaveChanges);
     }
 }
