@@ -62,6 +62,7 @@ jobs:
                   port: ${{ secrets.DEPLOY_PORT || 22 }}
                   script: |
                       cd ${{ secrets.DEPLOY_PATH }}
-                      sudo git fetch --tags
-                      sudo git checkout ${{ github.ref_name }}
+                      sudo git fetch --tags --force
+                      sudo git fetch origin
+                      sudo git checkout --detach ${{ github.ref_name }}
                       npm run serve -- -d
