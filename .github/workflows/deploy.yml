@@ -27,6 +27,7 @@ jobs:
               run: dotnet test backend/Base.sln
     deploy:
         if: startsWith(github.event.ref, 'refs/tags/v')
+        needs: test
         runs-on: ubuntu-latest
         steps:
             - name: Checkout
