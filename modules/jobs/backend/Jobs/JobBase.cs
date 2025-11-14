@@ -51,9 +51,10 @@ public abstract class JobBase<T, TArg> where T : JobBase<T, TArg>
     public virtual TimeSpan GetDistributedLockTimeout() => TimeSpan.FromMinutes(5);
 
     /// <summary>
-    /// Internal wrapper that handles distributed locking if configured.
+    /// Public wrapper that handles distributed locking if configured.
+    /// This must be public for Hangfire to invoke it in the background.
     /// </summary>
-    internal async Task ExecuteWithLockAsync(TArg arg)
+    public async Task ExecuteWithLockAsync(TArg arg)
     {
         var lockKey = GetDistributedLockKey(arg);
 
