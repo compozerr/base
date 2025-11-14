@@ -12,11 +12,19 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select'
-import { Formatter } from '@/lib/formatter'
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+} from '@/components/ui/alert-dialog'
 import { ProjectStateFilter } from '@/lib/project-state-filter'
 import { getLink } from '@/links'
 import { createFileRoute, useRouter } from '@tanstack/react-router'
-import { MoreVertical, Plus, Search, Workflow } from 'lucide-react'
+import { MoreVertical, Plus, Search, Workflow, CreditCard, Rocket } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
 
 
@@ -28,6 +36,27 @@ export const Route = createFileRoute('/_auth/_dashboard/projects/')({
 function RouteComponent() {
     const [search, setSearch] = useState('');
     const [debouncedSearch, setDebouncedSearch] = useState('');
+    const [showN8nCreatedDialog, setShowN8nCreatedDialog] = useState(false);
+    const [n8nProjectId, setN8nProjectId] = useState<string | null>(null);
+
+    // Check for n8n creation intent on mount
+    useEffect(() => {
+        const n8nIntentStr = sessionStorage.getItem('n8nIntent');
+        if (n8nIntentStr) {
+            try {
+                const n8nIntent = JSON.parse(n8nIntentStr);
+                if (n8nIntent.action === 'created' && n8nIntent.projectId) {
+                    setN8nProjectId(n8nIntent.projectId);
+                    setShowN8nCreatedDialog(true);
+                    // Clear the intent after reading
+                    sessionStorage.removeItem('n8nIntent');
+                }
+            } catch (e) {
+                console.error('Failed to parse n8nIntent:', e);
+                sessionStorage.removeItem('n8nIntent');
+            }
+        }
+    }, []);
 
     // Update debounced value after delay
     useEffect(() => {
@@ -240,6 +269,50 @@ function RouteComponent() {
                     }
                 }
             ]} />
+
+            {/* n8n Creation Success Dialog */}
+            <AlertDialog open={showN8nCreatedDialog} onOpenChange={setShowN8nCreatedDialog}>
+                <AlertDialogContent>
+                    <AlertDialogHeader>
+                        <AlertDialogTitle className="flex items-center gap-2">
+                            <Rocket className="h-5 w-5 text-green-500" />
+                            Your n8n Service is Being Built!
+                        </AlertDialogTitle>
+                        <AlertDialogDescription className="space-y-4 pt-2">
+                            <p>
+                                Great news! Your n8n automation service is being deployed right now.
+                                This typically takes 30-60 seconds.
+                            </p>
+                            <p className="font-semibold text-foreground">
+                                While we're setting that up, add your payment card to avoid any service interruptions.
+                            </p>
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter className="flex-col sm:flex-row gap-2">
+                        <AlertDialogAction
+                            onClick={() => {
+                                if (n8nProjectId) {
+                                    router.navigate({ to: '/projects/$projectId', params: { projectId: n8nProjectId } });
+                                }
+                            }}
+                            className="w-full sm:w-auto"
+                        >
+                            View Project
+                        </AlertDialogAction>
+                        <Button
+                            variant="default"
+                            onClick={() => {
+                                router.navigate({ to: '/settings' });
+                                setShowN8nCreatedDialog(false);
+                            }}
+                            className="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white"
+                        >
+                            <CreditCard className="mr-2 h-4 w-4" />
+                            Add Payment Card
+                        </Button>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
         </div>
     )
 }
