@@ -43,12 +43,22 @@ public sealed class DownloadMonthlyInvoiceCommandHandler(
 		var totalAmount = monthInvoices.Sum(i => i.Total.Amount);
 		var currency = firstInvoice.Total.Currency;
 
+		// Calculate applied balance for the month
+		var totalAppliedBalance = monthInvoices
+			.Where(i => i.StartingBalance.HasValue && i.EndingBalance.HasValue)
+			.Sum(i => i.StartingBalance!.Value - i.EndingBalance!.Value);
+
+		var appliedBalance = totalAppliedBalance != 0
+			? new Money(totalAppliedBalance, currency)
+			: null;
+
 		var monthlyGroup = new MonthlyInvoiceGroup(
 			YearMonth: command.YearMonth,
 			MonthLabel: date.ToString("MMMM yyyy"),
 			IsOngoing: false,
 			MonthTotal: new Money(totalAmount, currency),
-			Invoices: monthInvoices
+			Invoices: monthInvoices,
+			AppliedBalance: appliedBalance
 		);
 
 		// Get user email

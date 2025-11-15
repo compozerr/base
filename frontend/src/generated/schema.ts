@@ -2841,6 +2841,10 @@ export interface components {
             periodEnd?: number;
             /** Format: int64 */
             created?: number;
+            /** Format: int64 */
+            startingBalance?: number | null;
+            /** Format: int64 */
+            endingBalance?: number | null;
         };
         "Stripe.Services.InvoiceLineDto": {
             id?: string | null;
@@ -2858,6 +2862,7 @@ export interface components {
             isOngoing?: boolean;
             monthTotal?: components["schemas"]["Stripe.Services.Money"];
             invoices?: components["schemas"]["Stripe.Services.InvoiceDto"][] | null;
+            appliedBalance?: components["schemas"]["Stripe.Services.Money"];
         };
         "Stripe.Services.PaymentMethodDto": {
             id?: string | null;

@@ -32,12 +32,22 @@ public sealed class GetInvoicesCommandHandler(
 				var totalAmount = group.Sum(i => i.Total.Amount);
 				var currency = firstInvoice.Total.Currency;
 
+				// Calculate applied balance for the month
+				var totalAppliedBalance = group
+					.Where(i => i.StartingBalance.HasValue && i.EndingBalance.HasValue)
+					.Sum(i => i.StartingBalance!.Value - i.EndingBalance!.Value);
+
+				var appliedBalance = totalAppliedBalance != 0
+					? new Money(totalAppliedBalance, currency)
+					: null;
+
 				return new MonthlyInvoiceGroup(
 					YearMonth: yearMonth,
 					MonthLabel: date.ToString("MMMM yyyy"),
 					IsOngoing: yearMonth == currentYearMonth,
 					MonthTotal: new Money(totalAmount, currency),
-					Invoices: group.ToList()
+					Invoices: group.ToList(),
+					AppliedBalance: appliedBalance
 				);
 			})
 			.OrderByDescending(g => g.YearMonth)

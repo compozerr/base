@@ -8,7 +8,9 @@ public sealed record InvoiceDto(
     string? InvoicePdf,
     long PeriodStart,
     long PeriodEnd,
-    long Created)
+    long Created,
+    long? StartingBalance,
+    long? EndingBalance)
 {
     public static InvoiceDto FromInvoice(Invoice invoice)
     {
@@ -20,6 +22,8 @@ public sealed record InvoiceDto(
             InvoicePdf: invoice.InvoicePdf,
             PeriodStart: ((DateTimeOffset)invoice.PeriodStart).ToUnixTimeSeconds(),
             PeriodEnd: ((DateTimeOffset)invoice.PeriodEnd).ToUnixTimeSeconds(),
-            Created: ((DateTimeOffset)invoice.Created).ToUnixTimeSeconds());
+            Created: ((DateTimeOffset)invoice.Created).ToUnixTimeSeconds(),
+            StartingBalance: invoice.StartingBalance,
+            EndingBalance: invoice.EndingBalance);
     }
 }

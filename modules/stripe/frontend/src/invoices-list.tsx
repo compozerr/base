@@ -87,6 +87,11 @@ function MonthlyInvoiceCard({ group }: { group: components['schemas']['Stripe.Se
             This month is ongoing. Invoice will be available next month.
           </CardDescription>
         )}
+        {group.appliedBalance && group.appliedBalance.amount !== 0 && (
+          <CardDescription className="mt-2">
+            Applied balance: {formatCurrency(group.appliedBalance.amount || 0, group.appliedBalance.currency || 'usd')}
+          </CardDescription>
+        )}
       </CardHeader>
       <CardContent>
         <Collapsible open={isOpen} onOpenChange={setIsOpen}>
