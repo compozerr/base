@@ -1,4 +1,6 @@
 import { Link } from "@tanstack/react-router"
+import { Button } from "./ui/button"
+import { Workflow } from "lucide-react"
 import LoginButton from "./login-button"
 
 export default function Navbar() {
@@ -9,15 +11,15 @@ export default function Navbar() {
           <span className="font-bold">compozerr</span>
         </Link>
         <nav className="flex flex-1 items-center space-x-6 text-sm font-medium">
-          {/* <Link href="/about" className="transition-colors hover:text-primary">
-            Solutions
+          <Link to="/n8n" className="transition-colors hover:text-primary">
+            <Button variant="ghost" size="sm" className="gap-2">
+              <Workflow className="h-4 w-4" />
+              n8n
+            </Button>
           </Link>
-          <Link href="/industries" className="transition-colors hover:text-primary">
-            Industries
+          <Link to="/pricing" className="transition-colors hover:text-primary">
+            Pricing
           </Link>
-          <Link href="/about" className="transition-colors hover:text-primary">
-            About Us
-          </Link> */}
         </nav>
         <div className="flex items-center space-x-4">
           <LoginButton />

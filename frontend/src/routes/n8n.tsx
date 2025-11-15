@@ -1,5 +1,5 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
-import { useMemo, useState, useEffect } from 'react'
+import { useMemo, useState, useEffect, useRef } from 'react'
 import { api } from '@/api-client'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -11,7 +11,10 @@ import { useAuth } from '@/hooks/use-dynamic-auth'
 import { Badge } from '@/components/ui/badge'
 import { Check, Zap, Shield, DollarSign, Rocket, Globe } from 'lucide-react'
 import Navbar from '@/components/navbar'
+import Footer from '@/components/footer'
+import FAQSection from '@/components/faq-section'
 import { Price } from '@/lib/price'
+import { motion, useMotionValue, useSpring } from 'framer-motion'
 
 export const Route = createFileRoute('/n8n')({
   component: N8nLandingPage,
@@ -191,52 +194,79 @@ function N8nLandingPage() {
                 </p>
               </div>
 
+              {/* Demo Section */}
+              <div className="max-w-4xl mx-auto mb-16">
+                <Card className="border-zinc-800 bg-zinc-900/50 backdrop-blur-sm overflow-hidden">
+                  <CardContent className="p-0">
+                    <div className="relative aspect-video bg-gradient-to-br from-blue-500/10 to-purple-500/10 flex items-center justify-center">
+                      <div className="text-center space-y-4">
+                        <div className="w-20 h-20 rounded-full bg-white/10 flex items-center justify-center mx-auto backdrop-blur-sm border border-white/20">
+                          <Rocket className="h-10 w-10 text-white" />
+                        </div>
+                        <div>
+                          <h3 className="text-xl font-semibold mb-2">See n8n in Action</h3>
+                          <p className="text-sm text-muted-foreground">
+                            Watch how easy it is to deploy your n8n instance in under 60 seconds
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+
               {/* Features Grid */}
               <div className="grid md:grid-cols-3 gap-8 mb-16 max-w-5xl mx-auto">
-                <Card className="border-zinc-800 bg-zinc-900/50 backdrop-blur-sm">
-                  <CardHeader>
-                    <div className="w-12 h-12 rounded-lg bg-blue-500/10 flex items-center justify-center mb-4">
-                      <Shield className="h-6 w-6 text-blue-400" />
-                    </div>
-                    <CardTitle>GAFM-Free Hosting</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-muted-foreground">
-                      Your data, your rules. No dependency on Big Tech platforms.
-                      Complete independence and control over your automation workflows.
-                    </p>
-                  </CardContent>
-                </Card>
+                <TiltCard>
+                  <Card className="border-zinc-800 bg-zinc-900/50 backdrop-blur-sm h-full">
+                    <CardHeader>
+                      <div className="w-12 h-12 rounded-lg bg-blue-500/10 flex items-center justify-center mb-4">
+                        <Shield className="h-6 w-6 text-blue-400" />
+                      </div>
+                      <CardTitle>GAFM-Free Hosting</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-muted-foreground">
+                        Your data, your rules. No dependency on Big Tech platforms.
+                        Complete independence and control over your automation workflows.
+                      </p>
+                    </CardContent>
+                  </Card>
+                </TiltCard>
 
-                <Card className="border-zinc-800 bg-zinc-900/50 backdrop-blur-sm">
-                  <CardHeader>
-                    <div className="w-12 h-12 rounded-lg bg-purple-500/10 flex items-center justify-center mb-4">
-                      <Zap className="h-6 w-6 text-purple-400" />
-                    </div>
-                    <CardTitle>One-Click Deploy</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-muted-foreground">
-                      Deploy n8n in seconds, not hours. Our automated setup handles
-                      everything from configuration to domain assignment.
-                    </p>
-                  </CardContent>
-                </Card>
+                <TiltCard>
+                  <Card className="border-zinc-800 bg-zinc-900/50 backdrop-blur-sm h-full">
+                    <CardHeader>
+                      <div className="w-12 h-12 rounded-lg bg-purple-500/10 flex items-center justify-center mb-4">
+                        <Zap className="h-6 w-6 text-purple-400" />
+                      </div>
+                      <CardTitle>One-Click Deploy</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-muted-foreground">
+                        Deploy n8n in seconds, not hours. Our automated setup handles
+                        everything from configuration to domain assignment.
+                      </p>
+                    </CardContent>
+                  </Card>
+                </TiltCard>
 
-                <Card className="border-zinc-800 bg-zinc-900/50 backdrop-blur-sm">
-                  <CardHeader>
-                    <div className="w-12 h-12 rounded-lg bg-green-500/10 flex items-center justify-center mb-4">
-                      <DollarSign className="h-6 w-6 text-green-400" />
-                    </div>
-                    <CardTitle>Transparent Pricing</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-muted-foreground">
-                      Simple, predictable pricing. No hidden fees, no surprise charges.
-                      Just $5/month for your n8n instance during this Black Friday special.
-                    </p>
-                  </CardContent>
-                </Card>
+                <TiltCard>
+                  <Card className="border-zinc-800 bg-zinc-900/50 backdrop-blur-sm h-full">
+                    <CardHeader>
+                      <div className="w-12 h-12 rounded-lg bg-green-500/10 flex items-center justify-center mb-4">
+                        <DollarSign className="h-6 w-6 text-green-400" />
+                      </div>
+                      <CardTitle>Transparent Pricing</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-muted-foreground">
+                        Simple, predictable pricing. No hidden fees, no surprise charges.
+                        Just $5/month for your n8n instance during this Black Friday special.
+                      </p>
+                    </CardContent>
+                  </Card>
+                </TiltCard>
               </div>
 
               {/* Why Choose Us */}
@@ -257,6 +287,42 @@ function N8nLandingPage() {
                     </div>
                   ))}
                 </div>
+              </div>
+
+              {/* Trust Badges / Statistics */}
+              <div className="max-w-4xl mx-auto mb-16">
+                <h2 className="text-3xl font-bold text-center mb-8">Trusted by Developers Worldwide</h2>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                  <Card className="border-zinc-800 bg-zinc-900/50 backdrop-blur-sm text-center">
+                    <CardContent className="p-6">
+                      <div className="text-4xl font-bold text-green-400 mb-2">&lt;60s</div>
+                      <p className="text-sm text-muted-foreground">Deployment Time</p>
+                    </CardContent>
+                  </Card>
+                  <Card className="border-zinc-800 bg-zinc-900/50 backdrop-blur-sm text-center">
+                    <CardContent className="p-6">
+                      <div className="text-4xl font-bold text-blue-400 mb-2">99.9%</div>
+                      <p className="text-sm text-muted-foreground">Uptime SLA</p>
+                    </CardContent>
+                  </Card>
+                  <Card className="border-zinc-800 bg-zinc-900/50 backdrop-blur-sm text-center">
+                    <CardContent className="p-6">
+                      <div className="text-4xl font-bold text-purple-400 mb-2">0</div>
+                      <p className="text-sm text-muted-foreground">Big Tech Dependencies</p>
+                    </CardContent>
+                  </Card>
+                  <Card className="border-zinc-800 bg-zinc-900/50 backdrop-blur-sm text-center">
+                    <CardContent className="p-6">
+                      <div className="text-4xl font-bold text-red-400 mb-2">$5</div>
+                      <p className="text-sm text-muted-foreground">Limited Offer</p>
+                    </CardContent>
+                  </Card>
+                </div>
+              </div>
+
+              {/* FAQ Section */}
+              <div className="max-w-2xl mx-auto mb-16">
+                <FAQSection />
               </div>
 
               {/* CTA Section */}
@@ -280,6 +346,7 @@ function N8nLandingPage() {
               </Card>
             </div>
           </div>
+          <Footer />
         </div>
       </>
     )
@@ -393,11 +460,92 @@ function N8nLandingPage() {
                   </p>
                 </div>
               </div>
+
+              {/* Trust Statistics */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-12 max-w-3xl mx-auto">
+                <Card className="border-zinc-800 bg-zinc-900/50 backdrop-blur-sm text-center">
+                  <CardContent className="p-4">
+                    <div className="text-3xl font-bold text-green-400 mb-1">&lt;60s</div>
+                    <p className="text-xs text-muted-foreground">Deploy Time</p>
+                  </CardContent>
+                </Card>
+                <Card className="border-zinc-800 bg-zinc-900/50 backdrop-blur-sm text-center">
+                  <CardContent className="p-4">
+                    <div className="text-3xl font-bold text-blue-400 mb-1">99.9%</div>
+                    <p className="text-xs text-muted-foreground">Uptime</p>
+                  </CardContent>
+                </Card>
+                <Card className="border-zinc-800 bg-zinc-900/50 backdrop-blur-sm text-center">
+                  <CardContent className="p-4">
+                    <div className="text-3xl font-bold text-purple-400 mb-1">0</div>
+                    <p className="text-xs text-muted-foreground">GAFM Deps</p>
+                  </CardContent>
+                </Card>
+                <Card className="border-zinc-800 bg-zinc-900/50 backdrop-blur-sm text-center">
+                  <CardContent className="p-4">
+                    <div className="text-3xl font-bold text-red-400 mb-1">$5</div>
+                    <p className="text-xs text-muted-foreground">Black Friday</p>
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* FAQ Section */}
+              <div className="max-w-2xl mx-auto pt-12">
+                <FAQSection />
+              </div>
             </div>
           </div>
+          <Footer />
         </div>
       </div>
     </>
+  )
+}
+
+// 3D Tilt Card Component
+function TiltCard({ children, className = '' }: { children: React.ReactNode; className?: string }) {
+  const ref = useRef<HTMLDivElement>(null)
+  const rotateX = useMotionValue(0)
+  const rotateY = useMotionValue(0)
+
+  const smoothRotateX = useSpring(rotateX, { stiffness: 300, damping: 30 })
+  const smoothRotateY = useSpring(rotateY, { stiffness: 300, damping: 30 })
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!ref.current) return
+    const rect = ref.current.getBoundingClientRect()
+    const x = e.clientX - rect.left
+    const y = e.clientY - rect.top
+    const centerX = rect.width / 2
+    const centerY = rect.height / 2
+    const rotateXVal = ((y - centerY) / centerY) * -10
+    const rotateYVal = ((x - centerX) / centerX) * 10
+
+    rotateX.set(rotateXVal)
+    rotateY.set(rotateYVal)
+  }
+
+  const handleMouseLeave = () => {
+    rotateX.set(0)
+    rotateY.set(0)
+  }
+
+  return (
+    <motion.div
+      ref={ref}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{
+        rotateX: smoothRotateX,
+        rotateY: smoothRotateY,
+        transformStyle: 'preserve-3d',
+      }}
+      className={className}
+      whileHover={{ scale: 1.05 }}
+      transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+    >
+      {children}
+    </motion.div>
   )
 }
 
