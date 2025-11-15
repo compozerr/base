@@ -7978,6 +7978,248 @@ export interface V1Service {
             error: GetProjectsProjectIdDeploymentsDeploymentIdLogsError;
         };
     };
+    postProjectsProjectIdDeploymentsDeploymentIdRedeploy: {
+        /**/
+        getMutationKey(parameters: PostProjectsProjectIdDeploymentsDeploymentIdRedeployParameters | void): ServiceOperationMutationKey<PostProjectsProjectIdDeploymentsDeploymentIdRedeploySchema, PostProjectsProjectIdDeploymentsDeploymentIdRedeployParameters>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.postProjectsProjectIdDeploymentsDeploymentIdRedeploy.useMutation({
+         *     path: {
+         *         projectId: projectId,
+         *         deploymentId: deploymentId
+         *     }
+         * })
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.postProjectsProjectIdDeploymentsDeploymentIdRedeploy.useMutation()
+         * mutate({
+         *     body: bodyPayload,
+         *     path: {
+         *         projectId: projectId,
+         *         deploymentId: deploymentId
+         *     }
+         * });
+         * ```
+         */
+        useMutation<TVariables extends PostProjectsProjectIdDeploymentsDeploymentIdRedeployBody, TContext = unknown>(parameters: PostProjectsProjectIdDeploymentsDeploymentIdRedeployParameters, options?: ServiceOperationUseMutationOptions<PostProjectsProjectIdDeploymentsDeploymentIdRedeploySchema, PostProjectsProjectIdDeploymentsDeploymentIdRedeployData, PostProjectsProjectIdDeploymentsDeploymentIdRedeployParameters, TVariables, PostProjectsProjectIdDeploymentsDeploymentIdRedeployError, TContext>): UseMutationResult<PostProjectsProjectIdDeploymentsDeploymentIdRedeployData, PostProjectsProjectIdDeploymentsDeploymentIdRedeployError | Error, AreAllOptional<TVariables> extends true ? TVariables | void : TVariables, TContext>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.postProjectsProjectIdDeploymentsDeploymentIdRedeploy.useMutation({
+         *     path: {
+         *         projectId: projectId,
+         *         deploymentId: deploymentId
+         *     }
+         * })
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.postProjectsProjectIdDeploymentsDeploymentIdRedeploy.useMutation()
+         * mutate({
+         *     body: bodyPayload,
+         *     path: {
+         *         projectId: projectId,
+         *         deploymentId: deploymentId
+         *     }
+         * });
+         * ```
+         */
+        useMutation<TVariables extends MutationVariables<PostProjectsProjectIdDeploymentsDeploymentIdRedeployBody, PostProjectsProjectIdDeploymentsDeploymentIdRedeployParameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<PostProjectsProjectIdDeploymentsDeploymentIdRedeploySchema, PostProjectsProjectIdDeploymentsDeploymentIdRedeployData, PostProjectsProjectIdDeploymentsDeploymentIdRedeployParameters, TVariables, PostProjectsProjectIdDeploymentsDeploymentIdRedeployError, TContext>): UseMutationResult<PostProjectsProjectIdDeploymentsDeploymentIdRedeployData, PostProjectsProjectIdDeploymentsDeploymentIdRedeployError | Error, TVariables, TContext>;
+        /**
+         * Returns the count of currently in-progress mutations.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
+         * @example Check how many mutations are currently in progress for the specified service method.
+         * ```ts
+         * const postProjectsProjectIdDeploymentsDeploymentIdRedeployTotal = qraft.v1Service.postProjectsProjectIdDeploymentsDeploymentIdRedeploy.useIsMutating()
+         * ```
+         * @example Check how many mutations are currently in progress with the specified parameters.
+         * ```ts
+         * const postProjectsProjectIdDeploymentsDeploymentIdRedeployTotal = qraft.v1Service.postProjectsProjectIdDeploymentsDeploymentIdRedeploy.useIsMutating({
+         *     parameters: {
+         *         path: {
+         *             projectId: projectId,
+         *             deploymentId: deploymentId
+         *         }
+         *     }
+         * })
+         * ```
+         */
+        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<PostProjectsProjectIdDeploymentsDeploymentIdRedeployBody, PostProjectsProjectIdDeploymentsDeploymentIdRedeployData, PostProjectsProjectIdDeploymentsDeploymentIdRedeployParameters, PostProjectsProjectIdDeploymentsDeploymentIdRedeployError, TContext> | MutationFiltersByMutationKey<PostProjectsProjectIdDeploymentsDeploymentIdRedeploySchema, PostProjectsProjectIdDeploymentsDeploymentIdRedeployBody, PostProjectsProjectIdDeploymentsDeploymentIdRedeployData, PostProjectsProjectIdDeploymentsDeploymentIdRedeployParameters, PostProjectsProjectIdDeploymentsDeploymentIdRedeployError, TContext>): number;
+        /**/
+        isMutating<TContext>(filters?: MutationFiltersByParameters<PostProjectsProjectIdDeploymentsDeploymentIdRedeployBody, PostProjectsProjectIdDeploymentsDeploymentIdRedeployData, PostProjectsProjectIdDeploymentsDeploymentIdRedeployParameters, PostProjectsProjectIdDeploymentsDeploymentIdRedeployError, TContext> | MutationFiltersByMutationKey<PostProjectsProjectIdDeploymentsDeploymentIdRedeploySchema, PostProjectsProjectIdDeploymentsDeploymentIdRedeployBody, PostProjectsProjectIdDeploymentsDeploymentIdRedeployData, PostProjectsProjectIdDeploymentsDeploymentIdRedeployParameters, PostProjectsProjectIdDeploymentsDeploymentIdRedeployError, TContext>): number;
+        /**/
+        (options: ServiceOperationMutationFnOptions<PostProjectsProjectIdDeploymentsDeploymentIdRedeployBody, PostProjectsProjectIdDeploymentsDeploymentIdRedeployParameters>, client?: (schema: PostProjectsProjectIdDeploymentsDeploymentIdRedeploySchema, options: ServiceOperationMutationFnOptions<PostProjectsProjectIdDeploymentsDeploymentIdRedeployBody, PostProjectsProjectIdDeploymentsDeploymentIdRedeployParameters>) => Promise<RequestFnResponse<PostProjectsProjectIdDeploymentsDeploymentIdRedeployData, PostProjectsProjectIdDeploymentsDeploymentIdRedeployError>>): Promise<RequestFnResponse<PostProjectsProjectIdDeploymentsDeploymentIdRedeployData, PostProjectsProjectIdDeploymentsDeploymentIdRedeployError>>;
+        /**
+         * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
+         * @example Get all variables of all running mutations.
+         * ```ts
+         * const postProjectsProjectIdDeploymentsDeploymentIdRedeployPendingMutationVariables = qraft.v1Service.postProjectsProjectIdDeploymentsDeploymentIdRedeploy.useMutationState({
+         *     filters: {
+         *         status: "pending"
+         *     },
+         *     select: mutation => mutation.state.variables
+         * })
+         * ```
+         * @example Get all data for specific mutations via the `parameters`.
+         * ```ts
+         * const postProjectsProjectIdDeploymentsDeploymentIdRedeployMutationData = qraft.v1Service.postProjectsProjectIdDeploymentsDeploymentIdRedeploy.useMutationState({
+         *     filters: {
+         *         parameters: {
+         *             path: {
+         *                 projectId: projectId,
+         *                 deploymentId: deploymentId
+         *             }
+         *         }
+         *     },
+         *     select: mutation => mutation.state.data
+         * })
+         * ```
+         */
+        useMutationState<TContext = unknown, TResult = MutationState<PostProjectsProjectIdDeploymentsDeploymentIdRedeployData, PostProjectsProjectIdDeploymentsDeploymentIdRedeployError, MutationVariables<PostProjectsProjectIdDeploymentsDeploymentIdRedeployBody, PostProjectsProjectIdDeploymentsDeploymentIdRedeployParameters>, TContext>>(options?: {
+            filters?: MutationFiltersByParameters<PostProjectsProjectIdDeploymentsDeploymentIdRedeployBody, PostProjectsProjectIdDeploymentsDeploymentIdRedeployData, PostProjectsProjectIdDeploymentsDeploymentIdRedeployParameters, PostProjectsProjectIdDeploymentsDeploymentIdRedeployError, TContext> | MutationFiltersByMutationKey<PostProjectsProjectIdDeploymentsDeploymentIdRedeploySchema, PostProjectsProjectIdDeploymentsDeploymentIdRedeployBody, PostProjectsProjectIdDeploymentsDeploymentIdRedeployData, PostProjectsProjectIdDeploymentsDeploymentIdRedeployParameters, PostProjectsProjectIdDeploymentsDeploymentIdRedeployError, TContext>;
+            select?: (mutation: Mutation<PostProjectsProjectIdDeploymentsDeploymentIdRedeployData, PostProjectsProjectIdDeploymentsDeploymentIdRedeployError, MutationVariables<PostProjectsProjectIdDeploymentsDeploymentIdRedeployBody, PostProjectsProjectIdDeploymentsDeploymentIdRedeployParameters>, TContext>) => TResult;
+        }): Array<TResult>;
+        schema: PostProjectsProjectIdDeploymentsDeploymentIdRedeploySchema;
+        types: {
+            parameters: PostProjectsProjectIdDeploymentsDeploymentIdRedeployParameters;
+            data: PostProjectsProjectIdDeploymentsDeploymentIdRedeployData;
+            error: PostProjectsProjectIdDeploymentsDeploymentIdRedeployError;
+            body: PostProjectsProjectIdDeploymentsDeploymentIdRedeployBody;
+        };
+    };
+    postProjectsProjectIdDeploymentsDeployFromLatestCommit: {
+        /**/
+        getMutationKey(parameters: PostProjectsProjectIdDeploymentsDeployFromLatestCommitParameters | void): ServiceOperationMutationKey<PostProjectsProjectIdDeploymentsDeployFromLatestCommitSchema, PostProjectsProjectIdDeploymentsDeployFromLatestCommitParameters>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.postProjectsProjectIdDeploymentsDeployFromLatestCommit.useMutation({
+         *     path: {
+         *         projectId: projectId
+         *     }
+         * })
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.postProjectsProjectIdDeploymentsDeployFromLatestCommit.useMutation()
+         * mutate({
+         *     body: bodyPayload,
+         *     path: {
+         *         projectId: projectId
+         *     }
+         * });
+         * ```
+         */
+        useMutation<TVariables extends PostProjectsProjectIdDeploymentsDeployFromLatestCommitBody, TContext = unknown>(parameters: PostProjectsProjectIdDeploymentsDeployFromLatestCommitParameters, options?: ServiceOperationUseMutationOptions<PostProjectsProjectIdDeploymentsDeployFromLatestCommitSchema, PostProjectsProjectIdDeploymentsDeployFromLatestCommitData, PostProjectsProjectIdDeploymentsDeployFromLatestCommitParameters, TVariables, PostProjectsProjectIdDeploymentsDeployFromLatestCommitError, TContext>): UseMutationResult<PostProjectsProjectIdDeploymentsDeployFromLatestCommitData, PostProjectsProjectIdDeploymentsDeployFromLatestCommitError | Error, AreAllOptional<TVariables> extends true ? TVariables | void : TVariables, TContext>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.postProjectsProjectIdDeploymentsDeployFromLatestCommit.useMutation({
+         *     path: {
+         *         projectId: projectId
+         *     }
+         * })
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.postProjectsProjectIdDeploymentsDeployFromLatestCommit.useMutation()
+         * mutate({
+         *     body: bodyPayload,
+         *     path: {
+         *         projectId: projectId
+         *     }
+         * });
+         * ```
+         */
+        useMutation<TVariables extends MutationVariables<PostProjectsProjectIdDeploymentsDeployFromLatestCommitBody, PostProjectsProjectIdDeploymentsDeployFromLatestCommitParameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<PostProjectsProjectIdDeploymentsDeployFromLatestCommitSchema, PostProjectsProjectIdDeploymentsDeployFromLatestCommitData, PostProjectsProjectIdDeploymentsDeployFromLatestCommitParameters, TVariables, PostProjectsProjectIdDeploymentsDeployFromLatestCommitError, TContext>): UseMutationResult<PostProjectsProjectIdDeploymentsDeployFromLatestCommitData, PostProjectsProjectIdDeploymentsDeployFromLatestCommitError | Error, TVariables, TContext>;
+        /**
+         * Returns the count of currently in-progress mutations.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
+         * @example Check how many mutations are currently in progress for the specified service method.
+         * ```ts
+         * const postProjectsProjectIdDeploymentsDeployFromLatestCommitTotal = qraft.v1Service.postProjectsProjectIdDeploymentsDeployFromLatestCommit.useIsMutating()
+         * ```
+         * @example Check how many mutations are currently in progress with the specified parameters.
+         * ```ts
+         * const postProjectsProjectIdDeploymentsDeployFromLatestCommitTotal = qraft.v1Service.postProjectsProjectIdDeploymentsDeployFromLatestCommit.useIsMutating({
+         *     parameters: {
+         *         path: {
+         *             projectId: projectId
+         *         }
+         *     }
+         * })
+         * ```
+         */
+        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<PostProjectsProjectIdDeploymentsDeployFromLatestCommitBody, PostProjectsProjectIdDeploymentsDeployFromLatestCommitData, PostProjectsProjectIdDeploymentsDeployFromLatestCommitParameters, PostProjectsProjectIdDeploymentsDeployFromLatestCommitError, TContext> | MutationFiltersByMutationKey<PostProjectsProjectIdDeploymentsDeployFromLatestCommitSchema, PostProjectsProjectIdDeploymentsDeployFromLatestCommitBody, PostProjectsProjectIdDeploymentsDeployFromLatestCommitData, PostProjectsProjectIdDeploymentsDeployFromLatestCommitParameters, PostProjectsProjectIdDeploymentsDeployFromLatestCommitError, TContext>): number;
+        /**/
+        isMutating<TContext>(filters?: MutationFiltersByParameters<PostProjectsProjectIdDeploymentsDeployFromLatestCommitBody, PostProjectsProjectIdDeploymentsDeployFromLatestCommitData, PostProjectsProjectIdDeploymentsDeployFromLatestCommitParameters, PostProjectsProjectIdDeploymentsDeployFromLatestCommitError, TContext> | MutationFiltersByMutationKey<PostProjectsProjectIdDeploymentsDeployFromLatestCommitSchema, PostProjectsProjectIdDeploymentsDeployFromLatestCommitBody, PostProjectsProjectIdDeploymentsDeployFromLatestCommitData, PostProjectsProjectIdDeploymentsDeployFromLatestCommitParameters, PostProjectsProjectIdDeploymentsDeployFromLatestCommitError, TContext>): number;
+        /**/
+        (options: ServiceOperationMutationFnOptions<PostProjectsProjectIdDeploymentsDeployFromLatestCommitBody, PostProjectsProjectIdDeploymentsDeployFromLatestCommitParameters>, client?: (schema: PostProjectsProjectIdDeploymentsDeployFromLatestCommitSchema, options: ServiceOperationMutationFnOptions<PostProjectsProjectIdDeploymentsDeployFromLatestCommitBody, PostProjectsProjectIdDeploymentsDeployFromLatestCommitParameters>) => Promise<RequestFnResponse<PostProjectsProjectIdDeploymentsDeployFromLatestCommitData, PostProjectsProjectIdDeploymentsDeployFromLatestCommitError>>): Promise<RequestFnResponse<PostProjectsProjectIdDeploymentsDeployFromLatestCommitData, PostProjectsProjectIdDeploymentsDeployFromLatestCommitError>>;
+        /**
+         * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
+         * @example Get all variables of all running mutations.
+         * ```ts
+         * const postProjectsProjectIdDeploymentsDeployFromLatestCommitPendingMutationVariables = qraft.v1Service.postProjectsProjectIdDeploymentsDeployFromLatestCommit.useMutationState({
+         *     filters: {
+         *         status: "pending"
+         *     },
+         *     select: mutation => mutation.state.variables
+         * })
+         * ```
+         * @example Get all data for specific mutations via the `parameters`.
+         * ```ts
+         * const postProjectsProjectIdDeploymentsDeployFromLatestCommitMutationData = qraft.v1Service.postProjectsProjectIdDeploymentsDeployFromLatestCommit.useMutationState({
+         *     filters: {
+         *         parameters: {
+         *             path: {
+         *                 projectId: projectId
+         *             }
+         *         }
+         *     },
+         *     select: mutation => mutation.state.data
+         * })
+         * ```
+         */
+        useMutationState<TContext = unknown, TResult = MutationState<PostProjectsProjectIdDeploymentsDeployFromLatestCommitData, PostProjectsProjectIdDeploymentsDeployFromLatestCommitError, MutationVariables<PostProjectsProjectIdDeploymentsDeployFromLatestCommitBody, PostProjectsProjectIdDeploymentsDeployFromLatestCommitParameters>, TContext>>(options?: {
+            filters?: MutationFiltersByParameters<PostProjectsProjectIdDeploymentsDeployFromLatestCommitBody, PostProjectsProjectIdDeploymentsDeployFromLatestCommitData, PostProjectsProjectIdDeploymentsDeployFromLatestCommitParameters, PostProjectsProjectIdDeploymentsDeployFromLatestCommitError, TContext> | MutationFiltersByMutationKey<PostProjectsProjectIdDeploymentsDeployFromLatestCommitSchema, PostProjectsProjectIdDeploymentsDeployFromLatestCommitBody, PostProjectsProjectIdDeploymentsDeployFromLatestCommitData, PostProjectsProjectIdDeploymentsDeployFromLatestCommitParameters, PostProjectsProjectIdDeploymentsDeployFromLatestCommitError, TContext>;
+            select?: (mutation: Mutation<PostProjectsProjectIdDeploymentsDeployFromLatestCommitData, PostProjectsProjectIdDeploymentsDeployFromLatestCommitError, MutationVariables<PostProjectsProjectIdDeploymentsDeployFromLatestCommitBody, PostProjectsProjectIdDeploymentsDeployFromLatestCommitParameters>, TContext>) => TResult;
+        }): Array<TResult>;
+        schema: PostProjectsProjectIdDeploymentsDeployFromLatestCommitSchema;
+        types: {
+            parameters: PostProjectsProjectIdDeploymentsDeployFromLatestCommitParameters;
+            data: PostProjectsProjectIdDeploymentsDeployFromLatestCommitData;
+            error: PostProjectsProjectIdDeploymentsDeployFromLatestCommitError;
+            body: PostProjectsProjectIdDeploymentsDeployFromLatestCommitBody;
+        };
+    };
     getProjectsProjectIdEnvironment: {
         /**/
         cancelQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetProjectsProjectIdEnvironmentSchema, GetProjectsProjectIdEnvironmentData, TInfinite, GetProjectsProjectIdEnvironmentParameters, GetProjectsProjectIdEnvironmentError> | QueryFiltersByQueryKey<GetProjectsProjectIdEnvironmentSchema, GetProjectsProjectIdEnvironmentData, TInfinite, GetProjectsProjectIdEnvironmentParameters, GetProjectsProjectIdEnvironmentError>, options?: CancelOptions): Promise<void>;
@@ -12246,6 +12488,18 @@ export const v1Service: {
             url: "/v1/projects/{projectId}/deployments/{deploymentId}/logs";
         };
     };
+    postProjectsProjectIdDeploymentsDeploymentIdRedeploy: {
+        schema: {
+            method: "post";
+            url: "/v1/projects/{projectId}/deployments/{deploymentId}/redeploy";
+        };
+    };
+    postProjectsProjectIdDeploymentsDeployFromLatestCommit: {
+        schema: {
+            method: "post";
+            url: "/v1/projects/{projectId}/deployments/deploy-from-latest-commit";
+        };
+    };
     getProjectsProjectIdEnvironment: {
         schema: {
             method: "get";
@@ -12678,6 +12932,18 @@ export const v1Service: {
         schema: {
             method: "get",
             url: "/v1/projects/{projectId}/deployments/{deploymentId}/logs"
+        }
+    },
+    postProjectsProjectIdDeploymentsDeploymentIdRedeploy: {
+        schema: {
+            method: "post",
+            url: "/v1/projects/{projectId}/deployments/{deploymentId}/redeploy"
+        }
+    },
+    postProjectsProjectIdDeploymentsDeployFromLatestCommit: {
+        schema: {
+            method: "post",
+            url: "/v1/projects/{projectId}/deployments/deploy-from-latest-commit"
         }
     },
     getProjectsProjectIdEnvironment: {
@@ -13183,6 +13449,22 @@ type GetProjectsProjectIdDeploymentsDeploymentIdLogsSchema = {
 type GetProjectsProjectIdDeploymentsDeploymentIdLogsParameters = paths["/v1/projects/{projectId}/deployments/{deploymentId}/logs"]["get"]["parameters"];
 type GetProjectsProjectIdDeploymentsDeploymentIdLogsData = paths["/v1/projects/{projectId}/deployments/{deploymentId}/logs"]["get"]["responses"]["200"]["content"]["application/json"];
 type GetProjectsProjectIdDeploymentsDeploymentIdLogsError = unknown;
+type PostProjectsProjectIdDeploymentsDeploymentIdRedeploySchema = {
+    method: "post";
+    url: "/v1/projects/{projectId}/deployments/{deploymentId}/redeploy";
+};
+type PostProjectsProjectIdDeploymentsDeploymentIdRedeployParameters = paths["/v1/projects/{projectId}/deployments/{deploymentId}/redeploy"]["post"]["parameters"];
+type PostProjectsProjectIdDeploymentsDeploymentIdRedeployData = paths["/v1/projects/{projectId}/deployments/{deploymentId}/redeploy"]["post"]["responses"]["200"]["content"]["application/json"];
+type PostProjectsProjectIdDeploymentsDeploymentIdRedeployError = unknown;
+type PostProjectsProjectIdDeploymentsDeploymentIdRedeployBody = undefined;
+type PostProjectsProjectIdDeploymentsDeployFromLatestCommitSchema = {
+    method: "post";
+    url: "/v1/projects/{projectId}/deployments/deploy-from-latest-commit";
+};
+type PostProjectsProjectIdDeploymentsDeployFromLatestCommitParameters = paths["/v1/projects/{projectId}/deployments/deploy-from-latest-commit"]["post"]["parameters"];
+type PostProjectsProjectIdDeploymentsDeployFromLatestCommitData = paths["/v1/projects/{projectId}/deployments/deploy-from-latest-commit"]["post"]["responses"]["200"]["content"]["application/json"];
+type PostProjectsProjectIdDeploymentsDeployFromLatestCommitError = unknown;
+type PostProjectsProjectIdDeploymentsDeployFromLatestCommitBody = undefined;
 type GetProjectsProjectIdEnvironmentSchema = {
     method: "get";
     url: "/v1/projects/{projectId}/environment";

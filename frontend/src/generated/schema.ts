@@ -1541,6 +1541,81 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/projects/{projectId}/deployments/{deploymentId}/redeploy": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    projectId: string;
+                    deploymentId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Api.Endpoints.Projects.Deployments.RedeployDeployment.RedeployDeploymentResponse"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/projects/{projectId}/deployments/deploy-from-latest-commit": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    projectId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Api.Endpoints.Projects.Deployments.DeployFromLatestCommit.DeployFromLatestCommitResponse"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/projects/{projectId}/environment": {
         parameters: {
             query?: never;
@@ -2442,6 +2517,7 @@ export interface components {
         "Api.Data.ProjectState": "Unknown" | "Running" | "Starting" | "Stopped" | "Deleting";
         /** @enum {string} */
         "Api.Data.SystemType": "Unknown" | "Frontend" | "Backend";
+        "Api.Endpoints.Projects.Deployments.DeployFromLatestCommit.DeployFromLatestCommitResponse": Record<string, never>;
         "Api.Endpoints.Projects.Deployments.GetDeploymentResponse": {
             /** Format: uuid */
             id?: string;
@@ -2468,6 +2544,9 @@ export interface components {
         };
         /** @enum {string} */
         "Api.Endpoints.Projects.Deployments.Logs.Get.LogEntryLevel": "Info" | "Warning" | "Error" | "Success";
+        "Api.Endpoints.Projects.Deployments.RedeployDeployment.RedeployDeploymentResponse": {
+            statusUrl?: string | null;
+        };
         "Api.Endpoints.Projects.Domains.Add.AddDomainRequest": {
             domain?: string | null;
             serviceName?: string | null;
