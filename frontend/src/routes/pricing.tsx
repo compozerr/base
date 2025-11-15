@@ -50,7 +50,7 @@ function Pricing() {
               {/* Header */}
               <div className="text-center space-y-4 mb-12">
                 <Badge className="mb-2 bg-red-600 text-white hover:bg-red-700">
-                  🎉 Black Friday Special - 44% OFF on n8n
+                  🎉 Black Friday Special - 37% OFF on n8n
                 </Badge>
                 <h1 className="bg-gradient-to-br from-foreground from-30% via-foreground/90 to-foreground/70 bg-clip-text text-4xl md:text-5xl font-bold tracking-tight text-transparent">
                   Simple, Transparent Pricing

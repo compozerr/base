@@ -157,7 +157,7 @@ function N8nLandingPage() {
               {/* Hero Section */}
               <div className="text-center space-y-8 max-w-4xl mx-auto mb-16">
                 <Badge className="mb-4 bg-red-600 text-white hover:bg-red-700">
-                  🎉 Black Friday Special - 44% OFF
+                  🎉 Black Friday Special - 37% OFF
                 </Badge>
                 <h1 className="bg-gradient-to-br from-foreground from-30% via-foreground/90 to-foreground/70 bg-clip-text text-5xl font-bold tracking-tight text-transparent sm:text-6xl md:text-7xl lg:text-8xl">
                   Deploy n8n in Seconds
@@ -174,7 +174,7 @@ function N8nLandingPage() {
                 <div className="flex items-center justify-center gap-4 pt-4">
                   <div className="text-center">
                     <div className="text-4xl md:text-5xl font-bold text-red-500">$5<span className="text-2xl text-muted-foreground">/mo</span></div>
-                    <div className="text-sm text-muted-foreground line-through">$28/mo</div>
+                    <div className="text-sm text-muted-foreground line-through">$8/mo</div>
                   </div>
                   <Badge variant="outline" className="text-lg px-4 py-2">
                     Limited Time Offer
@@ -340,7 +340,7 @@ function N8nLandingPage() {
                     Start Free - No Credit Card Required
                   </Button>
                   <p className="text-xs text-muted-foreground">
-                    Black Friday pricing: $5/month (on n8n cloud it is $28/month) • Offer expires soon
+                    Black Friday pricing: $5/month (on n8n cloud it is $8/month) • Offer expires soon
                   </p>
                 </CardContent>
               </Card>
@@ -370,7 +370,7 @@ function N8nLandingPage() {
             {/* Hero Section with Welcome */}
             <div className="text-center space-y-8 max-w-4xl mx-auto">
               <Badge className="mb-4 bg-red-600 text-white hover:bg-red-700">
-                🎉 Black Friday Special - 44% OFF
+                🎉 Black Friday Special - 37% OFF
               </Badge>
               <h1 className="bg-gradient-to-br from-foreground from-30% via-foreground/90 to-foreground/70 bg-clip-text text-5xl font-bold tracking-tight text-transparent sm:text-6xl md:text-7xl">
                 Hello {user?.name}!
@@ -386,7 +386,7 @@ function N8nLandingPage() {
                   <div className="text-5xl md:text-6xl font-bold text-red-500">
                     $5<span className="text-3xl text-muted-foreground">/mo</span>
                   </div>
-                  <div className="text-lg text-muted-foreground line-through">$28/mo</div>
+                  <div className="text-lg text-muted-foreground line-through">$8/mo</div>
                 </div>
                 <Badge variant="outline" className="text-lg px-4 py-2">
                   Limited Time

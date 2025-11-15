@@ -1238,6 +1238,13 @@ export interface paths {
                         "application/json": components["schemas"]["Api.Endpoints.Projects.Project.Get.GetProjectResponse"];
                     };
                 };
+                /** @description Not Found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
             };
         };
         put?: never;

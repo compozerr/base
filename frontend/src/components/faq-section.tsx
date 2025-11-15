@@ -25,7 +25,7 @@ const defaultFAQItems: FAQItem[] = [
   {
     question: 'How does the Black Friday special work?',
     answer:
-      'The T1 tier is specially priced at $5/month (44% off from $28/month) for Black Friday. This pricing is automatically applied when you create an n8n project on the T1 tier.',
+      'The T1 tier is specially priced at $5/month (37% off from $8/month) for Black Friday. This pricing is automatically applied when you create an n8n project on the T1 tier.',
   },
   {
     question: 'Do you offer refunds?',
