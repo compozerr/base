@@ -50,7 +50,8 @@ public interface IGithubService
         string baseBranchName = "main");
 
     Task<GitHubCommit> GetLatestCommitAsync(
-        Uri repoUri);
+        Uri repoUri,
+        CancellationToken cancellationToken = default);
 }
 
 public sealed class GithubService(
@@ -366,7 +367,7 @@ public sealed class GithubService(
 
         throw new TimeoutException($"Repository {owner}/{repoName} did not become available after forking");
     }
-    public async Task<GitHubCommit> GetLatestCommitAsync(Uri repoUri)
+    public async Task<GitHubCommit> GetLatestCommitAsync(Uri repoUri, CancellationToken cancellationToken = default)
     {
         // Use unauthenticated client for public repositories
         var client = new GitHubClient(new ProductHeaderValue("compozerr"));
