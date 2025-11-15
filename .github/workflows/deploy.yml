@@ -64,5 +64,6 @@ jobs:
                       cd ${{ secrets.DEPLOY_PATH }}
                       sudo git fetch --tags --force
                       sudo git fetch origin
+                      sudo git stash
                       sudo git checkout --detach ${{ github.ref_name }}
                       npm run serve -- -d
