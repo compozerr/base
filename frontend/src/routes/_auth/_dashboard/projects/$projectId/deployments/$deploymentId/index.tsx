@@ -1,6 +1,7 @@
 import { api } from '@/api-client';
 import { CopyButton } from '@/components/copy-button';
 import { CopyText } from '@/components/copy-text';
+import LoadingButton from '@/components/loading-button';
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -107,6 +108,18 @@ function RouteComponent() {
     }
     const buildDuration = useDuration(deployment.buildDuration!, deployment.status as DeploymentStatus === DeploymentStatus.Deploying);
 
+    const { mutateAsync: redeployAsync, isPending: isRedeploying } = api.v1.postProjectsProjectIdDeploymentsDeploymentIdRedeploy.useMutation();
+
+    const handleRedeployAsync = async () => {
+        await redeployAsync({
+            path: {
+                deploymentId: deploymentId,
+                projectId: deploymentId // backend doesn't use this parameter for now
+            }
+        });
+        goBack();
+    };
+
     return (
         <div className="space-y-6">
             <div className="flex items-center justify-between">
@@ -125,8 +138,11 @@ function RouteComponent() {
                     )}
                 </div>
                 <div className="flex items-center gap-2">
+                    <LoadingButton isLoading={isRedeploying} onClick={handleRedeployAsync} variant="outline">
+                        Redeploy
+                    </LoadingButton>
                     {deployment.url &&
-                        <Button variant="outline" className="gap-2" asChild>
+                        <Button variant="default" className="gap-2" asChild>
                             <a href={"https://" + deployment.url} target="_blank" rel="noopener noreferrer">
                                 <ExternalLink className="h-4 w-4" />
                                 Visit

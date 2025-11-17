@@ -1,5 +1,6 @@
 import { api } from "@/api-client"
 import InfiniteScrollContainer from "@/components/infinite-scroll-container"
+import LoadingButton from "@/components/loading-button"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -73,6 +74,13 @@ function RouteComponent() {
         refetch();
         setRotation((prev) => prev + 360);
     };
+
+    const { mutateAsync: deployFromLatestCommitAsync, isPending: isDeployFromLatestCommitPending } = api.v1.postProjectsProjectIdDeploymentsDeployFromLatestCommit.useMutation();
+
+    const handleDeployFromLatestCommitAsync = async () => {
+        await deployFromLatestCommitAsync({ path: { projectId } });
+        refetch();
+    }
 
     function DeploymentRow({ deployment, projectId, router }: { deployment: typeof deployments[number], projectId: string, router: any }) {
         const timeAgo = useTimeAgo(deployment.createdAt!);
@@ -157,6 +165,9 @@ function RouteComponent() {
                         </motion.div>
                     </Button>
                 </div>
+                <LoadingButton isLoading={isDeployFromLatestCommitPending} onClick={handleDeployFromLatestCommitAsync}>
+                    Deploy from Latest Commit
+                </LoadingButton>
             </div>
 
             <div className="flex flex-col md:flex-row gap-2">
