@@ -162,7 +162,7 @@ function N8nLandingPage() {
                 <h1 className="bg-gradient-to-br from-foreground from-30% via-foreground/90 to-foreground/70 bg-clip-text text-5xl font-bold tracking-tight text-transparent sm:text-6xl md:text-7xl lg:text-8xl">
                   Deploy n8n in Seconds
                   <br />
-                  <span className="text-red-500">Not on GAFM</span>
+                  <span className="text-red-500">Big Tech Independent</span>
                 </h1>
                 <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto">
                   Create n8n automation workflows with complete control.
@@ -223,7 +223,7 @@ function N8nLandingPage() {
                       <div className="w-12 h-12 rounded-lg bg-blue-500/10 flex items-center justify-center mb-4">
                         <Shield className="h-6 w-6 text-blue-400" />
                       </div>
-                      <CardTitle>GAFM-Free Hosting</CardTitle>
+                      <CardTitle>Big Tech Independent Hosting</CardTitle>
                     </CardHeader>
                     <CardContent>
                       <p className="text-muted-foreground">
@@ -445,7 +445,7 @@ function N8nLandingPage() {
                   <div className="w-12 h-12 rounded-full bg-green-500/10 flex items-center justify-center mx-auto">
                     <Shield className="h-6 w-6 text-green-400" />
                   </div>
-                  <h3 className="font-semibold">GAFM-Free</h3>
+                  <h3 className="font-semibold">Big Tech Free</h3>
                   <p className="text-sm text-muted-foreground">
                     No Big Tech dependencies, complete control
                   </p>
@@ -478,7 +478,7 @@ function N8nLandingPage() {
                 <Card className="border-zinc-800 bg-zinc-900/50 backdrop-blur-sm text-center">
                   <CardContent className="p-4">
                     <div className="text-3xl font-bold text-purple-400 mb-1">0</div>
-                    <p className="text-xs text-muted-foreground">GAFM Deps</p>
+                    <p className="text-xs text-muted-foreground">Big Tech Deps</p>
                   </CardContent>
                 </Card>
                 <Card className="border-zinc-800 bg-zinc-900/50 backdrop-blur-sm text-center">
