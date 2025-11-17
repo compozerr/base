@@ -81,7 +81,24 @@ public sealed class MonthlyInvoicePdfService : IMonthlyInvoicePdfService
 						// Body - All line items from all invoices
 						foreach (var invoice in monthlyGroup.Invoices)
 						{
-							foreach (var line in invoice.Lines)
+
+							var lines = invoice.Lines;
+							if (invoice.EndingBalance.HasValue && invoice.StartingBalance.HasValue)
+							{
+								var balanceAdjustment = invoice.StartingBalance.Value - invoice.EndingBalance.Value;
+								if (balanceAdjustment != 0)
+								{
+									var balanceLine = new InvoiceLineDto(
+										"",
+										Amount: new Money(balanceAdjustment, invoice.Total.Currency),
+										Description: "Balance Adjustment"
+									);
+
+									lines = lines.Append(balanceLine).ToList();
+								}
+							}
+
+							foreach (var line in lines)
 							{
 								table.Cell()
 									.BorderBottom(1)
@@ -133,6 +150,6 @@ public sealed class MonthlyInvoicePdfService : IMonthlyInvoicePdfService
 	private static string FormatMoney(Money money)
 	{
 		var amount = money.Amount / 100m; // Convert from cents
-		return $"{amount:C} {money.Currency.ToUpperInvariant()}";
+		return $"{amount:0.00} {money.Currency.ToUpperInvariant()}";
 	}
 }

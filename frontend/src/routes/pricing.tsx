@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Slider } from '@/components/ui/slider'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import { Check, Cpu, HardDrive, MemoryStick, Workflow, Plus, Zap, ArrowRight } from 'lucide-react'
+import { Check, Cpu, HardDrive, MemoryStick, Workflow, Plus, Zap, ArrowRight, X } from 'lucide-react'
 import { Price } from '@/lib/price'
 import { getLink } from '@/links'
 
@@ -88,9 +88,8 @@ function Pricing() {
                           <button
                             key={tier.id?.value}
                             onClick={() => setSelectedIndex(idx)}
-                            className={`transition-colors hover:text-primary ${
-                              idx === selectedIndex ? 'text-primary font-semibold' : ''
-                            }`}
+                            className={`transition-colors hover:text-primary ${idx === selectedIndex ? 'text-primary font-semibold' : ''
+                              }`}
                           >
                             {tier.id?.value}
                           </button>
@@ -255,7 +254,9 @@ function Pricing() {
                           <TableCell className="font-medium">n8n Hosting</TableCell>
                           {tiers.map((tier) => (
                             <TableCell key={tier.id?.value} className="text-center">
-                              <Check className="h-5 w-5 text-green-400 mx-auto" />
+                              {tier.id?.value == "T0"
+                                ? ""
+                                : <Check className="h-5 w-5 text-green-400 mx-auto" />}
                             </TableCell>
                           ))}
                         </TableRow>
