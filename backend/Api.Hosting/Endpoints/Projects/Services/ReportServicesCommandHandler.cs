@@ -1,5 +1,6 @@
 using Api.Data;
 using Api.Data.Repositories;
+using Core.Extensions;
 using Core.MediatR;
 using Database.Extensions;
 using Microsoft.EntityFrameworkCore;
@@ -8,7 +9,8 @@ namespace Api.Hosting.Endpoints.Projects.Services;
 
 public sealed class ReportServicesCommandHandler(
     IProjectServiceRepository projectServiceRepository,
-    IProjectRepository projectRepository)
+    IProjectRepository projectRepository,
+    IDomainRepository domainRepository)
     : ICommandHandler<ReportServicesCommand, ReportServicesResponse>
 {
     private static readonly string[] SystemServices = ["Frontend", "Backend"];
@@ -90,6 +92,18 @@ public sealed class ReportServicesCommandHandler(
                     serviceToProcess,
                     cancellationToken);
             }
+        }
+
+        // Remove system domains that have no corresponding open port
+        var reportedPorts = command.Services.Select(s => s.Port).ToHashSet();
+        var systemDomainsToRemove = project.Domains?
+            .Where(d => SystemServices.Contains(d.ServiceName) && !reportedPorts.Contains(d.Port))
+            .ToList();
+
+        if (systemDomainsToRemove != null && systemDomainsToRemove.Count > 0)
+        {
+            await systemDomainsToRemove.Select(x => x.Id)
+                                       .ApplyAsync(domainRepository.DeleteAsync, cancellationToken);
         }
 
         return new ReportServicesResponse();
