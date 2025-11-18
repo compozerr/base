@@ -3,7 +3,7 @@
  * Do not make direct changes to the file.
  */
 
-export interface paths {
+export type paths = {
     "/v1/auth/login": {
         parameters: {
             query?: never;
@@ -2466,52 +2466,52 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-}
+};
 export type webhooks = Record<string, never>;
-export interface components {
+export type components = {
     schemas: {
         "<>f__AnonymousType0`1[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]": {
-            installUrl?: string | null;
+            installUrl: string | null;
         };
         "Api.Abstractions.DeployProjectResponse": {
-            statusUrl?: string | null;
+            statusUrl: string | null;
         };
         /** @enum {string} */
         "Api.Abstractions.LogLevel": "Info" | "Warning" | "Error" | "Success";
         "Api.Abstractions.Price": {
             /** Format: double */
-            value?: number;
-            currency?: string | null;
+            value: number;
+            currency: string | null;
         };
         /** Format: uuid */
         "Api.Abstractions.ProjectId": string;
         /** @enum {string} */
         "Api.Abstractions.ProjectType": "Compozerr" | "N8n";
         "Api.Abstractions.ServerTier": {
-            id?: components["schemas"]["Api.Abstractions.ServerTierId"];
+            id: components["schemas"]["Api.Abstractions.ServerTierId"];
             /** Format: double */
-            ramGb?: number;
+            ramGb: number;
             /** Format: double */
-            cores?: number;
+            cores: number;
             /** Format: double */
-            diskGb?: number;
-            price?: components["schemas"]["Api.Abstractions.Price"];
-            promotionalText?: string | null;
+            diskGb: number;
+            price: components["schemas"]["Api.Abstractions.Price"];
+            promotionalText: string | null;
         };
         "Api.Abstractions.ServerTierId": {
-            value?: string | null;
+            value: string | null;
         };
         /** @enum {string} */
         "Api.Data.DeploymentStatus": "Unknown" | "Deploying" | "Completed" | "Queued" | "Failed" | "Cancelled";
         "Api.Data.GetProjectEnvironmentResponse": {
-            autoDeploy?: boolean;
-            variables?: components["schemas"]["Api.Data.ProjectEnvironmentVariableDto"][] | null;
+            autoDeploy: boolean;
+            variables: components["schemas"]["Api.Data.ProjectEnvironmentVariableDto"][] | null;
         };
         "Api.Data.ProjectEnvironmentVariableDto": {
-            systemType?: components["schemas"]["Api.Data.SystemType"];
-            key?: string | null;
-            value?: string | null;
-            isGenerated?: boolean;
+            systemType: components["schemas"]["Api.Data.SystemType"];
+            key: string | null;
+            value: string | null;
+            isGenerated: boolean;
         };
         /** @enum {string} */
         "Api.Data.ProjectState": "Unknown" | "Running" | "Starting" | "Stopped" | "Deleting";
@@ -2520,178 +2520,178 @@ export interface components {
         "Api.Endpoints.Projects.Deployments.DeployFromLatestCommit.DeployFromLatestCommitResponse": Record<string, never>;
         "Api.Endpoints.Projects.Deployments.GetDeploymentResponse": {
             /** Format: uuid */
-            id?: string;
-            url?: string | null;
-            status?: components["schemas"]["Api.Data.DeploymentStatus"];
-            environment?: string | null;
-            branch?: string | null;
-            commitHash?: string | null;
-            commitMessage?: string | null;
+            id: string;
+            url: string | null;
+            status: components["schemas"]["Api.Data.DeploymentStatus"];
+            environment: string | null;
+            branch: string | null;
+            commitHash: string | null;
+            commitMessage: string | null;
             /** Format: date-time */
-            createdAt?: string;
-            author?: string | null;
-            isCurrent?: boolean;
+            createdAt: string;
+            author: string | null;
+            isCurrent: boolean;
             /** Format: date-span */
-            buildDuration?: string;
-            region?: string | null;
-            buildLogs?: string[] | null;
+            buildDuration: string;
+            region: string | null;
+            buildLogs: string[] | null;
         };
         "Api.Endpoints.Projects.Deployments.Logs.Get.LogEntry": {
             /** Format: date-time */
-            timestamp?: string;
-            level?: components["schemas"]["Api.Endpoints.Projects.Deployments.Logs.Get.LogEntryLevel"];
-            message?: string | null;
+            timestamp: string;
+            level: components["schemas"]["Api.Endpoints.Projects.Deployments.Logs.Get.LogEntryLevel"];
+            message: string | null;
         };
         /** @enum {string} */
         "Api.Endpoints.Projects.Deployments.Logs.Get.LogEntryLevel": "Info" | "Warning" | "Error" | "Success";
         "Api.Endpoints.Projects.Deployments.RedeployDeployment.RedeployDeploymentResponse": {
-            statusUrl?: string | null;
+            statusUrl: string | null;
         };
         "Api.Endpoints.Projects.Domains.Add.AddDomainRequest": {
-            domain?: string | null;
-            serviceName?: string | null;
-            protocol?: string | null;
+            domain: string | null;
+            serviceName: string | null;
+            protocol: string | null;
         };
         "Api.Endpoints.Projects.Domains.Add.AddDomainResponse": {
-            domainId?: string | null;
+            domainId: string | null;
         };
         "Api.Endpoints.Projects.Domains.Delete.DeleteDomainResponse": Record<string, never>;
         "Api.Endpoints.Projects.Domains.Get.GetDomainDto": {
             /** Format: uuid */
-            domainId?: string;
-            serviceName?: string | null;
-            protocol?: string | null;
-            value?: string | null;
-            isInternal?: boolean;
-            isVerified?: boolean;
-            isPrimary?: boolean;
+            domainId: string;
+            serviceName: string | null;
+            protocol: string | null;
+            value: string | null;
+            isInternal: boolean;
+            isVerified: boolean;
+            isPrimary: boolean;
         };
         "Api.Endpoints.Projects.Domains.Get.GetDomainsResponse": {
-            domains?: components["schemas"]["Api.Endpoints.Projects.Domains.Get.GetDomainDto"][] | null;
+            domains: components["schemas"]["Api.Endpoints.Projects.Domains.Get.GetDomainDto"][] | null;
         };
         "Api.Endpoints.Projects.Domains.Parent.Get.GetParentDomainResponse": {
-            domain?: string | null;
+            domain: string | null;
         };
         "Api.Endpoints.Projects.Domains.SetPrimary.SetPrimaryResponse": {
-            success?: boolean;
+            success: boolean;
         };
         "Api.Endpoints.Projects.GetProjectsResponse": {
             /** Format: int32 */
-            totalProjectsCount?: number;
+            totalProjectsCount: number;
             /** Format: int32 */
-            runningProjectsCount?: number;
-            projects?: components["schemas"]["Api.Endpoints.Projects.Project.Get.GetProjectResponse"][] | null;
+            runningProjectsCount: number;
+            projects: components["schemas"]["Api.Endpoints.Projects.Project.Get.GetProjectResponse"][] | null;
             /** Format: int32 */
-            page?: number;
+            page: number;
             /** Format: int32 */
-            pageSize?: number;
+            pageSize: number;
         };
         "Api.Endpoints.Projects.Project.Delete.DeleteProjectResponse": Record<string, never>;
         "Api.Endpoints.Projects.Project.Get.GetProjectResponse": {
             /** Format: uuid */
-            id?: string;
-            name?: string | null;
-            repoName?: string | null;
-            state?: components["schemas"]["Api.Data.ProjectState"];
-            domains?: string[] | null;
-            serverTier?: string | null;
-            primaryDomain?: string | null;
-            type?: components["schemas"]["Api.Abstractions.ProjectType"];
+            id: string;
+            name: string | null;
+            repoName: string | null;
+            state: components["schemas"]["Api.Data.ProjectState"];
+            domains: string[] | null;
+            serverTier: string | null;
+            primaryDomain: string | null;
+            type: components["schemas"]["Api.Abstractions.ProjectType"];
         };
         "Api.Endpoints.Projects.ProjectEnvironment.ChangeAutoDeploy.ChangeAutoDeployRequest": {
-            autoDeploy?: boolean;
+            autoDeploy: boolean;
         };
         "Api.Endpoints.Projects.ProjectEnvironment.ChangeAutoDeploy.ChangeAutoDeployResponse": Record<string, never>;
         "Api.Endpoints.Projects.ProjectEnvironment.UpsertProjectEnvironmentVariablesRequest": {
-            variables?: components["schemas"]["Api.Data.ProjectEnvironmentVariableDto"][] | null;
+            variables: components["schemas"]["Api.Data.ProjectEnvironmentVariableDto"][] | null;
         };
         "Api.Endpoints.Projects.Services.Get.GetProjectServicesResponse": {
-            services?: components["schemas"]["Api.Endpoints.Projects.Services.Get.ProjectServiceDto"][] | null;
+            services: components["schemas"]["Api.Endpoints.Projects.Services.Get.ProjectServiceDto"][] | null;
         };
         "Api.Endpoints.Projects.Services.Get.ProjectServiceDto": {
-            name?: string | null;
-            port?: string | null;
-            protocol?: string | null;
-            isSystem?: boolean;
+            name: string | null;
+            port: string | null;
+            protocol: string | null;
+            isSystem: boolean;
         };
         "Api.Endpoints.Projects.Usage.Get.GetUsageResponse": {
-            points?: {
-                CPU?: components["schemas"]["Api.Endpoints.Projects.Usage.Get.UsagePoint"][];
-                Ram?: components["schemas"]["Api.Endpoints.Projects.Usage.Get.UsagePoint"][];
-                DiskWrite?: components["schemas"]["Api.Endpoints.Projects.Usage.Get.UsagePoint"][];
-                DiskRead?: components["schemas"]["Api.Endpoints.Projects.Usage.Get.UsagePoint"][];
-                NetworkIn?: components["schemas"]["Api.Endpoints.Projects.Usage.Get.UsagePoint"][];
-                NetworkOut?: components["schemas"]["Api.Endpoints.Projects.Usage.Get.UsagePoint"][];
+            points: {
+                CPU: components["schemas"]["Api.Endpoints.Projects.Usage.Get.UsagePoint"][];
+                Ram: components["schemas"]["Api.Endpoints.Projects.Usage.Get.UsagePoint"][];
+                DiskWrite: components["schemas"]["Api.Endpoints.Projects.Usage.Get.UsagePoint"][];
+                DiskRead: components["schemas"]["Api.Endpoints.Projects.Usage.Get.UsagePoint"][];
+                NetworkIn: components["schemas"]["Api.Endpoints.Projects.Usage.Get.UsagePoint"][];
+                NetworkOut: components["schemas"]["Api.Endpoints.Projects.Usage.Get.UsagePoint"][];
             } | null;
-            usageSpan?: components["schemas"]["Api.Endpoints.Projects.Usage.Get.UsageSpan"];
+            usageSpan: components["schemas"]["Api.Endpoints.Projects.Usage.Get.UsageSpan"];
             /** Format: double */
-            allocatedMemoryGb?: number;
+            allocatedMemoryGb: number;
         };
         "Api.Endpoints.Projects.Usage.Get.UsagePoint": {
             /** Format: date-time */
-            timestamp?: string;
+            timestamp: string;
             /** Format: double */
-            value?: number;
+            value: number;
         };
         /** @enum {string} */
         "Api.Endpoints.Projects.Usage.Get.UsageSpan": "Total" | "Day" | "Week" | "Month" | "Year";
         "Api.Endpoints.Server.Tiers.Get.GetTiersResponse": {
-            tiers?: components["schemas"]["Api.Abstractions.ServerTier"][] | null;
+            tiers: components["schemas"]["Api.Abstractions.ServerTier"][] | null;
         };
         "Api.Endpoints.Server.UpdateServerRequest": {
-            secret?: string | null;
-            isoCountryCode?: string | null;
-            machineId?: string | null;
-            ram?: string | null;
-            vCpu?: string | null;
-            ip?: string | null;
-            hostName?: string | null;
-            apiDomain?: string | null;
+            secret: string | null;
+            isoCountryCode: string | null;
+            machineId: string | null;
+            ram: string | null;
+            vCpu: string | null;
+            ip: string | null;
+            hostName: string | null;
+            apiDomain: string | null;
         };
         "Api.Endpoints.Server.UpdateServerResponse": {
-            success?: boolean;
-            pemPublicKey?: string | null;
+            success: boolean;
+            pemPublicKey: string | null;
         };
         "Api.Features.N8n.Endpoints.CreateN8nProject.CreateN8nProjectRequest": {
-            projectName?: string | null;
-            locationIso?: string | null;
-            tier?: string | null;
+            projectName: string | null;
+            locationIso: string | null;
+            tier: string | null;
         };
         "Api.Features.N8n.Endpoints.CreateN8nProject.CreateN8nProjectResponse": {
-            projectId?: components["schemas"]["Api.Abstractions.ProjectId"];
+            projectId: components["schemas"]["Api.Abstractions.ProjectId"];
         };
         "Api.Hosting.Endpoints.Deployments.ChangeDeploymentStatus.ChangeDeploymentStatusRequest": {
-            status?: string | null;
+            status: string | null;
         };
         "Api.Hosting.Endpoints.Deployments.ChangeDeploymentStatus.ChangeDeploymentStatusResponse": {
-            success?: boolean;
+            success: boolean;
         };
         "Api.Hosting.Endpoints.Deployments.Logs.Add.AddLogRequest": {
-            log?: string | null;
-            level?: components["schemas"]["Api.Abstractions.LogLevel"];
+            log: string | null;
+            level: components["schemas"]["Api.Abstractions.LogLevel"];
         };
         "Api.Hosting.Endpoints.Deployments.Logs.Add.AddLogResponse": Record<string, never>;
         "Api.Hosting.Endpoints.Projects.GetAll.ProjectDto": {
-            projectId?: components["schemas"]["Api.Abstractions.ProjectId"];
+            projectId: components["schemas"]["Api.Abstractions.ProjectId"];
         };
         "Api.Hosting.Endpoints.Projects.ProjectDomains.DomainDto": {
-            serviceName?: string | null;
-            port?: string | null;
-            protocol?: string | null;
-            value?: string | null;
+            serviceName: string | null;
+            port: string | null;
+            protocol: string | null;
+            value: string | null;
         };
         "Api.Hosting.Endpoints.Projects.ProjectState.ProjectStateRequest": {
-            state?: components["schemas"]["Api.Data.ProjectState"];
+            state: components["schemas"]["Api.Data.ProjectState"];
         };
         "Api.Hosting.Endpoints.Projects.ProjectState.ProjectStateResponse": Record<string, never>;
         "Api.Hosting.Endpoints.Projects.Services.ReportServicesRequest": {
-            services?: components["schemas"]["Api.Hosting.Endpoints.Projects.Services.ServicePortInfo"][] | null;
+            services: components["schemas"]["Api.Hosting.Endpoints.Projects.Services.ServicePortInfo"][] | null;
         };
         "Api.Hosting.Endpoints.Projects.Services.ReportServicesResponse": Record<string, never>;
         "Api.Hosting.Endpoints.Projects.Services.ServicePortInfo": {
-            name?: string | null;
-            port?: string | null;
-            protocol?: string | null;
+            name: string | null;
+            port: string | null;
+            protocol: string | null;
         };
         /** Format: uuid */
         "Auth.Abstractions.UserId": string;
@@ -2699,10 +2699,10 @@ export interface components {
         "Auth.Abstractions.UserLoginId": string;
         "Auth.Endpoints.Auth.MeResponse": {
             /** Format: uuid */
-            id?: string;
-            name?: string | null;
-            email?: string | null;
-            avatarUrl?: string | null;
+            id: string;
+            name: string | null;
+            email: string | null;
+            avatarUrl: string | null;
         };
         /**
          * Format: int32
@@ -2711,19 +2711,19 @@ export interface components {
         "Auth.Models.Provider": 1;
         "Auth.Models.User": {
             /** Format: date-time */
-            createdAtUtc?: string;
+            createdAtUtc: string;
             /** Format: date-time */
-            updatedAtUtc?: string | null;
+            updatedAtUtc: string | null;
             /** Format: date-time */
-            deletedAtUtc?: string | null;
-            readonly isDeleted?: boolean;
-            readonly domainEvents?: components["schemas"]["Core.Abstractions.IDomainEvent"][] | null;
-            id?: components["schemas"]["Auth.Abstractions.UserId"];
-            name?: string | null;
-            email?: string | null;
-            avatarUrl?: string | null;
-            roles?: string[] | null;
-            logins?: components["schemas"]["Auth.Models.UserLogin"][] | null;
+            deletedAtUtc: string | null;
+            readonly isDeleted: boolean;
+            readonly domainEvents: components["schemas"]["Core.Abstractions.IDomainEvent"][] | null;
+            id: components["schemas"]["Auth.Abstractions.UserId"];
+            name: string | null;
+            email: string | null;
+            avatarUrl: string | null;
+            roles: string[] | null;
+            logins: components["schemas"]["Auth.Models.UserLogin"][] | null;
         };
         "Auth.Models.UserLogin": {
             /** Format: date-time */
@@ -2740,95 +2740,95 @@ export interface components {
             providerUserId: string | null;
         };
         "Cli.Endpoints.Modules.Add.AddModuleCommand": {
-            organization?: string | null;
-            moduleName?: string | null;
-            commitHash?: string | null;
+            organization: string | null;
+            moduleName: string | null;
+            commitHash: string | null;
         };
         "Cli.Endpoints.Modules.Add.AddModuleResponse": {
-            modules?: components["schemas"]["Cli.Endpoints.Modules.Add.ModuleResult"][] | null;
+            modules: components["schemas"]["Cli.Endpoints.Modules.Add.ModuleResult"][] | null;
         };
         "Cli.Endpoints.Modules.Add.ModuleDto": {
-            value?: string | null;
-            hash?: string | null;
-            readonly organization?: string | null;
-            readonly moduleName?: string | null;
-            readonly fullName?: string | null;
-            readonly commitHash?: string | null;
-            readonly cloneUrl?: string | null;
+            value: string | null;
+            hash: string | null;
+            readonly organization: string | null;
+            readonly moduleName: string | null;
+            readonly fullName: string | null;
+            readonly commitHash: string | null;
+            readonly cloneUrl: string | null;
         };
         "Cli.Endpoints.Modules.Add.ModuleResult": {
-            readonly success?: boolean;
-            module?: components["schemas"]["Cli.Endpoints.Modules.Add.ModuleDto"];
-            readonly errorMessage?: string | null;
+            readonly success: boolean;
+            module: components["schemas"]["Cli.Endpoints.Modules.Add.ModuleDto"];
+            readonly errorMessage: string | null;
         };
         "Cli.Endpoints.Modules.ForkModule.ForkModuleRequest": {
-            modulesToFork?: components["schemas"]["Cli.Endpoints.Modules.Add.ModuleDto"][] | null;
-            projectId?: string | null;
+            modulesToFork: components["schemas"]["Cli.Endpoints.Modules.Add.ModuleDto"][] | null;
+            projectId: string | null;
         };
         "Cli.Endpoints.Modules.ForkModule.ForkModuleResponse": {
-            forkedModules?: components["schemas"]["Cli.Endpoints.Modules.Add.ModuleDto"][] | null;
-            sharedBranchName?: string | null;
+            forkedModules: components["schemas"]["Cli.Endpoints.Modules.Add.ModuleDto"][] | null;
+            sharedBranchName: string | null;
         };
         "Cli.Endpoints.Projects.CreateProjectRequest": {
-            repoName?: string | null;
-            repoUrl?: string | null;
-            locationIso?: string | null;
-            tier?: string | null;
+            repoName: string | null;
+            repoUrl: string | null;
+            locationIso: string | null;
+            tier: string | null;
         };
         "Cli.Endpoints.Projects.CreateProjectResponse": {
-            projectId?: components["schemas"]["Api.Abstractions.ProjectId"];
+            projectId: components["schemas"]["Api.Abstractions.ProjectId"];
         };
         "Cli.Endpoints.Projects.Deployments.CreateDeploymentRequest": {
-            commitHash?: string | null;
-            commitMessage?: string | null;
-            commitAuthor?: string | null;
-            commitBranch?: string | null;
-            commitEmail?: string | null;
+            commitHash: string | null;
+            commitMessage: string | null;
+            commitAuthor: string | null;
+            commitBranch: string | null;
+            commitEmail: string | null;
         };
         "Cli.Endpoints.Projects.GetProjectByRepoUrlRequest": {
-            repoUrl?: string | null;
+            repoUrl: string | null;
         };
         "Cli.Endpoints.Projects.ProjectDto": {
-            name?: string | null;
-            repoUri?: string | null;
+            name: string | null;
+            repoUri: string | null;
             /** Format: uuid */
-            userId?: string;
+            userId: string;
             /** Format: uuid */
-            serverId?: string;
+            serverId: string;
         };
         "Cli.Endpoints.Projects.RestoreProject.RestoreProjectResponse": Record<string, never>;
         "Cli.Endpoints.Repos.CreateRepoRequest": {
-            name?: string | null;
-            type?: components["schemas"]["Github.Endpoints.SetDefaultInstallationId.DefaultInstallationIdSelectionType"];
-            locationIsoCode?: string | null;
-            tier?: string | null;
-            projectId?: string | null;
+            name: string | null;
+            type: components["schemas"]["Github.Endpoints.SetDefaultInstallationId.DefaultInstallationIdSelectionType"];
+            locationIsoCode: string | null;
+            tier: string | null;
+            projectId: string | null;
         };
         "Cli.Endpoints.Repos.CreateRepoResponse": {
-            cloneUrl?: string | null;
-            gitUrl?: string | null;
-            repoName?: string | null;
-            projectId?: string | null;
+            cloneUrl: string | null;
+            gitUrl: string | null;
+            repoName: string | null;
+            projectId: string | null;
         };
         "Core.Abstractions.IDomainEvent": Record<string, never>;
         "Core.Results.PagedResult`1[[Api.Endpoints.Projects.Deployments.GetDeploymentResponse, Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]": {
             /** Format: int32 */
-            page?: number;
+            page: number;
             /** Format: int32 */
-            pageSize?: number;
+            pageSize: number;
             /** Format: int32 */
-            totalCount?: number;
-            items?: components["schemas"]["Api.Endpoints.Projects.Deployments.GetDeploymentResponse"][] | null;
+            totalCount: number;
+            items: components["schemas"]["Api.Endpoints.Projects.Deployments.GetDeploymentResponse"][] | null;
         };
         "Github.Endpoints.GetInstallationsResponse": {
-            selectedProjectsInstallationId?: string | null;
-            selectedModulesInstallationId?: string | null;
-            installations?: components["schemas"]["Github.Endpoints.InstallationDto"][] | null;
+            selectedProjectsInstallationId: string | null;
+            selectedModulesInstallationId: string | null;
+            installations: components["schemas"]["Github.Endpoints.InstallationDto"][] | null;
         };
         "Github.Endpoints.InstallationDto": {
-            installationId?: string | null;
-            name?: string | null;
-            type?: string | null;
+            installationId: string | null;
+            name: string | null;
+            type: string | null;
         };
         /**
          * Format: int32
@@ -2836,126 +2836,126 @@ export interface components {
          */
         "Github.Endpoints.SetDefaultInstallationId.DefaultInstallationIdSelectionType": 1 | 2;
         "Github.Endpoints.SetDefaultInstallationRequest": {
-            installationId?: string | null;
-            type?: components["schemas"]["Github.Endpoints.SetDefaultInstallationId.DefaultInstallationIdSelectionType"];
+            installationId: string | null;
+            type: components["schemas"]["Github.Endpoints.SetDefaultInstallationId.DefaultInstallationIdSelectionType"];
         };
         "Github.Services.RepositoryDto": {
-            ownedByInstallationId?: string | null;
-            name?: string | null;
+            ownedByInstallationId: string | null;
+            name: string | null;
         };
         "Mail.Endpoints.Mail.SendMail.SendMailCommand": {
-            from?: string | null;
-            displayName?: string | null;
-            to?: string | null;
-            subject?: string | null;
-            htmlBody?: string | null;
+            from: string | null;
+            displayName: string | null;
+            to: string | null;
+            subject: string | null;
+            htmlBody: string | null;
         };
         "Stripe.Endpoints.Invoices.GetInvoices.GetInvoicesResponse": {
-            monthlyGroups?: components["schemas"]["Stripe.Services.MonthlyInvoiceGroup"][] | null;
+            monthlyGroups: components["schemas"]["Stripe.Services.MonthlyInvoiceGroup"][] | null;
         };
         "Stripe.Endpoints.PaymentMethods.AttachPaymentMethod.AttachPaymentMethodRequest": {
-            paymentMethodId?: string | null;
+            paymentMethodId: string | null;
         };
         "Stripe.Endpoints.PaymentMethods.AttachPaymentMethod.AttachPaymentMethodResponse": {
-            paymentMethod?: components["schemas"]["Stripe.Services.PaymentMethodDto"];
+            paymentMethod: components["schemas"]["Stripe.Services.PaymentMethodDto"];
         };
         "Stripe.Endpoints.PaymentMethods.CreateSetupIntent.CreateSetupIntentResponse": {
-            clientSecret?: string | null;
+            clientSecret: string | null;
         };
         "Stripe.Endpoints.PaymentMethods.GetUserPaymentMethods.GetUserPaymentMethodsResponse": {
-            paymentMethods?: components["schemas"]["Stripe.Services.PaymentMethodDto"][] | null;
+            paymentMethods: components["schemas"]["Stripe.Services.PaymentMethodDto"][] | null;
         };
         "Stripe.Endpoints.PaymentMethods.RemovePaymentMethod.RemovePaymentMethodResponse": {
-            success?: boolean;
+            success: boolean;
         };
         "Stripe.Endpoints.PaymentMethods.SetDefaultPaymentMethod.SetDefaultPaymentMethodRequest": {
-            paymentMethodId?: string | null;
+            paymentMethodId: string | null;
         };
         "Stripe.Endpoints.PaymentMethods.SetDefaultPaymentMethod.SetDefaultPaymentMethodResponse": {
-            paymentMethod?: components["schemas"]["Stripe.Services.PaymentMethodDto"];
+            paymentMethod: components["schemas"]["Stripe.Services.PaymentMethodDto"];
         };
         "Stripe.Endpoints.Subscriptions.CancelSubscription.CancelSubscriptionCommand": {
-            subscriptionId?: string | null;
-            cancelImmediately?: boolean;
+            subscriptionId: string | null;
+            cancelImmediately: boolean;
         };
         "Stripe.Endpoints.Subscriptions.CancelSubscription.CancelSubscriptionResponse": {
-            subscriptionId?: string | null;
-            status?: string | null;
-            canceledAt?: string | null;
-            canceledImmediately?: boolean;
+            subscriptionId: string | null;
+            status: string | null;
+            canceledAt: string | null;
+            canceledImmediately: boolean;
         };
         "Stripe.Endpoints.Subscriptions.GetUserSubscriptions.GetUserSubscriptionsResponse": {
-            subscriptions?: components["schemas"]["Stripe.Endpoints.Subscriptions.GetUserSubscriptions.SubscriptionDto"][] | null;
+            subscriptions: components["schemas"]["Stripe.Endpoints.Subscriptions.GetUserSubscriptions.SubscriptionDto"][] | null;
         };
         "Stripe.Endpoints.Subscriptions.GetUserSubscriptions.SubscriptionDto": {
-            id?: string | null;
-            projectId?: components["schemas"]["Api.Abstractions.ProjectId"];
-            name?: string | null;
-            status?: string | null;
-            planId?: string | null;
-            serverTierId?: string | null;
+            id: string | null;
+            projectId: components["schemas"]["Api.Abstractions.ProjectId"];
+            name: string | null;
+            status: string | null;
+            planId: string | null;
+            serverTierId: string | null;
             /** Format: date-time */
-            currentPeriodStart?: string;
+            currentPeriodStart: string;
             /** Format: date-time */
-            currentPeriodEnd?: string;
-            cancelAtPeriodEnd?: boolean;
+            currentPeriodEnd: string;
+            cancelAtPeriodEnd: boolean;
             /** Format: double */
-            amount?: number;
-            currency?: string | null;
+            amount: number;
+            currency: string | null;
         };
         "Stripe.Endpoints.Subscriptions.UpsertSubscription.UpsertSubscriptionRequest": {
             /** Format: uuid */
-            projectId?: string;
-            tier?: string | null;
+            projectId: string;
+            tier: string | null;
         };
         "Stripe.Services.InvoiceDto": {
-            id?: string | null;
-            total?: components["schemas"]["Stripe.Services.Money"];
-            lines?: components["schemas"]["Stripe.Services.InvoiceLineDto"][] | null;
-            hostedInvoiceUrl?: string | null;
-            invoicePdf?: string | null;
+            id: string | null;
+            total: components["schemas"]["Stripe.Services.Money"];
+            lines: components["schemas"]["Stripe.Services.InvoiceLineDto"][] | null;
+            hostedInvoiceUrl: string | null;
+            invoicePdf: string | null;
             /** Format: int64 */
-            periodStart?: number;
+            periodStart: number;
             /** Format: int64 */
-            periodEnd?: number;
+            periodEnd: number;
             /** Format: int64 */
-            created?: number;
+            created: number;
             /** Format: int64 */
-            startingBalance?: number | null;
+            startingBalance: number | null;
             /** Format: int64 */
-            endingBalance?: number | null;
+            endingBalance: number | null;
         };
         "Stripe.Services.InvoiceLineDto": {
-            id?: string | null;
-            amount?: components["schemas"]["Stripe.Services.Money"];
-            description?: string | null;
+            id: string | null;
+            amount: components["schemas"]["Stripe.Services.Money"];
+            description: string | null;
         };
         "Stripe.Services.Money": {
             /** Format: double */
-            amount?: number;
-            currency?: string | null;
+            amount: number;
+            currency: string | null;
         };
         "Stripe.Services.MonthlyInvoiceGroup": {
-            yearMonth?: string | null;
-            monthLabel?: string | null;
-            isOngoing?: boolean;
-            monthTotal?: components["schemas"]["Stripe.Services.Money"];
-            invoices?: components["schemas"]["Stripe.Services.InvoiceDto"][] | null;
-            appliedBalance?: components["schemas"]["Stripe.Services.Money"];
+            yearMonth: string | null;
+            monthLabel: string | null;
+            isOngoing: boolean;
+            monthTotal: components["schemas"]["Stripe.Services.Money"];
+            invoices: components["schemas"]["Stripe.Services.InvoiceDto"][] | null;
+            appliedBalance: components["schemas"]["Stripe.Services.Money"];
         };
         "Stripe.Services.PaymentMethodDto": {
-            id?: string | null;
-            type?: string | null;
-            brand?: string | null;
-            last4?: string | null;
+            id: string | null;
+            type: string | null;
+            brand: string | null;
+            last4: string | null;
             /** Format: int32 */
-            expiryMonth?: number;
+            expiryMonth: number;
             /** Format: int32 */
-            expiryYear?: number;
-            isDefault?: boolean;
+            expiryYear: number;
+            isDefault: boolean;
         };
         "Template.Endpoints.Example.GetExampleResponse": {
-            message?: string | null;
+            message: string | null;
         };
     };
     responses: never;
@@ -2963,7 +2963,7 @@ export interface components {
     requestBodies: never;
     headers: never;
     pathItems: never;
-}
+};
 export type $defs = Record<string, never>;
 export interface operations {
     DownloadMonthlyInvoice: {
