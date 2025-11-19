@@ -4,6 +4,8 @@ using Api.Data.Repositories;
 using Api.Hosting.Services;
 using Auth.Services;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Stripe.Endpoints.Subscriptions.GetUserSubscriptions;
+using Stripe.Services;
 
 namespace Api.Endpoints.Projects.Project.Get;
 
@@ -19,7 +21,8 @@ public static class GetProjectRoute
     public static async Task<Results<Ok<GetProjectResponse>, NotFound>> ExecuteAsync(
         ProjectId projectId,
         ICurrentUserAccessor currentUserAccessor,
-        IProjectRepository projectRepository)
+        IProjectRepository projectRepository,
+        ISubscriptionsService subscriptionsService)
     {
         var project = await projectRepository.GetProjectByIdWithDomainsAsync(projectId);
 
@@ -30,6 +33,10 @@ public static class GetProjectRoute
 
         var projectDomains = project.Domains?.Where(x => x.DeletedAtUtc == null).ToList();
 
+        var money = await GetMoneyFromProjectSubscriptionAsync(
+            subscriptionsService,
+            projectId);
+
         return TypedResults.Ok(new GetProjectResponse(
             project.Id.Value,
             project.Name,
@@ -37,8 +44,30 @@ public static class GetProjectRoute
             project.State,
             [.. projectDomains?.Select(x => x.GetValue) ?? []],
             project.ServerTierId.Value,
+            money,
             projectDomains?.GetPrimary()?.GetValue,
             project.Type
         ));
+    }
+
+    private static async Task<Money?> GetMoneyFromProjectSubscriptionAsync(
+        ISubscriptionsService subscriptionsService,
+        ProjectId projectId)
+    {
+        var subscription = await subscriptionsService.GetSubscriptionsForUserAsync().ContinueWith(t => t.Result
+            .Where(s => s.ProjectId == projectId)
+            .FirstOrDefault());
+
+        return GetMoneyFromSubscriptionDto(subscription);
+    }
+
+    private static Money? GetMoneyFromSubscriptionDto(SubscriptionDto? subscription)
+    {
+        if (subscription is not { Amount: { }, Currency: { } } nonNullSubscription)
+            return null;
+
+        return new Money(
+            nonNullSubscription.Amount,
+            nonNullSubscription.Currency);
     }
 }

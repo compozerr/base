@@ -40,6 +40,7 @@ public static class GetProjectsRoute
                 p.State,
                 [.. p.Domains?.Select(x => x.GetValue) ?? []],
                 p.ServerTierId.Value,
+                null,
                 p.Domains!.FirstOrDefault()?.GetValue ?? "Unknown",
                 p.Type)
             )];

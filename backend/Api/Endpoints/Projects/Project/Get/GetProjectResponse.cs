@@ -1,5 +1,6 @@
 using Api.Abstractions;
 using Api.Data;
+using Stripe.Services;
 
 namespace Api.Endpoints.Projects.Project.Get;
 
@@ -10,5 +11,6 @@ public sealed record GetProjectResponse(
     ProjectState State,
     List<string> Domains,
     string ServerTier,
+    Money? ServerTierPrice,
     string? PrimaryDomain,
     ProjectType? Type);

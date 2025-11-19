@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { api, apiBaseUrl } from '@/api-client';
+import { api } from '@/api-client';
 import {
   Card,
   CardContent,
@@ -33,19 +33,16 @@ function MonthlyInvoiceCard({ group }: { group: components['schemas']['Stripe.Se
 
   const handleDownloadMonthly = async () => {
     try {
-      const response = await fetch(
-        `${apiBaseUrl}/v1/stripe/invoices/monthly/${group.yearMonth}/download`,
-        {
-          method: 'POST',
-          credentials: 'include',
-        }
-      )
+      const result = await api.v1.downloadMonthlyInvoice({
+        parameters: { path: { yearMonth: group.yearMonth! } }
+      });
 
-      if (!response.ok) {
+      if (!result.response?.ok) {
         throw new Error('Failed to download invoice')
       }
 
-      const blob = await response.blob()
+      const blob = await result.response.blob();
+
       const url = window.URL.createObjectURL(blob)
       const a = document.createElement('a')
       a.href = url
