@@ -97,20 +97,20 @@ function RouteComponent() {
                                     </p>
                                 </div>
                                 <div>
-                                    <h3 className="text-sm font-medium text-muted-foreground">Hardware - {serverTier?.id?.value}</h3>
+                                    <h3 className="text-sm font-medium text-muted-foreground">Hardware - {serverTier?.id.value}</h3>
                                     {serverTier ? (
                                         <>
                                             <span className="flex items-center gap-2 text-sm">
                                                 <MemoryStick className="h-4 w-4 text-muted-foreground" />
-                                                {serverTier?.ramGb} GB RAM
+                                                {serverTier.ramGb} GB RAM
                                             </span>
                                             <span className="flex items-center gap-2 text-sm">
                                                 <Cpu className="h-4 w-4 text-muted-foreground" />
-                                                {serverTier?.cores} Cores vCPU
+                                                {serverTier.cores} Cores vCPU
                                             </span>
                                             <span className="flex items-center gap-2 text-sm">
                                                 <HardDrive className="h-4 w-4 text-muted-foreground" />
-                                                {serverTier?.diskGb} GB Disk
+                                                {serverTier.diskGb} GB Disk
                                             </span>
                                         </>
 
