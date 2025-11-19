@@ -2595,7 +2595,7 @@ export type components = {
             state: components["schemas"]["Api.Data.ProjectState"];
             domains: string[] | null;
             serverTier: string | null;
-            serverTierPrice: components["schemas"]["Stripe.Services.Money"];
+            serverTierPrice: components["schemas"]["Api.Abstractions.Price"];
             primaryDomain: string | null;
             type: components["schemas"]["Api.Abstractions.ProjectType"];
         };

@@ -189,7 +189,7 @@ function GeneralSettingsTab() {
                 <SelectContent>
                   {tiers && tiers.tiers!.map((t, idx) => (
                     <SelectItem key={idx} value={t.id!.value!}>
-                      {t.id!.value} - {t.ramGb}GB RAM, {t.cores} Cores, {t.diskGb}GB Disk - <span className='font-bold'>{Price.formatPrice(t.price)}/month</span> {t.promotionalText ? `(${t.promotionalText})` : ""}
+                      {t.id!.value} - {t.ramGb}GB RAM, {t.cores} Cores, {t.diskGb}GB Disk - <span className='font-bold'>{Price.formatPrice(project?.serverTierPrice ?? t.price)}/month</span> {t.promotionalText ? `(${t.promotionalText})` : ""}
                     </SelectItem>
                   ))}
                 </SelectContent>

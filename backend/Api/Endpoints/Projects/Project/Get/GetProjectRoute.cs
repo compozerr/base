@@ -33,7 +33,7 @@ public static class GetProjectRoute
 
         var projectDomains = project.Domains?.Where(x => x.DeletedAtUtc == null).ToList();
 
-        var money = await GetMoneyFromProjectSubscriptionAsync(
+        var serverTierPrice = await GetServerTierPriceFromProjectSubscriptionAsync(
             subscriptionsService,
             projectId);
 
@@ -44,13 +44,13 @@ public static class GetProjectRoute
             project.State,
             [.. projectDomains?.Select(x => x.GetValue) ?? []],
             project.ServerTierId.Value,
-            money,
+            serverTierPrice,
             projectDomains?.GetPrimary()?.GetValue,
             project.Type
         ));
     }
 
-    private static async Task<Money?> GetMoneyFromProjectSubscriptionAsync(
+    private static async Task<Price?> GetServerTierPriceFromProjectSubscriptionAsync(
         ISubscriptionsService subscriptionsService,
         ProjectId projectId)
     {
@@ -58,15 +58,15 @@ public static class GetProjectRoute
             .Where(s => s.ProjectId == projectId)
             .FirstOrDefault());
 
-        return GetMoneyFromSubscriptionDto(subscription);
+        return GetServerTierPriceFromSubscriptionDto(subscription);
     }
 
-    private static Money? GetMoneyFromSubscriptionDto(SubscriptionDto? subscription)
+    private static Price? GetServerTierPriceFromSubscriptionDto(SubscriptionDto? subscription)
     {
         if (subscription is not { Amount: { }, Currency: { } } nonNullSubscription)
             return null;
 
-        return new Money(
+        return new Price(
             nonNullSubscription.Amount,
             nonNullSubscription.Currency);
     }

@@ -11,6 +11,6 @@ public sealed record GetProjectResponse(
     ProjectState State,
     List<string> Domains,
     string ServerTier,
-    Money? ServerTierPrice,
+    Price? ServerTierPrice,
     string? PrimaryDomain,
     ProjectType? Type);
