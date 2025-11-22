@@ -28,28 +28,28 @@ function N8nLandingPage() {
 
 // Unauthenticated marketing landing page
 function UnauthenticatedN8nFlow() {
-  const { login } = useAuth();
+  const navigate = useNavigate()
 
   const handleGetStarted = () => {
     sessionStorage.setItem('n8nIntent', 'create')
-    login();
+    navigate({ to: '/login', search: { redirect: location.href } })
   }
 
   return (
-      <>
-        <MouseMoveEffect />
-        <div className="relative min-h-screen">
-          {/* Background gradients */}
-          <div className="pointer-events-none fixed inset-0">
-            <div className="absolute inset-0 bg-gradient-to-b from-background via-background/90 to-background" />
-            <div className="absolute right-0 top-0 h-[500px] w-[500px] bg-blue-500/10 blur-[100px]" />
-            <div className="absolute bottom-0 left-0 h-[500px] w-[500px] bg-purple-500/10 blur-[100px]" />
-          </div>
+    <>
+      <MouseMoveEffect />
+      <div className="relative min-h-screen">
+        {/* Background gradients */}
+        <div className="pointer-events-none fixed inset-0">
+          <div className="absolute inset-0 bg-gradient-to-b from-background via-background/90 to-background" />
+          <div className="absolute right-0 top-0 h-[500px] w-[500px] bg-blue-500/10 blur-[100px]" />
+          <div className="absolute bottom-0 left-0 h-[500px] w-[500px] bg-purple-500/10 blur-[100px]" />
+        </div>
 
-          <div className="relative z-10">
-            <Navbar />
-            <div className="h-screen snap-y snap-mandatory overflow-y-auto scroll-smooth">
-              <div className="container mx-auto px-4">
+        <div className="relative z-10">
+          <Navbar />
+          <div className="h-screen snap-y snap-mandatory overflow-y-auto scroll-smooth">
+            <div className="container mx-auto px-4">
               {/* Section 1: Hero */}
               <section className="snap-start min-h-screen flex items-center justify-center pb-10">
                 <div className="text-center space-y-8 max-w-4xl mx-auto">
@@ -134,55 +134,55 @@ function UnauthenticatedN8nFlow() {
 
                   {/* Features Grid */}
                   <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-                <TiltCard>
-                  <Card className="border-zinc-800 bg-zinc-900/50 backdrop-blur-sm h-full">
-                    <CardHeader>
-                      <div className="w-12 h-12 rounded-lg bg-blue-500/10 flex items-center justify-center mb-4">
-                        <Shield className="h-6 w-6 text-blue-400" />
-                      </div>
-                      <CardTitle>Independent Hosting</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-muted-foreground">
-                        Your data, your rules. Complete independence and control over your automation workflows with full privacy.
-                      </p>
-                    </CardContent>
-                  </Card>
-                </TiltCard>
+                    <TiltCard>
+                      <Card className="border-zinc-800 bg-zinc-900/50 backdrop-blur-sm h-full">
+                        <CardHeader>
+                          <div className="w-12 h-12 rounded-lg bg-blue-500/10 flex items-center justify-center mb-4">
+                            <Shield className="h-6 w-6 text-blue-400" />
+                          </div>
+                          <CardTitle>Independent Hosting</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <p className="text-muted-foreground">
+                            Your data, your rules. Complete independence and control over your automation workflows with full privacy.
+                          </p>
+                        </CardContent>
+                      </Card>
+                    </TiltCard>
 
-                <TiltCard>
-                  <Card className="border-zinc-800 bg-zinc-900/50 backdrop-blur-sm h-full">
-                    <CardHeader>
-                      <div className="w-12 h-12 rounded-lg bg-purple-500/10 flex items-center justify-center mb-4">
-                        <Zap className="h-6 w-6 text-purple-400" />
-                      </div>
-                      <CardTitle>One-Click Deploy</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-muted-foreground">
-                        Deploy n8n in seconds, not hours. Our automated setup handles
-                        everything from configuration to domain assignment.
-                      </p>
-                    </CardContent>
-                  </Card>
-                </TiltCard>
+                    <TiltCard>
+                      <Card className="border-zinc-800 bg-zinc-900/50 backdrop-blur-sm h-full">
+                        <CardHeader>
+                          <div className="w-12 h-12 rounded-lg bg-purple-500/10 flex items-center justify-center mb-4">
+                            <Zap className="h-6 w-6 text-purple-400" />
+                          </div>
+                          <CardTitle>One-Click Deploy</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <p className="text-muted-foreground">
+                            Deploy n8n in seconds, not hours. Our automated setup handles
+                            everything from configuration to domain assignment.
+                          </p>
+                        </CardContent>
+                      </Card>
+                    </TiltCard>
 
-                <TiltCard>
-                  <Card className="border-zinc-800 bg-zinc-900/50 backdrop-blur-sm h-full">
-                    <CardHeader>
-                      <div className="w-12 h-12 rounded-lg bg-green-500/10 flex items-center justify-center mb-4">
-                        <DollarSign className="h-6 w-6 text-green-400" />
-                      </div>
-                      <CardTitle>Transparent Pricing</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-muted-foreground">
-                        Simple, predictable pricing. No hidden fees, no surprise charges.
-                        Just $5/month for your n8n instance during this Black Friday special.
-                      </p>
-                    </CardContent>
-                  </Card>
-                </TiltCard>
+                    <TiltCard>
+                      <Card className="border-zinc-800 bg-zinc-900/50 backdrop-blur-sm h-full">
+                        <CardHeader>
+                          <div className="w-12 h-12 rounded-lg bg-green-500/10 flex items-center justify-center mb-4">
+                            <DollarSign className="h-6 w-6 text-green-400" />
+                          </div>
+                          <CardTitle>Transparent Pricing</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <p className="text-muted-foreground">
+                            Simple, predictable pricing. No hidden fees, no surprise charges.
+                            Just $5/month for your n8n instance during this Black Friday special.
+                          </p>
+                        </CardContent>
+                      </Card>
+                    </TiltCard>
                   </div>
                 </div>
               </section>
@@ -240,12 +240,12 @@ function UnauthenticatedN8nFlow() {
               <section className="snap-start">
                 <Footer />
               </section>
-              </div>
             </div>
           </div>
         </div>
-      </>
-    )
+      </div>
+    </>
+  )
 }
 
 // Authenticated project creation UI
