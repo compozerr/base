@@ -2,7 +2,7 @@ import { api } from '@/api-client'
 import { DataTable } from '@/components/data-table'
 import StartStopProjectButton from '@/components/project/project-startstop-button'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { Input } from '@/components/ui/input'
 import {
@@ -24,7 +24,7 @@ import {
 import { ProjectStateFilter } from '@/lib/project-state-filter'
 import { getLink } from '@/links'
 import { createFileRoute, useRouter } from '@tanstack/react-router'
-import { MoreVertical, Plus, Search, Workflow, CreditCard, Rocket } from 'lucide-react'
+import { MoreVertical, Plus, Search, Workflow, CreditCard, Rocket, Filter } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
 import { usePaymentMethod } from '@repo/stripe/hooks/use-payment-method';
 
@@ -66,6 +66,12 @@ function RouteComponent() {
     }, [search]);
 
     const [filter, setFilter] = useState<ProjectStateFilter>(ProjectStateFilter.All);
+
+    const { data: allProjectData } = api.v1.getProjects.useQuery({
+        query: {
+            stateFlags: ProjectStateFilter.All
+        }
+    });
 
     const {
         data: projectsData,
@@ -121,8 +127,9 @@ function RouteComponent() {
         return allPages.flatMap(page => page.projects ?? []);
     }, [allPages]);
 
-    const totalProjectsCount = useMemo(() => allPages[0]?.totalProjectsCount ?? 0, [allPages]);
-    const runningProjectsCount = useMemo(() => allPages[0]?.runningProjectsCount ?? 0, [allPages]);
+    const filteredTotalProjectsCount = useMemo(() => allPages[0]?.totalProjectsCount ?? 0, [allPages]);
+    const totalProjectsCount = useMemo(() => allProjectData?.totalProjectsCount ?? 0, [allProjectData]);
+    const runningProjectsCount = useMemo(() => allProjectData?.runningProjectsCount ?? 0, [allProjectData]);
 
     const router = useRouter();
 
@@ -141,8 +148,8 @@ function RouteComponent() {
             </div>
 
             <div className="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
-                <div className="flex items-center w-full md:w-auto">
-                    <div className="relative max-w-sm mr-2">
+                <div className="flex items-center w-full md:w-auto gap-3">
+                    <div className="relative max-w-sm">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                         <Input placeholder="Search projects..." className="pl-9" value={search} onChange={(e) => setSearch(e.target.value)} />
                     </div>
@@ -175,6 +182,12 @@ function RouteComponent() {
                             <SelectItem value="starting">Starting</SelectItem>
                         </SelectContent>
                     </Select>
+                    {filteredTotalProjectsCount !== totalProjectsCount && (
+                        <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
+                            <Filter className="h-3.5 w-3.5" />
+                            <span>Showing {filteredTotalProjectsCount} of {totalProjectsCount}</span>
+                        </div>
+                    )}
                 </div>
                 <div className="flex gap-2">
                     <Button className="hidden md:flex" variant="outline" onClick={() => router.navigate({ to: '/n8n' })}>
@@ -326,12 +339,11 @@ function DashboardCard({ title, value }: { title: string; value: string }) {
         <Card>
             <CardHeader>
                 <CardTitle>
-
                     {title}
                 </CardTitle>
             </CardHeader>
-            <CardContent className='text-3xl'>
-                {value}
+            <CardContent>
+                <div className='text-3xl font-bold'>{value}</div>
             </CardContent>
         </Card>
     )
