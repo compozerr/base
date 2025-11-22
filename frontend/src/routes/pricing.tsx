@@ -77,7 +77,7 @@ function Pricing() {
                       <div className="px-4">
                         <Slider
                           value={[selectedIndex]}
-                          onValueChange={(value) => setSelectedIndex(value[0])}
+                          onValueChange={(value) => setSelectedIndex(value[0]!)}
                           max={tiers.length - 1}
                           step={1}
                           className="w-full"
@@ -283,7 +283,7 @@ function Pricing() {
               </Card>
 
               {/* Additional Info */}
-              <div className="max-w-3xl mx-auto space-y-8">
+              <div className="mx-auto space-y-8">
                 <FAQSection />
 
                 {/* CTA Section */}
