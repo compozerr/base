@@ -20,9 +20,9 @@ export default function Hero() {
           <FileText className="h-4 w-4" />
           Documentation
         </Button>
-        <Button variant="outline" size="lg">
+        {/* <Button variant="outline" size="lg">
           Watch demo
-        </Button>
+        </Button> */}
       </div>
       <div className="mx-auto mt-16 max-w-[42rem]">
         <p className="leading-normal text-muted-foreground sm:text-xl sm:leading-8">
