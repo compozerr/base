@@ -139,82 +139,85 @@ function N8nLandingPage() {
 
           <div className="relative z-10">
             <Navbar />
-            <div className="container mx-auto px-4 py-16 md:py-24">
-              {/* Hero Section */}
-              <div className="text-center space-y-8 max-w-4xl mx-auto mb-16">
-                <Badge className="mb-4 bg-red-600 text-white hover:bg-red-700">
-                  🎉 Black Friday Special - 37% OFF
-                </Badge>
-                <h1 className="bg-gradient-to-br from-foreground from-30% via-foreground/90 to-foreground/70 bg-clip-text text-5xl font-bold tracking-tight text-transparent sm:text-6xl md:text-7xl lg:text-8xl">
-                  Deploy n8n in Seconds
-                  <br />
-                  <span className="text-red-500">Big Tech Independent</span>
-                </h1>
-                <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto">
-                  Create n8n automation workflows with complete control.
-                  <br />
-                  No Google, Amazon, Facebook, or Microsoft. Just pure, independent hosting - powered by <a href='https://www.ovhcloud.com/en/' className="underline" target="_blank" rel="noopener noreferrer">OVHcloud®</a>.
-                </p>
-
-                {/* Pricing Highlight */}
-                <div className="flex items-center justify-center gap-4 pt-4">
-                  <div className="text-center">
-                    <div className="text-4xl md:text-5xl font-bold text-red-500">$5<span className="text-2xl text-muted-foreground">/mo</span></div>
-                    <div className="text-sm text-muted-foreground line-through">$8/mo</div>
-                  </div>
-                  <Badge variant="outline" className="text-lg px-4 py-2">
-                    Limited Time Offer
+            <div className="snap-y snap-mandatory overflow-y-scroll h-screen scroll-smooth">
+              <div className="container mx-auto px-4">
+              {/* Section 1: Hero */}
+              <section className="snap-start min-h-screen flex items-center justify-center">
+                <div className="text-center space-y-8 max-w-4xl mx-auto mb-32">
+                  <Badge className="mb-4 bg-red-600 text-white hover:bg-red-700">
+                    🎉 Black Friday Special - 37% OFF
                   </Badge>
-                </div>
+                  <h1 className="bg-gradient-to-br from-foreground from-30% via-foreground/90 to-foreground/70 bg-clip-text text-5xl font-bold tracking-tight text-transparent sm:text-6xl md:text-7xl lg:text-8xl">
+                    Deploy n8n in Seconds
+                  </h1>
+                  <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto">
+                    Create n8n automation workflows with complete control.
+                    <br />
+                    No Google, Amazon, Facebook, or Microsoft. Just pure, independent hosting - powered by <a href='https://www.ovhcloud.com/en/' className="underline" target="_blank" rel="noopener noreferrer">OVHcloud®</a>.
+                  </p>
 
-                <Button
-                  onClick={handleGetStarted}
-                  size="lg"
-                  className="bg-white text-black hover:bg-zinc-200 font-semibold text-lg px-8 py-6 h-auto"
-                >
-                  <Rocket className="mr-2 h-5 w-5" />
-                  Get Started Free
-                </Button>
-                <p className="text-sm text-muted-foreground">
-                  No credit card required • Setup in minutes • Cancel anytime
-                </p>
-              </div>
-
-              {/* Demo Section */}
-              <div className="max-w-4xl mx-auto mb-16">
-                <Card className="border-zinc-800 bg-zinc-900/50 backdrop-blur-sm overflow-hidden">
-                  <CardContent className="p-0">
-                    <div className="relative aspect-video bg-gradient-to-br from-blue-500/10 to-purple-500/10 flex items-center justify-center">
-                      <div className="text-center space-y-4">
-                        <div className="w-20 h-20 rounded-full bg-white/10 flex items-center justify-center mx-auto backdrop-blur-sm border border-white/20">
-                          <Rocket className="h-10 w-10 text-white" />
-                        </div>
-                        <div>
-                          <h3 className="text-xl font-semibold mb-2">See n8n in Action</h3>
-                          <p className="text-sm text-muted-foreground">
-                            Watch how easy it is to deploy your n8n instance in under 60 seconds
-                          </p>
-                        </div>
-                      </div>
+                  {/* Pricing Highlight */}
+                  <div className="flex items-center justify-center gap-4 pt-4">
+                    <div className="text-center">
+                      <div className="text-4xl md:text-5xl font-bold text-red-500">$5<span className="text-2xl text-muted-foreground">/mo</span></div>
+                      <div className="text-sm text-muted-foreground line-through">$8/mo</div>
                     </div>
-                  </CardContent>
-                </Card>
-              </div>
+                    <Badge variant="outline" className="text-lg px-4 py-2">
+                      Limited Time Offer
+                    </Badge>
+                  </div>
 
-              {/* Features Grid */}
-              <div className="grid md:grid-cols-3 gap-8 mb-16 max-w-5xl mx-auto">
+                  <Button
+                    onClick={handleGetStarted}
+                    size="lg"
+                    className="bg-white text-black hover:bg-zinc-200 font-semibold text-lg px-8 py-6 h-auto"
+                  >
+                    <Rocket className="mr-2 h-5 w-5" />
+                    Get Started Free
+                  </Button>
+                  <p className="text-sm text-muted-foreground">
+                    No credit card required • Setup in minutes • Cancel anytime
+                  </p>
+                </div>
+              </section>
+
+              {/* Section 2: Demo Video + Features */}
+              <section className="snap-start min-h-screen flex items-center justify-center">
+                <div className="w-full mb-32">
+                  {/* Demo Video */}
+                  <div className="max-w-5xl mx-auto mb-16">
+                    <Card className="border-zinc-800 bg-zinc-900/50 backdrop-blur-sm overflow-hidden">
+                      <CardContent className="p-0">
+                        <div className="relative aspect-video bg-gradient-to-br from-blue-500/10 to-purple-500/10 flex items-center justify-center">
+                          <div className="text-center space-y-4">
+                            <div className="w-20 h-20 rounded-full bg-white/10 flex items-center justify-center mx-auto backdrop-blur-sm border border-white/20">
+                              <Rocket className="h-10 w-10 text-white" />
+                            </div>
+                            <div>
+                              <h3 className="text-xl font-semibold mb-2">See n8n in Action</h3>
+                              <p className="text-sm text-muted-foreground">
+                                Watch how easy it is to deploy your n8n instance in under 60 seconds
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
+
+                  {/* Features Grid */}
+                  <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
                 <TiltCard>
                   <Card className="border-zinc-800 bg-zinc-900/50 backdrop-blur-sm h-full">
                     <CardHeader>
                       <div className="w-12 h-12 rounded-lg bg-blue-500/10 flex items-center justify-center mb-4">
                         <Shield className="h-6 w-6 text-blue-400" />
                       </div>
-                      <CardTitle>Big Tech Independent Hosting</CardTitle>
+                      <CardTitle>Independent Hosting</CardTitle>
                     </CardHeader>
                     <CardContent>
                       <p className="text-muted-foreground">
-                        Your data, your rules. No dependency on Big Tech platforms.
-                        Complete independence and control over your automation workflows.
+                        Your data, your rules. Complete independence and control over your automation workflows with full privacy.
                       </p>
                     </CardContent>
                   </Card>
@@ -253,83 +256,59 @@ function N8nLandingPage() {
                     </CardContent>
                   </Card>
                 </TiltCard>
-              </div>
+                  </div>
+                </div>
+              </section>
 
-              {/* Why Choose Us */}
-              <div className="max-w-2xl mx-auto mb-16">
-                <h2 className="text-3xl font-bold text-center mb-8">Why Choose Independent Hosting?</h2>
-                <div className="space-y-4 w-fit mx-auto">
-                  {[
-                    'Complete control over your data and workflows',
-                    'No vendor lock-in or platform dependencies',
-                    'Custom domains and full SSL support',
-                    'Easy scaling without infrastructure headaches',
-                    'Privacy-focused with no data mining',
-                    'Simple setup - deploy in minutes, not days',
-                  ].map((feature, idx) => (
-                    <div key={idx} className="flex items-start gap-3">
-                      <Check className="h-5 w-5 text-green-400 flex-shrink-0 mt-0.5" />
-                      <p className="text-muted-foreground">{feature}</p>
+              {/* Section 3: Why Choose + FAQ */}
+              <section className="snap-start min-h-screen flex items-center justify-center">
+                <div className="w-full mb-32">
+                  {/* Why Choose + FAQ Grid */}
+                  <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto mb-16">
+                    {/* Why Choose Compozerr Card */}
+                    <Card className="border-zinc-800 bg-zinc-900/50 backdrop-blur-sm">
+                      <CardHeader>
+                        <CardTitle className="text-2xl font-bold text-center">Why Choose Compozerr?</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="space-y-4">
+                          {[
+                            'Complete control over your data and workflows',
+                            'No vendor lock-in or platform dependencies',
+                            'Custom domains and full SSL support',
+                            'Easy scaling without infrastructure headaches',
+                            'Privacy-focused with no data mining',
+                            'Simple setup - deploy in minutes, not days',
+                          ].map((feature, idx) => (
+                            <div key={idx} className="flex items-start gap-3">
+                              <Check className="h-5 w-5 text-green-400 flex-shrink-0 mt-0.5" />
+                              <p className="text-muted-foreground text-sm">{feature}</p>
+                            </div>
+                          ))}
+                        </div>
+                      </CardContent>
+                    </Card>
+
+                    {/* FAQ Section */}
+                    <div>
+                      <FAQSection />
                     </div>
-                  ))}
+                  </div>
+
+                  {/* CTA Button */}
+                  <div className="text-center">
+                    <Button
+                      onClick={handleGetStarted}
+                      size="lg"
+                      className="bg-white text-black hover:bg-zinc-200 font-semibold text-lg px-8 py-6 h-auto"
+                    >
+                      <Rocket className="mr-2 h-5 w-5" />
+                      Ready to Take Control? Start Free
+                    </Button>
+                  </div>
                 </div>
+              </section>
               </div>
-
-              {/* Trust Badges / Statistics */}
-              <div className="max-w-4xl mx-auto mb-16">
-                <h2 className="text-3xl font-bold text-center mb-8">Trusted by Developers Worldwide</h2>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                  <Card className="border-zinc-800 bg-zinc-900/50 backdrop-blur-sm text-center">
-                    <CardContent className="p-6">
-                      <div className="text-4xl font-bold text-green-400 mb-2">&lt;60s</div>
-                      <p className="text-sm text-muted-foreground">Deployment Time</p>
-                    </CardContent>
-                  </Card>
-                  <Card className="border-zinc-800 bg-zinc-900/50 backdrop-blur-sm text-center">
-                    <CardContent className="p-6">
-                      <div className="text-4xl font-bold text-blue-400 mb-2">99.9%</div>
-                      <p className="text-sm text-muted-foreground">Uptime SLA</p>
-                    </CardContent>
-                  </Card>
-                  <Card className="border-zinc-800 bg-zinc-900/50 backdrop-blur-sm text-center">
-                    <CardContent className="p-6">
-                      <div className="text-4xl font-bold text-purple-400 mb-2">0</div>
-                      <p className="text-sm text-muted-foreground">Big Tech Dependencies</p>
-                    </CardContent>
-                  </Card>
-                  <Card className="border-zinc-800 bg-zinc-900/50 backdrop-blur-sm text-center">
-                    <CardContent className="p-6">
-                      <div className="text-4xl font-bold text-red-400 mb-2">$5</div>
-                      <p className="text-sm text-muted-foreground">Limited Offer</p>
-                    </CardContent>
-                  </Card>
-                </div>
-              </div>
-
-              {/* FAQ Section */}
-              <div className="max-w-2xl mx-auto mb-16">
-                <FAQSection />
-              </div>
-
-              {/* CTA Section */}
-              <Card className="border-zinc-800 bg-gradient-to-br from-zinc-900/90 to-zinc-800/50 backdrop-blur-sm max-w-2xl mx-auto">
-                <CardContent className="p-8 text-center space-y-6">
-                  <h3 className="text-2xl font-bold">Ready to Take Control?</h3>
-                  <p className="text-muted-foreground">
-                    Deploy your n8n instance today and experience the freedom of automation.
-                  </p>
-                  <Button
-                    onClick={handleGetStarted}
-                    size="lg"
-                    className="bg-white text-black hover:bg-zinc-200 font-semibold text-lg px-8 py-6 h-auto"
-                  >
-                    Start Free - No Credit Card Required
-                  </Button>
-                  <p className="text-xs text-muted-foreground">
-                    Black Friday pricing: $5/month (on n8n cloud it is $8/month) • Offer expires soon
-                  </p>
-                </CardContent>
-              </Card>
             </div>
           </div>
           <Footer />
