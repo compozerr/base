@@ -1,20 +1,18 @@
 import React, { useState } from 'react';
 import { api } from '@/api-client';
 import { Link } from '@tanstack/react-router';
-
+import { usePaymentMethod } from './hooks/use-payment-method';
 interface StripeAddPaymentMethodBannerProps {
 }
 
 export const StripeAddPaymentMethodBanner: React.FC<StripeAddPaymentMethodBannerProps> = () => {
-    const { data: paymentMethodsData, isLoading, error, refetch } = api.v1.getStripePaymentMethodsUser.useQuery();
+    const { hasPaymentMethod } = usePaymentMethod();
 
-    const hasPaymentMethodOrLoading = (paymentMethodsData?.paymentMethods?.length ?? 0 > 0) || isLoading;
-
-    if (hasPaymentMethodOrLoading) return null;
+    if (hasPaymentMethod) return null;
 
     return (
-        <Link 
-            to={"/settings"} 
+        <Link
+            to={"/settings"}
             search={{ addPaymentMethod: true }}
             className="w-full bg-zinc-900 hover:bg-zinc-800 transition-colors duration-200 block"
         >

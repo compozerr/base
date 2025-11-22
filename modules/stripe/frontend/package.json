@@ -10,7 +10,8 @@
         "./stripe-provider": "./src/stripe-provider.tsx",
         "./hooks/use-current-user": "./src/hooks/use-current-user.ts",
         "./stripe-add-payment-method-banner": "./src/stripe-add-payment-method-banner.tsx",
-        "./invoices-list": "./src/invoices-list.tsx"
+        "./invoices-list": "./src/invoices-list.tsx",
+        "./hooks/use-payment-method": "./src/hooks/use-payment-method.tsx"
     },
     "devDependencies": {
         "@repo/config": "*"

@@ -26,7 +26,7 @@ import { getLink } from '@/links'
 import { createFileRoute, useRouter } from '@tanstack/react-router'
 import { MoreVertical, Plus, Search, Workflow, CreditCard, Rocket } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
-
+import { usePaymentMethod } from '@repo/stripe/hooks/use-payment-method';
 
 export const Route = createFileRoute('/_auth/_dashboard/projects/')({
     component: RouteComponent,
@@ -38,6 +38,7 @@ function RouteComponent() {
     const [debouncedSearch, setDebouncedSearch] = useState('');
     const [showN8nCreatedDialog, setShowN8nCreatedDialog] = useState(false);
     const [n8nProjectId, setN8nProjectId] = useState<string | null>(null);
+    const { hasPaymentMethod } = usePaymentMethod();
 
     // Check for n8n creation intent on mount
     useEffect(() => {
@@ -299,17 +300,20 @@ function RouteComponent() {
                         >
                             View Project
                         </AlertDialogAction>
-                        <Button
-                            variant="default"
-                            onClick={() => {
-                                router.navigate({ to: '/settings' });
-                                setShowN8nCreatedDialog(false);
-                            }}
-                            className="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white"
-                        >
-                            <CreditCard className="mr-2 h-4 w-4" />
-                            Add Payment Card
-                        </Button>
+
+                        {!hasPaymentMethod &&
+                            <Button
+                                variant="default"
+                                onClick={() => {
+                                    router.navigate({ to: '/settings' });
+                                    setShowN8nCreatedDialog(false);
+                                }}
+                                className="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white"
+                            >
+                                <CreditCard className="mr-2 h-4 w-4" />
+                                Add Payment Card
+                            </Button>
+                        }
                     </AlertDialogFooter>
                 </AlertDialogContent>
             </AlertDialog>
