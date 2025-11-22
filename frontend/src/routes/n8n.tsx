@@ -97,18 +97,35 @@ function UnauthenticatedN8nFlow() {
                   <div className="max-w-5xl mx-auto mb-16">
                     <Card className="border-zinc-800 bg-zinc-900/50 backdrop-blur-sm overflow-hidden">
                       <CardContent className="p-0">
-                        <div className="relative aspect-video bg-gradient-to-br from-blue-500/10 to-purple-500/10 flex items-center justify-center">
-                          <div className="text-center space-y-4">
-                            <div className="w-20 h-20 rounded-full bg-white/10 flex items-center justify-center mx-auto backdrop-blur-sm border border-white/20">
-                              <Rocket className="h-10 w-10 text-white" />
+                        <div className="relative aspect-video bg-black">
+                          <video
+                            className="w-full h-full object-cover rounded-lg"
+                            autoPlay
+                            loop
+                            muted
+                            playsInline
+                            preload="metadata"
+                            style={{
+                              maxHeight: '600px',
+                              objectFit: 'cover'
+                            }}
+                          >
+                            <source src="/n8n-demo.mp4" type="video/mp4" />
+                            {/* Fallback content */}
+                            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-purple-500/10 flex items-center justify-center">
+                              <div className="text-center space-y-4">
+                                <div className="w-20 h-20 rounded-full bg-white/10 flex items-center justify-center mx-auto backdrop-blur-sm border border-white/20">
+                                  <Rocket className="h-10 w-10 text-white" />
+                                </div>
+                                <div>
+                                  <h3 className="text-xl font-semibold mb-2">See n8n in Action</h3>
+                                  <p className="text-sm text-muted-foreground">
+                                    Your browser doesn't support video playback
+                                  </p>
+                                </div>
+                              </div>
                             </div>
-                            <div>
-                              <h3 className="text-xl font-semibold mb-2">See n8n in Action</h3>
-                              <p className="text-sm text-muted-foreground">
-                                Watch how easy it is to deploy your n8n instance in under 60 seconds
-                              </p>
-                            </div>
-                          </div>
+                          </video>
                         </div>
                       </CardContent>
                     </Card>
