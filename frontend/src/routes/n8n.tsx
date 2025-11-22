@@ -102,17 +102,6 @@ function N8nLandingPage() {
       })
 
       if (result.projectId) {
-        // Step 2: Create subscription with Black Friday coupon (auto-applied for T1)
-        const shouldApplyCoupon = selectedTier === 'T1'
-
-        await createSubscription({
-          body: {
-            projectId: result.projectId,
-            tier: selectedTier,
-            couponCode: shouldApplyCoupon ? BLACK_FRIDAY_COUPON : undefined,
-          } as any
-        })
-
         await api.v1.getProjects.invalidateQueries({})
 
         // Store n8n creation intent for projects page

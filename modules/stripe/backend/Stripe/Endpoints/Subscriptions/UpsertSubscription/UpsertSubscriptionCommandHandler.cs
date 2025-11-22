@@ -9,7 +9,9 @@ public sealed class UpsertSubscriptionCommandHandler(
     ISubscriptionsService subscriptionService,
     IPublisher publisher) : ICommandHandler<UpsertSubscriptionCommand, UpsertSubscriptionResponse>
 {
-    public async Task<UpsertSubscriptionResponse> Handle(UpsertSubscriptionCommand command, CancellationToken cancellationToken = default)
+    public async Task<UpsertSubscriptionResponse> Handle(
+        UpsertSubscriptionCommand command,
+        CancellationToken cancellationToken = default)
     {
         var existingSubscriptions = await subscriptionService.GetSubscriptionsForUserAsync(cancellationToken);
 
@@ -22,6 +24,7 @@ public sealed class UpsertSubscriptionCommandHandler(
                 existingSubscription.Id,
                 command.ProjectId,
                 command.ServerTierId,
+                command.CouponCode,
                 cancellationToken);
 
             await publisher.Publish(

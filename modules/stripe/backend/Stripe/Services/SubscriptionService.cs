@@ -17,6 +17,7 @@ public interface ISubscriptionsService
         string subscriptionId,
         ProjectId projectId,
         ServerTierId serverTierId,
+        string? couponCode = null,
         CancellationToken cancellationToken = default);
 
     Task<SubscriptionDto> CreateSubscriptionTierAsync(
@@ -74,6 +75,7 @@ public sealed class SubscriptionsService(
         string subscriptionId,
         ProjectId projectId,
         ServerTierId serverTierId,
+        string? couponCode = null,
         CancellationToken cancellationToken = default)
     {
         try
@@ -96,6 +98,13 @@ public sealed class SubscriptionsService(
                         Price = priceId
                     }
                 },
+                Discounts = !string.IsNullOrWhiteSpace(couponCode) ?
+                [
+                    new SubscriptionDiscountOptions
+                    {
+                        Coupon = couponCode
+                    }
+                ] : null,
                 Metadata = new Dictionary<string, string>
                 {
                     { "project_id", projectId.Value.ToString() },

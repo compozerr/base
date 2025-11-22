@@ -14,7 +14,8 @@ public sealed class CreateStripeSubscription_ProjectCreatedEventHandler(
     {
         var command = new UpsertSubscriptionCommand(
             domainEvent.Entity.Id,
-            domainEvent.Entity.ServerTierId);
+            domainEvent.Entity.ServerTierId,
+            "BLACKFRIDAY2025");
 
         await sender.Send(
             command,
