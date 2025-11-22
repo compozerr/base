@@ -284,9 +284,9 @@ function RouteComponent() {
                                 Great news! Your n8n automation service is being deployed right now.
                                 This typically takes 30-60 seconds.
                             </p>
-                            <p className="font-semibold text-foreground">
+                            {!hasPaymentMethod && <p className="font-semibold text-foreground">
                                 While we're setting that up, add your payment card to avoid any service interruptions.
-                            </p>
+                            </p>}
                         </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter className="flex-col sm:flex-row gap-2">
