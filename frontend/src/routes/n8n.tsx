@@ -285,6 +285,50 @@ function AuthenticatedN8nFlow() {
   const { mutateAsync: createN8nProject, isPending: isCreatingProject } = api.v1.postN8nProjects.useMutation()
   const isPending = isCreatingProject
 
+  // Auto-create n8n if user has intent and no existing n8n projects
+  useEffect(() => {
+    const intent = sessionStorage.getItem('n8nIntent')
+    if (intent === 'create' && existingProjects.length === 0 && locations.length > 0 && tiers.length > 0) {
+      // User just logged in and wants to create n8n, and doesn't have any n8n yet
+      // Auto-create with defaults
+      sessionStorage.removeItem('n8nIntent')
+      handleAutoCreate()
+    } else if (intent === 'create') {
+      // User has n8n already, just clear the intent
+      sessionStorage.removeItem('n8nIntent')
+    }
+  }, [existingProjects.length, locations.length, tiers.length])
+
+  const handleAutoCreate = async () => {
+    if (locations.length === 0 || tiers.length === 0) return
+
+    const location = locations[0] ?? ''
+    const t1Tier = tiers.find(t => t.id?.value === 'T1')
+    const tier = t1Tier?.id?.value ?? tiers[0]?.id?.value ?? ''
+
+    try {
+      const result = await createN8nProject({
+        body: {
+          projectName: defaultName,
+          locationIso: location,
+          tier: tier,
+        }
+      })
+
+      if (result.projectId) {
+        await api.v1.getProjects.invalidateQueries({})
+        sessionStorage.setItem('n8nIntent', JSON.stringify({
+          action: 'created',
+          projectId: result.projectId,
+          timestamp: Date.now()
+        }))
+        navigate({ to: '/projects' })
+      }
+    } catch (err) {
+      console.error('Failed to auto-create n8n project:', err)
+    }
+  }
+
   const handleCreate = async () => {
     if (!projectName || !selectedLocation || !selectedTier) return
     try {
@@ -388,57 +432,6 @@ function AuthenticatedN8nFlow() {
                   <p className="text-sm text-muted-foreground pt-4">
                     Deploy instantly • T1 Server • Fully managed • Cancel anytime
                   </p>
-
-                  {/* Feature Highlights Grid */}
-                  <div className="grid md:grid-cols-3 gap-8 pt-12 max-w-5xl mx-auto">
-                    <TiltCard>
-                      <Card className="border-zinc-800 bg-zinc-900/50 backdrop-blur-sm h-full">
-                        <CardHeader>
-                          <div className="w-12 h-12 rounded-lg bg-blue-500/10 flex items-center justify-center mb-4">
-                            <Zap className="h-6 w-6 text-blue-400" />
-                          </div>
-                          <CardTitle>Instant Setup</CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                          <p className="text-muted-foreground text-sm">
-                            Your instance will be live in under 60 seconds with automated configuration.
-                          </p>
-                        </CardContent>
-                      </Card>
-                    </TiltCard>
-
-                    <TiltCard>
-                      <Card className="border-zinc-800 bg-zinc-900/50 backdrop-blur-sm h-full">
-                        <CardHeader>
-                          <div className="w-12 h-12 rounded-lg bg-green-500/10 flex items-center justify-center mb-4">
-                            <Shield className="h-6 w-6 text-green-400" />
-                          </div>
-                          <CardTitle>Independent Hosting</CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                          <p className="text-muted-foreground text-sm">
-                            Complete independence and control over your automation workflows.
-                          </p>
-                        </CardContent>
-                      </Card>
-                    </TiltCard>
-
-                    <TiltCard>
-                      <Card className="border-zinc-800 bg-zinc-900/50 backdrop-blur-sm h-full">
-                        <CardHeader>
-                          <div className="w-12 h-12 rounded-lg bg-purple-500/10 flex items-center justify-center mb-4">
-                            <Globe className="h-6 w-6 text-purple-400" />
-                          </div>
-                          <CardTitle>Custom Domains</CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                          <p className="text-muted-foreground text-sm">
-                            Add your own domain after deployment with full SSL support.
-                          </p>
-                        </CardContent>
-                      </Card>
-                    </TiltCard>
-                  </div>
                 </div>
               </section>
             </div>

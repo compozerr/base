@@ -12,21 +12,13 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select'
-import {
-    AlertDialog,
-    AlertDialogAction,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-} from '@/components/ui/alert-dialog'
 import { ProjectStateFilter } from '@/lib/project-state-filter'
 import { getLink } from '@/links'
 import { createFileRoute, useRouter } from '@tanstack/react-router'
 import { MoreVertical, Plus, Search, Workflow, CreditCard, Rocket, Filter, FolderGit2, Activity, Server } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
 import { usePaymentMethod } from '@repo/stripe/hooks/use-payment-method';
+import { RocketLaunchSequence } from '@/components/rocket-launch-sequence';
 
 export const Route = createFileRoute('/_auth/_dashboard/projects/')({
     component: RouteComponent,
@@ -36,7 +28,7 @@ export const Route = createFileRoute('/_auth/_dashboard/projects/')({
 function RouteComponent() {
     const [search, setSearch] = useState('');
     const [debouncedSearch, setDebouncedSearch] = useState('');
-    const [showN8nCreatedDialog, setShowN8nCreatedDialog] = useState(false);
+    const [showN8nCreatedDialog, setShowN8nCreatedDialog] = useState(true);
     const [n8nProjectId, setN8nProjectId] = useState<string | null>(null);
     const { hasPaymentMethod } = usePaymentMethod();
 
@@ -305,52 +297,13 @@ function RouteComponent() {
                 }
             ]} />
 
-            {/* n8n Creation Success Dialog */}
-            <AlertDialog open={showN8nCreatedDialog} onOpenChange={setShowN8nCreatedDialog}>
-                <AlertDialogContent>
-                    <AlertDialogHeader>
-                        <AlertDialogTitle className="flex items-center gap-2">
-                            <Rocket className="h-5 w-5 text-green-500" />
-                            Your n8n Service is Being Built!
-                        </AlertDialogTitle>
-                        <AlertDialogDescription className="space-y-4 pt-2">
-                            <p>
-                                Great news! Your n8n automation service is being deployed right now.
-                                This typically takes 30-60 seconds.
-                            </p>
-                            {!hasPaymentMethod && <p className="font-semibold text-foreground">
-                                While we're setting that up, add your payment card to avoid any service interruptions.
-                            </p>}
-                        </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter className="flex-col sm:flex-row gap-2">
-                        <AlertDialogAction
-                            onClick={() => {
-                                if (n8nProjectId) {
-                                    router.navigate({ to: '/projects/$projectId', params: { projectId: n8nProjectId } });
-                                }
-                            }}
-                            className="w-full sm:w-auto"
-                        >
-                            View Project
-                        </AlertDialogAction>
-
-                        {!hasPaymentMethod &&
-                            <Button
-                                variant="default"
-                                onClick={() => {
-                                    router.navigate({ to: '/settings' });
-                                    setShowN8nCreatedDialog(false);
-                                }}
-                                className="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white"
-                            >
-                                <CreditCard className="mr-2 h-4 w-4" />
-                                Add Payment Card
-                            </Button>
-                        }
-                    </AlertDialogFooter>
-                </AlertDialogContent>
-            </AlertDialog>
+            {/* Epic Rocket Launch Sequence */}
+            {showN8nCreatedDialog && (
+                <RocketLaunchSequence
+                    onComplete={() => setShowN8nCreatedDialog(false)}
+                    projectId={n8nProjectId}
+                />
+            )}
         </div>
     )
 }

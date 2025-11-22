@@ -638,39 +638,9 @@ export const PaymentMethods: React.FC<PaymentMethodsProps> = ({ openAddPaymentMe
 
                     <div className="relative z-10 py-12 px-8">
                         <div className="text-center space-y-8">
-                            <div className="relative mx-auto w-20 h-20" style={{ perspective: '150px' }}>
-                                <style>{`
-                                    .empty-cube-3d {
-                                        transform-style: preserve-3d;
-                                        animation: rotate3d 10s linear infinite;
-                                    }
-                                    .empty-cube-face {
-                                        position: absolute;
-                                        width: 40px;
-                                        height: 40px;
-                                        background: linear-gradient(45deg, rgba(59, 130, 246, 0.1), rgba(147, 51, 234, 0.1));
-                                        border: 1px solid rgba(59, 130, 246, 0.2);
-                                        animation: glow 3s ease-in-out infinite;
-                                    }
-                                    .empty-cube-face:nth-child(1) { transform: rotateY(0deg) translateZ(20px); }
-                                    .empty-cube-face:nth-child(2) { transform: rotateY(90deg) translateZ(20px); }
-                                    .empty-cube-face:nth-child(3) { transform: rotateY(180deg) translateZ(20px); }
-                                    .empty-cube-face:nth-child(4) { transform: rotateY(-90deg) translateZ(20px); }
-                                    .empty-cube-face:nth-child(5) { transform: rotateX(90deg) translateZ(20px); }
-                                    .empty-cube-face:nth-child(6) { transform: rotateX(-90deg) translateZ(20px); }
-                                `}</style>
-                                <div className="empty-cube-3d relative w-10 h-10 mx-auto">
-                                    <div className="empty-cube-face"></div>
-                                    <div className="empty-cube-face"></div>
-                                    <div className="empty-cube-face"></div>
-                                    <div className="empty-cube-face"></div>
-                                    <div className="empty-cube-face"></div>
-                                    <div className="empty-cube-face"></div>
-                                </div>
-                                <div className="absolute inset-0 flex items-center justify-center">
+                                <div className="absolute inset-x-0 top-5 flex items-center justify-center">
                                     <CreditCard className="h-8 w-8 text-zinc-400" />
                                 </div>
-                            </div>
                             
                             <div className="space-y-4">
                                 <h4 className="font-medium text-white text-xl">No Payment Method</h4>
