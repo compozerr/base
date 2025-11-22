@@ -107,7 +107,8 @@ function UnauthenticatedN8nFlow() {
                             preload="metadata"
                             style={{
                               maxHeight: '600px',
-                              objectFit: 'cover'
+                              objectFit: 'cover',
+                              scale: '1.04',
                             }}
                           >
                             <source src="/n8n-demo.mp4" type="video/mp4" />
