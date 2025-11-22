@@ -51,9 +51,9 @@ function UnauthenticatedN8nFlow() {
             <div className="h-screen snap-y snap-mandatory overflow-y-auto scroll-smooth">
               <div className="container mx-auto px-4">
               {/* Section 1: Hero */}
-              <section className="snap-start min-h-screen flex items-center justify-center">
-                <div className="text-center space-y-8 max-w-4xl mx-auto mb-32">
-                  <Badge className="mb-4 bg-red-600 text-white hover:bg-red-700">
+              <section className="snap-start min-h-screen flex items-center justify-center pb-10">
+                <div className="text-center space-y-8 max-w-4xl mx-auto">
+                  <Badge className="bg-red-600 text-white hover:bg-red-700">
                     🎉 Black Friday Special - 37% OFF
                   </Badge>
                   <h1 className="bg-gradient-to-br from-foreground from-30% via-foreground/90 to-foreground/70 bg-clip-text text-5xl font-bold tracking-tight text-transparent sm:text-6xl md:text-7xl lg:text-8xl">
@@ -66,7 +66,7 @@ function UnauthenticatedN8nFlow() {
                   </p>
 
                   {/* Pricing Highlight */}
-                  <div className="flex items-center justify-center gap-4 pt-4">
+                  <div className="flex items-center justify-center gap-4">
                     <div className="text-center">
                       <div className="text-4xl md:text-5xl font-bold text-red-500">$5<span className="text-2xl text-muted-foreground">/mo</span></div>
                       <div className="text-sm text-muted-foreground line-through">$8/mo</div>
@@ -84,7 +84,7 @@ function UnauthenticatedN8nFlow() {
                     <Rocket className="mr-2 h-5 w-5" />
                     Get Started
                   </Button>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-sm text-muted-foreground pb-10">
                     No credit card required • Setup in minutes • Cancel anytime
                   </p>
                 </div>
@@ -324,7 +324,7 @@ function AuthenticatedN8nFlow() {
         <div className="relative z-10 flex flex-col min-h-screen">
           <Navbar />
           <div className="flex-1">
-            <div className="container mx-auto px-4 py-16 md:py-24">
+            <div className="container mx-auto px-4 py-8">
               {/* Hero Section with Welcome */}
               <section className="min-h-[80vh] flex items-center justify-center">
                 <div className="text-center space-y-8 max-w-4xl mx-auto">
@@ -335,7 +335,7 @@ function AuthenticatedN8nFlow() {
                     Hello {user?.name}!
                   </h1>
                   <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto">
-                    You're one click away from deploying your own n8n automation instance.
+                    You're one click away from deploying a new n8n automation instance.
                     Self-hosted, independent, and ready in seconds.
                   </p>
 
