@@ -34,6 +34,7 @@ function HomeComponent() {
           <Navbar />
           <Hero />
           <Features />
+          <div className='mb-64' />
           <Footer />
         </div>
       </div>
