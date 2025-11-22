@@ -12,10 +12,11 @@ public sealed class CreateStripeSubscription_ProjectCreatedEventHandler(
         ProjectCreatedEvent domainEvent,
         CancellationToken cancellationToken)
     {
+        if (domainEvent.Entity.Type != Api.Abstractions.ProjectType.Compozerr) return;
+
         var command = new UpsertSubscriptionCommand(
             domainEvent.Entity.Id,
-            domainEvent.Entity.ServerTierId,
-            "BLACKFRIDAY2025");
+            domainEvent.Entity.ServerTierId);
 
         await sender.Send(
             command,
