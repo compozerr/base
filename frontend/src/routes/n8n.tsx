@@ -80,9 +80,6 @@ function N8nLandingPage() {
 
   const isPending = isCreatingProject || isCreatingSubscription
 
-  // Black Friday coupon code - auto-applied for T1 tier
-  const BLACK_FRIDAY_COUPON = 'BLACKFRIDAY2025'
-
   const handleGetStarted = () => {
     sessionStorage.setItem('n8nIntent', 'create')
     // Navigate to login with redirect back to /n8n
