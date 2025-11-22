@@ -24,7 +24,7 @@ import {
 import { ProjectStateFilter } from '@/lib/project-state-filter'
 import { getLink } from '@/links'
 import { createFileRoute, useRouter } from '@tanstack/react-router'
-import { MoreVertical, Plus, Search, Workflow, CreditCard, Rocket, Filter } from 'lucide-react'
+import { MoreVertical, Plus, Search, Workflow, CreditCard, Rocket, Filter, FolderGit2, Activity, Server } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
 import { usePaymentMethod } from '@repo/stripe/hooks/use-payment-method';
 
@@ -128,8 +128,10 @@ function RouteComponent() {
     }, [allPages]);
 
     const filteredTotalProjectsCount = useMemo(() => allPages[0]?.totalProjectsCount ?? 0, [allPages]);
+
     const totalProjectsCount = useMemo(() => allProjectData?.totalProjectsCount ?? 0, [allProjectData]);
     const runningProjectsCount = useMemo(() => allProjectData?.runningProjectsCount ?? 0, [allProjectData]);
+    const stoppedProjectsCount = useMemo(() => totalProjectsCount - runningProjectsCount, [totalProjectsCount, runningProjectsCount]);
 
     const router = useRouter();
 
@@ -143,8 +145,27 @@ function RouteComponent() {
             </header>
 
             <div className="grid gap-6 md:grid-cols-3 mb-8">
-                <DashboardCard title="Total Projects" value={totalProjectsCount.toString()} />
-                <DashboardCard title="Running Projects" value={runningProjectsCount.toString()} />
+                <DashboardCard
+                    title="Total Projects"
+                    value={totalProjectsCount.toString()}
+                    icon={<FolderGit2 className="h-5 w-5" />}
+                    iconColor="text-blue-500"
+                    iconBgColor="bg-blue-500/10"
+                />
+                <DashboardCard
+                    title="Running"
+                    value={runningProjectsCount.toString()}
+                    icon={<Activity className="h-5 w-5" />}
+                    iconColor="text-green-500"
+                    iconBgColor="bg-green-500/10"
+                />
+                <DashboardCard
+                    title="Stopped"
+                    value={stoppedProjectsCount.toString()}
+                    icon={<Server className="h-5 w-5" />}
+                    iconColor="text-gray-500"
+                    iconBgColor="bg-gray-500/10"
+                />
             </div>
 
             <div className="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
@@ -334,13 +355,30 @@ function RouteComponent() {
     )
 }
 
-function DashboardCard({ title, value }: { title: string; value: string }) {
+function DashboardCard({
+    title,
+    value,
+    icon,
+    iconColor,
+    iconBgColor
+}: {
+    title: string;
+    value: string;
+    icon: React.ReactNode;
+    iconColor: string;
+    iconBgColor: string;
+}) {
     return (
         <Card>
-            <CardHeader>
-                <CardTitle>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">
                     {title}
                 </CardTitle>
+                <div className={`p-2 rounded-lg ${iconBgColor}`}>
+                    <div className={iconColor}>
+                        {icon}
+                    </div>
+                </div>
             </CardHeader>
             <CardContent>
                 <div className='text-3xl font-bold'>{value}</div>
