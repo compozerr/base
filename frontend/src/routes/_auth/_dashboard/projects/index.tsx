@@ -28,7 +28,7 @@ export const Route = createFileRoute('/_auth/_dashboard/projects/')({
 function RouteComponent() {
     const [search, setSearch] = useState('');
     const [debouncedSearch, setDebouncedSearch] = useState('');
-    const [showN8nCreatedDialog, setShowN8nCreatedDialog] = useState(true);
+    const [showN8nCreatedDialog, setShowN8nCreatedDialog] = useState(false);
     const [n8nProjectId, setN8nProjectId] = useState<string | null>(null);
     const { hasPaymentMethod } = usePaymentMethod();
 
@@ -297,11 +297,22 @@ function RouteComponent() {
                 }
             ]} />
 
-            {/* Epic Rocket Launch Sequence */}
+            {/* Epic Rocket Launch Sequence - only shows if coming from n8n */}
             {showN8nCreatedDialog && (
                 <RocketLaunchSequence
                     onComplete={() => setShowN8nCreatedDialog(false)}
                     projectId={n8nProjectId}
+                    startFromBottom={false} // Continue from idle state
+                    onIdleReached={() => {
+                        // We're already at idle, trigger launch immediately
+                        setTimeout(() => {
+                            // @ts-ignore
+                            if (window.__rocketContinue) {
+                                // @ts-ignore
+                                window.__rocketContinue()
+                            }
+                        }, 300) // Small delay to let page settle
+                    }}
                 />
             )}
         </div>

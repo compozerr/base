@@ -14,7 +14,9 @@ import Navbar from '@/components/navbar'
 import Footer from '@/components/footer'
 import FAQSection from '@/components/faq-section'
 import { Price } from '@/lib/price'
-import { motion, useMotionValue, useSpring } from 'framer-motion'
+import { motion, useMotionValue, useSpring, AnimatePresence } from 'framer-motion'
+import { RocketHoverPreview } from '@/components/rocket-hover-preview'
+import { RocketLaunchSequence } from '@/components/rocket-launch-sequence'
 
 export const Route = createFileRoute('/n8n')({
   component: N8nLandingPage,
@@ -29,16 +31,57 @@ function N8nLandingPage() {
 // Unauthenticated marketing landing page
 function UnauthenticatedN8nFlow() {
   const { login } = useAuth();
+  const [isHovered, setIsHovered] = useState(false);
+  const [showLaunch, setShowLaunch] = useState(false);
+  const [fadingOut, setFadingOut] = useState(false);
 
   const handleGetStarted = () => {
+    setFadingOut(true);
+    setTimeout(() => {
+      setShowLaunch(true);
+    }, 500);
+  }
+
+  const handleIdleReached = () => {
+    // Rocket reached center - navigate to login
     sessionStorage.setItem('n8nIntent', 'create')
     login();
+
+    // After login navigation, continue rocket animation
+    setTimeout(() => {
+      // @ts-ignore
+      if (window.__rocketContinue) {
+        // @ts-ignore
+        window.__rocketContinue()
+      }
+    }, 100)
+  }
+
+  const handleLaunchComplete = () => {
+    // Animation finished
+    setShowLaunch(false)
   }
 
   return (
       <>
-        <MouseMoveEffect />
-        <div className="relative min-h-screen">
+        {showLaunch && (
+          <RocketLaunchSequence
+            onComplete={handleLaunchComplete}
+            onIdleReached={handleIdleReached}
+            startFromBottom={true}
+          />
+        )}
+        {/* Only show hover preview when NOT launching */}
+        {!showLaunch && <RocketHoverPreview isHovered={isHovered} />}
+        <AnimatePresence>
+          {!showLaunch && (
+            <motion.div
+              initial={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <MouseMoveEffect />
+              <div className="relative min-h-screen">
           {/* Background gradients */}
           <div className="pointer-events-none fixed inset-0">
             <div className="absolute inset-0 bg-gradient-to-b from-background via-background/90 to-background" />
@@ -78,6 +121,8 @@ function UnauthenticatedN8nFlow() {
 
                   <Button
                     onClick={handleGetStarted}
+                    onMouseEnter={() => setIsHovered(true)}
+                    onMouseLeave={() => setIsHovered(false)}
                     size="lg"
                     className="bg-white text-black hover:bg-zinc-200 font-semibold text-lg px-8 py-6 h-auto transition-all duration-200 hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(255,255,255,0.4)] animate-pulse-glow"
                   >
@@ -208,6 +253,8 @@ function UnauthenticatedN8nFlow() {
                   <div className="text-center">
                     <Button
                       onClick={handleGetStarted}
+                      onMouseEnter={() => setIsHovered(true)}
+                      onMouseLeave={() => setIsHovered(false)}
                       size="lg"
                       className="bg-white text-black hover:bg-zinc-200 font-semibold text-lg px-8 py-6 h-auto transition-all duration-200 hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(255,255,255,0.4)] animate-pulse-glow"
                     >
@@ -226,6 +273,9 @@ function UnauthenticatedN8nFlow() {
             </div>
           </div>
         </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </>
     )
 }
@@ -234,6 +284,8 @@ function UnauthenticatedN8nFlow() {
 function AuthenticatedN8nFlow() {
   const navigate = useNavigate()
   const { user } = useAuth();
+  const [isHovered, setIsHovered] = useState(false);
+  const [showLaunch, setShowLaunch] = useState(false);
 
   const { data: locationsData } = api.v1.getCliLocations.useQuery()
   const { data: tiersData } = api.v1.getServersTiers.useQuery()
@@ -331,6 +383,13 @@ function AuthenticatedN8nFlow() {
 
   const handleCreate = async () => {
     if (!projectName || !selectedLocation || !selectedTier) return
+
+    // Show launch sequence
+    setShowLaunch(true)
+  }
+
+  const handleIdleReached = async () => {
+    // Rocket has reached center and is idle - now create project and navigate
     try {
       const result = await createN8nProject({
         body: {
@@ -347,16 +406,49 @@ function AuthenticatedN8nFlow() {
           projectId: result.projectId,
           timestamp: Date.now()
         }))
+
+        // Navigate to projects page
         navigate({ to: '/projects' })
+
+        // After navigation, continue rocket animation
+        setTimeout(() => {
+          // @ts-ignore
+          if (window.__rocketContinue) {
+            // @ts-ignore
+            window.__rocketContinue()
+          }
+        }, 100)
       }
     } catch (err) {
       console.error('Failed to create n8n project:', err)
+      setShowLaunch(false)
     }
+  }
+
+  const handleLaunchComplete = () => {
+    // Animation finished - cleanup
+    setShowLaunch(false)
   }
 
   return (
     <>
-      <MouseMoveEffect />
+      {showLaunch && (
+        <RocketLaunchSequence
+          onComplete={handleLaunchComplete}
+          onIdleReached={handleIdleReached}
+          startFromBottom={true}
+        />
+      )}
+      {/* Only show hover preview when NOT launching */}
+      {!showLaunch && <RocketHoverPreview isHovered={isHovered} />}
+      <AnimatePresence>
+        {!showLaunch && (
+          <motion.div
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <MouseMoveEffect />
       <div className="relative min-h-screen">
         {/* Background gradients */}
         <div className="pointer-events-none fixed inset-0">
@@ -421,6 +513,8 @@ function AuthenticatedN8nFlow() {
                       isLoading={!!isPending}
                       disabled={!projectName || !selectedLocation || !selectedTier}
                       onClick={handleCreate}
+                      onMouseEnter={() => setIsHovered(true)}
+                      onMouseLeave={() => setIsHovered(false)}
                       size="lg"
                       className="bg-white text-black hover:bg-zinc-200 font-semibold text-xl px-12 py-8 h-auto transition-all duration-200 hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(255,255,255,0.4)] animate-pulse-glow"
                     >
@@ -439,6 +533,9 @@ function AuthenticatedN8nFlow() {
           <Footer />
         </div>
       </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   )
 }
