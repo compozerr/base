@@ -25,6 +25,7 @@ import { api } from '@/api-client'
 import LoadingButton from '@/components/loading-button'
 import { Price } from '@/lib/price'
 import { useToast } from '@/hooks/use-toast'
+import { cn } from '@/lib/utils'
 export const Route = createFileRoute(
   '/_auth/_dashboard/projects/$projectId/settings/general',
 )({
@@ -190,10 +191,11 @@ function GeneralSettingsTab() {
                   {tiers && tiers.tiers!.map((t, idx) => {
                     const isCurrentTier = project?.serverTier === t.id.value;
                     const currentPriceValue = isCurrentTier ? project?.serverTierPrice ?? t.price : t.price;
-                    
+                    const isDiscounted = isCurrentTier && project?.serverTierPrice.isDiscounted;
+
                     return(
                     <SelectItem key={idx} value={t.id!.value!}>
-                      {t.id!.value} - {t.ramGb}GB RAM, {t.cores} Cores, {t.diskGb}GB Disk - <span className='font-bold'>{Price.formatPrice(currentPriceValue)}/month</span> {t.promotionalText ? `(${t.promotionalText})` : ""}
+                      {t.id!.value} - {t.ramGb}GB RAM, {t.cores} Cores, {t.diskGb}GB Disk - <span className={cn('font-bold', { 'text-red-300': isDiscounted })}>{Price.formatPrice(currentPriceValue)}/month</span> {t.promotionalText ? `(${t.promotionalText})` : ""}
                     </SelectItem>
                   )})}
                 </SelectContent>
