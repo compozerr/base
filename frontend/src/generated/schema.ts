@@ -2938,6 +2938,9 @@ export type components = {
             /** Format: double */
             amount: number;
             currency: string | null;
+            /** Format: double */
+            originalAmount: number | null;
+            readonly isDiscounted: boolean;
         };
         "Stripe.Services.MonthlyInvoiceGroup": {
             yearMonth: string | null;

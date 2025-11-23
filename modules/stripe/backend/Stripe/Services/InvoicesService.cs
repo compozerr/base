@@ -26,7 +26,7 @@ public class InvoicesService(
             var options = new InvoiceListOptions
             {
                 Customer = stripeCustomerId,
-                Limit = 10,
+                Limit = 20,
             };
 
             var invoices = await service.ListAsync(
