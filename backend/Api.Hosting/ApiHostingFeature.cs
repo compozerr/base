@@ -14,6 +14,7 @@ public class ApiHostingFeature : IFeature
     {
         services.AddHttpClient();
         services.AddSingleton<ICryptoService, CryptoService>();
+        services.AddSingleton<ISubdomainHashService, SubdomainHashService>();
         services.AddTransient<IHostingServerHttpClientFactory, HostingServerHttpClientFactory>();
         services.AddTransient<IHostingApiFactory, HostingApiFactory>();
     }
