@@ -187,11 +187,15 @@ function GeneralSettingsTab() {
                   <SelectValue placeholder="Select organization" />
                 </SelectTrigger>
                 <SelectContent>
-                  {tiers && tiers.tiers!.map((t, idx) => (
+                  {tiers && tiers.tiers!.map((t, idx) => {
+                    const isCurrentTier = project?.serverTier === t.id.value;
+                    const currentPriceValue = isCurrentTier ? project?.serverTierPrice ?? t.price : t.price;
+                    
+                    return(
                     <SelectItem key={idx} value={t.id!.value!}>
-                      {t.id!.value} - {t.ramGb}GB RAM, {t.cores} Cores, {t.diskGb}GB Disk - <span className='font-bold'>{Price.formatPrice(project?.serverTierPrice ?? t.price)}/month</span> {t.promotionalText ? `(${t.promotionalText})` : ""}
+                      {t.id!.value} - {t.ramGb}GB RAM, {t.cores} Cores, {t.diskGb}GB Disk - <span className='font-bold'>{Price.formatPrice(currentPriceValue)}/month</span> {t.promotionalText ? `(${t.promotionalText})` : ""}
                     </SelectItem>
-                  ))}
+                  )})}
                 </SelectContent>
               </Select>
             </div>
