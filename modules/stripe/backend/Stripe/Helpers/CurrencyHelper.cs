@@ -2,8 +2,11 @@ namespace Stripe.Helpers;
 
 public static class CurrencyHelper
 {
-    public static string GetSymbol(string currencyCode)
+    public static string GetSymbol(string? currencyCode)
     {
+        if(string.IsNullOrEmpty(currencyCode))
+            return string.Empty;
+
         return currencyCode.ToUpper() switch
         {
             "USD" => "$",
