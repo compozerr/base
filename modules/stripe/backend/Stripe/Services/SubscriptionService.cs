@@ -158,8 +158,7 @@ public sealed class SubscriptionsService(
                 },
                 Expand = new List<string> { "items.data.plan.product" },
 
-                // Use send_invoice collection method to allow subscription creation without payment method
-                CollectionMethod = "send_invoice",
+                CollectionMethod = "charge_automatically",
                 DaysUntilDue = 7 // Customer has 7 days to add payment method and pay
             };
 
