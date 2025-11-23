@@ -153,9 +153,14 @@ public sealed class SubscriptionsService(
                 Metadata = new Dictionary<string, string>
                 {
                     { "project_id", projectId.Value.ToString() },
-                    { "server_tier_id", serverTierId.Value.ToString() }
+                    { "server_tier_id", serverTierId.Value.ToString() },
+                    { "awaiting_payment_method", "true" }
                 },
-                Expand = new List<string> { "items.data.plan.product" }
+                Expand = new List<string> { "items.data.plan.product" },
+
+                // Use send_invoice collection method to allow subscription creation without payment method
+                CollectionMethod = "send_invoice",
+                DaysUntilDue = 30 // Customer has 30 days to add payment method and pay
             };
 
             // Apply coupon code if provided

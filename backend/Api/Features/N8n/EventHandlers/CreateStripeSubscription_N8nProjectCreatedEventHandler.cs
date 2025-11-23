@@ -15,8 +15,6 @@ public sealed class CreateStripeSubscription_N8nProjectCreatedEventHandler(
         N8nProjectCreatedEvent domainEvent,
         CancellationToken cancellationToken)
     {
-        return;
-        
         var command = new UpsertSubscriptionCommand(
              domainEvent.Entity.Id,
              domainEvent.Entity.ServerTierId,

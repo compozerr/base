@@ -13,6 +13,7 @@ public class ProcessWebhookCommandHandler(
     IPublisher publisher) : ICommandHandler<ProcessWebhookCommand>
 {
     private readonly ILogger _logger = Log.ForContext<ProcessWebhookCommandHandler>();
+    private readonly StripeClient _stripeClient = new StripeClient(stripeOptions.Value.ApiKey);
 
     public async Task Handle(
         ProcessWebhookCommand request,
@@ -47,14 +48,18 @@ public class ProcessWebhookCommandHandler(
         switch (stripeEvent.Type)
         {
             case "invoice.payment_failed":
-                await HandleInvoicePaymentFailed(
-                    stripeEvent,
-                    cancellationToken);
+                HandleInvoicePaymentFailed(stripeEvent);
                 break;
 
             case "invoice.payment_succeeded":
                 _logger.Information("Invoice payment succeeded for invoice: {InvoiceId}",
                     ((Invoice)stripeEvent.Data.Object).Id);
+                break;
+
+            case "customer.updated":
+                await HandleCustomerUpdated(
+                    stripeEvent,
+                    cancellationToken);
                 break;
 
             default:
@@ -63,7 +68,7 @@ public class ProcessWebhookCommandHandler(
         }
     }
 
-    private async Task HandleInvoicePaymentFailed(Event stripeEvent, CancellationToken cancellationToken)
+    private void HandleInvoicePaymentFailed(Event stripeEvent)
     {
         var invoice = (Invoice)stripeEvent.Data.Object;
 
@@ -98,5 +103,61 @@ public class ProcessWebhookCommandHandler(
             failedPaymentEvent);
 
         _logger.Information("Published StripeInvoicePaymentFailedEvent for invoice: {InvoiceId}", invoice.Id);
+    }
+
+    private async Task HandleCustomerUpdated(Event stripeEvent, CancellationToken cancellationToken)
+    {
+        var customer = (Customer)stripeEvent.Data.Object;
+
+        _logger.Information("Customer updated - Customer: {CustomerId}, Has Payment Method: {HasPaymentMethod}",
+            customer.Id, customer.InvoiceSettings?.DefaultPaymentMethodId != null);
+
+        // Only process if a payment method was added
+        if (string.IsNullOrEmpty(customer.InvoiceSettings?.DefaultPaymentMethodId))
+        {
+            _logger.Information("No default payment method set for customer: {CustomerId}, skipping invoice payment", customer.Id);
+            return;
+        }
+
+        // Get all open invoices for this customer
+        var invoiceService = new InvoiceService(_stripeClient);
+        var invoiceListOptions = new InvoiceListOptions
+        {
+            Customer = customer.Id,
+            Status = "open",
+            Limit = 100 // Adjust if needed
+        };
+
+        var openInvoices = await invoiceService.ListAsync(invoiceListOptions, cancellationToken: cancellationToken);
+
+        if (openInvoices.Data.Count == 0)
+        {
+            _logger.Information("No open invoices found for customer: {CustomerId}", customer.Id);
+            return;
+        }
+
+        _logger.Information("Found {Count} open invoices for customer: {CustomerId}, attempting to pay them",
+            openInvoices.Data.Count, customer.Id);
+
+        // Attempt to pay each open invoice
+        foreach (var invoice in openInvoices.Data)
+        {
+            try
+            {
+                _logger.Information("Attempting to pay invoice: {InvoiceId} for amount: {Amount} {Currency}",
+                    invoice.Id, invoice.AmountDue / 100m, invoice.Currency);
+
+                var paidInvoice = await invoiceService.PayAsync(invoice.Id, cancellationToken: cancellationToken);
+
+                _logger.Information("Successfully paid invoice: {InvoiceId}, Status: {Status}",
+                    paidInvoice.Id, paidInvoice.Status);
+            }
+            catch (StripeException ex)
+            {
+                _logger.Error(ex, "Failed to pay invoice: {InvoiceId} for customer: {CustomerId}, Reason: {Reason}",
+                    invoice.Id, customer.Id, ex.Message);
+                // Continue trying to pay other invoices even if one fails
+            }
+        }
     }
 }
