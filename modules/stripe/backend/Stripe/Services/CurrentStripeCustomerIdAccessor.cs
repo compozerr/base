@@ -1,6 +1,9 @@
 
 using System.Collections.Concurrent;
 using System.Security.Claims;
+using Auth.Abstractions;
+using Auth.Models;
+using Auth.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Stripe.Data.Repositories;
@@ -11,6 +14,7 @@ namespace Stripe.Services;
 public sealed class CurrentStripeCustomerIdAccessor(
     IHttpContextAccessor httpContextAccessor,
     IStripeCustomerRepository stripeCustomerRepository,
+    IUserRepository userRepository,
     IOptions<StripeOptions> options) : ICurrentStripeCustomerIdAccessor
 {
     private readonly StripeClient stripeClient = new(
@@ -62,7 +66,7 @@ public sealed class CurrentStripeCustomerIdAccessor(
     }
 
     /// <summary>
-    /// Ensures that a customer exists in Stripe with the given ID
+    /// Ensures that a customer exists in Stripe with the given ID and has an email
     /// </summary>
     /// <param name="stripeCustomerId">The user ID to check</param>
     /// <param name="cancellationToken">Cancellation token</param>
@@ -79,6 +83,13 @@ public sealed class CurrentStripeCustomerIdAccessor(
             {
                 return await CreateCustomerAsync(internalId, cancellationToken);
             }
+
+            // Ensure customer has an email (required for send_invoice collection method)
+            if (string.IsNullOrEmpty(customer.Email))
+            {
+                await EnsureCustomerHasEmailAsync(stripeCustomerId, internalId, cancellationToken);
+            }
+
             return stripeCustomerId; // Customer exists, return the same ID
         }
         catch (StripeException ex) when (ex.Message.Contains("no such customer", StringComparison.InvariantCultureIgnoreCase))
@@ -87,13 +98,35 @@ public sealed class CurrentStripeCustomerIdAccessor(
         }
     }
 
+    private async Task EnsureCustomerHasEmailAsync(string stripeCustomerId, string internalId, CancellationToken cancellationToken = default)
+    {
+        var user = await GetUserAsync(internalId, cancellationToken);
+        if (user == null || string.IsNullOrEmpty(user.Email))
+        {
+            return; // Cannot update without user email
+        }
+
+        var customerService = new CustomerService(stripeClient);
+        var updateOptions = new CustomerUpdateOptions
+        {
+            Email = user.Email,
+            Name = user.Name
+        };
+
+        await customerService.UpdateAsync(stripeCustomerId, updateOptions, cancellationToken: cancellationToken);
+    }
+
     private async Task<string> CreateCustomerAsync(string internalId, CancellationToken cancellationToken = default)
     {
+        // Get user details to include email
+        var user = await GetUserAsync(internalId, cancellationToken);
+
         var customerService = new CustomerService(stripeClient);
         var options = new CustomerCreateOptions
         {
             Description = $"Customer for user {internalId}",
-            Name = $"User {internalId}",
+            Name = user?.Name ?? $"User {internalId}",
+            Email = user?.Email, // Include email for send_invoice collection method
             Metadata = new Dictionary<string, string>
             {
                 { "InternalId", internalId }
@@ -107,5 +140,15 @@ public sealed class CurrentStripeCustomerIdAccessor(
         await SetStripeCustomerIdAsync(customerId);
 
         return customerId;
+    }
+
+    private async Task<User?> GetUserAsync(string internalId, CancellationToken cancellationToken = default)
+    {
+        if (!UserId.TryParse(internalId, out var userId))
+        {
+            return null;
+        }
+
+        return await userRepository.GetByIdAsync(userId, cancellationToken);
     }
 }
