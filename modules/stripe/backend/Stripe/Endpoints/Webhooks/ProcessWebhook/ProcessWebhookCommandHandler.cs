@@ -9,8 +9,7 @@ using Stripe.Options;
 namespace Stripe.Endpoints.Webhooks.ProcessWebhook;
 
 public class ProcessWebhookCommandHandler(
-    IOptions<StripeOptions> stripeOptions,
-    IPublisher publisher) : ICommandHandler<ProcessWebhookCommand>
+    IOptions<StripeOptions> stripeOptions) : ICommandHandler<ProcessWebhookCommand>
 {
     private readonly ILogger _logger = Log.ForContext<ProcessWebhookCommandHandler>();
     private readonly StripeClient _stripeClient = new StripeClient(stripeOptions.Value.ApiKey);
@@ -52,8 +51,7 @@ public class ProcessWebhookCommandHandler(
                 break;
 
             case "invoice.payment_succeeded":
-                _logger.Information("Invoice payment succeeded for invoice: {InvoiceId}",
-                    ((Invoice)stripeEvent.Data.Object).Id);
+                HandleInvoicePaymentSucceeded(stripeEvent);
                 break;
 
             case "customer.updated":
@@ -64,6 +62,38 @@ public class ProcessWebhookCommandHandler(
                 _logger.Information("Unhandled webhook event type: {EventType}", stripeEvent.Type);
                 break;
         }
+    }
+
+    private void HandleInvoicePaymentSucceeded(Event stripeEvent)
+    {
+        var invoice = (Invoice)stripeEvent.Data.Object;
+
+        _logger.Information("Invoice payment succeeded - Invoice: {InvoiceId}, Customer: {CustomerId}, Amount: {Amount}",
+            invoice.Id, invoice.CustomerId, invoice.AmountPaid);
+
+        string subscriptionId = "";
+        if (invoice.Lines?.Data?.Count > 0)
+        {
+            var line = invoice.Lines.Data.FirstOrDefault();
+            subscriptionId = line?.SubscriptionId ?? "";
+        }
+
+        var paidAt = invoice.StatusTransitions.PaidAt ?? DateTime.UtcNow;
+
+        var paymentSucceededEvent = new StripeInvoicePaymentSucceededEvent(
+            InvoiceId: invoice.Id,
+            CustomerId: invoice.CustomerId,
+            SubscriptionId: subscriptionId,
+            AmountPaid: invoice.AmountPaid / 100m,
+            Currency: invoice.Currency,
+            PaidAt: paidAt,
+            InvoiceLink: invoice.HostedInvoiceUrl
+        );
+
+        StripeInvoicePaymentSucceededJob.Enqueue(
+            paymentSucceededEvent);
+
+        _logger.Information("Published StripeInvoicePaymentSucceededEvent for invoice: {InvoiceId}", invoice.Id);
     }
 
     private void HandleInvoicePaymentFailed(Event stripeEvent)
