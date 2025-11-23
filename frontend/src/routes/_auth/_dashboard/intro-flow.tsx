@@ -1,9 +1,8 @@
-import * as React from 'react'
-import { createFileRoute, useNavigate } from '@tanstack/react-router'
-import { Link } from '@tanstack/react-router'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { api } from '@/api-client'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent } from '@/components/ui/card'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import * as React from 'react'
 
 export const Route = createFileRoute('/_auth/_dashboard/intro-flow')({
     component: RouteComponent,

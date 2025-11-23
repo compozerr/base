@@ -1,119 +1,74 @@
-import { createFileRoute, redirect, useNavigate } from '@tanstack/react-router'
-import { useMemo, useState, useEffect, useRef } from 'react'
 import { api } from '@/api-client'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
+import FAQSection from '@/components/faq-section'
+import Footer from '@/components/footer'
 import LoadingButton from '@/components/loading-button'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import Navbar from '@/components/navbar'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useAuth } from '@/hooks/use-dynamic-auth'
-import { Badge } from '@/components/ui/badge'
-import { Check, Zap, Shield, DollarSign, Rocket, Globe } from 'lucide-react'
-import Navbar from '@/components/navbar'
-import Footer from '@/components/footer'
-import FAQSection from '@/components/faq-section'
-import { Price } from '@/lib/price'
+import { createFileRoute, redirect, useNavigate } from '@tanstack/react-router'
 import { motion, useMotionValue, useSpring } from 'framer-motion'
+import { Check, DollarSign, Rocket, Shield, Zap } from 'lucide-react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 
 const CREATE_N8N_PARAM = 'create-default-n8n-instance';
 
 export const Route = createFileRoute('/n8n')({
   component: N8nLandingPage,
   async beforeLoad(ctx) {
-    // Check if we should auto-create a project first
     const search = new URLSearchParams(ctx.location.searchStr)
     const shouldAutoCreate = search.get(CREATE_N8N_PARAM) === "true"
 
-    if (shouldAutoCreate) {
-      // Fetch minimal data needed to check if we can auto-create
-      const { data: projectsData } = await api.v1.getProjects()
-      const { data: locationsData } = await api.v1.getCliLocations()
-      const { data: tiersData } = await api.v1.getServersTiers()
-
-      const existingProjects = projectsData?.projects ?? []
-      const locations = locationsData ?? []
-      const tiers = tiersData?.tiers ?? []
-
-      const defaultName = 'My n8n service'
-      const nameExists = existingProjects.some(p => p?.name === defaultName)
-
-      if (nameExists) {
-        const selectedLocation = locations[0] ?? ''
-        const t1Tier = tiers.find(t => t.id?.value === 'T1')
-        const selectedTier = t1Tier?.id?.value ?? tiers[0]?.id?.value ?? ''
-
-        if (!defaultName || !selectedLocation || !selectedTier) {
-          console.error('Missing required parameters for project creation')
-          throw redirect({ to: "/n8n" })
-        }
-
-        try {
-          const result = await api.v1.postN8nProjects({
-            body: {
-              projectName: defaultName,
-              locationIso: selectedLocation,
-              tier: selectedTier,
-            }
-          })
-
-          if (result.data?.projectId) {
-            await api.v1.getProjects.invalidateQueries({})
-            sessionStorage.setItem('n8nIntent', JSON.stringify({
-              action: 'created',
-              projectId: result.data.projectId,
-              timestamp: Date.now()
-            }))
-
-            // Redirect to the new project - this will prevent the page from rendering
-            throw redirect({
-              to: "/projects/$projectId",
-              params: { projectId: result.data.projectId }
-            })
-          }
-        } catch (err) {
-          // If it's a redirect, re-throw it to let TanStack Router handle it
-          if (err && typeof err === 'object' && ('status' in err && (err as any).status === 307)) {
-            throw err
-          }
-
-          // If it has redirect properties, it's a redirect
-          if (err && typeof err === 'object' && 'options' in err && (err as any).options?.to) {
-            throw err
-          }
-
-          // For other errors, log and redirect back to n8n page without the param
-          console.error('Failed to create n8n project:', err)
-          throw redirect({ to: "/n8n" })
-        }
-      }
-    }
-  },
-  async loader() {
-    // Fetch data that will be used by the component
-    const { data: locationsData } = await api.v1.getCliLocations()
-    const { data: tiersData } = await api.v1.getServersTiers()
+    if (!shouldAutoCreate) return;
     const { data: projectsData } = await api.v1.getProjects()
+    const { data: locationsDataForAutoCreate } = await api.v1.getCliLocations()
+    const { data: tiersData } = await api.v1.getServersTiers()
 
-    const locations = locationsData ?? []
-    const tiers = tiersData?.tiers ?? []
     const existingProjects = projectsData?.projects ?? []
+    const locations = locationsDataForAutoCreate ?? []
+    const tiers = tiersData?.tiers ?? []
 
     const defaultName = 'My n8n service'
     const nameExists = existingProjects.some(p => p?.name === defaultName)
 
+    if (!nameExists) return;
     const selectedLocation = locations[0] ?? ''
     const t1Tier = tiers.find(t => t.id?.value === 'T1')
     const selectedTier = t1Tier?.id?.value ?? tiers[0]?.id?.value ?? ''
 
-    return {
-      locations,
-      tiers,
-      projects: existingProjects,
-      projectName: defaultName,
-      nameExists,
-      selectedTier,
-      selectedLocation
+    if (!defaultName || !selectedLocation || !selectedTier) {
+      console.error('Missing required parameters for project creation')
+      throw redirect({ to: "/n8n" })
+    }
+
+    try {
+      const result = await api.v1.postN8nProjects({
+        body: {
+          projectName: defaultName,
+          locationIso: selectedLocation,
+          tier: selectedTier,
+        }
+      })
+
+      if (result.data?.projectId) {
+        await api.v1.getProjects.invalidateQueries({})
+        sessionStorage.setItem('n8nIntent', JSON.stringify({
+          action: 'created',
+          projectId: result.data.projectId,
+          timestamp: Date.now()
+        }))
+
+        throw redirect({
+          to: "/projects/$projectId",
+          params: { projectId: result.data.projectId }
+        })
+      }
+    } catch (err) {
+      console.error('Failed to create n8n project:', err)
+      throw redirect({ to: "/n8n" })
     }
   }
 })
@@ -356,12 +311,55 @@ function AuthenticatedN8nFlow() {
   const navigate = useNavigate();
   const { user } = useAuth();
 
-  const { locations, tiers, projects, nameExists, projectName: initialProjectName, selectedTier: initialSelectedTier, selectedLocation: initialSelectedLocation } = Route.useLoaderData();
+  const { data: locationsData } = api.v1.getCliLocations.useQuery()
+  const { data: tiersData } = api.v1.getServersTiers.useQuery()
+  const { data: projectsData } = api.v1.getProjects.useInfiniteQuery(
+    { query: {} },
+    {
+      getNextPageParam: (lastPage) => {
+        if (!lastPage) return undefined;
+        const currentPage = lastPage.page ?? 1;
+        const total = lastPage.totalProjectsCount ?? 0;
+        const pageSize = lastPage.pageSize ?? 20;
+        const totalPages = Math.ceil(total / pageSize);
+        if (currentPage < totalPages) {
+          return { query: { page: currentPage + 1 } };
+        }
+        return undefined;
+      },
+      initialPageParam: { query: { page: 1 } }
+    }
+  );
 
-  const [selectedLocation, setSelectedLocation] = useState<string>(initialSelectedLocation!)
-  const [selectedTier, setSelectedTier] = useState<string>(initialSelectedTier!);
-  const [projectName, setProjectName] = useState<string>(initialProjectName!);
-  const { mutateAsync: createN8nProject, isPending } = api.v1.postN8nProjects.useMutation()
+  const locations = useMemo(() => locationsData ?? [], [locationsData])
+  const tiers = useMemo(() => tiersData?.tiers ?? [], [tiersData])
+
+  const existingProjects = useMemo(() => {
+    return projectsData?.pages.flatMap(page => page.projects ?? []) ?? []
+  }, [projectsData])
+
+  const defaultName = 'My n8n service'
+  const nameExists = existingProjects.some(p => p?.name === defaultName)
+
+  const [projectName, setProjectName] = useState(defaultName)
+  const [selectedLocation, setSelectedLocation] = useState<string>('')
+  const [selectedTier, setSelectedTier] = useState<string>('')
+
+  useEffect(() => {
+    if (locations.length > 0 && !selectedLocation) {
+      setSelectedLocation(locations[0] ?? '')
+    }
+  }, [locations, selectedLocation])
+
+  useEffect(() => {
+    if (tiers.length > 0 && !selectedTier) {
+      const t1Tier = tiers.find(t => t.id?.value === 'T1')
+      setSelectedTier(t1Tier?.id?.value ?? tiers[0]?.id?.value ?? '')
+    }
+  }, [tiers, selectedTier])
+
+  const { mutateAsync: createN8nProject, isPending: isCreatingProject } = api.v1.postN8nProjects.useMutation()
+  const isPending = isCreatingProject
 
   const handleCreate = async () => {
     if (!projectName || !selectedLocation || !selectedTier) return
