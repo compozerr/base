@@ -67,6 +67,16 @@ export const Route = createFileRoute('/n8n')({
         })
       }
     } catch (err) {
+      // If it's a redirect, re-throw it to let TanStack Router handle it
+      if (err && typeof err === 'object' && ('status' in err && (err as any).status === 307)) {
+        throw err
+      }
+
+      // If it has redirect properties, it's a redirect
+      if (err && typeof err === 'object' && 'options' in err && (err as any).options?.to) {
+        throw err
+      }
+
       console.error('Failed to create n8n project:', err)
       throw redirect({ to: "/n8n" })
     }
