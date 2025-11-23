@@ -5,6 +5,7 @@ using Stripe.Options;
 using Serilog;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using Auth.Abstractions;
 
 namespace Stripe.Services;
 
@@ -12,6 +13,9 @@ public interface ISubscriptionsService
 {
     Task<List<SubscriptionDto>> GetSubscriptionsForUserAsync(
             CancellationToken cancellationToken = default);
+    Task<List<SubscriptionDto>> GetSubscriptionsForUserAsync(
+        string userId,
+        CancellationToken cancellationToken = default);
 
     Task<SubscriptionDto> UpdateSubscriptionTierAsync(
         string subscriptionId,
@@ -45,7 +49,19 @@ public sealed class SubscriptionsService(
         CancellationToken cancellationToken = default)
     {
         var stripeCustomerId = await currentStripeCustomerIdAccessor.GetOrCreateStripeCustomerId();
+        return await GetSubscriptionsForStripeCustomerId(stripeCustomerId, cancellationToken);
+    }
 
+    public async Task<List<SubscriptionDto>> GetSubscriptionsForUserAsync(
+        string userId,
+        CancellationToken cancellationToken = default)
+    {
+        var stripeCustomerId = await currentStripeCustomerIdAccessor.GetOrCreateStripeCustomerId(userId);
+        return await GetSubscriptionsForStripeCustomerId(stripeCustomerId, cancellationToken);
+    }
+
+    private async Task<List<SubscriptionDto>> GetSubscriptionsForStripeCustomerId(string stripeCustomerId, CancellationToken cancellationToken)
+    {
         try
         {
             var service = new Stripe.SubscriptionService(_stripeClient);

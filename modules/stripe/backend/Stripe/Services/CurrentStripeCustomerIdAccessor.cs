@@ -19,17 +19,23 @@ public sealed class CurrentStripeCustomerIdAccessor(
 {
     private readonly StripeClient stripeClient = new(
         options.Value.ApiKey);
-    
+
     private static readonly ConcurrentDictionary<string, SemaphoreSlim> UserLocks = new();
-    
+
     private static SemaphoreSlim GetUserLock(string userId)
     {
         return UserLocks.GetOrAdd(userId, _ => new SemaphoreSlim(1, 1));
     }
 
-    public async Task<string> GetOrCreateStripeCustomerId()
+
+    public Task<string> GetOrCreateStripeCustomerId()
     {
         var userId = GetUserIdFromContext();
+        return GetOrCreateStripeCustomerId(userId);
+    }
+
+    public async Task<string> GetOrCreateStripeCustomerId(string userId)
+    {
         var userLock = GetUserLock(userId);
 
         await userLock.WaitAsync();

@@ -8,6 +8,7 @@ public sealed class DeleteProjectCommandValidator : AbstractValidator<DeleteProj
     public DeleteProjectCommandValidator(IServiceScopeFactory scopeFactory)
     {
         RuleFor(x => x.ProjectId)
-            .MustBeOwnedByCallerAsync(scopeFactory);
+            .MustBeOwnedByCallerAsync(scopeFactory)
+            .When(x => !x.SkipOwnerCheck);
     }
 }

@@ -4,4 +4,5 @@ using Core.MediatR;
 namespace Api.Endpoints.Projects.Project.Delete;
 
 public sealed record DeleteProjectCommand(
-    ProjectId ProjectId) : ICommand<DeleteProjectResponse>;
+    ProjectId ProjectId,
+    bool SkipOwnerCheck = false) : ICommand<DeleteProjectResponse>;

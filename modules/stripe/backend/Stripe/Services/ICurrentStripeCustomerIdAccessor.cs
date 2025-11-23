@@ -1,3 +1,5 @@
+using Auth.Abstractions;
+
 namespace Stripe.Services;
 
 public interface ICurrentStripeCustomerIdAccessor
@@ -7,4 +9,5 @@ public interface ICurrentStripeCustomerIdAccessor
     /// </summary>
     /// <returns>The customer ID as a string.</returns>
     Task<string> GetOrCreateStripeCustomerId();
+    Task<string> GetOrCreateStripeCustomerId(string userId);
 }
