@@ -351,10 +351,10 @@ export const PaymentMethods: React.FC<PaymentMethodsProps> = ({ openAddPaymentMe
                         };
 
                         const theme = getCardTheme(method.brand || '');
-                        
+
                         return (
-                            <div 
-                                key={method.id} 
+                            <div
+                                key={method.id}
                                 className="group w-full max-w-md payment-card"
                                 style={{ animationDelay: `${index * 0.1}s` }}
                                 onMouseMove={(e) => {
@@ -362,7 +362,7 @@ export const PaymentMethods: React.FC<PaymentMethodsProps> = ({ openAddPaymentMe
                                     const rect = card.getBoundingClientRect();
                                     const x = e.clientX - rect.left;
                                     const y = e.clientY - rect.top;
-                                    
+
                                     const dotsContainer = card.querySelector('.dots-container');
                                     if (dotsContainer) {
                                         const dots = dotsContainer.querySelectorAll('.wave-dot');
@@ -374,13 +374,13 @@ export const PaymentMethods: React.FC<PaymentMethodsProps> = ({ openAddPaymentMe
                                             const dotY = dotRect.top - cardRect.top + dotRect.height / 2;
                                             const distance = Math.sqrt(Math.pow(x - dotX, 2) + Math.pow(y - dotY, 2));
                                             const maxDistance = 100;
-                                            
+
                                             if (distance < maxDistance) {
                                                 const intensity = Math.pow(1 - (distance / maxDistance), 3);
                                                 const scale = 1 + intensity * 0.15;
                                                 const opacity = 0.3 + intensity * 0.25;
                                                 const hue = intensity > 0.2 ? '280' : '220';
-                                                
+
                                                 htmlDot.style.transform = `scale(${scale})`;
                                                 htmlDot.style.opacity = opacity.toString();
                                                 htmlDot.style.background = `radial-gradient(circle, hsl(${hue}, 25%, 40%), hsl(${hue}, 25%, 25%))`;
@@ -417,9 +417,9 @@ export const PaymentMethods: React.FC<PaymentMethodsProps> = ({ openAddPaymentMe
                                     </div>
 
                                     <div className="absolute inset-0 pointer-events-none overflow-hidden">
-                                        <div 
-                                            className="dots-container absolute inset-0 grid gap-2 p-2" 
-                                            style={{ 
+                                        <div
+                                            className="dots-container absolute inset-0 grid gap-2 p-2"
+                                            style={{
                                                 gridTemplateColumns: 'repeat(18, minmax(2px, 1fr))',
                                                 gridTemplateRows: 'repeat(14, minmax(2px, 1fr))',
                                                 width: '100%',
@@ -468,7 +468,7 @@ export const PaymentMethods: React.FC<PaymentMethodsProps> = ({ openAddPaymentMe
                                             <div className="font-mono text-xl font-medium text-white tracking-[0.2em]">
                                                 •••• •••• •••• {method.last4}
                                             </div>
-                                            
+
                                             <div className="flex items-center justify-between text-sm">
                                                 <div className="flex items-center space-x-2 text-zinc-400">
                                                     <Calendar className="w-4 h-4" />
@@ -488,13 +488,13 @@ export const PaymentMethods: React.FC<PaymentMethodsProps> = ({ openAddPaymentMe
                                                         {method.brand?.toUpperCase()} Card
                                                     </h4>
                                                     <p className="text-sm text-zinc-400">
-                                                        {method.isDefault 
-                                                            ? "Primary payment method" 
+                                                        {method.isDefault
+                                                            ? "Primary payment method"
                                                             : "Available for billing"
                                                         }
                                                     </p>
                                                 </div>
-                                                
+
                                                 <div className="flex flex-wrap gap-2 pt-2">
                                                     {!method.isDefault && (
                                                         <Button
@@ -534,14 +534,14 @@ export const PaymentMethods: React.FC<PaymentMethodsProps> = ({ openAddPaymentMe
                     })}
                 </div>
             ) : (
-                <div 
+                <div
                     className="relative overflow-hidden bg-black border border-zinc-600/30 rounded-xl"
                     onMouseMove={(e) => {
                         const card = e.currentTarget;
                         const rect = card.getBoundingClientRect();
                         const x = e.clientX - rect.left;
                         const y = e.clientY - rect.top;
-                        
+
                         const dotsContainer = card.querySelector('.empty-dots-container');
                         if (dotsContainer) {
                             const dots = dotsContainer.querySelectorAll('.wave-dot-empty');
@@ -553,13 +553,13 @@ export const PaymentMethods: React.FC<PaymentMethodsProps> = ({ openAddPaymentMe
                                 const dotY = dotRect.top - cardRect.top + dotRect.height / 2;
                                 const distance = Math.sqrt(Math.pow(x - dotX, 2) + Math.pow(y - dotY, 2));
                                 const maxDistance = 120;
-                                
+
                                 if (distance < maxDistance) {
                                     const intensity = Math.pow(1 - (distance / maxDistance), 3);
                                     const scale = 1 + intensity * 0.2;
                                     const opacity = 0.15 + intensity * 0.3;
                                     const hue = intensity > 0.2 ? '280' : '220';
-                                    
+
                                     htmlDot.style.transform = `scale(${scale})`;
                                     htmlDot.style.opacity = opacity.toString();
                                     htmlDot.style.background = `radial-gradient(circle, hsl(${hue}, 20%, 35%), hsl(${hue}, 20%, 20%))`;
@@ -610,9 +610,9 @@ export const PaymentMethods: React.FC<PaymentMethodsProps> = ({ openAddPaymentMe
                                 animation: wave-empty 5s ease-in-out infinite;
                             }
                         `}</style>
-                        <div 
-                            className="empty-dots-container absolute inset-0 grid gap-2 p-3" 
-                            style={{ 
+                        <div
+                            className="empty-dots-container absolute inset-0 grid gap-2 p-3"
+                            style={{
                                 gridTemplateColumns: 'repeat(25, minmax(1px, 1fr))',
                                 gridTemplateRows: 'repeat(18, minmax(1px, 1fr))',
                                 width: '100%',
@@ -638,52 +638,22 @@ export const PaymentMethods: React.FC<PaymentMethodsProps> = ({ openAddPaymentMe
 
                     <div className="relative z-10 py-12 px-8">
                         <div className="text-center space-y-8">
-                            <div className="relative mx-auto w-20 h-20" style={{ perspective: '150px' }}>
-                                <style>{`
-                                    .empty-cube-3d {
-                                        transform-style: preserve-3d;
-                                        animation: rotate3d 10s linear infinite;
-                                    }
-                                    .empty-cube-face {
-                                        position: absolute;
-                                        width: 40px;
-                                        height: 40px;
-                                        background: linear-gradient(45deg, rgba(59, 130, 246, 0.1), rgba(147, 51, 234, 0.1));
-                                        border: 1px solid rgba(59, 130, 246, 0.2);
-                                        animation: glow 3s ease-in-out infinite;
-                                    }
-                                    .empty-cube-face:nth-child(1) { transform: rotateY(0deg) translateZ(20px); }
-                                    .empty-cube-face:nth-child(2) { transform: rotateY(90deg) translateZ(20px); }
-                                    .empty-cube-face:nth-child(3) { transform: rotateY(180deg) translateZ(20px); }
-                                    .empty-cube-face:nth-child(4) { transform: rotateY(-90deg) translateZ(20px); }
-                                    .empty-cube-face:nth-child(5) { transform: rotateX(90deg) translateZ(20px); }
-                                    .empty-cube-face:nth-child(6) { transform: rotateX(-90deg) translateZ(20px); }
-                                `}</style>
-                                <div className="empty-cube-3d relative w-10 h-10 mx-auto">
-                                    <div className="empty-cube-face"></div>
-                                    <div className="empty-cube-face"></div>
-                                    <div className="empty-cube-face"></div>
-                                    <div className="empty-cube-face"></div>
-                                    <div className="empty-cube-face"></div>
-                                    <div className="empty-cube-face"></div>
-                                </div>
-                                <div className="absolute inset-0 flex items-center justify-center">
-                                    <CreditCard className="h-8 w-8 text-zinc-400" />
-                                </div>
+                            <div className="flex items-center justify-center">
+                                <CreditCard className="h-8 w-8 text-zinc-400" />
                             </div>
-                            
+
                             <div className="space-y-4">
                                 <h4 className="font-medium text-white text-xl">No Payment Method</h4>
                                 <p className="text-zinc-400 max-w-sm mx-auto leading-relaxed">
                                     Add a payment method to enable billing and start deploying your projects
                                 </p>
                             </div>
-                            
-                            <Button 
+
+                            <Button
                                 onClick={handleOpenDialog}
                                 className="bg-white text-black hover:bg-zinc-200 font-medium px-6 py-3 text-base transition-all duration-300 hover:scale-105"
                             >
-                                <Plus className="h-4 w-4 mr-2" /> 
+                                <Plus className="h-4 w-4 mr-2" />
                                 Add Payment Method
                             </Button>
                         </div>
