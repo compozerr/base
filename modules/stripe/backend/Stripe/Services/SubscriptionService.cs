@@ -39,6 +39,7 @@ public interface ISubscriptionsService
 public sealed class SubscriptionsService(
     IOptions<StripeOptions> options,
     IWebHostEnvironment environment,
+    IPaymentMethodsService paymentMethodsService,
     ICurrentStripeCustomerIdAccessor currentStripeCustomerIdAccessor) : ISubscriptionsService
 {
     private readonly StripeClient _stripeClient = new StripeClient(options.Value.ApiKey);
@@ -155,6 +156,9 @@ public sealed class SubscriptionsService(
         {
             string stripeCustomerId = await currentStripeCustomerIdAccessor.GetOrCreateStripeCustomerId();
 
+            // Check if customer has a payment method
+            bool hasPaymentMethod = await GetUserHasPaymentMethodAsync(cancellationToken);
+
             var service = new Stripe.SubscriptionService(_stripeClient);
             var options = new SubscriptionCreateOptions
             {
@@ -170,13 +174,21 @@ public sealed class SubscriptionsService(
                 {
                     { "project_id", projectId.Value.ToString() },
                     { "server_tier_id", serverTierId.Value.ToString() },
-                    { "awaiting_payment_method", "true" }
+                    { "awaiting_payment_method", hasPaymentMethod ? "false" : "true" }
                 },
-                Expand = new List<string> { "items.data.plan.product" },
-
-                CollectionMethod = "send_invoice", // Send invoice to customer
-                DaysUntilDue = 7 // Customer has 7 days to add payment method and pay
+                Expand = new List<string> { "items.data.plan.product" }
             };
+
+            // Set collection method based on payment method availability
+            if (hasPaymentMethod)
+            {
+                options.CollectionMethod = "charge_automatically";
+            }
+            else
+            {
+                options.CollectionMethod = "send_invoice";
+                options.DaysUntilDue = 7; // Customer has 7 days to add payment method and pay
+            }
 
             // Apply coupon code if provided
             if (!string.IsNullOrWhiteSpace(couponCode))
@@ -250,5 +262,13 @@ public sealed class SubscriptionsService(
 
         return subscription.Items.Data.FirstOrDefault()?.Id
             ?? throw new Exception($"No subscription item found for subscription {subscriptionId}");
+    }
+
+    private async Task<bool> GetUserHasPaymentMethodAsync(CancellationToken cancellationToken)
+    {
+        var paymentMethods = await paymentMethodsService.GetUserPaymentMethodsAsync(
+            cancellationToken);
+
+        return paymentMethods.Any();
     }
 }
