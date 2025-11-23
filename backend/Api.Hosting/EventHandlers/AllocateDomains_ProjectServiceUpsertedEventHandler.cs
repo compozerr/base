@@ -9,7 +9,8 @@ using Database.Extensions;
 namespace Api.Hosting.EventHandlers;
 
 public sealed class AllocateDomains_ProjectServiceUpsertedEventHandler(
-    IProjectRepository projectRepository) : EntityDomainEventHandlerBase<ProjectServiceUpsertedEvent>
+    IProjectRepository projectRepository,
+    ISubdomainHashService subdomainHashService) : EntityDomainEventHandlerBase<ProjectServiceUpsertedEvent>
 {
     protected override async Task HandleBeforeSaveAsync(ProjectServiceUpsertedEvent domainEvent, CancellationToken cancellationToken)
     {
@@ -28,16 +29,9 @@ public sealed class AllocateDomains_ProjectServiceUpsertedEventHandler(
         }
     }
 
-    private static string GetHash(string repoName)
+    private InternalDomain BuildCustomInternalDomain(Project project, ProjectService service)
     {
-        var bytes = System.Text.Encoding.UTF8.GetBytes(repoName);
-        var hash = System.Security.Cryptography.SHA256.HashData(bytes);
-        return Convert.ToHexString(hash).ToLower()[..8];
-    }
-
-    private static InternalDomain BuildCustomInternalDomain(Project project, ProjectService service)
-    {
-        var hash = GetHash(RepoUri.Parse(project.RepoUri).RepoName);
+        var hash = subdomainHashService.GetHash(project.Id);
 
         return new()
         {

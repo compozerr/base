@@ -8,7 +8,8 @@ namespace Api.Endpoints.Projects.Domains.Add;
 public sealed class MakeSureParentDomainExists_ExternalDomainAddedEventHandler(
     IDomainRepository domainRepository,
     IProjectRepository projectRepository,
-    IProjectServiceRepository projectServiceRepository) : EntityDomainEventHandlerBase<ExternalDomainAddedEvent>
+    IProjectServiceRepository projectServiceRepository,
+    ISubdomainHashService subdomainHashService) : EntityDomainEventHandlerBase<ExternalDomainAddedEvent>
 {
     private readonly Serilog.ILogger _logger = Log.Logger.ForContext<MakeSureParentDomainExists_ExternalDomainAddedEventHandler>();
     protected override async Task HandleBeforeSaveAsync(ExternalDomainAddedEvent domainEvent, CancellationToken cancellationToken)
@@ -62,16 +63,9 @@ public sealed class MakeSureParentDomainExists_ExternalDomainAddedEventHandler(
         }
     }
 
-    private static string GetHash(string repoName)
+    private InternalDomain BuildCustomInternalDomain(Data.Project project, ProjectService service)
     {
-        var bytes = System.Text.Encoding.UTF8.GetBytes(repoName);
-        var hash = System.Security.Cryptography.SHA256.HashData(bytes);
-        return Convert.ToHexString(hash).ToLower()[..8];
-    }
-
-    private static InternalDomain BuildCustomInternalDomain(Data.Project project, ProjectService service)
-    {
-        var hash = GetHash(RepoUri.Parse(project.RepoUri).RepoName);
+        var hash = subdomainHashService.GetHash(project.Id);
 
         return new()
         {
