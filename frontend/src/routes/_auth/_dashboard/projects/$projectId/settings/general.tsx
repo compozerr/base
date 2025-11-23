@@ -191,7 +191,7 @@ function GeneralSettingsTab() {
                   {tiers && tiers.tiers!.map((t, idx) => {
                     const isCurrentTier = project?.serverTier === t.id.value;
                     const currentPriceValue = isCurrentTier ? project?.serverTierPrice ?? t.price : t.price;
-                    const isDiscounted = isCurrentTier && project?.serverTierPrice.isDiscounted;
+                    const isDiscounted = isCurrentTier && project?.serverTierPrice?.isDiscounted || false;
 
                     return(
                     <SelectItem key={idx} value={t.id!.value!}>
