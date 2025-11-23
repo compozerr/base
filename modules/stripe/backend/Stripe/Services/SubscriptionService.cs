@@ -174,7 +174,7 @@ public sealed class SubscriptionsService(
                 },
                 Expand = new List<string> { "items.data.plan.product" },
 
-                CollectionMethod = "charge_automatically",
+                CollectionMethod = "send_invoice", // Send invoice to customer
                 DaysUntilDue = 7 // Customer has 7 days to add payment method and pay
             };
 
