@@ -57,9 +57,7 @@ public class ProcessWebhookCommandHandler(
                 break;
 
             case "customer.updated":
-                await HandleCustomerUpdated(
-                    stripeEvent,
-                    cancellationToken);
+                HandleCustomerUpdated(stripeEvent);
                 break;
 
             default:
@@ -105,7 +103,7 @@ public class ProcessWebhookCommandHandler(
         _logger.Information("Published StripeInvoicePaymentFailedEvent for invoice: {InvoiceId}", invoice.Id);
     }
 
-    private async Task HandleCustomerUpdated(Event stripeEvent, CancellationToken cancellationToken)
+    private void HandleCustomerUpdated(Event stripeEvent)
     {
         var customer = (Customer)stripeEvent.Data.Object;
 
@@ -119,45 +117,12 @@ public class ProcessWebhookCommandHandler(
             return;
         }
 
-        // Get all open invoices for this customer
-        var invoiceService = new InvoiceService(_stripeClient);
-        var invoiceListOptions = new InvoiceListOptions
-        {
-            Customer = customer.Id,
-            Status = "open",
-            Limit = 100 // Adjust if needed
-        };
+        var paymentMethodAddedEvent = new StripeCustomerPaymentMethodAddedEvent(
+            CustomerId: customer.Id,
+            PaymentMethodId: customer.InvoiceSettings.DefaultPaymentMethodId);
 
-        var openInvoices = await invoiceService.ListAsync(invoiceListOptions, cancellationToken: cancellationToken);
+        StripeCustomerPaymentMethodAddedJob.Enqueue(paymentMethodAddedEvent);
 
-        if (openInvoices.Data.Count == 0)
-        {
-            _logger.Information("No open invoices found for customer: {CustomerId}", customer.Id);
-            return;
-        }
-
-        _logger.Information("Found {Count} open invoices for customer: {CustomerId}, attempting to pay them",
-            openInvoices.Data.Count, customer.Id);
-
-        // Attempt to pay each open invoice
-        foreach (var invoice in openInvoices.Data)
-        {
-            try
-            {
-                _logger.Information("Attempting to pay invoice: {InvoiceId} for amount: {Amount} {Currency}",
-                    invoice.Id, invoice.AmountDue / 100m, invoice.Currency);
-
-                var paidInvoice = await invoiceService.PayAsync(invoice.Id, cancellationToken: cancellationToken);
-
-                _logger.Information("Successfully paid invoice: {InvoiceId}, Status: {Status}",
-                    paidInvoice.Id, paidInvoice.Status);
-            }
-            catch (StripeException ex)
-            {
-                _logger.Error(ex, "Failed to pay invoice: {InvoiceId} for customer: {CustomerId}, Reason: {Reason}",
-                    invoice.Id, customer.Id, ex.Message);
-                // Continue trying to pay other invoices even if one fails
-            }
-        }
+        _logger.Information("Enqueued StripeCustomerPaymentMethodAddedEvent for customer: {CustomerId}", customer.Id);
     }
 }
