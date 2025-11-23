@@ -6,16 +6,17 @@ using Mail;
 using Mail.Services;
 using Stripe.Data.Repositories;
 using Stripe.Events;
+using Stripe.Helpers;
 
 namespace Api.EventHandlers.Stripe;
 
-public class StripeInvoicePaymentFailedEventHandler(
+public class SendPaymentFailedMail_StripeInvoicePaymentFailedEventHandler(
     IMailService mailService,
     IUserRepository userRepository,
     IStripeCustomerRepository stripeCustomerRepository,
     IFrontendLocation frontendLocation) : IEventHandler<StripeInvoicePaymentFailedEvent>
 {
-    private readonly Serilog.ILogger _logger = Log.Logger.ForContext<StripeInvoicePaymentFailedEventHandler>();
+    private readonly Serilog.ILogger _logger = Log.Logger.ForContext<SendPaymentFailedMail_StripeInvoicePaymentFailedEventHandler>();
 
     public async Task Handle(
         StripeInvoicePaymentFailedEvent notification,
@@ -53,16 +54,7 @@ public class StripeInvoicePaymentFailedEventHandler(
             return;
         }
 
-        var currency = notification.Currency.ToUpper();
-
-        if (currency == "USD")
-        {
-            currency = "$";
-        }
-        else if (currency == "EUR")
-        {
-            currency = "€";
-        }
+        var currencySymbol = CurrencyHelper.GetSymbol(notification.Currency);
 
         try
         {
@@ -75,7 +67,7 @@ public class StripeInvoicePaymentFailedEventHandler(
                     DueDate = notification.DueDate.ToString("MMMM dd, yyyy"),
                     CompanyName = "compozerr hosting",
                     CustomerName = user.Name,
-                    Currency = currency,
+                    Currency = currencySymbol,
                     AmountDue = notification.AmountDue.ToString("F2"),
                     DaysOverdue = notification.DaysOverdue.ToString(),
                     PaymentLink = notification.PaymentLink,

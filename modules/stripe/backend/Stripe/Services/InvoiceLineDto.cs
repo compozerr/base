@@ -1,3 +1,5 @@
+using Stripe.Helpers;
+
 namespace Stripe.Services;
 
 public sealed record InvoiceLineDto(
@@ -46,13 +48,6 @@ public sealed record InvoiceLineDto(
 
     private static string GetCurrencySymbol(string currency)
     {
-        return currency.ToUpper() switch
-        {
-            "USD" => "$",
-            "EUR" => "€",
-            "GBP" => "£",
-            "JPY" => "¥",
-            _ => currency.ToUpper()
-        };
+        return CurrencyHelper.GetSymbol(currency);
     }
 }
