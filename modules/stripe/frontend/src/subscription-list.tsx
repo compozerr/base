@@ -86,14 +86,14 @@ export const SubscriptionList: React.FC<SubscriptionListProps> = () => {
 
     const total = subscriptions.reduce((sum, subscription) => {
       if (subscription.status === 'active' && !subscription.cancelAtPeriodEnd) {
-        return sum + (subscription.amount || 0);
+        return sum + (subscription.amount.amount || 0);
       }
       return sum;
     }, 0);
 
     return {
       amount: total,
-      currency: subscriptions[0]?.currency || 'USD'
+      currency: subscriptions[0]?.amount.currency || 'USD'
     };
   };
 
@@ -135,7 +135,7 @@ export const SubscriptionList: React.FC<SubscriptionListProps> = () => {
                       {new Date(subscription.currentPeriodStart!).toLocaleDateString()} - {new Date(subscription.currentPeriodEnd!).toLocaleDateString()}
                     </TableCell>
                     <TableCell className="text-right">
-                      {formatCurrency(subscription.amount || 0, subscription.currency || 'USD')}
+                      {formatCurrency(subscription.amount.amount || 0, subscription.amount.currency || 'USD')}
                     </TableCell>
                     <TableCell className='text-right'>
                       {subscription.status === 'active' && !subscription.cancelAtPeriodEnd && subscription.projectId && (

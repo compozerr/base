@@ -63,11 +63,12 @@ public static class GetProjectRoute
 
     private static Price? GetServerTierPriceFromSubscriptionDto(SubscriptionDto? subscription)
     {
-        if (subscription is not { Amount: { }, Currency: { } } nonNullSubscription)
+        if (subscription is not { Amount: { } } nonNullSubscription)
             return null;
 
         return new Price(
-            nonNullSubscription.Amount,
-            nonNullSubscription.Currency);
+            nonNullSubscription.Amount.Amount,
+            nonNullSubscription.Amount.Currency,
+            nonNullSubscription.OriginalAmount?.Amount);
     }
 }

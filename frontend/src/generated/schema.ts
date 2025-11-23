@@ -2482,6 +2482,9 @@ export type components = {
             /** Format: double */
             value: number;
             currency: string | null;
+            /** Format: double */
+            originalAmount: number | null;
+            readonly isDiscounted: boolean;
         };
         /** Format: uuid */
         "Api.Abstractions.ProjectId": string;
@@ -2900,9 +2903,9 @@ export type components = {
             /** Format: date-time */
             currentPeriodEnd: string;
             cancelAtPeriodEnd: boolean;
-            /** Format: double */
-            amount: number;
-            currency: string | null;
+            amount: components["schemas"]["Stripe.Services.Money"];
+            originalAmount: components["schemas"]["Stripe.Services.Money"];
+            couponCode: string | null;
         };
         "Stripe.Endpoints.Subscriptions.UpsertSubscription.UpsertSubscriptionRequest": {
             /** Format: uuid */

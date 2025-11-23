@@ -17,42 +17,13 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { FileText, Download, ChevronDown, ChevronUp } from 'lucide-react'
 import { api, apiBaseUrl } from '@/api-client'
 import { useState } from 'react'
+import { components } from '@/generated/schema'
 
 export const Route = createFileRoute('/invoices/')({
   component: RouteComponent,
 })
 
-// Type definitions matching the backend DTOs
-interface Money {
-  amount: number
-  currency: string
-}
-
-interface InvoiceLineDto {
-  id: string
-  amount: Money
-  description: string
-}
-
-interface InvoiceDto {
-  id: string
-  total: Money
-  lines: InvoiceLineDto[]
-}
-
-interface MonthlyInvoiceGroup {
-  yearMonth: string          // "2024-11"
-  monthLabel: string         // "November 2024"
-  isOngoing: boolean         // true for current month
-  monthTotal: Money          // Total for the month
-  invoices: InvoiceDto[]     // All invoices in this month
-}
-
-interface GetInvoicesResponse {
-  monthlyGroups: MonthlyInvoiceGroup[]
-}
-
-function MonthlyInvoiceCard({ group }: { group: MonthlyInvoiceGroup }) {
+function MonthlyInvoiceCard({ group }: { group: components["schemas"]["Stripe.Services.MonthlyInvoiceGroup"] }) {
   const [isOpen, setIsOpen] = useState(false)
 
   const formatCurrency = (amount: number, currency: string) => {
@@ -124,14 +95,14 @@ function MonthlyInvoiceCard({ group }: { group: MonthlyInvoiceGroup }) {
           <CollapsibleTrigger asChild>
             <Button variant="ghost" size="sm" className="w-full justify-between">
               <span className="text-sm text-muted-foreground">
-                {isOpen ? 'Hide' : 'Show'} invoice details ({group.invoices.length} invoice{group.invoices.length !== 1 ? 's' : ''})
+                {isOpen ? 'Hide' : 'Show'} invoice details ({group.invoices!.length} invoice{group.invoices!.length !== 1 ? 's' : ''})
               </span>
               {isOpen ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
             </Button>
           </CollapsibleTrigger>
           <CollapsibleContent className="mt-4">
             <div className="space-y-4">
-              {group.invoices.map((invoice) => (
+              {group.invoices!.map((invoice) => (
                 <div key={invoice.id} className="border rounded-lg p-4">
                   <div className="flex justify-between items-start mb-3">
                     <span className="font-mono text-xs text-muted-foreground">

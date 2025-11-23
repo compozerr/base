@@ -52,7 +52,7 @@ public sealed class SubscriptionsService(
             var options = new SubscriptionListOptions
             {
                 Customer = stripeCustomerId,
-                Expand = ["data.plan.product"]
+                Expand = ["data.plan.product", "data.discounts"]
             };
 
             var subscriptions = await service.ListAsync(options, cancellationToken: cancellationToken);
@@ -213,25 +213,13 @@ public sealed class SubscriptionsService(
                 var options = new SubscriptionUpdateOptions
                 {
                     CancelAtPeriodEnd = true,
-                    Expand = new List<string> { "plan.product" }
+                    Expand = new List<string> { "plan.product", "discounts" }
                 };
 
                 subscription = await service.UpdateAsync(subscriptionId, options, cancellationToken: cancellationToken);
             }
 
-            return new SubscriptionDto(
-                Id: subscription.Id,
-                ProjectId: ProjectId.Create(Guid.Parse(subscription.Metadata["project_id"])),
-                Name: subscription.Items?.Data?.FirstOrDefault()?.Plan?.Product?.Name ?? "Subscription",
-                Status: subscription.Status,
-                PlanId: subscription.Items?.Data?.FirstOrDefault()?.Plan?.Id ?? "",
-                ServerTierId: Prices.GetInternalId(subscription.Items?.Data?.FirstOrDefault()?.Plan?.Id ?? "", _isProduction),
-                CurrentPeriodStart: subscription.Items?.Data?.FirstOrDefault()?.CurrentPeriodStart ?? DateTime.UtcNow,
-                CurrentPeriodEnd: subscription.Items?.Data?.FirstOrDefault()?.CurrentPeriodEnd ?? DateTime.UtcNow,
-                CancelAtPeriodEnd: subscription.CancelAtPeriodEnd,
-                Amount: subscription.Items?.Data?.FirstOrDefault()?.Plan?.Amount / 100m ?? 0,
-                Currency: subscription.Items?.Data?.FirstOrDefault()?.Plan?.Currency?.ToUpper() ?? "USD"
-            );
+            return SubscriptionDto.FromSubscription(subscription, _isProduction);
         }
         catch (Exception ex)
         {
