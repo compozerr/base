@@ -13,66 +13,33 @@ import {
   Column,
 } from '@react-email/components';
 
-export const MissingInvoiceEmail = () => (
+export const ProjectHasBeenTerminated = () => (
   <Html>
     <Head />
-    <Preview>Payment reminder - Due % DueDate %</Preview>
+    <Preview>Your project has been terminated</Preview>
     <Body style={main}>
       <Container style={container}>
         {/* Simple header */}
         <Section style={header}>
           <Text style={logo}>% CompanyName %</Text>
-          <Text style={headerSubtitle}>Payment Reminder</Text>
+          <Text style={headerSubtitle}>Project Termination Notice</Text>
         </Section>
 
         <Section style={content}>
           <Text style={greeting}>Hi % CustomerName %,</Text>
 
           <Text style={paragraph}>
-            % Description %
+            We're writing to inform you that your project has been terminated.
           </Text>
 
-          {/* Clean invoice card */}
-          <Section style={invoiceCard}>
-            <Text style={cardTitle}>Invoice Details</Text>
-
-            <Row style={invoiceRow}>
-              <Column style={labelColumn}>
-                <Text style={label}>Amount</Text>
-              </Column>
-              <Column style={valueColumn}>
-                <Text style={amount}>% Currency %% AmountDue %</Text>
-              </Column>
-            </Row>
-
-            <Row style={invoiceRow}>
-              <Column style={labelColumn}>
-                <Text style={label}>Due Date</Text>
-              </Column>
-              <Column style={valueColumn}>
-                <Text style={dueDate}>% DueDate %</Text>
-              </Column>
-            </Row>
-
-            <Row style={invoiceRowLast}>
-              <Column style={labelColumn}>
-                <Text style={label}>Status</Text>
-              </Column>
-              <Column style={valueColumn}>
-                <Text style={overdue}>% DaysOverdue % days overdue</Text>
-              </Column>
-            </Row>
-          </Section>
-
-          {/* Simple CTA */}
-          <Section style={ctaSection}>
-            <Button style={payButton} href="% PaymentLink %">
-              Pay % Currency %% AmountDue %
-            </Button>
+          {/* Reason card */}
+          <Section style={reasonCard}>
+            <Text style={cardTitle}>Reason</Text>
+            <Text style={reasonText}>% Reason %</Text>
           </Section>
 
           <Text style={paragraph}>
-            If you've already paid, please ignore this message. For questions, contact our support team.
+            If you have any questions or believe this was done in error, please contact our support team.
           </Text>
 
           {/* Simple links */}
@@ -95,7 +62,7 @@ export const MissingInvoiceEmail = () => (
   </Html>
 );
 
-export default MissingInvoiceEmail;
+export default ProjectHasBeenTerminated;
 
 const main = {
   backgroundColor: '#0a0a0a',
@@ -148,7 +115,7 @@ const paragraph = {
   margin: '0 0 24px 0',
 };
 
-const invoiceCard = {
+const reasonCard = {
   backgroundColor: '#1a1a1a',
   border: '1px solid #2a2a2a',
   borderRadius: '8px',
@@ -160,78 +127,22 @@ const cardTitle = {
   color: '#ffffff',
   fontSize: '16px',
   fontWeight: '600',
-  margin: '0 0 20px 0',
+  margin: '0 0 16px 0',
 };
 
-const invoiceRow = {
-  marginBottom: '16px',
-};
-
-const invoiceRowLast = {
-  marginBottom: '0',
-};
-
-const labelColumn = {
-  width: '30%',
-  verticalAlign: 'top',
-};
-
-const valueColumn = {
-  width: '70%',
-  verticalAlign: 'top',
-};
-
-const label = {
-  color: '#888888',
-  fontSize: '14px',
-  margin: '0',
-  fontWeight: '400',
-};
-
-const value = {
-  color: '#ffffff',
-  fontSize: '14px',
-  margin: '0',
-  fontWeight: '500',
-};
-
-const amount = {
-  color: '#ffffff',
-  fontSize: '16px',
-  margin: '0',
-  fontWeight: '600',
-};
-
-const dueDate = {
-  color: '#ffffff',
-  fontSize: '14px',
-  margin: '0',
-  fontWeight: '500',
-};
-
-const overdue = {
-  color: '#ff6b6b',
-  fontSize: '14px',
-  margin: '0',
-  fontWeight: '500',
-};
-
-const ctaSection = {
-  textAlign: 'center' as const,
-  margin: '32px 0',
-};
-
-const payButton = {
-  backgroundColor: '#ffffff',
-  color: '#000000',
+const reasonText = {
+  color: '#cccccc',
   fontSize: '15px',
-  fontWeight: '600',
-  textDecoration: 'none',
-  borderRadius: '6px',
-  padding: '12px 24px',
-  display: 'inline-block',
-  border: 'none',
+  lineHeight: '22px',
+  margin: '0',
 };
+
+const projectName = {
+  color: '#ffffff',
+  fontWeight: '500',
+};
+
+
 
 const linksSection = {
   textAlign: 'center' as const,

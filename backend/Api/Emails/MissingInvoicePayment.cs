@@ -9,6 +9,7 @@ public sealed class MissingInvoicePaymentTemplate : ReactEmailTemplate
     public required string DueDate { get; init; }
     public required string CompanyName { get; init; }
     public required string CustomerName { get; init; }
+    public required string Description { get; init; }
     public required string Currency { get; init; }
     public required string AmountDue { get; init; }
     public required string DaysOverdue { get; init; }

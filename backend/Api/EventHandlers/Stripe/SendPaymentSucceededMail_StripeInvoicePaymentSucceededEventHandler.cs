@@ -55,7 +55,7 @@ public class SendPaymentSucceededMail_StripeInvoicePaymentSucceededEventHandler(
             var mail = await ReactEmail.CreateAsync(
                 new EmailAddress("no-reply@notifications.compozerr.com", "compozerr hosting"),
                 [new EmailAddress(user.Email, user.Name)],
-                "Action Required: Payment Failed for Your Compozerr Invoice",
+                "Your Compozerr Invoice Payment Succeeded",
                 new Emails.InvoicePaymentSucceededTemplate()
                 {
                     PaymentDate = notification.PaidAt.ToString("MMMM dd, yyyy"),
