@@ -9,6 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useAuth } from '@/hooks/use-dynamic-auth'
+import { useToast } from '@/hooks/use-toast'
 import { createFileRoute, redirect, useNavigate } from '@tanstack/react-router'
 import { motion, useMotionValue, useSpring } from 'framer-motion'
 import { Check, DollarSign, Rocket, Shield, Zap } from 'lucide-react'
@@ -22,7 +23,10 @@ export const Route = createFileRoute('/n8n')({
     const search = new URLSearchParams(ctx.location.searchStr)
     const shouldAutoCreate = search.get(CREATE_N8N_PARAM) === "true"
 
-    if (!shouldAutoCreate) return;
+    if (!shouldAutoCreate) {
+      return;
+    };
+
     const { data: projectsData } = await api.v1.getProjects()
     const { data: locationsDataForAutoCreate } = await api.v1.getCliLocations()
     const { data: tiersData } = await api.v1.getServersTiers()
@@ -32,9 +36,13 @@ export const Route = createFileRoute('/n8n')({
     const tiers = tiersData?.tiers ?? []
 
     const defaultName = 'My n8n service'
-    const nameExists = existingProjects.some(p => p?.name === defaultName)
+    const hasN8nProject = existingProjects.some(p => p?.type === "N8n")
 
-    if (!nameExists) return;
+    if (hasN8nProject) {
+      console.warn('User already has an n8n project, skipping auto-creation.')
+      throw redirect({ to: "/n8n" })
+    };
+
     const selectedLocation = locations[0] ?? ''
     const t1Tier = tiers.find(t => t.id?.value === 'T1')
     const selectedTier = t1Tier?.id?.value ?? tiers[0]?.id?.value ?? ''
@@ -77,7 +85,7 @@ export const Route = createFileRoute('/n8n')({
         throw err
       }
 
-      console.error('Failed to create n8n project:', err)
+      console.error('Failed to auto-create n8n project:', err)
       throw redirect({ to: "/n8n" })
     }
   }
@@ -97,7 +105,7 @@ function UnauthenticatedN8nFlow() {
     sessionStorage.setItem('n8nIntent', 'create')
 
     const search = new URLSearchParams(location.search)
-    search.set('create-default-n8n-instance', "true")
+    search.set(CREATE_N8N_PARAM, "true")
     const redirectUrl = location.origin + location.pathname + '?' + search.toString();
 
     navigate({ to: '/login', search: { redirect: redirectUrl } })
@@ -318,6 +326,7 @@ function UnauthenticatedN8nFlow() {
 
 // Authenticated project creation UI
 function AuthenticatedN8nFlow() {
+  const { toast } = useToast();
   const navigate = useNavigate();
   const { user } = useAuth();
 
@@ -349,7 +358,7 @@ function AuthenticatedN8nFlow() {
   }, [projectsData])
 
   const defaultName = 'My n8n service'
-  const nameExists = existingProjects.some(p => p?.name === defaultName)
+  const hasN8nProject = existingProjects.some(p => p?.type === "N8n")
 
   const [projectName, setProjectName] = useState(defaultName)
   const [selectedLocation, setSelectedLocation] = useState<string>('')
@@ -439,7 +448,7 @@ function AuthenticatedN8nFlow() {
                   </div>
 
                   {/* Conditional Name Input */}
-                  {nameExists && (
+                  {hasN8nProject && (
                     <Card className="max-w-md mx-auto border-zinc-800 bg-zinc-900/50 backdrop-blur-sm">
                       <CardContent className="pt-6 space-y-2">
                         <Label htmlFor="projectName" className="text-base">Project Name</Label>
@@ -450,9 +459,6 @@ function AuthenticatedN8nFlow() {
                           onChange={(e) => setProjectName(e.target.value)}
                           className="h-12 text-base"
                         />
-                        <p className="text-sm text-muted-foreground">
-                          A project with this name already exists. Please choose a different name.
-                        </p>
                       </CardContent>
                     </Card>
                   )}
