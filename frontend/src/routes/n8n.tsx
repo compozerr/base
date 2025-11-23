@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import { createFileRoute, redirect, useNavigate } from '@tanstack/react-router'
 import { useMemo, useState, useEffect, useRef } from 'react'
 import { api } from '@/api-client'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -16,8 +16,106 @@ import FAQSection from '@/components/faq-section'
 import { Price } from '@/lib/price'
 import { motion, useMotionValue, useSpring } from 'framer-motion'
 
+const CREATE_N8N_PARAM = 'create-default-n8n-instance';
+
 export const Route = createFileRoute('/n8n')({
   component: N8nLandingPage,
+  async beforeLoad(ctx) {
+    // Check if we should auto-create a project first
+    const search = new URLSearchParams(ctx.location.searchStr)
+    const shouldAutoCreate = search.get(CREATE_N8N_PARAM) === "true"
+
+    if (shouldAutoCreate) {
+      // Fetch minimal data needed to check if we can auto-create
+      const { data: projectsData } = await api.v1.getProjects()
+      const { data: locationsData } = await api.v1.getCliLocations()
+      const { data: tiersData } = await api.v1.getServersTiers()
+
+      const existingProjects = projectsData?.projects ?? []
+      const locations = locationsData ?? []
+      const tiers = tiersData?.tiers ?? []
+
+      const defaultName = 'My n8n service'
+      const nameExists = existingProjects.some(p => p?.name === defaultName)
+
+      if (nameExists) {
+        const selectedLocation = locations[0] ?? ''
+        const t1Tier = tiers.find(t => t.id?.value === 'T1')
+        const selectedTier = t1Tier?.id?.value ?? tiers[0]?.id?.value ?? ''
+
+        if (!defaultName || !selectedLocation || !selectedTier) {
+          console.error('Missing required parameters for project creation')
+          throw redirect({ to: "/n8n" })
+        }
+
+        try {
+          const result = await api.v1.postN8nProjects({
+            body: {
+              projectName: defaultName,
+              locationIso: selectedLocation,
+              tier: selectedTier,
+            }
+          })
+
+          if (result.data?.projectId) {
+            await api.v1.getProjects.invalidateQueries({})
+            sessionStorage.setItem('n8nIntent', JSON.stringify({
+              action: 'created',
+              projectId: result.data.projectId,
+              timestamp: Date.now()
+            }))
+
+            // Redirect to the new project - this will prevent the page from rendering
+            throw redirect({
+              to: "/projects/$projectId",
+              params: { projectId: result.data.projectId }
+            })
+          }
+        } catch (err) {
+          // If it's a redirect, re-throw it to let TanStack Router handle it
+          if (err && typeof err === 'object' && ('status' in err && (err as any).status === 307)) {
+            throw err
+          }
+
+          // If it has redirect properties, it's a redirect
+          if (err && typeof err === 'object' && 'options' in err && (err as any).options?.to) {
+            throw err
+          }
+
+          // For other errors, log and redirect back to n8n page without the param
+          console.error('Failed to create n8n project:', err)
+          throw redirect({ to: "/n8n" })
+        }
+      }
+    }
+  },
+  async loader() {
+    // Fetch data that will be used by the component
+    const { data: locationsData } = await api.v1.getCliLocations()
+    const { data: tiersData } = await api.v1.getServersTiers()
+    const { data: projectsData } = await api.v1.getProjects()
+
+    const locations = locationsData ?? []
+    const tiers = tiersData?.tiers ?? []
+    const existingProjects = projectsData?.projects ?? []
+
+    const defaultName = 'My n8n service'
+    const nameExists = existingProjects.some(p => p?.name === defaultName)
+
+    const selectedLocation = locations[0] ?? ''
+    const t1Tier = tiers.find(t => t.id?.value === 'T1')
+    const selectedTier = t1Tier?.id?.value ?? tiers[0]?.id?.value ?? ''
+
+    return {
+      locations,
+      tiers,
+      projects: existingProjects,
+      projectName: defaultName,
+      nameExists,
+      selectedTier,
+      selectedLocation
+    }
+  }
 })
 
 function N8nLandingPage() {
@@ -32,7 +130,12 @@ function UnauthenticatedN8nFlow() {
 
   const handleGetStarted = () => {
     sessionStorage.setItem('n8nIntent', 'create')
-    navigate({ to: '/login', search: { redirect: location.href } })
+
+    const search = new URLSearchParams(location.search)
+    search.set('create-default-n8n-instance', "true")
+    const redirectUrl = location.origin + location.pathname + '?' + search.toString();
+
+    navigate({ to: '/login', search: { redirect: redirectUrl } })
   }
 
   return (
@@ -250,58 +353,15 @@ function UnauthenticatedN8nFlow() {
 
 // Authenticated project creation UI
 function AuthenticatedN8nFlow() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const { user } = useAuth();
 
-  const { data: locationsData } = api.v1.getCliLocations.useQuery()
-  const { data: tiersData } = api.v1.getServersTiers.useQuery()
-  const { data: projectsData } = api.v1.getProjects.useInfiniteQuery(
-    { query: {} },
-    {
-      getNextPageParam: (lastPage) => {
-        if (!lastPage) return undefined;
-        const currentPage = lastPage.page ?? 1;
-        const total = lastPage.totalProjectsCount ?? 0;
-        const pageSize = lastPage.pageSize ?? 20;
-        const totalPages = Math.ceil(total / pageSize);
-        if (currentPage < totalPages) {
-          return { query: { page: currentPage + 1 } };
-        }
-        return undefined;
-      },
-      initialPageParam: { query: { page: 1 } }
-    }
-  );
+  const { locations, tiers, projects, nameExists, projectName: initialProjectName, selectedTier: initialSelectedTier, selectedLocation: initialSelectedLocation } = Route.useLoaderData();
 
-  const locations = useMemo(() => locationsData ?? [], [locationsData])
-  const tiers = useMemo(() => tiersData?.tiers ?? [], [tiersData])
-
-  const existingProjects = useMemo(() => {
-    return projectsData?.pages.flatMap(page => page.projects ?? []) ?? []
-  }, [projectsData])
-
-  const defaultName = 'My n8n service'
-  const nameExists = existingProjects.some(p => p?.name === defaultName)
-
-  const [projectName, setProjectName] = useState(defaultName)
-  const [selectedLocation, setSelectedLocation] = useState<string>('')
-  const [selectedTier, setSelectedTier] = useState<string>('')
-
-  useEffect(() => {
-    if (locations.length > 0 && !selectedLocation) {
-      setSelectedLocation(locations[0] ?? '')
-    }
-  }, [locations, selectedLocation])
-
-  useEffect(() => {
-    if (tiers.length > 0 && !selectedTier) {
-      const t1Tier = tiers.find(t => t.id?.value === 'T1')
-      setSelectedTier(t1Tier?.id?.value ?? tiers[0]?.id?.value ?? '')
-    }
-  }, [tiers, selectedTier])
-
-  const { mutateAsync: createN8nProject, isPending: isCreatingProject } = api.v1.postN8nProjects.useMutation()
-  const isPending = isCreatingProject
+  const [selectedLocation, setSelectedLocation] = useState<string>(initialSelectedLocation!)
+  const [selectedTier, setSelectedTier] = useState<string>(initialSelectedTier!);
+  const [projectName, setProjectName] = useState<string>(initialProjectName!);
+  const { mutateAsync: createN8nProject, isPending } = api.v1.postN8nProjects.useMutation()
 
   const handleCreate = async () => {
     if (!projectName || !selectedLocation || !selectedTier) return
@@ -321,7 +381,7 @@ function AuthenticatedN8nFlow() {
           projectId: result.projectId,
           timestamp: Date.now()
         }))
-        navigate({ to: '/projects' })
+        throw navigate({ to: "/projects" })
       }
     } catch (err) {
       console.error('Failed to create n8n project:', err)
@@ -341,7 +401,7 @@ function AuthenticatedN8nFlow() {
 
         <div className="relative z-10 flex flex-col min-h-screen">
           <Navbar />
-          <div className="flex-1">
+          <div className="flex-1 mb-72">
             <div className="container mx-auto px-4 py-8">
               {/* Hero Section with Welcome */}
               <section className="min-h-[80vh] flex items-center justify-center">
@@ -349,7 +409,7 @@ function AuthenticatedN8nFlow() {
                   <Badge className="mb-4 bg-red-600 text-white hover:bg-red-700">
                     🎉 Black Friday Special - 37% OFF
                   </Badge>
-                  <h1 className="bg-gradient-to-br from-foreground from-30% via-foreground/90 to-foreground/70 bg-clip-text text-5xl font-bold tracking-tight text-transparent sm:text-6xl md:text-7xl">
+                  <h1 className="pb-2 bg-gradient-to-br from-foreground from-30% via-foreground/90 to-foreground/70 bg-clip-text text-5xl font-bold tracking-tight text-transparent sm:text-6xl md:text-7xl">
                     Hello {user?.name}!
                   </h1>
                   <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto">
@@ -407,56 +467,6 @@ function AuthenticatedN8nFlow() {
                     Deploy instantly • T1 Server • Fully managed • Cancel anytime
                   </p>
 
-                  {/* Feature Highlights Grid */}
-                  <div className="grid md:grid-cols-3 gap-8 pt-12 max-w-5xl mx-auto">
-                    <TiltCard>
-                      <Card className="border-zinc-800 bg-zinc-900/50 backdrop-blur-sm h-full">
-                        <CardHeader>
-                          <div className="w-12 h-12 rounded-lg bg-blue-500/10 flex items-center justify-center mb-4">
-                            <Zap className="h-6 w-6 text-blue-400" />
-                          </div>
-                          <CardTitle>Instant Setup</CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                          <p className="text-muted-foreground text-sm">
-                            Your instance will be live in under 60 seconds with automated configuration.
-                          </p>
-                        </CardContent>
-                      </Card>
-                    </TiltCard>
-
-                    <TiltCard>
-                      <Card className="border-zinc-800 bg-zinc-900/50 backdrop-blur-sm h-full">
-                        <CardHeader>
-                          <div className="w-12 h-12 rounded-lg bg-green-500/10 flex items-center justify-center mb-4">
-                            <Shield className="h-6 w-6 text-green-400" />
-                          </div>
-                          <CardTitle>Independent Hosting</CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                          <p className="text-muted-foreground text-sm">
-                            Complete independence and control over your automation workflows.
-                          </p>
-                        </CardContent>
-                      </Card>
-                    </TiltCard>
-
-                    <TiltCard>
-                      <Card className="border-zinc-800 bg-zinc-900/50 backdrop-blur-sm h-full">
-                        <CardHeader>
-                          <div className="w-12 h-12 rounded-lg bg-purple-500/10 flex items-center justify-center mb-4">
-                            <Globe className="h-6 w-6 text-purple-400" />
-                          </div>
-                          <CardTitle>Custom Domains</CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                          <p className="text-muted-foreground text-sm">
-                            Add your own domain after deployment with full SSL support.
-                          </p>
-                        </CardContent>
-                      </Card>
-                    </TiltCard>
-                  </div>
                 </div>
               </section>
             </div>

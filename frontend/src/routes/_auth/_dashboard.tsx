@@ -20,16 +20,23 @@ function RouteComponent() {
 
   const hasPaymentMethod = (paymentMethodsData?.paymentMethods?.length ?? 0) > 0 && !isLoading
 
+  const search = React.useMemo(() => {
+    return new URLSearchParams(location.search)
+  }, [])
+
   React.useEffect(() => {
     const introCompleted = localStorage.getItem('introFlowCompleted')
-    
+
     if (!introCompleted && !hasPaymentMethod) {
       navigate({
         to: '/intro-flow',
+        search: {
+          redirect: location.pathname !== '/intro-flow' ? location.pathname + location.search : undefined,
+        }
       })
       return
     }
-  }, [navigate, paymentMethodsData])
+  }, [navigate, hasPaymentMethod])
 
   return (
     <>

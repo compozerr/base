@@ -12,6 +12,9 @@ export const Route = createFileRoute('/_auth/_dashboard/intro-flow')({
 function RouteComponent() {
     const navigate = useNavigate()
     const { data: paymentMethodsData, isLoading } = api.v1.getStripePaymentMethodsUser.useQuery();
+    const search = React.useMemo(() => {
+        return new URLSearchParams(location.search)
+    }, [])
 
     // If user already has payment methods, redirect to settings
     React.useEffect(() => {
@@ -32,6 +35,14 @@ function RouteComponent() {
 
     const handleSkip = () => {
         localStorage.setItem('introFlowCompleted', 'true')
+        const redirect = search.get('redirect')
+        if (redirect) {
+            navigate({
+                to: redirect,
+            })
+            return
+        }
+        
         navigate({
             to: '/projects',
         })
