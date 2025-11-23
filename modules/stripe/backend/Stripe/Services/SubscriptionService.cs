@@ -160,7 +160,7 @@ public sealed class SubscriptionsService(
 
                 // Use send_invoice collection method to allow subscription creation without payment method
                 CollectionMethod = "send_invoice",
-                DaysUntilDue = 30 // Customer has 30 days to add payment method and pay
+                DaysUntilDue = 7 // Customer has 7 days to add payment method and pay
             };
 
             // Apply coupon code if provided
