@@ -20,9 +20,10 @@ public sealed class AllocateDomains_ProjectServiceUpsertedEventHandler(
 
         project.Domains ??= [];
         var existingDomain = project.Domains.FirstOrDefault(d => d.ServiceName == domainEvent.Entity.Name && d.Port == domainEvent.Entity.Port);
-        if (existingDomain == null)
+        var newDomain = BuildCustomInternalDomain(project, domainEvent.Entity);
+
+        if (existingDomain == null || !existingDomain.GetValue.Contains(newDomain.Subdomain))
         {
-            var newDomain = BuildCustomInternalDomain(project, domainEvent.Entity);
             newDomain.QueueDomainEvent<DomainChangeEvent>();
             project.Domains.Add(newDomain);
             await projectRepository.UpdateAsync(project, cancellationToken);
