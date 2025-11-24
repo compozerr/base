@@ -34,18 +34,34 @@ export const Route = createFileRoute(
   loader: async ({ params: { projectId } }) => {
     await Promise.all([
       api.v1.getProjectsProjectIdDomains.prefetchQuery({ parameters: { path: { projectId } } }),
-      api.v1.getProjectsProjectIdServices.prefetchQuery({ parameters: { path: { projectId } } })
+      api.v1.getProjectsProjectIdServices.prefetchQuery({ parameters: { path: { projectId } } }),
+      api.v1.getProjectsProjectId.prefetchQuery({ parameters: { path: { projectId } } }),
     ]);
   }
 })
 
 function DomainsSettingsTab() {
   const { projectId } = Route.useParams();
-  const { data } = api.v1.getProjectsProjectIdDomains.useQuery({
+
+  const { data: projectData } = api.v1.getProjectsProjectId.useQuery({ path: { projectId } });
+
+  const { data: getProjectDomainsData } = api.v1.getProjectsProjectIdDomains.useQuery({
     path: {
       projectId
     }
   });
+
+  const data = useMemo(() => {
+    //TODO: N8N SPECIAL RULE, that needs to be handled in the backend at a later point!!
+    if (projectData?.type === "N8n") {
+      return {
+        ...getProjectDomainsData,
+        domains: [...(getProjectDomainsData?.domains?.filter(x => x.serviceName?.toLowerCase() !== "backend") ?? [])]
+      };
+    }
+
+    return getProjectDomainsData;
+  }, [getProjectDomainsData, projectData]);
 
   const { data: servicesData } = api.v1.getProjectsProjectIdServices.useQuery({
     path: {
@@ -305,7 +321,7 @@ function DomainsSettingsTab() {
             selectedDomainId={selectedDomainId}
             onClose={() => { invalidate(); setSelectedDomainId(null); }}
             projectId={projectId}
-            domains={data?.domains} />
+            domains={data?.domains ?? []} />
 
           <AreYouSureDialog
             title='Are you sure you want to delete domain'
