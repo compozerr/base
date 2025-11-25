@@ -320,9 +320,9 @@ function UnauthenticatedN8nFlow() {
 
 // Authenticated project creation UI
 function AuthenticatedN8nFlow() {
-  const { toast } = useToast();
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { setN8nIntentValue } = useN8nIntentEphemeralStorage();
 
   const { data: locationsData } = api.v1.getCliLocations.useQuery()
   const { data: tiersData } = api.v1.getServersTiers.useQuery()
@@ -387,11 +387,12 @@ function AuthenticatedN8nFlow() {
 
       if (result.projectId) {
         await api.v1.getProjects.invalidateQueries({})
-        sessionStorage.setItem('n8nIntent', JSON.stringify({
+
+        setN8nIntentValue({
           action: 'created',
           projectId: result.projectId,
           timestamp: Date.now()
-        }))
+        })
         navigate({ to: "/projects/$projectId", params: { projectId: result.projectId } });
         return;
       }
