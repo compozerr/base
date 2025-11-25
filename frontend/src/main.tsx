@@ -7,11 +7,13 @@ import { QueryClientProvider } from '@tanstack/react-query';
 import { queryClient } from './api-client';
 import { Toaster } from './components/ui/toaster';
 import { ModalProvider } from './hooks/use-modal';
+import { LoadingAnimation } from './components/loading-animation';
 
 const router = createRouter({
   routeTree,
   defaultPreload: 'intent',
   scrollRestoration: false,
+  defaultPendingComponent: LoadingAnimation,
   context: {
     auth: undefined!
   }

@@ -13,6 +13,12 @@ import { LocalStorage } from '@/lib/storage'
 
 export const Route = createFileRoute('/_auth/_dashboard')({
   component: RouteComponent,
+  loader: async () => {
+    return await api.v1.getStripePaymentMethodsUser.prefetchQuery({
+      parameters: undefined,
+      staleTime: 5 * 60 * 1000, // 5 minutes
+    });
+  }
 })
 
 function RouteComponent() {
