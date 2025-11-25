@@ -7,6 +7,8 @@ import {
 } from '@tanstack/react-router'
 import { cn } from '@/lib/utils'
 import { api } from '@/api-client'
+import { Button } from '@/components/ui/button'
+import { ExternalLink } from 'lucide-react'
 
 export const Route = createFileRoute('/_auth/_dashboard/projects/$projectId')({
   component: RouteComponent,
@@ -40,7 +42,7 @@ function RouteComponent() {
 
   return (
     <div className="flex flex-col min-h-screen w-full">
-      <div className="border-b">
+      <div className="border-b flex flex-row items-center justify-between">
         <div className="flex h-16 items-center">
           <h1 className="text-lg font-semibold mr-8">{project!.name}</h1>
           <nav className="flex items-center space-x-4 lg:space-x-6">
@@ -59,6 +61,16 @@ function RouteComponent() {
               </Link>
             ))}
           </nav>
+        </div>
+        <div className="">
+          {project?.primaryDomain && (
+            <Button variant="default" className="gap-2" asChild>
+              <a href={"https://" + project?.primaryDomain} target="_blank" rel="noopener noreferrer">
+                <ExternalLink className="h-4 w-4" />
+                Visit
+              </a>
+            </Button>
+          )}
         </div>
       </div>
       <div className="py-6">

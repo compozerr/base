@@ -141,14 +141,6 @@ function RouteComponent() {
                     <LoadingButton isLoading={isRedeploying} onClick={handleRedeployAsync} variant="outline">
                         Redeploy
                     </LoadingButton>
-                    {deployment.url &&
-                        <Button variant="default" className="gap-2" asChild>
-                            <a href={"https://" + deployment.url} target="_blank" rel="noopener noreferrer">
-                                <ExternalLink className="h-4 w-4" />
-                                Visit
-                            </a>
-                        </Button>
-                    }
                 </div>
             </div>
 
