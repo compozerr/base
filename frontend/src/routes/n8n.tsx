@@ -155,7 +155,7 @@ function UnauthenticatedN8nFlow() {
                     Get Started
                   </Button>
                   <p className="text-sm text-muted-foreground pb-10">
-                    No credit card required • Setup in minutes • Cancel anytime
+                    No credit card required • Setup in seconds • Cancel anytime
                   </p>
                 </div>
               </section>

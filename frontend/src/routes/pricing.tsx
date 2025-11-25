@@ -1,17 +1,16 @@
-import { createFileRoute } from '@tanstack/react-router'
-import { useState } from 'react'
-import Navbar from '@/components/navbar'
-import Footer from '@/components/footer'
-import FAQSection from '@/components/faq-section'
 import { api } from '@/api-client'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
+import FAQSection from '@/components/faq-section'
+import Footer from '@/components/footer'
+import Navbar from '@/components/navbar'
 import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Slider } from '@/components/ui/slider'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import { Check, Cpu, HardDrive, MemoryStick, Workflow, Plus, Zap, ArrowRight, X } from 'lucide-react'
-import { Price } from '@/lib/price'
 import { getLink } from '@/links'
+import { createFileRoute } from '@tanstack/react-router'
+import { Check, Cpu, HardDrive, MemoryStick, Plus, Workflow } from 'lucide-react'
+import { useState } from 'react'
 
 export const Route = createFileRoute('/pricing')({
   component: Pricing,
@@ -309,7 +308,7 @@ function Pricing() {
                       </Button>
                     </div>
                     <p className="text-xs text-muted-foreground">
-                      No credit card required to start • Setup in minutes • Cancel anytime
+                      No credit card required to start • Setup in seconds • Cancel anytime
                     </p>
                   </CardContent>
                 </Card>
