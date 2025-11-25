@@ -1,4 +1,4 @@
-import { useEphemeralStorage } from "./use-storage.hook";
+import { onEphemeralValue, useEphemeralStorage } from "./use-ephemeral-storage.hook";
 
 type N8nIntentEphemeralStorageType = {
 	action: "created",
@@ -10,11 +10,16 @@ type N8nIntentEphemeralStorageType = {
 	action: "create"
 };
 
+const n8nIntentKey = 'n8nIntent-ephemeral';
+
 export function useN8nIntentEphemeralStorage() {
-	const key = 'n8nIntent-ephemeral';
-	const hook = useEphemeralStorage<N8nIntentEphemeralStorageType>(key);
+	const hook = useEphemeralStorage<N8nIntentEphemeralStorageType>(n8nIntentKey);
 	return {
 		setN8nIntentValue: hook.setValue,
 		collectN8nIntent: hook.collect
 	}
+}
+
+export function onN8nIntent(callback: (value: N8nIntentEphemeralStorageType) => void | Promise<void>) {
+	return onEphemeralValue<N8nIntentEphemeralStorageType>(n8nIntentKey, callback);
 }

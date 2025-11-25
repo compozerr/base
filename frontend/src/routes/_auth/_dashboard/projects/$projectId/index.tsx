@@ -9,6 +9,8 @@ import StartStopProjectButton from '@/components/project/project-startstop-butto
 import { api } from '@/api-client'
 import { useMemo } from 'react'
 import { Skeleton } from '@/components/ui/skeleton'
+import { onN8nIntent } from '@/hooks/use-n8n-intent-ephemeral-storage.hook'
+import { useModal } from '@/hooks/use-modal'
 
 export const Route = createFileRoute('/_auth/_dashboard/projects/$projectId/')({
     component: RouteComponent,
@@ -19,6 +21,8 @@ function RouteComponent() {
     const { data: project } = api.v1.getProjectsProjectId.useQuery({ path: { projectId } }, {
         refetchInterval: (project) => project.state.data?.state === ProjectState.Starting ? 2000 : false,
     })
+
+    const modal = useModal();
 
     const getStateColor = (state: ProjectState) => {
         switch (state) {
@@ -40,6 +44,23 @@ function RouteComponent() {
             </div>
         )
     }
+
+    onN8nIntent(async (intent) => {
+        if (intent.action == "created" && intent.projectId === project.id && project.primaryDomain) {
+            const result = await modal.confirm(
+                "Congratulations! 🎉",
+                "Your n8n project has been created! Do you want to go to the instance?",
+                {
+                    confirmText: "Yes, take me there now",
+                    cancelText: "No"
+                }
+            );
+            
+            if (result) {
+                window.open(`https://${project.primaryDomain}`, '_blank');
+            }
+        }
+    });
 
     const { data: tiers } = api.v1.getServersTiers.useQuery();
 
