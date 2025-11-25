@@ -52,17 +52,3 @@ export function useSessionStorage<T>(key: string, initialValue: T) {
 	};
 	return [storedValue, setValue] as const;
 }
-
-export function useEphemeralStorage<T>(key: string) {
-	const setValue = (value: T): void => {
-		SessionStorage.setItem(key, value);
-	};
-
-	const collect = (): T | null => {
-		const value = SessionStorage.getItem<T>(key);
-		SessionStorage.removeItem(key);
-		return value;
-	};
-
-	return { setValue, collect };
-}
