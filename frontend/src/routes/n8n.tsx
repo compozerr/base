@@ -9,23 +9,22 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useAuth } from '@/hooks/use-dynamic-auth'
+import { useN8nIntentEphemeralStorage } from '@/hooks/use-n8n-intent-ephemeral-storage.hook'
+import { useEphemeralStorage } from '@/hooks/use-storage.hook'
 import { useToast } from '@/hooks/use-toast'
 import { createFileRoute, redirect, useNavigate } from '@tanstack/react-router'
 import { motion, useMotionValue, useSpring } from 'framer-motion'
 import { Check, DollarSign, Rocket, Shield, Zap } from 'lucide-react'
 import { useEffect, useMemo, useRef, useState } from 'react'
 
-const CREATE_N8N_PARAM = 'create-default-n8n-instance';
 
 export const Route = createFileRoute('/n8n')({
   component: N8nLandingPage,
   async beforeLoad(ctx) {
-    const search = new URLSearchParams(ctx.location.searchStr)
-    const shouldAutoCreate = search.get(CREATE_N8N_PARAM) === "true"
+    const { collectN8nIntent, setN8nIntentValue } = useN8nIntentEphemeralStorage();
 
-    if (!shouldAutoCreate) {
-      return;
-    };
+    const shouldAutoCreate = collectN8nIntent()?.action === "create"
+    if (!shouldAutoCreate) return;
 
     const { data: projectsData } = await api.v1.getProjects()
     const { data: locationsDataForAutoCreate } = await api.v1.getCliLocations()
@@ -63,11 +62,11 @@ export const Route = createFileRoute('/n8n')({
 
       if (result.data?.projectId) {
         await api.v1.getProjects.invalidateQueries({})
-        sessionStorage.setItem('n8nIntent', JSON.stringify({
+        setN8nIntentValue({
           action: 'created',
           projectId: result.data.projectId,
           timestamp: Date.now()
-        }))
+        })
 
         throw redirect({
           to: "/projects/$projectId",
@@ -100,15 +99,11 @@ function N8nLandingPage() {
 // Unauthenticated marketing landing page
 function UnauthenticatedN8nFlow() {
   const navigate = useNavigate()
+  const { setN8nIntentValue } = useN8nIntentEphemeralStorage();
 
   const handleGetStarted = () => {
-    sessionStorage.setItem('n8nIntent', 'create')
-
-    const search = new URLSearchParams(location.search)
-    search.set(CREATE_N8N_PARAM, "true")
-    const redirectUrl = location.origin + location.pathname + '?' + search.toString();
-
-    navigate({ to: '/login', search: { redirect: redirectUrl } })
+    setN8nIntentValue({ action: 'create' })
+    navigate({ to: '/login', search: { redirect: location.href } })
   }
 
   return (
@@ -398,7 +393,8 @@ function AuthenticatedN8nFlow() {
           projectId: result.projectId,
           timestamp: Date.now()
         }))
-        throw navigate({ to: "/projects" })
+        navigate({ to: "/projects/$projectId", params: { projectId: result.projectId } });
+        return;
       }
     } catch (err) {
       console.error('Failed to create n8n project:', err)
