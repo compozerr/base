@@ -189,10 +189,9 @@ export const PaymentMethods: React.FC<PaymentMethodsProps> = ({ openAddPaymentMe
                         </DialogHeader>
                         <div className="py-4">
                             {clientSecret ? (
-                                <StripeProvider>
+                                <StripeProvider clientSecret={clientSecret}>
                                     <StripeElementsForm
                                         shouldReplace={shouldReplace}
-                                        clientSecret={clientSecret}
                                         onSuccess={handleCardAdded}
                                         onError={(errorMessage) => {
                                             toast({
