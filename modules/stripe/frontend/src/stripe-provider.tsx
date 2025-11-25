@@ -21,48 +21,7 @@ export const StripeProvider: React.FC<StripeProviderProps> = ({ children, client
         clientSecret,
         appearance: {
           theme: 'night',
-          variables: {
-            colorPrimary: '#3b82f6',
-            colorBackground: '#09090b',
-            colorText: '#ffffff',
-            colorDanger: '#ef4444',
-            fontFamily: 'system-ui, -apple-system, sans-serif',
-            spacingUnit: '4px',
-            borderRadius: '8px',
-          },
-          rules: {
-            '.Tab': {
-              border: '1px solid #27272a',
-              backgroundColor: '#18181b',
-              boxShadow: 'none',
-            },
-            '.Tab:hover': {
-              backgroundColor: '#27272a',
-              borderColor: '#3f3f46',
-            },
-            '.Tab--selected': {
-              color: '#ffffff',
-              backgroundColor: '#18181b',
-              borderColor: '#3b82f6',
-              boxShadow: '0 0 0 1px #3b82f6',
-            },
-            '.Input': {
-              backgroundColor: '#18181b',
-              border: '1px solid #27272a',
-              color: '#ffffff',
-            },
-            '.Input:focus': {
-              borderColor: '#3b82f6',
-              boxShadow: '0 0 0 1px #3b82f6',
-            },
-            '.Label': {
-              color: '#a1a1aa',
-              fontWeight: '500',
-            },
-            '.p-TabIcon--selected':{
-              fill: '#ffffff',
-            }
-          },
+         
         },
       }}
     >
