@@ -21,7 +21,10 @@ export const StripeProvider: React.FC<StripeProviderProps> = ({ children, client
         clientSecret,
         appearance: {
           theme: 'night',
-         
+          variables: {
+            colorPrimary: '#eeeeee',
+            focusBoxShadow: '0 0 0 1px #eeeeee',
+          }
         },
       }}
     >
