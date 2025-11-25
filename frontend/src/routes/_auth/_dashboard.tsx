@@ -9,6 +9,7 @@ import { AppSidebar } from '@/components/app-sidebar'
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 import StripeAddPaymentMethodBanner from '@repo/stripe/stripe-add-payment-method-banner'
 import { api } from '@/api-client'
+import { LocalStorage } from '@/lib/storage'
 
 export const Route = createFileRoute('/_auth/_dashboard')({
   component: RouteComponent,
@@ -20,12 +21,8 @@ function RouteComponent() {
 
   const hasPaymentMethod = (paymentMethodsData?.paymentMethods?.length ?? 0) > 0 && !isLoading
 
-  const search = React.useMemo(() => {
-    return new URLSearchParams(location.search)
-  }, [])
-
   React.useEffect(() => {
-    const introCompleted = localStorage.getItem('introFlowCompleted')
+    const introCompleted = LocalStorage.getItem('introFlowCompleted')
 
     if (!introCompleted && !hasPaymentMethod) {
       navigate({
