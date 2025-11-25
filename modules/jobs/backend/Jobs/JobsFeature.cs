@@ -20,7 +20,12 @@ public class JobsFeature : IFeature
             .UsePostgreSqlStorage(options =>
                 options.UseNpgsqlConnection(con.GetConnectionString("DefaultConnection"))));
 
-        services.AddHangfireServer();
+        services.AddHangfireServer(options =>
+        {
+            options.WorkerCount = 5;
+            options.ServerTimeout = TimeSpan.FromMinutes(4);
+            options.ShutdownTimeout = TimeSpan.FromSeconds(20);
+        });
     }
 
     void IFeature.ConfigureApp(WebApplication app)
