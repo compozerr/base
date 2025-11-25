@@ -45,6 +45,22 @@ function RouteComponent() {
         )
     }
 
+    const { data: getProjectDomainsData } = api.v1.getProjectsProjectIdDomains.useQuery({
+        path: {
+            projectId
+        }
+    });
+
+    const domains = useMemo(() => {
+        let returningDomains = getProjectDomainsData?.domains ?? [];
+        //TODO: N8N SPECIAL RULE, that needs to be handled in the backend at a later point!!
+        if (project?.type === "N8n") {
+            returningDomains = [...(returningDomains.filter(x => x.serviceName?.toLowerCase() !== "backend"))]
+        }
+
+        return returningDomains.map(d => d.value);
+    }, [getProjectDomainsData, project]);
+
     onN8nIntent(async (intent) => {
         if (intent.action == "created" && intent.projectId === project.id && project.primaryDomain) {
             const result = await modal.confirm(
@@ -55,7 +71,7 @@ function RouteComponent() {
                     cancelText: "No"
                 }
             );
-            
+
             if (result) {
                 window.open(`https://${project.primaryDomain}`, '_blank');
             }
@@ -166,8 +182,8 @@ function RouteComponent() {
                             <h2 className="text-xl font-semibold">Domains</h2>
                             <div className="space-y-4 mt-4 relative max-h-[220px]">
                                 <div className="overflow-y-auto max-h-[220px] min-h-[100px] pr-1">
-                                    {project.domains && project.domains?.length > 0 ? (
-                                        project.domains.sort((d) => d === project.primaryDomain ? -1 : 1).map((d) => (
+                                    {domains && domains?.length > 0 ? (
+                                        domains.sort((d) => d === project.primaryDomain ? -1 : 1).map((d) => (
                                             <div key={d} className="flex items-center justify-between mb-4">
                                                 <div>
                                                     <p className="text-sm font-medium">{d}</p>
