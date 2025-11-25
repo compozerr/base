@@ -1,46 +1,47 @@
 import {
   createFileRoute,
   Outlet,
-  useNavigate
+  redirect
 } from '@tanstack/react-router'
-import * as React from 'react'
 
 import { AppSidebar } from '@/components/app-sidebar'
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 import StripeAddPaymentMethodBanner from '@repo/stripe/stripe-add-payment-method-banner'
 import { api } from '@/api-client'
 import { LocalStorage } from '@/lib/storage'
+import { tryCatchify } from '@/lib/try-catchifier'
 
 export const Route = createFileRoute('/_auth/_dashboard')({
   component: RouteComponent,
-  loader: async () => {
-    return await api.v1.getStripePaymentMethodsUser.prefetchQuery({
+  beforeLoad: async ({ location }) => {
+    if (location.pathname === '/intro-flow') return;
+
+    const introCompleted = LocalStorage.getItem('introFlowCompleted')
+
+    const { data, error } = await tryCatchify(() => api.v1.getStripePaymentMethodsUser.fetchQuery({
       parameters: undefined,
       staleTime: 5 * 60 * 1000, // 5 minutes
-    });
+    }));
+
+    if (error) {
+      console.error('Error fetching payment methods:', error);
+      return;
+    }
+
+    const hasPaymentMethod = (data.paymentMethods?.length ?? 0) > 0
+
+    if (!introCompleted && !hasPaymentMethod) {
+      throw redirect({
+        to: '/intro-flow',
+        search: {
+          redirect: location.pathname
+        }
+      })
+    }
   }
 })
 
 function RouteComponent() {
-  const navigate = useNavigate()
-  const { data: paymentMethodsData, isLoading } = api.v1.getStripePaymentMethodsUser.useQuery();
-
-  const hasPaymentMethod = (paymentMethodsData?.paymentMethods?.length ?? 0) > 0 && !isLoading
-
-  React.useEffect(() => {
-    const introCompleted = LocalStorage.getItem('introFlowCompleted')
-
-    if (!introCompleted && !hasPaymentMethod) {
-      navigate({
-        to: '/intro-flow',
-        search: {
-          redirect: location.pathname !== '/intro-flow' ? location.pathname + location.search : undefined,
-        }
-      })
-      return
-    }
-  }, [navigate, hasPaymentMethod])
-
   return (
     <>
       <div className="min-h-screen bg-black text-white">
