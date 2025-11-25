@@ -11,7 +11,6 @@ import { useMemo } from 'react'
 import { Skeleton } from '@/components/ui/skeleton'
 import { onN8nIntent } from '@/hooks/use-n8n-intent-ephemeral-storage.hook'
 import { useModal } from '@/hooks/use-modal'
-import { Button } from '@/components/ui/button'
 
 export const Route = createFileRoute('/_auth/_dashboard/projects/$projectId/')({
     component: RouteComponent,
@@ -107,12 +106,6 @@ function RouteComponent() {
                         >
                             {project.primaryDomain}
                         </a>
-                        <Button variant="default" className="gap-2" asChild>
-                            <a href={"https://" + project.primaryDomain} target="_blank" rel="noopener noreferrer">
-                                <ExternalLink className="h-4 w-4" />
-                                Visit
-                            </a>
-                        </Button>
                     </div>
                 ) : null}
             </div>
