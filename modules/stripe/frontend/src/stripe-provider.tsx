@@ -41,6 +41,7 @@ export const StripeProvider: React.FC<StripeProviderProps> = ({ children, client
               borderColor: '#3f3f46',
             },
             '.Tab--selected': {
+              color: '#ffffff',
               backgroundColor: '#18181b',
               borderColor: '#3b82f6',
               boxShadow: '0 0 0 1px #3b82f6',
@@ -58,6 +59,9 @@ export const StripeProvider: React.FC<StripeProviderProps> = ({ children, client
               color: '#a1a1aa',
               fontWeight: '500',
             },
+            '.p-TabIcon--selected':{
+              fill: '#ffffff',
+            }
           },
         },
       }}
