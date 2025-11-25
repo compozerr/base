@@ -54,8 +54,14 @@ const config: Config = {
     //   appId: 'YOUR_APP_ID',
     //   contextualSearch: true,
     // },
+    colorMode: {
+      disableSwitch: true,
+      defaultMode: "dark",
+      respectPrefersColorScheme: false,
+    },
     navbar: {
-      title: 'compozerr'
+      title: 'compozerr',
+      style: "dark",
     },
     footer: {
       style: 'dark',
