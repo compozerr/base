@@ -16,13 +16,15 @@ export function useEphemeralStorage<T>(key: string) {
 }
 
 export function onEphemeralValue<T>(key: string, callback: (value: T) => void | Promise<void>) {
-	const { collect } = useEphemeralStorage<T>(key);
+	const { collect, setValue } = useEphemeralStorage<T>(key);
 
 	useEffect(() => {
 		const execute = async () => {
 			const value = collect();
 			if (value) {
+				setValue(value); // Put it back if it doesn't get processed
 				await callback(value);
+				collect(); // Collect after all listeners have processed it
 			}
 		};
 		execute();
