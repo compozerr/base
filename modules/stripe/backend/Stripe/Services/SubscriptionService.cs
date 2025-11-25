@@ -186,8 +186,9 @@ public sealed class SubscriptionsService(
             }
             else
             {
-                options.CollectionMethod = "send_invoice";
-                options.DaysUntilDue = 7; // Customer has 7 days to add payment method and pay
+                options.TrialPeriodDays = 0; // No trial, but allows adding payment method
+                options.CollectionMethod = "charge_automatically";
+                options.PaymentBehavior = "default_incomplete";
             }
 
             // Apply coupon code if provided
