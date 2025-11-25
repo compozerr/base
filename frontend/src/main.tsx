@@ -11,6 +11,7 @@ import { ModalProvider } from './hooks/use-modal';
 const router = createRouter({
   routeTree,
   defaultPreload: 'intent',
+  scrollRestoration: false,
   context: {
     auth: undefined!
   }
