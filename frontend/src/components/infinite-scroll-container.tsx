@@ -6,12 +6,12 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
     onBottomReached?: () => void;
 }
 
-const InfiniteScrollContainer: React.FC<Props> = (props) => {
+const InfiniteScrollContainer: React.FC<Props> = ({ onBottomReached, children, ...divProps }) => {
     const { ref, inView } = useInView({
         rootMargin: "50px",
         onChange(isInView) {
             if (isInView) {
-                props.onBottomReached?.();
+                onBottomReached?.();
             }
         }
     });
@@ -19,14 +19,14 @@ const InfiniteScrollContainer: React.FC<Props> = (props) => {
     useEffect(() => {
         if (inView) {
             requestAnimationFrame(() => {
-                props.onBottomReached?.();
+                onBottomReached?.();
             });
         }
-    }, [inView]); 
+    }, [inView, onBottomReached]);
 
     return (
-        <div {...props}>
-            {props.children}
+        <div {...divProps}>
+            {children}
             <div ref={ref} />
         </div>
     );
