@@ -1,12 +1,15 @@
 using Core.Abstractions;
 using Microsoft.Extensions.Options;
+using Stripe.Data.Models;
 using Stripe.Events;
 using Stripe.Options;
+using Stripe.Services;
 
 namespace Api.EventHandlers.Stripe;
 
 public class StripeCustomerPaymentMethodAddedEventHandler(
-    IOptions<StripeOptions> stripeOptions) : IEventHandler<StripeCustomerPaymentMethodAddedEvent>
+    IOptions<StripeOptions> stripeOptions,
+    IPaymentFailureSagaOrchestrator paymentFailureSagaOrchestrator) : IEventHandler<StripeCustomerPaymentMethodAddedEvent>
 {
     private readonly Serilog.ILogger _logger = Serilog.Log.Logger.ForContext<StripeCustomerPaymentMethodAddedEventHandler>();
     private readonly global::Stripe.StripeClient _stripeClient = new global::Stripe.StripeClient(stripeOptions.Value.ApiKey);
@@ -50,6 +53,10 @@ public class StripeCustomerPaymentMethodAddedEventHandler(
                         invoice.Id, invoice.AmountDue / 100m, invoice.Currency);
 
                     var paidInvoice = await invoiceService.PayAsync(invoice.Id, cancellationToken: cancellationToken);
+
+                    await paymentFailureSagaOrchestrator.CancelSagaAsync(invoice.Lines.FirstOrDefault()?.SubscriptionId ?? string.Empty,
+                        PaymentFailureSagaCancellationReason.PaymentSucceeded,
+                        cancellationToken);
 
                     _logger.Information("Successfully paid invoice: {InvoiceId}, Status: {Status}",
                         paidInvoice.Id, paidInvoice.Status);

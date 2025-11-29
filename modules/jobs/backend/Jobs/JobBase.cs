@@ -27,9 +27,14 @@ public abstract class JobBase<T> where T : JobBase<T>
             when.Value);
     }
 
-    public static void Enqueue()
+    public static string Enqueue()
     {
-        BackgroundJob.Enqueue<T>(job => job.ExecuteAsync());
+        return BackgroundJob.Enqueue<T>(job => job.ExecuteAsync());
+    }
+
+    public static string Schedule(TimeSpan delay)
+    {
+        return BackgroundJob.Schedule<T>(job => job.ExecuteAsync(), delay);
     }
 }
 
@@ -81,8 +86,13 @@ public abstract class JobBase<T, TArg> where T : JobBase<T, TArg>
             when.Value);
     }
 
-    public static void Enqueue(TArg arg)
+    public static string Enqueue(TArg arg)
     {
-        BackgroundJob.Enqueue<T>(job => job.ExecuteWithLockAsync(arg));
+        return BackgroundJob.Enqueue<T>(job => job.ExecuteWithLockAsync(arg));
+    }
+
+    public static string Schedule(TArg arg, TimeSpan delay)
+    {
+        return BackgroundJob.Schedule<T>(job => job.ExecuteWithLockAsync(arg), delay);
     }
 }
