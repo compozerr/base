@@ -16,6 +16,12 @@ namespace Api.Data.Migrations
                 schema: "api",
                 table: "VMPoolItems");
 
+            // Delete orphaned VMPoolItems (items without a valid VMPoolId)
+            migrationBuilder.Sql(
+                @"DELETE FROM api.""VMPoolItems""
+                  WHERE ""VMPoolId"" IS NULL
+                     OR ""VMPoolId"" NOT IN (SELECT ""Id"" FROM api.""VMPools"")");
+
             migrationBuilder.AlterColumn<Guid>(
                 name: "VMPoolId",
                 schema: "api",
