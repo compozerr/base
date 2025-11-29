@@ -19,7 +19,7 @@ public interface IPaymentFailureSagaOrchestrator
 public class PaymentFailureSagaOrchestrator(
     IPaymentFailureSagaRepository repository,
     ILogger<PaymentFailureSagaOrchestrator> logger) : IPaymentFailureSagaOrchestrator
-{
+{ 
     public async Task<PaymentFailureSaga?> StartSagaAsync(
         StripeInvoicePaymentFailedEvent @event,
         CancellationToken cancellationToken = default)
@@ -54,9 +54,9 @@ public class PaymentFailureSagaOrchestrator(
 
         // Schedule Hangfire delayed jobs
         PaymentFailedJob.Enqueue(new(saga.Id, AttemptNumber: 0));
-        saga.FirstWarningJobId = PaymentFailedJob.Schedule(new(saga.Id, AttemptNumber: 1), TimeSpan.FromHours(24));
-        saga.SecondWarningJobId = PaymentFailedJob.Schedule(new(saga.Id, AttemptNumber: 2), TimeSpan.FromHours(96));
-        saga.TerminationJobId = PaymentFailedJob.Schedule(new(saga.Id, AttemptNumber: 3), TimeSpan.FromHours(120));
+        saga.FirstWarningJobId = PaymentFailedJob.Schedule(new(saga.Id, AttemptNumber: 1), TimeSpan.FromDays(1));
+        saga.SecondWarningJobId = PaymentFailedJob.Schedule(new(saga.Id, AttemptNumber: 2), TimeSpan.FromDays(3));
+        saga.TerminationJobId = PaymentFailedJob.Schedule(new(saga.Id, AttemptNumber: 3), TimeSpan.FromDays(5));
 
         await repository.AddAsync(saga, cancellationToken);
 
