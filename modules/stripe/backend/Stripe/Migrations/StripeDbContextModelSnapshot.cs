@@ -23,6 +23,121 @@ namespace Stripe.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("Stripe.Data.Models.PaymentFailureSaga", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal>("AmountDue")
+                        .HasColumnType("numeric");
+
+                    b.Property<int?>("CancellationReason")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("CancelledAtUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("CompletedAtUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("CreatedAtUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Currency")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("CustomerId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("DeletedAtUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("FirstWarningJobId")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("FirstWarningSentAtUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("InvoiceId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("PaymentLink")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("SecondWarningJobId")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("SecondWarningSentAtUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("StartedAtUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("SubscriptionId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("TerminationExecutedAtUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("TerminationJobId")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("UpdatedAtUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SubscriptionId");
+
+                    b.HasIndex("SubscriptionId", "Status");
+
+                    b.ToTable("PaymentFailureSagas", "stripe");
+                });
+
+            modelBuilder.Entity("Stripe.Data.Models.PaymentFailureSagaAuditLog", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("AdditionalData")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedAtUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("DeletedAtUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("Event")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("EventTimestampUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("JobId")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("SagaId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("UpdatedAtUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SagaId");
+
+                    b.ToTable("PaymentFailureSagaAuditLogs", "stripe");
+                });
+
             modelBuilder.Entity("Stripe.Data.Models.StripeCustomer", b =>
                 {
                     b.Property<Guid>("Id")
