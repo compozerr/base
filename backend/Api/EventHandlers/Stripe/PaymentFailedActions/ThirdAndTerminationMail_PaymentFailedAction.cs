@@ -30,7 +30,7 @@ public sealed class ThirdAndTerminationMail_PaymentFailedAction(
                 new Emails.ProjectHasBeenTerminatedTemplate()
                 {
                     CompanyName = "compozerr hosting",
-                    Reason = "Due to lack of payment, we have regrettably terminated your project associated with this account.",
+                    Reason = "Due to missing payment method, we have regrettably terminated your project associated with this account.",
                     CustomerName = User.Name,
                     DashboardLink = frontendLocation.GetFromPath("/projects").ToString(),
                     ContactLink = frontendLocation.GetFromPath("/contact").ToString(),

@@ -28,12 +28,12 @@ public sealed class SecondWarningMail_PaymentFailedAction(
             var mail = await ReactEmail.CreateAsync(
                 new EmailAddress("no-reply@notifications.compozerr.com", "compozerr hosting"),
                 [new EmailAddress(User.Email, User.Name)],
-                "Action Required: Payment Failed for Your Compozerr Invoice",
+                "Urgent: Add Payment Method to Prevent Service Termination",
                 new Emails.MissingInvoicePaymentTemplate()
                 {
                     DueDate = Event.DueDate.ToString("MMMM dd, yyyy"),
                     CompanyName = "compozerr hosting",
-                    Description = "This is a second reminder that we have not received payment for the following invoice. Please submit payment to avoid any service interruptions.",
+                    Description = "This is a second reminder to add a valid payment method to your account. Your service will be terminated soon if no payment method is added.",
                     CustomerName = User.Name,
                     Currency = currencySymbol,
                     AmountDue = Event.AmountDue.ToString("F2"),
