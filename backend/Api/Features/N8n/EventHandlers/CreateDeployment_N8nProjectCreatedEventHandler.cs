@@ -15,7 +15,9 @@ public sealed class CreateDeployment_N8nProjectCreatedEventHandler(
         N8nProjectCreatedEvent domainEvent,
         CancellationToken cancellationToken)
     {
-        var latestCommit = await githubService.GetLatestCommitAsync(domainEvent.Entity.RepoUri);
+        var latestCommit = await githubService.GetLatestCommitAsync(
+            domainEvent.Entity.RepoUri,
+            cancellationToken);
 
         await sender.Send(
             new DeployProjectCommand(

@@ -1,6 +1,4 @@
-using Api.Abstractions;
-
-namespace Api.Hosting.VMPooling.Core.VMPoolItemLookup;
+namespace Api.Abstractions;
 
 public sealed record VMPoolItemLookupResponse(
     bool Found,

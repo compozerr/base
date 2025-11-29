@@ -1,7 +1,6 @@
-using Api.Abstractions;
 using Core.MediatR;
 
-namespace Api.Hosting.VMPooling.Core.VMPoolItemLookup;
+namespace Api.Abstractions;
 
 public sealed record VMPoolItemLookupRequest(
     LocationId LocationId,

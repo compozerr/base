@@ -6,6 +6,7 @@ using Api.Hosting.VMPooling.Core;
 using Auth.Abstractions;
 using Cli.Abstractions;
 using Database.Extensions;
+using MediatR;
 
 namespace Api.Services;
 
@@ -21,10 +22,10 @@ public interface IProjectManager
         CancellationToken cancellationToken);
 }
 
-public sealed class ProjectCreator(
+public sealed class ProjectManager(
     IVMPoolItemDelegator vMPoolItemDelegator,
     IProjectRepository projectRepository,
-    ILocationRepository locationRepository
+    ISender sender
 ) : IProjectManager
 {
     public async Task<ProjectId> AllocateProjectAsync(
@@ -36,7 +37,22 @@ public sealed class ProjectCreator(
         ProjectType projectType,
         CancellationToken cancellationToken)
     {
-        
+        var vmPoolItemLookupResult = await sender.Send(new VMPoolItemLookupRequest(
+            location.Id,
+            tier.Id,
+            projectType), cancellationToken);
+
+        if (vmPoolItemLookupResult.Found)
+        {
+            var projectId = await vMPoolItemDelegator.DelegateAndUpdateAsync(
+                vmPoolItemLookupResult.VMPoolItemId!,
+                userId,
+                name,
+                repoUri);
+
+            return projectId;
+        }
+
         var newProject = BuildProject(
             userId,
             name,
@@ -45,28 +61,18 @@ public sealed class ProjectCreator(
             location,
             projectType);
 
+        newProject.QueueDomainEvent<ProjectCreatedEvent>();
+
         if (projectType == ProjectType.N8n)
         {
             newProject.QueueDomainEvent<N8nProjectCreatedEvent>();
         }
-
 
         var project = await projectRepository.AddAsync(
             newProject,
             cancellationToken);
 
         return project.Id;
-
-    }
-
-    private Task<ProjectId> DelegateExistingProjectAsync(
-        string name,
-        Uri repoUri,
-        string tier,
-        string locationIso,
-        ProjectType projectType)
-    {
-        throw new NotImplementedException();
     }
 
     private static Project BuildProject(
@@ -76,8 +82,7 @@ public sealed class ProjectCreator(
         ServerTier serverTier,
         Location location,
         ProjectType projectType)
-    {
-        var newProject = new Project
+        => new()
         {
             Name = name,
             RepoUri = repoUri,
@@ -87,9 +92,4 @@ public sealed class ProjectCreator(
             State = ProjectState.Stopped,
             Type = projectType
         };
-
-        newProject.QueueDomainEvent<ProjectCreatedEvent>();
-
-        return newProject;
-    }
 }
