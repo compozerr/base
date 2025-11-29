@@ -8,13 +8,13 @@ using Database.Extensions;
 namespace Api.Hosting.VMPooling.Core;
 
 public abstract class BaseVMPooler(
-    ServerTierId serverTierId,
-    LocationId locationId,
+    VMPool vMPool,
     IProjectRepository projectRepository,
     IVMPoolItemRepository vMPoolItemRepository)
 {
-    internal readonly ServerTierId ServerTierId = serverTierId;
-
+    internal readonly ServerTierId ServerTierId = ServerTiers.GetById(new ServerTierId(vMPool.ServerTierId)).Id;
+    internal readonly LocationId locationId = vMPool.LocationId;
+    internal readonly VMPoolId VMPoolId = vMPool.Id;
     internal abstract ProjectType ProjectType { get; }
     internal abstract Uri DefaultRepoUri { get; }
     internal abstract string DefaultProjectName { get; }
@@ -43,7 +43,8 @@ public abstract class BaseVMPooler(
 
         await vMPoolItemRepository.AddAsync(new VMPoolItem
         {
-            ProjectId = project.Id
+            ProjectId = project.Id,
+            VMPoolId = VMPoolId
         });
     }
 }

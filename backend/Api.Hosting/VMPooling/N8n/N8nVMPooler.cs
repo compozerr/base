@@ -7,12 +7,10 @@ using Api.Hosting.VMPooling.Core;
 namespace Api.Hosting.VMPooling.N8n;
 
 public sealed class N8nVMPooler(
-    ServerTierId serverTierId,
-    LocationId locationId,
+    VMPool vMPool,
     IProjectRepository projectRepository,
     IVMPoolItemRepository vMPoolItemRepository) : BaseVMPooler(
-        serverTierId,
-        locationId,
+        vMPool,
         projectRepository,
         vMPoolItemRepository)
 {

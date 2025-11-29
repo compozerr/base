@@ -1,16 +1,15 @@
 using Api.Abstractions;
+using Api.Data;
 using Api.Data.Repositories;
 using Api.Hosting.VMPooling.Core;
 
 namespace Api.Hosting.VMPooling.Compozerr;
 
 public sealed class CompozerrVMPooler(
-    ServerTierId serverTierId,
-    LocationId locationId,
+    VMPool vMPool,
     IProjectRepository projectRepository,
     IVMPoolItemRepository vMPoolItemRepository) : BaseVMPooler(
-        serverTierId,
-        locationId,
+        vMPool,
         projectRepository,
         vMPoolItemRepository)
 {

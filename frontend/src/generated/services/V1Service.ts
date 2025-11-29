@@ -5339,102 +5339,6 @@ export interface V1Service {
             error: GetHostingProjectsProjectIdEnvironmentError;
         };
     };
-    postHostingVmpooling: {
-        /**/
-        getMutationKey(parameters: PostHostingVmpoolingParameters | void): ServiceOperationMutationKey<PostHostingVmpoolingSchema, PostHostingVmpoolingParameters>;
-        /**
-         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
-         * Handles loading state, optimistic updates, and error handling.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
-         * @example Mutation with predefined parameters, e.g., for updating
-         * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postHostingVmpooling.useMutation({})
-         * mutate(body);
-         * ```
-         * @example Mutation without predefined parameters, e.g., for creating
-         * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postHostingVmpooling.useMutation()
-         * mutate({
-         *     body: bodyPayload
-         * });
-         * ```
-         */
-        useMutation<TVariables extends PostHostingVmpoolingBody, TContext = unknown>(parameters: PostHostingVmpoolingParameters, options?: ServiceOperationUseMutationOptions<PostHostingVmpoolingSchema, PostHostingVmpoolingData, PostHostingVmpoolingParameters, TVariables, PostHostingVmpoolingError, TContext>): UseMutationResult<PostHostingVmpoolingData, PostHostingVmpoolingError | Error, AreAllOptional<TVariables> extends true ? TVariables | void : TVariables, TContext>;
-        /**
-         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
-         * Handles loading state, optimistic updates, and error handling.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
-         * @example Mutation with predefined parameters, e.g., for updating
-         * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postHostingVmpooling.useMutation({})
-         * mutate(body);
-         * ```
-         * @example Mutation without predefined parameters, e.g., for creating
-         * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postHostingVmpooling.useMutation()
-         * mutate({
-         *     body: bodyPayload
-         * });
-         * ```
-         */
-        useMutation<TVariables extends MutationVariables<PostHostingVmpoolingBody, PostHostingVmpoolingParameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<PostHostingVmpoolingSchema, PostHostingVmpoolingData, PostHostingVmpoolingParameters, TVariables, PostHostingVmpoolingError, TContext>): UseMutationResult<PostHostingVmpoolingData, PostHostingVmpoolingError | Error, TVariables, TContext>;
-        /**
-         * Returns the count of currently in-progress mutations.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
-         * @example Check how many mutations are currently in progress for the specified service method.
-         * ```ts
-         * const postHostingVmpoolingTotal = qraft.v1Service.postHostingVmpooling.useIsMutating()
-         * ```
-         * @example Check how many mutations are currently in progress with the specified parameters.
-         * ```ts
-         * const postHostingVmpoolingTotal = qraft.v1Service.postHostingVmpooling.useIsMutating({
-         *     parameters: {}
-         * })
-         * ```
-         */
-        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<PostHostingVmpoolingBody, PostHostingVmpoolingData, PostHostingVmpoolingParameters, PostHostingVmpoolingError, TContext> | MutationFiltersByMutationKey<PostHostingVmpoolingSchema, PostHostingVmpoolingBody, PostHostingVmpoolingData, PostHostingVmpoolingParameters, PostHostingVmpoolingError, TContext>): number;
-        /**/
-        isMutating<TContext>(filters?: MutationFiltersByParameters<PostHostingVmpoolingBody, PostHostingVmpoolingData, PostHostingVmpoolingParameters, PostHostingVmpoolingError, TContext> | MutationFiltersByMutationKey<PostHostingVmpoolingSchema, PostHostingVmpoolingBody, PostHostingVmpoolingData, PostHostingVmpoolingParameters, PostHostingVmpoolingError, TContext>): number;
-        /**/
-        (options: ServiceOperationMutationFnOptions<PostHostingVmpoolingBody, PostHostingVmpoolingParameters>, client?: (schema: PostHostingVmpoolingSchema, options: ServiceOperationMutationFnOptions<PostHostingVmpoolingBody, PostHostingVmpoolingParameters>) => Promise<RequestFnResponse<PostHostingVmpoolingData, PostHostingVmpoolingError>>): Promise<RequestFnResponse<PostHostingVmpoolingData, PostHostingVmpoolingError>>;
-        /**
-         * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
-         * @example Get all variables of all running mutations.
-         * ```ts
-         * const postHostingVmpoolingPendingMutationVariables = qraft.v1Service.postHostingVmpooling.useMutationState({
-         *     filters: {
-         *         status: "pending"
-         *     },
-         *     select: mutation => mutation.state.variables
-         * })
-         * ```
-         * @example Get all data for specific mutations via the `parameters`.
-         * ```ts
-         * const postHostingVmpoolingMutationData = qraft.v1Service.postHostingVmpooling.useMutationState({
-         *     filters: {
-         *         parameters: {}
-         *     },
-         *     select: mutation => mutation.state.data
-         * })
-         * ```
-         */
-        useMutationState<TContext = unknown, TResult = MutationState<PostHostingVmpoolingData, PostHostingVmpoolingError, MutationVariables<PostHostingVmpoolingBody, PostHostingVmpoolingParameters>, TContext>>(options?: {
-            filters?: MutationFiltersByParameters<PostHostingVmpoolingBody, PostHostingVmpoolingData, PostHostingVmpoolingParameters, PostHostingVmpoolingError, TContext> | MutationFiltersByMutationKey<PostHostingVmpoolingSchema, PostHostingVmpoolingBody, PostHostingVmpoolingData, PostHostingVmpoolingParameters, PostHostingVmpoolingError, TContext>;
-            select?: (mutation: Mutation<PostHostingVmpoolingData, PostHostingVmpoolingError, MutationVariables<PostHostingVmpoolingBody, PostHostingVmpoolingParameters>, TContext>) => TResult;
-        }): Array<TResult>;
-        schema: PostHostingVmpoolingSchema;
-        types: {
-            parameters: PostHostingVmpoolingParameters;
-            data: PostHostingVmpoolingData;
-            error: PostHostingVmpoolingError;
-            body: PostHostingVmpoolingBody;
-        };
-    };
     downloadMonthlyInvoice: {
         /**/
         getMutationKey(parameters: DownloadMonthlyInvoiceParameters | void): ServiceOperationMutationKey<DownloadMonthlyInvoiceSchema, DownloadMonthlyInvoiceParameters>;
@@ -12506,15 +12410,6 @@ export const v1Service: {
             url: "/v1/hosting/projects/{projectId}/environment";
         };
     };
-    postHostingVmpooling: {
-        schema: {
-            method: "post";
-            url: "/v1/hosting/vmpooling";
-            mediaType: [
-                "application/json"
-            ];
-        };
-    };
     downloadMonthlyInvoice: {
         schema: {
             method: "post";
@@ -12963,13 +12858,6 @@ export const v1Service: {
         schema: {
             method: "get",
             url: "/v1/hosting/projects/{projectId}/environment"
-        }
-    },
-    postHostingVmpooling: {
-        schema: {
-            method: "post",
-            url: "/v1/hosting/vmpooling",
-            mediaType: ["application/json"]
         }
     },
     downloadMonthlyInvoice: {
@@ -13467,17 +13355,6 @@ type GetHostingProjectsProjectIdEnvironmentSchema = {
 type GetHostingProjectsProjectIdEnvironmentParameters = paths["/v1/hosting/projects/{projectId}/environment"]["get"]["parameters"];
 type GetHostingProjectsProjectIdEnvironmentData = paths["/v1/hosting/projects/{projectId}/environment"]["get"]["responses"]["200"]["content"]["application/json"];
 type GetHostingProjectsProjectIdEnvironmentError = unknown;
-type PostHostingVmpoolingSchema = {
-    method: "post";
-    url: "/v1/hosting/vmpooling";
-    mediaType: [
-        "application/json"
-    ];
-};
-type PostHostingVmpoolingParameters = {};
-type PostHostingVmpoolingData = paths["/v1/hosting/vmpooling"]["post"]["responses"]["200"]["content"]["application/json"];
-type PostHostingVmpoolingError = unknown;
-type PostHostingVmpoolingBody = NonNullable<paths["/v1/hosting/vmpooling"]["post"]["requestBody"]>["content"]["application/json"];
 type DownloadMonthlyInvoiceSchema = {
     method: "post";
     url: "/v1/stripe/invoices/monthly/{yearMonth}/download";

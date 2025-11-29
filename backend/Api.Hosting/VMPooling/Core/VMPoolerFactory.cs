@@ -17,26 +17,20 @@ public sealed class VMPoolerFactory(
 {
     public BaseVMPooler CreateVMPooler(VMPool vMPool)
     {
-        var serverTierId = ServerTiers.GetById(new ServerTierId(vMPool.ServerTierId)).Id;
-        var locationId = vMPool.LocationId;
-        var projectType = vMPool.ProjectType;
-
-        return projectType switch
+        return vMPool.ProjectType switch
         {
             ProjectType.Compozerr =>
                 new CompozerrVMPooler(
-                    serverTierId,
-                    locationId,
+                    vMPool,
                     projectRepository,
                     vMPoolItemRepository),
             ProjectType.N8n =>
                 new N8nVMPooler(
-                    serverTierId,
-                    locationId,
+                    vMPool,
                     projectRepository,
                     vMPoolItemRepository),
             _ => throw new NotSupportedException(
-                $"VMPooler for project type '{projectType}' is not supported.")
+                $"VMPooler for project type '{vMPool.ProjectType}' is not supported.")
         };
     }
 }
