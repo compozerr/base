@@ -8,6 +8,9 @@ public sealed class OnboardingInvoicePaymentTemplate : ReactEmailTemplate
 
     public required string CustomerName { get; init; }
     public required string DaysUntilTermination { get; init; }
-    public required string FrontendUrl { get; init; }
+    public required string AddPaymentMethodUrl { get; init; }
+    public required string DashboardUrl { get; init; }
+    public required string ContactLink { get; init; }
+    public required string CompanyAddress { get; init; }
 
 }

@@ -34,7 +34,7 @@ export const OnboardingPaymentEmail = () => (
 
           {/* Simple CTA */}
           <Section style={ctaSection}>
-            <Button style={payButton} href="% FrontendUrl %/settings?addPaymentMethod=true">
+            <Button style={payButton} href="% AddPaymentMethodUrl %">
               Add Payment Method
             </Button>
           </Section>
@@ -45,16 +45,16 @@ export const OnboardingPaymentEmail = () => (
 
           {/* Simple links */}
           <Section style={linksSection}>
-            <Link style={link} href="% FrontendUrl %/dashboard">Dashboard</Link>
+            <Link style={link} href="% DashboardUrl %">Dashboard</Link>
             <Text style={linkSeparator}>•</Text>
-            <Link style={link} href="% FrontendUrl %/support">Contact Support</Link>
+            <Link style={link} href="% ContactLink %">Contact Support</Link>
           </Section>
         </Section>
 
         {/* Minimal footer */}
         <Section style={footer}>
           <Text style={footerText}>
-            Compozerr Inc., 1234 Cloud Lane, Tech City, TC 56789
+            % CompanyAddress %
           </Text>
         </Section>
       </Container>

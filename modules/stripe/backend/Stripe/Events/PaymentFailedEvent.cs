@@ -11,6 +11,4 @@ public record PaymentFailedEvent(
     DateTime DueDate,
     int DaysOverdue,
     string PaymentLink,
-    int AttemptCount,
-    string? FailureReason,
-    DateTime? NextPaymentAttempt) : IEvent;
+    int AttemptCount) : IEvent;

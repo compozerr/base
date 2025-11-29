@@ -54,9 +54,7 @@ public class PaymentFailedJob(
             saga.StartedAtUtc,
             (int)(DateTime.UtcNow - saga.StartedAtUtc).TotalDays,
             saga.PaymentLink,
-            attemptNumber,
-            null,
-            null);
+            attemptNumber);
 
         await publisher.Publish(@event, cancellationToken);
 

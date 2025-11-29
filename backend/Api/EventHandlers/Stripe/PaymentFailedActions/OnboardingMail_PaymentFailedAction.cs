@@ -4,7 +4,6 @@ using Core.Services;
 using Mail;
 using Mail.Services;
 using Stripe.Events;
-using Stripe.Helpers;
 
 namespace Api.EventHandlers.Stripe.PaymentFailedActions;
 
@@ -21,25 +20,18 @@ public sealed class OnboardingMail_PaymentFailedAction(
         var mailService = scope.ServiceProvider.GetRequiredService<IMailService>();
         var frontendLocation = scope.ServiceProvider.GetRequiredService<IFrontendLocation>();
 
-        var currencySymbol = CurrencyHelper.GetSymbol(Event.Currency);
-
         try
         {
             var mail = await ReactEmail.CreateAsync(
                 new EmailAddress("no-reply@notifications.compozerr.com", "compozerr hosting"),
                 [new EmailAddress(User.Email, User.Name)],
-                "Action Required: Payment Failed for Your Compozerr Invoice",
-                new Emails.MissingInvoicePaymentTemplate()
+                "Important: Add Payment Method to Avoid Service Interruption",
+                new Emails.OnboardingInvoicePaymentTemplate()
                 {
-                    DueDate = Event.DueDate.ToString("MMMM dd, yyyy"),
-                    CompanyName = "compozerr hosting",
-                    Description = "We haven't received payment for the following invoice. Please submit payment to avoid any service interruptions.",
                     CustomerName = User.Name,
-                    Currency = currencySymbol,
-                    AmountDue = Event.AmountDue.ToString("F2"),
-                    DaysOverdue = Event.DaysOverdue.ToString(),
-                    PaymentLink = Event.PaymentLink,
-                    DashboardLink = frontendLocation.GetFromPath("/projects").ToString(),
+                    DaysUntilTermination = "5",
+                    AddPaymentMethodUrl = frontendLocation.GetFromPath("settings?addPaymentMethod=true").ToString(),
+                    DashboardUrl = frontendLocation.GetFromPath("/projects").ToString(),
                     ContactLink = frontendLocation.GetFromPath("/contact").ToString(),
                     CompanyAddress = "Vilh. Bergsøes Vej 11, 8210 Aarhus V, Denmark"
                 });
