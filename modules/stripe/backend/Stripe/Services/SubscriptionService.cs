@@ -41,7 +41,8 @@ public sealed class SubscriptionsService(
     IOptions<StripeOptions> options,
     IWebHostEnvironment environment,
     IPaymentMethodsService paymentMethodsService,
-    ICurrentStripeCustomerIdAccessor currentStripeCustomerIdAccessor) : ISubscriptionsService
+    ICurrentStripeCustomerIdAccessor currentStripeCustomerIdAccessor,
+    IPaymentFailureSagaOrchestrator sagaOrchestrator) : ISubscriptionsService
 {
     private readonly StripeClient _stripeClient = new StripeClient(options.Value.ApiKey);
 
@@ -211,6 +212,15 @@ public sealed class SubscriptionsService(
                 throw new Exception("Failed to create subscription or retrieve items.");
             }
 
+            // Start payment failure saga if no payment method is set up
+            if (!hasPaymentMethod)
+            {
+                await StartSagaForSubscriptionWithoutPaymentMethod(
+                    subscription,
+                    stripeCustomerId,
+                    cancellationToken);
+            }
+
             return SubscriptionDto.FromSubscription(subscription, _isProduction);
         }
         catch (Exception ex)
@@ -272,5 +282,83 @@ public sealed class SubscriptionsService(
             cancellationToken);
 
         return paymentMethods.Any();
+    }
+
+    private async Task StartSagaForSubscriptionWithoutPaymentMethod(
+        Subscription subscription,
+        string stripeCustomerId,
+        CancellationToken cancellationToken)
+    {
+        try
+        {
+            // Try to get the latest invoice for this subscription
+            var invoiceService = new InvoiceService(_stripeClient);
+            var invoiceOptions = new InvoiceListOptions
+            {
+                Subscription = subscription.Id,
+                Limit = 1
+            };
+
+            var invoices = await invoiceService.ListAsync(invoiceOptions, cancellationToken: cancellationToken);
+            var latestInvoice = invoices.Data.FirstOrDefault();
+
+            string invoiceId;
+            decimal amountDue;
+            string currency;
+            string paymentLink;
+
+            if (latestInvoice != null)
+            {
+                // Use actual invoice details if available
+                invoiceId = latestInvoice.Id;
+                amountDue = latestInvoice.AmountDue / 100m;
+                currency = latestInvoice.Currency;
+                paymentLink = latestInvoice.HostedInvoiceUrl ?? string.Empty;
+            }
+            else
+            {
+                // No invoice yet (trial period) - use placeholder values
+                Log.Information(
+                    "No invoice found for subscription {SubscriptionId} (trial period), starting saga with placeholder values",
+                    subscription.Id);
+
+                invoiceId = $"pending_{subscription.Id}";
+
+                // Get the subscription amount from the price
+                var firstItem = subscription.Items.Data.FirstOrDefault();
+                if (firstItem?.Price?.UnitAmount != null)
+                {
+                    amountDue = firstItem.Price.UnitAmount.Value / 100m;
+                    currency = firstItem.Price.Currency ?? "usd";
+                }
+                else
+                {
+                    amountDue = 0m;
+                    currency = "usd";
+                }
+
+                paymentLink = string.Empty;
+            }
+
+            Log.Information(
+                "Starting payment failure saga for subscription {SubscriptionId} without payment method",
+                subscription.Id);
+
+            await sagaOrchestrator.StartSagaForNewSubscriptionAsync(
+                subscription.Id,
+                stripeCustomerId,
+                invoiceId,
+                amountDue,
+                currency,
+                paymentLink,
+                cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            Log.Error(
+                ex,
+                "Error starting payment failure saga for subscription {SubscriptionId}",
+                subscription.Id);
+        }
     }
 }
