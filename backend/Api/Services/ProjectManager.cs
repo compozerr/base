@@ -1,7 +1,7 @@
 using Api.Abstractions;
 using Api.Data;
+using Api.Data.Events;
 using Api.Data.Repositories;
-using Api.Features.N8n.Events;
 using Api.Hosting.VMPooling.Core;
 using Auth.Abstractions;
 using Cli.Abstractions;

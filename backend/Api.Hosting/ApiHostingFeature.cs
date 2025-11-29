@@ -19,7 +19,8 @@ public class ApiHostingFeature : IFeature
         services.AddSingleton<ISubdomainHashService, SubdomainHashService>();
         services.AddTransient<IHostingServerHttpClientFactory, HostingServerHttpClientFactory>();
         services.AddTransient<IHostingApiFactory, HostingApiFactory>();
-        services.AddTransient<IVMPoolItemDelegator, VMPoolItemDelegator>();
+        services.AddScoped<IVMPoolItemDelegator, VMPoolItemDelegator>();
+        services.AddScoped<IVMPoolerFactory, VMPoolerFactory>();
     }
 
     void IFeature.ConfigureApp(WebApplication app)

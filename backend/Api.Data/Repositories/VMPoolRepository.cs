@@ -8,6 +8,10 @@ public interface IVMPoolRepository : IGenericRepository<VMPool, VMPoolId, ApiDbC
     Task<VMPoolItemId?> GetFirstVMPoolItemIdOrDefaultAsync(
         VMPoolItemLookupRequest request,
         CancellationToken cancellationToken);
+
+    Task<int> GetVMPoolItemCountFromPoolAsync(
+        VMPoolId vmPoolId,
+        CancellationToken cancellationToken);
 };
 
 public sealed class VMPoolRepository(
@@ -27,4 +31,14 @@ public sealed class VMPoolRepository(
         .OrderBy(vmpi => vmpi.Id)
         .Select(vmpi => vmpi.Id)
         .FirstOrDefaultAsync(cancellationToken);
+
+    public Task<int> GetVMPoolItemCountFromPoolAsync(
+        VMPoolId vmPoolId,
+        CancellationToken cancellationToken)
+    => Query()
+        .Include(vmp => vmp.VMPoolItems)
+        .Where(vmp => vmp.Id == vmPoolId)
+        .Where(x => x.VMPoolItems != null)
+        .SelectMany(vmp => vmp.VMPoolItems!.Where(vmpi => vmpi.DelegatedAt == null))
+        .CountAsync(cancellationToken);
 }

@@ -1,5 +1,5 @@
 using Api.Abstractions;
-using Api.Features.N8n.Events;
+using Api.Data.Events;
 using Core.Abstractions;
 using Github.Services;
 using MediatR;
