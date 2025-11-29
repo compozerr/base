@@ -20,7 +20,7 @@ public sealed class VMPoolRepository(
         .Include(vmp => vmp.Server)
         .Include(vmp => vmp.VMPoolItems)
         .Where(vmp => vmp.Server != null && vmp.Server.LocationId == request.LocationId &&
-                        vmp.ServerTierId == request.ServerTierId &&
+                        vmp.ServerTierId == request.ServerTierId.Value &&
                         vmp.ProjectType == request.ProjectType)
         .Where(vmp => vmp.VMPoolItems != null)
         .SelectMany(vmp => vmp.VMPoolItems!.Where(vmpi => vmpi.DelegatedAt == null))

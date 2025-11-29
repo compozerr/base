@@ -7,7 +7,7 @@ public class VMPool : BaseEntityWithId<VMPoolId>
 {
     public required ServerId ServerId { get; set; }
     public required ProjectType ProjectType { get; set; }
-    public required ServerTierId ServerTierId { get; set; }
+    public required string ServerTierId { get; set; }
 
     public required int InstanceCount { get; set; } = 0;
 

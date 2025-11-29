@@ -16,7 +16,8 @@ public class ApiFeature : IFeature
         services.AddScoped<IEncryptionService, EncryptionService>();
         services.AddScoped<IServerService, ServerService>();
         services.AddScoped<IDefaultEnvironmentVariablesAppender, DefaultEnvironmentVariablesAppender>();
-
+        services.AddScoped<IProjectManager, ProjectManager>();
+        
         services.AddMemoryCache();
 
         services.AddRequiredConfigurationOptions<EncryptionOptions>("Encryption");
