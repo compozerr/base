@@ -16,13 +16,13 @@ import {
 export const MissingInvoiceEmail = () => (
   <Html>
     <Head />
-    <Preview>Payment reminder - Due % DueDate %</Preview>
+    <Preview>Action required - Add payment method</Preview>
     <Body style={main}>
       <Container style={container}>
         {/* Simple header */}
         <Section style={header}>
           <Text style={logo}>% CompanyName %</Text>
-          <Text style={headerSubtitle}>Payment Reminder</Text>
+          <Text style={headerSubtitle}>Payment Method Required</Text>
         </Section>
 
         <Section style={content}>
@@ -67,12 +67,12 @@ export const MissingInvoiceEmail = () => (
           {/* Simple CTA */}
           <Section style={ctaSection}>
             <Button style={payButton} href="% PaymentLink %">
-              Pay % Currency %% AmountDue %
+              Add Payment Method
             </Button>
           </Section>
 
           <Text style={paragraph}>
-            If you've already paid, please ignore this message. For questions, contact our support team.
+            If you've already added a payment method, please ignore this message. For questions, contact our support team.
           </Text>
 
           {/* Simple links */}
