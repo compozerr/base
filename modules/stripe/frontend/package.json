@@ -17,7 +17,7 @@
         "@repo/config": "*"
     },
     "dependencies": {
-        "@stripe/react-stripe-js": "^3.7.0",
-        "@stripe/stripe-js": "^7.3.1"
+        "@stripe/react-stripe-js": "^5.4.1",
+        "@stripe/stripe-js": "^8.5.3"
     }
 }
