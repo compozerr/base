@@ -26,7 +26,8 @@ public sealed class CreateDeployment_N8nProjectCreatedEventHandler(
                 latestCommit.Commit.Message,
                 latestCommit.Commit.Author.Name,
                 latestCommit.Commit.Committer.Name,
-                latestCommit.Commit.Author.Email),
+                latestCommit.Commit.Author.Email,
+                OverrideAuthorization: domainEvent.OverrideAuthorization),
             cancellationToken);
     }
 }

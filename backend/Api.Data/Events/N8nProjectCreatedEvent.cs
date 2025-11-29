@@ -3,4 +3,5 @@ using Database.Events;
 namespace Api.Data.Events;
 
 public sealed record N8nProjectCreatedEvent(
-    Project Entity) : IEntityDomainEvent<Project>;
+    Project Entity, 
+    bool OverrideAuthorization = false) : IEntityDomainEvent<Project>;

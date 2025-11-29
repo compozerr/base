@@ -3,7 +3,6 @@ using Api.Data;
 using Api.Data.Events;
 using Api.Data.Repositories;
 using Api.Hosting.VMPooling.Core;
-using Database.Extensions;
 
 namespace Api.Hosting.VMPooling.N8n;
 
@@ -27,6 +26,9 @@ public sealed class N8nVMPooler(
     internal override void QueueDomainEventsForNewInstance(Project project)
     {
         base.QueueDomainEventsForNewInstance(project);
-        project.QueueDomainEvent<N8nProjectCreatedEvent>();
+        project.QueueDomainEvent(
+            new N8nProjectCreatedEvent(
+                project,
+                OverrideAuthorization: true));
     }
 }
