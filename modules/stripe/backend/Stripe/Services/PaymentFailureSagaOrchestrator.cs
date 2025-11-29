@@ -53,6 +53,7 @@ public class PaymentFailureSagaOrchestrator(
         };
 
         // Schedule Hangfire delayed jobs
+        PaymentFailedJob.Enqueue(new(saga.Id, AttemptNumber: 0));
         saga.FirstWarningJobId = PaymentFailedJob.Schedule(new(saga.Id, AttemptNumber: 1), TimeSpan.FromHours(24));
         saga.SecondWarningJobId = PaymentFailedJob.Schedule(new(saga.Id, AttemptNumber: 2), TimeSpan.FromHours(96));
         saga.TerminationJobId = PaymentFailedJob.Schedule(new(saga.Id, AttemptNumber: 3), TimeSpan.FromHours(120));

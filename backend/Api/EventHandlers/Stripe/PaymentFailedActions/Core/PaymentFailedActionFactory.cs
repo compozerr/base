@@ -12,6 +12,10 @@ public class PaymentFailedActionFactory(
     {
         return @event.AttemptCount switch
         {
+            0 =>
+            [
+                new OnboardingMail_PaymentFailedAction(@event, user, serviceProvider)
+            ],
             1 =>
             [
                 new FirstWarningMail_PaymentFailedAction(@event, user, serviceProvider)
