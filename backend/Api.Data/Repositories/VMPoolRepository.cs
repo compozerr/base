@@ -21,7 +21,7 @@ public sealed class VMPoolRepository(
         VMPoolItemLookupRequest request,
         CancellationToken cancellationToken)
     => Query()
-        .Include(vmp => vmp.VMPoolItems ?? Enumerable.Empty<VMPoolItem>())
+        .Include(vmp => vmp.VMPoolItems!)
             .ThenInclude(vmpi => vmpi.Project)
         .Where(vmp => vmp.LocationId == request.LocationId &&
                         vmp.ServerTierId == request.ServerTierId.Value &&

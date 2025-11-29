@@ -65,7 +65,8 @@ public sealed class ProjectManager(
 
         if (projectType == ProjectType.N8n)
         {
-            newProject.QueueDomainEvent<N8nProjectCreatedEvent>();
+            newProject.QueueDomainEvent(new N8nProjectCreatedEvent(
+                newProject));
         }
 
         var project = await projectRepository.AddAsync(
