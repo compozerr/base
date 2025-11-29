@@ -488,6 +488,73 @@ namespace Api.Data.Migrations
                     b.ToTable("Servers", "api");
                 });
 
+            modelBuilder.Entity("Api.Data.VMPool", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAtUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("DeletedAtUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("InstanceCount")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("LocationId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("ProjectType")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("ServerTierId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("UpdatedAtUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("VMPools", "api");
+                });
+
+            modelBuilder.Entity("Api.Data.VMPoolItem", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAtUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("DelegatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("DelegatedToUserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("DeletedAtUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("ProjectId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("UpdatedAtUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("VMPoolId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProjectId");
+
+                    b.HasIndex("VMPoolId");
+
+                    b.ToTable("VMPoolItems", "api");
+                });
+
             modelBuilder.Entity("Api.Data.ExternalDomain", b =>
                 {
                     b.HasBaseType("Api.Data.Domain");
@@ -604,6 +671,25 @@ namespace Api.Data.Migrations
                     b.Navigation("Location");
                 });
 
+            modelBuilder.Entity("Api.Data.VMPoolItem", b =>
+                {
+                    b.HasOne("Api.Data.Project", "Project")
+                        .WithMany()
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Api.Data.VMPool", "VMPool")
+                        .WithMany("VMPoolItems")
+                        .HasForeignKey("VMPoolId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Project");
+
+                    b.Navigation("VMPool");
+                });
+
             modelBuilder.Entity("Api.Data.Location", b =>
                 {
                     b.Navigation("Servers");
@@ -630,6 +716,11 @@ namespace Api.Data.Migrations
                     b.Navigation("Deployments");
 
                     b.Navigation("Secret");
+                });
+
+            modelBuilder.Entity("Api.Data.VMPool", b =>
+                {
+                    b.Navigation("VMPoolItems");
                 });
 #pragma warning restore 612, 618
         }

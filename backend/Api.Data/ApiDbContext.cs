@@ -20,6 +20,8 @@ public class ApiDbContext(
     public DbSet<Secret> Secrets => Set<Secret>();
     public DbSet<Domain> Domains => Set<Domain>();
     public DbSet<ProjectService> ProjectServices => Set<ProjectService>();
+    public DbSet<VMPool> VMPools => Set<VMPool>();
+    public DbSet<VMPoolItem> VMPoolItems => Set<VMPoolItem>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

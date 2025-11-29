@@ -1,5 +1,5 @@
 using Api.Abstractions;
-using Api.Features.N8n.Events;
+using Api.Data.Events;
 using Core.Abstractions;
 using Github.Services;
 using MediatR;
@@ -15,7 +15,9 @@ public sealed class CreateDeployment_N8nProjectCreatedEventHandler(
         N8nProjectCreatedEvent domainEvent,
         CancellationToken cancellationToken)
     {
-        var latestCommit = await githubService.GetLatestCommitAsync(domainEvent.Entity.RepoUri);
+        var latestCommit = await githubService.GetLatestCommitAsync(
+            domainEvent.Entity.RepoUri,
+            cancellationToken);
 
         await sender.Send(
             new DeployProjectCommand(
@@ -24,7 +26,8 @@ public sealed class CreateDeployment_N8nProjectCreatedEventHandler(
                 latestCommit.Commit.Message,
                 latestCommit.Commit.Author.Name,
                 latestCommit.Commit.Committer.Name,
-                latestCommit.Commit.Author.Email),
+                latestCommit.Commit.Author.Email,
+                OverrideAuthorization: domainEvent.OverrideAuthorization),
             cancellationToken);
     }
 }

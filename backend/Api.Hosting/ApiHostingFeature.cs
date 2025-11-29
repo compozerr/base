@@ -1,5 +1,7 @@
 ﻿using Api.Hosting.Jobs;
 using Api.Hosting.Services;
+using Api.Hosting.VMPooling.Core;
+using Api.Hosting.VMPooling.Jobs;
 using Core.Feature;
 using Jobs;
 using Microsoft.AspNetCore.Builder;
@@ -17,11 +19,14 @@ public class ApiHostingFeature : IFeature
         services.AddSingleton<ISubdomainHashService, SubdomainHashService>();
         services.AddTransient<IHostingServerHttpClientFactory, HostingServerHttpClientFactory>();
         services.AddTransient<IHostingApiFactory, HostingApiFactory>();
+        services.AddScoped<IVMPoolItemDelegator, VMPoolItemDelegator>();
+        services.AddScoped<IVMPoolerFactory, VMPoolerFactory>();
     }
 
     void IFeature.ConfigureApp(WebApplication app)
     {
         app.AddRecurringJob<UpdateServerUsageJob>(Cron.Hourly());
         app.AddRecurringJob<UpdateProjectsUsageJob>(Cron.Hourly());
+        app.AddRecurringJob<VMPoolSyncJob>(Cron.Hourly());
     }
 }

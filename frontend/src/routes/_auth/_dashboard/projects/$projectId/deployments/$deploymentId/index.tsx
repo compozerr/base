@@ -157,7 +157,7 @@ function RouteComponent() {
                                 {deployment.status}
                             </div>
                         </div>
-                        <div className="flex justify-between items-center">
+                        <div className="flex justify-between items-center"> 
                             <div className="text-sm text-muted-foreground">Environment</div>
                             <div className="font-medium">{deployment.environment}</div>
                         </div>
