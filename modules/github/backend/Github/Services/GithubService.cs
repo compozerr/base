@@ -173,6 +173,18 @@ public sealed class GithubService(
 
     public async Task<GithubUserLogin?> GetUserLoginAsync(UserId userId)
     {
+        // Handle the case where userId is empty (meaning it is a public repository)
+        if(userId == UserId.Empty)
+        {
+            return new GithubUserLogin
+            {
+                Provider = Provider.GitHub,
+                UserId = UserId.Empty,
+                ProviderUserId = "0",
+                AccessToken = "MOCK_TOKEN_FOR_PUBLIC_REPOS"
+            };
+        }
+
         try
         {
             var user = await userRepository.GetUserWithLoginsAsync(userId);
@@ -190,7 +202,7 @@ public sealed class GithubService(
 
             // ToList() materializes the enumeration to avoid potential issues with deferred execution
             var logins = user.Logins.ToList();
-            return (logins.FirstOrDefault(l => l.Provider == Provider.GitHub) as GithubUserLogin);
+            return logins.FirstOrDefault(l => l.Provider == Provider.GitHub) as GithubUserLogin;
         }
         catch (Exception ex)
         {
