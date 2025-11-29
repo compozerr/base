@@ -1,6 +1,7 @@
 using Api.Abstractions;
 using Api.Data.Repositories;
 using Api.Hosting.Services;
+using Auth.Abstractions;
 using Core.Extensions;
 using Core.MediatR;
 using MediatR;
@@ -41,6 +42,8 @@ public sealed class DeleteProjectCommandHandler(
 
         await CancelSubscriptionAsync(
             project.Id,
+            project.UserId,
+            command.SkipOwnerCheck,
             cancellationToken);
 
         return new();
@@ -48,12 +51,18 @@ public sealed class DeleteProjectCommandHandler(
 
     private async Task CancelSubscriptionAsync(
         ProjectId projectId,
-        CancellationToken cancellationToken)
+        UserId userId,
+        bool skipOwnerCheck = false,
+        CancellationToken cancellationToken = default)
     {
         var loggerWithContext = Log.ForContext("ProjectId", projectId);
         loggerWithContext.Information("Cancelling subscription for project {ProjectId}.", projectId);
 
-        var subscriptions = await subscriptionService.GetSubscriptionsForUserAsync(cancellationToken);
+        var subscriptions = skipOwnerCheck
+            ? await subscriptionService.GetSubscriptionsForUserAsync(
+                userId.Value.ToString(),
+                cancellationToken)
+            : await subscriptionService.GetSubscriptionsForUserAsync(cancellationToken);
 
         if (subscriptions is null || !subscriptions.Any())
         {
