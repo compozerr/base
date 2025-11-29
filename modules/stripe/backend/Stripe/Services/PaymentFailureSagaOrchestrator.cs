@@ -54,12 +54,13 @@ public class PaymentFailureSagaOrchestrator(
         };
 
         // Schedule Hangfire delayed jobs
-        PaymentFailedJob.Enqueue(new(saga.Id, AttemptNumber: 0));
         saga.FirstWarningJobId = PaymentFailedJob.Schedule(new(saga.Id, AttemptNumber: 1), TimeSpan.FromDays(1));
         saga.SecondWarningJobId = PaymentFailedJob.Schedule(new(saga.Id, AttemptNumber: 2), TimeSpan.FromDays(3));
         saga.TerminationJobId = PaymentFailedJob.Schedule(new(saga.Id, AttemptNumber: 3), TimeSpan.FromDays(5));
 
         await repository.AddAsync(saga, cancellationToken);
+        
+        PaymentFailedJob.Enqueue(new(saga.Id, AttemptNumber: 0));
 
         logger.LogInformation(
             "Started payment failure saga {SagaId} for subscription {SubscriptionId}",
@@ -83,46 +84,22 @@ public class PaymentFailureSagaOrchestrator(
         string paymentLink,
         CancellationToken cancellationToken = default)
     {
-        var existingSaga = await repository.GetActiveSagaForSubscriptionAsync(subscriptionId, cancellationToken);
-        if (existingSaga != null)
-        {
-            logger.LogInformation(
-                "Saga already exists for subscription {SubscriptionId}, skipping creation",
-                subscriptionId);
-            return null;
-        }
+        // Create a payment failed event from the subscription details
+        var @event = new StripeInvoicePaymentFailedEvent(
+            InvoiceId: invoiceId,
+            CustomerId: customerId,
+            SubscriptionId: subscriptionId,
+            AmountDue: amountDue,
+            Currency: currency,
+            DueDate: DateTime.UtcNow,
+            DaysOverdue: 0,
+            PaymentLink: paymentLink,
+            AttemptCount: 0,
+            FailureReason: null,
+            NextPaymentAttempt: null);
 
-        var saga = new PaymentFailureSaga
-        {
-            SubscriptionId = subscriptionId,
-            CustomerId = customerId,
-            InvoiceId = invoiceId,
-            Status = PaymentFailureSagaStatus.Active,
-            StartedAtUtc = DateTime.UtcNow,
-            AmountDue = amountDue,
-            Currency = currency,
-            PaymentLink = paymentLink
-        };
-
-        // Schedule Hangfire delayed jobs
-        PaymentFailedJob.Enqueue(new(saga.Id, AttemptNumber: 0));
-        saga.FirstWarningJobId = PaymentFailedJob.Schedule(new(saga.Id, AttemptNumber: 1), TimeSpan.FromDays(1));
-        saga.SecondWarningJobId = PaymentFailedJob.Schedule(new(saga.Id, AttemptNumber: 2), TimeSpan.FromDays(4));
-        saga.TerminationJobId = PaymentFailedJob.Schedule(new(saga.Id, AttemptNumber: 3), TimeSpan.FromDays(5));
-
-        await repository.AddAsync(saga, cancellationToken);
-
-        logger.LogInformation(
-            "Started payment failure saga {SagaId} for new subscription {SubscriptionId} without payment method",
-            saga.Id,
-            saga.SubscriptionId);
-
-        await LogAuditEventAsync(saga.Id, PaymentFailureSagaEvent.SagaStarted, saga.FirstWarningJobId, cancellationToken);
-        await LogAuditEventAsync(saga.Id, PaymentFailureSagaEvent.FirstWarningScheduled, saga.FirstWarningJobId, cancellationToken);
-        await LogAuditEventAsync(saga.Id, PaymentFailureSagaEvent.SecondWarningScheduled, saga.SecondWarningJobId, cancellationToken);
-        await LogAuditEventAsync(saga.Id, PaymentFailureSagaEvent.TerminationScheduled, saga.TerminationJobId, cancellationToken);
-
-        return saga;
+        // Reuse the existing StartSagaAsync method
+        return await StartSagaAsync(@event, cancellationToken);
     }
 
     public async Task UpdateSagaMetadataAsync(
