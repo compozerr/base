@@ -1119,6 +1119,45 @@ export type paths = {
         patch?: never;
         trace?: never;
     };
+    "/v1/hosting/vmpooling": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["Api.Hosting.Endpoints.VMPooling.InitiatePoolSync.InitiatePoolSyncCommand"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Api.Hosting.Endpoints.VMPooling.InitiatePoolSync.InitiatePoolSyncResponse"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/stripe/invoices/monthly/{yearMonth}/download": {
         parameters: {
             query?: never;
@@ -2697,6 +2736,8 @@ export type components = {
             port: string | null;
             protocol: string | null;
         };
+        "Api.Hosting.Endpoints.VMPooling.InitiatePoolSync.InitiatePoolSyncCommand": Record<string, never>;
+        "Api.Hosting.Endpoints.VMPooling.InitiatePoolSync.InitiatePoolSyncResponse": Record<string, never>;
         /** Format: uuid */
         "Auth.Abstractions.UserId": string;
         /** Format: uuid */

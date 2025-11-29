@@ -18,7 +18,7 @@ public sealed class VMPoolerFactory(
     public BaseVMPooler CreateVMPooler(VMPool vMPool)
     {
         var serverTierId = ServerTiers.GetById(new ServerTierId(vMPool.ServerTierId)).Id;
-        var locationId = vMPool.Server!.LocationId!;
+        var locationId = vMPool.LocationId;
         var projectType = vMPool.ProjectType;
 
         return projectType switch

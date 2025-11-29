@@ -16,7 +16,7 @@ public class VMPoolSyncJob(
 
     public override async Task ExecuteAsync()
     {
-        var pools = await vMPoolRepository.GetAllAsync(x => x.Include(x => x.Server));
+        var pools = await vMPoolRepository.GetAllAsync();
 
         await pools.ApplyAsync(
             SyncPoolAsyncAndLogErrors);
@@ -60,14 +60,10 @@ public class VMPoolSyncJob(
                 pool.Id,
                 itemsToAdd);
 
-            var tasks = new List<Task>();
-
             for (int i = 0; i < itemsToAdd; i++)
             {
-                tasks.Add(CreateNewInstanceAndLogError(vmPooler));
+                await CreateNewInstanceAndLogError(vmPooler);
             }
-
-            await Task.WhenAll(tasks);
 
             _logger.Information(
                 "Added {ItemsAdded} items to VMPool {VMPoolId}.",
