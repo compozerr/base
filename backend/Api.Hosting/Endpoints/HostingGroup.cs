@@ -2,9 +2,7 @@ using System.Security.Cryptography.X509Certificates;
 using Api.Data.Repositories;
 using Api.Hosting.Endpoints.Deployments;
 using Api.Hosting.Endpoints.Projects;
-using Api.Hosting.Endpoints.VMPooling;
 using Carter;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
@@ -53,9 +51,5 @@ public class HostingGroup : CarterModule
     {
         app.AddDeploymentsGroup().AddEndpointFilter(ApiKeyMiddleware);
         app.AddProjectsGroup().AddEndpointFilter(ApiKeyMiddleware);
-
-#if DEBUG
-        app.AddVMPoolingGroup().RequireAuthorization();
-#endif
     }
 }
