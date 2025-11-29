@@ -11,4 +11,5 @@ public class VMPoolItem : BaseEntityWithId<VMPoolItemId>
     public UserId? DelegatedToUserId { get; set; }
 
     public virtual VMPool? VMPool { get; set; } = null;
+    public virtual Project? Project { get; set; } = null;
 }
