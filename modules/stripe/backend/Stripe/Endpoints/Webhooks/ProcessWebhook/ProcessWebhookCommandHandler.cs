@@ -67,6 +67,11 @@ public class ProcessWebhookCommandHandler(
     private void HandleInvoicePaymentSucceeded(Event stripeEvent)
     {
         var invoice = (Invoice)stripeEvent.Data.Object;
+        if(invoice.AmountPaid == 0)
+        {
+            _logger.Information("Invoice payment succeeded but amount paid is zero - Invoice: {InvoiceId}, Customer: {CustomerId}", invoice.Id, invoice.CustomerId);
+            return;
+        }
 
         _logger.Information("Invoice payment succeeded - Invoice: {InvoiceId}, Customer: {CustomerId}, Amount: {Amount}",
             invoice.Id, invoice.CustomerId, invoice.AmountPaid);
