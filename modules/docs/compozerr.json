@@ -1,7 +1,7 @@
 {
     "type": "module",
     "name": "docs",
-    "start": "npm run dev",
+    "start": "cd frontend && npm run dev",
     "dockerComposeFile": "docker-compose.yml",
     "port": "1236",
     "readyMessage": "Docusaurus website is running at",
