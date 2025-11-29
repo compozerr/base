@@ -6,6 +6,7 @@ using Serilog;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Auth.Abstractions;
+using Stripe.Events;
 
 namespace Stripe.Services;
 
@@ -186,9 +187,9 @@ public sealed class SubscriptionsService(
             }
             else
             {
-                options.TrialPeriodDays = 0; // No trial, but allows adding payment method
+                options.TrialPeriodDays = 5; // Give user 5 days to add a payment method
                 options.CollectionMethod = "charge_automatically";
-                options.PaymentBehavior = "default_incomplete";
+                options.PaymentBehavior = "allow_incomplete";
             }
 
             // Apply coupon code if provided
