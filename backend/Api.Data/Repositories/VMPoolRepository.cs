@@ -21,12 +21,16 @@ public sealed class VMPoolRepository(
         VMPoolItemLookupRequest request,
         CancellationToken cancellationToken)
     => Query()
-        .Include(vmp => vmp.VMPoolItems)
+        .Include(vmp => vmp.VMPoolItems ?? Enumerable.Empty<VMPoolItem>())
+            .ThenInclude(vmpi => vmpi.Project)
         .Where(vmp => vmp.LocationId == request.LocationId &&
                         vmp.ServerTierId == request.ServerTierId.Value &&
                         vmp.ProjectType == request.ProjectType)
         .Where(vmp => vmp.VMPoolItems != null)
-        .SelectMany(vmp => vmp.VMPoolItems!.Where(vmpi => vmpi.DelegatedAt == null))
+        .SelectMany(vmp => 
+            vmp.VMPoolItems!.Where(vmpi => vmpi.DelegatedAt == null && 
+                vmpi.Project != null && 
+                vmpi.Project.State == ProjectState.Running))
         .OrderBy(vmpi => vmpi.Id)
         .Select(vmpi => vmpi.Id)
         .FirstOrDefaultAsync(cancellationToken);
