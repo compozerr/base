@@ -54,10 +54,6 @@ public class StripeCustomerPaymentMethodAddedEventHandler(
 
                     var paidInvoice = await invoiceService.PayAsync(invoice.Id, cancellationToken: cancellationToken);
 
-                    await paymentFailureSagaOrchestrator.CancelSagaAsync(invoice.Lines.FirstOrDefault()?.SubscriptionId ?? string.Empty,
-                        PaymentFailureSagaCancellationReason.PaymentSucceeded,
-                        cancellationToken);
-
                     _logger.Information("Successfully paid invoice: {InvoiceId}, Status: {Status}",
                         paidInvoice.Id, paidInvoice.Status);
                 }

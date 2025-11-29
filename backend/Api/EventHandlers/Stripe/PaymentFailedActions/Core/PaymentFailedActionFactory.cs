@@ -4,7 +4,7 @@ using Stripe.Events;
 namespace Api.EventHandlers.Stripe.PaymentFailedActions.Core;
 
 public class PaymentFailedActionFactory(
-    StripeInvoicePaymentFailedEvent @event,
+    PaymentFailedEvent @event,
     User user,
     IServiceProvider serviceProvider)
 {

@@ -1,6 +1,6 @@
-using Api.EventHandlers.Stripe.PaymentFailedActions;
 using Auth.Abstractions;
 using Auth.Repositories;
+using MediatR;
 using Microsoft.Extensions.Logging;
 using Stripe.Data.Models;
 using Stripe.Data.Repositories;
@@ -8,16 +8,19 @@ using Stripe.Events;
 
 namespace Stripe.Jobs.SagaJobs;
 
-public class SecondWarningJob(
+public class PaymentFailedJob(
     IPaymentFailureSagaRepository repository,
-    ILogger<SecondWarningJob> logger,
+    ILogger<PaymentFailedJob> logger,
     IStripeCustomerRepository stripeCustomerRepository,
     IUserRepository userRepository,
-    IServiceProvider serviceProvider) : BaseSagaJob<SecondWarningJob>(repository, logger)
+    IPublisher publisher) : BaseSagaJob<PaymentFailedJob>(repository, logger)
 {
-    protected override async Task ExecuteSagaStepAsync(PaymentFailureSaga saga, CancellationToken cancellationToken)
+    protected override async Task ExecuteSagaStepAsync(
+        PaymentFailureSaga saga,
+        int attemptNumber,
+        CancellationToken cancellationToken)
     {
-        Logger.LogInformation("Executing second warning for saga {SagaId}", saga.Id);
+        Logger.LogInformation("Executing first warning for saga {SagaId}", saga.Id);
 
         var userId = await stripeCustomerRepository.GetInternalIdByStripeCustomerIdAsync(
             saga.CustomerId,
@@ -42,7 +45,7 @@ public class SecondWarningJob(
             return;
         }
 
-        var @event = new StripeInvoicePaymentFailedEvent(
+        var @event = new PaymentFailedEvent(
             saga.InvoiceId,
             saga.CustomerId,
             saga.SubscriptionId,
@@ -51,17 +54,14 @@ public class SecondWarningJob(
             saga.StartedAtUtc,
             (int)(DateTime.UtcNow - saga.StartedAtUtc).TotalDays,
             saga.PaymentLink,
-            2,
+            attemptNumber,
             null,
             null);
 
-        var action = new SecondWarningMail_PaymentFailedAction(@event, user, serviceProvider);
-        await action.ExecuteAsync(cancellationToken);
+        await publisher.Publish(@event, cancellationToken);
 
-        saga.SecondWarningSentAtUtc = DateTime.UtcNow;
+        await LogAuditEventAsync(saga.Id, PaymentFailureSagaEvent.FirstWarningSent, null, cancellationToken);
 
-        await LogAuditEventAsync(saga.Id, PaymentFailureSagaEvent.SecondWarningSent, null, cancellationToken);
-
-        Logger.LogInformation("Second warning sent for saga {SagaId}", saga.Id);
+        Logger.LogInformation("First warning sent for saga {SagaId}", saga.Id);
     }
 }

@@ -8,23 +8,23 @@ namespace Stripe.Jobs.SagaJobs;
 
 public abstract class BaseSagaJob<T>(
     IPaymentFailureSagaRepository repository,
-    ILogger<T> logger) : JobBase<T, PaymentFailureSagaId> where T : BaseSagaJob<T>
+    ILogger<T> logger) : JobBase<T, SagaJobArgs> where T : BaseSagaJob<T>
 {
     protected readonly IPaymentFailureSagaRepository Repository = repository;
     protected readonly ILogger<T> Logger = logger;
 
-    public override string? GetDistributedLockKey(PaymentFailureSagaId sagaId)
-        => $"payment-failure-saga:{sagaId}";
+    public override string? GetDistributedLockKey(SagaJobArgs args)
+        => $"payment-failure-saga:{args}";
 
-    public override async Task ExecuteAsync(PaymentFailureSagaId sagaId)
+    public override async Task ExecuteAsync(SagaJobArgs args)
     {
-        Logger.LogInformation("Executing saga job for saga {SagaId}", sagaId);
+        Logger.LogInformation("Executing saga job for saga {SagaId}", args);
 
-        var saga = await Repository.GetByIdAsync(sagaId, CancellationToken.None);
+        var saga = await Repository.GetByIdAsync(args.SagaId, CancellationToken.None);
 
         if (saga == null)
         {
-            Logger.LogWarning("Saga {SagaId} not found, skipping execution", sagaId);
+            Logger.LogWarning("Saga {SagaId} not found, skipping execution", args);
             return;
         }
 
@@ -32,19 +32,19 @@ public abstract class BaseSagaJob<T>(
         {
             Logger.LogInformation(
                 "Saga {SagaId} is not active (status: {Status}), skipping execution",
-                sagaId,
+                args,
                 saga.Status);
             return;
         }
 
-        await ExecuteSagaStepAsync(saga, CancellationToken.None);
+        await ExecuteSagaStepAsync(saga, args.AttemptNumber, CancellationToken.None);
 
         await Repository.UpdateAsync(saga, CancellationToken.None);
 
-        Logger.LogInformation("Completed saga job for saga {SagaId}", sagaId);
+        Logger.LogInformation("Completed saga job for saga {SagaId}", args);
     }
 
-    protected abstract Task ExecuteSagaStepAsync(PaymentFailureSaga saga, CancellationToken cancellationToken);
+    protected abstract Task ExecuteSagaStepAsync(PaymentFailureSaga saga, int attemptNumber, CancellationToken cancellationToken);
 
     protected async Task LogAuditEventAsync(
         PaymentFailureSagaId sagaId,

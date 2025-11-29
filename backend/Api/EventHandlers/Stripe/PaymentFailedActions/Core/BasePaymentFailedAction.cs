@@ -9,11 +9,11 @@ public interface IPaymentFailedAction
 }
 
 public abstract class BasePaymentFailedAction(
-    StripeInvoicePaymentFailedEvent @event,
+    PaymentFailedEvent @event,
     User user,
     IServiceProvider serviceProvider) : IPaymentFailedAction
 {
-    protected readonly StripeInvoicePaymentFailedEvent Event = @event;
+    protected readonly PaymentFailedEvent Event = @event;
     protected readonly User User = user;
     protected readonly IServiceProvider ServiceProvider = serviceProvider;
 

@@ -11,7 +11,6 @@ namespace Stripe.Services;
 public interface IPaymentFailureSagaOrchestrator
 {
     Task<PaymentFailureSaga?> StartSagaAsync(StripeInvoicePaymentFailedEvent @event, CancellationToken cancellationToken = default);
-    Task<PaymentFailureSaga?> StartSagaForNewSubscriptionAsync(string subscriptionId, string customerId, string invoiceId, decimal amountDue, string currency, string paymentLink, CancellationToken cancellationToken = default);
     Task UpdateSagaMetadataAsync(PaymentFailureSagaId sagaId, StripeInvoicePaymentFailedEvent @event, CancellationToken cancellationToken = default);
     Task CancelSagaAsync(string subscriptionId, PaymentFailureSagaCancellationReason reason, CancellationToken cancellationToken = default);
     Task<PaymentFailureSaga?> GetActiveSagaForSubscriptionAsync(string subscriptionId, CancellationToken cancellationToken = default);
@@ -54,72 +53,14 @@ public class PaymentFailureSagaOrchestrator(
         };
 
         // Schedule Hangfire delayed jobs
-        saga.FirstWarningJobId = FirstWarningJob.Schedule(saga.Id, TimeSpan.FromHours(24));
-        saga.SecondWarningJobId = SecondWarningJob.Schedule(saga.Id, TimeSpan.FromHours(96));
-        saga.TerminationJobId = TerminationJob.Schedule(saga.Id, TimeSpan.FromHours(120));
+        saga.FirstWarningJobId = PaymentFailedJob.Schedule(new(saga.Id, AttemptNumber: 1), TimeSpan.FromHours(24));
+        saga.SecondWarningJobId = PaymentFailedJob.Schedule(new(saga.Id, AttemptNumber: 2), TimeSpan.FromHours(96));
+        saga.TerminationJobId = PaymentFailedJob.Schedule(new(saga.Id, AttemptNumber: 3), TimeSpan.FromHours(120));
 
         await repository.AddAsync(saga, cancellationToken);
 
         logger.LogInformation(
             "Started payment failure saga {SagaId} for subscription {SubscriptionId}",
-            saga.Id,
-            saga.SubscriptionId);
-
-        await LogAuditEventAsync(saga.Id, PaymentFailureSagaEvent.SagaStarted, saga.FirstWarningJobId, cancellationToken);
-        await LogAuditEventAsync(saga.Id, PaymentFailureSagaEvent.FirstWarningScheduled, saga.FirstWarningJobId, cancellationToken);
-        await LogAuditEventAsync(saga.Id, PaymentFailureSagaEvent.SecondWarningScheduled, saga.SecondWarningJobId, cancellationToken);
-        await LogAuditEventAsync(saga.Id, PaymentFailureSagaEvent.TerminationScheduled, saga.TerminationJobId, cancellationToken);
-
-        return saga;
-    }
-
-    public async Task<PaymentFailureSaga?> StartSagaForNewSubscriptionAsync(
-        string subscriptionId,
-        string customerId,
-        string invoiceId,
-        decimal amountDue,
-        string currency,
-        string paymentLink,
-        CancellationToken cancellationToken = default)
-    {
-        var existingSaga = await repository.GetActiveSagaForSubscriptionAsync(subscriptionId, cancellationToken);
-        if (existingSaga != null)
-        {
-            logger.LogInformation(
-                "Saga already exists for subscription {SubscriptionId}, skipping creation",
-                subscriptionId);
-            return null;
-        }
-
-        var saga = new PaymentFailureSaga
-        {
-            SubscriptionId = subscriptionId,
-            CustomerId = customerId,
-            InvoiceId = invoiceId,
-            Status = PaymentFailureSagaStatus.Active,
-            StartedAtUtc = DateTime.UtcNow,
-            AmountDue = amountDue,
-            Currency = currency,
-            PaymentLink = paymentLink
-        };
-
-        // Schedule Hangfire delayed jobs
-        saga.FirstWarningJobId = BackgroundJob.Schedule<FirstWarningJob>(
-            job => job.ExecuteWithLockAsync(saga.Id),
-            TimeSpan.FromHours(24));
-
-        saga.SecondWarningJobId = BackgroundJob.Schedule<SecondWarningJob>(
-            job => job.ExecuteWithLockAsync(saga.Id),
-            TimeSpan.FromHours(96));
-
-        saga.TerminationJobId = BackgroundJob.Schedule<TerminationJob>(
-            job => job.ExecuteWithLockAsync(saga.Id),
-            TimeSpan.FromHours(120));
-
-        await repository.AddAsync(saga, cancellationToken);
-
-        logger.LogInformation(
-            "Started payment failure saga {SagaId} for new subscription {SubscriptionId}",
             saga.Id,
             saga.SubscriptionId);
 

@@ -8,7 +8,7 @@ using Stripe.Services;
 namespace Api.EventHandlers.Stripe.PaymentFailedActions;
 
 public sealed class TerminateProject_PaymentFailedAction(
-    StripeInvoicePaymentFailedEvent @event,
+    PaymentFailedEvent @event,
     User user,
     IServiceProvider serviceProvider
 ) : BasePaymentFailedAction(@event, user, serviceProvider)

@@ -8,15 +8,15 @@ using Stripe.Events;
 
 namespace Api.EventHandlers.Stripe;
 
-public class StripeInvoicePaymentFailedEventHandler(
+public class PaymentFailedEventHandler(
     IUserRepository userRepository,
     IStripeCustomerRepository stripeCustomerRepository,
-    IServiceProvider serviceProvider) : IEventHandler<StripeInvoicePaymentFailedEvent>
+    IServiceProvider serviceProvider) : IEventHandler<PaymentFailedEvent>
 {
-    private readonly Serilog.ILogger _logger = Log.Logger.ForContext<StripeInvoicePaymentFailedEventHandler>();
+    private readonly Serilog.ILogger _logger = Log.Logger.ForContext<PaymentFailedEventHandler>();
 
     public async Task Handle(
-        StripeInvoicePaymentFailedEvent notification,
+        PaymentFailedEvent notification,
         CancellationToken cancellationToken)
     {
         _logger.Warning("Processing failed invoice payment - Invoice: {InvoiceId}, Customer: {CustomerId}, Amount: {AmountDue}, Attempt: {AttemptCount}",
