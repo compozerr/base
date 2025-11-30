@@ -58,6 +58,10 @@ public class ProcessWebhookCommandHandler(
                 HandleCustomerUpdated(stripeEvent);
                 break;
 
+            case "customer.subscription.deleted":
+                HandleSubscriptionDeleted(stripeEvent);
+                break;
+
             default:
                 _logger.Information("Unhandled webhook event type: {EventType}", stripeEvent.Type);
                 break;
@@ -159,5 +163,21 @@ public class ProcessWebhookCommandHandler(
         StripeCustomerPaymentMethodAddedJob.Enqueue(paymentMethodAddedEvent);
 
         _logger.Information("Enqueued StripeCustomerPaymentMethodAddedEvent for customer: {CustomerId}", customer.Id);
+    }
+
+    private void HandleSubscriptionDeleted(Event stripeEvent)
+    {
+        var subscription = (Subscription)stripeEvent.Data.Object;
+
+        _logger.Information("Subscription deleted - Subscription: {SubscriptionId}, Customer: {CustomerId}",
+            subscription.Id, subscription.CustomerId);
+
+        var subscriptionDeletedEvent = new StripeSubscriptionDeletedEvent(
+            SubscriptionId: subscription.Id,
+            CustomerId: subscription.CustomerId);
+
+        StripeSubscriptionDeletedJob.Enqueue(subscriptionDeletedEvent);
+
+        _logger.Information("Enqueued StripeSubscriptionDeletedEvent for subscription: {SubscriptionId}", subscription.Id);
     }
 }

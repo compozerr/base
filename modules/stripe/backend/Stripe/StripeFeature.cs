@@ -30,12 +30,14 @@ public class StripeFeature : IFeature
 
         services.AddScoped<IStripeCustomerRepository, StripeCustomerRepository>();
         services.AddScoped<IPaymentFailureSagaRepository, PaymentFailureSagaRepository>();
+        services.AddScoped<IPaymentMethodMissingSagaRepository, PaymentMethodMissingSagaRepository>();
 
         services.AddScoped<IPaymentMethodsService, PaymentMethodsService>();
         services.AddScoped<ISubscriptionsService, SubscriptionsService>();
         services.AddScoped<IInvoicesService, InvoicesService>();
         services.AddScoped<IMonthlyInvoicePdfService, MonthlyInvoicePdfService>();
         services.AddScoped<IPaymentFailureSagaOrchestrator, PaymentFailureSagaOrchestrator>();
+        services.AddScoped<IPaymentMethodMissingSagaOrchestrator, PaymentMethodMissingSagaOrchestrator>();
     }
 
     void IFeature.ConfigureApp(WebApplication app)

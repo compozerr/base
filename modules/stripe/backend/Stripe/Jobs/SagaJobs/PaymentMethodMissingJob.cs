@@ -76,7 +76,27 @@ public class PaymentMethodMissingJob(
 
         await publisher.Publish(@event, cancellationToken);
 
-        await LogAuditEventAsync(saga.Id, PaymentMethodMissingSagaEvent.WarningSent, null, cancellationToken);
+        // Update saga timestamps based on attempt number
+        switch (attemptNumber)
+        {
+            case 1:
+                saga.FirstWarningSentAtUtc = DateTime.UtcNow;
+                await LogAuditEventAsync(saga.Id, PaymentMethodMissingSagaEvent.WarningSent, null, cancellationToken);
+                break;
+            case 2:
+                saga.SecondWarningSentAtUtc = DateTime.UtcNow;
+                await LogAuditEventAsync(saga.Id, PaymentMethodMissingSagaEvent.WarningSent, null, cancellationToken);
+                break;
+            case 3:
+                saga.TerminationExecutedAtUtc = DateTime.UtcNow;
+                saga.Status = PaymentMethodMissingSagaStatus.Completed;
+                saga.CompletedAtUtc = DateTime.UtcNow;
+                await LogAuditEventAsync(saga.Id, PaymentMethodMissingSagaEvent.TerminationExecuted, null, cancellationToken);
+                break;
+            default:
+                await LogAuditEventAsync(saga.Id, PaymentMethodMissingSagaEvent.WarningSent, null, cancellationToken);
+                break;
+        }
 
         Logger.LogInformation("Payment method missing warning attempt {AttemptNumber} sent for saga {SagaId}", attemptNumber, saga.Id);
     }
