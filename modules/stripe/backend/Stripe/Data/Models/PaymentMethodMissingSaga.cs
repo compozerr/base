@@ -3,27 +3,17 @@ using Stripe.Abstractions;
 
 namespace Stripe.Data.Models;
 
-public class PaymentFailureSaga : BaseEntityWithId<PaymentFailureSagaId>
+public class PaymentMethodMissingSaga : BaseEntityWithId<PaymentMethodMissingSagaId>
 {
-    /// <summary>
-    /// The Stripe subscription ID this saga is tracking.
-    /// </summary>
-    public required string SubscriptionId { get; set; }
-
     /// <summary>
     /// The Stripe customer ID.
     /// </summary>
     public required string CustomerId { get; set; }
 
     /// <summary>
-    /// The Stripe invoice ID that triggered this saga.
-    /// </summary>
-    public required string InvoiceId { get; set; }
-
-    /// <summary>
     /// Current status of the saga.
     /// </summary>
-    public PaymentFailureSagaStatus Status { get; set; }
+    public PaymentMethodMissingSagaStatus Status { get; set; }
 
     /// <summary>
     /// When the saga started (UTC).
@@ -43,22 +33,7 @@ public class PaymentFailureSaga : BaseEntityWithId<PaymentFailureSagaId>
     /// <summary>
     /// Reason the saga was cancelled.
     /// </summary>
-    public PaymentFailureSagaCancellationReason? CancellationReason { get; set; }
-
-    /// <summary>
-    /// Amount due for payment.
-    /// </summary>
-    public decimal AmountDue { get; set; }
-
-    /// <summary>
-    /// Currency of the payment.
-    /// </summary>
-    public required string Currency { get; set; }
-
-    /// <summary>
-    /// Stripe hosted payment link.
-    /// </summary>
-    public required string PaymentLink { get; set; }
+    public PaymentMethodMissingSagaCancellationReason? CancellationReason { get; set; }
 
     /// <summary>
     /// Hangfire job ID for the first warning email (for cancellation).
@@ -86,21 +61,20 @@ public class PaymentFailureSaga : BaseEntityWithId<PaymentFailureSagaId>
     public DateTime? SecondWarningSentAtUtc { get; set; }
 
     /// <summary>
-    /// When the project termination was executed (UTC).
+    /// When the all projects termination was executed (UTC).
     /// </summary>
     public DateTime? TerminationExecutedAtUtc { get; set; }
 }
 
-public enum PaymentFailureSagaStatus
+public enum PaymentMethodMissingSagaStatus
 {
     Active = 0,
     Completed = 1,
     Cancelled = 2
 }
 
-public enum PaymentFailureSagaCancellationReason
+public enum PaymentMethodMissingSagaCancellationReason
 {
-    PaymentSucceeded = 0,
-    ManualCancellation = 1,
-    SubscriptionCancelled = 2
+    PaymentMethodAdded = 0,
+    ManualCancellation = 1
 }

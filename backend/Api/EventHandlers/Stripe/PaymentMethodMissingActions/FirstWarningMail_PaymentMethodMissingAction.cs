@@ -1,27 +1,24 @@
-using Api.EventHandlers.Stripe.PaymentFailedActions.Core;
+using Api.EventHandlers.Stripe.PaymentMethodMissingActions.Core;
 using Auth.Models;
 using Core.Services;
 using Mail;
 using Mail.Services;
 using Stripe.Events;
-using Stripe.Helpers;
 
-namespace Api.EventHandlers.Stripe.PaymentFailedActions;
+namespace Api.EventHandlers.Stripe.PaymentMethodMissingActions;
 
-public sealed class FirstWarningMail_PaymentFailedAction(
-    PaymentFailedEvent @event,
+public sealed class FirstWarningMail_PaymentMethodMissingAction(
+    PaymentMethodMissingEvent @event,
     User user,
     IServiceProvider serviceProvider
-) : BasePaymentFailedAction(@event, user, serviceProvider)
+) : BasePaymentMethodMissingAction(@event, user, serviceProvider)
 {
-    private readonly Serilog.ILogger _logger = Log.Logger.ForContext<FirstWarningMail_PaymentFailedAction>();
+    private readonly Serilog.ILogger _logger = Log.Logger.ForContext<FirstWarningMail_PaymentMethodMissingAction>();
     public override async Task ExecuteAsync(CancellationToken cancellationToken = default)
     {
         using var scope = ServiceProvider.CreateScope();
         var mailService = scope.ServiceProvider.GetRequiredService<IMailService>();
         var frontendLocation = scope.ServiceProvider.GetRequiredService<IFrontendLocation>();
-
-        var currencySymbol = CurrencyHelper.GetSymbol(Event.Currency);
 
         try
         {
@@ -29,16 +26,12 @@ public sealed class FirstWarningMail_PaymentFailedAction(
                 new EmailAddress("no-reply@notifications.compozerr.com", "compozerr hosting"),
                 [new EmailAddress(User.Email, User.Name)],
                 "Action Required: Add Payment Method to Continue Your Service",
-                new Emails.MissingInvoicePaymentTemplate()
+                new Emails.MissingPaymentMethodTemplate()
                 {
-                    DueDate = Event.DueDate.ToString("MMMM dd, yyyy"),
                     CompanyName = "compozerr hosting",
                     Description = "To avoid service interruption, please add a valid payment method to your account. Your service will be terminated if no payment method is added.",
                     CustomerName = User.Name,
-                    Currency = currencySymbol,
-                    AmountDue = Event.AmountDue.ToString("F2"),
-                    DaysOverdue = Event.DaysOverdue.ToString(),
-                    PaymentLink = Event.PaymentLink,
+                    AddPaymentMethodUrl = frontendLocation.GetFromPath("settings?addPaymentMethod=true").ToString(),
                     DashboardLink = frontendLocation.GetFromPath("/projects").ToString(),
                     ContactLink = frontendLocation.GetFromPath("/contact").ToString(),
                     CompanyAddress = "Vilh. Bergsøes Vej 11, 8210 Aarhus V, Denmark"
@@ -46,11 +39,11 @@ public sealed class FirstWarningMail_PaymentFailedAction(
 
             await mailService.SendEmailAsync(mail);
 
-            _logger.Information("Successfully sent payment failed notification for invoice: {InvoiceId}", Event.InvoiceId);
+            _logger.Information("Successfully sent first warning payment method missing notification for customer: {CustomerId}", Event.CustomerId);
         }
         catch (Exception ex)
         {
-            _logger.Error(ex, "Error handling failed payment for invoice: {InvoiceId}", Event.InvoiceId);
+            _logger.Error(ex, "Error handling missing payment method for customer: {CustomerId}", Event.CustomerId);
             throw;
         }
     }

@@ -8,19 +8,19 @@ using Stripe.Events;
 
 namespace Stripe.Jobs.SagaJobs;
 
-public class PaymentFailedJob(
-    IPaymentFailureSagaRepository repository,
-    ILogger<PaymentFailedJob> logger,
+public class PaymentMethodMissingJob(
+    IPaymentMethodMissingSagaRepository repository,
+    ILogger<PaymentMethodMissingJob> logger,
     IStripeCustomerRepository stripeCustomerRepository,
     IUserRepository userRepository,
-    IPublisher publisher) : BaseSagaJob<PaymentFailedJob>(repository, logger)
+    IPublisher publisher) : BaseSagaJob<PaymentMethodMissingJob>(repository, logger)
 {
     protected override async Task ExecuteSagaStepAsync(
-        PaymentFailureSaga saga,
+        PaymentMethodMissingSaga saga,
         int attemptNumber,
         CancellationToken cancellationToken)
     {
-        Logger.LogInformation("Executing first warning for saga {SagaId}", saga.Id);
+        Logger.LogInformation("Executing payment method missing warning attempt {AttemptNumber} for saga {SagaId}", attemptNumber, saga.Id);
 
         var userId = await stripeCustomerRepository.GetInternalIdByStripeCustomerIdAsync(
             saga.CustomerId,
@@ -45,21 +45,14 @@ public class PaymentFailedJob(
             return;
         }
 
-        var @event = new PaymentFailedEvent(
-            saga.InvoiceId,
+        var @event = new PaymentMethodMissingEvent(
             saga.CustomerId,
-            saga.SubscriptionId,
-            saga.AmountDue,
-            saga.Currency,
-            saga.StartedAtUtc,
-            (int)(DateTime.UtcNow - saga.StartedAtUtc).TotalDays,
-            saga.PaymentLink,
             attemptNumber);
 
         await publisher.Publish(@event, cancellationToken);
 
-        await LogAuditEventAsync(saga.Id, PaymentFailureSagaEvent.FirstWarningSent, null, cancellationToken);
+        await LogAuditEventAsync(saga.Id, PaymentMethodMissingSagaEvent.WarningSent, null, cancellationToken);
 
-        Logger.LogInformation("First warning sent for saga {SagaId}", saga.Id);
+        Logger.LogInformation("Payment method missing warning attempt {AttemptNumber} sent for saga {SagaId}", attemptNumber, saga.Id);
     }
 }

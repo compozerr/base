@@ -3,17 +3,17 @@ using Stripe.Abstractions;
 
 namespace Stripe.Data.Models;
 
-public class PaymentFailureSagaAuditLog : BaseEntityWithId<PaymentFailureSagaAuditLogId>
+public class PaymentMethodMissingSagaAuditLog : BaseEntityWithId<PaymentMethodMissingSagaAuditLogId>
 {
     /// <summary>
     /// The saga this audit log entry belongs to.
     /// </summary>
-    public required PaymentFailureSagaId SagaId { get; set; }
+    public required PaymentMethodMissingSagaId SagaId { get; set; }
 
     /// <summary>
     /// The type of event that occurred.
     /// </summary>
-    public required PaymentFailureSagaEvent Event { get; set; }
+    public required PaymentMethodMissingSagaEvent Event { get; set; }
 
     /// <summary>
     /// When the event occurred (UTC).
@@ -31,16 +31,13 @@ public class PaymentFailureSagaAuditLog : BaseEntityWithId<PaymentFailureSagaAud
     public string? JobId { get; set; }
 }
 
-public enum PaymentFailureSagaEvent
+public enum PaymentMethodMissingSagaEvent
 {
     SagaStarted = 0,
-    FirstWarningScheduled = 1,
-    FirstWarningSent = 2,
-    SecondWarningScheduled = 3,
-    SecondWarningSent = 4,
-    TerminationScheduled = 5,
-    TerminationExecuted = 6,
-    SagaCancelled = 7,
-    DuplicateWebhookReceived = 8,
-    PaymentSucceededDuringSaga = 9
+    WarningScheduled = 1,
+    WarningSent = 2,
+    TerminationScheduled = 3,
+    TerminationExecuted = 4,
+    SagaCancelled = 5,
+    PaymentMethodAddedDuringSaga = 6
 }
