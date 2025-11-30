@@ -11,6 +11,7 @@ import { useMemo } from 'react'
 import { Skeleton } from '@/components/ui/skeleton'
 import { onN8nIntent } from '@/hooks/use-n8n-intent-ephemeral-storage.hook'
 import { useModal } from '@/hooks/use-modal'
+import confetti from 'canvas-confetti'
 
 export const Route = createFileRoute('/_auth/_dashboard/projects/$projectId/')({
     component: RouteComponent,
@@ -63,6 +64,13 @@ function RouteComponent() {
 
     onN8nIntent(async (intent) => {
         if (intent.action == "created" && intent.projectId === project.id && project.primaryDomain) {
+            // Trigger confetti animation
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 }
+            });
+
             const result = await modal.confirm(
                 "Congratulations! 🎉",
                 "Your n8n project has been created! Do you want to go to the instance?",
