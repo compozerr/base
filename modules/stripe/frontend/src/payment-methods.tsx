@@ -180,7 +180,7 @@ export const PaymentMethods: React.FC<PaymentMethodsProps> = ({ openAddPaymentMe
                             <Plus className="h-4 w-4 mr-2" /> Add Payment Method
                         </Button>
                     </DialogTrigger> */}
-                    <DialogContent>
+                    <DialogContent className="max-h-screen overflow-y-auto my-6">
                         <DialogHeader>
                             <DialogTitle>{shouldReplace ? "Replace" : "Add"} Payment Method</DialogTitle>
                             <DialogDescription>
