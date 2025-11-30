@@ -16,6 +16,8 @@ public interface IPaymentFailureSagaRepository :
 public sealed class PaymentFailureSagaRepository(
     StripeDbContext context) : GenericRepository<PaymentFailureSaga, PaymentFailureSagaId, StripeDbContext>(context), IPaymentFailureSagaRepository
 {
+    private readonly StripeDbContext Context = context;
+
     public Task<PaymentFailureSaga?> GetActiveSagaForSubscriptionAsync(string subscriptionId, CancellationToken cancellationToken = default)
     {
         return Query()
@@ -25,18 +27,18 @@ public sealed class PaymentFailureSagaRepository(
 
     public async Task<PaymentFailureSagaAuditLog> AddAuditLogAsync(PaymentFailureSagaAuditLog auditLog, CancellationToken cancellationToken = default)
     {
-        await context.PaymentFailureSagaAuditLogs.AddAsync(auditLog, cancellationToken);
-        await context.SaveChangesAsync(cancellationToken);
+        await Context.PaymentFailureSagaAuditLogs.AddAsync(auditLog, cancellationToken);
+        await Context.SaveChangesAsync(cancellationToken);
         return auditLog;
     }
 
-    public Task<PaymentFailureSaga?> GetByIdAsync(PaymentFailureSagaId id, CancellationToken cancellationToken = default)
+    public async Task<PaymentFailureSaga?> GetByIdAsync(PaymentFailureSagaId id, CancellationToken cancellationToken = default)
     {
-        return GetByIdAsync(id, cancellationToken);
+        return await base.GetByIdAsync(id, cancellationToken);
     }
 
     Task<PaymentFailureSaga> ISagaRepository<PaymentFailureSaga, PaymentFailureSagaId, PaymentFailureSagaAuditLog>.UpdateAsync(PaymentFailureSaga entity, CancellationToken cancellationToken)
     {
-        return (Task<PaymentFailureSaga>)UpdateAsync(entity, cancellationToken);
+        return (Task<PaymentFailureSaga>)base.UpdateAsync(entity, cancellationToken);
     }
 }
