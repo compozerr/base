@@ -14,6 +14,11 @@ public interface ISubscriptionsService
 {
     Task<List<SubscriptionDto>> GetSubscriptionsForUserAsync(
             CancellationToken cancellationToken = default);
+
+    Task<SubscriptionDto> GetSubscriptionByStripeSubscriptionIdAsync(
+        string subscriptionId,
+        CancellationToken cancellationToken = default);
+        
     Task<List<SubscriptionDto>> GetSubscriptionsForUserAsync(
         string userId,
         CancellationToken cancellationToken = default);
@@ -360,5 +365,14 @@ public sealed class SubscriptionsService(
                 "Error starting payment failure saga for subscription {SubscriptionId}",
                 subscription.Id);
         }
+    }
+
+    public async Task<SubscriptionDto> GetSubscriptionByStripeSubscriptionIdAsync(
+        string subscriptionId,
+        CancellationToken cancellationToken = default)
+    {
+        var subscriptionClient = new SubscriptionService(_stripeClient);
+        var subscription = await subscriptionClient.GetAsync(subscriptionId, cancellationToken: cancellationToken);
+        return SubscriptionDto.FromSubscription(subscription, _isProduction);
     }
 }

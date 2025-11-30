@@ -2,13 +2,15 @@ using Database.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Stripe.Abstractions;
 using Stripe.Data.Models;
+using Stripe.Jobs.SagaJobs;
 
 namespace Stripe.Data.Repositories;
 
-public interface IPaymentMethodMissingSagaRepository : IGenericRepository<PaymentMethodMissingSaga, PaymentMethodMissingSagaId, StripeDbContext>
+public interface IPaymentMethodMissingSagaRepository :
+    IGenericRepository<PaymentMethodMissingSaga, PaymentMethodMissingSagaId, StripeDbContext>,
+    ISagaRepository<PaymentMethodMissingSaga, PaymentMethodMissingSagaId, PaymentMethodMissingSagaAuditLog>
 {
     Task<PaymentMethodMissingSaga?> GetActiveSagaForCustomerAsync(string customerId, CancellationToken cancellationToken = default);
-    Task<PaymentMethodMissingSagaAuditLog> AddAuditLogAsync(PaymentMethodMissingSagaAuditLog auditLog, CancellationToken cancellationToken = default);
 }
 
 public sealed class PaymentMethodMissingSagaRepository(
@@ -26,5 +28,15 @@ public sealed class PaymentMethodMissingSagaRepository(
         await context.PaymentMethodMissingSagaAuditLogs.AddAsync(auditLog, cancellationToken);
         await context.SaveChangesAsync(cancellationToken);
         return auditLog;
+    }
+
+    public Task<PaymentMethodMissingSaga?> GetByIdAsync(PaymentMethodMissingSagaId id, CancellationToken cancellationToken = default)
+    {
+        return GetByIdAsync(id, cancellationToken);
+    }
+
+    Task<PaymentMethodMissingSaga> ISagaRepository<PaymentMethodMissingSaga, PaymentMethodMissingSagaId, PaymentMethodMissingSagaAuditLog>.UpdateAsync(PaymentMethodMissingSaga entity, CancellationToken cancellationToken)
+    {
+        return (Task<PaymentMethodMissingSaga>)UpdateAsync(entity, cancellationToken);
     }
 }

@@ -2,6 +2,7 @@ using Auth.Abstractions;
 using Auth.Repositories;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using Stripe.Abstractions;
 using Stripe.Data.Models;
 using Stripe.Data.Repositories;
 using Stripe.Events;
@@ -13,8 +14,32 @@ public class PaymentMethodMissingJob(
     ILogger<PaymentMethodMissingJob> logger,
     IStripeCustomerRepository stripeCustomerRepository,
     IUserRepository userRepository,
-    IPublisher publisher) : BaseSagaJob<PaymentMethodMissingJob>(repository, logger)
+    IPublisher publisher) : BaseSagaJob<
+        PaymentMethodMissingJob,
+        PaymentMethodMissingSaga,
+        PaymentMethodMissingSagaId,
+        PaymentMethodMissingSagaStatus,
+        PaymentMethodMissingSagaEvent,
+        PaymentMethodMissingSagaAuditLog,
+        IPaymentMethodMissingSagaRepository>(repository, logger, "payment-method-missing")
 {
+    protected override bool IsSagaActive(PaymentMethodMissingSaga saga)
+        => saga.Status == PaymentMethodMissingSagaStatus.Active;
+
+    protected override PaymentMethodMissingSagaAuditLog CreateAuditLog(
+        PaymentMethodMissingSagaId sagaId,
+        PaymentMethodMissingSagaEvent eventType,
+        string? additionalData)
+    {
+        return new PaymentMethodMissingSagaAuditLog
+        {
+            SagaId = sagaId,
+            Event = eventType,
+            EventTimestampUtc = DateTime.UtcNow,
+            AdditionalData = additionalData
+        };
+    }
+
     protected override async Task ExecuteSagaStepAsync(
         PaymentMethodMissingSaga saga,
         int attemptNumber,
