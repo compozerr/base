@@ -70,6 +70,9 @@ public class PaymentMethodMissingJob(
             return;
         }
 
+        //TODO: check stripe payment method before sending event to make sure payment method is still missing
+        
+
         var @event = new PaymentMethodMissingEvent(
             saga.CustomerId,
             attemptNumber);
