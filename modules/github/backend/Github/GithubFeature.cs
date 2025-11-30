@@ -36,7 +36,6 @@ public class GithubFeature : IFeature
         services.AddScoped<IGithubService, GithubService>();
         services.AddScoped<IGithubUserSettingsRepository, GithubUserSettingsRepository>();
         services.AddScoped<IPushWebhookEventRepository, PushWebhookEventRepository>();
-        services.AddDataProtection();
         services.AddHttpClient();
 
         services.AddScoped<WebhookEventProcessor, DefaultWebhookEventProcessor>();

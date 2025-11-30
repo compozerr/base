@@ -25,7 +25,7 @@ public static class LoginRoute
                 {
                     RedirectUri = string.IsNullOrEmpty(returnUrl) ? "/" : returnUrl,
                     IsPersistent = true,
-                    ExpiresUtc = dateTimeProvider.UtcNow.AddDays(7),
+                    ExpiresUtc = dateTimeProvider.UtcNow.AddDays(30),
                     Items =
                     {
                         { "state", Guid.NewGuid().ToString() },

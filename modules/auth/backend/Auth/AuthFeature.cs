@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -31,6 +32,13 @@ public class AuthFeature : IFeature
             });
         });
 
+        // Configure Data Protection to persist keys across app restarts
+        var keysPath = Path.Combine(Directory.GetCurrentDirectory(), "keys");
+        Directory.CreateDirectory(keysPath);
+        services.AddDataProtection()
+            .PersistKeysToFileSystem(new DirectoryInfo(keysPath))
+            .SetApplicationName("Compozerr");
+
         services.AddAuthentication(options =>
         {
             options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
@@ -39,6 +47,10 @@ public class AuthFeature : IFeature
         .AddGithubAuthProvider()
         .AddCookie(options =>
         {
+            // Make cookies persistent across browser sessions
+            options.ExpireTimeSpan = TimeSpan.FromDays(30);
+            options.SlidingExpiration = true;
+
             options.Events.OnRedirectToAccessDenied = context =>
             {
                 context.Response.StatusCode = StatusCodes.Status403Forbidden;
