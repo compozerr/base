@@ -14,39 +14,61 @@ public sealed class TerminateProject_PaymentFailedAction(
 ) : BasePaymentFailedAction(@event, user, serviceProvider)
 {
     private readonly Serilog.ILogger _logger = Log.Logger.ForContext<TerminateProject_PaymentFailedAction>();
+
     public override async Task ExecuteAsync(CancellationToken cancellationToken = default)
     {
         using var scope = ServiceProvider.CreateScope();
         var subscriptionsService = scope.ServiceProvider.GetRequiredService<ISubscriptionsService>();
         var sender = scope.ServiceProvider.GetRequiredService<ISender>();
 
-        var subscriptions = await subscriptionsService.GetSubscriptionsForUserAsync(User.Id.Value.ToString(), cancellationToken);
-
-        if (subscriptions is null || !subscriptions.Any())
-        {
-            _logger.Error("No subscriptions found for user. Cannot cancel subscription for project termination. Invoice: {InvoiceId}", Event.InvoiceId);
-            return; // No subscriptions to cancel
-        }
-
-        var projectId = subscriptions.Where(x => x.Id == Event.SubscriptionId).FirstOrDefault()?.ProjectId;
-
-        if (projectId is null)
-        {
-            _logger.Error("No project ID found for subscription. Cannot cancel subscription for project termination. Invoice: {InvoiceId}", Event.InvoiceId);
-            return; // No project ID found
-        }
-
         try
         {
+            // Get the specific subscription for this failed payment saga
+            var subscription = await subscriptionsService.GetSubscriptionByStripeSubscriptionIdAsync(
+                Event.SubscriptionId,
+                cancellationToken);
+
+            if (subscription is null)
+            {
+                _logger.Warning(
+                    "No subscription found for Stripe subscription ID {SubscriptionId}. Cannot terminate project for invoice: {InvoiceId}",
+                    Event.SubscriptionId,
+                    Event.InvoiceId);
+                return;
+            }
+
+            if (subscription.ProjectId is null)
+            {
+                _logger.Warning(
+                    "Subscription {SubscriptionId} has no associated project ID. Cannot terminate for invoice: {InvoiceId}",
+                    Event.SubscriptionId,
+                    Event.InvoiceId);
+                return;
+            }
+
+            _logger.Information(
+                "Terminating project {ProjectId} for unpaid invoice {InvoiceId} (subscription {SubscriptionId})",
+                subscription.ProjectId,
+                Event.InvoiceId,
+                Event.SubscriptionId);
+
             await sender.Send(new DeleteProjectCommand(
-                 ProjectId: projectId,
-                 SkipOwnerCheck: true
-             ), cancellationToken);
-            _logger.Information("Successfully sent terminated project for invoice: {InvoiceId}", Event.InvoiceId);
+                ProjectId: subscription.ProjectId,
+                SkipOwnerCheck: true
+            ), cancellationToken);
+
+            _logger.Information(
+                "Successfully terminated project {ProjectId} for unpaid invoice {InvoiceId}",
+                subscription.ProjectId,
+                Event.InvoiceId);
         }
         catch (Exception ex)
         {
-            _logger.Error(ex, "Error handling terminated project for invoice: {InvoiceId}", Event.InvoiceId);
+            _logger.Error(
+                ex,
+                "Error terminating project for invoice {InvoiceId} (subscription {SubscriptionId})",
+                Event.InvoiceId,
+                Event.SubscriptionId);
             throw;
         }
     }

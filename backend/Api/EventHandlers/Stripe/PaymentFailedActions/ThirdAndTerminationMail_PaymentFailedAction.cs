@@ -4,7 +4,6 @@ using Core.Services;
 using Mail;
 using Mail.Services;
 using Stripe.Events;
-using Stripe.Helpers;
 
 namespace Api.EventHandlers.Stripe.PaymentFailedActions;
 
@@ -15,6 +14,7 @@ public sealed class ThirdAndTerminationMail_PaymentFailedAction(
 ) : BasePaymentFailedAction(@event, user, serviceProvider)
 {
     private readonly Serilog.ILogger _logger = Log.Logger.ForContext<ThirdAndTerminationMail_PaymentFailedAction>();
+
     public override async Task ExecuteAsync(CancellationToken cancellationToken = default)
     {
         using var scope = ServiceProvider.CreateScope();
@@ -26,24 +26,28 @@ public sealed class ThirdAndTerminationMail_PaymentFailedAction(
             var mail = await ReactEmail.CreateAsync(
                 new EmailAddress("no-reply@notifications.compozerr.com", "compozerr hosting"),
                 [new EmailAddress(User.Email, User.Name)],
-                "Important Notice: Your Compozerr Project Has Been Terminated",
-                new Emails.ProjectHasBeenTerminatedTemplate()
+                "Project Terminated: Unpaid Invoice",
+                new Emails.ProjectTerminatedUnpaidInvoiceTemplate()
                 {
-                    CompanyName = "compozerr hosting",
-                    Reason = "Due to missing payment method, we have regrettably terminated your project associated with this account.",
                     CustomerName = User.Name,
+                    AmountDue = Event.AmountDue.ToString("F2"),
+                    Currency = Event.Currency.ToUpper(),
+                    DueDate = Event.DueDate.ToString("MMMM dd, yyyy"),
+                    DaysOverdue = Event.DaysOverdue.ToString(),
+                    PaymentLink = Event.PaymentLink,
                     DashboardLink = frontendLocation.GetFromPath("/projects").ToString(),
                     ContactLink = frontendLocation.GetFromPath("/contact").ToString(),
+                    CompanyName = "compozerr hosting",
                     CompanyAddress = "Vilh. Bergsøes Vej 11, 8210 Aarhus V, Denmark"
                 });
 
             await mailService.SendEmailAsync(mail);
 
-            _logger.Information("Successfully sent project termination notification for invoice: {InvoiceId}", Event.InvoiceId);
+            _logger.Information("Successfully sent project terminated email for invoice: {InvoiceId}", Event.InvoiceId);
         }
         catch (Exception ex)
         {
-            _logger.Error(ex, "Error handling project termination for invoice: {InvoiceId}", Event.InvoiceId);
+            _logger.Error(ex, "Error sending project terminated email for invoice: {InvoiceId}", Event.InvoiceId);
             throw;
         }
     }

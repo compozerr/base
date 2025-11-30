@@ -2,6 +2,7 @@ using Auth.Abstractions;
 using Auth.Repositories;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using Stripe.Abstractions;
 using Stripe.Data.Models;
 using Stripe.Data.Repositories;
 using Stripe.Events;
@@ -13,14 +14,38 @@ public class PaymentFailedJob(
     ILogger<PaymentFailedJob> logger,
     IStripeCustomerRepository stripeCustomerRepository,
     IUserRepository userRepository,
-    IPublisher publisher) : BaseSagaJob<PaymentFailedJob>(repository, logger)
+    IPublisher publisher) : BaseSagaJob<
+        PaymentFailedJob,
+        PaymentFailureSaga,
+        PaymentFailureSagaId,
+        PaymentFailureSagaStatus,
+        PaymentFailureSagaEvent,
+        PaymentFailureSagaAuditLog,
+        IPaymentFailureSagaRepository>(repository, logger, "payment-failure")
 {
+    protected override bool IsSagaActive(PaymentFailureSaga saga)
+        => saga.Status == PaymentFailureSagaStatus.Active;
+
+    protected override PaymentFailureSagaAuditLog CreateAuditLog(
+        PaymentFailureSagaId sagaId,
+        PaymentFailureSagaEvent eventType,
+        string? additionalData)
+    {
+        return new PaymentFailureSagaAuditLog
+        {
+            SagaId = sagaId,
+            Event = eventType,
+            EventTimestampUtc = DateTime.UtcNow,
+            AdditionalData = additionalData
+        };
+    }
+
     protected override async Task ExecuteSagaStepAsync(
         PaymentFailureSaga saga,
         int attemptNumber,
         CancellationToken cancellationToken)
     {
-        Logger.LogInformation("Executing first warning for saga {SagaId}", saga.Id);
+        Logger.LogInformation("Executing payment failed warning attempt {AttemptNumber} for saga {SagaId}", attemptNumber, saga.Id);
 
         var userId = await stripeCustomerRepository.GetInternalIdByStripeCustomerIdAsync(
             saga.CustomerId,
@@ -58,8 +83,28 @@ public class PaymentFailedJob(
 
         await publisher.Publish(@event, cancellationToken);
 
-        await LogAuditEventAsync(saga.Id, PaymentFailureSagaEvent.FirstWarningSent, null, cancellationToken);
+        // Update saga timestamps based on attempt number
+        switch (attemptNumber)
+        {
+            case 1:
+                saga.FirstWarningSentAtUtc = DateTime.UtcNow;
+                await LogAuditEventAsync(saga.Id, PaymentFailureSagaEvent.FirstWarningSent, null, cancellationToken);
+                break;
+            case 2:
+                saga.SecondWarningSentAtUtc = DateTime.UtcNow;
+                await LogAuditEventAsync(saga.Id, PaymentFailureSagaEvent.SecondWarningSent, null, cancellationToken);
+                break;
+            case 3:
+                saga.TerminationExecutedAtUtc = DateTime.UtcNow;
+                saga.Status = PaymentFailureSagaStatus.Completed;
+                saga.CompletedAtUtc = DateTime.UtcNow;
+                await LogAuditEventAsync(saga.Id, PaymentFailureSagaEvent.TerminationExecuted, null, cancellationToken);
+                break;
+            default:
+                await LogAuditEventAsync(saga.Id, PaymentFailureSagaEvent.OnboardingSent, null, cancellationToken);
+                break;
+        }
 
-        Logger.LogInformation("First warning sent for saga {SagaId}", saga.Id);
+        Logger.LogInformation("Payment failed warning attempt {AttemptNumber} sent for saga {SagaId}", attemptNumber, saga.Id);
     }
 }

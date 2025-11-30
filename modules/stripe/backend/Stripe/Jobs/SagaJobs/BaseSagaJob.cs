@@ -1,65 +1,86 @@
+using Core.Abstractions;
+using Database.Models;
+using Database.Repositories;
 using Jobs;
 using Microsoft.Extensions.Logging;
-using Stripe.Abstractions;
-using Stripe.Data.Models;
-using Stripe.Data.Repositories;
+using Stripe.Data;
 
 namespace Stripe.Jobs.SagaJobs;
 
-public abstract class BaseSagaJob<T>(
-    IPaymentFailureSagaRepository repository,
-    ILogger<T> logger) : JobBase<T, SagaJobArgs> where T : BaseSagaJob<T>
+public interface ISagaRepository<TSaga, TSagaId, TAuditLog>
+    where TSaga : BaseEntityWithId<TSagaId>
+    where TSagaId : IdBase<TSagaId>, IId<TSagaId>
 {
-    protected readonly IPaymentFailureSagaRepository Repository = repository;
-    protected readonly ILogger<T> Logger = logger;
+    Task<TSaga?> GetByIdAsync(TSagaId id, CancellationToken cancellationToken = default);
+    Task<TSaga> UpdateAsync(TSaga entity, CancellationToken cancellationToken = default);
+    Task<TAuditLog> AddAuditLogAsync(TAuditLog auditLog, CancellationToken cancellationToken = default);
+}
+
+public abstract class BaseSagaJob<TJob, TSaga, TSagaId, TSagaStatus, TSagaEvent, TAuditLog, TRepository>(
+    TRepository repository,
+    ILogger<TJob> logger,
+    string sagaTypeName) : JobBase<TJob, SagaJobArgs>
+    where TJob : BaseSagaJob<TJob, TSaga, TSagaId, TSagaStatus, TSagaEvent, TAuditLog, TRepository>
+    where TSaga : BaseEntityWithId<TSagaId>
+    where TSagaId : IdBase<TSagaId>, IId<TSagaId>
+    where TSagaStatus : Enum
+    where TSagaEvent : Enum
+    where TRepository : IGenericRepository<TSaga, TSagaId, StripeDbContext>, ISagaRepository<TSaga, TSagaId, TAuditLog>
+{
+    protected readonly TRepository Repository = repository;
+    protected readonly ILogger<TJob> Logger = logger;
 
     public override string? GetDistributedLockKey(SagaJobArgs args)
-        => $"payment-failure-saga:{args}";
+        => $"{sagaTypeName}-saga:{args}";
 
     public override async Task ExecuteAsync(SagaJobArgs args)
     {
-        Logger.LogInformation("Executing saga job for saga {SagaId}", args);
+        Logger.LogInformation("Executing {SagaType} saga job for saga {SagaId}", sagaTypeName, args);
 
-        var saga = await Repository.GetByIdAsync(args.SagaId, CancellationToken.None);
-
-        if (saga == null)
+        // Cast object to TSagaId
+        if (args.SagaId is not TSagaId sagaId)
         {
-            Logger.LogWarning("Saga {SagaId} not found, skipping execution", args);
+            Logger.LogError("Invalid saga ID type. Expected {ExpectedType}, got {ActualType}",
+                typeof(TSagaId).Name,
+                args.SagaId?.GetType().Name ?? "null");
             return;
         }
 
-        if (saga.Status != PaymentFailureSagaStatus.Active)
+        var saga = await Repository.GetByIdAsync(sagaId, CancellationToken.None);
+
+        if (saga == null)
+        {
+            Logger.LogWarning("{SagaType} saga {SagaId} not found, skipping execution", sagaTypeName, args);
+            return;
+        }
+
+        if (!IsSagaActive(saga))
         {
             Logger.LogInformation(
-                "Saga {SagaId} is not active (status: {Status}), skipping execution",
-                args,
-                saga.Status);
+                "{SagaType} saga {SagaId} is not active, skipping execution",
+                sagaTypeName,
+                args);
             return;
         }
 
         await ExecuteSagaStepAsync(saga, args.AttemptNumber, CancellationToken.None);
 
-        await Repository.UpdateAsync(saga, CancellationToken.None);
+        await ((IGenericRepository<TSaga, TSagaId, StripeDbContext>)Repository).UpdateAsync(saga, CancellationToken.None);
 
-        Logger.LogInformation("Completed saga job for saga {SagaId}", args);
+        Logger.LogInformation("Completed {SagaType} saga job for saga {SagaId}", sagaTypeName, args);
     }
 
-    protected abstract Task ExecuteSagaStepAsync(PaymentFailureSaga saga, int attemptNumber, CancellationToken cancellationToken);
+    protected abstract bool IsSagaActive(TSaga saga);
+    protected abstract Task ExecuteSagaStepAsync(TSaga saga, int attemptNumber, CancellationToken cancellationToken);
+    protected abstract TAuditLog CreateAuditLog(TSagaId sagaId, TSagaEvent eventType, string? additionalData);
 
     protected async Task LogAuditEventAsync(
-        PaymentFailureSagaId sagaId,
-        PaymentFailureSagaEvent eventType,
+        TSagaId sagaId,
+        TSagaEvent eventType,
         string? additionalData = null,
         CancellationToken cancellationToken = default)
     {
-        var auditLog = new PaymentFailureSagaAuditLog
-        {
-            SagaId = sagaId,
-            Event = eventType,
-            EventTimestampUtc = DateTime.UtcNow,
-            AdditionalData = additionalData
-        };
-
+        var auditLog = CreateAuditLog(sagaId, eventType, additionalData);
         await Repository.AddAuditLogAsync(auditLog, cancellationToken);
     }
 }

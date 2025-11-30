@@ -13,6 +13,9 @@ public class StripeDbContext(
     public DbSet<StripeCustomer> StripeCustomers => Set<StripeCustomer>();
     public DbSet<PaymentFailureSaga> PaymentFailureSagas => Set<PaymentFailureSaga>();
     public DbSet<PaymentFailureSagaAuditLog> PaymentFailureSagaAuditLogs => Set<PaymentFailureSagaAuditLog>();
+    
+    public DbSet<PaymentMethodMissingSaga> PaymentMethodMissingSagas => Set<PaymentMethodMissingSaga>();
+    public DbSet<PaymentMethodMissingSagaAuditLog> PaymentMethodMissingSagaAuditLogs => Set<PaymentMethodMissingSagaAuditLog>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

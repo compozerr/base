@@ -4,7 +4,6 @@ using Core.Services;
 using Mail;
 using Mail.Services;
 using Stripe.Events;
-using Stripe.Helpers;
 
 namespace Api.EventHandlers.Stripe.PaymentFailedActions;
 
@@ -15,42 +14,41 @@ public sealed class FirstWarningMail_PaymentFailedAction(
 ) : BasePaymentFailedAction(@event, user, serviceProvider)
 {
     private readonly Serilog.ILogger _logger = Log.Logger.ForContext<FirstWarningMail_PaymentFailedAction>();
+
     public override async Task ExecuteAsync(CancellationToken cancellationToken = default)
     {
         using var scope = ServiceProvider.CreateScope();
         var mailService = scope.ServiceProvider.GetRequiredService<IMailService>();
         var frontendLocation = scope.ServiceProvider.GetRequiredService<IFrontendLocation>();
 
-        var currencySymbol = CurrencyHelper.GetSymbol(Event.Currency);
-
         try
         {
             var mail = await ReactEmail.CreateAsync(
                 new EmailAddress("no-reply@notifications.compozerr.com", "compozerr hosting"),
                 [new EmailAddress(User.Email, User.Name)],
-                "Action Required: Add Payment Method to Continue Your Service",
-                new Emails.MissingInvoicePaymentTemplate()
+                "Payment Reminder: Invoice Overdue - 4 Days Until Project Termination",
+                new Emails.FailedInvoiceFirstWarningTemplate()
                 {
-                    DueDate = Event.DueDate.ToString("MMMM dd, yyyy"),
-                    CompanyName = "compozerr hosting",
-                    Description = "To avoid service interruption, please add a valid payment method to your account. Your service will be terminated if no payment method is added.",
                     CustomerName = User.Name,
-                    Currency = currencySymbol,
                     AmountDue = Event.AmountDue.ToString("F2"),
+                    Currency = Event.Currency.ToUpper(),
+                    DueDate = Event.DueDate.ToString("MMMM dd, yyyy"),
                     DaysOverdue = Event.DaysOverdue.ToString(),
+                    DaysUntilTermination = "4",
                     PaymentLink = Event.PaymentLink,
                     DashboardLink = frontendLocation.GetFromPath("/projects").ToString(),
                     ContactLink = frontendLocation.GetFromPath("/contact").ToString(),
+                    CompanyName = "compozerr hosting",
                     CompanyAddress = "Vilh. Bergsøes Vej 11, 8210 Aarhus V, Denmark"
                 });
 
             await mailService.SendEmailAsync(mail);
 
-            _logger.Information("Successfully sent payment failed notification for invoice: {InvoiceId}", Event.InvoiceId);
+            _logger.Information("Successfully sent failed invoice first warning email for invoice: {InvoiceId}", Event.InvoiceId);
         }
         catch (Exception ex)
         {
-            _logger.Error(ex, "Error handling failed payment for invoice: {InvoiceId}", Event.InvoiceId);
+            _logger.Error(ex, "Error sending failed invoice first warning email for invoice: {InvoiceId}", Event.InvoiceId);
             throw;
         }
     }

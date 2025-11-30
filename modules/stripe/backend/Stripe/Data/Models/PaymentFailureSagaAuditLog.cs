@@ -35,12 +35,14 @@ public enum PaymentFailureSagaEvent
 {
     SagaStarted = 0,
     FirstWarningScheduled = 1,
-    FirstWarningSent = 2,
-    SecondWarningScheduled = 3,
-    SecondWarningSent = 4,
-    TerminationScheduled = 5,
-    TerminationExecuted = 6,
-    SagaCancelled = 7,
-    DuplicateWebhookReceived = 8,
-    PaymentSucceededDuringSaga = 9
+    SecondWarningScheduled = 2,
+    TerminationScheduled = 3,
+    OnboardingSent = 4,
+    FirstWarningSent = 5,
+    SecondWarningSent = 6,
+    TerminationExecuted = 7,
+    SagaCancelled = 8,
+    PaymentSucceededDuringSaga = 9,
+    SubscriptionCancelledDuringSaga = 10,
+    DuplicateWebhookReceived = 11
 }

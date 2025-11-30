@@ -6,7 +6,7 @@ namespace Stripe.Data.Models;
 public class PaymentFailureSaga : BaseEntityWithId<PaymentFailureSagaId>
 {
     /// <summary>
-    /// The Stripe subscription ID this saga is tracking.
+    /// The Stripe subscription ID associated with this saga.
     /// </summary>
     public required string SubscriptionId { get; set; }
 
@@ -16,7 +16,7 @@ public class PaymentFailureSaga : BaseEntityWithId<PaymentFailureSagaId>
     public required string CustomerId { get; set; }
 
     /// <summary>
-    /// The Stripe invoice ID that triggered this saga.
+    /// The Stripe invoice ID that failed payment.
     /// </summary>
     public required string InvoiceId { get; set; }
 
@@ -46,17 +46,17 @@ public class PaymentFailureSaga : BaseEntityWithId<PaymentFailureSagaId>
     public PaymentFailureSagaCancellationReason? CancellationReason { get; set; }
 
     /// <summary>
-    /// Amount due for payment.
+    /// Amount due on the failed invoice.
     /// </summary>
     public decimal AmountDue { get; set; }
 
     /// <summary>
-    /// Currency of the payment.
+    /// Currency of the invoice (e.g., "usd", "eur").
     /// </summary>
     public required string Currency { get; set; }
 
     /// <summary>
-    /// Stripe hosted payment link.
+    /// Stripe hosted payment link for the invoice.
     /// </summary>
     public required string PaymentLink { get; set; }
 
@@ -101,6 +101,6 @@ public enum PaymentFailureSagaStatus
 public enum PaymentFailureSagaCancellationReason
 {
     PaymentSucceeded = 0,
-    ManualCancellation = 1,
-    SubscriptionCancelled = 2
+    SubscriptionCancelled = 1,
+    ManualCancellation = 2
 }

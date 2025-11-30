@@ -2,13 +2,15 @@ using Database.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Stripe.Abstractions;
 using Stripe.Data.Models;
+using Stripe.Jobs.SagaJobs;
 
 namespace Stripe.Data.Repositories;
 
-public interface IPaymentFailureSagaRepository : IGenericRepository<PaymentFailureSaga, PaymentFailureSagaId, StripeDbContext>
+public interface IPaymentFailureSagaRepository :
+    IGenericRepository<PaymentFailureSaga, PaymentFailureSagaId, StripeDbContext>,
+    ISagaRepository<PaymentFailureSaga, PaymentFailureSagaId, PaymentFailureSagaAuditLog>
 {
     Task<PaymentFailureSaga?> GetActiveSagaForSubscriptionAsync(string subscriptionId, CancellationToken cancellationToken = default);
-    Task<PaymentFailureSagaAuditLog> AddAuditLogAsync(PaymentFailureSagaAuditLog auditLog, CancellationToken cancellationToken = default);
 }
 
 public sealed class PaymentFailureSagaRepository(
@@ -26,5 +28,15 @@ public sealed class PaymentFailureSagaRepository(
         await context.PaymentFailureSagaAuditLogs.AddAsync(auditLog, cancellationToken);
         await context.SaveChangesAsync(cancellationToken);
         return auditLog;
+    }
+
+    public Task<PaymentFailureSaga?> GetByIdAsync(PaymentFailureSagaId id, CancellationToken cancellationToken = default)
+    {
+        return GetByIdAsync(id, cancellationToken);
+    }
+
+    Task<PaymentFailureSaga> ISagaRepository<PaymentFailureSaga, PaymentFailureSagaId, PaymentFailureSagaAuditLog>.UpdateAsync(PaymentFailureSaga entity, CancellationToken cancellationToken)
+    {
+        return (Task<PaymentFailureSaga>)UpdateAsync(entity, cancellationToken);
     }
 }

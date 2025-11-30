@@ -118,7 +118,7 @@ public class PaymentFailureSagaOrchestrator(
         saga.AmountDue = @event.AmountDue;
         saga.PaymentLink = @event.PaymentLink;
 
-        await repository.UpdateAsync(saga, cancellationToken);
+        await ((Database.Repositories.IGenericRepository<PaymentFailureSaga, PaymentFailureSagaId, Data.StripeDbContext>)repository).UpdateAsync(saga, cancellationToken);
 
         logger.LogInformation(
             "Updated metadata for saga {SagaId} with invoice {InvoiceId}",
@@ -154,7 +154,7 @@ public class PaymentFailureSagaOrchestrator(
         saga.CancelledAtUtc = DateTime.UtcNow;
         saga.CancellationReason = reason;
 
-        await repository.UpdateAsync(saga, cancellationToken);
+        await ((Database.Repositories.IGenericRepository<PaymentFailureSaga, PaymentFailureSagaId, Data.StripeDbContext>)repository).UpdateAsync(saga, cancellationToken);
 
         logger.LogInformation(
             "Cancelled saga {SagaId} for subscription {SubscriptionId}, reason: {Reason}",

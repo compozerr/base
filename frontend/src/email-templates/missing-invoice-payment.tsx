@@ -14,15 +14,15 @@ import {
 } from '@react-email/components';
 
 export const MissingInvoiceEmail = () => (
-  <Html>
+  <Html> 
     <Head />
-    <Preview>Action required - Add payment method</Preview>
+    <Preview>Payment reminder - Due % DueDate %</Preview>
     <Body style={main}>
       <Container style={container}>
         {/* Simple header */}
         <Section style={header}>
           <Text style={logo}>% CompanyName %</Text>
-          <Text style={headerSubtitle}>Payment Method Required</Text>
+          <Text style={headerSubtitle}>Payment Reminder</Text>
         </Section>
 
         <Section style={content}>
@@ -67,12 +67,12 @@ export const MissingInvoiceEmail = () => (
           {/* Simple CTA */}
           <Section style={ctaSection}>
             <Button style={payButton} href="% PaymentLink %">
-              Add Payment Method
+              Pay % Currency %% AmountDue %
             </Button>
           </Section>
 
           <Text style={paragraph}>
-            If you've already added a payment method, please ignore this message. For questions, contact our support team.
+            If you've already paid, please ignore this message. For questions, contact our support team.
           </Text>
 
           {/* Simple links */}
