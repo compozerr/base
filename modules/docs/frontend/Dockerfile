@@ -4,7 +4,7 @@ WORKDIR /app
 COPY . .
 
 # Install dependencies
-RUN npm ci
+RUN npm i 
 
 # Build the frontend
 RUN npm run build
