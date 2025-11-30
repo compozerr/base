@@ -23,7 +23,7 @@ public sealed class RedeployDeploymentCommandHandler(
 			deployment.CommitAuthor,
 			deployment.CommitBranch,
 			deployment.CommitEmail,
-			OverrideAuthorization: true);
+			OverrideAuthorization: false);
 
 		var result = await sender.Send(deployProjectCommand, cancellationToken);
 
