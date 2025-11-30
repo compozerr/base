@@ -202,11 +202,6 @@ public sealed class HostingApi(
     public async Task<HealthCheckResponse> HealthCheckProjectAsync(ProjectId projectId)
     {
         var response = await HttpClient.GetAsync($"/projects/health/{projectId.Value}");
-        if (!response.IsSuccessStatusCode)
-        {
-            Log.ForContext("BaseDomain", HttpClient.BaseDomain)
-               .Error("Failed to health check project {projectId}: {response}", projectId, await response.Content.ReadAsStringAsync());
-        }
 
         return response.StatusCode switch
         {
