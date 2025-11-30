@@ -70,11 +70,11 @@ public abstract class BaseVMPooler(
                 Log.ForContext<BaseVMPooler>()
                    .Information("Project {ProjectId} was not found, redeploying latest deployment.", project.Id);
 
-                var deployFromLatestCommitCommand = new DeployFromLatestCommitCommand(
+                var redeployCommand = new RedeployLatestDeploymentCommand(
                     item.ProjectId);
 
                 await sender.Send(
-                    deployFromLatestCommitCommand,
+                    redeployCommand,
                     cancellationToken);
                 break;
             default:
