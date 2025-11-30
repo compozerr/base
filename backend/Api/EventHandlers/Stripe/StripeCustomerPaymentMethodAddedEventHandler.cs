@@ -8,10 +8,9 @@ using Stripe.Services;
 namespace Api.EventHandlers.Stripe;
 
 public class StripeCustomerPaymentMethodAddedEventHandler(
-    IOptions<StripeOptions> stripeOptions,
-    IPaymentFailureSagaOrchestrator paymentFailureSagaOrchestrator) : IEventHandler<StripeCustomerPaymentMethodAddedEvent>
+    IOptions<StripeOptions> stripeOptions) : IEventHandler<StripeCustomerPaymentMethodAddedEvent>
 {
-    private readonly Serilog.ILogger _logger = Serilog.Log.Logger.ForContext<StripeCustomerPaymentMethodAddedEventHandler>();
+    private readonly Serilog.ILogger _logger = Log.Logger.ForContext<StripeCustomerPaymentMethodAddedEventHandler>();
     private readonly global::Stripe.StripeClient _stripeClient = new global::Stripe.StripeClient(stripeOptions.Value.ApiKey);
 
     public async Task Handle(
