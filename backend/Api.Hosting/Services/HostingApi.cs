@@ -124,7 +124,7 @@ public sealed class HostingApi(
                              .Error("Deployment was cancelled due to something else");
             deploymentStatus = DeploymentStatus.Failed;
         }
-        catch(OperationCanceledException ex)
+        catch (OperationCanceledException ex)
         {
             loggerWithContext.ForContext("cancellationReason", ex)
                              .Error("Deployment timed out after {timeout} minutes", timeout.TotalMinutes);
@@ -197,5 +197,33 @@ public sealed class HostingApi(
         }
 
         await projectRepository.SetProjectStateAsync(projectId, ProjectState.Deleting);
+    }
+
+    public async Task<HealthCheckResponse> HealthCheckProjectAsync(ProjectId projectId)
+    {
+        var response = await HttpClient.GetAsync($"/projects/health/{projectId.Value}");
+        if (!response.IsSuccessStatusCode)
+        {
+            Log.ForContext("BaseDomain", HttpClient.BaseDomain)
+               .Error("Failed to health check project {projectId}: {response}", projectId, await response.Content.ReadAsStringAsync());
+        }
+
+        return response.StatusCode switch
+        {
+            System.Net.HttpStatusCode.NotFound => new HealthCheckResponse
+            {
+                Code = HealthCheckCode.NotFound,
+                Error = "Project not found"
+            },
+            System.Net.HttpStatusCode.OK => new HealthCheckResponse
+            {
+                Code = HealthCheckCode.Healthy
+            },
+            _ => new HealthCheckResponse
+            {
+                Code = HealthCheckCode.Unhealthy,
+                Error = $"Unexpected status code: {response.StatusCode}"
+            }
+        };
     }
 }

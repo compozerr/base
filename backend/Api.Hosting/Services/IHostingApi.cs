@@ -14,4 +14,5 @@ public interface IHostingApi
     Task StartProjectAsync(ProjectId projectId);
     Task StopProjectAsync(ProjectId projectId);
     Task DeleteProjectAsync(ProjectId projectId);
+    Task<HealthCheckResponse> HealthCheckProjectAsync(ProjectId projectId);
 }

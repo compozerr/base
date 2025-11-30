@@ -12,6 +12,9 @@ public interface IVMPoolRepository : IGenericRepository<VMPool, VMPoolId, ApiDbC
     Task<int> GetVMPoolItemCountFromPoolAsync(
         VMPoolId vmPoolId,
         CancellationToken cancellationToken);
+    Task<List<VMPoolItem>> GetVMPoolItemsFromPoolAsync(
+        VMPoolId vmPoolId,
+        CancellationToken cancellationToken);
 };
 
 public sealed class VMPoolRepository(
@@ -27,21 +30,32 @@ public sealed class VMPoolRepository(
                         vmp.ServerTierId == request.ServerTierId.Value &&
                         vmp.ProjectType == request.ProjectType)
         .Where(vmp => vmp.VMPoolItems != null)
-        .SelectMany(vmp => 
-            vmp.VMPoolItems!.Where(vmpi => vmpi.DelegatedAt == null && 
-                vmpi.Project != null && 
+        .SelectMany(vmp =>
+            vmp.VMPoolItems!.Where(vmpi => vmpi.DelegatedAt == null &&
+                vmpi.Project != null &&
                 vmpi.Project.State == ProjectState.Running))
         .OrderBy(vmpi => vmpi.Id)
         .Select(vmpi => vmpi.Id)
         .FirstOrDefaultAsync(cancellationToken);
 
+    public Task<List<VMPoolItem>> GetVMPoolItemsFromPoolAsync(
+        VMPoolId vmPoolId,
+        CancellationToken cancellationToken)
+    => QueryVMPoolItemsFromPool(vmPoolId)
+        .ToListAsync(cancellationToken);
+
     public Task<int> GetVMPoolItemCountFromPoolAsync(
         VMPoolId vmPoolId,
         CancellationToken cancellationToken)
-    => Query()
-        .Include(vmp => vmp.VMPoolItems)
-        .Where(vmp => vmp.Id == vmPoolId)
-        .Where(x => x.VMPoolItems != null)
-        .SelectMany(vmp => vmp.VMPoolItems!.Where(vmpi => vmpi.DelegatedAt == null))
+    => QueryVMPoolItemsFromPool(vmPoolId)
         .CountAsync(cancellationToken);
+
+    internal IQueryable<VMPoolItem> QueryVMPoolItemsFromPool(
+        VMPoolId vmPoolId)
+        => Query()
+            .Include(vmp => vmp.VMPoolItems)
+            .Where(vmp => vmp.Id == vmPoolId)
+            .Where(x => x.VMPoolItems != null)
+            .SelectMany(vmp => vmp.VMPoolItems!.Where(vmpi => vmpi.DelegatedAt == null))
+            .AsQueryable();
 }

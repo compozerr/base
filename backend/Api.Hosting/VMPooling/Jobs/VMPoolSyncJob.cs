@@ -40,19 +40,20 @@ public class VMPoolSyncJob(
 
     private async Task SyncPoolAsync(VMPool pool)
     {
-        var itemCount = await vMPoolRepository.GetVMPoolItemCountFromPoolAsync(
+        var items = await vMPoolRepository.GetVMPoolItemsFromPoolAsync(
                         pool.Id,
                         CancellationToken.None);
+
+        var itemCount = items.Count;
 
         _logger.Information(
             "VMPool {VMPoolId} has {ItemCount} available items.",
             pool.Id,
             itemCount);
 
+        var vmPooler = vMPoolerFactory.CreateVMPooler(pool);
         if (itemCount < pool.InstanceCount)
         {
-            var vmPooler = vMPoolerFactory.CreateVMPooler(pool);
-
             var itemsToAdd = pool.InstanceCount - itemCount;
 
             _logger.Information(
@@ -69,6 +70,27 @@ public class VMPoolSyncJob(
                 "Added {ItemsAdded} items to VMPool {VMPoolId}.",
                 itemsToAdd,
                 pool.Id);
+        }
+
+        foreach (var item in items)
+        {
+            await MakeSureVMPoolItemIsAliveAndLogError(vmPooler, item);
+        }
+    }
+
+    private async Task MakeSureVMPoolItemIsAliveAndLogError(BaseVMPooler pooler, VMPoolItem item)
+    {
+        try
+        {
+            await pooler.MakeSureInstanceIsAliveAsync(item);
+        }
+        catch (Exception ex)
+        {
+            _logger.Error(
+                ex,
+                "Error making sure VM instance is alive for pool item {VMPoolItemId}: {ErrorMessage}",
+                item.Id,
+                ex.Message);
         }
     }
 

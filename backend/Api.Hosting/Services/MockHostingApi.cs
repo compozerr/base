@@ -75,6 +75,11 @@ public sealed class MockHostingApi(IProjectRepository projectRepository) : IHost
         return Task.CompletedTask;
     }
 
+    public Task<HealthCheckResponse> HealthCheckProjectAsync(ProjectId projectId)
+    {
+        return Task.FromResult(new HealthCheckResponse { Code = HealthCheckCode.Healthy });
+    }
+
     public async Task StartProjectAsync(ProjectId projectId)
     {
         await projectRepository.SetProjectStateAsync(projectId, ProjectState.Running);

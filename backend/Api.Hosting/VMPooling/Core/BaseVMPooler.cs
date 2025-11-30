@@ -1,16 +1,19 @@
 using Api.Abstractions;
 using Api.Data;
 using Api.Data.Repositories;
+using Api.Hosting.Services;
 using Auth.Abstractions;
 using Cli.Abstractions;
 using Database.Extensions;
+using Serilog;
 
 namespace Api.Hosting.VMPooling.Core;
 
 public abstract class BaseVMPooler(
     VMPool vMPool,
     IProjectRepository projectRepository,
-    IVMPoolItemRepository vMPoolItemRepository)
+    IVMPoolItemRepository vMPoolItemRepository,
+    IHostingApiFactory hostingApiFactory)
 {
     internal readonly ServerTierId ServerTierId = ServerTiers.GetById(new ServerTierId(vMPool.ServerTierId)).Id;
     internal readonly LocationId locationId = vMPool.LocationId;
@@ -46,5 +49,17 @@ public abstract class BaseVMPooler(
             ProjectId = project.Id,
             VMPoolId = VMPoolId
         });
+    }
+
+    public virtual async Task MakeSureInstanceIsAliveAsync(VMPoolItem item)
+    {
+        var project = await projectRepository.GetByIdAsync(item.ProjectId) ?? throw new InvalidOperationException($"Project with ID {item.ProjectId} not found for VMPoolItem {item.Id}");
+
+        var hostingApi = await hostingApiFactory.GetHostingApiAsync(project.ServerId!);
+
+        var response = await hostingApi.HealthCheckProjectAsync(project.Id);
+
+        Log.ForContext<BaseVMPooler>()
+           .Information("Health check for project {ProjectId} returned code {HealthCheckCode}", project.Id, response.Code);
     }
 }
