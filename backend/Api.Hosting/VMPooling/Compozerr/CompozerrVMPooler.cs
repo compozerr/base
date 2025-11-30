@@ -10,11 +10,13 @@ public sealed class CompozerrVMPooler(
     VMPool vMPool,
     IProjectRepository projectRepository,
     IVMPoolItemRepository vMPoolItemRepository,
-    IHostingApiFactory hostingApiFactory) : BaseVMPooler(
+    IHostingApiFactory hostingApiFactory,
+    IServiceProvider serviceProvider) : BaseVMPooler(
         vMPool,
         projectRepository,
         vMPoolItemRepository,
-        hostingApiFactory)
+        hostingApiFactory,
+        serviceProvider)
 {
     internal override ProjectType ProjectType => ProjectType.Compozerr;
     internal override Uri DefaultRepoUri => new("https://github.com/compozerr/base");

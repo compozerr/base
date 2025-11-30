@@ -11,11 +11,13 @@ public sealed class N8nVMPooler(
     VMPool vMPool,
     IProjectRepository projectRepository,
     IVMPoolItemRepository vMPoolItemRepository,
-    IHostingApiFactory hostingApiFactory) : BaseVMPooler(
+    IHostingApiFactory hostingApiFactory,
+    IServiceProvider serviceProvider) : BaseVMPooler(
         vMPool,
         projectRepository,
         vMPoolItemRepository,
-        hostingApiFactory)
+        hostingApiFactory,
+        serviceProvider)
 {
     public static readonly Uri N8nTemplateRepoUrl = new("https://github.com/compozerr/n8n-template");
 

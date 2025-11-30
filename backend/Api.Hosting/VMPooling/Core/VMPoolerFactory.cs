@@ -15,7 +15,8 @@ public interface IVMPoolerFactory
 public sealed class VMPoolerFactory(
     IProjectRepository projectRepository,
     IVMPoolItemRepository vMPoolItemRepository,
-    IHostingApiFactory hostingApiFactory) : IVMPoolerFactory
+    IHostingApiFactory hostingApiFactory,
+    IServiceProvider serviceProvider) : IVMPoolerFactory
 {
     public BaseVMPooler CreateVMPooler(VMPool vMPool)
     {
@@ -26,13 +27,15 @@ public sealed class VMPoolerFactory(
                     vMPool,
                     projectRepository,
                     vMPoolItemRepository,
-                    hostingApiFactory),
+                    hostingApiFactory,
+                    serviceProvider),
             ProjectType.N8n =>
                 new N8nVMPooler(
                     vMPool,
                     projectRepository,
                     vMPoolItemRepository,
-                    hostingApiFactory),
+                    hostingApiFactory,
+                    serviceProvider),
             _ => throw new NotSupportedException(
                 $"VMPooler for project type '{vMPool.ProjectType}' is not supported.")
         };

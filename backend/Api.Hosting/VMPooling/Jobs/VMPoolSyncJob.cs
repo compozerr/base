@@ -72,17 +72,15 @@ public class VMPoolSyncJob(
                 pool.Id);
         }
 
-        foreach (var item in items)
-        {
-            await MakeSureVMPoolItemIsAliveAndLogError(vmPooler, item);
-        }
+        await items.ApplyAsync(
+            x => MakeSureVMPoolItemIsAliveAndLogError(vmPooler, x, CancellationToken.None));
     }
 
-    private async Task MakeSureVMPoolItemIsAliveAndLogError(BaseVMPooler pooler, VMPoolItem item)
+    private async Task MakeSureVMPoolItemIsAliveAndLogError(BaseVMPooler pooler, VMPoolItem item, CancellationToken cancellationToken)
     {
         try
         {
-            await pooler.MakeSureInstanceIsAliveAsync(item);
+            await pooler.MakeSureInstanceIsAliveAsync(item, cancellationToken);
         }
         catch (Exception ex)
         {
