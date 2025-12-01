@@ -395,14 +395,34 @@ public sealed class GithubService(
         UserId? ownerUserId = null,
         CancellationToken cancellationToken = default)
     {
-        var client = (await GetUserClient(ownerUserId ?? UserId.Empty))!;
-
         var name = repoUri.AbsolutePath.TrimStart('/').Replace(".git", "");
         var owner = name.Split('/')[0];
         var repo = name.Split('/')[1];
 
-        var commits = await client.Repository.Commit.GetAll(owner, repo);
+        // Try unauthenticated client first (for public repos)
+        var publicClient = new GitHubClient(new ProductHeaderValue("compozerr"));
 
-        return commits[0];
+        try
+        {
+            var commits = await publicClient.Repository.Commit.GetAll(owner, repo);
+            return commits[0];
+        }
+        catch (NotFoundException)
+        {
+            // Repository not found or private - try with authenticated client if available
+            if (ownerUserId is not null && ownerUserId != UserId.Empty)
+            {
+                var authenticatedClient = await GetUserClient(ownerUserId);
+                if (authenticatedClient is not null)
+                {
+                    var commits = await authenticatedClient.Repository.Commit.GetAll(owner, repo);
+                    return commits[0];
+                }
+            }
+
+            // Re-throw if we can't authenticate
+            throw;
+        }
     }
+
 }
