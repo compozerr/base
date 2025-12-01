@@ -44,10 +44,7 @@ public class VMPoolItemDelegator(
 
         await projectRepository.UpdateAsync(project);
 
-        await vMPoolItemRepository.MarkAsDelegatedAsync(
-            vMPoolItem,
-            userId,
-            DateTime.UtcNow);
+       
             
         return project.Id;
     }
