@@ -18,13 +18,25 @@ public class JobsFeature : IFeature
             .UseRecommendedSerializerSettings()
             .UseInMemoryStorage()
             .UsePostgreSqlStorage(options =>
-                options.UseNpgsqlConnection(con.GetConnectionString("DefaultConnection"))));
+            {
+                options.UseNpgsqlConnection(con.GetConnectionString("DefaultConnection"));
+            },
+                new PostgreSqlStorageOptions
+                {
+                    PrepareSchemaIfNecessary = true,
+                    QueuePollInterval = TimeSpan.FromSeconds(15),
+                    DistributedLockTimeout = TimeSpan.FromMinutes(10),
+                    TransactionSynchronisationTimeout = TimeSpan.FromMinutes(1),
+                    SchemaName = "hangfire"
+                }));
 
         services.AddHangfireServer(options =>
         {
             options.WorkerCount = 5;
             options.ServerTimeout = TimeSpan.FromMinutes(4);
             options.ShutdownTimeout = TimeSpan.FromSeconds(20);
+
+            options.SchedulePollingInterval = TimeSpan.FromSeconds(15);
         });
     }
 
