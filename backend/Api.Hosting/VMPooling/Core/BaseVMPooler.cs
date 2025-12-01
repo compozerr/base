@@ -66,6 +66,7 @@ public abstract class BaseVMPooler(
 
         switch (response.Code)
         {
+            case HealthCheckCode.Unhealthy:
             case HealthCheckCode.NotFound:
                 Log.ForContext<BaseVMPooler>()
                    .Information("Project {ProjectId} was not found, redeploying latest deployment.", project.Id);
