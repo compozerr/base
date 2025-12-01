@@ -1,7 +1,6 @@
 using Api.Data;
 using Api.Data.Repositories;
 using Core.Abstractions;
-using Core.Extensions;
 
 namespace Api.EventHandlers.VMPooling;
 
@@ -25,11 +24,12 @@ public sealed class MarkVMPoolItemAsDelegated_ProjectDelegatedEventHandler(
             return;
         }
 
-        await vmPoolItems.ApplyAsync(
-            async (vmPoolItem)
-                => await vMPoolItemRepository.MarkAsDelegatedAsync(
-                    vmPoolItem,
-                    domainEvent.Entity.UserId,
-                    DateTime.UtcNow));
+        // CRITICAL: BeforeSave handlers must NOT call SaveChanges!
+        // Just modify entities in memory - SaveChanges happens after all handlers complete
+        foreach (var vmPoolItem in vmPoolItems)
+        {
+            vmPoolItem.DelegatedAt = DateTime.UtcNow;
+            vmPoolItem.DelegatedToUserId = domainEvent.Entity.UserId;
+        }
     }
 }
