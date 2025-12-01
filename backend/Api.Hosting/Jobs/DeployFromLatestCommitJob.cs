@@ -6,15 +6,19 @@ using MediatR;
 
 namespace Api.Hosting.Jobs;
 
+public sealed record DeployFromLatestCommitJobArgs(
+    ProjectId ProjectId,
+    bool OverrideAuthorization = false);
+
 public class DeployFromLatestCommitJob(
     IGithubService githubService,
     IProjectRepository projectRepository,
-    ISender sender) : JobBase<DeployFromLatestCommitJob, ProjectId>
+    ISender sender) : JobBase<DeployFromLatestCommitJob, DeployFromLatestCommitJobArgs>
 {
-    public override async Task ExecuteAsync(ProjectId projectId)
+    public override async Task ExecuteAsync(DeployFromLatestCommitJobArgs args)
     {
-        var project = await projectRepository.GetByIdAsync(projectId) ??
-            throw new InvalidOperationException($"Project with ID {projectId} not found.");
+        var project = await projectRepository.GetByIdAsync(args.ProjectId) ??
+            throw new InvalidOperationException($"Project with ID {args.ProjectId} not found.");
 
         var latestCommit = await githubService.GetLatestCommitAsync(
             project.RepoUri,
@@ -26,7 +30,8 @@ public class DeployFromLatestCommitJob(
             latestCommit.Commit.Message,
             latestCommit.Commit.Author.Name,
             latestCommit.Commit.Committer.Name,
-            latestCommit.Commit.Author.Email);
+            latestCommit.Commit.Author.Email,
+            OverrideAuthorization: args.OverrideAuthorization);
 
         await sender.Send(deployProjectCommand);
     }

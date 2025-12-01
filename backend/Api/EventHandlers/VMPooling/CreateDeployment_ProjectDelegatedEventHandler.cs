@@ -13,7 +13,9 @@ public sealed class CreateDeployment_ProjectDelegatedEventHandler
     {
         // Enqueue background job instead of making synchronous GitHub API call
         // This prevents the domain event handler from freezing during external API calls
-        DeployFromLatestCommitJob.Enqueue(domainEvent.Entity.Id);
+        DeployFromLatestCommitJob.Enqueue(new DeployFromLatestCommitJobArgs(
+            domainEvent.Entity.Id,
+            OverrideAuthorization: false));
 
         return Task.CompletedTask;
     }

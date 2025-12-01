@@ -1,33 +1,22 @@
-using Api.Abstractions;
 using Api.Data.Events;
+using Api.Hosting.Jobs;
 using Core.Abstractions;
-using Github.Services;
-using MediatR;
 
 namespace Api.Features.N8n.EventHandlers;
 
-public sealed class CreateDeployment_N8nProjectCreatedEventHandler(
-    ISender sender,
-    IGithubService githubService)
+public sealed class CreateDeployment_N8nProjectCreatedEventHandler
     : EntityDomainEventHandlerBase<N8nProjectCreatedEvent>
 {
-    protected override async Task HandleAfterSaveAsync(
+    protected override Task HandleAfterSaveAsync(
         N8nProjectCreatedEvent domainEvent,
         CancellationToken cancellationToken)
     {
-        var latestCommit = await githubService.GetLatestCommitAsync(
-            domainEvent.Entity.RepoUri,
-            cancellationToken);
+        // Enqueue background job instead of making synchronous GitHub API call
+        // This prevents the domain event handler from freezing during external API calls
+        DeployFromLatestCommitJob.Enqueue(new DeployFromLatestCommitJobArgs(
+            domainEvent.Entity.Id,
+            OverrideAuthorization: domainEvent.OverrideAuthorization));
 
-        await sender.Send(
-            new DeployProjectCommand(
-                domainEvent.Entity.Id,
-                latestCommit.Sha,
-                latestCommit.Commit.Message,
-                latestCommit.Commit.Author.Name,
-                latestCommit.Commit.Committer.Name,
-                latestCommit.Commit.Author.Email,
-                OverrideAuthorization: domainEvent.OverrideAuthorization),
-            cancellationToken);
+        return Task.CompletedTask;
     }
 }
