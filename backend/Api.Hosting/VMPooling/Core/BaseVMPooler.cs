@@ -84,5 +84,8 @@ public abstract class BaseVMPooler(
 
         Log.ForContext<BaseVMPooler>()
            .Information("Health check for project {ProjectId} returned code {HealthCheckCode}", project.Id, response.Code);
+
+        item.IsHealthy = response.Code == HealthCheckCode.Healthy;
+        await vMPoolItemRepository.UpdateAsync(item, cancellationToken);
     }
 }

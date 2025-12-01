@@ -33,6 +33,7 @@ public sealed class VMPoolRepository(
         .SelectMany(vmp =>
             vmp.VMPoolItems!.Where(vmpi => vmpi.DelegatedAt == null &&
                 vmpi.Project != null &&
+                vmpi.IsHealthy &&
                 vmpi.Project.State == ProjectState.Running))
         .OrderBy(vmpi => vmpi.Id)
         .Select(vmpi => vmpi.Id)

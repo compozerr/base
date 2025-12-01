@@ -6,6 +6,7 @@ public class VMPoolItem : BaseEntityWithId<VMPoolItemId>
 {
     public required VMPoolId VMPoolId { get; set; }
     public required ProjectId ProjectId { get; set; }
+    public bool IsHealthy { get; set; } = false;
 
     public DateTime? DelegatedAt { get; set; }
     public UserId? DelegatedToUserId { get; set; }
