@@ -52,6 +52,11 @@ public interface IGithubService
     Task<GitHubCommit> GetLatestCommitAsync(
         Uri repoUri,
         CancellationToken cancellationToken = default);
+
+    Task<GitHubCommit> GetLatestCommitAsync(
+        Uri repoUri,
+        UserId? ownerUserId = null,
+        CancellationToken cancellationToken = default);
 }
 
 public sealed class GithubService(
@@ -174,7 +179,7 @@ public sealed class GithubService(
     public async Task<GithubUserLogin?> GetUserLoginAsync(UserId userId)
     {
         // Handle the case where userId is empty (meaning it is a public repository)
-        if(userId == UserId.Empty)
+        if (userId == UserId.Empty)
         {
             return new GithubUserLogin
             {
@@ -379,10 +384,18 @@ public sealed class GithubService(
 
         throw new TimeoutException($"Repository {owner}/{repoName} did not become available after forking");
     }
-    public async Task<GitHubCommit> GetLatestCommitAsync(Uri repoUri, CancellationToken cancellationToken = default)
+
+    public async Task<GitHubCommit> GetLatestCommitAsync(
+        Uri repoUri,
+        CancellationToken cancellationToken = default)
+        => await GetLatestCommitAsync(repoUri, null, cancellationToken);
+
+    public async Task<GitHubCommit> GetLatestCommitAsync(
+        Uri repoUri,
+        UserId? ownerUserId = null,
+        CancellationToken cancellationToken = default)
     {
-        // Use unauthenticated client for public repositories
-        var client = new GitHubClient(new ProductHeaderValue("compozerr"));
+        var client = (await GetUserClient(ownerUserId ?? UserId.Empty))!;
 
         var name = repoUri.AbsolutePath.TrimStart('/').Replace(".git", "");
         var owner = name.Split('/')[0];

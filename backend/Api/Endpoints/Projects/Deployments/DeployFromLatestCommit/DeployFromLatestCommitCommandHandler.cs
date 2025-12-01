@@ -18,9 +18,10 @@ public sealed class DeployFromLatestCommitCommandHandler(
 
 		var latestCommit = await githubService.GetLatestCommitAsync(
 			project.RepoUri,
+			project.UserId,
 			cancellationToken) ?? throw new InvalidOperationException("No commits found in the repository.");
-			
-        var deployProjectCommand = new DeployProjectCommand(
+
+		var deployProjectCommand = new DeployProjectCommand(
 				project.Id,
 				latestCommit.Sha,
 				latestCommit.Commit.Message,
