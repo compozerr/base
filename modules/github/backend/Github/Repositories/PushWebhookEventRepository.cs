@@ -4,6 +4,7 @@ using Database.Repositories;
 using Github.Abstractions;
 using Github.Data;
 using Github.Models;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Github.Repositories;
 
@@ -14,10 +15,15 @@ public interface IPushWebhookEventRepository : IGenericRepository<PushWebhookEve
 
 public sealed class PushWebhookEventRepository(
     GithubDbContext context,
-    IProjectRepository projectRepository) : GenericRepository<PushWebhookEvent, PushWebhookEventId, GithubDbContext>(context), IPushWebhookEventRepository
+    IServiceScopeFactory serviceScopeFactory) : GenericRepository<PushWebhookEvent, PushWebhookEventId, GithubDbContext>(context), IPushWebhookEventRepository
 {
     public async Task<ProjectId?> GetProjectIdFromGitUrlAsync(Uri gitUrl)
     {
+        // Create a new scope to properly isolate the ApiDbContext from GithubDbContext
+        // This prevents memory leaks when used in long-running background jobs
+        await using var scope = serviceScopeFactory.CreateAsyncScope();
+        var projectRepository = scope.ServiceProvider.GetRequiredService<IProjectRepository>();
+
         var projects = await projectRepository.GetFilteredAsync(x => x.RepoUri == gitUrl);
         if (projects.Count > 1)
         {
