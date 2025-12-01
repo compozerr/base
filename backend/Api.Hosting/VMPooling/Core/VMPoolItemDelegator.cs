@@ -43,8 +43,6 @@ public class VMPoolItemDelegator(
         project.QueueDomainEvent<ProjectDelegatedEvent>();
 
         await projectRepository.UpdateAsync(project);
-
-       
             
         return project.Id;
     }

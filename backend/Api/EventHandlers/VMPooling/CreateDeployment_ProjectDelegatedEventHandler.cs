@@ -1,24 +1,20 @@
-using Api.Abstractions;
 using Api.Data;
-using Api.Endpoints.Projects.Deployments.DeployFromLatestCommit;
+using Api.Hosting.Jobs;
 using Core.Abstractions;
-using MediatR;
 
 namespace Api.EventHandlers.VMPooling;
 
-public sealed class CreateDeployment_ProjectDelegatedEventHandler(
-    ISender sender)
+public sealed class CreateDeployment_ProjectDelegatedEventHandler
     : EntityDomainEventHandlerBase<ProjectDelegatedEvent>
 {
-    protected override async Task HandleAfterSaveAsync(
+    protected override Task HandleAfterSaveAsync(
         ProjectDelegatedEvent domainEvent,
         CancellationToken cancellationToken)
     {
-        var deployFromLatestCommitCommand = new DeployFromLatestCommitCommand(
-            domainEvent.Entity.Id);
+        // Enqueue background job instead of making synchronous GitHub API call
+        // This prevents the domain event handler from freezing during external API calls
+        DeployFromLatestCommitJob.Enqueue(domainEvent.Entity.Id);
 
-        await sender.Send(
-            deployFromLatestCommitCommand,
-            cancellationToken);
+        return Task.CompletedTask;
     }
 }
