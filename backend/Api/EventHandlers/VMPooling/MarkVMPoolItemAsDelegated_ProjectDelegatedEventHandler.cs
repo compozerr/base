@@ -11,7 +11,8 @@ public sealed class MarkVMPoolItemAsDelegated_ProjectDelegatedEventHandler(
     : EntityDomainEventHandlerBase<ProjectDelegatedEvent>
 {
     private readonly Serilog.ILogger _logger = Log.ForContext<MarkVMPoolItemAsDelegated_ProjectDelegatedEventHandler>();
-    protected override async Task HandleAfterSaveAsync(
+    
+    protected override async Task HandleBeforeSaveAsync(
         ProjectDelegatedEvent domainEvent,
         CancellationToken cancellationToken)
     {
