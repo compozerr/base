@@ -40,7 +40,7 @@ public class UpdateProjectsUsageJob(
             if (missingProjects.Count > 0)
             {
                 Log.ForContext(nameof(missingProjects), missingProjects.Select(x => x.ProjectId))
-                   .Error("Missing project(s)");
+                   .Error("Received project usage data for unknown projects on server {serverId} with projectIds: {ProjectIds}", server.Id.Value, missingProjects.Select(x => x.ProjectId));
             }
 
             await projectUsageRepository.AddProjectUsages(projectUsagesWithMatchingProject);
