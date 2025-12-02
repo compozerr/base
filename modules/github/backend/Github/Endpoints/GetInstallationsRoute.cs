@@ -35,8 +35,19 @@ public static class GetInstallationsRoute
 
         var organizationsForUser = await githubService.GetInstallationsForUserAsync(userId);
 
+        var installationDtos = organizationsForUser
+            .Select(i => new InstallationDto(i.InstallationId, i.Name, i.AccountType.ToString()))
+            .ToList();
+
         var githubUserSettings = await githubUserSettingsRepository.GetOrDefaultByUserIdAsync(userId);
-        ArgumentNullException.ThrowIfNull(githubUserSettings);
+        if (githubUserSettings is null)
+        {
+            return new GetInstallationsResponse(
+                null,
+                null,
+                installationDtos
+            );
+        }
 
         var selectedProjectsInstallationId = githubUserSettings.SelectedProjectsInstallationId;
         var selectedModulesInstallationId = githubUserSettings.SelectedModulesInstallationId;
@@ -89,8 +100,7 @@ public static class GetInstallationsRoute
         return new GetInstallationsResponse(
             selectedProjectsInstallationId,
             selectedModulesInstallationId,
-            organizationsForUser.Select(i => new InstallationDto(i.InstallationId, i.Name, i.AccountType.ToString()))
-                                .ToList()
+            installationDtos
         );
     }
 }
