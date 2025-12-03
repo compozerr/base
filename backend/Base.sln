@@ -55,6 +55,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mail", "..\modules\mail\bac
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cli.Abstractions", "..\modules\cli\backend\Cli.Abstractions\Cli.Abstractions.csproj", "{20FCC194-E415-466C-B98E-75DDFDC2BDAA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mail.Tests", "..\modules\mail\backend\Mail.Tests\Mail.Tests.csproj", "{BCA6C208-AEFE-41E0-9D26-807C00D035AB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -365,6 +367,18 @@ Global
 		{20FCC194-E415-466C-B98E-75DDFDC2BDAA}.Release|x64.Build.0 = Release|Any CPU
 		{20FCC194-E415-466C-B98E-75DDFDC2BDAA}.Release|x86.ActiveCfg = Release|Any CPU
 		{20FCC194-E415-466C-B98E-75DDFDC2BDAA}.Release|x86.Build.0 = Release|Any CPU
+		{BCA6C208-AEFE-41E0-9D26-807C00D035AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BCA6C208-AEFE-41E0-9D26-807C00D035AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BCA6C208-AEFE-41E0-9D26-807C00D035AB}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{BCA6C208-AEFE-41E0-9D26-807C00D035AB}.Debug|x64.Build.0 = Debug|Any CPU
+		{BCA6C208-AEFE-41E0-9D26-807C00D035AB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{BCA6C208-AEFE-41E0-9D26-807C00D035AB}.Debug|x86.Build.0 = Debug|Any CPU
+		{BCA6C208-AEFE-41E0-9D26-807C00D035AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BCA6C208-AEFE-41E0-9D26-807C00D035AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BCA6C208-AEFE-41E0-9D26-807C00D035AB}.Release|x64.ActiveCfg = Release|Any CPU
+		{BCA6C208-AEFE-41E0-9D26-807C00D035AB}.Release|x64.Build.0 = Release|Any CPU
+		{BCA6C208-AEFE-41E0-9D26-807C00D035AB}.Release|x86.ActiveCfg = Release|Any CPU
+		{BCA6C208-AEFE-41E0-9D26-807C00D035AB}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
