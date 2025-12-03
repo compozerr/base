@@ -23,7 +23,7 @@ public sealed class FirstWarningMail_PaymentMethodMissingAction(
         try
         {
             var mail = await ReactEmail.CreateAsync(
-                new EmailAddress("no-reply@notifications.compozerr.com", "compozerr hosting"),
+                new EmailAddress("hosting-noreply@notifications.compozerr.com", "compozerr hosting"),
                 [new EmailAddress(User.Email, User.Name)],
                 "Action Required: Add Payment Method to Continue Your Service",
                 new Emails.MissingPaymentMethodTemplate()

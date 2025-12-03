@@ -23,7 +23,7 @@ public sealed class ThirdAndTerminationMail_PaymentMethodMissingAction(
         try
         {
             var mail = await ReactEmail.CreateAsync(
-                new EmailAddress("no-reply@notifications.compozerr.com", "compozerr hosting"),
+                new EmailAddress("hosting-noreply@notifications.compozerr.com", "compozerr hosting"),
                 [new EmailAddress(User.Email, User.Name)],
                 "Important Notice: Your Compozerr Projects Have Been Terminated",
                 new Emails.AllProjectsHaveBeenTerminatedTemplate()

@@ -23,7 +23,7 @@ public sealed class OnboardingMail_PaymentMethodMissingAction(
         try
         {
             var mail = await ReactEmail.CreateAsync(
-                new EmailAddress("no-reply@notifications.compozerr.com", "compozerr hosting"),
+                new EmailAddress("hosting-noreply@notifications.compozerr.com", "compozerr hosting"),
                 [new EmailAddress(User.Email, User.Name)],
                 "Important: Add Payment Method to Avoid Service Interruption",
                 new Emails.OnboardingInvoicePaymentTemplate()

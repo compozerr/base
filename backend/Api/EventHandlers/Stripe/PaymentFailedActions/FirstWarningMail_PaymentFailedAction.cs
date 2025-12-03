@@ -24,7 +24,7 @@ public sealed class FirstWarningMail_PaymentFailedAction(
         try
         {
             var mail = await ReactEmail.CreateAsync(
-                new EmailAddress("no-reply@notifications.compozerr.com", "compozerr hosting"),
+                new EmailAddress("hosting-noreply@notifications.compozerr.com", "compozerr hosting"),
                 [new EmailAddress(User.Email, User.Name)],
                 "Payment Reminder: Invoice Overdue - 4 Days Until Project Termination",
                 new Emails.FailedInvoiceFirstWarningTemplate()

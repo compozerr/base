@@ -24,7 +24,7 @@ public sealed class SecondWarningMail_PaymentFailedAction(
         try
         {
             var mail = await ReactEmail.CreateAsync(
-                new EmailAddress("no-reply@notifications.compozerr.com", "compozerr hosting"),
+                new EmailAddress("hosting-noreply@notifications.compozerr.com", "compozerr hosting"),
                 [new EmailAddress(User.Email, User.Name)],
                 "Urgent: Invoice Payment Required - 2 Days Until Project Termination",
                 new Emails.FailedInvoiceSecondWarningTemplate()

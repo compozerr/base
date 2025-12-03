@@ -53,7 +53,7 @@ public class SendPaymentSucceededMail_StripeInvoicePaymentSucceededEventHandler(
         try
         {
             var mail = await ReactEmail.CreateAsync(
-                new EmailAddress("no-reply@notifications.compozerr.com", "compozerr hosting"),
+                new EmailAddress("hosting-noreply@notifications.compozerr.com", "Compozerr Hosting"),
                 [new EmailAddress(user.Email, user.Name)],
                 "Your Compozerr Invoice Payment Succeeded",
                 new Emails.InvoicePaymentSucceededTemplate()

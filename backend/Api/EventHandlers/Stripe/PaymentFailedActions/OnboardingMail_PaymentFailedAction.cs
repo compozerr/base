@@ -24,7 +24,7 @@ public sealed class OnboardingMail_PaymentFailedAction(
         try
         {
             var mail = await ReactEmail.CreateAsync(
-                new EmailAddress("no-reply@notifications.compozerr.com", "compozerr hosting"),
+                new EmailAddress("hosting-noreply@notifications.compozerr.com", "compozerr hosting"),
                 [new EmailAddress(User.Email, User.Name)],
                 "Important: Invoice Payment Failed - Action Required",
                 new Emails.FailedInvoiceOnboardingTemplate()
