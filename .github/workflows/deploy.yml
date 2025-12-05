@@ -70,4 +70,5 @@ jobs:
                       sudo git fetch origin
                       sudo git stash
                       sudo git checkout --detach ${{ github.ref_name }}
+                      sudo git submodule update --init --recursive
                       npm run serve -- -d
