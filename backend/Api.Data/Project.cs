@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using Api.Abstractions;
 using Auth.Abstractions;
 
@@ -5,6 +6,7 @@ namespace Api.Data;
 
 public class Project : BaseEntityWithId<ProjectId>
 {
+    [MaxLength(255)]
     public required string Name { get; set; }
     public required Uri RepoUri { get; set; }
     public required UserId UserId { get; set; }

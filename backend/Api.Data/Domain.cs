@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace Api.Data;
 
 public class Domain : BaseEntityWithId<DomainId>
@@ -5,8 +7,11 @@ public class Domain : BaseEntityWithId<DomainId>
     public required ProjectId ProjectId { get; set; }
     public DomainType Type { get; set; }
 
+    [MaxLength(255)]
     public required string ServiceName { get; set; }
+    [MaxLength(6)]
     public required string Port { get; set; }
+    [MaxLength(20)]
     public required string Protocol { get; set; } = "http";
     public bool IsPrimary { get; set; } = false;
 
