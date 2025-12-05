@@ -6,6 +6,7 @@ using Stripe.Abstractions;
 using Stripe.Data.Models;
 using Stripe.Data.Repositories;
 using Stripe.Events;
+using Stripe.Services;
 
 namespace Stripe.Jobs.SagaJobs;
 
@@ -14,7 +15,8 @@ public class PaymentFailedJob(
     ILogger<PaymentFailedJob> logger,
     IStripeCustomerRepository stripeCustomerRepository,
     IUserRepository userRepository,
-    IPublisher publisher) : BaseSagaJob<
+    IPublisher publisher,
+    IStripeCustomerValidationService stripeCustomerValidationService) : BaseSagaJob<
         PaymentFailedJob,
         PaymentFailureSaga,
         PaymentFailureSagaId,
@@ -68,6 +70,39 @@ public class PaymentFailedJob(
                 parsedUserId,
                 saga.Id);
             return;
+        }
+
+        // Check if the invoice has been paid in the meantime
+        var isInvoicePaid = await stripeCustomerValidationService.IsInvoicePaidAsync(
+            saga.InvoiceId,
+            cancellationToken);
+
+        if (isInvoicePaid)
+        {
+            Logger.LogInformation(
+                "Invoice {InvoiceId} has been paid. Marking saga {SagaId} as resolved without sending warning.",
+                saga.InvoiceId,
+                saga.Id);
+
+            saga.Status = PaymentFailureSagaStatus.Completed;
+            saga.CompletedAtUtc = DateTime.UtcNow;
+            await LogAuditEventAsync(saga.Id, PaymentFailureSagaEvent.PaymentSucceededDuringSaga, "Invoice was paid before warning could be sent", cancellationToken);
+            return;
+        }
+
+        // Check if the customer has added a default payment method in the meantime
+        var hasPaymentMethod = await stripeCustomerValidationService.HasDefaultPaymentMethodAsync(
+            saga.CustomerId,
+            cancellationToken);
+
+        if (hasPaymentMethod)
+        {
+            Logger.LogInformation(
+                "Customer {CustomerId} now has a payment method for saga {SagaId}. Payment may be retried automatically by Stripe.",
+                saga.CustomerId,
+                saga.Id);
+            // Note: We still send the event because having a payment method doesn't guarantee the invoice will be paid
+            // Stripe's retry logic will handle the payment attempt
         }
 
         var @event = new PaymentFailedEvent(

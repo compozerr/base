@@ -64,6 +64,11 @@ public class PaymentMethodMissingSaga : BaseEntityWithId<PaymentMethodMissingSag
     /// When the all projects termination was executed (UTC).
     /// </summary>
     public DateTime? TerminationExecutedAtUtc { get; set; }
+
+    /// <summary>
+    /// Total number of days until termination from saga start.
+    /// </summary>
+    public int DaysUntilTermination { get; set; }
 }
 
 public enum PaymentMethodMissingSagaStatus

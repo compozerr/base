@@ -38,17 +38,20 @@ public class PaymentMethodMissingSagaOrchestrator(
             return null;
         }
 
+        const int daysUntilTermination = 5;
+
         var saga = new PaymentMethodMissingSaga
         {
             CustomerId = customerId,
             Status = PaymentMethodMissingSagaStatus.Active,
-            StartedAtUtc = DateTime.UtcNow
+            StartedAtUtc = DateTime.UtcNow,
+            DaysUntilTermination = daysUntilTermination
         };
 
         // Schedule Hangfire delayed jobs
         saga.FirstWarningJobId = PaymentMethodMissingJob.Schedule(new(saga.Id, AttemptNumber: 1), TimeSpan.FromDays(1));
         saga.SecondWarningJobId = PaymentMethodMissingJob.Schedule(new(saga.Id, AttemptNumber: 2), TimeSpan.FromDays(3));
-        saga.TerminationJobId = PaymentMethodMissingJob.Schedule(new(saga.Id, AttemptNumber: 3), TimeSpan.FromDays(5));
+        saga.TerminationJobId = PaymentMethodMissingJob.Schedule(new(saga.Id, AttemptNumber: 3), TimeSpan.FromDays(daysUntilTermination));
 
         await repository.AddAsync(saga, cancellationToken);
 

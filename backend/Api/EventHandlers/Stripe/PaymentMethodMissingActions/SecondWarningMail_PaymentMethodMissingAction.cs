@@ -22,6 +22,7 @@ public sealed class SecondWarningMail_PaymentMethodMissingAction(
 
         try
         {
+            var remainingDays = GetRemainingDaysUntilTermination();
             var mail = await ReactEmail.CreateAsync(
                 new EmailAddress("hosting-noreply@notifications.compozerr.com", "compozerr hosting"),
                 [new EmailAddress(User.Email, User.Name)],
@@ -29,7 +30,7 @@ public sealed class SecondWarningMail_PaymentMethodMissingAction(
                 new Emails.MissingPaymentMethodTemplate()
                 {
                     CompanyName = "compozerr hosting",
-                    Description = "This is a second reminder to add a valid payment method to your account. Your service will be terminated soon if no payment method is added.",
+                    Description = $"This is a second reminder to add a valid payment method to your account. Your projects will be terminated in {remainingDays} day{(remainingDays != 1 ? "s" : "")} if no payment method is added.",
                     CustomerName = User.Name,
                     AddPaymentMethodUrl = frontendLocation.GetFromPath("settings?addPaymentMethod=true").ToString(),
                     DashboardLink = frontendLocation.GetFromPath("/projects").ToString(),

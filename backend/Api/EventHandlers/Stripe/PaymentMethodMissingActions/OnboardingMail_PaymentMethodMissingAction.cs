@@ -29,7 +29,7 @@ public sealed class OnboardingMail_PaymentMethodMissingAction(
                 new Emails.OnboardingInvoicePaymentTemplate()
                 {
                     CustomerName = User.Name,
-                    DaysUntilTermination = "5",
+                    DaysUntilTermination = Saga.DaysUntilTermination.ToString(),
                     AddPaymentMethodUrl = frontendLocation.GetFromPath("settings?addPaymentMethod=true").ToString(),
                     DashboardUrl = frontendLocation.GetFromPath("/projects").ToString(),
                     ContactLink = frontendLocation.GetFromPath("/contact").ToString(),

@@ -6,6 +6,7 @@ using Stripe.Abstractions;
 using Stripe.Data.Models;
 using Stripe.Data.Repositories;
 using Stripe.Events;
+using Stripe.Services;
 
 namespace Stripe.Jobs.SagaJobs;
 
@@ -14,7 +15,8 @@ public class PaymentMethodMissingJob(
     ILogger<PaymentMethodMissingJob> logger,
     IStripeCustomerRepository stripeCustomerRepository,
     IUserRepository userRepository,
-    IPublisher publisher) : BaseSagaJob<
+    IPublisher publisher,
+    IStripeCustomerValidationService stripeCustomerValidationService) : BaseSagaJob<
         PaymentMethodMissingJob,
         PaymentMethodMissingSaga,
         PaymentMethodMissingSagaId,
@@ -70,12 +72,28 @@ public class PaymentMethodMissingJob(
             return;
         }
 
-        //TODO: check stripe payment method before sending event to make sure payment method is still missing
-        
+        // Check if the customer has added a payment method since the saga started
+        var hasPaymentMethod = await stripeCustomerValidationService.HasDefaultPaymentMethodAsync(
+            saga.CustomerId,
+            cancellationToken);
+
+        if (hasPaymentMethod)
+        {
+            Logger.LogInformation(
+                "Customer {CustomerId} now has a payment method. Marking saga {SagaId} as resolved without sending warning.",
+                saga.CustomerId,
+                saga.Id);
+
+            saga.Status = PaymentMethodMissingSagaStatus.Completed;
+            saga.CompletedAtUtc = DateTime.UtcNow;
+            await LogAuditEventAsync(saga.Id, PaymentMethodMissingSagaEvent.PaymentMethodAddedDuringSaga, "Payment method added before warning could be sent", cancellationToken);
+            return;
+        }
 
         var @event = new PaymentMethodMissingEvent(
             saga.CustomerId,
-            attemptNumber);
+            attemptNumber,
+            saga);
 
         await publisher.Publish(@event, cancellationToken);
 

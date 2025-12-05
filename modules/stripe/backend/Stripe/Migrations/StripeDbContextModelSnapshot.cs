@@ -159,6 +159,9 @@ namespace Stripe.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int>("DaysUntilTermination")
+                        .HasColumnType("integer");
+
                     b.Property<DateTime?>("DeletedAtUtc")
                         .HasColumnType("timestamp with time zone");
 
