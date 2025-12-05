@@ -37,7 +37,9 @@ public interface IGenericRepository<TEntity, TEntityId, TDbContext>
 
     // Count methods
     Task<int> CountAsync(CancellationToken cancellationToken = default);
+    Task<int> CountAsync(bool getDeleted, CancellationToken cancellationToken = default);
     Task<int> CountAsync(Expression<Func<TEntity, bool>> filter, CancellationToken cancellationToken = default);
+    Task<int> CountAsync(Expression<Func<TEntity, bool>> filter, bool getDeleted, CancellationToken cancellationToken = default);
 
     // Custom query execution
     Task<List<TResult>> ExecuteQueryAsync<TResult>(Func<IQueryable<TEntity>, IQueryable<TResult>> query, CancellationToken cancellationToken = default);
@@ -161,10 +163,20 @@ public class GenericRepository<TEntity, TEntityId, TDbContext>(TDbContext contex
         return Query().CountAsync(cancellationToken);
     }
 
+    public virtual Task<int> CountAsync(bool getDeleted, CancellationToken cancellationToken = default)
+    {
+        return Query(getDeleted).CountAsync(cancellationToken);
+    }
+
     public virtual Task<int> CountAsync(Expression<Func<TEntity, bool>> filter, CancellationToken cancellationToken = default)
     {
         return Query().CountAsync(filter, cancellationToken);
     }
+    
+    public virtual Task<int> CountAsync(Expression<Func<TEntity, bool>> filter, bool getDeleted, CancellationToken cancellationToken = default)
+    {
+        return Query(getDeleted).CountAsync(filter, cancellationToken);
+    }   
 
     // Custom query execution implementation
     public virtual Task<List<TResult>> ExecuteQueryAsync<TResult>(Func<IQueryable<TEntity>, IQueryable<TResult>> query, CancellationToken cancellationToken = default)
