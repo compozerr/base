@@ -1,10 +1,11 @@
 using System.Threading.RateLimiting;
+using Core.Feature;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Core.Feature;
+namespace Core.Features;
 
 public class RateLimitingFeature : IFeature
 {

@@ -13,6 +13,7 @@ public class StripeGroup : CarterModule
     public StripeGroup() : base("stripe")
     {
         RequireAuthorization();
+        RequireRateLimiting("strict");
         WithTags(nameof(Stripe));
     }
 
