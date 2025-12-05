@@ -30,6 +30,7 @@ public sealed class CreateN8nProjectCommandValidator : AbstractValidator<CreateN
 
             var n8nProjectsCount = await projectRepository.CountAsync(
                 x => x.UserId == userId && x.Type == ProjectType.N8n,
+                getDeleted: true,
                 cancellationToken);
 
             return n8nProjectsCount >= 1;
