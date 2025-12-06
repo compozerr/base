@@ -9,10 +9,6 @@ public sealed class ChangeTierCommandValidator : AbstractValidator<ChangeTierCom
 {
 	public ChangeTierCommandValidator(IServiceScopeFactory scopeFactory)
 	{
-		using var scope = scopeFactory.CreateScope();
-
-		scope.ServiceProvider.GetRequiredService<IMediator>();
-
 		RuleFor(x => x.Tier).Must(tier =>
 		{
 			return ServerTiers.All.Select(x => x.Id.Value).Contains(tier);

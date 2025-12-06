@@ -10,11 +10,11 @@ public sealed class AddLogCommandValidator : AbstractValidator<AddLogCommand>
 {
     public AddLogCommandValidator(IServiceScopeFactory scopeFactory)
     {
-        var scope = scopeFactory.CreateScope();
-        var deploymentRepository = scope.ServiceProvider.GetRequiredService<IDeploymentRepository>();
-
         RuleFor(x => x.DeploymentId).MustAsync(async (deploymentId, cancellationToken) =>
         {
+            await using var scope = scopeFactory.CreateAsyncScope();
+            var deploymentRepository = scope.ServiceProvider.GetRequiredService<IDeploymentRepository>();
+
             var deployment = await deploymentRepository.GetByIdAsync(
                 deploymentId,
                 cancellationToken);

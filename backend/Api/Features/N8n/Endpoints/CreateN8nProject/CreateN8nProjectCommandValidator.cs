@@ -11,10 +11,6 @@ public sealed class CreateN8nProjectCommandValidator : AbstractValidator<CreateN
     public CreateN8nProjectCommandValidator(
         IServiceScopeFactory scopeFactory)
     {
-        var scope = scopeFactory.CreateScope();
-        var projectRepository = scope.ServiceProvider.GetRequiredService<IProjectRepository>();
-        var currentUserAccessor = scope.ServiceProvider.GetRequiredService<ICurrentUserAccessor>();
-
         RuleFor(x => x.Tier).Must(tier =>
         {
             return ServerTiers.All.Select(x => x.Id.Value).Contains(tier);
@@ -26,6 +22,10 @@ public sealed class CreateN8nProjectCommandValidator : AbstractValidator<CreateN
             .UserMustHavePaymentMethod(scopeFactory)
             .WhenAsync(async (x, cancellationToken) =>
         {
+            await using var scope = scopeFactory.CreateAsyncScope();
+            var projectRepository = scope.ServiceProvider.GetRequiredService<IProjectRepository>();
+            var currentUserAccessor = scope.ServiceProvider.GetRequiredService<ICurrentUserAccessor>();
+
             var userId = currentUserAccessor.CurrentUserId;
 
             var n8nProjectsCount = await projectRepository.CountAsync(
@@ -39,6 +39,10 @@ public sealed class CreateN8nProjectCommandValidator : AbstractValidator<CreateN
             .UserMustHavePaymentMethod(scopeFactory)
             .WhenAsync(async (x, cancellationToken) =>
         {
+            await using var scope = scopeFactory.CreateAsyncScope();
+            var projectRepository = scope.ServiceProvider.GetRequiredService<IProjectRepository>();
+            var currentUserAccessor = scope.ServiceProvider.GetRequiredService<ICurrentUserAccessor>();
+
             var userId = currentUserAccessor.CurrentUserId;
 
             var n8nProjectsCount = await projectRepository.CountAsync(

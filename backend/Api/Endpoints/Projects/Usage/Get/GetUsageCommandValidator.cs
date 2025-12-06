@@ -9,12 +9,12 @@ public sealed class GetUsageCommandValidator : AbstractValidator<GetUsageCommand
 {
     public GetUsageCommandValidator(IServiceScopeFactory scopeFactory)
     {
-        var scope = scopeFactory.CreateScope();
-        var projectRepository = scope.ServiceProvider.GetRequiredService<IProjectRepository>();
-        var currentUserAccessor = scope.ServiceProvider.GetRequiredService<ICurrentUserAccessor>();
-
         RuleFor(x => x.ProjectId).MustAsync(async (command, projectId, cancellationToken) =>
         {
+            await using var scope = scopeFactory.CreateAsyncScope();
+            var projectRepository = scope.ServiceProvider.GetRequiredService<IProjectRepository>();
+            var currentUserAccessor = scope.ServiceProvider.GetRequiredService<ICurrentUserAccessor>();
+
             var project = await projectRepository.GetByIdAsync(projectId, cancellationToken);
 
             return currentUserAccessor.CurrentUserId == project?.UserId;

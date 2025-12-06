@@ -5,11 +5,8 @@ namespace Api.Hosting.Endpoints.Projects.ProjectState;
 
 public sealed class ProjectStateCommandValidator : AbstractValidator<ProjectStateCommand>
 {
-	public ProjectStateCommandValidator(IServiceScopeFactory scopeFactory)
+	public ProjectStateCommandValidator()
 	{
-		var scope = scopeFactory.CreateScope();
-		// Add required services using scope.ServiceProvider.GetRequiredService<T>()
-
 		// Add validation rules using RuleFor()
 	}
 }

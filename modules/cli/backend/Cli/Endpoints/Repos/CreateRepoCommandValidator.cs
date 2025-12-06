@@ -12,18 +12,16 @@ public sealed class CreateRepoCommandValidator : AbstractValidator<CreateRepoCom
 {
     public CreateRepoCommandValidator(IServiceScopeFactory scopeFactory)
     {
-        var scope = scopeFactory.CreateScope();
-        var githubService = scope.ServiceProvider.GetRequiredService<IGithubService>();
-        var currentUserAccessor = scope.ServiceProvider.GetRequiredService<ICurrentUserAccessor>();
-        var locationRepository = scope.ServiceProvider.GetRequiredService<ILocationRepository>();
-        var projectRepository = scope.ServiceProvider.GetRequiredService<IProjectRepository>();
-
         RuleFor(x => x.Name)
             .Matches(@"^[a-z0-9]+(?:(?:(?:[._]|__|[-]*)[a-z0-9]+)+)?$")
             .WithMessage("Repository name must adhere to the pattern [a-z0-9]+(?:(?:(?:[._]|__|[-]*)[a-z0-9]+)+)? (e.g. my-module).");
 
         RuleFor(x => x.Name).MustAsync(async (command, name, cancellationToken) =>
         {
+            await using var scope = scopeFactory.CreateAsyncScope();
+            var githubService = scope.ServiceProvider.GetRequiredService<IGithubService>();
+            var currentUserAccessor = scope.ServiceProvider.GetRequiredService<ICurrentUserAccessor>();
+
             var reposForCurrentUser = await githubService.GetRepositoriesByUserDefaultIdAsync(
                 currentUserAccessor.CurrentUserId!,
                 command.Type);
@@ -48,6 +46,9 @@ public sealed class CreateRepoCommandValidator : AbstractValidator<CreateRepoCom
 
         RuleFor(x => x.LocationIsoCode).MustAsync(async (command, locationIsoCode, cancellationToken) =>
         {
+            await using var scope = scopeFactory.CreateAsyncScope();
+            var locationRepository = scope.ServiceProvider.GetRequiredService<ILocationRepository>();
+
             if (command.Type != Github.Endpoints.SetDefaultInstallationId.DefaultInstallationIdSelectionType.Projects) return true;
 
             var availableLocationIsoCodes = await locationRepository.GetUniquePublicLocationIsoCodes();

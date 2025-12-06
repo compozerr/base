@@ -10,13 +10,6 @@ public sealed class AddDomainCommandValidator : AbstractValidator<AddDomainComma
 {
     public AddDomainCommandValidator(IServiceScopeFactory scopeFactory)
     {
-        var scope = scopeFactory.CreateScope();
-
-        var domainRepository = scope.ServiceProvider.GetRequiredService<IDomainRepository>();
-        var projectRepository = scope.ServiceProvider.GetRequiredService<IProjectRepository>();
-        var currentUserAccessor = scope.ServiceProvider.GetRequiredService<ICurrentUserAccessor>();
-        var context = scope.ServiceProvider.GetRequiredService<ApiDbContext>();
-
         RuleFor(x => x.Domain)
             .NotEmpty()
             .WithMessage("Domain cannot be empty")
@@ -30,6 +23,10 @@ public sealed class AddDomainCommandValidator : AbstractValidator<AddDomainComma
         RuleFor(x => x.ProjectId)
           .MustAsync(async (command, projectId, cancellationToken) =>
           {
+              await using var scope = scopeFactory.CreateAsyncScope();
+              var projectRepository = scope.ServiceProvider.GetRequiredService<IProjectRepository>();
+              var currentUserAccessor = scope.ServiceProvider.GetRequiredService<ICurrentUserAccessor>();
+
               var project = await projectRepository.GetByIdAsync(
                   projectId,
                   cancellationToken);
@@ -41,6 +38,9 @@ public sealed class AddDomainCommandValidator : AbstractValidator<AddDomainComma
         RuleFor(x => x.Domain)
             .MustAsync(async (command, domain, cancellationToken) =>
             {
+                await using var scope = scopeFactory.CreateAsyncScope();
+                var domainRepository = scope.ServiceProvider.GetRequiredService<IDomainRepository>();
+
                 var isUnique = await domainRepository.IsProjectDomainUniqueAsync(
                     command.ProjectId,
                     domain);
@@ -52,6 +52,9 @@ public sealed class AddDomainCommandValidator : AbstractValidator<AddDomainComma
         RuleFor(x => x.ServiceName)
             .MustAsync(async (command, serviceName, cancellationToken) =>
             {
+                await using var scope = scopeFactory.CreateAsyncScope();
+                var context = scope.ServiceProvider.GetRequiredService<ApiDbContext>();
+
                 var serviceExists = await context.ProjectServices
                     .AnyAsync(s => s.ProjectId == command.ProjectId && s.Name == serviceName, cancellationToken);
 

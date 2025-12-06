@@ -6,11 +6,8 @@ namespace Auth.Endpoints.Users.Update;
 
 public class UpdateUserCommandValidator : AbstractValidator<UpdateUserCommand>
 {
-    public UpdateUserCommandValidator(IServiceScopeFactory scopeFactory)
+    public UpdateUserCommandValidator()
     {
-        var scope = scopeFactory.CreateScope();
-        var userRepository = scope.ServiceProvider.GetRequiredService<IUserRepository>();
-
         RuleFor(x => x.UserId).NotEmpty();
         RuleFor(x => x.Name).NotEmpty();
         RuleFor(x => x.Email).NotEmpty().EmailAddress();

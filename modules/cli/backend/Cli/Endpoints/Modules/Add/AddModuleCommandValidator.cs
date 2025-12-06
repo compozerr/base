@@ -5,9 +5,7 @@ namespace Cli.Endpoints.Modules.Add;
 
 public sealed class AddModuleCommandValidator : AbstractValidator<AddModuleCommand>
 {
-    public AddModuleCommandValidator(IServiceScopeFactory scopeFactory)
+    public AddModuleCommandValidator()
     {
-        var scope = scopeFactory.CreateScope();
-        
     }
 }

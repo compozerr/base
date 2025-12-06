@@ -9,11 +9,14 @@ public sealed class ChangeDeploymentStatusCommandValidator : AbstractValidator<C
 {
     public ChangeDeploymentStatusCommandValidator(IServiceScopeFactory scopeFactory)
     {
-        var scope = scopeFactory.CreateScope();
-
         RuleFor(x => x.DeploymentId)
             .NotEmpty()
-            .MustAsync(async (deploymentId, cancellationToken) => await scope.ServiceProvider.GetRequiredService<IDeploymentRepository>().GetByIdAsync(deploymentId, cancellationToken) is not null)
+            .MustAsync(async (deploymentId, cancellationToken) =>
+            {
+                await using var scope = scopeFactory.CreateAsyncScope();
+                var repository = scope.ServiceProvider.GetRequiredService<IDeploymentRepository>();
+                return await repository.GetByIdAsync(deploymentId, cancellationToken) is not null;
+            })
             .WithMessage("Invalid deployment id");
     }
 }

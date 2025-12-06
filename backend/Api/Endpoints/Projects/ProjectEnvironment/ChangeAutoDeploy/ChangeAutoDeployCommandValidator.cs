@@ -8,7 +8,6 @@ public sealed class ChangeAutoDeployCommandValidator : AbstractValidator<ChangeA
 {
 	public ChangeAutoDeployCommandValidator(IServiceScopeFactory scopeFactory)
 	{
-		var scope = scopeFactory.CreateScope();
 		RuleFor(command => command.AutoDeploy)
 			.NotNull()
 			.WithMessage("AutoDeploy cannot be null.")

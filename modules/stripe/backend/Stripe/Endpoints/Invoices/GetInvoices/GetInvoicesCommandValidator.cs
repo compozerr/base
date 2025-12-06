@@ -5,11 +5,8 @@ namespace Stripe.Endpoints.Invoices.GetInvoices;
 
 public sealed class GetInvoicesCommandValidator : AbstractValidator<GetInvoicesCommand>
 {
-	public GetInvoicesCommandValidator(IServiceScopeFactory scopeFactory)
+	public GetInvoicesCommandValidator()
 	{
-		var scope = scopeFactory.CreateScope();
-		// Add required services using scope.ServiceProvider.GetRequiredService<T>()
-
 		// Add validation rules using RuleFor()
 	}
 }

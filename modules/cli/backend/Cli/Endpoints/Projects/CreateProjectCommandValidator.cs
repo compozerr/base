@@ -11,12 +11,12 @@ public sealed class CreateProjectCommandValidator : AbstractValidator<CreateProj
 {
     public CreateProjectCommandValidator(IServiceScopeFactory scopeFactory)
     {
-        var scope = scopeFactory.CreateScope();
-        var projectRepository = scope.ServiceProvider.GetRequiredService<IProjectRepository>();
-        var currentUserAccessor = scope.ServiceProvider.GetRequiredService<ICurrentUserAccessor>();
-
         RuleFor(x => x.RepoUrl).MustAsync(async (command, repoUrl, cancellationToken) =>
         {
+            await using var scope = scopeFactory.CreateAsyncScope();
+            var projectRepository = scope.ServiceProvider.GetRequiredService<IProjectRepository>();
+            var currentUserAccessor = scope.ServiceProvider.GetRequiredService<ICurrentUserAccessor>();
+
             // Enforce uniqueness per user
             var projectsForCurrentUser = await projectRepository.GetProjectsForUserAsync(
                 currentUserAccessor.CurrentUserId!);

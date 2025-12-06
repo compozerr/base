@@ -9,14 +9,13 @@ public sealed class SetPrimaryCommandValidator : AbstractValidator<SetPrimaryCom
 {
     public SetPrimaryCommandValidator(IServiceScopeFactory scopeFactory)
     {
-        var scope = scopeFactory.CreateScope();
-
-        var domainRepository = scope.ServiceProvider.GetRequiredService<IDomainRepository>();
-        var currentUserAccessor = scope.ServiceProvider.GetRequiredService<ICurrentUserAccessor>();
-
         RuleFor(x => x.DomainId)
             .MustAsync(async (domainId, cancellationToken) =>
             {
+                await using var scope = scopeFactory.CreateAsyncScope();
+                var domainRepository = scope.ServiceProvider.GetRequiredService<IDomainRepository>();
+                var currentUserAccessor = scope.ServiceProvider.GetRequiredService<ICurrentUserAccessor>();
+
                 var domain = await domainRepository.GetByIdAsync(
                     domainId,
                     x => x.Include(y => y.Project),

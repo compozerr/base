@@ -11,7 +11,7 @@ public static class ProjectAuthorizationValidatorExtensions
 	{
 		return ruleBuilder.MustAsync(async (projectId, cancel) =>
 		{
-			using var scope = serviceScopeFactory.CreateScope();
+			await using var scope = serviceScopeFactory.CreateAsyncScope();
 			var currentUserId = scope.ServiceProvider.GetRequiredService<ICurrentUserAccessor>().CurrentUserId;
 			var projectRepository = scope.ServiceProvider.GetRequiredService<IProjectRepository>();
 
@@ -33,7 +33,7 @@ public static class ProjectAuthorizationValidatorExtensions
 	{
 		return ruleBuilder.MustAsync(async (projectId, cancel) =>
 		{
-			using var scope = serviceScopeFactory.CreateScope();
+			await using var scope = serviceScopeFactory.CreateAsyncScope();
 			var projectRepository = scope.ServiceProvider.GetRequiredService<IProjectRepository>();
 
 			if (projectId == null)

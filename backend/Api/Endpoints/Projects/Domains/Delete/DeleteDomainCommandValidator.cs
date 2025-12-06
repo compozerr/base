@@ -9,12 +9,12 @@ public sealed class DeleteDomainCommandValidator : AbstractValidator<DeleteDomai
 {
     public DeleteDomainCommandValidator(IServiceScopeFactory scopeFactory)
     {
-        var scope = scopeFactory.CreateScope();
-        var domainRepository = scope.ServiceProvider.GetRequiredService<IDomainRepository>();
-        var currentUserAccessor = scope.ServiceProvider.GetRequiredService<ICurrentUserAccessor>();
-
         RuleFor(x => x.DomainId).MustAsync(async (command, domainId, cancellationToken) =>
         {
+            await using var scope = scopeFactory.CreateAsyncScope();
+            var domainRepository = scope.ServiceProvider.GetRequiredService<IDomainRepository>();
+            var currentUserAccessor = scope.ServiceProvider.GetRequiredService<ICurrentUserAccessor>();
+
             var domain = await domainRepository.GetByIdAsync(
                 domainId,
                 x => x.Include(d => d.Project),
