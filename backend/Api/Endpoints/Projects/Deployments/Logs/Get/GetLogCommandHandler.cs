@@ -12,7 +12,7 @@ public sealed partial class GetLogCommandHandler(
         var logStream = await storageService.DownloadAsync(LogHelpers.GetLogFileName(command.DeploymentId), cancellationToken);
         if (logStream is null) return [];
 
-        logStream.Position = 0; // Reset stream position to ensure we read from the beginning
+        logStream.Position = 0;
         using var reader = new StreamReader(logStream);
         var logContent = await reader.ReadToEndAsync(cancellationToken);
         var logEntries = ParseLogEntries(logContent);
