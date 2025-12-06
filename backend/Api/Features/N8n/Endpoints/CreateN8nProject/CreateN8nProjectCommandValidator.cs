@@ -30,23 +30,6 @@ public sealed class CreateN8nProjectCommandValidator : AbstractValidator<CreateN
 
             var n8nProjectsCount = await projectRepository.CountAsync(
                 x => x.UserId == userId && x.Type == ProjectType.N8n,
-                cancellationToken);
-
-            return n8nProjectsCount >= 1;
-        }).WithMessage("A payment method is required to create more than one n8n project.");
-
-        RuleFor(x => x)
-            .UserMustHavePaymentMethod(scopeFactory)
-            .WhenAsync(async (x, cancellationToken) =>
-        {
-            await using var scope = scopeFactory.CreateAsyncScope();
-            var projectRepository = scope.ServiceProvider.GetRequiredService<IProjectRepository>();
-            var currentUserAccessor = scope.ServiceProvider.GetRequiredService<ICurrentUserAccessor>();
-
-            var userId = currentUserAccessor.CurrentUserId;
-
-            var n8nProjectsCount = await projectRepository.CountAsync(
-                x => x.UserId == userId && x.Type == ProjectType.N8n,
                 getDeleted: true,
                 cancellationToken);
 
