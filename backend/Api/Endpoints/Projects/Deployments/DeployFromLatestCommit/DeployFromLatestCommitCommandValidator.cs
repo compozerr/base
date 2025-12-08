@@ -9,7 +9,6 @@ namespace Api.Endpoints.Projects.Deployments.DeployFromLatestCommit;
 public sealed class DeployFromLatestCommitCommandValidator : AbstractValidator<DeployFromLatestCommitCommand>
 {
 	public DeployFromLatestCommitCommandValidator(
-	    IDeploymentRepository deploymentRepository,
 	    IServiceScopeFactory scopeFactory)
 	{
 		RuleFor(x => x.ProjectId)
@@ -17,7 +16,12 @@ public sealed class DeployFromLatestCommitCommandValidator : AbstractValidator<D
 
 		RuleFor(x => x.ProjectId).MustAsync(async (projectId, cancellationToken) =>
 		{
-			var deploymentsInProgress = await deploymentRepository.GetFilteredAsync(x => x.ProjectId == projectId && (x.Status == DeploymentStatus.Deploying || x.Status == DeploymentStatus.Queued), cancellationToken);
+			await using var scope = scopeFactory.CreateAsyncScope();
+			var deploymentRepository = scope.ServiceProvider.GetRequiredService<IDeploymentRepository>();
+
+			var deploymentsInProgress = await deploymentRepository.GetFilteredAsync(
+			    x => x.ProjectId == projectId && (x.Status == DeploymentStatus.Deploying || x.Status == DeploymentStatus.Queued),
+			    cancellationToken);
 
 			return deploymentsInProgress.Count == 0;
 		}).WithMessage("You already have a deployment in progress");
