@@ -1605,7 +1605,7 @@ export type paths = {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": components["schemas"]["Api.Endpoints.Projects.Deployments.DeployFromLatestCommit.DeployFromLatestCommitResponse"];
+                        "application/json": components["schemas"]["Api.Abstractions.DeployFromLatestCommitResponse"];
                     };
                 };
             };
@@ -2473,6 +2473,7 @@ export type components = {
         "<>f__AnonymousType0`1[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]": {
             installUrl: string | null;
         };
+        "Api.Abstractions.DeployFromLatestCommitResponse": Record<string, never>;
         "Api.Abstractions.DeployProjectResponse": {
             statusUrl: string | null;
         };
@@ -2520,7 +2521,6 @@ export type components = {
         "Api.Data.ProjectState": "Unknown" | "Running" | "Starting" | "Stopped" | "Deleting";
         /** @enum {string} */
         "Api.Data.SystemType": "Unknown" | "Frontend" | "Backend";
-        "Api.Endpoints.Projects.Deployments.DeployFromLatestCommit.DeployFromLatestCommitResponse": Record<string, never>;
         "Api.Endpoints.Projects.Deployments.GetDeploymentResponse": {
             /** Format: uuid */
             id: string;
