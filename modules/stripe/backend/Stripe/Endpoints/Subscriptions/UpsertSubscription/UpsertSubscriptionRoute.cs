@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
-using Core.MediatR;
 using MediatR;
 using Api.Abstractions;
 
@@ -18,7 +17,9 @@ public static class UpsertSubscriptionRouteExtension
         {
             var command = new UpsertSubscriptionCommand(
                 ProjectId: ProjectId.Create(request.ProjectId),
-                ServerTierId: new ServerTierId(request.Tier));
+                ServerTierId: new ServerTierId(request.Tier),
+                CouponCode: null,
+                OverrideAuthorization: false);
 
             var response = await sender.Send(command, cancellationToken);
             return Results.Ok(response);

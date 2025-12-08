@@ -15,7 +15,8 @@ public sealed class CreateStripeSubscription_ProjectAllocatedToUserEventHandler(
         var command = new UpsertSubscriptionCommand(
             notification.Entity.Id,
             notification.Entity.ServerTierId,
-            GetCouponCodeIfApplicable(notification));
+            GetCouponCodeIfApplicable(notification),
+            OverrideAuthorization: true);
 
         await sender.Send(
             command,

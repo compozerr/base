@@ -11,7 +11,7 @@ public static class StripeValidationExtensions
     {
         return ruleBuilder.MustAsync(async (cmd, cancel) =>
         {
-            using var scope = serviceScopeFactory.CreateScope();
+            await using var scope = serviceScopeFactory.CreateAsyncScope();
             var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
 
             var userPaymentMethods = await mediator.Send(
