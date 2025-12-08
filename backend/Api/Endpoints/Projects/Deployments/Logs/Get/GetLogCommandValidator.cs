@@ -7,11 +7,14 @@ namespace Api.Endpoints.Projects.Deployments.Logs.Get;
 public sealed class GetLogCommandValidator : AbstractValidator<GetLogCommand>
 {
     public GetLogCommandValidator(
-        ICurrentUserAccessor currentUserAccessor,
-        IProjectRepository projectRepository)
+        IServiceScopeFactory scopeFactory)
     {
         RuleFor(x => x.ProjectId).MustAsync(async (projectId, cancellationToken) =>
         {
+            await using var scope = scopeFactory.CreateAsyncScope();
+            var projectRepository = scope.ServiceProvider.GetRequiredService<IProjectRepository>();
+            var currentUserAccessor = scope.ServiceProvider.GetRequiredService<ICurrentUserAccessor>();
+            
             var project = await projectRepository.GetByIdAsync(projectId, cancellationToken);
 
             return currentUserAccessor.CurrentUserId == project?.UserId;
