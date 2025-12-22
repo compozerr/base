@@ -21,6 +21,9 @@ public class GithubFeature : IFeature
         dataSourceBuilder.EnableDynamicJson();
         var dataSource = dataSourceBuilder.Build();
 
+        // Register NpgsqlDataSource as singleton for proper lifecycle management
+        services.AddSingleton(dataSource);
+
         services.AddDbContext<GithubDbContext>(options =>
         {
             options.UseNpgsql(dataSource, b =>

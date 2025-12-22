@@ -54,9 +54,10 @@ public static class GetProjectRoute
         ISubscriptionsService subscriptionsService,
         ProjectId projectId)
     {
-        var subscription = await subscriptionsService.GetSubscriptionsForUserAsync().ContinueWith(t => t.Result
+        var subscriptions = await subscriptionsService.GetSubscriptionsForUserAsync();
+        var subscription = subscriptions
             .Where(s => s.ProjectId == projectId)
-            .FirstOrDefault());
+            .FirstOrDefault();
 
         return GetServerTierPriceFromSubscriptionDto(subscription);
     }
