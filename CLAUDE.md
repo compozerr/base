@@ -46,6 +46,9 @@ cd backend && dotnet watch run --project Api --urls http://localhost:5000
 dotnet test backend/Api.Tests/Api.Tests.csproj
 dotnet test  # Run all tests in solution
 
+# Run a single test
+dotnet test --filter "FullyQualifiedName~TestMethodName"
+
 # Build backend
 cd backend && dotnet build
 
@@ -64,6 +67,9 @@ cd frontend && npm run typecheck
 
 # Build for production
 cd frontend && npm run build
+
+# Regenerate API client (requires backend running on port 5000)
+cd frontend && npx openapi-qraft --plugin tanstack-query-react --plugin openapi-typescript http://localhost:5000/swagger/v1/swagger.json --clean -o src/generated --export-type --properties-required-by-default --default-non-nullable
 ```
 
 ### Deployment
@@ -73,6 +79,8 @@ compozerr deploy project
 ```
 
 ## Architecture
+
+**Database**: PostgreSQL with Entity Framework Core
 
 ### Feature-Based Backend Module System
 
@@ -166,6 +174,13 @@ Endpoints are defined using Carter modules:
 Request validation uses FluentValidation:
 - Validators automatically registered via `RegisterValidatorsInAssemblyFeatureConfigureCallback`
 - Create validator classes: `public class MyCommandValidator : AbstractValidator<MyCommand>`
+
+**4. Accessing Current User**
+
+In command handlers, access the authenticated user via:
+```csharp
+var userId = CurrentUserAccessor.CurrentUserId!;
+```
 
 ### Frontend Architecture
 
@@ -361,8 +376,8 @@ void IFeature.ConfigureApp(WebApplication app)
 
 ## Key Architectural Decisions
 
-1. **Feature-based modularity**: Modules are discovered automatically via reflection, no explicit registration needed
-2. **MediatR everywhere**: All business logic goes through commands/queries for consistency and testability
+1. **Feature-based modularity**: Modules are auto-discovered via reflection
+2. **MediatR for all business logic**: Commands/queries for consistency and testability
 3. **Type-safety across stack**: OpenAPI generates TypeScript types from C# definitions
-4. **File-based routing**: Frontend routes mirror file structure, modules contribute routes via configuration
-5. **Monorepo with workspaces**: npm workspaces for frontend packages, project references for backend
+4. **File-based routing**: Frontend routes mirror file structure
+5. **Strongly-typed IDs**: All entities use `IdBase<T>` pattern (e.g., `UserId`, `ProjectId`)
