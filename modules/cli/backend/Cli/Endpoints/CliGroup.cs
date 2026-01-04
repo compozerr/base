@@ -4,6 +4,7 @@ using Cli.Endpoints.Locations;
 using Cli.Endpoints.Modules;
 using Cli.Endpoints.Projects;
 using Cli.Endpoints.Repos;
+using Cli.Endpoints.Templates;
 using Microsoft.AspNetCore.Routing;
 
 namespace Cli.Endpoints;
@@ -23,5 +24,6 @@ public class CliGroup : CarterModule
         app.AddProjectsGroup();
         app.AddLocationsGroup();
         app.AddModuleGroup();
+        app.AddTemplatesGroup();
     }
 }

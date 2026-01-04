@@ -1,5 +1,6 @@
 using Cli.Services;
 using Cli.Services.GoogleCloud;
+using Cli.Services.TemplateDetection;
 using Core.Feature;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
@@ -19,6 +20,7 @@ public class CliFeature : IFeature
             options.Limits.MinRequestBodyDataRate = new(100, TimeSpan.FromSeconds(10));
         });
         services.AddSingleton<IProcessService, ProcessService>();
+        services.AddSingleton<ITemplateDetectorService, TemplateDetectorService>();
     }
 
     void IFeature.ConfigureBuilder(Microsoft.AspNetCore.Builder.WebApplicationBuilder builder)
