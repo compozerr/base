@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router"
 import { Button } from "./ui/button"
-import { Workflow } from "lucide-react"
+import { Workflow, PartyPopper } from "lucide-react"
 import LoginButton from "./login-button"
 
 export default function Navbar() {
@@ -20,6 +20,12 @@ export default function Navbar() {
           <Link to="/pricing" className="transition-colors hover:text-primary">
             <Button variant="ghost" size="sm">
               Pricing
+            </Button>
+          </Link>
+          <Link to="/new-year" className="transition-colors hover:text-primary">
+            <Button variant="ghost" size="sm" className="gap-2">
+              <PartyPopper className="h-4 w-4" />
+              New Year
             </Button>
           </Link>
         </nav>
