@@ -47,6 +47,11 @@ public sealed class AddLogCommandHandler(
             // Copy existing content if available
             if (downloadedLog is not null)
             {
+                // Ensure we copy from the beginning of the downloaded stream
+                if (downloadedLog.CanSeek)
+                {
+                    downloadedLog.Position = 0;
+                }
                 await downloadedLog.CopyToAsync(currentLog, cancellationToken);
                 await downloadedLog.DisposeAsync();
             }
