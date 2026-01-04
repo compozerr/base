@@ -1,4 +1,4 @@
-using System.Collections.Concurrent;
+using System.Runtime.Caching;
 using Api.Abstractions.Helpers;
 using Core.MediatR;
 using Serilog;
@@ -10,27 +10,58 @@ public sealed class AddLogCommandHandler(
     IStorageService storageService
     ) : ICommandHandler<AddLogCommand, AddLogResponse>
 {
-    // Per-deployment semaphores to prevent concurrent writes to the same log file
-    private static readonly ConcurrentDictionary<string, SemaphoreSlim> _semaphores = new();
+    // Per-deployment semaphores with automatic expiration to prevent memory leaks
+    private static readonly MemoryCache _semaphoreCache = new("DeploymentSemaphores");
+    private static readonly CacheItemPolicy _cachePolicy = new()
+    {
+        SlidingExpiration = TimeSpan.FromMinutes(10)
+    };
+
+    private static SemaphoreSlim GetOrCreateSemaphore(string deploymentId)
+    {
+        var semaphore = _semaphoreCache.Get(deploymentId) as SemaphoreSlim;
+        if (semaphore is null)
+        {
+            semaphore = new SemaphoreSlim(1, 1);
+            _semaphoreCache.Set(deploymentId, semaphore, _cachePolicy);
+        }
+        return semaphore;
+    }
 
     public async Task<AddLogResponse> Handle(AddLogCommand command, CancellationToken cancellationToken = default)
     {
         var deploymentId = command.DeploymentId.ToString();
 
-        // Get or create a semaphore for this specific deployment
-        var semaphore = _semaphores.GetOrAdd(deploymentId, _ => new SemaphoreSlim(1, 1));
+        // Get or create a semaphore for this specific deployment (auto-expires after 10 min inactivity)
+        var semaphore = GetOrCreateSemaphore(deploymentId);
 
         await semaphore.WaitAsync(cancellationToken);
         try
         {
             Log.ForContext("deploymentId", command.DeploymentId).Information("Adding log");
 
-            var currentLog = await storageService.DownloadAsync(LogHelpers.GetLogFileName(command.DeploymentId), cancellationToken) ?? new MemoryStream();
+            var downloadedLog = await storageService.DownloadAsync(LogHelpers.GetLogFileName(command.DeploymentId), cancellationToken);
+
+            await using var currentLog = new MemoryStream();
+
+            // Copy existing content if available
+            if (downloadedLog is not null)
+            {
+                await downloadedLog.CopyToAsync(currentLog, cancellationToken);
+                await downloadedLog.DisposeAsync();
+            }
+
             Log.ForContext("currentLog", currentLog.Length).Information("Got current log");
 
-            var writer = new StreamWriter(currentLog);
-            writer.WriteLine(LogHelpers.GetLogEntry(command.Log, command.Level));
-            writer.Flush();
+            // Position at end to append
+            currentLog.Position = currentLog.Length;
+
+            await using (var writer = new StreamWriter(currentLog, leaveOpen: true))
+            {
+                await writer.WriteLineAsync(LogHelpers.GetLogEntry(command.Log, command.Level));
+                await writer.FlushAsync(cancellationToken);
+            }
+
             currentLog.Position = 0;
 
             Log.ForContext("currentLog", currentLog.Length).Information("Uploading log");

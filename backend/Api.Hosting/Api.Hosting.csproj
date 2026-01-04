@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <PackageReference Include="Carter" Version="9.0.0" />
+    <PackageReference Include="System.Runtime.Caching" Version="9.0.0" />
   </ItemGroup>
 
   <PropertyGroup>

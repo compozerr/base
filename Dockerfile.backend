@@ -22,6 +22,11 @@ WORKDIR /app
 # Set the ASP.NET Core environment to Production
 ENV ASPNETCORE_ENVIRONMENT=Production
 
+# Configure .NET to respect container memory limits and optimize GC for containers
+ENV DOTNET_GCHeapHardLimit=0x80000000
+ENV DOTNET_gcServer=1
+ENV DOTNET_GCConserveMemory=9
+
 # Copy the published application from the build stage
 COPY --from=build /app/backend/out .
 
