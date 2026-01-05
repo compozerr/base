@@ -1,8 +1,8 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, Link } from '@tanstack/react-router'
 import { useEffect, useCallback } from 'react'
 import confetti from 'canvas-confetti'
 import { Button } from '@/components/ui/button'
-import { PartyPopper, Sparkles } from 'lucide-react'
+import { PartyPopper, Sparkles, Home } from 'lucide-react'
 
 export const Route = createFileRoute('/new-year')({
   component: NewYearComponent,
@@ -134,6 +134,16 @@ function NewYearComponent() {
         <div className="absolute right-0 top-0 h-[500px] w-[500px] bg-yellow-500/20 blur-[100px]" />
         <div className="absolute bottom-0 left-0 h-[500px] w-[500px] bg-orange-500/20 blur-[100px]" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[600px] w-[600px] bg-purple-500/10 blur-[120px]" />
+      </div>
+
+      {/* Back to Home */}
+      <div className="absolute top-4 left-4 z-20">
+        <Link to="/">
+          <Button variant="ghost" size="sm" className="gap-2 text-muted-foreground hover:text-foreground">
+            <Home className="h-4 w-4" />
+            Back to Home
+          </Button>
+        </Link>
       </div>
 
       {/* Content */}
