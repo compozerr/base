@@ -7,6 +7,7 @@ using Core.MediatR;
 using Core.Services;
 using Database.Extensions;
 using Github.Services;
+using Github.Utils;
 using MediatR;
 
 namespace Cli.Endpoints.Projects.Migrate;
@@ -77,14 +78,8 @@ public sealed class MigrateProjectCommandHandler(
 
     private async Task<bool> CheckRepositoryAccessAsync(string repoUrl, Auth.Abstractions.UserId userId)
     {
-        var repoUri = new Uri(repoUrl);
-        var pathParts = repoUri.AbsolutePath.TrimStart('/').Replace(".git", "").Split('/');
-
-        if (pathParts.Length < 2)
+        if (!GitHubRepoUrl.TryParse(repoUrl, out var owner, out var repoName))
             return false;
-
-        var owner = pathParts[0];
-        var repoName = pathParts[1];
 
         var installations = await githubService.GetInstallationsForUserAsync(userId);
 

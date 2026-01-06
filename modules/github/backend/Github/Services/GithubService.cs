@@ -4,6 +4,7 @@ using Auth.Repositories;
 using Core.Extensions;
 using Github.Endpoints.SetDefaultInstallationId;
 using Github.Repositories;
+using Github.Utils;
 using Octokit;
 using Serilog;
 
@@ -395,9 +396,7 @@ public sealed class GithubService(
         UserId? ownerUserId = null,
         CancellationToken cancellationToken = default)
     {
-        var name = repoUri.AbsolutePath.TrimStart('/').Replace(".git", "");
-        var owner = name.Split('/')[0];
-        var repo = name.Split('/')[1];
+        var (owner, repo) = GitHubRepoUrl.Parse(repoUri);
 
         // Try unauthenticated client first (for public repos)
         var publicClient = new GitHubClient(new ProductHeaderValue("compozerr"));
