@@ -24,13 +24,38 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
 import { useToast } from '@/hooks/use-toast'
 import { Separator } from '@/components/ui/separator'
 import StripeProvider from '@repo/stripe/stripe-provider'
 import SubscriptionList from '@repo/stripe/subscription-list'
 import PaymentMethods from '@repo/stripe/payment-methods'
 import InvoicesList from '@repo/stripe/invoices-list'
+import { useEphemeralQueryParams } from '@/hooks/use-ephemeral-storage.hook'
 import { z } from 'zod'
+
+interface InstallGuideParams {
+  'install-guide-show'?: boolean;
+  reason?: string;
+}
+
+const INSTALL_GUIDE_REASONS: Record<string, { title: string; description: string }> = {
+  migrate: {
+    title: 'GitHub Access Required',
+    description: 'To migrate your project, Compozerr needs access to your repository. After installing the GitHub app for your organization, return to the CLI and run `compozerr migrate` again.',
+  },
+  default: {
+    title: 'Install GitHub App',
+    description: 'You can add more organizations by installing the GitHub app.',
+  },
+}
 
 const optionalSearchParamsSchema = z.object({
   addPaymentMethod: z.boolean().optional(),
@@ -43,8 +68,25 @@ export const Route = createFileRoute('/_auth/_dashboard/settings')({
 
 function RouteComponent() {
   const { toast } = useToast();
-  
-  // Add state to track the active user
+  const [installGuideOpen, setInstallGuideOpen] = React.useState(false);
+  const [installGuideReason, setInstallGuideReason] = React.useState<string>('default');
+
+  // Handle ephemeral query params for install guide
+  const { collect: collectInstallGuide } = useEphemeralQueryParams<InstallGuideParams>(
+    ['install-guide-show', 'reason'],
+    'install-guide-params'
+  );
+
+  React.useEffect(() => {
+    const params = collectInstallGuide();
+    if (params?.['install-guide-show']) {
+      setInstallGuideReason(params.reason || 'default');
+      setInstallGuideOpen(true);
+    }
+  }, []);
+
+  const installGuideContent = INSTALL_GUIDE_REASONS[installGuideReason] || INSTALL_GUIDE_REASONS.default;
+
   const {
     data: appUrlData,
     isLoading: appUrlLoading,
@@ -127,6 +169,32 @@ function RouteComponent() {
 
   return (
     <>
+      <Dialog open={installGuideOpen} onOpenChange={setInstallGuideOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{installGuideContent.title}</DialogTitle>
+            <DialogDescription>
+              {installGuideContent.description}
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            {!isLoading && installAppUrl && (
+              <Button asChild>
+                <a
+                  href={installAppUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => setInstallGuideOpen(false)}
+                >
+                  <Github className="h-4 w-4" />
+                  Install GitHub App
+                </a>
+              </Button>
+            )}
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
       <main>
         <h1 className="text-3xl font-bold mb-6">Settings</h1>
       <div className="space-y-6">

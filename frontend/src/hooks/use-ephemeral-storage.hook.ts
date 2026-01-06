@@ -28,3 +28,44 @@ export function onEphemeralValue<T>(key: string, callback: (value: T) => void | 
 		execute();
 	}, []);
 }
+
+/**
+ * Captures query parameters from the URL, stores them in sessionStorage,
+ * and removes them from the URL. Returns the captured values.
+ */
+export function useEphemeralQueryParams<T extends Record<string, string | boolean | undefined>>(
+	paramKeys: (keyof T)[],
+	storageKey: string
+) {
+	const { setValue, collect } = useEphemeralStorage<T>(storageKey);
+
+	useEffect(() => {
+		if (typeof window === "undefined") return;
+
+		const url = new URL(window.location.href);
+		const capturedParams: Partial<T> = {};
+		let hasParams = false;
+
+		for (const key of paramKeys) {
+			const value = url.searchParams.get(key as string);
+			if (value !== null) {
+				hasParams = true;
+				if (value === "true") {
+					capturedParams[key] = true as T[keyof T];
+				} else if (value === "false") {
+					capturedParams[key] = false as T[keyof T];
+				} else {
+					capturedParams[key] = value as T[keyof T];
+				}
+				url.searchParams.delete(key as string);
+			}
+		}
+
+		if (hasParams) {
+			setValue(capturedParams as T);
+			window.history.replaceState({}, "", url.toString());
+		}
+	}, []);
+
+	return { collect };
+}

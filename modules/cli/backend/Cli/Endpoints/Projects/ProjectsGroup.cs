@@ -1,4 +1,5 @@
 using Cli.Endpoints.Projects.Deployments;
+using Cli.Endpoints.Projects.Migrate;
 using Cli.Endpoints.Projects.RestoreProject;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
@@ -20,6 +21,7 @@ public static class ProjectsGroup
         group.AddGetProjectByRepoUrlRoute();
 
         group.AddRestoreProjectRoute();
+        group.AddMigrateProjectRoute();
 
         return group;
     }

@@ -4,6 +4,7 @@ using Auth.Repositories;
 using Core.Extensions;
 using Github.Endpoints.SetDefaultInstallationId;
 using Github.Repositories;
+using Github.Utils;
 using Octokit;
 using Serilog;
 
@@ -57,6 +58,8 @@ public interface IGithubService
         Uri repoUri,
         UserId? ownerUserId = null,
         CancellationToken cancellationToken = default);
+
+    Task<bool> HasAccessToRepositoryAsync(string repoUrl, UserId userId);
 }
 
 public sealed class GithubService(
@@ -395,9 +398,7 @@ public sealed class GithubService(
         UserId? ownerUserId = null,
         CancellationToken cancellationToken = default)
     {
-        var name = repoUri.AbsolutePath.TrimStart('/').Replace(".git", "");
-        var owner = name.Split('/')[0];
-        var repo = name.Split('/')[1];
+        var (owner, repo) = GitHubRepoUrl.Parse(repoUri);
 
         // Try unauthenticated client first (for public repos)
         var publicClient = new GitHubClient(new ProductHeaderValue("compozerr"));
@@ -425,4 +426,39 @@ public sealed class GithubService(
         }
     }
 
+    public async Task<bool> HasAccessToRepositoryAsync(string repoUrl, UserId userId)
+    {
+        if (!GitHubRepoUrl.TryParse(repoUrl, out var owner, out var repoName))
+            return false;
+
+        var installations = await GetInstallationsForUserAsync(userId);
+
+        foreach (var installation in installations)
+        {
+            try
+            {
+                var clientResponse = await GetInstallationClientByInstallationIdAsync(
+                    installation.InstallationId);
+
+                if (clientResponse is null)
+                    continue;
+
+                var repos = await clientResponse.InstallationClient
+                    .GitHubApps.Installation.GetAllRepositoriesForCurrent();
+
+                var hasRepo = repos.Repositories.Any(r =>
+                    r.Owner.Login.Equals(owner, StringComparison.OrdinalIgnoreCase) &&
+                    r.Name.Equals(repoName, StringComparison.OrdinalIgnoreCase));
+
+                if (hasRepo)
+                    return true;
+            }
+            catch
+            {
+                continue;
+            }
+        }
+
+        return false;
+    }
 }
