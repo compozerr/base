@@ -66,7 +66,7 @@ public sealed class MigrateProjectCommandHandler(
                 CommitMessage: "Initial migration to compozerr",
                 CommitAuthor: "compozerr-cli",
                 CommitBranch: "main",
-                CommitEmail: "",
+                CommitEmail: "cli@compozerr.com",
                 OverrideAuthorization: true),
             cancellationToken);
 
