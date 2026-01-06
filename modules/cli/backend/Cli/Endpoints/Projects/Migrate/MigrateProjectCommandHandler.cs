@@ -4,7 +4,9 @@ using Api.Data.Repositories;
 using Auth.Services;
 using Cli.Abstractions;
 using Core.MediatR;
+using Core.Services;
 using Database.Extensions;
+using Github.Services;
 using MediatR;
 
 namespace Cli.Endpoints.Projects.Migrate;
@@ -13,6 +15,8 @@ public sealed class MigrateProjectCommandHandler(
     IProjectRepository projectRepository,
     ICurrentUserAccessor currentUserAccessor,
     ILocationRepository locationRepository,
+    IGithubService githubService,
+    IFrontendLocation frontendLocation,
     IMediator mediator) : ICommandHandler<MigrateProjectCommand, MigrateProjectResponse>
 {
     public async Task<MigrateProjectResponse> Handle(
@@ -20,6 +24,19 @@ public sealed class MigrateProjectCommandHandler(
         CancellationToken cancellationToken = default)
     {
         var userId = currentUserAccessor.CurrentUserId!;
+
+        var hasAccess = await CheckRepositoryAccessAsync(command.RepoUrl, userId);
+        if (!hasAccess)
+        {
+            var settingsUrl = frontendLocation.GetFromPath(
+                "/settings?install-guide-show=true&reason=migrate");
+
+            return MigrateProjectResponse.Fail(new MigrateProjectError(
+                Code: "GITHUB_ACCESS_REQUIRED",
+                Message: "Compozerr does not have access to this repository. Please install the GitHub app for this organization.",
+                SettingsUrl: settingsUrl.ToString()));
+        }
+
         var location = await locationRepository.GetLocationByIso(command.LocationIso);
 
         var newProject = new Project
@@ -55,6 +72,48 @@ public sealed class MigrateProjectCommandHandler(
                 OverrideAuthorization: true),
             cancellationToken);
 
-        return new MigrateProjectResponse(project.Id, config);
+        return MigrateProjectResponse.Ok(project.Id, config);
+    }
+
+    private async Task<bool> CheckRepositoryAccessAsync(string repoUrl, Auth.Abstractions.UserId userId)
+    {
+        var repoUri = new Uri(repoUrl);
+        var pathParts = repoUri.AbsolutePath.TrimStart('/').Replace(".git", "").Split('/');
+
+        if (pathParts.Length < 2)
+            return false;
+
+        var owner = pathParts[0];
+        var repoName = pathParts[1];
+
+        var installations = await githubService.GetInstallationsForUserAsync(userId);
+
+        foreach (var installation in installations)
+        {
+            try
+            {
+                var clientResponse = await githubService.GetInstallationClientByInstallationIdAsync(
+                    installation.InstallationId);
+
+                if (clientResponse is null)
+                    continue;
+
+                var repos = await clientResponse.InstallationClient
+                    .GitHubApps.Installation.GetAllRepositoriesForCurrent();
+
+                var hasRepo = repos.Repositories.Any(r =>
+                    r.Owner.Login.Equals(owner, StringComparison.OrdinalIgnoreCase) &&
+                    r.Name.Equals(repoName, StringComparison.OrdinalIgnoreCase));
+
+                if (hasRepo)
+                    return true;
+            }
+            catch
+            {
+                continue;
+            }
+        }
+
+        return false;
     }
 }
