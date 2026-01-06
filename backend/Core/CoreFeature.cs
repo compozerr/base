@@ -44,6 +44,10 @@ public class CoreFeature : IFeature
             // Customize the logging level based on status code
             options.GetLevel = (httpContext, elapsed, ex) =>
             {
+                // Don't log validation exceptions as errors
+                if (ex is RequestValidationException)
+                    return LogEventLevel.Warning;
+
                 if (ex != null || httpContext.Response.StatusCode > 499)
                     return LogEventLevel.Error;
                 if (httpContext.Response.StatusCode > 399)

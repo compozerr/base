@@ -12,6 +12,8 @@ public abstract record IdBase<TSelf> : IParsable<TSelf>, IComparable<TSelf>
 
     public static TSelf CreateNew() => TSelf.Create(Guid.NewGuid());
 
+    public static TSelf Empty => TSelf.Create(Guid.Empty);
+
     public sealed override string ToString()
         => Value.ToString();
 
@@ -41,4 +43,11 @@ public abstract record IdBase<TSelf> : IParsable<TSelf>, IComparable<TSelf>
 
         return Value.CompareTo(other.Value);
     }
+
+    public static bool operator ==(IdBase<TSelf>? left, TSelf? right)
+        => Equals(left, right);
+
+    public static bool operator !=(IdBase<TSelf>? left, TSelf? right)
+        => !Equals(left, right);
+
 }

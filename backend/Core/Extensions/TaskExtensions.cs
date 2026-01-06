@@ -22,6 +22,17 @@ public static class TaskExtensions
         // ReSharper restore ExplicitCallerInfoArgument
     }
 
+    public static Task LogAndSilenceAsync(
+        this Task @this,
+        string? errorLog = null,
+        object?[]? propertyValues = null,
+        [CallerArgumentExpression(nameof(@this))] string expression = "",
+        [CallerFilePath] string callerFilePath = "",
+        [CallerLineNumber] int callerLineNumber = 0,
+        [CallerMemberName] string callerMemberName = "")
+        => @this.LogExceptionAsError(errorLog, propertyValues, expression, callerFilePath, callerLineNumber, callerMemberName)
+                        .SilenceAsync();
+
     public static async Task<T> LogExceptionAsError<T>(
         this Task<T> @this,
         string? errorLog = null,
@@ -164,7 +175,7 @@ public static class TaskExtensions
                 Log.Logger
                    .ForContext("Attempts", attempts)
                    .Warning(ex, "Retrying after exception: {Message}", ex.Message);
-                   
+
                 await Task.Delay(delayTime * (1 << attempts)).ConfigureAwait(false);
             }
         }
