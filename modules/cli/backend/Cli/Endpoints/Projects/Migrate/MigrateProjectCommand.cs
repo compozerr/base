@@ -6,6 +6,4 @@ public sealed record MigrateProjectCommand(
     string Name,
     string RepoUrl,
     string LocationIso,
-    string Tier,
-    string? StartCommand,
-    string? DockerComposeFile) : ICommand<MigrateProjectResponse>;
+    string Tier) : ICommand<MigrateProjectResponse>;

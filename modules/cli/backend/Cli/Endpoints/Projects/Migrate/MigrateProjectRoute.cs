@@ -8,9 +8,7 @@ public sealed record MigrateProjectRequest(
     string Name,
     string RepoUrl,
     string LocationIso,
-    string Tier,
-    string? StartCommand,
-    string? DockerComposeFile);
+    string Tier);
 
 public static class MigrateProjectRoute
 {
@@ -29,7 +27,5 @@ public static class MigrateProjectRoute
                 request.Name,
                 request.RepoUrl,
                 request.LocationIso,
-                request.Tier,
-                request.StartCommand,
-                request.DockerComposeFile));
+                request.Tier));
 }

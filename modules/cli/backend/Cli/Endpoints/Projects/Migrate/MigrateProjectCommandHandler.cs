@@ -57,9 +57,7 @@ public sealed class MigrateProjectCommandHandler(
         var config = new CompozerrConfig(
             Type: "project",
             Name: command.Name,
-            Id: project.Id.Value,
-            Start: command.StartCommand,
-            DockerComposeFile: command.DockerComposeFile);
+            Id: project.Id.Value);
 
         await mediator.Send(
             new DeployProjectCommand(

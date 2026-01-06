@@ -23,6 +23,4 @@ public sealed record MigrateProjectError(
 public sealed record CompozerrConfig(
     string Type,
     string Name,
-    Guid Id,
-    string? Start,
-    string? DockerComposeFile);
+    Guid Id);
