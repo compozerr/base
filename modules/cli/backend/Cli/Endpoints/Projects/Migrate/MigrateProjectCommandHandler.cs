@@ -7,7 +7,6 @@ using Core.MediatR;
 using Core.Services;
 using Database.Extensions;
 using Github.Services;
-using Github.Utils;
 using MediatR;
 
 namespace Cli.Endpoints.Projects.Migrate;
@@ -26,7 +25,7 @@ public sealed class MigrateProjectCommandHandler(
     {
         var userId = currentUserAccessor.CurrentUserId!;
 
-        var hasAccess = await CheckRepositoryAccessAsync(command.RepoUrl, userId);
+        var hasAccess = await githubService.HasAccessToRepositoryAsync(command.RepoUrl, userId);
         if (!hasAccess)
         {
             var settingsUrl = frontendLocation.GetFromPath(
@@ -74,41 +73,5 @@ public sealed class MigrateProjectCommandHandler(
             cancellationToken);
 
         return MigrateProjectResponse.Ok(project.Id, config);
-    }
-
-    private async Task<bool> CheckRepositoryAccessAsync(string repoUrl, Auth.Abstractions.UserId userId)
-    {
-        if (!GitHubRepoUrl.TryParse(repoUrl, out var owner, out var repoName))
-            return false;
-
-        var installations = await githubService.GetInstallationsForUserAsync(userId);
-
-        foreach (var installation in installations)
-        {
-            try
-            {
-                var clientResponse = await githubService.GetInstallationClientByInstallationIdAsync(
-                    installation.InstallationId);
-
-                if (clientResponse is null)
-                    continue;
-
-                var repos = await clientResponse.InstallationClient
-                    .GitHubApps.Installation.GetAllRepositoriesForCurrent();
-
-                var hasRepo = repos.Repositories.Any(r =>
-                    r.Owner.Login.Equals(owner, StringComparison.OrdinalIgnoreCase) &&
-                    r.Name.Equals(repoName, StringComparison.OrdinalIgnoreCase));
-
-                if (hasRepo)
-                    return true;
-            }
-            catch
-            {
-                continue;
-            }
-        }
-
-        return false;
     }
 }
