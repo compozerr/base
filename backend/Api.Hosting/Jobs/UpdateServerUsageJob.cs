@@ -26,7 +26,7 @@ public class UpdateServerUsageJob(
             if (serverUsage is null) continue;
 
             server.Usage = serverUsage;
-            server.QueueDomainEvent(new ServerUsageUpdatedEvent(server));
+            server.QueueDomainEvent<ServerUsageUpdatedEvent>();
             await serverRepository.UpdateAsync(server);
         }
     }
