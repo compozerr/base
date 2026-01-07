@@ -1,5 +1,7 @@
 using Api.Data.Repositories;
+using Api.Hosting.Events;
 using Api.Hosting.Services;
+using Database.Extensions;
 using Jobs;
 using Serilog;
 
@@ -24,6 +26,7 @@ public class UpdateServerUsageJob(
             if (serverUsage is null) continue;
 
             server.Usage = serverUsage;
+            server.QueueDomainEvent<ServerUsageUpdatedEvent>();
             await serverRepository.UpdateAsync(server);
         }
     }
