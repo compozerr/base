@@ -7,7 +7,7 @@ namespace Api.Hosting.EventHandlers;
 public sealed class NotifyHighUsage_ServerUsageUpdatedEventHandler
     : EntityDomainEventHandlerBase<ServerUsageUpdatedEvent>
 {
-    private const decimal HighUsageThreshold = 0.9m;
+    private const decimal HighUsageThreshold = 0.8m;
 
     protected override Task HandleAfterSaveAsync(ServerUsageUpdatedEvent domainEvent, CancellationToken cancellationToken)
     {
