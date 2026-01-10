@@ -12,7 +12,7 @@ public sealed class MakeSureParentDomainExists_ExternalDomainAddedEventHandler(
     ISubdomainHashService subdomainHashService) : EntityDomainEventHandlerBase<ExternalDomainAddedEvent>
 {
     private readonly Serilog.ILogger _logger = Log.Logger.ForContext<MakeSureParentDomainExists_ExternalDomainAddedEventHandler>();
-    protected override async Task HandleBeforeSaveAsync(ExternalDomainAddedEvent domainEvent, CancellationToken cancellationToken)
+    protected override async Task HandleAfterSaveAsync(ExternalDomainAddedEvent domainEvent, CancellationToken cancellationToken)
     {
         var currentDomains = await domainRepository.GetFilteredAsync(
            x => x.ProjectId == domainEvent.Entity.ProjectId,
