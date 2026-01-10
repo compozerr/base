@@ -3,6 +3,7 @@ using Core.Extensions;
 using Core.Feature;
 using Database.Events;
 using MediatR;
+using Serilog;
 
 namespace Database.Data;
 
@@ -11,6 +12,8 @@ public abstract class BaseDbContext<TDbContext>(
     DbContextOptions options,
     IMediator mediator) : DbContext(options) where TDbContext : DbContext
 {
+    private static readonly AsyncLocal<bool> _isSaving = new();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
@@ -48,37 +51,58 @@ public abstract class BaseDbContext<TDbContext>(
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
-        // Update timestamps
-        var entries = ChangeTracker
-            .Entries()
-            .Where(e => (e.Entity is BaseEntity || e.Entity.GetType().IsSubclassOf(typeof(BaseEntity))) && (
-                e.State == EntityState.Added
-                || e.State == EntityState.Modified));
-
-        foreach (var entityEntry in entries)
+        // Detect nested SaveChangesAsync calls (deadlock prevention)
+        if (_isSaving.Value)
         {
-            var entity = (BaseEntity)entityEntry.Entity;
-
-            if (entityEntry.State == EntityState.Added)
-            {
-                entity.CreatedAtUtc = DateTime.UtcNow;
-            }
-            else
-            {
-                entity.UpdatedAtUtc = DateTime.UtcNow;
-            }
+            Log.Error(
+                "Nested SaveChangesAsync detected in {DbContext}. This would cause a deadlock. " +
+                "Domain event handlers should not call SaveChangesAsync. " +
+                "Use HandleAfterSaveAsync for operations that need to save, or modify tracked entities without saving in HandleBeforeSaveAsync.",
+                typeof(TDbContext).Name);
+            throw new InvalidOperationException(
+                $"Nested SaveChangesAsync detected in {typeof(TDbContext).Name}. " +
+                "This would cause a deadlock. Check domain event handlers for calls that trigger SaveChangesAsync.");
         }
 
-        // Dispatch events at BEFORE timing
-        await DispatchDomainEventsAsync(DomainEventTiming.BeforeSaveChanges, cancellationToken);
+        _isSaving.Value = true;
+        try
+        {
+            // Update timestamps
+            var entries = ChangeTracker
+                .Entries()
+                .Where(e => (e.Entity is BaseEntity || e.Entity.GetType().IsSubclassOf(typeof(BaseEntity))) && (
+                    e.State == EntityState.Added
+                    || e.State == EntityState.Modified));
 
-        // Save changes to database
-        var response = await base.SaveChangesAsync(cancellationToken);
+            foreach (var entityEntry in entries)
+            {
+                var entity = (BaseEntity)entityEntry.Entity;
 
-        // Dispatch events at AFTER timing
-        await DispatchDomainEventsAsync(DomainEventTiming.AfterSaveChanges, cancellationToken);
+                if (entityEntry.State == EntityState.Added)
+                {
+                    entity.CreatedAtUtc = DateTime.UtcNow;
+                }
+                else
+                {
+                    entity.UpdatedAtUtc = DateTime.UtcNow;
+                }
+            }
 
-        return response;
+            // Dispatch events at BEFORE timing
+            await DispatchDomainEventsAsync(DomainEventTiming.BeforeSaveChanges, cancellationToken);
+
+            // Save changes to database
+            var response = await base.SaveChangesAsync(cancellationToken);
+
+            // Dispatch events at AFTER timing
+            await DispatchDomainEventsAsync(DomainEventTiming.AfterSaveChanges, cancellationToken);
+
+            return response;
+        }
+        finally
+        {
+            _isSaving.Value = false;
+        }
     }
 
     private BaseEntity[] GetEntitiesWithDomainEvents()
