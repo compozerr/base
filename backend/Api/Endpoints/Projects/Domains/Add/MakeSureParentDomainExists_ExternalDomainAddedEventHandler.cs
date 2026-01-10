@@ -9,10 +9,12 @@ public sealed class MakeSureParentDomainExists_ExternalDomainAddedEventHandler(
     IDomainRepository domainRepository,
     IProjectRepository projectRepository,
     IProjectServiceRepository projectServiceRepository,
-    ISubdomainHashService subdomainHashService) : EntityDomainEventHandlerBase<ExternalDomainAddedEvent>
+    ISubdomainHashService subdomainHashService,
+    ApiDbContext context) : EntityDomainEventHandlerBase<ExternalDomainAddedEvent>
 {
     private readonly Serilog.ILogger _logger = Log.Logger.ForContext<MakeSureParentDomainExists_ExternalDomainAddedEventHandler>();
-    protected override async Task HandleAfterSaveAsync(ExternalDomainAddedEvent domainEvent, CancellationToken cancellationToken)
+
+    protected override async Task HandleBeforeSaveAsync(ExternalDomainAddedEvent domainEvent, CancellationToken cancellationToken)
     {
         var currentDomains = await domainRepository.GetFilteredAsync(
            x => x.ProjectId == domainEvent.Entity.ProjectId,
@@ -36,10 +38,8 @@ public sealed class MakeSureParentDomainExists_ExternalDomainAddedEventHandler(
 
             if (projectService.Protocol != domainEvent.Entity.Protocol)
             {
+                // Just modify the tracked entity - it will be saved by the outer SaveChangesAsync
                 projectService.Protocol = domainEvent.Entity.Protocol;
-                await projectServiceRepository.UpdateAsync(
-                    projectService,
-                    cancellationToken);
             }
 
             var project = await projectRepository.GetByIdAsync(
@@ -50,9 +50,9 @@ public sealed class MakeSureParentDomainExists_ExternalDomainAddedEventHandler(
                 project,
                 projectService);
 
-            await domainRepository.AddAsync(
-                parentDomain,
-                cancellationToken);
+            // Add to context directly without calling SaveChangesAsync
+            // The entity will be saved by the outer SaveChangesAsync
+            await context.Set<InternalDomain>().AddAsync(parentDomain, cancellationToken);
         }
         else
         {

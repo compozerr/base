@@ -18,13 +18,11 @@ public sealed class HandlePrimaryDomain_ExternalDomainAddedEventHandler(
             domainEvent.Entity.IsPrimary = true;
         }
 
-        // Set others as not primary
+        // Set others as not primary - just modify the tracked entities,
+        // they will be saved by the outer SaveChangesAsync
         foreach (var domain in currentDomains)
         {
             domain.IsPrimary = false;
-            await domainRepository.UpdateAsync(
-                domain,
-                cancellationToken);
         }
     }
 }
