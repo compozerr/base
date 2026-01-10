@@ -13,6 +13,7 @@ import { Route as UsingModuleComponentRouteImport } from './routes/using-module-
 import { Route as TermsOfServiceRouteImport } from './routes/terms-of-service'
 import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
 import { Route as PricingRouteImport } from './routes/pricing'
+import { Route as NewYearRouteImport } from './routes/new-year'
 import { Route as N8nRouteImport } from './routes/n8n'
 import { Route as LoginRouteImport } from './../../modules/auth/frontend/src/routes/login'
 import { Route as ContactRouteImport } from './routes/contact'
@@ -54,6 +55,11 @@ const PrivacyPolicyRoute = PrivacyPolicyRouteImport.update({
 const PricingRoute = PricingRouteImport.update({
   id: '/pricing',
   path: '/pricing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NewYearRoute = NewYearRouteImport.update({
+  id: '/new-year',
+  path: '/new-year',
   getParentRoute: () => rootRouteImport,
 } as any)
 const N8nRoute = N8nRouteImport.update({
@@ -180,6 +186,7 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/login': typeof LoginRoute
   '/n8n': typeof N8nRoute
+  '/new-year': typeof NewYearRoute
   '/pricing': typeof PricingRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/terms-of-service': typeof TermsOfServiceRoute
@@ -206,6 +213,7 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/login': typeof LoginRoute
   '/n8n': typeof N8nRoute
+  '/new-year': typeof NewYearRoute
   '/pricing': typeof PricingRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/terms-of-service': typeof TermsOfServiceRoute
@@ -232,6 +240,7 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/login': typeof LoginRoute
   '/n8n': typeof N8nRoute
+  '/new-year': typeof NewYearRoute
   '/pricing': typeof PricingRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/terms-of-service': typeof TermsOfServiceRoute
@@ -261,6 +270,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/login'
     | '/n8n'
+    | '/new-year'
     | '/pricing'
     | '/privacy-policy'
     | '/terms-of-service'
@@ -287,6 +297,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/login'
     | '/n8n'
+    | '/new-year'
     | '/pricing'
     | '/privacy-policy'
     | '/terms-of-service'
@@ -312,6 +323,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/login'
     | '/n8n'
+    | '/new-year'
     | '/pricing'
     | '/privacy-policy'
     | '/terms-of-service'
@@ -341,6 +353,7 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   LoginRoute: typeof LoginRoute
   N8nRoute: typeof N8nRoute
+  NewYearRoute: typeof NewYearRoute
   PricingRoute: typeof PricingRoute
   PrivacyPolicyRoute: typeof PrivacyPolicyRoute
   TermsOfServiceRoute: typeof TermsOfServiceRoute
@@ -378,6 +391,13 @@ declare module '@tanstack/react-router' {
       path: '/pricing'
       fullPath: '/pricing'
       preLoaderRoute: typeof PricingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/new-year': {
+      id: '/new-year'
+      path: '/new-year'
+      fullPath: '/new-year'
+      preLoaderRoute: typeof NewYearRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/n8n': {
@@ -622,6 +642,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   LoginRoute: LoginRoute,
   N8nRoute: N8nRoute,
+  NewYearRoute: NewYearRoute,
   PricingRoute: PricingRoute,
   PrivacyPolicyRoute: PrivacyPolicyRoute,
   TermsOfServiceRoute: TermsOfServiceRoute,

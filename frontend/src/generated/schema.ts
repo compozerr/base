@@ -470,6 +470,45 @@ export type paths = {
         patch?: never;
         trace?: never;
     };
+    "/v1/cli/projects/migrate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["Cli.Endpoints.Projects.Migrate.MigrateProjectRequest"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Cli.Endpoints.Projects.Migrate.MigrateProjectResponse"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/cli/locations": {
         parameters: {
             query?: never;
@@ -1897,6 +1936,45 @@ export type paths = {
         patch?: never;
         trace?: never;
     };
+    "/v1/projects/{projectId}/domains/lookup": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query: {
+                    Domain: string;
+                };
+                header?: never;
+                path: {
+                    projectId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Api.Endpoints.Projects.Domains.Lookup.DnsLookupResponse"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/projects/{projectId}/domains/{domainId}/parent": {
         parameters: {
             query?: never;
@@ -2572,8 +2650,19 @@ export type components = {
         "Api.Endpoints.Projects.Domains.Get.GetDomainsResponse": {
             domains: components["schemas"]["Api.Endpoints.Projects.Domains.Get.GetDomainDto"][] | null;
         };
+        "Api.Endpoints.Projects.Domains.Lookup.DnsLookupResponse": {
+            records: components["schemas"]["Api.Endpoints.Projects.Domains.Lookup.DnsRecordInfo"][] | null;
+        };
+        "Api.Endpoints.Projects.Domains.Lookup.DnsRecordInfo": {
+            type: string | null;
+            name: string | null;
+            value: string | null;
+            /** Format: int32 */
+            ttl: number;
+        };
         "Api.Endpoints.Projects.Domains.Parent.Get.GetParentDomainResponse": {
             domain: string | null;
+            serverIp: string | null;
         };
         "Api.Endpoints.Projects.Domains.SetPrimary.SetPrimaryResponse": {
             success: boolean;
@@ -2791,6 +2880,29 @@ export type components = {
         };
         "Cli.Endpoints.Projects.GetProjectByRepoUrlRequest": {
             repoUrl: string | null;
+        };
+        "Cli.Endpoints.Projects.Migrate.CompozerrConfig": {
+            type: string | null;
+            name: string | null;
+            /** Format: uuid */
+            id: string;
+        };
+        "Cli.Endpoints.Projects.Migrate.MigrateProjectError": {
+            code: string | null;
+            message: string | null;
+            settingsUrl: string | null;
+        };
+        "Cli.Endpoints.Projects.Migrate.MigrateProjectRequest": {
+            name: string | null;
+            repoUrl: string | null;
+            locationIso: string | null;
+            tier: string | null;
+        };
+        "Cli.Endpoints.Projects.Migrate.MigrateProjectResponse": {
+            success: boolean;
+            projectId: components["schemas"]["Api.Abstractions.ProjectId"];
+            generatedConfig: components["schemas"]["Cli.Endpoints.Projects.Migrate.CompozerrConfig"];
+            error: components["schemas"]["Cli.Endpoints.Projects.Migrate.MigrateProjectError"];
         };
         "Cli.Endpoints.Projects.ProjectDto": {
             name: string | null;
