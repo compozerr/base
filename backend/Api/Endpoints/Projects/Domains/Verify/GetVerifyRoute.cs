@@ -4,12 +4,16 @@ using Api.Data.Events;
 using Api.Data.Repositories;
 using Database.Extensions;
 using DnsClient;
+using Microsoft.EntityFrameworkCore;
 
 namespace Api.Endpoints.Projects.Domains.Verify;
 
 public static class GetVerifyRoute
 {
     public const string Route = "{domainId:guid}/verify";
+
+    // Common multi-part TLDs for apex domain detection
+    private static readonly string[] MultiPartTlds = ["co.uk", "com.au", "co.nz", "com.br", "co.jp", "co.kr", "com.cn", "org.uk", "net.au"];
 
     public static RouteHandlerBuilder AddGetVerifyRoute(this IEndpointRouteBuilder app)
     {
@@ -39,14 +43,42 @@ public static class GetVerifyRoute
             cancellationToken);
 
         var recordName = domain.GetValue;
-        var recordValue = parentDomain.GetValue;
+        var isApex = IsApexDomain(recordName);
 
-        var isVerified = await VerifyCnameRecordAsync(
-            lookupClient,
-            recordName,
-            recordValue,
-            cancellationToken);
+        bool isVerified;
 
+        if (isApex)
+        {
+            // For apex domains, verify A record pointing to server IP
+            var domainWithServer = await domainRepository.Query()
+                .Include(d => d.Project)
+                .ThenInclude(p => p!.Server)
+                .FirstOrDefaultAsync(d => d.Id == parentDomain.Id, cancellationToken);
+
+            var serverIp = domainWithServer?.Project?.Server?.Ip;
+
+            if (string.IsNullOrEmpty(serverIp))
+            {
+                Log.Warning("Server IP not available for A record verification");
+                return false;
+            }
+
+            isVerified = await VerifyARecordAsync(
+                lookupClient,
+                recordName,
+                serverIp,
+                cancellationToken);
+        }
+        else
+        {
+            // For subdomains, verify CNAME record
+            var recordValue = parentDomain.GetValue;
+            isVerified = await VerifyCnameRecordAsync(
+                lookupClient,
+                recordName,
+                recordValue,
+                cancellationToken);
+        }
 
         if (isVerified && domain is ExternalDomain externalDomain)
         {
@@ -61,7 +93,65 @@ public static class GetVerifyRoute
         return isVerified;
     }
 
-    public async static Task<bool> VerifyCnameRecordAsync(
+    private static bool IsApexDomain(string domain)
+    {
+        var cleanDomain = domain.TrimEnd('.');
+        var parts = cleanDomain.Split('.');
+
+        // Check if domain ends with a multi-part TLD
+        foreach (var tld in MultiPartTlds)
+        {
+            if (cleanDomain.EndsWith($".{tld}", StringComparison.OrdinalIgnoreCase) ||
+                cleanDomain.Equals(tld, StringComparison.OrdinalIgnoreCase))
+            {
+                // For multi-part TLDs, apex has 3 parts (e.g., example.co.uk)
+                return parts.Length <= 3;
+            }
+        }
+
+        // For standard TLDs, apex has 2 parts (e.g., example.com)
+        return parts.Length <= 2;
+    }
+
+    public static async Task<bool> VerifyARecordAsync(
+        ILookupClient lookupClient,
+        string recordName,
+        string expectedIp,
+        CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var queryResult = await lookupClient.QueryAsync(
+                recordName,
+                QueryType.A,
+                cancellationToken: cancellationToken);
+
+            var aRecords = queryResult.Answers.ARecords();
+
+            foreach (var record in aRecords)
+            {
+                if (record.Address.ToString().Equals(expectedIp, StringComparison.OrdinalIgnoreCase))
+                {
+                    return true;
+                }
+            }
+
+            Log.Warning("Required A record not found or points to incorrect IP address");
+            return false;
+        }
+        catch (DnsResponseException ex)
+        {
+            Log.ForContext(nameof(ex), ex).Warning("DNS lookup failed for A record");
+            return false;
+        }
+        catch (Exception ex)
+        {
+            Log.ForContext(nameof(ex), ex).Warning("A record verification failed");
+            return false;
+        }
+    }
+
+    public static async Task<bool> VerifyCnameRecordAsync(
         ILookupClient lookupClient,
         string recordName,
         string value,
