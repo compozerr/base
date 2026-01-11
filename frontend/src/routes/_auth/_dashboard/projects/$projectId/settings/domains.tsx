@@ -388,12 +388,14 @@ function DomainsSettingsTab() {
     }
   }, [serviceName, guessProtocol, addDomainForm]);
 
-  // Group domains by status
+  // Group domains by status, sorting external domains before internal ones
   const groupedDomains = useMemo(() => {
     const domains = data?.domains ?? []
-    const primary = domains.filter(d => d.isPrimary)
-    const verified = domains.filter(d => !d.isPrimary && d.isVerified)
-    const pending = domains.filter(d => !d.isPrimary && !d.isVerified)
+    const sortByExternal = (a: DomainDto, b: DomainDto) =>
+      (a.isInternal ? 1 : 0) - (b.isInternal ? 1 : 0)
+    const primary = domains.filter(d => d.isPrimary).sort(sortByExternal)
+    const verified = domains.filter(d => !d.isPrimary && d.isVerified).sort(sortByExternal)
+    const pending = domains.filter(d => !d.isPrimary && !d.isVerified).sort(sortByExternal)
     return { primary, verified, pending }
   }, [data?.domains])
 
