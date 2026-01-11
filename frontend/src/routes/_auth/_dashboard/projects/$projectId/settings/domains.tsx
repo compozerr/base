@@ -27,6 +27,7 @@ import {
 import { CopyButton } from '@/components/copy-button'
 import { CopyText } from '@/components/copy-text'
 import { cn } from '@/lib/utils'
+import { components } from '@/generated';
 
 type DomainDto = NonNullable<Awaited<ReturnType<typeof api.v1.getProjectsProjectIdDomains.fetchQuery>>["domains"]>[number]
 
@@ -263,14 +264,14 @@ function DomainsSettingsTab() {
   }, [servicesData]);
 
   // Guess protocol based on common port mappings
-  const guessProtocol = useCallback((serviceName: string): 'HTTP' | 'TCP' => {
+  const guessProtocol = useCallback((serviceName: string): components["schemas"]["Api.Data.Protocol"] => {
     const port = servicePortMap.get(serviceName);
-    if (!port) return 'HTTP';
+    if (!port) return 'Http';
 
     const portNum = parseInt(port);
     const tcpPorts = [5432, 3306, 6379, 27017, 1433, 5433, 3389, 22, 21, 25, 110, 143, 587];
 
-    return tcpPorts.includes(portNum) ? 'TCP' : 'HTTP';
+    return tcpPorts.includes(portNum) ? 'Tcp' : 'Http';
   }, [servicePortMap]);
 
   const addDomainSchema = useMemo(() => z.object({
@@ -282,7 +283,7 @@ function DomainsSettingsTab() {
     serviceName: availableServices.length > 0
       ? z.enum(availableServices as [string, ...string[]])
       : z.string(),
-    protocol: z.enum(['HTTP', 'TCP']).transform((val) => val.toLowerCase()),
+    protocol: z.enum(["Http", "Tcp"] satisfies components["schemas"]["Api.Data.Protocol"][]).transform((val) => val.toLowerCase()),
   }), [availableServices]);
 
   const [deleteDomainId, setDeleteDomainId] = useState<string | null>(null);
@@ -366,7 +367,7 @@ function DomainsSettingsTab() {
     defaultValues: {
       domain: '',
       serviceName: availableServices[0] ?? '',
-      protocol: guessProtocol(availableServices[0] ?? '') as 'HTTP' | 'TCP'
+      protocol: guessProtocol(availableServices[0] ?? '')
     },
     validators: {
       onChange: addDomainSchema
