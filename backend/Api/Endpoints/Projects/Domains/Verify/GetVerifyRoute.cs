@@ -1,6 +1,7 @@
 using Api.Abstractions;
 using Api.Data;
 using Api.Data.Events;
+using Api.Data.Extensions;
 using Api.Data.Repositories;
 using Database.Extensions;
 using DnsClient;
@@ -11,9 +12,6 @@ namespace Api.Endpoints.Projects.Domains.Verify;
 public static class GetVerifyRoute
 {
     public const string Route = "{domainId:guid}/verify";
-
-    // Common multi-part TLDs for apex domain detection
-    private static readonly string[] MultiPartTlds = ["co.uk", "com.au", "co.nz", "com.br", "co.jp", "co.kr", "com.cn", "org.uk", "net.au"];
 
     public static RouteHandlerBuilder AddGetVerifyRoute(this IEndpointRouteBuilder app)
     {
@@ -43,7 +41,7 @@ public static class GetVerifyRoute
             cancellationToken);
 
         var recordName = domain.GetValue;
-        var isApex = IsApexDomain(recordName);
+        var isApex = DomainExtensions.IsApexDomain(recordName);
 
         bool isVerified;
 
@@ -91,26 +89,6 @@ public static class GetVerifyRoute
         }
 
         return isVerified;
-    }
-
-    private static bool IsApexDomain(string domain)
-    {
-        var cleanDomain = domain.TrimEnd('.');
-        var parts = cleanDomain.Split('.');
-
-        // Check if domain ends with a multi-part TLD
-        foreach (var tld in MultiPartTlds)
-        {
-            if (cleanDomain.EndsWith($".{tld}", StringComparison.OrdinalIgnoreCase) ||
-                cleanDomain.Equals(tld, StringComparison.OrdinalIgnoreCase))
-            {
-                // For multi-part TLDs, apex has 3 parts (e.g., example.co.uk)
-                return parts.Length <= 3;
-            }
-        }
-
-        // For standard TLDs, apex has 2 parts (e.g., example.com)
-        return parts.Length <= 2;
     }
 
     public static async Task<bool> VerifyARecordAsync(

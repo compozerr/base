@@ -1,5 +1,6 @@
 using Api.Data;
 using Api.Data.Events;
+using Api.Data.Extensions;
 using Api.Data.Repositories;
 using Api.Endpoints.Projects.Domains.Verify;
 using Database.Extensions;
@@ -14,9 +15,6 @@ public class DomainVerificationJob(
     ILookupClient lookupClient,
     IHttpClientFactory httpClientFactory) : JobBase<DomainVerificationJob>
 {
-    // Common multi-part TLDs for apex domain detection
-    private static readonly string[] MultiPartTlds = ["co.uk", "com.au", "co.nz", "com.br", "co.jp", "co.kr", "com.cn", "org.uk", "net.au"];
-
     public override async Task ExecuteAsync()
     {
         var now = DateTime.UtcNow;
@@ -48,7 +46,7 @@ public class DomainVerificationJob(
     private async Task VerifyDomainAsync(ExternalDomain domain, DateTime now)
     {
         var recordName = domain.Value;
-        var isApex = IsApexDomain(recordName);
+        var isApex = DomainExtensions.IsApexDomain(recordName);
 
         // Get parent domain for verification target
         var parentDomain = await domainRepository.GetParentDomainAsync(domain.Id, CancellationToken.None);
@@ -178,25 +176,5 @@ public class DomainVerificationJob(
             Log.Warning(ex, "Health check failed for domain {DomainId}", domain.Id);
             return false;
         }
-    }
-
-    private static bool IsApexDomain(string domain)
-    {
-        var cleanDomain = domain.TrimEnd('.');
-        var parts = cleanDomain.Split('.');
-
-        // Check if domain ends with a multi-part TLD
-        foreach (var tld in MultiPartTlds)
-        {
-            if (cleanDomain.EndsWith($".{tld}", StringComparison.OrdinalIgnoreCase) ||
-                cleanDomain.Equals(tld, StringComparison.OrdinalIgnoreCase))
-            {
-                // For multi-part TLDs, apex has 3 parts (e.g., example.co.uk)
-                return parts.Length <= 3;
-            }
-        }
-
-        // For standard TLDs, apex has 2 parts (e.g., example.com)
-        return parts.Length <= 2;
     }
 }
