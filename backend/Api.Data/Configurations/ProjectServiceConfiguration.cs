@@ -24,9 +24,6 @@ public sealed class ProjectServiceConfiguration : IEntityTypeConfiguration<Proje
             .HasMaxLength(10);
 
         builder.Property(x => x.Protocol)
-            .HasConversion(
-                v => v.ToString().ToLowerInvariant(),
-                v => ProtocolExtensions.ParseOrDefault(v))
             .HasMaxLength(20);
     }
 }

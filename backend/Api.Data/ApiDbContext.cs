@@ -3,6 +3,7 @@ using Api.Data.Configurations;
 using Database.Data;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Api.Data;
 public class ApiDbContext(
@@ -23,6 +24,15 @@ public class ApiDbContext(
     public DbSet<VMPool> VMPools => Set<VMPool>();
     public DbSet<VMPoolItem> VMPoolItems => Set<VMPoolItem>();
 
+    protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+    {
+        base.ConfigureConventions(configurationBuilder);
+
+        // Global converter for Protocol enum - stored as lowercase string in DB
+        configurationBuilder.Properties<Protocol>()
+            .HaveConversion<ProtocolConverter>();
+    }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
@@ -36,4 +46,12 @@ public class ApiDbContext(
             .WithOne(s => s.Server)
             .HasForeignKey<Secret>(s => s.ServerId);
     }
+}
+
+public class ProtocolConverter : ValueConverter<Protocol, string>
+{
+    public ProtocolConverter() : base(
+        v => v.ToString().ToLowerInvariant(),
+        v => ProtocolExtensions.ParseOrDefault(v))
+    { }
 }

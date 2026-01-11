@@ -13,9 +13,6 @@ public sealed class DomainConfiguration : IEntityTypeConfiguration<Domain>
             .HasValue<ExternalDomain>(DomainType.External);
 
         builder.Property(x => x.Protocol)
-            .HasConversion(
-                v => v.ToString().ToLowerInvariant(),
-                v => ProtocolExtensions.ParseOrDefault(v))
             .HasMaxLength(20);
     }
 }

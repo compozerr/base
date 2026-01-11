@@ -283,7 +283,7 @@ function DomainsSettingsTab() {
     serviceName: availableServices.length > 0
       ? z.enum(availableServices as [string, ...string[]])
       : z.string(),
-    protocol: z.enum(["Http", "Tcp"] satisfies components["schemas"]["Api.Data.Protocol"][]).transform((val) => val.toLowerCase()),
+    protocol: z.enum(["Http", "Tcp"] satisfies components["schemas"]["Api.Data.Protocol"][]),
   }), [availableServices]);
 
   const [deleteDomainId, setDeleteDomainId] = useState<string | null>(null);
@@ -502,7 +502,7 @@ function DomainsSettingsTab() {
                       <field.SelectField className='w-full sm:w-[160px]' values={availableServices} />
                     )} />
                     <addDomainForm.AppField name="protocol" children={(field) => (
-                      <field.SelectField className='w-full sm:w-[100px]' values={['HTTP', 'TCP']} />
+                      <field.SelectField className='w-full sm:w-[100px]' values={['Http', 'Tcp']} />
                     )} />
                     <addDomainForm.Subscribe
                       selector={(state) => [state.canSubmit, state.isSubmitting, state.values.domain]} children={([canSubmit, isSubmitting, domainValue]) => (
