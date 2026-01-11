@@ -569,12 +569,24 @@ namespace Api.Data.Migrations
                 {
                     b.HasBaseType("Api.Data.Domain");
 
+                    b.Property<bool>("HealthCheckPassed")
+                        .HasColumnType("boolean");
+
                     b.Property<bool>("IsVerified")
                         .HasColumnType("boolean");
+
+                    b.Property<DateTime?>("LastVerificationCheckUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("NextVerificationCheckUtc")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Value")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<int>("VerificationCheckCount")
+                        .HasColumnType("integer");
 
                     b.HasDiscriminator().HasValue(2);
                 });

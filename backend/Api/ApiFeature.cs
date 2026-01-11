@@ -1,11 +1,15 @@
 using Api.Endpoints.Projects.ProjectEnvironment;
+using Api.Jobs;
 using Api.Options;
 using Api.Services;
 using Core.Extensions;
 using Core.Feature;
 using DnsClient;
+using Jobs;
+using Microsoft.AspNetCore.Builder;
 using Serilog.Events;
 using Serilog.Sinks.Humio;
+using Cron = Jobs.Cron;
 
 namespace Api;
 
@@ -52,5 +56,11 @@ public class ApiFeature : IFeature
                 Url = "https://cloud.community.humio.com",
             })
             .CreateLogger();
+    }
+
+    void IFeature.ConfigureApp(WebApplication app)
+    {
+        // Run every 5 minutes to check domains due for verification
+        app.AddRecurringJob<DomainVerificationJob>(new Cron("*/5 * * * *"));
     }
 }
