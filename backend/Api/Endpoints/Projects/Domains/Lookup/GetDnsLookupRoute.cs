@@ -27,21 +27,25 @@ public static class GetDnsLookupRoute
             var aResult = await lookupClient.QueryAsync(domainName, QueryType.A, cancellationToken: cancellationToken);
             foreach (var record in aResult.Answers.ARecords())
             {
-                records.Add(new DnsRecordInfo("A", domainName, record.Address.ToString(), record.TimeToLive));
+                // Use the actual record name from DNS response (important when CNAME chains are followed)
+                var recordName = record.DomainName.ToString().TrimEnd('.');
+                records.Add(new DnsRecordInfo("A", recordName, record.Address.ToString(), record.TimeToLive));
             }
 
             // Check for AAAA records
             var aaaaResult = await lookupClient.QueryAsync(domainName, QueryType.AAAA, cancellationToken: cancellationToken);
             foreach (var record in aaaaResult.Answers.AaaaRecords())
             {
-                records.Add(new DnsRecordInfo("AAAA", domainName, record.Address.ToString(), record.TimeToLive));
+                var recordName = record.DomainName.ToString().TrimEnd('.');
+                records.Add(new DnsRecordInfo("AAAA", recordName, record.Address.ToString(), record.TimeToLive));
             }
 
             // Check for CNAME records
             var cnameResult = await lookupClient.QueryAsync(domainName, QueryType.CNAME, cancellationToken: cancellationToken);
             foreach (var record in cnameResult.Answers.CnameRecords())
             {
-                records.Add(new DnsRecordInfo("CNAME", domainName, record.CanonicalName.ToString().TrimEnd('.'), record.TimeToLive));
+                var recordName = record.DomainName.ToString().TrimEnd('.');
+                records.Add(new DnsRecordInfo("CNAME", recordName, record.CanonicalName.ToString().TrimEnd('.'), record.TimeToLive));
             }
         }
         catch (DnsResponseException ex)

@@ -135,8 +135,16 @@ const VerifyDnsDialog: React.FC<Props> = (props) => {
     const conflictingRecords = useMemo(() => {
         if (!dnsLookupData?.records || !dnsGuide) return [];
 
+        const domainToCheck = dnsGuide.name.toLowerCase().replace(/\.$/, '');
+
         // Records that would conflict with the required setup
         return dnsLookupData.records.filter(record => {
+            // Only consider records for the exact domain we're adding
+            const recordName = (record.name ?? '').toLowerCase().replace(/\.$/, '');
+            if (recordName !== domainToCheck) {
+                return false;
+            }
+
             // Any existing A, AAAA, or CNAME record is a potential conflict
             if (['A', 'AAAA', 'CNAME'].includes(record.type ?? '')) {
                 // Check if it already points to the correct value
@@ -187,6 +195,7 @@ const VerifyDnsDialog: React.FC<Props> = (props) => {
                                         <TableHeader>
                                             <TableRow>
                                                 <TableHead className="text-destructive-foreground">Type</TableHead>
+                                                <TableHead className="text-destructive-foreground">Name</TableHead>
                                                 <TableHead className="text-destructive-foreground">Value</TableHead>
                                             </TableRow>
                                         </TableHeader>
@@ -194,6 +203,7 @@ const VerifyDnsDialog: React.FC<Props> = (props) => {
                                             {conflictingRecords.map((record, index) => (
                                                 <TableRow key={index}>
                                                     <TableCell className="font-medium">{record.type}</TableCell>
+                                                    <TableCell className="font-mono text-sm">{record.name}</TableCell>
                                                     <TableCell className="font-mono text-sm">{record.value}</TableCell>
                                                 </TableRow>
                                             ))}
