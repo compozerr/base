@@ -17,7 +17,7 @@ import { z } from "zod"
 import VerifyDnsDialog from './!components/verify-dns-dialog'
 import AreYouSureDialog from '@/components/are-you-sure-dialog'
 import { Button } from '@/components/ui/button'
-import { Trash2, MoreVertical, Check, Globe, Server, Clock, Star, ExternalLink } from 'lucide-react'
+import { Trash2, MoreVertical, Check, Globe, Server, Clock, Star, ExternalLink, Network } from 'lucide-react'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -25,6 +25,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { CopyButton } from '@/components/copy-button'
+import { CopyText } from '@/components/copy-text'
 import { cn } from '@/lib/utils'
 
 type DomainDto = NonNullable<Awaited<ReturnType<typeof api.v1.getProjectsProjectIdDomains.fetchQuery>>["domains"]>[number]
@@ -48,9 +49,10 @@ function DomainItem({ domain, onVerify, onDelete, onSetPrimary, isSettingPrimary
         "group relative flex items-center justify-between p-4 rounded-lg border transition-all duration-200",
         isPrimary && "bg-primary/5 border-primary/20 hover:border-primary/40",
         !isPrimary && !isPending && "bg-card hover:bg-accent/50 border-border",
-        isPending && "bg-amber-500/5 border-amber-500/20 hover:border-amber-500/40",
+        isPending && "bg-amber-500/5 border-amber-500/20 hover:border-amber-500/40 cursor-pointer",
         domain.isInternal && "border-dashed"
       )}
+      onClick={isPending ? () => onVerify(domain.domainId!) : undefined}
     >
       <div className="flex items-center gap-4 min-w-0 flex-1">
         <div className={cn(
@@ -59,17 +61,30 @@ function DomainItem({ domain, onVerify, onDelete, onSetPrimary, isSettingPrimary
           !isPrimary && !isPending && "bg-muted text-muted-foreground",
           isPending && "bg-amber-500/10 text-amber-600"
         )}>
-          {isPrimary ? <Star className="w-5 h-5" /> : domain.isInternal ? <Server className="w-5 h-5" /> : <Globe className="w-5 h-5" />}
+          {isPrimary ? (
+            <Star className="w-5 h-5" />
+          ) : domain.isInternal ? (
+            <Server className="w-5 h-5" />
+          ) : domain.protocol?.toLowerCase() === 'tcp' ? (
+            <Network className="w-5 h-5" />
+          ) : (
+            <Globe className="w-5 h-5" />
+          )}
         </div>
 
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2">
-            <h3 className={cn(
-              "font-medium truncate",
-              isPrimary && "text-primary"
-            )}>
-              {domain.value}
-            </h3>
+            <div onClick={(e) => e.stopPropagation()}>
+              <CopyText value={domain.value ?? ''}>
+                <h3 className={cn(
+                  "font-medium truncate cursor-pointer",
+                  isPrimary && "text-primary",
+                  isPending && "text-amber-600"
+                )}>
+                  {domain.value}
+                </h3>
+              </CopyText>
+            </div>
             {domain.isInternal && (
               <Badge variant="outline" className="text-xs font-normal border-dashed">
                 Auto-generated
@@ -99,7 +114,12 @@ function DomainItem({ domain, onVerify, onDelete, onSetPrimary, isSettingPrimary
         )}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon" className="opacity-0 group-hover:opacity-100 transition-opacity">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="opacity-0 group-hover:opacity-100 transition-opacity"
+              onClick={(e) => e.stopPropagation()}
+            >
               <MoreVertical className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
@@ -135,7 +155,7 @@ function DomainItem({ domain, onVerify, onDelete, onSetPrimary, isSettingPrimary
             )}
             {!domain.isInternal && (
               <DropdownMenuItem
-                className="text-destructive focus:text-destructive"
+                className="text-red-500 focus:text-red-500 focus:bg-red-500/10"
                 onClick={() => onDelete(domain.domainId!)}
               >
                 <Trash2 className="mr-2 h-4 w-4" />
@@ -245,7 +265,11 @@ function DomainsSettingsTab() {
   }, [servicePortMap]);
 
   const addDomainSchema = useMemo(() => z.object({
-    domain: z.string().min(4).max(255).regex(/^[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,}$/, 'Invalid domain name').transform((val) => val.trim()),
+    domain: z.string()
+      .transform((val) => val.trim())
+      .refine((val) => val.length === 0 || val.length >= 4, { message: 'Domain must be at least 4 characters' })
+      .refine((val) => val.length === 0 || val.length <= 255, { message: 'Domain must be at most 255 characters' })
+      .refine((val) => val.length === 0 || /^[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,}$/.test(val), { message: 'Invalid domain name' }),
     serviceName: availableServices.length > 0
       ? z.enum(availableServices as [string, ...string[]])
       : z.string(),
@@ -441,37 +465,42 @@ function DomainsSettingsTab() {
           </DomainSection>
 
           {/* Add Custom Domain Section */}
-          <div className="pt-6 border-t">
-            <div className="mb-4">
-              <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Add Custom Domain</h3>
-              <p className="text-xs text-muted-foreground/60 mt-0.5">Connect your own domain to this project</p>
-            </div>
-
+          <DomainSection
+            title="Add Custom Domain"
+            description="Connect your own domain to this project"
+          >
             <form onSubmit={(e) => {
               e.preventDefault();
               addDomainForm.handleSubmit();
             }}>
-              <div className="flex flex-col sm:flex-row gap-3">
-                <addDomainForm.AppField name='domain' children={(field) => (
-                  <field.TextField className='flex-1' placeholder='example.com' />
-                )} />
-                <addDomainForm.AppField name="serviceName" listeners={{
-                  onChange: (field) => setServiceName(field.value)
-                }} children={(field) => (
-                  <field.SelectField className='w-full sm:w-[180px]' values={availableServices} />
-                )} />
-                <addDomainForm.AppField name="protocol" children={(field) => (
-                  <field.SelectField className='w-full sm:w-[100px]' values={['HTTP', 'TCP']} />
-                )} />
-                <addDomainForm.Subscribe
-                  selector={(state) => [state.canSubmit, state.isSubmitting]} children={([canSubmit, isSubmitting]) => (
-                    <LoadingButton isLoading={!!isSubmitting} disabled={!canSubmit} type='submit' className="w-full sm:w-auto">
-                      Add Domain
-                    </LoadingButton>
+              <div className="group relative flex items-center p-4 rounded-lg border border-dashed border-border hover:border-primary/40 bg-card/50 hover:bg-accent/30 transition-all duration-200">
+                <div className="flex-shrink-0 w-10 h-10 rounded-lg flex items-center justify-center bg-muted text-muted-foreground mr-4">
+                  <Globe className="w-5 h-5" />
+                </div>
+                <div className="flex flex-col sm:flex-row gap-3 flex-1 items-start sm:items-center">
+                  <addDomainForm.AppField name='domain' children={(field) => (
+                    <field.TextField className='flex-1 min-w-0' placeholder='example.com' />
                   )} />
+                  <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+                    <addDomainForm.AppField name="serviceName" listeners={{
+                      onChange: (field) => setServiceName(field.value)
+                    }} children={(field) => (
+                      <field.SelectField className='w-full sm:w-[160px]' values={availableServices} />
+                    )} />
+                    <addDomainForm.AppField name="protocol" children={(field) => (
+                      <field.SelectField className='w-full sm:w-[100px]' values={['HTTP', 'TCP']} />
+                    )} />
+                    <addDomainForm.Subscribe
+                      selector={(state) => [state.canSubmit, state.isSubmitting, state.values.domain]} children={([canSubmit, isSubmitting, domainValue]) => (
+                        <LoadingButton isLoading={!!isSubmitting} disabled={!canSubmit || !domainValue?.toString().trim()} type='submit' className="w-full sm:w-auto">
+                          Add
+                        </LoadingButton>
+                      )} />
+                  </div>
+                </div>
               </div>
             </form>
-          </div>
+          </DomainSection>
 
           <VerifyDnsDialog
             selectedDomainId={selectedDomainId}
