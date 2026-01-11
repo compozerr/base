@@ -1,9 +1,11 @@
+using Api.Data;
+
 namespace Api.Endpoints.Projects.Domains.Get;
 
 public sealed record GetDomainDto(
     Guid DomainId,
     string ServiceName,
-    string Protocol,
+    Protocol Protocol,
     string Value,
     bool IsInternal,
     bool IsVerified,

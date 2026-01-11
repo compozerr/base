@@ -30,6 +30,18 @@ import { cn } from '@/lib/utils'
 
 type DomainDto = NonNullable<Awaited<ReturnType<typeof api.v1.getProjectsProjectIdDomains.fetchQuery>>["domains"]>[number]
 
+function DomainIcon({ protocol, isPrimary, isInternal, className }: {
+  protocol?: string | null
+  isPrimary?: boolean
+  isInternal?: boolean
+  className?: string
+}) {
+  if (isPrimary) return <Star className={className} />
+  if (isInternal) return <Server className={className} />
+  if (protocol?.toLowerCase() === 'tcp') return <Network className={className} />
+  return <Globe className={className} />
+}
+
 interface DomainItemProps {
   domain: DomainDto
   onVerify: (domainId: string) => void
@@ -61,15 +73,12 @@ function DomainItem({ domain, onVerify, onDelete, onSetPrimary, isSettingPrimary
           !isPrimary && !isPending && "bg-muted text-muted-foreground",
           isPending && "bg-amber-500/10 text-amber-600"
         )}>
-          {isPrimary ? (
-            <Star className="w-5 h-5" />
-          ) : domain.isInternal ? (
-            <Server className="w-5 h-5" />
-          ) : domain.protocol?.toLowerCase() === 'tcp' ? (
-            <Network className="w-5 h-5" />
-          ) : (
-            <Globe className="w-5 h-5" />
-          )}
+          <DomainIcon
+            protocol={domain.protocol}
+            isPrimary={isPrimary}
+            isInternal={domain.isInternal}
+            className="w-5 h-5"
+          />
         </div>
 
         <div className="min-w-0 flex-1">
@@ -474,9 +483,13 @@ function DomainsSettingsTab() {
               addDomainForm.handleSubmit();
             }}>
               <div className="group relative flex items-center p-4 rounded-lg border border-dashed border-border hover:border-primary/40 bg-card/50 hover:bg-accent/30 transition-all duration-200">
-                <div className="flex-shrink-0 w-10 h-10 rounded-lg flex items-center justify-center bg-muted text-muted-foreground mr-4">
-                  <Globe className="w-5 h-5" />
-                </div>
+                <addDomainForm.Subscribe selector={(state) => state.values.protocol}>
+                  {(protocol) => (
+                    <div className="flex-shrink-0 w-10 h-10 rounded-lg flex items-center justify-center bg-muted text-muted-foreground mr-4">
+                      <DomainIcon protocol={protocol} className="w-5 h-5" />
+                    </div>
+                  )}
+                </addDomainForm.Subscribe>
                 <div className="flex flex-col sm:flex-row gap-3 flex-1 items-start sm:items-center">
                   <addDomainForm.AppField name='domain' children={(field) => (
                     <field.TextField className='flex-1 min-w-0' placeholder='example.com' />

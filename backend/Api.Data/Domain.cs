@@ -11,8 +11,7 @@ public class Domain : BaseEntityWithId<DomainId>
     public required string ServiceName { get; set; }
     [MaxLength(6)]
     public required string Port { get; set; }
-    [MaxLength(20)]
-    public required string Protocol { get; set; } = "http";
+    public required Protocol Protocol { get; set; } = Protocol.Http;
     public bool IsPrimary { get; set; } = false;
 
     public virtual Project? Project { get; set; }

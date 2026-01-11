@@ -2598,6 +2598,8 @@ export type components = {
         /** @enum {string} */
         "Api.Data.ProjectState": "Unknown" | "Running" | "Starting" | "Stopped" | "Deleting";
         /** @enum {string} */
+        "Api.Data.Protocol": "Http" | "Tcp";
+        /** @enum {string} */
         "Api.Data.SystemType": "Unknown" | "Frontend" | "Backend";
         "Api.Endpoints.Projects.Deployments.GetDeploymentResponse": {
             /** Format: uuid */
@@ -2631,7 +2633,7 @@ export type components = {
         "Api.Endpoints.Projects.Domains.Add.AddDomainRequest": {
             domain: string | null;
             serviceName: string | null;
-            protocol: string | null;
+            protocol: components["schemas"]["Api.Data.Protocol"];
         };
         "Api.Endpoints.Projects.Domains.Add.AddDomainResponse": {
             domainId: string | null;
@@ -2641,7 +2643,7 @@ export type components = {
             /** Format: uuid */
             domainId: string;
             serviceName: string | null;
-            protocol: string | null;
+            protocol: components["schemas"]["Api.Data.Protocol"];
             value: string | null;
             isInternal: boolean;
             isVerified: boolean;
@@ -2704,7 +2706,7 @@ export type components = {
         "Api.Endpoints.Projects.Services.Get.ProjectServiceDto": {
             name: string | null;
             port: string | null;
-            protocol: string | null;
+            protocol: components["schemas"]["Api.Data.Protocol"];
             isSystem: boolean;
         };
         "Api.Endpoints.Projects.Usage.Get.GetUsageResponse": {
@@ -2770,7 +2772,7 @@ export type components = {
         "Api.Hosting.Endpoints.Projects.ProjectDomains.DomainDto": {
             serviceName: string | null;
             port: string | null;
-            protocol: string | null;
+            protocol: components["schemas"]["Api.Data.Protocol"];
             value: string | null;
         };
         "Api.Hosting.Endpoints.Projects.ProjectState.ProjectStateRequest": {
@@ -2784,7 +2786,7 @@ export type components = {
         "Api.Hosting.Endpoints.Projects.Services.ServicePortInfo": {
             name: string | null;
             port: string | null;
-            protocol: string | null;
+            protocol: components["schemas"]["Api.Data.Protocol"];
         };
         /** Format: uuid */
         "Auth.Abstractions.UserId": string;

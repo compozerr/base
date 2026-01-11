@@ -29,7 +29,7 @@ public sealed class AllocateDomains_ProjectCreatedEventHandler(
             ProjectId = projectId,
             ServiceName = "Frontend",
             Port = "1234",
-            Protocol = "http",
+            Protocol = Protocol.Http,
             IsPrimary = true,
             Subdomain = $"{hash}",
         };
@@ -40,7 +40,7 @@ public sealed class AllocateDomains_ProjectCreatedEventHandler(
             ProjectId = projectId,
             ServiceName = "Backend",
             Port = "1235",
-            Protocol = "http",
+            Protocol = Protocol.Http,
             Subdomain = $"api.{hash}",
         };
 }

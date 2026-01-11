@@ -1,4 +1,5 @@
 using Api.Abstractions;
+using Api.Data;
 using MediatR;
 
 namespace Api.Endpoints.Projects.Domains.Add;
@@ -6,7 +7,7 @@ namespace Api.Endpoints.Projects.Domains.Add;
 public sealed record AddDomainRequest(
     string Domain,
     string ServiceName,
-    string Protocol);
+    Protocol Protocol);
 
 public static class AddDomainRoute
 {

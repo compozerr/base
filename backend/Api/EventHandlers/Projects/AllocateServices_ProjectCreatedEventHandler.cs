@@ -23,7 +23,7 @@ public sealed class AllocateServices_ProjectCreatedEventHandler : EntityDomainEv
                 ProjectId = projectId,
                 Name = "Frontend",
                 Port = "1234",
-                Protocol = "http",
+                Protocol = Protocol.Http,
                 IsSystem = true
             },
             new ProjectService
@@ -31,7 +31,7 @@ public sealed class AllocateServices_ProjectCreatedEventHandler : EntityDomainEv
                 ProjectId = projectId,
                 Name = "Backend",
                 Port = "1235",
-                Protocol = "http",
+                Protocol = Protocol.Http,
                 IsSystem = true
             }
         ];

@@ -22,5 +22,11 @@ public sealed class ProjectServiceConfiguration : IEntityTypeConfiguration<Proje
         builder.Property(x => x.Port)
             .IsRequired()
             .HasMaxLength(10);
+
+        builder.Property(x => x.Protocol)
+            .HasConversion(
+                v => v.ToString().ToLowerInvariant(),
+                v => Enum.Parse<Protocol>(v, true))
+            .HasMaxLength(20);
     }
 }

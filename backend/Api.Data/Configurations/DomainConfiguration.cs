@@ -11,5 +11,11 @@ public sealed class DomainConfiguration : IEntityTypeConfiguration<Domain>
             .HasValue<Domain>(DomainType.Unknown)
             .HasValue<InternalDomain>(DomainType.Internal)
             .HasValue<ExternalDomain>(DomainType.External);
+
+        builder.Property(x => x.Protocol)
+            .HasConversion(
+                v => v.ToString().ToLowerInvariant(),
+                v => Enum.Parse<Protocol>(v, true))
+            .HasMaxLength(20);
     }
 }

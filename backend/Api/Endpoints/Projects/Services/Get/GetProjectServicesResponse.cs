@@ -1,9 +1,11 @@
+using Api.Data;
+
 namespace Api.Endpoints.Projects.Services.Get;
 
 public sealed record ProjectServiceDto(
     string Name,
     string Port,
-    string Protocol,
+    Protocol Protocol,
     bool IsSystem);
 
 public sealed record GetProjectServicesResponse(
