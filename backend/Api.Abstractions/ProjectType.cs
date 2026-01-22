@@ -6,5 +6,6 @@ namespace Api.Abstractions;
 public enum ProjectType
 {
     Compozerr,
-    N8n
+    N8n,
+    DockerCompose
 }

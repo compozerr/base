@@ -1,5 +1,6 @@
 import { api } from '@/api-client'
 import LoadingButton from '@/components/loading-button'
+import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import {
     Card,
@@ -14,7 +15,7 @@ import { Separator } from '@/components/ui/separator'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { cn } from '@/lib/utils'
 import { createFileRoute, Outlet, useRouter } from '@tanstack/react-router'
-import { Info, PlusCircle, Trash2, Undo } from 'lucide-react'
+import { FileText, Info, PlusCircle, Trash2, Undo } from 'lucide-react'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { SystemType, SystemTypes } from '../../../../../../lib/system-type'
 
@@ -71,6 +72,12 @@ function EnvironmentSettingsTab() {
 
     const [env, setEnv] = useState<Environment[]>([])
 
+    // Determine if this is a DockerCompose project
+    const isDockerCompose = data?.projectType === "DockerCompose"
+
+    // For DockerCompose projects, only show General type; for others, show Frontend/Backend
+    const availableSystemTypes: SystemType[] = isDockerCompose ? ["General"] : ["Frontend", "Backend"]
+
     useEffect(() => {
         const env: Environment[] = [{
             branch: selectedBranch,
@@ -106,7 +113,10 @@ function EnvironmentSettingsTab() {
     const [isDragging, setIsDragging] = useState(false)
     const fileInputRef = useRef<HTMLInputElement>(null)
 
-    const [selectedSystemType, setSelectedSystemType] = useState<SystemType>("Frontend");
+    // Initialize with General for DockerCompose, Frontend for others
+    const [selectedSystemType, setSelectedSystemType] = useState<SystemType>(
+        data?.projectType === "DockerCompose" ? "General" : "Frontend"
+    );
 
     const inputVariableRef = useRef<HTMLInputElement>(null);
 
@@ -262,22 +272,36 @@ function EnvironmentSettingsTab() {
                 </CardHeader>
                 <CardContent className="space-y-4">
 
+                    {/* Info message showing where .env files are stored */}
+                    <Alert>
+                        <FileText className="h-4 w-4" />
+                        <AlertDescription>
+                            {isDockerCompose ? (
+                                <>Environment variables are stored in <code className="bg-muted px-1 py-0.5 rounded text-sm">.env</code> in the project root</>
+                            ) : (
+                                <>Environment variables are stored in <code className="bg-muted px-1 py-0.5 rounded text-sm">frontend/.env</code> and <code className="bg-muted px-1 py-0.5 rounded text-sm">backend/.env</code></>
+                            )}
+                        </AlertDescription>
+                    </Alert>
 
-                    <Tabs defaultValue={selectedSystemType} className="w-full">
-                        <TabsList className="grid w-full grid-cols-2">
-                            {
-                                SystemTypes.map(x => (
-                                    <TabsTrigger value={x} onClick={() => {
-                                        setSelectedSystemType(x);
-                                    }} className={systemTypeHasChanges(x) ? "italic" : ""} key={x}>
-                                        {x}
-                                    </TabsTrigger>
-                                ))
-                            }
-                        </TabsList>
+                    {/* Only show tabs for non-DockerCompose projects */}
+                    {!isDockerCompose && (
+                        <Tabs defaultValue={selectedSystemType} className="w-full">
+                            <TabsList className="grid w-full grid-cols-2">
+                                {
+                                    availableSystemTypes.map(x => (
+                                        <TabsTrigger value={x} onClick={() => {
+                                            setSelectedSystemType(x);
+                                        }} className={systemTypeHasChanges(x) ? "italic" : ""} key={x}>
+                                            {x}
+                                        </TabsTrigger>
+                                    ))
+                                }
+                            </TabsList>
 
-                        <Outlet />
-                    </Tabs>
+                            <Outlet />
+                        </Tabs>
+                    )}
 
                     {/* Drag and drop area for .env file */}
                     <div
@@ -420,7 +444,7 @@ function EnvironmentSettingsTab() {
 
                     <LoadingButton isLoading={isSavingEnvChanges} onClick={
                         saveChanges
-                    } disabled={!SystemTypes.some(x => systemTypeHasChanges(x))}
+                    } disabled={!availableSystemTypes.some(x => systemTypeHasChanges(x))}
                     >Save Changes</LoadingButton>
 
                 </CardContent>

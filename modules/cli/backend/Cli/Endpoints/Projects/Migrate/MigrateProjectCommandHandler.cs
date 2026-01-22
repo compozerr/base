@@ -39,15 +39,25 @@ public sealed class MigrateProjectCommandHandler(
 
         var location = await locationRepository.GetLocationByIso(command.LocationIso);
 
+        // Map CLI project type to enum
+        var projectType = command.ProjectType?.ToLowerInvariant() switch
+        {
+            "docker-compose" => ProjectType.DockerCompose,
+            "compozerr-standard" => ProjectType.Compozerr,
+            _ => ProjectType.Compozerr
+        };
+
+        var repoUri = new Uri(command.RepoUrl);
+
         var newProject = new Project
         {
             Name = command.Name,
-            RepoUri = new Uri(command.RepoUrl),
+            RepoUri = repoUri,
             UserId = userId,
             LocationId = location.Id,
             ServerTierId = ServerTiers.GetById(new ServerTierId(command.Tier)).Id,
             State = ProjectState.Stopped,
-            Type = ProjectType.Compozerr
+            Type = projectType
         };
 
         newProject.QueueDomainEvent<ProjectCreatedEvent>();
@@ -59,14 +69,25 @@ public sealed class MigrateProjectCommandHandler(
             Name: command.Name,
             Id: project.Id.Value);
 
+        // Get the latest commit from GitHub for accurate deployment info
+        var latestCommit = await githubService.GetLatestCommitAsync(
+            repoUri,
+            userId,
+            cancellationToken);
+
+        var commitHash = latestCommit?.Sha ?? "unknown";
+        var commitMessage = latestCommit?.Commit.Message ?? "Initial migration to compozerr";
+        var commitAuthor = latestCommit?.Commit.Author.Name ?? "compozerr-cli";
+        var commitEmail = latestCommit?.Commit.Author.Email ?? "cli@compozerr.com";
+
         await mediator.Send(
             new DeployProjectCommand(
                 project.Id,
-                CommitHash: "migration",
-                CommitMessage: "Initial migration to compozerr",
-                CommitAuthor: "compozerr-cli",
+                CommitHash: commitHash,
+                CommitMessage: commitMessage,
+                CommitAuthor: commitAuthor,
                 CommitBranch: "main",
-                CommitEmail: "cli@compozerr.com",
+                CommitEmail: commitEmail,
                 OverrideAuthorization: true),
             cancellationToken);
 

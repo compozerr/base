@@ -7,6 +7,7 @@ namespace Api.Endpoints.Projects.ProjectEnvironment;
 
 public class GetProjectEnvironmentCommandHandler(
     IProjectEnvironmentRepository projectEnvironmentRepository,
+    IProjectRepository projectRepository,
     IDefaultEnvironmentVariablesAppender variablesAppender
 ) : ICommandHandler<GetProjectEnvironmentCommand, GetProjectEnvironmentResponse>
 {
@@ -14,6 +15,8 @@ public class GetProjectEnvironmentCommandHandler(
         GetProjectEnvironmentCommand command,
         CancellationToken cancellationToken = default)
     {
+        var project = await projectRepository.GetByIdAsync(command.ProjectId, cancellationToken);
+
         var environment = await projectEnvironmentRepository.GetProjectEnvironmentByBranchAsync(
             command.ProjectId,
             command.Branch);
@@ -29,6 +32,9 @@ public class GetProjectEnvironmentCommandHandler(
             environmentVariables,
             command.ProjectId);
 
-        return new(environment?.AutoDeploy ?? false, environmentVariables);
+        return new(
+            environment?.AutoDeploy ?? false,
+            project?.Type ?? ProjectType.Compozerr,
+            environmentVariables);
     }
 }

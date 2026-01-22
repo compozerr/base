@@ -8,4 +8,5 @@ public enum SystemType
     Unknown = 0,
     Frontend = 1,
     Backend = 2,
+    General = 3,
 }
