@@ -529,8 +529,6 @@ namespace Api.Data.Migrations
 
                     b.HasIndex("ProjectId");
 
-                    b.HasIndex("UserId");
-
                     b.ToTable("TerminalSessions", "api");
                 });
 
