@@ -10,10 +10,10 @@ namespace Api.Data.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropIndex(
-                name: "IX_TerminalSessions_UserId",
-                schema: "api",
-                table: "TerminalSessions");
+            // Drop index only if it exists (handles cases where table was created without this index)
+            migrationBuilder.Sql(@"
+                DROP INDEX IF EXISTS api.""IX_TerminalSessions_UserId"";
+            ");
         }
 
         /// <inheritdoc />
