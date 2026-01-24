@@ -1,0 +1,8 @@
+{
+    "type": "module",
+    "name": "terminal",
+    "dependencies": {
+        "database": "latest",
+        "auth": "latest"
+    }
+}

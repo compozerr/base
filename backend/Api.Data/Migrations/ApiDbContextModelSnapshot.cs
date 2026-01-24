@@ -495,6 +495,45 @@ namespace Api.Data.Migrations
                     b.ToTable("Servers", "api");
                 });
 
+            modelBuilder.Entity("Api.Data.TerminalSession", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAtUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("DeletedAtUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("DisconnectReason")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<DateTime?>("EndedAtUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("ProjectId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("StartedAtUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("UpdatedAtUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProjectId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("TerminalSessions", "api");
+                });
+
             modelBuilder.Entity("Api.Data.VMPool", b =>
                 {
                     b.Property<Guid>("Id")
@@ -691,6 +730,17 @@ namespace Api.Data.Migrations
                         .HasForeignKey("LocationId");
 
                     b.Navigation("Location");
+                });
+
+            modelBuilder.Entity("Api.Data.TerminalSession", b =>
+                {
+                    b.HasOne("Api.Data.Project", "Project")
+                        .WithMany()
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Project");
                 });
 
             modelBuilder.Entity("Api.Data.VMPoolItem", b =>

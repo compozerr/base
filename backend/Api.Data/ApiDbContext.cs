@@ -23,6 +23,7 @@ public class ApiDbContext(
     public DbSet<ProjectService> ProjectServices => Set<ProjectService>();
     public DbSet<VMPool> VMPools => Set<VMPool>();
     public DbSet<VMPoolItem> VMPoolItems => Set<VMPoolItem>();
+    public DbSet<TerminalSession> TerminalSessions => Set<TerminalSession>();
 
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
     {
