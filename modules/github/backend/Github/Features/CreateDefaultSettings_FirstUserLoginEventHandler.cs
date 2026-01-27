@@ -27,7 +27,7 @@ public sealed class CreateDefaultSettings_UserCreatedEventHandler(
             SelectedModulesInstallationId = selectedInstallationId
         };
 
+        // Add to context - it will be saved by the outer SaveChangesAsync
         await dbContext.AddAsync(settings, cancellationToken);
-        await dbContext.SaveChangesAsync(cancellationToken);
     }
 }

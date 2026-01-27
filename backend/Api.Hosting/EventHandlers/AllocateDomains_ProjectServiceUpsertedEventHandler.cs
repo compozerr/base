@@ -26,7 +26,8 @@ public sealed class AllocateDomains_ProjectServiceUpsertedEventHandler(
         {
             newDomain.QueueDomainEvent<DomainChangeEvent>();
             project.Domains.Add(newDomain);
-            await projectRepository.UpdateAsync(project, cancellationToken);
+            // No need to call UpdateAsync - changes to tracked entities are saved automatically
+            // by the current SaveChangesAsync that triggered this handler
         }
     }
 
