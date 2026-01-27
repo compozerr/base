@@ -38,7 +38,7 @@ public sealed class HostingManagerTerminalClient : IHostingManagerTerminalClient
             if (server == null) return false;
 
             var httpClient = _httpClientFactory.CreateClient();
-            httpClient.BaseAddress = new Uri($"https://{apiDomain}");
+            httpClient.BaseAddress = new Uri(apiDomain);
 
             var signature = _cryptoService.SignStringWithKey("", server.Id.Value.ToString());
 
