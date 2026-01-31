@@ -120,6 +120,9 @@ public sealed class HostingManagerTerminalClient : IHostingManagerTerminalClient
                 if (result.MessageType == WebSocketMessageType.Text)
                 {
                     var message = Encoding.UTF8.GetString(buffer, 0, result.Count);
+                    Log.ForContext("MessageLength", message.Length)
+                        .Information("Received message from hosting");
+
                     var parsed = JsonSerializer.Deserialize<TerminalMessage>(message, new JsonSerializerOptions
                     {
                         PropertyNameCaseInsensitive = true
@@ -127,11 +130,17 @@ public sealed class HostingManagerTerminalClient : IHostingManagerTerminalClient
 
                     if (parsed != null)
                     {
+                        Log.ForContext("MessageType", parsed.Type)
+                            .ForContext("PayloadLength", parsed.Payload?.Length ?? 0)
+                            .Information("Parsed terminal message");
+
                         switch (parsed.Type)
                         {
                             case "data":
                                 if (parsed.Payload != null)
                                 {
+                                    Log.ForContext("DataLength", parsed.Payload.Length)
+                                        .Information("Forwarding terminal data to client");
                                     await onData(parsed.Payload);
                                 }
                                 break;
