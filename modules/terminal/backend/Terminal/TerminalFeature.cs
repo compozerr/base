@@ -13,7 +13,10 @@ public class TerminalFeature : IFeature
         services.AddSignalR();
         services.AddHttpClient();
         services.AddScoped<ITerminalSessionService, TerminalSessionService>();
-        services.AddScoped<IHostingManagerTerminalClient, HostingManagerTerminalClient>();
+        // HostingManagerTerminalClient must be transient - each connection needs its own instance
+        // The TerminalConnectionManager (singleton) stores them by SignalR connection ID
+        services.AddTransient<IHostingManagerTerminalClient, HostingManagerTerminalClient>();
+        services.AddSingleton<ITerminalConnectionManager, TerminalConnectionManager>();
         services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<TerminalCommandExecutedEventHandler>());
     }
 
