@@ -84,7 +84,9 @@ public sealed class HostingManagerTerminalClient : IHostingManagerTerminalClient
         var signatureContent = $"{projectId.Value}:{timestamp}";
         var signature = _cryptoService.SignStringWithKey(signatureContent, server.Id.Value.ToString());
 
-        var wsUri = new Uri($"wss://{apiDomain}/terminal/{projectId.Value}?timestamp={timestamp}&signature={Uri.EscapeDataString(signature)}");
+        // Convert https:// URL to wss:// WebSocket URL
+        var apiUri = new Uri(apiDomain);
+        var wsUri = new Uri($"wss://{apiUri.Host}/terminal/{projectId.Value}?timestamp={timestamp}&signature={Uri.EscapeDataString(signature)}");
 
         _webSocket = new ClientWebSocket();
         _receiveCts = new CancellationTokenSource();
