@@ -509,6 +509,47 @@ export type paths = {
         patch?: never;
         trace?: never;
     };
+    "/v1/cli/projects/{projectId}/template": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    projectId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["Cli.Endpoints.Projects.UpdateTemplate.UpdateTemplateRequest"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Cli.Endpoints.Projects.UpdateTemplate.UpdateTemplateResponse"];
+                    };
+                };
+            };
+        };
+        trace?: never;
+    };
     "/v1/cli/locations": {
         parameters: {
             query?: never;
@@ -2568,7 +2609,7 @@ export type components = {
         /** Format: uuid */
         "Api.Abstractions.ProjectId": string;
         /** @enum {string} */
-        "Api.Abstractions.ProjectType": "Compozerr" | "N8n" | "DockerCompose";
+        "Api.Abstractions.ProjectType": "Compozerr" | "N8n" | "DockerCompose" | "Dockerfile";
         "Api.Abstractions.ServerTier": {
             id: components["schemas"]["Api.Abstractions.ServerTierId"];
             /** Format: double */
@@ -2585,9 +2626,15 @@ export type components = {
         };
         /** @enum {string} */
         "Api.Data.DeploymentStatus": "Unknown" | "Deploying" | "Completed" | "Queued" | "Failed" | "Cancelled";
+        "Api.Data.EnvironmentFileConfigDto": {
+            systemType: string | null;
+            filePath: string | null;
+            displayName: string | null;
+        };
         "Api.Data.GetProjectEnvironmentResponse": {
             autoDeploy: boolean;
             projectType: components["schemas"]["Api.Abstractions.ProjectType"];
+            configuration: components["schemas"]["Api.Data.ProjectTypeConfigurationDto"];
             variables: components["schemas"]["Api.Data.ProjectEnvironmentVariableDto"][] | null;
         };
         "Api.Data.ProjectEnvironmentVariableDto": {
@@ -2598,6 +2645,11 @@ export type components = {
         };
         /** @enum {string} */
         "Api.Data.ProjectState": "Unknown" | "Running" | "Starting" | "Stopped" | "Deleting";
+        "Api.Data.ProjectTypeConfigurationDto": {
+            allowedSystemTypes: string[] | null;
+            environmentFiles: components["schemas"]["Api.Data.EnvironmentFileConfigDto"][] | null;
+            defaultSystemType: string | null;
+        };
         /** @enum {string} */
         "Api.Data.Protocol": "Http" | "Tcp";
         /** @enum {string} */
@@ -2917,6 +2969,15 @@ export type components = {
             serverId: string;
         };
         "Cli.Endpoints.Projects.RestoreProject.RestoreProjectResponse": Record<string, never>;
+        "Cli.Endpoints.Projects.UpdateTemplate.UpdateTemplateRequest": {
+            projectType: string | null;
+            templateFile: string | null;
+            startCommand: string | null;
+        };
+        "Cli.Endpoints.Projects.UpdateTemplate.UpdateTemplateResponse": {
+            success: boolean;
+            message: string | null;
+        };
         "Cli.Endpoints.Repos.CreateRepoRequest": {
             name: string | null;
             type: components["schemas"]["Github.Endpoints.SetDefaultInstallationId.DefaultInstallationIdSelectionType"];
