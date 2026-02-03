@@ -193,6 +193,9 @@ namespace Api.Data.Migrations
                     b.Property<DateTime?>("DeletedAtUtc")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<long?>("GithubInstallationId")
+                        .HasColumnType("bigint");
+
                     b.Property<Guid>("LocationId")
                         .HasColumnType("uuid");
 

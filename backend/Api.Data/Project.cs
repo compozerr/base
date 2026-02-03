@@ -15,6 +15,12 @@ public class Project : BaseEntityWithId<ProjectId>
     public required ServerTierId ServerTierId { get; set; }
     public ProjectType Type { get; set; } = ProjectType.Compozerr;
 
+    /// <summary>
+    /// GitHub App Installation ID for this project's repository.
+    /// Used to generate installation tokens for git operations (more reliable than OAuth tokens).
+    /// </summary>
+    public long? GithubInstallationId { get; set; }
+
     public ServerId? ServerId { get; set; }
     public virtual Server? Server { get; set; }
     public virtual ICollection<ProjectEnvironment>? ProjectEnvironments { get; set; }

@@ -60,6 +60,7 @@ public interface IGithubService
         CancellationToken cancellationToken = default);
 
     Task<bool> HasAccessToRepositoryAsync(string repoUrl, UserId userId);
+    Task<bool> ValidateTokenAsync(string accessToken);
 }
 
 public sealed class GithubService(
@@ -460,5 +461,28 @@ public sealed class GithubService(
         }
 
         return false;
+    }
+
+    public async Task<bool> ValidateTokenAsync(string accessToken)
+    {
+        try
+        {
+            var client = new GitHubClient(new ProductHeaderValue("Compozerr"))
+            {
+                Credentials = new Credentials(accessToken, AuthenticationType.Oauth)
+            };
+            await client.User.Current();
+            return true;
+        }
+        catch (AuthorizationException)
+        {
+            return false;
+        }
+        catch (Exception ex)
+        {
+            Log.ForContext("ExceptionType", ex.GetType().Name)
+               .Warning(ex, "Unexpected error validating GitHub token");
+            return false;
+        }
     }
 }

@@ -6,4 +6,5 @@ public sealed record CreateProjectCommand(
     string RepoName,
     string RepoUrl,
     string LocationIso,
-    string Tier) : ICommand<CreateProjectResponse>;
+    string Tier,
+    long? GithubInstallationId = null) : ICommand<CreateProjectResponse>;

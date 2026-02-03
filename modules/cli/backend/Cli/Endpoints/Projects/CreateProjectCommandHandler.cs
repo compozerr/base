@@ -27,7 +27,8 @@ public sealed record CreateProjectCommandHandler(
             LocationId = location.Id,
             ServerTierId = ServerTiers.GetById(new ServerTierId(command.Tier)).Id,
             State = ProjectState.Stopped,
-            Type = ProjectType.Compozerr
+            Type = ProjectType.Compozerr,
+            GithubInstallationId = command.GithubInstallationId
         };
 
         newProject.QueueDomainEvent<ProjectCreatedEvent>();

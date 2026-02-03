@@ -1,5 +1,6 @@
 using System.Net.Http.Json;
 using Api.Abstractions;
+using Api.Abstractions.Exceptions;
 using Api.Data;
 using Api.Data.Repositories;
 using Api.Hosting.Dtos;
@@ -67,9 +68,31 @@ public sealed class HostingApi(
         var mediator = scopedServiceProvider.GetRequiredService<IMediator>();
         var deploymentId = deployment.Id;
 
-        var userLogin = await githubService.GetUserLoginAsync(deployment.UserId);
-        if (userLogin is not { AccessToken: { } accessToken })
-            throw new Exception("User access token is null");
+        // Get access token - prefer installation token (auto-refreshes, more reliable)
+        string accessToken;
+        if (deployment.Project?.GithubInstallationId is { } installationId)
+        {
+            var installationClient = await githubService
+                .GetInstallationClientByInstallationIdAsync(installationId.ToString());
+
+            if (installationClient is null)
+            {
+                Log.Warning("Failed to get installation client for installation {InstallationId}, falling back to OAuth token",
+                    installationId);
+                accessToken = await GetValidatedOAuthTokenAsync(deployment.UserId);
+            }
+            else
+            {
+                accessToken = installationClient.InstallationToken;
+                Log.Information("Using GitHub App installation token for deployment (installation: {InstallationId})",
+                    installationId);
+            }
+        }
+        else
+        {
+            // Fallback to OAuth token for projects without installation ID
+            accessToken = await GetValidatedOAuthTokenAsync(deployment.UserId);
+        }
 
         if (deployment?.Project?.RepoUri is null)
         {
@@ -223,5 +246,19 @@ public sealed class HostingApi(
                 Error = $"Unexpected status code: {response.StatusCode}"
             }
         };
+    }
+
+    private async Task<string> GetValidatedOAuthTokenAsync(Auth.Abstractions.UserId userId)
+    {
+        var userLogin = await githubService.GetUserLoginAsync(userId);
+        if (userLogin is not { AccessToken: { } accessToken })
+            throw new GitHubTokenRequiredException();
+
+        // Validate token is still valid before attempting deployment
+        var isTokenValid = await githubService.ValidateTokenAsync(accessToken);
+        if (!isTokenValid)
+            throw new GitHubTokenExpiredException();
+
+        return accessToken;
     }
 }

@@ -56,12 +56,14 @@ public sealed record CreateRepoCommandHandler(
         switch (command.Type)
         {
             case DefaultInstallationIdSelectionType.Projects:
+                var installationId = long.TryParse(clientResponse.InstallationId, out var parsedId) ? parsedId : (long?)null;
                 var createProjectResponse = await Mediator.Send(
                                new CreateProjectCommand(
                                    command.Name,
                                    gitUrl,
                                    command.LocationIsoCode,
-                                   command.Tier),
+                                   command.Tier,
+                                   installationId),
                                cancellationToken);
 
                 projectId = createProjectResponse.ProjectId.Value.ToString();
