@@ -3,7 +3,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Formatter } from '@/lib/formatter'
 import { getProjectStateFromNumber as getProjectStateFromStateString, ProjectState } from '@/lib/project-state'
 import { createFileRoute, getRouteApi } from '@tanstack/react-router'
-import { Cpu, ExternalLink, Globe, HardDrive, MemoryStick } from 'lucide-react'
+import { Cpu, ExternalLink, Globe, HardDrive, HelpCircle, MemoryStick } from 'lucide-react'
 import { UsageGraph } from '@/components/usage-graph'
 import StartStopProjectButton from '@/components/project/project-startstop-button'
 import { api } from '@/api-client'
@@ -12,6 +12,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { onN8nIntent } from '@/hooks/use-n8n-intent-ephemeral-storage.hook'
 import { useModal } from '@/hooks/use-modal'
 import confetti from 'canvas-confetti'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 
 export const Route = createFileRoute('/_auth/_dashboard/projects/$projectId/')({
     component: RouteComponent,
@@ -92,6 +93,23 @@ function RouteComponent() {
         return tiers?.tiers?.find(t => t.id?.value === project.serverTier);
     }, [tiers, project.serverTier]);
 
+    const getTemplateTypeDisplay = (type: string) => {
+        switch (type) {
+            case 'Dockerfile':
+                return { label: 'Dockerfile', description: 'Single Dockerfile deployment' };
+            case 'DockerCompose':
+                return { label: 'Docker Compose', description: 'Multi-container Docker Compose deployment' };
+            case 'Compozerr':
+                return { label: 'Compozerr Standard', description: 'Frontend + Backend deployment structure' };
+            case 'N8n':
+                return { label: 'n8n', description: 'n8n workflow automation platform' };
+            default:
+                return { label: type, description: 'Unknown deployment type' };
+        }
+    };
+
+    const templateType = getTemplateTypeDisplay(project.type);
+
     return (
         <div className="space-y-6">
             <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
@@ -166,6 +184,28 @@ function RouteComponent() {
                                             <Skeleton className="h-[14px] w-[150px] mt-[7px] mb-[4px]" />
                                         </>
                                     )}
+                                </div>
+
+                                <div>
+                                    <h3 className="text-sm font-medium text-muted-foreground flex items-center gap-1">
+                                        Template Type
+                                        <TooltipProvider>
+                                            <Tooltip>
+                                                <TooltipTrigger asChild>
+                                                    <HelpCircle className="h-3.5 w-3.5 text-muted-foreground cursor-help" />
+                                                </TooltipTrigger>
+                                                <TooltipContent className="max-w-[250px]">
+                                                    <p>{templateType.description}</p>
+                                                    <p className="text-xs text-muted-foreground mt-1">
+                                                        Wrong type? Run <code className="bg-muted px-1 rounded">compozerr migrate --redetect</code> to update.
+                                                    </p>
+                                                </TooltipContent>
+                                            </Tooltip>
+                                        </TooltipProvider>
+                                    </h3>
+                                    <p className="text-sm">
+                                        <Badge variant="outline">{templateType.label}</Badge>
+                                    </p>
                                 </div>
 
                                 <div>

@@ -42,9 +42,10 @@ public sealed class MigrateProjectCommandHandler(
         // Map CLI project type to enum
         var projectType = command.ProjectType?.ToLowerInvariant() switch
         {
+            "dockerfile" => ProjectType.Dockerfile,
             "docker-compose" => ProjectType.DockerCompose,
             "compozerr-standard" => ProjectType.Compozerr,
-            _ => ProjectType.Compozerr
+            _ => ProjectType.Dockerfile // Default to Dockerfile for single Dockerfile projects
         };
 
         var repoUri = new Uri(command.RepoUrl);

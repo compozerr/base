@@ -1,6 +1,7 @@
 using Cli.Endpoints.Projects.Deployments;
 using Cli.Endpoints.Projects.Migrate;
 using Cli.Endpoints.Projects.RestoreProject;
+using Cli.Endpoints.Projects.UpdateTemplate;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 
@@ -22,6 +23,7 @@ public static class ProjectsGroup
 
         group.AddRestoreProjectRoute();
         group.AddMigrateProjectRoute();
+        group.AddUpdateTemplateRoute();
 
         return group;
     }

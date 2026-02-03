@@ -2568,7 +2568,7 @@ export type components = {
         /** Format: uuid */
         "Api.Abstractions.ProjectId": string;
         /** @enum {string} */
-        "Api.Abstractions.ProjectType": "Compozerr" | "N8n";
+        "Api.Abstractions.ProjectType": "Compozerr" | "N8n" | "DockerCompose";
         "Api.Abstractions.ServerTier": {
             id: components["schemas"]["Api.Abstractions.ServerTierId"];
             /** Format: double */
@@ -2587,6 +2587,7 @@ export type components = {
         "Api.Data.DeploymentStatus": "Unknown" | "Deploying" | "Completed" | "Queued" | "Failed" | "Cancelled";
         "Api.Data.GetProjectEnvironmentResponse": {
             autoDeploy: boolean;
+            projectType: components["schemas"]["Api.Abstractions.ProjectType"];
             variables: components["schemas"]["Api.Data.ProjectEnvironmentVariableDto"][] | null;
         };
         "Api.Data.ProjectEnvironmentVariableDto": {
@@ -2600,7 +2601,7 @@ export type components = {
         /** @enum {string} */
         "Api.Data.Protocol": "Http" | "Tcp";
         /** @enum {string} */
-        "Api.Data.SystemType": "Unknown" | "Frontend" | "Backend";
+        "Api.Data.SystemType": "Unknown" | "Frontend" | "Backend" | "General";
         "Api.Endpoints.Projects.Deployments.GetDeploymentResponse": {
             /** Format: uuid */
             id: string;
@@ -2899,6 +2900,7 @@ export type components = {
             repoUrl: string | null;
             locationIso: string | null;
             tier: string | null;
+            projectType: string | null;
         };
         "Cli.Endpoints.Projects.Migrate.MigrateProjectResponse": {
             success: boolean;
