@@ -1,5 +1,6 @@
 using Carter;
 using Cli.Endpoints.Docker;
+using Cli.Endpoints.GithubStatus;
 using Cli.Endpoints.Locations;
 using Cli.Endpoints.Modules;
 using Cli.Endpoints.Projects;
@@ -19,6 +20,7 @@ public class CliGroup : CarterModule
     public override void AddRoutes(IEndpointRouteBuilder app)
     {
         app.AddDockerGroup();
+        app.AddGithubGroup();
         app.AddReposGroup();
         app.AddProjectsGroup();
         app.AddLocationsGroup();

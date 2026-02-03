@@ -26,6 +26,8 @@ import LoadingButton from '@/components/loading-button'
 import { Price } from '@/lib/price'
 import { useToast } from '@/hooks/use-toast'
 import { cn } from '@/lib/utils'
+import { Github, AlertTriangle, CheckCircle } from 'lucide-react'
+import { Alert, AlertDescription } from '@/components/ui/alert'
 export const Route = createFileRoute(
   '/_auth/_dashboard/projects/$projectId/settings/general',
 )({
@@ -116,8 +118,40 @@ function GeneralSettingsTab() {
 
   const isN8nProject = useMemo(() => project?.type === "N8n", [project]);
 
+  const backendUrl = import.meta.env.VITE_BACKEND_URL || '';
+  const currentPath = window.location.pathname;
+  const reconnectUrl = `${backendUrl}/v1/auth/login?returnUrl=${encodeURIComponent(currentPath)}`;
+
   return (
     <TabsContent value="general" className="space-y-4 mt-6">
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Github className="h-5 w-5" />
+            GitHub Connection
+          </CardTitle>
+          <CardDescription>
+            Manage your GitHub connection for deployments.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="flex items-center justify-between">
+            <div className="space-y-1">
+              <p className="text-sm font-medium">Reconnect GitHub</p>
+              <p className="text-sm text-muted-foreground">
+                If deployments are failing due to authentication errors, reconnect your GitHub account to refresh your access token.
+              </p>
+            </div>
+            <Button variant="outline" asChild>
+              <a href={reconnectUrl}>
+                <Github className="mr-2 h-4 w-4" />
+                Reconnect
+              </a>
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+
       <Card>
         <CardHeader>
           <CardTitle>General Settings</CardTitle>

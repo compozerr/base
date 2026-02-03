@@ -78,6 +78,20 @@ public static class ExceptionHandlerExtensions
                         Log.Warning(exception, "Operation canceled: {Message}", exception.Message);
                         break;
 
+                    case var ex when ex.GetType().Name.Contains("GitHubToken"):
+                        context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                        problemDetails = new ApiProblemDetails
+                        {
+                            Type = "urn:compozerr:github-token-invalid",
+                            Title = "GitHub Authentication Required",
+                            Status = StatusCodes.Status401Unauthorized,
+                            Detail = ex.Message,
+                            TraceId = traceId,
+                            Instance = instance
+                        };
+                        Log.Warning(ex, "GitHub token invalid: {Message}", ex.Message);
+                        break;
+
                     default:
                         // For all other exceptions, return a 500 Internal Server Error
                         context.Response.StatusCode = StatusCodes.Status500InternalServerError;
