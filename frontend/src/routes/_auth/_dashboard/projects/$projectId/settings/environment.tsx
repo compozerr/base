@@ -14,10 +14,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Separator } from '@/components/ui/separator'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { cn } from '@/lib/utils'
-import { createFileRoute, Outlet, useRouter } from '@tanstack/react-router'
+import { createFileRoute, useRouter } from '@tanstack/react-router'
 import { FileText, Info, PlusCircle, Trash2, Undo } from 'lucide-react'
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { SystemType, SystemTypes } from '../../../../../../lib/system-type'
+import React, { Fragment, useCallback, useEffect, useRef, useState } from 'react'
+import { SystemType } from '../../../../../../lib/system-type'
 
 export const Route = createFileRoute(
     '/_auth/_dashboard/projects/$projectId/settings/environment',
@@ -72,11 +72,11 @@ function EnvironmentSettingsTab() {
 
     const [env, setEnv] = useState<Environment[]>([])
 
-    // Determine if this is a DockerCompose project
-    const isDockerCompose = data?.projectType === "DockerCompose"
-
-    // For DockerCompose projects, only show General type; for others, show Frontend/Backend
-    const availableSystemTypes: SystemType[] = isDockerCompose ? ["General"] : ["Frontend", "Backend"]
+    // Get configuration from API response
+    const config = data?.configuration
+    const availableSystemTypes = (config?.allowedSystemTypes ?? ["Frontend", "Backend"]) as SystemType[]
+    const defaultSystemType = (config?.defaultSystemType ?? "Frontend") as SystemType
+    const environmentFiles = config?.environmentFiles ?? []
 
     useEffect(() => {
         const env: Environment[] = [{
@@ -113,10 +113,8 @@ function EnvironmentSettingsTab() {
     const [isDragging, setIsDragging] = useState(false)
     const fileInputRef = useRef<HTMLInputElement>(null)
 
-    // Initialize with General for DockerCompose, Frontend for others
-    const [selectedSystemType, setSelectedSystemType] = useState<SystemType>(
-        data?.projectType === "DockerCompose" ? "General" : "Frontend"
-    );
+    // Initialize with the default system type from configuration
+    const [selectedSystemType, setSelectedSystemType] = useState<SystemType>(defaultSystemType);
 
     const inputVariableRef = useRef<HTMLInputElement>(null);
 
@@ -276,30 +274,32 @@ function EnvironmentSettingsTab() {
                     <Alert>
                         <FileText className="h-4 w-4" />
                         <AlertDescription>
-                            {isDockerCompose ? (
-                                <>Environment variables are stored in <code className="bg-muted px-1 py-0.5 rounded text-sm">.env</code> in the project root</>
-                            ) : (
-                                <>Environment variables are stored in <code className="bg-muted px-1 py-0.5 rounded text-sm">frontend/.env</code> and <code className="bg-muted px-1 py-0.5 rounded text-sm">backend/.env</code></>
-                            )}
+                            Environment variables are stored in{' '}
+                            {environmentFiles.map((file, index) => (
+                                <Fragment key={file.filePath}>
+                                    <code className="bg-muted px-1 py-0.5 rounded text-sm">{file.filePath}</code>
+                                    {index < environmentFiles.length - 1 && ' and '}
+                                </Fragment>
+                            ))}
+                            {environmentFiles.length === 0 && <code className="bg-muted px-1 py-0.5 rounded text-sm">.env</code>}
                         </AlertDescription>
                     </Alert>
 
-                    {/* Only show tabs for non-DockerCompose projects */}
-                    {!isDockerCompose && (
+                    {/* Show tabs when there are multiple system types */}
+                    {availableSystemTypes.length > 1 && (
                         <Tabs defaultValue={selectedSystemType} className="w-full">
-                            <TabsList className="grid w-full grid-cols-2">
-                                {
-                                    availableSystemTypes.map(x => (
-                                        <TabsTrigger value={x} onClick={() => {
-                                            setSelectedSystemType(x);
-                                        }} className={systemTypeHasChanges(x) ? "italic" : ""} key={x}>
-                                            {x}
-                                        </TabsTrigger>
-                                    ))
-                                }
+                            <TabsList className={`grid w-full grid-cols-${availableSystemTypes.length}`}>
+                                {availableSystemTypes.map(x => (
+                                    <TabsTrigger
+                                        value={x}
+                                        onClick={() => setSelectedSystemType(x)}
+                                        className={systemTypeHasChanges(x) ? "italic" : ""}
+                                        key={x}
+                                    >
+                                        {x}
+                                    </TabsTrigger>
+                                ))}
                             </TabsList>
-
-                            <Outlet />
                         </Tabs>
                     )}
 

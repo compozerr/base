@@ -1,6 +1,7 @@
 using Api.Abstractions;
 using Api.Data;
 using Api.Data.Repositories;
+using Api.ProjectTypes;
 using Core.MediatR;
 
 namespace Api.Endpoints.Projects.ProjectEnvironment;
@@ -8,7 +9,8 @@ namespace Api.Endpoints.Projects.ProjectEnvironment;
 public class GetProjectEnvironmentCommandHandler(
     IProjectEnvironmentRepository projectEnvironmentRepository,
     IProjectRepository projectRepository,
-    IDefaultEnvironmentVariablesAppender variablesAppender
+    IDefaultEnvironmentVariablesAppender variablesAppender,
+    IProjectTypeConfigurationFactory configurationFactory
 ) : ICommandHandler<GetProjectEnvironmentCommand, GetProjectEnvironmentResponse>
 {
     public async Task<GetProjectEnvironmentResponse> Handle(
@@ -32,9 +34,13 @@ public class GetProjectEnvironmentCommandHandler(
             environmentVariables,
             command.ProjectId);
 
+        var projectType = project?.Type ?? ProjectType.Compozerr;
+        var configuration = configurationFactory.GetConfiguration(projectType);
+
         return new(
             environment?.AutoDeploy ?? false,
-            project?.Type ?? ProjectType.Compozerr,
+            projectType,
+            configuration.ToDto(),
             environmentVariables);
     }
 }

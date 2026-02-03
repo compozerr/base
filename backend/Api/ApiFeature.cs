@@ -1,6 +1,7 @@
 using Api.Endpoints.Projects.ProjectEnvironment;
 using Api.Jobs;
 using Api.Options;
+using Api.ProjectTypes;
 using Api.Services;
 using Core.Extensions;
 using Core.Feature;
@@ -21,7 +22,14 @@ public class ApiFeature : IFeature
         services.AddScoped<IServerService, ServerService>();
         services.AddScoped<IDefaultEnvironmentVariablesAppender, DefaultEnvironmentVariablesAppender>();
         services.AddScoped<IProjectManager, ProjectManager>();
-        
+
+        // Project type configurations
+        services.AddSingleton<IProjectTypeConfiguration, CompozerrProjectTypeConfiguration>();
+        services.AddSingleton<IProjectTypeConfiguration, DockerComposeProjectTypeConfiguration>();
+        services.AddSingleton<IProjectTypeConfiguration, DockerfileProjectTypeConfiguration>();
+        services.AddSingleton<IProjectTypeConfiguration, N8nProjectTypeConfiguration>();
+        services.AddSingleton<IProjectTypeConfigurationFactory, ProjectTypeConfigurationFactory>();
+
         services.AddMemoryCache();
 
         services.AddRequiredConfigurationOptions<EncryptionOptions>("Encryption");
