@@ -13,7 +13,7 @@ const moduleService = new AddedModulesService();
 await moduleService.initializeAsync();
 
 const commands: Command[] = [
-    new Command(
+    new Command( 
         `cd frontend && npm run dev -- --port ${Config.ports.frontend}`,
         "frontend",
         {
