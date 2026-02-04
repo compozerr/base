@@ -17,4 +17,10 @@ public class CompozerrProjectTypeConfiguration : IProjectTypeConfiguration
     public string DefaultSystemType => "Frontend";
 
     public string StartCommand => "npm run serve -- -d";
+
+    public ServiceConfig[] DefaultServices =>
+    [
+        new("Frontend", 1234),
+        new("Backend", 1235)
+    ];
 }

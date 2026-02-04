@@ -12,5 +12,9 @@ public static class ProjectTypeConfigurationExtensions
                 f.FilePath,
                 f.DisplayName)).ToArray(),
             config.DefaultSystemType,
-            config.StartCommand);
+            config.StartCommand,
+            config.DefaultServices.Select(s => new ServiceConfigDto(
+                s.Name,
+                s.Port,
+                s.Protocol)).ToArray());
 }

@@ -20,4 +20,9 @@ public class DockerfileProjectTypeConfiguration : IProjectTypeConfiguration
     /// Uses --force-recreate to ensure fresh container state on each deployment.
     /// </summary>
     public string StartCommand => "docker build -t app . && docker rm -f app 2>/dev/null; docker run -d --name app -p 1234:1234 app";
+
+    public ServiceConfig[] DefaultServices =>
+    [
+        new("App", 1234)
+    ];
 }

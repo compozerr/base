@@ -16,4 +16,9 @@ public class DockerComposeProjectTypeConfiguration : IProjectTypeConfiguration
     public string DefaultSystemType => "General";
 
     public string StartCommand => "docker compose up --build --remove-orphans -d";
+
+    public ServiceConfig[] DefaultServices =>
+    [
+        new("App", 1234)
+    ];
 }
