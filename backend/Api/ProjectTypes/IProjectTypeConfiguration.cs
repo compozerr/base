@@ -9,6 +9,11 @@ public interface IProjectTypeConfiguration
     string[] AllowedSystemTypes { get; }
     EnvironmentFileConfig[] EnvironmentFiles { get; }
     string DefaultSystemType { get; }
+
+    /// <summary>
+    /// The default command to start the service. Can be overridden by compozerr.json.
+    /// </summary>
+    string StartCommand { get; }
 }
 
 public record EnvironmentFileConfig(

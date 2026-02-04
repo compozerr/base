@@ -11,5 +11,6 @@ public static class ProjectTypeConfigurationExtensions
                 f.SystemType,
                 f.FilePath,
                 f.DisplayName)).ToArray(),
-            config.DefaultSystemType);
+            config.DefaultSystemType,
+            config.StartCommand);
 }

@@ -15,4 +15,6 @@ public class CompozerrProjectTypeConfiguration : IProjectTypeConfiguration
     ];
 
     public string DefaultSystemType => "Frontend";
+
+    public string StartCommand => "npm run serve -- -d";
 }

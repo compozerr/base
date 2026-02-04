@@ -14,4 +14,6 @@ public class N8nProjectTypeConfiguration : IProjectTypeConfiguration
     ];
 
     public string DefaultSystemType => "General";
+
+    public string StartCommand => "docker compose up --build --remove-orphans -d";
 }

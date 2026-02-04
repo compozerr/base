@@ -14,4 +14,10 @@ public class DockerfileProjectTypeConfiguration : IProjectTypeConfiguration
     ];
 
     public string DefaultSystemType => "General";
+
+    /// <summary>
+    /// Builds and runs the Docker container on port 1234 (the standard routing port).
+    /// Uses --force-recreate to ensure fresh container state on each deployment.
+    /// </summary>
+    public string StartCommand => "docker build -t app . && docker rm -f app 2>/dev/null; docker run -d --name app -p 1234:1234 app";
 }
