@@ -28,5 +28,6 @@ public class ApiHostingFeature : IFeature
         app.AddRecurringJob<UpdateServerUsageJob>(Cron.Hourly());
         app.AddRecurringJob<UpdateProjectsUsageJob>(Cron.Hourly());
         app.AddRecurringJob<VMPoolSyncJob>(Cron.Hourly());
+        app.AddRecurringJob<DeploymentTimeoutJob>(new Cron("*/5 * * * *"));
     }
 }
