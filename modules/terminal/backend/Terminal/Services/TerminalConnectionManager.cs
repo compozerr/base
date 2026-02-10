@@ -11,7 +11,7 @@ public interface ITerminalConnectionManager
 {
     void StoreClient(string connectionId, IHostingManagerTerminalClient client);
     IHostingManagerTerminalClient? GetClient(string connectionId);
-    void RemoveClient(string connectionId);
+    Task RemoveClientAsync(string connectionId);
 }
 
 public sealed class TerminalConnectionManager : ITerminalConnectionManager
@@ -29,11 +29,11 @@ public sealed class TerminalConnectionManager : ITerminalConnectionManager
         return client;
     }
 
-    public void RemoveClient(string connectionId)
+    public async Task RemoveClientAsync(string connectionId)
     {
-        if (_clients.TryRemove(connectionId, out var client) && client is IDisposable disposable)
+        if (_clients.TryRemove(connectionId, out var client))
         {
-            disposable.Dispose();
+            await client.DisconnectAsync();
         }
     }
 }

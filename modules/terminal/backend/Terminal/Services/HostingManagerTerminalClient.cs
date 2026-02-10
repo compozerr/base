@@ -214,9 +214,9 @@ public sealed class HostingManagerTerminalClient : IHostingManagerTerminalClient
 
     public void Dispose()
     {
-        _receiveCts?.Cancel();
-        _receiveCts?.Dispose();
-        _webSocket?.Dispose();
+        // Intentionally empty: this client outlives the DI scope that created it.
+        // It is stored in the singleton TerminalConnectionManager and cleaned up
+        // via DisconnectAsync() when the SignalR connection closes.
     }
 
     private record VmStatusResult(bool Running);

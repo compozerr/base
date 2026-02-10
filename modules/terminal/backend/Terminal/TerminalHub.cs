@@ -28,6 +28,7 @@ public sealed class TerminalHub : Hub
     private readonly IHostingManagerTerminalClient _hostingClient;
     private readonly ITerminalConnectionManager _connectionManager;
     private readonly IPublisher _publisher;
+    private readonly IHubContext<TerminalHub> _hubContext;
 
     // Track active sessions by connection ID
     private static readonly ConcurrentDictionary<string, TerminalSessionId> _activeSessions = new();
@@ -38,7 +39,8 @@ public sealed class TerminalHub : Hub
         ITerminalSessionService sessionService,
         IHostingManagerTerminalClient hostingClient,
         ITerminalConnectionManager connectionManager,
-        IPublisher publisher)
+        IPublisher publisher,
+        IHubContext<TerminalHub> hubContext)
     {
         _dbContext = dbContext;
         _currentUserAccessor = currentUserAccessor;
@@ -46,6 +48,7 @@ public sealed class TerminalHub : Hub
         _hostingClient = hostingClient;
         _connectionManager = connectionManager;
         _publisher = publisher;
+        _hubContext = hubContext;
     }
 
     public async Task<StartSessionResult> StartSession(string projectIdString)
@@ -98,15 +101,15 @@ public sealed class TerminalHub : Hub
             await _hostingClient.ConnectAsync(
                 project.Server.ApiDomain,
                 projectId,
-                onData: async (data) => await Clients.Caller.SendAsync("OnOutput", data),
+                onData: async (data) => await _hubContext.Clients.Client(connectionId).SendAsync("OnOutput", data),
                 onDisconnected: async (reason) =>
                 {
                     await _sessionService.EndSessionAsync(session.Id, reason);
                     _activeSessions.TryRemove(connectionId, out _);
-                    _connectionManager.RemoveClient(connectionId);
-                    await Clients.Caller.SendAsync("OnDisconnected", reason);
+                    await _connectionManager.RemoveClientAsync(connectionId);
+                    await _hubContext.Clients.Client(connectionId).SendAsync("OnDisconnected", reason);
                 },
-                onError: async (error) => await Clients.Caller.SendAsync("OnError", error)
+                onError: async (error) => await _hubContext.Clients.Client(connectionId).SendAsync("OnError", error)
             );
 
             // Store the connected client so subsequent calls can use it
@@ -170,14 +173,7 @@ public sealed class TerminalHub : Hub
         if (_activeSessions.TryRemove(Context.ConnectionId, out var sessionId))
         {
             await _sessionService.EndSessionAsync(sessionId, "Client disconnected");
-
-            // Get and clean up the client for this connection
-            var client = _connectionManager.GetClient(Context.ConnectionId);
-            if (client != null)
-            {
-                await client.DisconnectAsync();
-                _connectionManager.RemoveClient(Context.ConnectionId);
-            }
+            await _connectionManager.RemoveClientAsync(Context.ConnectionId);
         }
 
         await base.OnDisconnectedAsync(exception);
