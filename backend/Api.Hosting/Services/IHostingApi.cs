@@ -16,6 +16,7 @@ public interface IHostingApi
     Task DeleteProjectAsync(ProjectId projectId);
     Task<HealthCheckResponse> HealthCheckProjectAsync(ProjectId projectId);
     Task<CommandExecutionResult> ExecuteCommandAsync(ProjectId projectId, string command);
+    Task<string> DebugTerminalAsync(ProjectId projectId);
 }
 
 public sealed record CommandExecutionResult(int ExitCode, string Stdout, string Stderr);

@@ -96,6 +96,11 @@ public sealed class MockHostingApi(IProjectRepository projectRepository) : IHost
         return Task.CompletedTask;
     }
 
+    public Task<string> DebugTerminalAsync(ProjectId projectId)
+    {
+        return Task.FromResult("{\"mock\": true}");
+    }
+
     public Task<CommandExecutionResult> ExecuteCommandAsync(ProjectId projectId, string command)
     {
         Console.WriteLine($"[MOCK] Executing command in project {projectId}: {command}");

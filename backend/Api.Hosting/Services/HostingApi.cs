@@ -268,6 +268,12 @@ public sealed class HostingApi(
         return result ?? new CommandExecutionResult(-1, "", "Failed to parse response");
     }
 
+    public async Task<string> DebugTerminalAsync(ProjectId projectId)
+    {
+        var response = await HttpClient.GetAsync($"/terminal/debug/{projectId.Value}");
+        return await response.Content.ReadAsStringAsync();
+    }
+
     private async Task<string> GetValidatedOAuthTokenAsync(Auth.Abstractions.UserId userId)
     {
         var userLogin = await githubService.GetUserLoginAsync(userId);
