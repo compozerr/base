@@ -1,0 +1,21 @@
+FROM mcr.microsoft.com/dotnet/sdk:9.0.200
+
+# Install vsdbg for debugging
+RUN apt-get update && apt-get install -y curl unzip procps \
+    && curl -sSL https://aka.ms/getvsdbgsh | bash /dev/stdin -v latest -l /vsdbg \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+# Copy everything
+COPY . .
+
+WORKDIR /app/backend
+
+# Restore dependencies
+RUN dotnet restore
+
+EXPOSE 5000
+
+# Run dotnet watch for hot reload with debugging enabled
+CMD ["dotnet", "watch", "run", "--project", "Api", "--urls", "http://0.0.0.0:5000"]
