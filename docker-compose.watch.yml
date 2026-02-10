@@ -1,0 +1,52 @@
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend.dev
+    ports:
+      - "1234:3001"
+    develop:
+      watch:
+        - action: sync
+          path: ./frontend/src
+          target: /app/frontend/src
+        - action: sync
+          path: ./frontend/public
+          target: /app/frontend/public
+        - action: sync
+          path: ./modules
+          target: /app/modules
+          ignore:
+            - "**/backend/**"
+            - "**/node_modules/**"
+        - action: rebuild
+          path: ./frontend/package.json
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend.dev
+    ports:
+      - "1235:5000"
+    env_file:
+      - ./backend/.env
+    environment:
+      - DOTNET_WATCH_RESTART_ON_RUDE_EDIT=1
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=db;Database=myapp;Username=postgres;Password=019661c0-7b26-76de-9dfc-c4ce956cdca0
+      - Minio__Endpoint=minio:9000
+      - OtelExporterOtlpEndpoint=http://openTelemetry:18889
+    volumes:
+      - ./.resights-documents:/app/resights-documents
+    develop:
+      watch:
+        - action: sync
+          path: ./backend
+          target: /app/backend
+          ignore:
+            - "*/bin/"
+            - "*/obj/"
+        - action: rebuild
+          path: ./backend/Api/Api.csproj
+        - action: rebuild
+          path: ./backend/Core/Core.csproj
