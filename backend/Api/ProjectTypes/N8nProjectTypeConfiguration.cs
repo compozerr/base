@@ -15,7 +15,7 @@ public class N8nProjectTypeConfiguration : IProjectTypeConfiguration
 
     public string DefaultSystemType => "General";
 
-    public string StartCommand => "docker compose up --build --remove-orphans -d";
+    public string StartCommand => "COMPOSE_HTTP_TIMEOUT=600 docker-compose up --build --remove-orphans -d";
 
     public ServiceConfig[] DefaultServices =>
     [
