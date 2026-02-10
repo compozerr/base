@@ -3,6 +3,7 @@ import { DataTable } from '@/components/data-table'
 import StartStopProjectButton from '@/components/project/project-startstop-button'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { Input } from '@/components/ui/input'
 import {
@@ -21,21 +22,41 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
+import { useEphemeralQueryParams } from '@/hooks/use-ephemeral-storage.hook'
 import { ProjectStateFilter } from '@/lib/project-state-filter'
 import { getLink } from '@/links'
 import { createFileRoute, useRouter } from '@tanstack/react-router'
-import { MoreVertical, Plus, Search, Workflow, CreditCard, Rocket, Filter, FolderGit2, Activity, Server } from 'lucide-react'
+import { MoreVertical, Plus, Search, Workflow, CreditCard, Rocket, Filter, FolderGit2, Activity, Server, Terminal } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
 import { usePaymentMethod } from '@repo/stripe/hooks/use-payment-method';
+import { z } from 'zod'
+
+const searchParamsSchema = z.object({
+    'cli-auth': z.string().optional(),
+})
 
 export const Route = createFileRoute('/_auth/_dashboard/projects/')({
     component: RouteComponent,
     loader: () => api.v1.getProjects.prefetchQuery(),
+    validateSearch: searchParamsSchema,
 })
 
 function RouteComponent() {
     const [search, setSearch] = useState('');
     const [debouncedSearch, setDebouncedSearch] = useState('');
+    const [cliAuthDialogOpen, setCliAuthDialogOpen] = useState(false);
+
+    const { collect: collectCliAuth } = useEphemeralQueryParams<{ 'cli-auth'?: string }>(
+        ['cli-auth'],
+        'cli-auth-params'
+    );
+
+    useEffect(() => {
+        const params = collectCliAuth();
+        if (params?.['cli-auth'] === 'success') {
+            setCliAuthDialogOpen(true);
+        }
+    }, []);
 
     // Update debounced value after delay
     useEffect(() => {
@@ -282,6 +303,23 @@ function RouteComponent() {
                     }
                 }
             ]} />
+
+            <Dialog open={cliAuthDialogOpen} onOpenChange={setCliAuthDialogOpen}>
+                <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle className="flex items-center gap-2">
+                            <Terminal className="h-5 w-5" />
+                            Signed in successfully
+                        </DialogTitle>
+                        <DialogDescription>
+                            Your CLI session is now authenticated. You can return to your terminal and start using Compozerr commands.
+                        </DialogDescription>
+                    </DialogHeader>
+                    <DialogFooter>
+                        <Button onClick={() => setCliAuthDialogOpen(false)}>Got it</Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
         </div>
     )
 }

@@ -2,7 +2,6 @@
     "type": "module",
     "name": "docs",
     "start": "cd frontend && npm run dev",
-    "dockerComposeFile": "frontend/docker-compose.yml",
     "port": "1236",
     "readyMessage": "Docusaurus website is running at",
     "startupTimeoutMs": 50000

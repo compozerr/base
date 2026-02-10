@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using AspNet.Security.OAuth.GitHub;
+using Auth.Authentication;
 using Auth.AuthProviders;
 using Auth.Data;
 using Auth.Repositories;
@@ -77,13 +78,18 @@ public class AuthFeature : IFeature
                     Encoding.UTF8.GetBytes(configuration["Jwt:Key"]!)
                 )
             };
-        });
+        })
+        .AddScheme<ApiTokenAuthenticationOptions, ApiTokenAuthenticationHandler>(
+            ApiTokenAuthenticationDefaults.AuthenticationScheme, null);
 
         services.AddAuthorization(options =>
         {
             options.DefaultPolicy = new AuthorizationPolicyBuilder()
                                         .RequireAuthenticatedUser()
-                                        .AddAuthenticationSchemes(CookieAuthenticationDefaults.AuthenticationScheme, JwtBearerDefaults.AuthenticationScheme)
+                                        .AddAuthenticationSchemes(
+                                            CookieAuthenticationDefaults.AuthenticationScheme,
+                                            JwtBearerDefaults.AuthenticationScheme,
+                                            ApiTokenAuthenticationDefaults.AuthenticationScheme)
                                         .Build();
         });
 
@@ -94,6 +100,7 @@ public class AuthFeature : IFeature
         services.AddScoped<IAuthRepository, AuthRepository>();
         services.AddTransient<ICurrentUserAccessor, CurrentUserAccessor>();
         services.AddSingleton<IStateService, StateService>();
+        services.AddScoped<IApiTokenService, ApiTokenService>();
     }
 
     void IFeature.ConfigureApp(WebApplication app)

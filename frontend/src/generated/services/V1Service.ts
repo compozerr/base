@@ -7,6 +7,495 @@ import type { paths } from "../schema";
 import type { DeepReadonly, InvalidateQueryFilters, MutationFiltersByMutationKey, MutationFiltersByParameters, MutationVariables, OperationError, OperationInfiniteData, PartialParameters, QueryFiltersByParameters, QueryFiltersByQueryKey, QueryFnOptionsByParameters, QueryFnOptionsByQueryKey, RequestFnResponse, ServiceOperationEnsureInfiniteQueryDataOptions, ServiceOperationEnsureQueryDataOptions, ServiceOperationFetchInfiniteQueryOptions, ServiceOperationFetchQueryOptions, ServiceOperationInfiniteQueryKey, ServiceOperationMutationFnOptions, ServiceOperationMutationKey, ServiceOperationQueryKey, ServiceOperationUseMutationOptions, UseQueryOptionsForUseQueries, UseQueryOptionsForUseSuspenseQuery, WithOptional, QraftServiceOperationsToken } from "@openapi-qraft/tanstack-query-react-types";
 import type { CancelOptions, DefinedInitialDataInfiniteOptions, DefinedInitialDataOptions, DefinedUseInfiniteQueryResult, DefinedUseQueryResult, InfiniteQueryPageParamsOptions, InvalidateOptions, Mutation, MutationCache, MutationState, NoInfer, QueryState, RefetchOptions, ResetOptions, SetDataOptions, UndefinedInitialDataInfiniteOptions, UndefinedInitialDataOptions, Updater, UseInfiniteQueryResult, UseMutationResult, UseQueryResult, UseSuspenseInfiniteQueryOptions, UseSuspenseInfiniteQueryResult, UseSuspenseQueryOptions, UseSuspenseQueryResult } from "@tanstack/react-query";
 export interface V1Service {
+    postApiTokens: {
+        /**/
+        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: ServiceOperationMutationFnOptions<PostApiTokensBody, PostApiTokensParameters, TMeta, TSignal>, client?: (schema: PostApiTokensSchema, options: ServiceOperationMutationFnOptions<PostApiTokensBody, PostApiTokensParameters, TMeta, TSignal>) => Promise<RequestFnResponse<PostApiTokensData, PostApiTokensError>>): Promise<RequestFnResponse<PostApiTokensData, PostApiTokensError>>;
+        /**/
+        getMutationKey(parameters: DeepReadonly<PostApiTokensParameters> | void): ServiceOperationMutationKey<PostApiTokensSchema, PostApiTokensParameters>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.postApiTokens.useMutation({})
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.postApiTokens.useMutation()
+         * mutate({
+         *     body: bodyPayload
+         * });
+         * ```
+         */
+        useMutation<TVariables extends PostApiTokensBody, TContext = unknown>(parameters: DeepReadonly<PostApiTokensParameters>, options?: ServiceOperationUseMutationOptions<PostApiTokensSchema, PostApiTokensData, PostApiTokensParameters, TVariables, OperationError<PostApiTokensError>, TContext>): UseMutationResult<PostApiTokensData, OperationError<PostApiTokensError>, TVariables, TContext>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.postApiTokens.useMutation({})
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.postApiTokens.useMutation()
+         * mutate({
+         *     body: bodyPayload
+         * });
+         * ```
+         */
+        useMutation<TVariables extends MutationVariables<PostApiTokensBody, PostApiTokensParameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<PostApiTokensSchema, PostApiTokensData, PostApiTokensParameters, TVariables, OperationError<PostApiTokensError>, TContext>): UseMutationResult<PostApiTokensData, OperationError<PostApiTokensError>, TVariables, TContext>;
+        /**
+         * Returns the count of currently in-progress mutations.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
+         * @example Check how many mutations are currently in progress for the specified service method.
+         * ```ts
+         * const postApiTokensTotal = qraft.v1Service.postApiTokens.useIsMutating()
+         * ```
+         * @example Check how many mutations are currently in progress with the specified parameters.
+         * ```ts
+         * const postApiTokensTotal = qraft.v1Service.postApiTokens.useIsMutating({
+         *     parameters: {}
+         * })
+         * ```
+         */
+        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<PostApiTokensBody, PostApiTokensData, PostApiTokensParameters, OperationError<PostApiTokensError>, TContext> | MutationFiltersByMutationKey<PostApiTokensSchema, PostApiTokensBody, PostApiTokensData, PostApiTokensParameters, OperationError<PostApiTokensError>, TContext>): number;
+        /**
+         * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
+         * @example Get all variables of all running mutations.
+         * ```ts
+         * const postApiTokensPendingMutationVariables = qraft.v1Service.postApiTokens.useMutationState({
+         *     filters: {
+         *         status: "pending"
+         *     },
+         *     select: mutation => mutation.state.variables
+         * })
+         * ```
+         * @example Get all data for specific mutations via the `parameters`.
+         * ```ts
+         * const postApiTokensMutationData = qraft.v1Service.postApiTokens.useMutationState({
+         *     filters: {
+         *         parameters: {}
+         *     },
+         *     select: mutation => mutation.state.data
+         * })
+         * ```
+         */
+        useMutationState<TContext = unknown, TResult = MutationState<PostApiTokensData, OperationError<PostApiTokensError>, MutationVariables<PostApiTokensBody, PostApiTokensParameters>, TContext>>(options?: {
+            filters?: MutationFiltersByParameters<PostApiTokensBody, PostApiTokensData, PostApiTokensParameters, OperationError<PostApiTokensError>, TContext> | MutationFiltersByMutationKey<PostApiTokensSchema, PostApiTokensBody, PostApiTokensData, PostApiTokensParameters, OperationError<PostApiTokensError>, TContext>;
+            select?: (mutation: Mutation<PostApiTokensData, OperationError<PostApiTokensError>, MutationVariables<PostApiTokensBody, PostApiTokensParameters>, TContext>) => TResult;
+        }): Array<TResult>;
+        /**/
+        isMutating<TContext>(filters?: MutationFiltersByParameters<PostApiTokensBody, PostApiTokensData, PostApiTokensParameters, OperationError<PostApiTokensError>, TContext> | MutationFiltersByMutationKey<PostApiTokensSchema, PostApiTokensBody, PostApiTokensData, PostApiTokensParameters, OperationError<PostApiTokensError>, TContext>): number;
+        /**
+         * Returns a `MutationCache` object that provides access to mutation cache operations
+         * for the specific endpoint.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/query-client/getMutationCache|`getMutationCache(...)` documentation}
+         *
+         * @example Find a mutation with specific parameters
+         * ```ts
+         * const mutationCache = qraft.v1Service.postApiTokens.getMutationCache();
+         * const mutation = mutationCache.find({
+         *     parameters: {}
+         * });
+         * ```
+         *
+         * @example Find all mutations for the endpoint
+         * ```ts
+         * const mutationCache = qraft.v1Service.postApiTokens.getMutationCache();
+         * const mutations = mutationCache.findAll();
+         * ```
+         */
+        getMutationCache(): Omit<MutationCache, "find" | "findAll"> & {
+            find<TContext = unknown>(filters: MutationFiltersByParameters<PostApiTokensBody, PostApiTokensData, PostApiTokensParameters, OperationError<PostApiTokensError>, TContext> | MutationFiltersByMutationKey<PostApiTokensSchema, PostApiTokensBody, PostApiTokensData, PostApiTokensParameters, OperationError<PostApiTokensError>, TContext>): Mutation<PostApiTokensData, PostApiTokensError, MutationVariables<PostApiTokensBody, PostApiTokensParameters>, TContext> | undefined;
+            findAll<TContext = unknown>(filters?: MutationFiltersByParameters<PostApiTokensBody, PostApiTokensData, PostApiTokensParameters, OperationError<PostApiTokensError>, TContext> | MutationFiltersByMutationKey<PostApiTokensSchema, PostApiTokensBody, PostApiTokensData, PostApiTokensParameters, OperationError<PostApiTokensError>, TContext>): Array<Mutation<PostApiTokensData, PostApiTokensError, MutationVariables<PostApiTokensBody, PostApiTokensParameters>, TContext>>;
+        };
+        schema: PostApiTokensSchema;
+        types: {
+            parameters: PostApiTokensParameters;
+            data: PostApiTokensData;
+            error: PostApiTokensError;
+            body: PostApiTokensBody;
+        };
+    };
+    getApiTokens: {
+        /**/
+        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: QueryFnOptionsByQueryKey<GetApiTokensSchema, GetApiTokensParameters, TMeta, TSignal> | (QueryFnOptionsByParameters<GetApiTokensParameters, TMeta, TSignal> | void), client?: (schema: GetApiTokensSchema, options: {
+            parameters: GetApiTokensParameters;
+            signal?: TSignal;
+            meta?: TMeta;
+        }) => Promise<RequestFnResponse<GetApiTokensData, GetApiTokensError>>): Promise<RequestFnResponse<GetApiTokensData, GetApiTokensError>>;
+        /**/
+        getQueryKey(parameters: DeepReadonly<GetApiTokensParameters> | void): ServiceOperationQueryKey<GetApiTokensSchema, GetApiTokensParameters>;
+        /**
+         * Performs asynchronous data fetching, manages loading states and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
+         * @example Query without parameters
+         * ```ts
+         * const { data, isLoading } = qraft.v1Service.getApiTokens.useQuery()
+         * ```
+         */
+        useQuery<TData = GetApiTokensData>(parameters: ServiceOperationQueryKey<GetApiTokensSchema, GetApiTokensParameters> | (DeepReadonly<GetApiTokensParameters> | void), options?: Omit<UndefinedInitialDataOptions<GetApiTokensData, GetApiTokensError, TData, ServiceOperationQueryKey<GetApiTokensSchema, GetApiTokensParameters>>, "queryKey">): UseQueryResult<TData, OperationError<GetApiTokensError>>;
+        /**
+         * Performs asynchronous data fetching, manages loading states and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
+         * @example Query without parameters
+         * ```ts
+         * const { data, isLoading } = qraft.v1Service.getApiTokens.useQuery()
+         * ```
+         */
+        useQuery<TData = GetApiTokensData>(parameters: ServiceOperationQueryKey<GetApiTokensSchema, GetApiTokensParameters> | (DeepReadonly<GetApiTokensParameters> | void), options: Omit<DefinedInitialDataOptions<GetApiTokensData, GetApiTokensError, TData, ServiceOperationQueryKey<GetApiTokensSchema, GetApiTokensParameters>>, "queryKey">): DefinedUseQueryResult<TData, OperationError<GetApiTokensError>>;
+        /**/
+        getInfiniteQueryKey(parameters: DeepReadonly<GetApiTokensParameters> | void): ServiceOperationInfiniteQueryKey<GetApiTokensSchema, GetApiTokensParameters>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useInfiniteQuery|`useInfiniteQuery(...)` documentation}
+         *
+         * @example Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getApiTokens.useInfiniteQuery({}, {
+         *     initialPageParam: {},
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useInfiniteQuery<TPageParam extends GetApiTokensParameters, TQueryFnData = GetApiTokensData, TData = OperationInfiniteData<TQueryFnData, GetApiTokensParameters>>(parameters: ServiceOperationInfiniteQueryKey<GetApiTokensSchema, GetApiTokensParameters> | (DeepReadonly<GetApiTokensParameters> | void), options: Omit<UndefinedInitialDataInfiniteOptions<TQueryFnData, GetApiTokensError, TData, ServiceOperationInfiniteQueryKey<GetApiTokensSchema, GetApiTokensParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<TQueryFnData, PartialParameters<DeepReadonly<TPageParam>>>): UseInfiniteQueryResult<TData, OperationError<GetApiTokensError>>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useInfiniteQuery|`useInfiniteQuery(...)` documentation}
+         *
+         * @example Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getApiTokens.useInfiniteQuery({}, {
+         *     initialPageParam: {},
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useInfiniteQuery<TPageParam extends GetApiTokensParameters, TQueryFnData = GetApiTokensData, TData = OperationInfiniteData<TQueryFnData, GetApiTokensParameters>>(parameters: ServiceOperationInfiniteQueryKey<GetApiTokensSchema, GetApiTokensParameters> | (DeepReadonly<GetApiTokensParameters> | void), options: Omit<DefinedInitialDataInfiniteOptions<TQueryFnData, GetApiTokensError, TData, ServiceOperationInfiniteQueryKey<GetApiTokensSchema, GetApiTokensParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<GetApiTokensData, PartialParameters<DeepReadonly<TPageParam>>>): DefinedUseInfiniteQueryResult<TData, OperationError<GetApiTokensError>>;
+        /**
+         * Monitors the number of queries currently fetching, matching the provided filters.
+         * Useful for creating loading indicators or performing actions based on active requests.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsFetching|`useIsFetching(...)` documentation}
+         * @example Checks the total number of queries fetching from the specified service method,
+         * both normal and infinite. If no parameters are provided, no filtering is applied.
+         * ```ts
+         * const getApiTokensTotal = qraft.v1Service.getApiTokens.useIsFetching()
+         * ```
+         */
+        useIsFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetApiTokensSchema, GetApiTokensData, TInfinite, GetApiTokensParameters, GetApiTokensError> | QueryFiltersByQueryKey<GetApiTokensSchema, GetApiTokensData, TInfinite, GetApiTokensParameters, GetApiTokensError>): number;
+        /**
+         * Allows you to execute multiple asynchronous data fetching operations concurrently. This is especially useful for managing complex data dependencies in parallel.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
+         * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
+         * ```ts
+         * const getApiTokensResults = qraft.v1Service.getApiTokens.useQueries({
+         *     queries: [
+         *         {},
+         *         {}
+         *     ]
+         * });
+         * getApiTokensResults.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
+         * ```
+         * @example Combined results. Only the data will be returned.
+         * ```ts
+         * const getApiTokensCombinedResults = qraft.v1Service.getApiTokens.useQueries({
+         *     combine: results => results.map(result => result.data),
+         *     queries: [
+         *         {},
+         *         {}
+         *     ]
+         * });
+         * getApiTokensCombinedResults.forEach(data => console.log({ data }));
+         * ```
+         */
+        useQueries<T extends Array<UseQueryOptionsForUseQueries<GetApiTokensSchema, GetApiTokensParameters, GetApiTokensData, GetApiTokensError>>, TCombinedResult = Array<UseQueryResult<GetApiTokensData, GetApiTokensError>>>(options: {
+            queries: T;
+            combine?: (results: Array<UseQueryResult<GetApiTokensData, GetApiTokensError>>) => TCombinedResult;
+        }): TCombinedResult;
+        /**
+         * Performs asynchronous data fetching with Suspense support.
+         * Similar to useQuery but integrates with React Suspense for loading states.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
+         * @example Suspense Query without parameters
+         * ```ts
+         * const data = qraft.v1Service.getApiTokens.useSuspenseQuery()
+         * ```
+         */
+        useSuspenseQuery<TData = GetApiTokensData>(parameters: ServiceOperationQueryKey<GetApiTokensSchema, GetApiTokensParameters> | (DeepReadonly<GetApiTokensParameters> | void), options?: Omit<UseSuspenseQueryOptions<GetApiTokensData, GetApiTokensError, TData, ServiceOperationQueryKey<GetApiTokensSchema, GetApiTokensParameters>>, "queryKey">): UseSuspenseQueryResult<TData, OperationError<GetApiTokensError>>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         * It functions similarly to `useInfiniteQuery`, but with added support for React Suspense.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseInfiniteQuery|`useSuspenseInfiniteQuery(...)` documentation}
+         *
+         * @example Suspense Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getApiTokens.useSuspenseInfiniteQuery({}, {
+         *     initialPageParam: {},
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useSuspenseInfiniteQuery<TPageParam extends GetApiTokensParameters, TData = GetApiTokensData>(parameters: ServiceOperationInfiniteQueryKey<GetApiTokensSchema, GetApiTokensParameters> | (DeepReadonly<GetApiTokensParameters> | void), options: Omit<UseSuspenseInfiniteQueryOptions<GetApiTokensData, GetApiTokensError, OperationInfiniteData<TData, GetApiTokensParameters>, ServiceOperationInfiniteQueryKey<GetApiTokensSchema, GetApiTokensParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<GetApiTokensData, PartialParameters<DeepReadonly<TPageParam>>>): UseSuspenseInfiniteQueryResult<OperationInfiniteData<TData, GetApiTokensParameters>, OperationError<GetApiTokensError>>;
+        /**
+         * Allows you to execute multiple asynchronous data fetching operations concurrently with Suspense support.
+         * Similar to useQueries but integrates with React Suspense for loading states.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
+         * @example Basic usage with Suspense
+         * ```ts
+         * const getApiTokensData = qraft.v1Service.getApiTokens.useSuspenseQueries({
+         *     queries: [
+         *         {},
+         *         {}
+         *     ]
+         * });
+         * getApiTokensResults.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
+         * ```
+         * @example With data transformation using combine
+         * ```ts
+         * const getApiTokensCombinedData = qraft.v1Service.getApiTokens.useSuspenseQueries({
+         *     combine: results => results.map(result => result.data),
+         *     queries: [
+         *         {},
+         *         {}
+         *     ]
+         * });
+         * getApiTokensCombinedData.forEach(data => console.log({ data }));
+         * ```
+         */
+        useSuspenseQueries<T extends Array<UseQueryOptionsForUseSuspenseQuery<GetApiTokensSchema, GetApiTokensParameters, GetApiTokensData, GetApiTokensError>>, TCombinedResult = Array<UseSuspenseQueryResult<GetApiTokensData, GetApiTokensError>>>(options: {
+            queries: T;
+            combine?: (results: Array<WithOptional<UseSuspenseQueryResult<GetApiTokensData, GetApiTokensError>, "data">>) => TCombinedResult;
+        }): TCombinedResult;
+        /**/
+        fetchQuery(options: ServiceOperationFetchQueryOptions<GetApiTokensSchema, GetApiTokensData, GetApiTokensParameters, GetApiTokensError> | void): Promise<GetApiTokensData>;
+        /**/
+        prefetchQuery(options: ServiceOperationFetchQueryOptions<GetApiTokensSchema, GetApiTokensData, GetApiTokensParameters, GetApiTokensError> | void): Promise<void>;
+        /**/
+        ensureQueryData(options: ServiceOperationEnsureQueryDataOptions<GetApiTokensSchema, GetApiTokensData, GetApiTokensParameters, GetApiTokensError> | void): Promise<GetApiTokensData>;
+        /**/
+        fetchInfiniteQuery<TPageParam extends GetApiTokensParameters>(options: ServiceOperationFetchInfiniteQueryOptions<GetApiTokensSchema, GetApiTokensData, GetApiTokensParameters, DeepReadonly<TPageParam>, GetApiTokensError> | void): Promise<OperationInfiniteData<GetApiTokensData, GetApiTokensParameters>>;
+        /**/
+        prefetchInfiniteQuery<TPageParam extends GetApiTokensParameters>(options: ServiceOperationFetchInfiniteQueryOptions<GetApiTokensSchema, GetApiTokensData, GetApiTokensParameters, DeepReadonly<TPageParam>, GetApiTokensError> | void): Promise<void>;
+        /**/
+        ensureInfiniteQueryData<TPageParam extends GetApiTokensParameters>(options: ServiceOperationEnsureInfiniteQueryDataOptions<GetApiTokensSchema, GetApiTokensData, GetApiTokensParameters, DeepReadonly<TPageParam>, GetApiTokensError> | void): Promise<OperationInfiniteData<GetApiTokensData, GetApiTokensParameters>>;
+        /**/
+        getQueryData(parameters: ServiceOperationQueryKey<GetApiTokensSchema, GetApiTokensParameters> | (DeepReadonly<GetApiTokensParameters> | void)): GetApiTokensData | undefined;
+        /**/
+        getInfiniteQueryData(parameters: ServiceOperationInfiniteQueryKey<GetApiTokensSchema, GetApiTokensParameters> | (DeepReadonly<GetApiTokensParameters> | void)): OperationInfiniteData<GetApiTokensData, GetApiTokensParameters> | undefined;
+        /**/
+        getQueriesData<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetApiTokensSchema, GetApiTokensData, TInfinite, GetApiTokensParameters, GetApiTokensError> | QueryFiltersByQueryKey<GetApiTokensSchema, GetApiTokensData, TInfinite, GetApiTokensParameters, GetApiTokensError>): TInfinite extends true ? Array<[
+            queryKey: ServiceOperationInfiniteQueryKey<GetApiTokensSchema, GetApiTokensParameters>,
+            data: NoInfer<OperationInfiniteData<GetApiTokensData, GetApiTokensParameters>> | undefined
+        ]> : Array<[
+            queryKey: ServiceOperationQueryKey<GetApiTokensSchema, GetApiTokensParameters>,
+            data: GetApiTokensData | undefined
+        ]>;
+        /**/
+        getQueryState(parameters: ServiceOperationQueryKey<GetApiTokensSchema, GetApiTokensParameters> | (DeepReadonly<GetApiTokensParameters> | void)): QueryState<GetApiTokensData, GetApiTokensError> | undefined;
+        /**/
+        getInfiniteQueryState(parameters: DeepReadonly<GetApiTokensParameters> | ServiceOperationInfiniteQueryKey<GetApiTokensSchema, GetApiTokensParameters> | void): QueryState<OperationInfiniteData<GetApiTokensData, GetApiTokensParameters>, GetApiTokensError> | undefined;
+        /**/
+        setQueryData(parameters: (DeepReadonly<GetApiTokensParameters> | undefined) | ServiceOperationQueryKey<GetApiTokensSchema, GetApiTokensParameters>, updater: Updater<NoInfer<GetApiTokensData> | undefined, NoInfer<DeepReadonly<GetApiTokensData>> | undefined>, options?: SetDataOptions): GetApiTokensData | undefined;
+        /**/
+        setInfiniteQueryData(parameters: (DeepReadonly<GetApiTokensParameters> | undefined) | ServiceOperationInfiniteQueryKey<GetApiTokensSchema, GetApiTokensParameters>, updater: Updater<NoInfer<OperationInfiniteData<GetApiTokensData, GetApiTokensParameters>> | undefined, NoInfer<DeepReadonly<OperationInfiniteData<GetApiTokensData, GetApiTokensParameters>>> | undefined>, options?: SetDataOptions): OperationInfiniteData<GetApiTokensData, GetApiTokensParameters> | undefined;
+        /**/
+        setQueriesData<TInfinite extends boolean = false>(filters: QueryFiltersByParameters<GetApiTokensSchema, GetApiTokensData, TInfinite, GetApiTokensParameters, GetApiTokensError> | QueryFiltersByQueryKey<GetApiTokensSchema, GetApiTokensData, TInfinite, GetApiTokensParameters, GetApiTokensError>, updater: Updater<NoInfer<GetApiTokensData> | undefined, NoInfer<GetApiTokensData> | undefined>, options?: SetDataOptions): Array<GetApiTokensData | undefined>;
+        /**/
+        invalidateQueries<TInfinite extends boolean = false>(filters?: InvalidateQueryFilters<GetApiTokensSchema, GetApiTokensData, TInfinite, GetApiTokensParameters, GetApiTokensError>, options?: InvalidateOptions): Promise<void>;
+        /**/
+        refetchQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetApiTokensSchema, GetApiTokensData, TInfinite, GetApiTokensParameters, GetApiTokensError> | QueryFiltersByQueryKey<GetApiTokensSchema, GetApiTokensData, TInfinite, GetApiTokensParameters, GetApiTokensError>, options?: RefetchOptions): Promise<void>;
+        /**/
+        cancelQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetApiTokensSchema, GetApiTokensData, TInfinite, GetApiTokensParameters, GetApiTokensError> | QueryFiltersByQueryKey<GetApiTokensSchema, GetApiTokensData, TInfinite, GetApiTokensParameters, GetApiTokensError>, options?: CancelOptions): Promise<void>;
+        /**/
+        removeQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetApiTokensSchema, GetApiTokensData, TInfinite, GetApiTokensParameters, GetApiTokensError> | QueryFiltersByQueryKey<GetApiTokensSchema, GetApiTokensData, TInfinite, GetApiTokensParameters, GetApiTokensError>): void;
+        /**/
+        resetQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetApiTokensSchema, GetApiTokensData, TInfinite, GetApiTokensParameters, GetApiTokensError> | QueryFiltersByQueryKey<GetApiTokensSchema, GetApiTokensData, TInfinite, GetApiTokensParameters, GetApiTokensError>, options?: ResetOptions): Promise<void>;
+        /**/
+        isFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetApiTokensSchema, GetApiTokensData, TInfinite, GetApiTokensParameters, GetApiTokensError> | QueryFiltersByQueryKey<GetApiTokensSchema, GetApiTokensData, TInfinite, GetApiTokensParameters, GetApiTokensError>): number;
+        schema: GetApiTokensSchema;
+        types: {
+            parameters: GetApiTokensParameters;
+            data: GetApiTokensData;
+            error: GetApiTokensError;
+        };
+    };
+    deleteApiTokensId: {
+        /**/
+        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: ServiceOperationMutationFnOptions<DeleteApiTokensIdBody, DeleteApiTokensIdParameters, TMeta, TSignal>, client?: (schema: DeleteApiTokensIdSchema, options: ServiceOperationMutationFnOptions<DeleteApiTokensIdBody, DeleteApiTokensIdParameters, TMeta, TSignal>) => Promise<RequestFnResponse<DeleteApiTokensIdData, DeleteApiTokensIdError>>): Promise<RequestFnResponse<DeleteApiTokensIdData, DeleteApiTokensIdError>>;
+        /**/
+        getMutationKey(parameters: DeepReadonly<DeleteApiTokensIdParameters> | void): ServiceOperationMutationKey<DeleteApiTokensIdSchema, DeleteApiTokensIdParameters>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.deleteApiTokensId.useMutation({
+         *     path: {
+         *         id: id
+         *     }
+         * })
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.deleteApiTokensId.useMutation()
+         * mutate({
+         *     body: bodyPayload,
+         *     path: {
+         *         id: id
+         *     }
+         * });
+         * ```
+         */
+        useMutation<TVariables extends DeleteApiTokensIdBody, TContext = unknown>(parameters: DeepReadonly<DeleteApiTokensIdParameters>, options?: ServiceOperationUseMutationOptions<DeleteApiTokensIdSchema, DeleteApiTokensIdData, DeleteApiTokensIdParameters, TVariables, OperationError<DeleteApiTokensIdError>, TContext>): UseMutationResult<DeleteApiTokensIdData, OperationError<DeleteApiTokensIdError>, TVariables | void, TContext>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.deleteApiTokensId.useMutation({
+         *     path: {
+         *         id: id
+         *     }
+         * })
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.deleteApiTokensId.useMutation()
+         * mutate({
+         *     body: bodyPayload,
+         *     path: {
+         *         id: id
+         *     }
+         * });
+         * ```
+         */
+        useMutation<TVariables extends MutationVariables<DeleteApiTokensIdBody, DeleteApiTokensIdParameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<DeleteApiTokensIdSchema, DeleteApiTokensIdData, DeleteApiTokensIdParameters, TVariables, OperationError<DeleteApiTokensIdError>, TContext>): UseMutationResult<DeleteApiTokensIdData, OperationError<DeleteApiTokensIdError>, TVariables, TContext>;
+        /**
+         * Returns the count of currently in-progress mutations.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
+         * @example Check how many mutations are currently in progress for the specified service method.
+         * ```ts
+         * const deleteApiTokensIdTotal = qraft.v1Service.deleteApiTokensId.useIsMutating()
+         * ```
+         * @example Check how many mutations are currently in progress with the specified parameters.
+         * ```ts
+         * const deleteApiTokensIdTotal = qraft.v1Service.deleteApiTokensId.useIsMutating({
+         *     parameters: {
+         *         path: {
+         *             id: id
+         *         }
+         *     }
+         * })
+         * ```
+         */
+        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<DeleteApiTokensIdBody, DeleteApiTokensIdData, DeleteApiTokensIdParameters, OperationError<DeleteApiTokensIdError>, TContext> | MutationFiltersByMutationKey<DeleteApiTokensIdSchema, DeleteApiTokensIdBody, DeleteApiTokensIdData, DeleteApiTokensIdParameters, OperationError<DeleteApiTokensIdError>, TContext>): number;
+        /**
+         * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
+         * @example Get all variables of all running mutations.
+         * ```ts
+         * const deleteApiTokensIdPendingMutationVariables = qraft.v1Service.deleteApiTokensId.useMutationState({
+         *     filters: {
+         *         status: "pending"
+         *     },
+         *     select: mutation => mutation.state.variables
+         * })
+         * ```
+         * @example Get all data for specific mutations via the `parameters`.
+         * ```ts
+         * const deleteApiTokensIdMutationData = qraft.v1Service.deleteApiTokensId.useMutationState({
+         *     filters: {
+         *         parameters: {
+         *             path: {
+         *                 id: id
+         *             }
+         *         }
+         *     },
+         *     select: mutation => mutation.state.data
+         * })
+         * ```
+         */
+        useMutationState<TContext = unknown, TResult = MutationState<DeleteApiTokensIdData, OperationError<DeleteApiTokensIdError>, MutationVariables<DeleteApiTokensIdBody, DeleteApiTokensIdParameters>, TContext>>(options?: {
+            filters?: MutationFiltersByParameters<DeleteApiTokensIdBody, DeleteApiTokensIdData, DeleteApiTokensIdParameters, OperationError<DeleteApiTokensIdError>, TContext> | MutationFiltersByMutationKey<DeleteApiTokensIdSchema, DeleteApiTokensIdBody, DeleteApiTokensIdData, DeleteApiTokensIdParameters, OperationError<DeleteApiTokensIdError>, TContext>;
+            select?: (mutation: Mutation<DeleteApiTokensIdData, OperationError<DeleteApiTokensIdError>, MutationVariables<DeleteApiTokensIdBody, DeleteApiTokensIdParameters>, TContext>) => TResult;
+        }): Array<TResult>;
+        /**/
+        isMutating<TContext>(filters?: MutationFiltersByParameters<DeleteApiTokensIdBody, DeleteApiTokensIdData, DeleteApiTokensIdParameters, OperationError<DeleteApiTokensIdError>, TContext> | MutationFiltersByMutationKey<DeleteApiTokensIdSchema, DeleteApiTokensIdBody, DeleteApiTokensIdData, DeleteApiTokensIdParameters, OperationError<DeleteApiTokensIdError>, TContext>): number;
+        /**
+         * Returns a `MutationCache` object that provides access to mutation cache operations
+         * for the specific endpoint.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/query-client/getMutationCache|`getMutationCache(...)` documentation}
+         *
+         * @example Find a mutation with specific parameters
+         * ```ts
+         * const mutationCache = qraft.v1Service.deleteApiTokensId.getMutationCache();
+         * const mutation = mutationCache.find({
+         *     parameters: {
+         *         path: {
+         *             id: id
+         *         }
+         *     }
+         * });
+         * ```
+         *
+         * @example Find all mutations for the endpoint
+         * ```ts
+         * const mutationCache = qraft.v1Service.deleteApiTokensId.getMutationCache();
+         * const mutations = mutationCache.findAll();
+         * ```
+         */
+        getMutationCache(): Omit<MutationCache, "find" | "findAll"> & {
+            find<TContext = unknown>(filters: MutationFiltersByParameters<DeleteApiTokensIdBody, DeleteApiTokensIdData, DeleteApiTokensIdParameters, OperationError<DeleteApiTokensIdError>, TContext> | MutationFiltersByMutationKey<DeleteApiTokensIdSchema, DeleteApiTokensIdBody, DeleteApiTokensIdData, DeleteApiTokensIdParameters, OperationError<DeleteApiTokensIdError>, TContext>): Mutation<DeleteApiTokensIdData, DeleteApiTokensIdError, MutationVariables<DeleteApiTokensIdBody, DeleteApiTokensIdParameters>, TContext> | undefined;
+            findAll<TContext = unknown>(filters?: MutationFiltersByParameters<DeleteApiTokensIdBody, DeleteApiTokensIdData, DeleteApiTokensIdParameters, OperationError<DeleteApiTokensIdError>, TContext> | MutationFiltersByMutationKey<DeleteApiTokensIdSchema, DeleteApiTokensIdBody, DeleteApiTokensIdData, DeleteApiTokensIdParameters, OperationError<DeleteApiTokensIdError>, TContext>): Array<Mutation<DeleteApiTokensIdData, DeleteApiTokensIdError, MutationVariables<DeleteApiTokensIdBody, DeleteApiTokensIdParameters>, TContext>>;
+        };
+        schema: DeleteApiTokensIdSchema;
+        types: {
+            parameters: DeleteApiTokensIdParameters;
+            data: DeleteApiTokensIdData;
+            error: DeleteApiTokensIdError;
+            body: DeleteApiTokensIdBody;
+        };
+    };
     getAuthLogin: {
         /**/
         <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: QueryFnOptionsByQueryKey<GetAuthLoginSchema, GetAuthLoginParameters, TMeta, TSignal> | (QueryFnOptionsByParameters<GetAuthLoginParameters, TMeta, TSignal> | void), client?: (schema: GetAuthLoginSchema, options: {
@@ -1280,6 +1769,229 @@ export interface V1Service {
             data: PostCliDockerPushData;
             error: PostCliDockerPushError;
             body: PostCliDockerPushBody;
+        };
+    };
+    getCliGithubStatus: {
+        /**/
+        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: QueryFnOptionsByQueryKey<GetCliGithubStatusSchema, GetCliGithubStatusParameters, TMeta, TSignal> | (QueryFnOptionsByParameters<GetCliGithubStatusParameters, TMeta, TSignal> | void), client?: (schema: GetCliGithubStatusSchema, options: {
+            parameters: GetCliGithubStatusParameters;
+            signal?: TSignal;
+            meta?: TMeta;
+        }) => Promise<RequestFnResponse<GetCliGithubStatusData, GetCliGithubStatusError>>): Promise<RequestFnResponse<GetCliGithubStatusData, GetCliGithubStatusError>>;
+        /**/
+        getQueryKey(parameters: DeepReadonly<GetCliGithubStatusParameters> | void): ServiceOperationQueryKey<GetCliGithubStatusSchema, GetCliGithubStatusParameters>;
+        /**
+         * Performs asynchronous data fetching, manages loading states and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
+         * @example Query without parameters
+         * ```ts
+         * const { data, isLoading } = qraft.v1Service.getCliGithubStatus.useQuery()
+         * ```
+         */
+        useQuery<TData = GetCliGithubStatusData>(parameters: ServiceOperationQueryKey<GetCliGithubStatusSchema, GetCliGithubStatusParameters> | (DeepReadonly<GetCliGithubStatusParameters> | void), options?: Omit<UndefinedInitialDataOptions<GetCliGithubStatusData, GetCliGithubStatusError, TData, ServiceOperationQueryKey<GetCliGithubStatusSchema, GetCliGithubStatusParameters>>, "queryKey">): UseQueryResult<TData, OperationError<GetCliGithubStatusError>>;
+        /**
+         * Performs asynchronous data fetching, manages loading states and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
+         * @example Query without parameters
+         * ```ts
+         * const { data, isLoading } = qraft.v1Service.getCliGithubStatus.useQuery()
+         * ```
+         */
+        useQuery<TData = GetCliGithubStatusData>(parameters: ServiceOperationQueryKey<GetCliGithubStatusSchema, GetCliGithubStatusParameters> | (DeepReadonly<GetCliGithubStatusParameters> | void), options: Omit<DefinedInitialDataOptions<GetCliGithubStatusData, GetCliGithubStatusError, TData, ServiceOperationQueryKey<GetCliGithubStatusSchema, GetCliGithubStatusParameters>>, "queryKey">): DefinedUseQueryResult<TData, OperationError<GetCliGithubStatusError>>;
+        /**/
+        getInfiniteQueryKey(parameters: DeepReadonly<GetCliGithubStatusParameters> | void): ServiceOperationInfiniteQueryKey<GetCliGithubStatusSchema, GetCliGithubStatusParameters>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useInfiniteQuery|`useInfiniteQuery(...)` documentation}
+         *
+         * @example Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getCliGithubStatus.useInfiniteQuery({}, {
+         *     initialPageParam: {},
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useInfiniteQuery<TPageParam extends GetCliGithubStatusParameters, TQueryFnData = GetCliGithubStatusData, TData = OperationInfiniteData<TQueryFnData, GetCliGithubStatusParameters>>(parameters: ServiceOperationInfiniteQueryKey<GetCliGithubStatusSchema, GetCliGithubStatusParameters> | (DeepReadonly<GetCliGithubStatusParameters> | void), options: Omit<UndefinedInitialDataInfiniteOptions<TQueryFnData, GetCliGithubStatusError, TData, ServiceOperationInfiniteQueryKey<GetCliGithubStatusSchema, GetCliGithubStatusParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<TQueryFnData, PartialParameters<DeepReadonly<TPageParam>>>): UseInfiniteQueryResult<TData, OperationError<GetCliGithubStatusError>>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useInfiniteQuery|`useInfiniteQuery(...)` documentation}
+         *
+         * @example Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getCliGithubStatus.useInfiniteQuery({}, {
+         *     initialPageParam: {},
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useInfiniteQuery<TPageParam extends GetCliGithubStatusParameters, TQueryFnData = GetCliGithubStatusData, TData = OperationInfiniteData<TQueryFnData, GetCliGithubStatusParameters>>(parameters: ServiceOperationInfiniteQueryKey<GetCliGithubStatusSchema, GetCliGithubStatusParameters> | (DeepReadonly<GetCliGithubStatusParameters> | void), options: Omit<DefinedInitialDataInfiniteOptions<TQueryFnData, GetCliGithubStatusError, TData, ServiceOperationInfiniteQueryKey<GetCliGithubStatusSchema, GetCliGithubStatusParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<GetCliGithubStatusData, PartialParameters<DeepReadonly<TPageParam>>>): DefinedUseInfiniteQueryResult<TData, OperationError<GetCliGithubStatusError>>;
+        /**
+         * Monitors the number of queries currently fetching, matching the provided filters.
+         * Useful for creating loading indicators or performing actions based on active requests.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsFetching|`useIsFetching(...)` documentation}
+         * @example Checks the total number of queries fetching from the specified service method,
+         * both normal and infinite. If no parameters are provided, no filtering is applied.
+         * ```ts
+         * const getCliGithubStatusTotal = qraft.v1Service.getCliGithubStatus.useIsFetching()
+         * ```
+         */
+        useIsFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetCliGithubStatusSchema, GetCliGithubStatusData, TInfinite, GetCliGithubStatusParameters, GetCliGithubStatusError> | QueryFiltersByQueryKey<GetCliGithubStatusSchema, GetCliGithubStatusData, TInfinite, GetCliGithubStatusParameters, GetCliGithubStatusError>): number;
+        /**
+         * Allows you to execute multiple asynchronous data fetching operations concurrently. This is especially useful for managing complex data dependencies in parallel.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
+         * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
+         * ```ts
+         * const getCliGithubStatusResults = qraft.v1Service.getCliGithubStatus.useQueries({
+         *     queries: [
+         *         {},
+         *         {}
+         *     ]
+         * });
+         * getCliGithubStatusResults.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
+         * ```
+         * @example Combined results. Only the data will be returned.
+         * ```ts
+         * const getCliGithubStatusCombinedResults = qraft.v1Service.getCliGithubStatus.useQueries({
+         *     combine: results => results.map(result => result.data),
+         *     queries: [
+         *         {},
+         *         {}
+         *     ]
+         * });
+         * getCliGithubStatusCombinedResults.forEach(data => console.log({ data }));
+         * ```
+         */
+        useQueries<T extends Array<UseQueryOptionsForUseQueries<GetCliGithubStatusSchema, GetCliGithubStatusParameters, GetCliGithubStatusData, GetCliGithubStatusError>>, TCombinedResult = Array<UseQueryResult<GetCliGithubStatusData, GetCliGithubStatusError>>>(options: {
+            queries: T;
+            combine?: (results: Array<UseQueryResult<GetCliGithubStatusData, GetCliGithubStatusError>>) => TCombinedResult;
+        }): TCombinedResult;
+        /**
+         * Performs asynchronous data fetching with Suspense support.
+         * Similar to useQuery but integrates with React Suspense for loading states.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
+         * @example Suspense Query without parameters
+         * ```ts
+         * const data = qraft.v1Service.getCliGithubStatus.useSuspenseQuery()
+         * ```
+         */
+        useSuspenseQuery<TData = GetCliGithubStatusData>(parameters: ServiceOperationQueryKey<GetCliGithubStatusSchema, GetCliGithubStatusParameters> | (DeepReadonly<GetCliGithubStatusParameters> | void), options?: Omit<UseSuspenseQueryOptions<GetCliGithubStatusData, GetCliGithubStatusError, TData, ServiceOperationQueryKey<GetCliGithubStatusSchema, GetCliGithubStatusParameters>>, "queryKey">): UseSuspenseQueryResult<TData, OperationError<GetCliGithubStatusError>>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         * It functions similarly to `useInfiniteQuery`, but with added support for React Suspense.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseInfiniteQuery|`useSuspenseInfiniteQuery(...)` documentation}
+         *
+         * @example Suspense Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getCliGithubStatus.useSuspenseInfiniteQuery({}, {
+         *     initialPageParam: {},
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useSuspenseInfiniteQuery<TPageParam extends GetCliGithubStatusParameters, TData = GetCliGithubStatusData>(parameters: ServiceOperationInfiniteQueryKey<GetCliGithubStatusSchema, GetCliGithubStatusParameters> | (DeepReadonly<GetCliGithubStatusParameters> | void), options: Omit<UseSuspenseInfiniteQueryOptions<GetCliGithubStatusData, GetCliGithubStatusError, OperationInfiniteData<TData, GetCliGithubStatusParameters>, ServiceOperationInfiniteQueryKey<GetCliGithubStatusSchema, GetCliGithubStatusParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<GetCliGithubStatusData, PartialParameters<DeepReadonly<TPageParam>>>): UseSuspenseInfiniteQueryResult<OperationInfiniteData<TData, GetCliGithubStatusParameters>, OperationError<GetCliGithubStatusError>>;
+        /**
+         * Allows you to execute multiple asynchronous data fetching operations concurrently with Suspense support.
+         * Similar to useQueries but integrates with React Suspense for loading states.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
+         * @example Basic usage with Suspense
+         * ```ts
+         * const getCliGithubStatusData = qraft.v1Service.getCliGithubStatus.useSuspenseQueries({
+         *     queries: [
+         *         {},
+         *         {}
+         *     ]
+         * });
+         * getCliGithubStatusResults.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
+         * ```
+         * @example With data transformation using combine
+         * ```ts
+         * const getCliGithubStatusCombinedData = qraft.v1Service.getCliGithubStatus.useSuspenseQueries({
+         *     combine: results => results.map(result => result.data),
+         *     queries: [
+         *         {},
+         *         {}
+         *     ]
+         * });
+         * getCliGithubStatusCombinedData.forEach(data => console.log({ data }));
+         * ```
+         */
+        useSuspenseQueries<T extends Array<UseQueryOptionsForUseSuspenseQuery<GetCliGithubStatusSchema, GetCliGithubStatusParameters, GetCliGithubStatusData, GetCliGithubStatusError>>, TCombinedResult = Array<UseSuspenseQueryResult<GetCliGithubStatusData, GetCliGithubStatusError>>>(options: {
+            queries: T;
+            combine?: (results: Array<WithOptional<UseSuspenseQueryResult<GetCliGithubStatusData, GetCliGithubStatusError>, "data">>) => TCombinedResult;
+        }): TCombinedResult;
+        /**/
+        fetchQuery(options: ServiceOperationFetchQueryOptions<GetCliGithubStatusSchema, GetCliGithubStatusData, GetCliGithubStatusParameters, GetCliGithubStatusError> | void): Promise<GetCliGithubStatusData>;
+        /**/
+        prefetchQuery(options: ServiceOperationFetchQueryOptions<GetCliGithubStatusSchema, GetCliGithubStatusData, GetCliGithubStatusParameters, GetCliGithubStatusError> | void): Promise<void>;
+        /**/
+        ensureQueryData(options: ServiceOperationEnsureQueryDataOptions<GetCliGithubStatusSchema, GetCliGithubStatusData, GetCliGithubStatusParameters, GetCliGithubStatusError> | void): Promise<GetCliGithubStatusData>;
+        /**/
+        fetchInfiniteQuery<TPageParam extends GetCliGithubStatusParameters>(options: ServiceOperationFetchInfiniteQueryOptions<GetCliGithubStatusSchema, GetCliGithubStatusData, GetCliGithubStatusParameters, DeepReadonly<TPageParam>, GetCliGithubStatusError> | void): Promise<OperationInfiniteData<GetCliGithubStatusData, GetCliGithubStatusParameters>>;
+        /**/
+        prefetchInfiniteQuery<TPageParam extends GetCliGithubStatusParameters>(options: ServiceOperationFetchInfiniteQueryOptions<GetCliGithubStatusSchema, GetCliGithubStatusData, GetCliGithubStatusParameters, DeepReadonly<TPageParam>, GetCliGithubStatusError> | void): Promise<void>;
+        /**/
+        ensureInfiniteQueryData<TPageParam extends GetCliGithubStatusParameters>(options: ServiceOperationEnsureInfiniteQueryDataOptions<GetCliGithubStatusSchema, GetCliGithubStatusData, GetCliGithubStatusParameters, DeepReadonly<TPageParam>, GetCliGithubStatusError> | void): Promise<OperationInfiniteData<GetCliGithubStatusData, GetCliGithubStatusParameters>>;
+        /**/
+        getQueryData(parameters: ServiceOperationQueryKey<GetCliGithubStatusSchema, GetCliGithubStatusParameters> | (DeepReadonly<GetCliGithubStatusParameters> | void)): GetCliGithubStatusData | undefined;
+        /**/
+        getInfiniteQueryData(parameters: ServiceOperationInfiniteQueryKey<GetCliGithubStatusSchema, GetCliGithubStatusParameters> | (DeepReadonly<GetCliGithubStatusParameters> | void)): OperationInfiniteData<GetCliGithubStatusData, GetCliGithubStatusParameters> | undefined;
+        /**/
+        getQueriesData<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetCliGithubStatusSchema, GetCliGithubStatusData, TInfinite, GetCliGithubStatusParameters, GetCliGithubStatusError> | QueryFiltersByQueryKey<GetCliGithubStatusSchema, GetCliGithubStatusData, TInfinite, GetCliGithubStatusParameters, GetCliGithubStatusError>): TInfinite extends true ? Array<[
+            queryKey: ServiceOperationInfiniteQueryKey<GetCliGithubStatusSchema, GetCliGithubStatusParameters>,
+            data: NoInfer<OperationInfiniteData<GetCliGithubStatusData, GetCliGithubStatusParameters>> | undefined
+        ]> : Array<[
+            queryKey: ServiceOperationQueryKey<GetCliGithubStatusSchema, GetCliGithubStatusParameters>,
+            data: GetCliGithubStatusData | undefined
+        ]>;
+        /**/
+        getQueryState(parameters: ServiceOperationQueryKey<GetCliGithubStatusSchema, GetCliGithubStatusParameters> | (DeepReadonly<GetCliGithubStatusParameters> | void)): QueryState<GetCliGithubStatusData, GetCliGithubStatusError> | undefined;
+        /**/
+        getInfiniteQueryState(parameters: DeepReadonly<GetCliGithubStatusParameters> | ServiceOperationInfiniteQueryKey<GetCliGithubStatusSchema, GetCliGithubStatusParameters> | void): QueryState<OperationInfiniteData<GetCliGithubStatusData, GetCliGithubStatusParameters>, GetCliGithubStatusError> | undefined;
+        /**/
+        setQueryData(parameters: (DeepReadonly<GetCliGithubStatusParameters> | undefined) | ServiceOperationQueryKey<GetCliGithubStatusSchema, GetCliGithubStatusParameters>, updater: Updater<NoInfer<GetCliGithubStatusData> | undefined, NoInfer<DeepReadonly<GetCliGithubStatusData>> | undefined>, options?: SetDataOptions): GetCliGithubStatusData | undefined;
+        /**/
+        setInfiniteQueryData(parameters: (DeepReadonly<GetCliGithubStatusParameters> | undefined) | ServiceOperationInfiniteQueryKey<GetCliGithubStatusSchema, GetCliGithubStatusParameters>, updater: Updater<NoInfer<OperationInfiniteData<GetCliGithubStatusData, GetCliGithubStatusParameters>> | undefined, NoInfer<DeepReadonly<OperationInfiniteData<GetCliGithubStatusData, GetCliGithubStatusParameters>>> | undefined>, options?: SetDataOptions): OperationInfiniteData<GetCliGithubStatusData, GetCliGithubStatusParameters> | undefined;
+        /**/
+        setQueriesData<TInfinite extends boolean = false>(filters: QueryFiltersByParameters<GetCliGithubStatusSchema, GetCliGithubStatusData, TInfinite, GetCliGithubStatusParameters, GetCliGithubStatusError> | QueryFiltersByQueryKey<GetCliGithubStatusSchema, GetCliGithubStatusData, TInfinite, GetCliGithubStatusParameters, GetCliGithubStatusError>, updater: Updater<NoInfer<GetCliGithubStatusData> | undefined, NoInfer<GetCliGithubStatusData> | undefined>, options?: SetDataOptions): Array<GetCliGithubStatusData | undefined>;
+        /**/
+        invalidateQueries<TInfinite extends boolean = false>(filters?: InvalidateQueryFilters<GetCliGithubStatusSchema, GetCliGithubStatusData, TInfinite, GetCliGithubStatusParameters, GetCliGithubStatusError>, options?: InvalidateOptions): Promise<void>;
+        /**/
+        refetchQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetCliGithubStatusSchema, GetCliGithubStatusData, TInfinite, GetCliGithubStatusParameters, GetCliGithubStatusError> | QueryFiltersByQueryKey<GetCliGithubStatusSchema, GetCliGithubStatusData, TInfinite, GetCliGithubStatusParameters, GetCliGithubStatusError>, options?: RefetchOptions): Promise<void>;
+        /**/
+        cancelQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetCliGithubStatusSchema, GetCliGithubStatusData, TInfinite, GetCliGithubStatusParameters, GetCliGithubStatusError> | QueryFiltersByQueryKey<GetCliGithubStatusSchema, GetCliGithubStatusData, TInfinite, GetCliGithubStatusParameters, GetCliGithubStatusError>, options?: CancelOptions): Promise<void>;
+        /**/
+        removeQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetCliGithubStatusSchema, GetCliGithubStatusData, TInfinite, GetCliGithubStatusParameters, GetCliGithubStatusError> | QueryFiltersByQueryKey<GetCliGithubStatusSchema, GetCliGithubStatusData, TInfinite, GetCliGithubStatusParameters, GetCliGithubStatusError>): void;
+        /**/
+        resetQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetCliGithubStatusSchema, GetCliGithubStatusData, TInfinite, GetCliGithubStatusParameters, GetCliGithubStatusError> | QueryFiltersByQueryKey<GetCliGithubStatusSchema, GetCliGithubStatusData, TInfinite, GetCliGithubStatusParameters, GetCliGithubStatusError>, options?: ResetOptions): Promise<void>;
+        /**/
+        isFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetCliGithubStatusSchema, GetCliGithubStatusData, TInfinite, GetCliGithubStatusParameters, GetCliGithubStatusError> | QueryFiltersByQueryKey<GetCliGithubStatusSchema, GetCliGithubStatusData, TInfinite, GetCliGithubStatusParameters, GetCliGithubStatusError>): number;
+        schema: GetCliGithubStatusSchema;
+        types: {
+            parameters: GetCliGithubStatusParameters;
+            data: GetCliGithubStatusData;
+            error: GetCliGithubStatusError;
         };
     };
     getCliRepos: {
@@ -14389,6 +15101,34 @@ export interface V1Service {
         };
     };
 }
+export const postApiTokens = {
+    schema: {
+        method: "post",
+        url: "/v1/api-tokens",
+        mediaType: ["application/json"]
+    }
+} as {
+    schema: PostApiTokensSchema;
+    [QraftServiceOperationsToken]: V1Service["postApiTokens"];
+};
+export const getApiTokens = {
+    schema: {
+        method: "get",
+        url: "/v1/api-tokens"
+    }
+} as {
+    schema: GetApiTokensSchema;
+    [QraftServiceOperationsToken]: V1Service["getApiTokens"];
+};
+export const deleteApiTokensId = {
+    schema: {
+        method: "delete",
+        url: "/v1/api-tokens/{id}"
+    }
+} as {
+    schema: DeleteApiTokensIdSchema;
+    [QraftServiceOperationsToken]: V1Service["deleteApiTokensId"];
+};
 export const getAuthLogin = {
     schema: {
         method: "get",
@@ -14442,6 +15182,15 @@ export const postCliDockerPush = {
 } as {
     schema: PostCliDockerPushSchema;
     [QraftServiceOperationsToken]: V1Service["postCliDockerPush"];
+};
+export const getCliGithubStatus = {
+    schema: {
+        method: "get",
+        url: "/v1/cli/github/status"
+    }
+} as {
+    schema: GetCliGithubStatusSchema;
+    [QraftServiceOperationsToken]: V1Service["getCliGithubStatus"];
 };
 export const getCliRepos = {
     schema: {
@@ -15052,12 +15801,16 @@ export const getUsers = {
     [QraftServiceOperationsToken]: V1Service["getUsers"];
 };
 export const v1Service = {
+    postApiTokens,
+    getApiTokens,
+    deleteApiTokensId,
     getAuthLogin,
     getAuthCloseWindowMessage,
     getAuthLogout,
     getAuthWhoami,
     getAuthMe,
     postCliDockerPush,
+    getCliGithubStatus,
     getCliRepos,
     postCliRepos,
     postCliProjectsProjectIdDeployments,
@@ -15124,6 +15877,36 @@ export const v1Service = {
     getStripeInvoices,
     getUsers
 } as const;
+type PostApiTokensSchema = {
+    method: "post";
+    url: "/v1/api-tokens";
+    mediaType: [
+        "application/json"
+    ];
+};
+type PostApiTokensParameters = {
+    query?: never;
+    header?: never;
+    path?: never;
+};
+type PostApiTokensData = paths["/v1/api-tokens"]["post"]["responses"]["200"]["content"]["application/json"];
+type PostApiTokensError = unknown;
+type PostApiTokensBody = paths["/v1/api-tokens"]["post"]["requestBody"]["content"]["application/json"];
+type GetApiTokensSchema = {
+    method: "get";
+    url: "/v1/api-tokens";
+};
+type GetApiTokensParameters = undefined;
+type GetApiTokensData = paths["/v1/api-tokens"]["get"]["responses"]["200"]["content"]["application/json"];
+type GetApiTokensError = unknown;
+type DeleteApiTokensIdSchema = {
+    method: "delete";
+    url: "/v1/api-tokens/{id}";
+};
+type DeleteApiTokensIdParameters = paths["/v1/api-tokens/{id}"]["delete"]["parameters"];
+type DeleteApiTokensIdData = null;
+type DeleteApiTokensIdError = unknown;
+type DeleteApiTokensIdBody = undefined;
 type GetAuthLoginSchema = {
     method: "get";
     url: "/v1/auth/login";
@@ -15167,6 +15950,13 @@ type PostCliDockerPushParameters = paths["/v1/cli/docker/push"]["post"]["paramet
 type PostCliDockerPushData = null;
 type PostCliDockerPushError = unknown;
 type PostCliDockerPushBody = undefined;
+type GetCliGithubStatusSchema = {
+    method: "get";
+    url: "/v1/cli/github/status";
+};
+type GetCliGithubStatusParameters = undefined;
+type GetCliGithubStatusData = null;
+type GetCliGithubStatusError = unknown;
 type GetCliReposSchema = {
     method: "get";
     url: "/v1/cli/repos";

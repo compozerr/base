@@ -4,6 +4,99 @@
  */
 
 export type paths = {
+    "/v1/api-tokens": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Auth.Endpoints.ApiTokens.ListApiTokensResponse"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["Auth.Endpoints.ApiTokens.CreateApiTokenRequest"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Auth.Endpoints.ApiTokens.CreateApiTokenResponse"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/api-tokens/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description No Content */
+                204: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/auth/login": {
         parameters: {
             query?: never;
@@ -204,6 +297,39 @@ export type paths = {
                 };
             };
         };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/cli/github/status": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -2649,9 +2775,17 @@ export type components = {
             allowedSystemTypes: string[] | null;
             environmentFiles: components["schemas"]["Api.Data.EnvironmentFileConfigDto"][] | null;
             defaultSystemType: string | null;
+            startCommand: string | null;
+            defaultServices: components["schemas"]["Api.Data.ServiceConfigDto"][] | null;
         };
         /** @enum {string} */
         "Api.Data.Protocol": "Http" | "Tcp";
+        "Api.Data.ServiceConfigDto": {
+            name: string | null;
+            /** Format: int32 */
+            port: number;
+            protocol: string | null;
+        };
         /** @enum {string} */
         "Api.Data.SystemType": "Unknown" | "Frontend" | "Backend" | "General";
         "Api.Endpoints.Projects.Deployments.GetDeploymentResponse": {
@@ -2845,6 +2979,35 @@ export type components = {
         "Auth.Abstractions.UserId": string;
         /** Format: uuid */
         "Auth.Abstractions.UserLoginId": string;
+        "Auth.Endpoints.ApiTokens.ApiTokenListItem": {
+            id: string | null;
+            name: string | null;
+            tokenPrefix: string | null;
+            /** Format: date-time */
+            expiresAtUtc: string | null;
+            /** Format: date-time */
+            lastUsedAtUtc: string | null;
+            /** Format: date-time */
+            createdAtUtc: string;
+        };
+        "Auth.Endpoints.ApiTokens.CreateApiTokenRequest": {
+            name: string | null;
+            /** Format: date-time */
+            expiresAtUtc: string | null;
+        };
+        "Auth.Endpoints.ApiTokens.CreateApiTokenResponse": {
+            id: string | null;
+            name: string | null;
+            rawToken: string | null;
+            tokenPrefix: string | null;
+            /** Format: date-time */
+            expiresAtUtc: string | null;
+            /** Format: date-time */
+            createdAtUtc: string;
+        };
+        "Auth.Endpoints.ApiTokens.ListApiTokensResponse": {
+            tokens: components["schemas"]["Auth.Endpoints.ApiTokens.ApiTokenListItem"][] | null;
+        };
         "Auth.Endpoints.Auth.MeResponse": {
             /** Format: uuid */
             id: string;
