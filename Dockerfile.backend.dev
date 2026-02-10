@@ -18,4 +18,4 @@ RUN dotnet restore
 EXPOSE 5000
 
 # Run dotnet watch for hot reload with debugging enabled
-CMD ["dotnet", "watch", "run", "--project", "Api", "--urls", "http://0.0.0.0:5000"]
+CMD ["dotnet", "watch", "run", "--project", "Api", "--no-launch-profile", "--urls", "http://0.0.0.0:5000"]
