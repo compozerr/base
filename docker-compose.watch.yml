@@ -26,6 +26,10 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.backend.dev
+    depends_on:
+      - db
+      - minio
+      - openTelemetry
     ports:
       - "1235:5000"
     env_file:
