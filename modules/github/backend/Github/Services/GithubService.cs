@@ -444,18 +444,22 @@ public sealed class GithubService(
                 if (clientResponse is null)
                     continue;
 
-                var repos = await clientResponse.InstallationClient
-                    .GitHubApps.Installation.GetAllRepositoriesForCurrent();
+                // Use direct repo access check instead of listing all repos
+                // This avoids pagination issues when the user has many repos
+                var repo = await clientResponse.InstallationClient
+                    .Repository.Get(owner, repoName);
 
-                var hasRepo = repos.Repositories.Any(r =>
-                    r.Owner.Login.Equals(owner, StringComparison.OrdinalIgnoreCase) &&
-                    r.Name.Equals(repoName, StringComparison.OrdinalIgnoreCase));
-
-                if (hasRepo)
+                if (repo is not null)
                     return true;
             }
-            catch
+            catch (NotFoundException)
             {
+                // This installation doesn't have access to this repo, try next
+                continue;
+            }
+            catch (Exception ex)
+            {
+                Log.Warning(ex, "Failed to check repo access for installation {InstallationId}", installation.InstallationId);
                 continue;
             }
         }
