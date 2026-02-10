@@ -3,6 +3,7 @@ using Api.Endpoints.Projects.Deployments;
 using Api.Endpoints.Projects.Domains;
 using Api.Endpoints.Projects.Project.ChangeTier;
 using Api.Endpoints.Projects.Project.Delete;
+using Api.Endpoints.Projects.Project.ExecuteCommand;
 using Api.Endpoints.Projects.Project.Get;
 using Api.Endpoints.Projects.Project.Start;
 using Api.Endpoints.Projects.Project.Stop;
@@ -26,6 +27,7 @@ public class ProjectsGroup : CarterModule
         app.AddStartProjectRoute();
         app.AddStopProjectRoute();
         app.AddDeleteProjectRoute();
+        app.AddExecuteCommandRoute();
 
         app.AddGetProjectsRoute();
 

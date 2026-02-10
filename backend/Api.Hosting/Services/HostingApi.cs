@@ -248,6 +248,26 @@ public sealed class HostingApi(
         };
     }
 
+    public async Task<CommandExecutionResult> ExecuteCommandAsync(ProjectId projectId, string command)
+    {
+        var response = await HttpClient.PostAsync("/projects/exec", JsonContent.Create(new
+        {
+            projectId = projectId.Value.ToString(),
+            command
+        }));
+
+        if (!response.IsSuccessStatusCode)
+        {
+            var error = await response.Content.ReadAsStringAsync();
+            Log.ForContext("BaseDomain", HttpClient.BaseDomain)
+               .Error("Failed to execute command in project {projectId}: {response}", projectId, error);
+            return new CommandExecutionResult(-1, "", error);
+        }
+
+        var result = await response.Content.ReadFromJsonAsync<CommandExecutionResult>();
+        return result ?? new CommandExecutionResult(-1, "", "Failed to parse response");
+    }
+
     private async Task<string> GetValidatedOAuthTokenAsync(Auth.Abstractions.UserId userId)
     {
         var userLogin = await githubService.GetUserLoginAsync(userId);

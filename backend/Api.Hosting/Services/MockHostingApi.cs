@@ -95,4 +95,10 @@ public sealed class MockHostingApi(IProjectRepository projectRepository) : IHost
         Console.WriteLine($"Updating domains for project: {projectId}");
         return Task.CompletedTask;
     }
+
+    public Task<CommandExecutionResult> ExecuteCommandAsync(ProjectId projectId, string command)
+    {
+        Console.WriteLine($"[MOCK] Executing command in project {projectId}: {command}");
+        return Task.FromResult(new CommandExecutionResult(0, $"Mock output for: {command}", ""));
+    }
 }
