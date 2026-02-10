@@ -2879,6 +2879,8 @@ export type components = {
             serverTierPrice: components["schemas"]["Api.Abstractions.Price"];
             primaryDomain: string | null;
             type: components["schemas"]["Api.Abstractions.ProjectType"];
+            /** Format: uuid */
+            activeDeploymentId: string | null;
         };
         "Api.Endpoints.Projects.ProjectEnvironment.ChangeAutoDeploy.ChangeAutoDeployRequest": {
             autoDeploy: boolean;

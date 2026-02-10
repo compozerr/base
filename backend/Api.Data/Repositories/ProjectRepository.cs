@@ -14,7 +14,7 @@ public interface IProjectRepository : IGenericRepository<Project, ProjectId, Api
     public Task<List<Project>> GetProjectsForUserAsync();
     public Task<Project?> GetProjectByIdWithDomainsAsync(ProjectId projectId);
     public Task SetProjectStateAsync(ProjectId projectId, ProjectState state);
-    public Task<(List<Project> Projects, int TotalCount, int RunningProjectsCount)> GetProjectsForUserPagedAsync(int page, int pageSize, string? search, ProjectStateFilter stateFilter);
+    public Task<(List<Project> Projects, int TotalCount, int RunningProjectsCount, Dictionary<ProjectId, DeploymentId> ActiveDeployments)> GetProjectsForUserPagedAsync(int page, int pageSize, string? search, ProjectStateFilter stateFilter);
 }
 
 public sealed class ProjectRepository(
@@ -59,7 +59,7 @@ public sealed class ProjectRepository(
         await UpdateAsync(project);
     }
 
-    public async Task<(List<Project> Projects, int TotalCount, int RunningProjectsCount)> GetProjectsForUserPagedAsync(int page, int pageSize, string? search, ProjectStateFilter stateFilter)
+    public async Task<(List<Project> Projects, int TotalCount, int RunningProjectsCount, Dictionary<ProjectId, DeploymentId> ActiveDeployments)> GetProjectsForUserPagedAsync(int page, int pageSize, string? search, ProjectStateFilter stateFilter)
     {
         var userId = currentUserAccessor.CurrentUserId!;
         var query = Query()
@@ -82,10 +82,29 @@ public sealed class ProjectRepository(
         var totalCount = await query.CountAsync();
         var runningProjectsCount = await query.CountAsync(x => x.State == ProjectState.Running);
 
-        var projects = await query.OrderByDescending(x => x.UpdatedAtUtc ?? x.CreatedAtUtc)
-                                  .AsPageable(page, pageSize)
-                                  .ToListAsync();
+        // Sort by latest deployment activity, falling back to project update/create date
+        var projects = await query.OrderByDescending(x =>
+                context.Deployments
+                    .Where(d => d.ProjectId == x.Id)
+                    .Max(d => (DateTime?)d.CreatedAtUtc)
+                ?? x.UpdatedAtUtc
+                ?? x.CreatedAtUtc)
+            .AsPageable(page, pageSize)
+            .ToListAsync();
 
-        return (projects, totalCount, runningProjectsCount);
+        // Get active (Deploying) deployments for the returned projects
+        var projectIds = projects.Select(p => p.Id).ToList();
+        var activeDeployments = await context.Deployments
+            .Where(d => projectIds.Contains(d.ProjectId)
+                     && (d.Status == DeploymentStatus.Deploying || d.Status == DeploymentStatus.Queued))
+            .GroupBy(d => d.ProjectId)
+            .Select(g => new
+            {
+                ProjectId = g.Key,
+                DeploymentId = g.OrderByDescending(d => d.CreatedAtUtc).First().Id
+            })
+            .ToDictionaryAsync(x => x.ProjectId, x => x.DeploymentId);
+
+        return (projects, totalCount, runningProjectsCount, activeDeployments);
     }
 }

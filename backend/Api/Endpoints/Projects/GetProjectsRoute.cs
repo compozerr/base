@@ -30,7 +30,7 @@ public static class GetProjectsRoute
         int pageSize = 20)
     {
         var stateFilter = Enum.Parse<ProjectStateFilter>(stateFlags.ToString());
-        var (projects, totalProjectsCount, runningProjectsCount) = await projectRepository.GetProjectsForUserPagedAsync(page, pageSize, search, stateFilter);
+        var (projects, totalProjectsCount, runningProjectsCount, activeDeployments) = await projectRepository.GetProjectsForUserPagedAsync(page, pageSize, search, stateFilter);
 
         List<GetProjectResponse> projectsDto = [.. projects.Select(
             p => new GetProjectResponse(
@@ -42,7 +42,8 @@ public static class GetProjectsRoute
                 p.ServerTierId.Value,
                 null,
                 p.Domains!.FirstOrDefault()?.GetValue ?? "Unknown",
-                p.Type)
+                p.Type,
+                activeDeployments.TryGetValue(p.Id, out var deploymentId) ? deploymentId.Value : null)
             )];
 
         return new(

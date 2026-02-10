@@ -13,4 +13,5 @@ public sealed record GetProjectResponse(
     string ServerTier,
     Price? ServerTierPrice,
     string? PrimaryDomain,
-    ProjectType? Type);
+    ProjectType? Type,
+    Guid? ActiveDeploymentId = null);

@@ -65,6 +65,7 @@ function RouteComponent() {
     }, [search]);
 
     const [filter, setFilter] = useState<ProjectStateFilter>(ProjectStateFilter.All);
+    const [hasActiveDeployments, setHasActiveDeployments] = useState(false);
 
     const { data: allProjectData } = api.v1.getProjects.useQuery({
         query: {
@@ -83,6 +84,7 @@ function RouteComponent() {
             }
         },
         {
+            refetchInterval: hasActiveDeployments ? 10000 : false,
             getNextPageParam: (lastPage) => {
                 // If the current page *is* full, there may be more
                 if (!lastPage) return undefined;
@@ -125,6 +127,10 @@ function RouteComponent() {
     const allProjects = useMemo(() => {
         return allPages.flatMap(page => page.projects ?? []);
     }, [allPages]);
+
+    useEffect(() => {
+        setHasActiveDeployments(allProjects.some(p => p.activeDeploymentId));
+    }, [allProjects]);
 
     const filteredTotalProjectsCount = useMemo(() => allPages[0]?.totalProjectsCount ?? 0, [allPages]);
 
@@ -228,15 +234,40 @@ function RouteComponent() {
                     header: 'Project',
                     cell: ({ row }) => {
                         const isN8n = row.original.type === 'N8n';
+                        const activeDeploymentId = row.original.activeDeploymentId;
                         return <div className="flex items-center gap-2">
                             {isN8n && (
                                 <div className="flex items-center justify-center w-8 h-8 rounded-md bg-primary/10">
                                     <Workflow className="h-4 w-4 text-primary" />
                                 </div>
                             )}
-                            <div>
+                            <div className="flex flex-col gap-1">
                                 <div className="font-medium">{row.original.name}</div>
                                 <div className="text-xs text-muted-foreground">{row.original.repoName}</div>
+                                {activeDeploymentId && (
+                                    <button
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            router.navigate({
+                                                to: '/projects/$projectId/deployments/$deploymentId',
+                                                params: {
+                                                    projectId: row.original.id!,
+                                                    deploymentId: activeDeploymentId,
+                                                },
+                                            });
+                                        }}
+                                        className="group inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-blue-500/10 hover:bg-blue-500/20 transition-colors cursor-pointer w-fit"
+                                        title="View active deployment"
+                                    >
+                                        <span className="relative flex h-2 w-2">
+                                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75" />
+                                            <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500" />
+                                        </span>
+                                        <span className="text-[11px] font-medium text-blue-600 dark:text-blue-400 group-hover:text-blue-700 dark:group-hover:text-blue-300 transition-colors">
+                                            Deploying
+                                        </span>
+                                    </button>
+                                )}
                             </div>
                         </div>
                     }
