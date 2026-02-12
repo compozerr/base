@@ -67,104 +67,115 @@ public sealed class HostingApi(
         var scopedServiceProvider = scope.ServiceProvider;
         var mediator = scopedServiceProvider.GetRequiredService<IMediator>();
         var deploymentId = deployment.Id;
-
-        // Get access token - prefer installation token (auto-refreshes, more reliable)
-        string accessToken;
-        if (deployment.Project?.GithubInstallationId is { } installationId)
-        {
-            var installationClient = await githubService
-                .GetInstallationClientByInstallationIdAsync(installationId.ToString());
-
-            if (installationClient is null)
-            {
-                Log.Warning("Failed to get installation client for installation {InstallationId}, falling back to OAuth token",
-                    installationId);
-                accessToken = await GetValidatedOAuthTokenAsync(deployment.UserId);
-            }
-            else
-            {
-                accessToken = installationClient.InstallationToken;
-                Log.Information("Using GitHub App installation token for deployment (installation: {InstallationId})",
-                    installationId);
-            }
-        }
-        else
-        {
-            // Fallback to OAuth token for projects without installation ID
-            accessToken = await GetValidatedOAuthTokenAsync(deployment.UserId);
-        }
-
-        if (deployment?.Project?.RepoUri is null)
-        {
-            Log.ForContext("BaseDomain", HttpClient.BaseDomain)
-               .ForContext(nameof(deployment.Project), deployment?.Project)
-               .Error("Deployment failed: RepoUri is null");
-
-            throw new Exception("RepoUri is null");
-        }
-
-        var repoName = RepoUri.Parse(deployment.Project.RepoUri).RepoName;
-        var commitHash = deployment.CommitHash;
-        var projectId = deployment.ProjectId;
-
-        var loggerWithContext = Log.ForContext("BaseDomain", HttpClient.BaseDomain)
-                                   .ForContext(nameof(repoName), repoName)
-                                   .ForContext(nameof(commitHash), commitHash)
-                                   .ForContext(nameof(projectId), projectId);
-
-
-        loggerWithContext.ForContext("OperationId", Guid.NewGuid())
-                         .ForContext("Timestamp", DateTime.UtcNow)
-                         .Information("Sending deploy command to server");
-
         var deploymentStatus = DeploymentStatus.Deploying;
-        var timeout = TimeSpan.FromMinutes(45);
-        var cts = new CancellationTokenSource(timeout);
-
-        HttpClient.SetRequestTimeout(timeout.Add(TimeSpan.FromSeconds(10)));
 
         try
         {
-            var deployResponse = await HttpClient.PostAsync("/projects/deploy", JsonContent.Create(new
+            // Get access token - prefer installation token (auto-refreshes, more reliable)
+            string accessToken;
+            if (deployment.Project?.GithubInstallationId is { } installationId)
             {
-                projectId = projectId.Value.ToString(),
-                accessToken,
-                repoName,
-                commitHash,
-                deploymentId = deployment.Id.Value.ToString(),
-                serverTier = ServerTiers.GetById(deployment.Project.ServerTierId)
-            }), cts.Token);
+                var installationClient = await githubService
+                    .GetInstallationClientByInstallationIdAsync(installationId.ToString());
 
-            if (!deployResponse.IsSuccessStatusCode)
+                if (installationClient is null)
+                {
+                    Log.Warning(
+                        "Failed to get installation client for installation {InstallationId}, falling back to OAuth token",
+                        installationId);
+                    accessToken = await GetValidatedOAuthTokenAsync(deployment.UserId);
+                }
+                else
+                {
+                    accessToken = installationClient.InstallationToken;
+                    Log.Information(
+                        "Using GitHub App installation token for deployment (installation: {InstallationId})",
+                        installationId);
+                }
+            }
+            else
             {
-                loggerWithContext.Error("Deployment failed: {response}", await deployResponse.Content.ReadAsStringAsync(cts.Token));
+                // Fallback to OAuth token for projects without installation ID
+                accessToken = await GetValidatedOAuthTokenAsync(deployment.UserId);
+            }
+
+            if (deployment?.Project?.RepoUri is null)
+            {
+                Log.ForContext("BaseDomain", HttpClient.BaseDomain)
+                    .ForContext(nameof(deployment.Project), deployment?.Project)
+                    .Error("Deployment failed: RepoUri is null");
+
+                throw new Exception("RepoUri is null");
+            }
+
+            var repoName = RepoUri.Parse(deployment.Project.RepoUri).RepoName;
+            var commitHash = deployment.CommitHash;
+            var projectId = deployment.ProjectId;
+
+            var loggerWithContext = Log.ForContext("BaseDomain", HttpClient.BaseDomain)
+                .ForContext(nameof(repoName), repoName)
+                .ForContext(nameof(commitHash), commitHash)
+                .ForContext(nameof(projectId), projectId);
+
+            loggerWithContext.ForContext("OperationId", Guid.NewGuid())
+                .ForContext("Timestamp", DateTime.UtcNow)
+                .Information("Sending deploy command to server");
+
+            var timeout = TimeSpan.FromMinutes(45);
+            var cts = new CancellationTokenSource(timeout);
+
+            HttpClient.SetRequestTimeout(timeout.Add(TimeSpan.FromSeconds(10)));
+
+            try
+            {
+                var deployResponse = await HttpClient.PostAsync("/projects/deploy", JsonContent.Create(new
+                {
+                    projectId = projectId.Value.ToString(),
+                    accessToken,
+                    repoName,
+                    commitHash,
+                    deploymentId = deployment.Id.Value.ToString(),
+                    serverTier = ServerTiers.GetById(deployment.Project.ServerTierId)
+                }), cts.Token);
+
+                if (!deployResponse.IsSuccessStatusCode)
+                {
+                    loggerWithContext.Error("Deployment failed: {response}",
+                        await deployResponse.Content.ReadAsStringAsync(cts.Token));
+                    deploymentStatus = DeploymentStatus.Failed;
+                }
+            }
+            catch (OperationCanceledException ex) when (cts.Token.IsCancellationRequested)
+            {
+                loggerWithContext.ForContext("cancellationReason", ex)
+                    .Error("Deployment was cancelled due to something else");
                 deploymentStatus = DeploymentStatus.Failed;
             }
-        }
-        catch (OperationCanceledException ex) when (cts.Token.IsCancellationRequested)
-        {
-            loggerWithContext.ForContext("cancellationReason", ex)
-                             .Error("Deployment was cancelled due to something else");
-            deploymentStatus = DeploymentStatus.Failed;
-        }
-        catch (OperationCanceledException ex)
-        {
-            loggerWithContext.ForContext("cancellationReason", ex)
-                             .Error("Deployment timed out after {timeout} minutes", timeout.TotalMinutes);
-
-            deploymentStatus = DeploymentStatus.Failed;
+            catch (OperationCanceledException ex)
+            {
+                loggerWithContext.ForContext("cancellationReason", ex)
+                    .Error("Deployment timed out after {timeout} minutes", timeout.TotalMinutes);
+                deploymentStatus = DeploymentStatus.Failed;
+            }
+            catch (Exception ex)
+            {
+                loggerWithContext.Error(ex, "Deployment failed");
+                deploymentStatus = DeploymentStatus.Failed;
+            }
+            finally
+            {
+                cts.Dispose();
+            }
         }
         catch (Exception ex)
         {
-            loggerWithContext.Error(ex, "Deployment failed");
+            Log.ForContext("DeploymentId", deploymentId.Value)
+                .Error(ex, "Deployment failed before reaching hosting manager");
             deploymentStatus = DeploymentStatus.Failed;
         }
-        finally
-        {
-            cts.Dispose();
-        }
 
-        loggerWithContext.Information("Deployment status: {status}", deploymentStatus);
+        Log.ForContext("DeploymentId", deploymentId.Value)
+            .Information("Deployment status: {status}", deploymentStatus);
 
         await mediator.Send(
             new ChangeDeploymentStatusCommand(
