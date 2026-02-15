@@ -4,3 +4,7 @@ services:
     ports:
       - "18888:18888"
       - "18889:18889"
+    deploy:
+      resources:
+        limits:
+          memory: 256M

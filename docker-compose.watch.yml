@@ -28,8 +28,6 @@ services:
       dockerfile: Dockerfile.backend.dev
     depends_on:
       - db
-      - minio
-      - openTelemetry
     ports:
       - "1235:5000"
     env_file:
@@ -38,10 +36,11 @@ services:
       - DOTNET_WATCH_RESTART_ON_RUDE_EDIT=1
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__DefaultConnection=Host=db;Database=myapp;Username=postgres;Password=019661c0-7b26-76de-9dfc-c4ce956cdca0
-      - Minio__Endpoint=minio:9000
-      - OtelExporterOtlpEndpoint=http://openTelemetry:18889
+      - STORAGE__PROVIDER=filesystem
+      - STORAGE__BASE_PATH=/app/storage-data
     volumes:
       - ./.resights-documents:/app/resights-documents
+      - storage_data:/app/storage-data
     develop:
       watch:
         - action: sync

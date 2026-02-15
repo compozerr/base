@@ -1,4 +1,4 @@
-﻿using Core.Extensions;
+using Core.Extensions;
 using Core.Feature;
 using Core.Helpers;
 using Microsoft.AspNetCore.Builder;
@@ -15,7 +15,9 @@ namespace OpenTelemetryModule;
 public class OpenTelemetryFeature : IFeature
 {
     private const string serviceName = "base";
-    
+
+    public bool IsEnabled => Environment.GetEnvironmentVariable("OTEL_ENABLED") == "true";
+
     void IFeature.ConfigureServices(IServiceCollection services, IConfiguration configuration)
     {
         services.AddOpenTelemetry()
@@ -45,5 +47,4 @@ public class OpenTelemetryFeature : IFeature
                 .AddConsoleExporter();
         });
     }
-
 }
