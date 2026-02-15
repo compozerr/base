@@ -2,46 +2,30 @@ import { themes as prismThemes } from 'prism-react-renderer';
 import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
-// This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
-
 const config: Config = {
-  title: 'My Site',
-  tagline: 'Dinosaurs are cool',
+  title: 'Compozerr',
+  tagline: 'Deploy anything. From code to cloud in one command.',
   favicon: 'img/favicon.ico',
-
-  // Set the production url of your site here
-  url: 'https://your-docusaurus-site.example.com',
-  // Set the /<baseUrl>/ pathname under which your site is served
-  // For GitHub pages deployment, it is often '/<projectName>/'
+  url: 'https://docs.compozerr.com',
   baseUrl: '/',
-
-  // GitHub pages deployment config.
-  // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'compozerr', // Usually your GitHub org/user name.
-  projectName: 'compozerr', // Usually your repo name.
-
+  organizationName: 'compozerr',
+  projectName: 'compozerr',
   onBrokenLinks: 'throw',
-  
-  markdown:{
-    hooks:{
+  markdown: {
+    hooks: {
       onBrokenMarkdownLinks: 'warn',
-    }
+    },
   },
-
-  // Even if you don't use internationalization, you can use this field to set
-  // useful metadata like html lang. For example, if your site is Chinese, you
-  // may want to replace "en" with "zh-Hans".
   i18n: {
     defaultLocale: 'en',
     locales: ['en'],
   },
-
   presets: [
     [
       'classic',
       {
         docs: {
-          routeBasePath: "/",
+          routeBasePath: '/',
           sidebarPath: './sidebars.ts',
         },
         blog: false,
@@ -51,41 +35,65 @@ const config: Config = {
       } satisfies Preset.Options,
     ],
   ],
-
   themeConfig: {
-    // algolia: {
-    //   apiKey: 'YOUR_ALGOLIA_API_KEY',
-    //   indexName: 'YOUR_INDEX_NAME',
-    //   appId: 'YOUR_APP_ID',
-    //   contextualSearch: true,
-    // },
     colorMode: {
       disableSwitch: true,
-      defaultMode: "dark",
+      defaultMode: 'dark',
       respectPrefersColorScheme: false,
     },
     navbar: {
       title: 'compozerr',
-      style: "dark",
+      style: 'dark',
+      items: [
+        {
+          type: 'docSidebar',
+          sidebarId: 'mainSidebar',
+          position: 'left',
+          label: 'Docs',
+        },
+        {
+          href: 'https://github.com/compozerr',
+          label: 'GitHub',
+          position: 'right',
+        },
+        {
+          href: 'https://compozerr.com',
+          label: 'Dashboard',
+          position: 'right',
+        },
+      ],
     },
     footer: {
       style: 'dark',
       links: [
         {
-          title: 'Docs',
+          title: 'Learn',
           items: [
-            {
-              label: 'Get started',
-              to: '/',
-            },
+            { label: 'Getting Started', to: '/getting-started/installation' },
+            { label: 'Tutorials', to: '/tutorials/deploy-docker-compose' },
+          ],
+        },
+        {
+          title: 'Reference',
+          items: [
+            { label: 'CLI Commands', to: '/reference/cli/deploy' },
+            { label: 'Configuration', to: '/reference/configuration/compozerr-json' },
+          ],
+        },
+        {
+          title: 'More',
+          items: [
+            { label: 'GitHub', href: 'https://github.com/compozerr' },
+            { label: 'Dashboard', href: 'https://compozerr.com' },
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} compozerr`,
+      copyright: `Copyright \u00a9 ${new Date().getFullYear()} Compozerr`,
     },
     prism: {
       theme: prismThemes.github,
       darkTheme: prismThemes.dracula,
+      additionalLanguages: ['bash', 'json', 'csharp', 'docker', 'yaml', 'nginx'],
     },
   } satisfies Preset.ThemeConfig,
 };

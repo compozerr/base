@@ -1,11 +1,38 @@
 .features {
-  display: flex;
-  align-items: center;
-  padding: 2rem 0;
-  width: 100%;
+  padding: 3rem 0;
 }
 
-.featureSvg {
-  height: 200px;
-  width: 200px;
+.featureCard {
+  padding: 1.5rem;
+  border: 1px solid #1e2230;
+  border-radius: 12px;
+  background: #161921;
+  height: 100%;
+  transition: all 0.2s ease;
+}
+
+.featureCard:hover {
+  border-color: rgba(16, 185, 129, 0.3);
+  background: #1a1e28;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(16, 185, 129, 0.06);
+}
+
+.featureIcon {
+  font-size: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+.featureTitle {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: #e4e7ec;
+}
+
+.featureDescription {
+  font-size: 0.9rem;
+  color: #8b92a5;
+  line-height: 1.6;
+  margin: 0;
 }

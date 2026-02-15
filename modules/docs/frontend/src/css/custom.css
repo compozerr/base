@@ -1,34 +1,280 @@
-/**
- * Any CSS included here will be global. The classic template
- * bundles Infima by default. Infima is a CSS framework designed to
- * work well for content-centric websites.
- */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
-/* You can override the default Infima variables here. */
 :root {
-    --ifm-color-primary: #18181b;
-    --ifm-color-primary-dark: #161618;
-    --ifm-color-primary-darker: #141417;
-    --ifm-color-primary-darkest: #111113;
-    --ifm-color-primary-light: #1a1a1e;
-    --ifm-color-primary-lighter: #1c1c20;
-    --ifm-color-primary-lightest: #1e1e23;
-    --ifm-code-font-size: 95%;
-    --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+  --ifm-color-primary: #10b981;
+  --ifm-color-primary-dark: #0ea472;
+  --ifm-color-primary-darker: #0d9b6c;
+  --ifm-color-primary-darkest: #0b7f59;
+  --ifm-color-primary-light: #34d399;
+  --ifm-color-primary-lighter: #4edaa6;
+  --ifm-color-primary-lightest: #6ee7b7;
+  --ifm-code-font-size: 90%;
+  --ifm-font-family-base: 'DM Sans', system-ui, -apple-system, sans-serif;
+  --ifm-heading-font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --ifm-font-family-monospace: 'JetBrains Mono', 'Fira Code', monospace;
+  --docusaurus-highlighted-code-line-bg: rgba(16, 185, 129, 0.1);
 }
 
-/* For readability concerns, you should choose a lighter palette in dark mode. */
-[data-theme="dark"] {
-    --ifm-color-primary: #acacbb;
-    --ifm-color-primary-dark: #d8d8e0;
-    --ifm-color-primary-darker: #cacad4;
-    --ifm-color-primary-darkest: #adadbb;
-    --ifm-color-primary-light: #f6f6f7;
-    --ifm-color-primary-lighter: #ffffff;
-    --ifm-color-primary-lightest: #ffffff;
-    --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+[data-theme='dark'] {
+  --ifm-background-color: #0f1117;
+  --ifm-background-surface-color: #161921;
+  --ifm-color-primary: #10b981;
+  --ifm-color-primary-dark: #0ea472;
+  --ifm-color-primary-darker: #0d9b6c;
+  --ifm-color-primary-darkest: #0b7f59;
+  --ifm-color-primary-light: #34d399;
+  --ifm-color-primary-lighter: #4edaa6;
+  --ifm-color-primary-lightest: #6ee7b7;
+  --ifm-navbar-background-color: #0f1117;
+  --ifm-footer-background-color: #0a0c10;
+  --ifm-toc-border-color: #2a2e3a;
+  --ifm-color-emphasis-300: #2a2e3a;
+  --ifm-menu-color: #8b92a5;
+  --ifm-menu-color-active: #10b981;
+  --ifm-menu-color-background-active: rgba(16, 185, 129, 0.08);
+  --ifm-font-color-base: #e4e7ec;
+  --ifm-font-color-secondary: #8b92a5;
+  --docusaurus-highlighted-code-line-bg: rgba(16, 185, 129, 0.12);
+  --ifm-code-background: #0d0f14;
+  --ifm-card-background-color: #161921;
+}
+
+/* ===== GLOBAL ===== */
+
+html[data-theme='dark'] {
+  color-scheme: dark;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--ifm-heading-font-family);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+h1 {
+  font-size: 2.25rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
 }
 
 a {
-    font-weight: 600;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+/* ===== NAVBAR ===== */
+
+.navbar {
+  border-bottom: 1px solid #1e2230;
+  backdrop-filter: blur(12px);
+  box-shadow: none;
+}
+
+.navbar__title {
+  font-family: var(--ifm-heading-font-family);
+  font-weight: 800;
+  font-size: 1.15rem;
+  letter-spacing: -0.02em;
+}
+
+.navbar__link {
+  font-weight: 500;
+  font-size: 0.875rem;
+}
+
+/* ===== SIDEBAR ===== */
+
+.menu {
+  padding: 1rem 0.75rem;
+}
+
+.menu__link {
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: 6px;
+  padding: 0.4rem 0.75rem;
+  transition: all 0.15s ease;
+}
+
+.menu__link--active:not(.menu__link--sublist) {
+  background: rgba(16, 185, 129, 0.08);
+  color: #10b981;
+  border-left: 2px solid #10b981;
+  font-weight: 600;
+}
+
+.menu__list-item-collapsible:hover {
+  background: transparent;
+}
+
+.theme-doc-sidebar-menu > .menu__list-item > .menu__link,
+.theme-doc-sidebar-menu > .menu__list-item > .menu__list-item-collapsible > .menu__link {
+  font-weight: 700;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #6b7280;
+  padding-top: 1rem;
+}
+
+/* ===== CODE BLOCKS ===== */
+
+pre {
+  border: 1px solid #1e2230;
+  border-radius: 8px;
+  background: #0d0f14 !important;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+}
+
+code {
+  font-family: var(--ifm-font-family-monospace);
+  font-size: var(--ifm-code-font-size);
+  font-weight: 400;
+  border-radius: 4px;
+  padding: 0.15em 0.4em;
+  border: 1px solid #1e2230;
+  background: #0d0f14;
+}
+
+pre code {
+  border: none;
+  padding: 0;
+  background: transparent;
+}
+
+.prism-code {
+  font-size: 0.85rem;
+  line-height: 1.7;
+}
+
+/* ===== TABLE ===== */
+
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid #1e2230;
+  border-radius: 8px;
+  overflow: hidden;
+  width: 100%;
+}
+
+table th {
+  background: #161921;
+  font-weight: 600;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #8b92a5;
+  border-bottom: 1px solid #1e2230;
+}
+
+table td {
+  border-bottom: 1px solid #1e2230;
+  font-size: 0.9rem;
+}
+
+table tr:last-child td {
+  border-bottom: none;
+}
+
+table tr:hover td {
+  background: rgba(16, 185, 129, 0.03);
+}
+
+/* ===== ADMONITIONS ===== */
+
+.alert {
+  border-radius: 8px;
+  border-left-width: 3px;
+}
+
+/* ===== FOOTER ===== */
+
+.footer {
+  border-top: 1px solid #1e2230;
+}
+
+.footer__title {
+  font-family: var(--ifm-heading-font-family);
+  font-weight: 700;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #6b7280;
+}
+
+.footer__link-item {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #8b92a5;
+}
+
+.footer__link-item:hover {
+  color: #10b981;
+}
+
+/* ===== DOCS PAGE ===== */
+
+.markdown {
+  line-height: 1.75;
+}
+
+.markdown > h2 {
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #1e2230;
+}
+
+.markdown > h3 {
+  margin-top: 1.75rem;
+}
+
+/* ===== PAGINATION ===== */
+
+.pagination-nav__link {
+  border: 1px solid #1e2230;
+  border-radius: 8px;
+  transition: all 0.15s ease;
+}
+
+.pagination-nav__link:hover {
+  border-color: #10b981;
+  background: rgba(16, 185, 129, 0.04);
+}
+
+/* ===== SCROLLBAR ===== */
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2a2e3a;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #3a3f4e;
+}
+
+/* ===== TABLE OF CONTENTS ===== */
+
+.table-of-contents__link {
+  font-size: 0.8rem;
+  color: #6b7280;
+}
+
+.table-of-contents__link--active {
+  color: #10b981;
+  font-weight: 600;
 }

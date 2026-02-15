@@ -1,0 +1,80 @@
+.commandBlock {
+  border: 1px solid #1e2230;
+  border-radius: 8px;
+  background: #0d0f14;
+  margin: 1rem 0;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+}
+
+.commandHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 0.75rem;
+  background: #161921;
+  border-bottom: 1px solid #1e2230;
+}
+
+.dots {
+  display: flex;
+  gap: 6px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #2a2e3a;
+}
+
+.copyButton {
+  font-family: inherit;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #6b7280;
+  background: transparent;
+  border: 1px solid #2a2e3a;
+  border-radius: 4px;
+  padding: 0.2rem 0.5rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.copyButton:hover {
+  color: #10b981;
+  border-color: #10b981;
+}
+
+.commandBody {
+  padding: 1rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  line-height: 1.7;
+}
+
+.commandLine {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.prompt {
+  color: #10b981;
+  user-select: none;
+  font-weight: 600;
+}
+
+.command {
+  color: #e4e7ec;
+}
+
+.output {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid #1e2230;
+}
+
+.outputLine {
+  color: #6b7280;
+  font-size: 0.8rem;
+}
