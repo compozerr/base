@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Storage.Options;
 
-public sealed class MinioOptions
+public sealed class GarageStorageOptions
 {
     [Required]
     public required string Endpoint { get; init; }

@@ -9,7 +9,19 @@ public class StorageFeature : IFeature
 {
     void IFeature.ConfigureServices(IServiceCollection services)
     {
-        services.AddSingleton<IStorageService, StorageService>();
-        services.AddRequiredConfigurationOptions<MinioOptions>("MINIO");
+        var storageProvider = Environment.GetEnvironmentVariable("STORAGE__PROVIDER") ?? "filesystem";
+
+        switch (storageProvider.ToLowerInvariant())
+        {
+            case "garage":
+                services.AddRequiredConfigurationOptions<GarageStorageOptions>("GARAGE");
+                services.AddSingleton<IStorageService, GarageStorageService>();
+                break;
+            case "filesystem":
+            default:
+                services.AddRequiredConfigurationOptions<FileSystemStorageOptions>("STORAGE");
+                services.AddSingleton<IStorageService, FileSystemStorageService>();
+                break;
+        }
     }
 }
