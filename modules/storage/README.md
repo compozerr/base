@@ -1,104 +1,139 @@
-# Storage Service
+# Storage Module
 
-A microservice for file management using Docker with MinIO object storage and a web UI for browsing files.
+Object storage abstraction for the application. Provides a pluggable `IStorageService` interface with multiple backend implementations.
 
-## Features
+## Backends
 
-- Upload files 
-- Download files
-- Delete files
-- List all files
-- Check if files exist
-- Generate shareable links with expiry times
-- Web-based file browser (similar to Google Drive)
-- Persistent storage through Docker volumes
+### FileSystem (Default)
 
-## Setup and Run
+Stores files directly on the local filesystem. Zero external dependencies, zero additional RAM usage. Ideal for single-server deployments.
 
-### Using Docker Compose
+**Configuration:**
 
-1. Navigate to the storage module directory:
-   ```bash
-   cd modules/storage
-   ```
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `STORAGE__PROVIDER` | Set to `filesystem` | `filesystem` |
+| `STORAGE__BASE_PATH` | Directory path for file storage | `/app/storage-data` |
 
-2. Build and start the services:
-   ```bash
-   docker-compose up -d
-   ```
+In Docker, mount a volume to the base path to persist data:
 
-3. Access the services:
-   - MinIO Web UI (file browser): http://localhost:9001
+```yaml
+volumes:
+  - storage_data:/app/storage-data
+```
 
-### Storage Information
+**Limitations:**
+- No presigned URL support (throws `NotSupportedException`)
+- Single-server only (no replication)
 
-Files are stored in MinIO, an S3-compatible object storage system. The data is persisted in a Docker volume named `minio-data`, so files remain available even when containers are stopped.
+### Garage (S3-Compatible)
 
-## API Usage
+[Garage](https://garagehq.deuxfleurs.fr/) is a lightweight, self-hosted S3-compatible storage engine written in Rust. Uses ~30-60 MB RAM vs MinIO's 2-4 GB.
 
-### In Your Applications
+**Configuration:**
 
-To use the Storage Service in your application:
+| Variable | Description | Example |
+|----------|-------------|---------|
+| `STORAGE__PROVIDER` | Set to `garage` | `garage` |
+| `GARAGE__ENDPOINT` | Garage S3 API endpoint | `garage:3900` |
+| `GARAGE__ACCESS_KEY` | Garage API access key | (from `garage key create`) |
+| `GARAGE__SECRET_KEY` | Garage API secret key | (from `garage key create`) |
+| `GARAGE__BUCKET` | Bucket name | `default-bucket` |
 
-1. Inject the `IStorageClient` interface into your services
+**Docker Compose setup:**
+
+The `docker-compose.yml` in this module starts a Garage instance. After first start, you need to configure it:
+
+```bash
+# 1. Start Garage
+docker compose up -d
+
+# 2. Get the node ID
+docker compose exec garage /garage node id -q
+
+# 3. Configure the layout (replace NODE_ID)
+docker compose exec garage /garage layout assign -z dc1 -c 1G NODE_ID
+
+# 4. Apply the layout
+docker compose exec garage /garage layout apply --version 1
+
+# 5. Create an API key
+docker compose exec garage /garage key create app-key
+
+# 6. Create a bucket
+docker compose exec garage /garage bucket create default-bucket
+
+# 7. Grant access
+docker compose exec garage /garage bucket allow --read --write --owner default-bucket --key app-key
+```
+
+Use the access key and secret key from step 5 in your environment variables.
+
+**Garage config file:**
+
+Garage needs a config file at `/etc/garage.toml` inside the container. For simple single-node setups, mount one:
+
+```toml
+metadata_dir = "/var/lib/garage/meta"
+data_dir = "/var/lib/garage/data"
+db_engine = "sqlite"
+replication_factor = 1
+
+[s3_api]
+s3_region = "garage"
+api_bind_addr = "[::]:3900"
+
+[s3_web]
+bind_addr = "[::]:3902"
+
+[admin]
+api_bind_addr = "[::]:3903"
+
+[rpc]
+secret = "<generate with: openssl rand -hex 32>"
+bind_addr = "[::]:3901"
+```
+
+## Switching Backends
+
+Change the `STORAGE__PROVIDER` environment variable:
+
+```env
+# Use local filesystem (default)
+STORAGE__PROVIDER=filesystem
+
+# Use Garage S3
+STORAGE__PROVIDER=garage
+```
+
+No code changes needed. The `StorageFeature` automatically selects the correct implementation.
+
+## Interface
+
+All backends implement `IStorageService`:
 
 ```csharp
-public class MyService
+public interface IStorageService
 {
-    private readonly IStorageClient _storageClient;
-
-    public MyService(IStorageClient storageClient)
-    {
-        _storageClient = storageClient;
-    }
-
-    // Upload a file
-    public async Task<string> UploadFileAsync(string fileName, Stream content)
-    {
-        return await _storageClient.UploadAsync(fileName, content);
-    }
-    
-    // Download a file
-    public async Task<Stream> DownloadFileAsync(string fileName)
-    {
-        return await _storageClient.DownloadAsync(fileName);
-    }
-    
-    // List all files
-    public async Task<IEnumerable<StorageItem>> ListFilesAsync()
-    {
-        return await _storageClient.ListAsync();
-    }
-    
-    // Check if a file exists
-    public async Task<bool> FileExistsAsync(string fileName)
-    {
-        return await _storageClient.ExistsAsync(fileName);
-    }
-    
-    // Get a shareable link
-    public async Task<string> GetShareableLinkAsync(string fileName, int expiryMinutes = 60)
-    {
-        return await _storageClient.GetPresignedUrlAsync(fileName, expiryMinutes);
-    }
+    Task UploadAsync(string fileName, Stream content, CancellationToken ct);
+    Task<Stream?> DownloadAsync(string fileName, CancellationToken ct);
+    Task DeleteAsync(string fileName, CancellationToken ct);
+    Task<bool> ExistsAsync(string fileName, CancellationToken ct);
+    Task<IEnumerable<StorageItem>> ListAsync(string prefix, bool recursive, CancellationToken ct);
+    Task<string> GetPresignedUrlAsync(string fileName, int expiryMinutes, CancellationToken ct);
 }
 ```
 
-### API Endpoints
+## Current Usage
 
-- `GET /storages` - Lists all files with metadata
-- `GET /storages/{filename}` - Downloads a specific file
-- `POST /storages/{filename}` - Uploads a file
-- `DELETE /storages/{filename}` - Deletes a file
-- `GET /storages/exists/{filename}` - Checks if a file exists
-- `GET /storages/share/{filename}?expiryMinutes=60` - Generates a shareable link with optional expiry time
+The storage module is currently used for deployment log persistence:
+- `deployment-logs/{deploymentId}.log` - stored and retrieved during deployments
 
-## Web UI for File Browsing
+## Migration from MinIO
 
-MinIO provides a web-based file browser that's similar to Google Drive:
+If migrating existing data from MinIO:
 
-1. Access the MinIO console at http://localhost:9001
-2. Login with:
-   - Username: minioadmin
-   - Password: minioadmin
-3. Navigate to the `storage-storage` bucket to browse, upload, download, and manage files through the web interface 
+1. Export files from MinIO: `mc cp --recursive myminio/default-bucket/ ./exported-data/`
+2. Copy to the filesystem storage path: `cp -r ./exported-data/* /app/storage-data/`
+3. Update environment: `STORAGE__PROVIDER=filesystem`
+4. Remove MinIO container
