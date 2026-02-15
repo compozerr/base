@@ -1,16 +1,32 @@
 services:
   db:
     image: postgres:15
-    shm_size: 2gb
+    shm_size: 256m
     ports:
       - "5432:5432"
     environment:
       - POSTGRES_DB=myapp
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=019661c0-7b26-76de-9dfc-c4ce956cdca0
+    command:
+      - "postgres"
+      - "-c"
+      - "shared_buffers=256MB"
+      - "-c"
+      - "effective_cache_size=1GB"
+      - "-c"
+      - "work_mem=4MB"
+      - "-c"
+      - "maintenance_work_mem=128MB"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     restart: always
+    deploy:
+      resources:
+        limits:
+          memory: 4G
+        reservations:
+          memory: 512M
 
 volumes:
   postgres_data:
