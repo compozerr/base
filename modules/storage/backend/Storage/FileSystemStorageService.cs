@@ -18,8 +18,16 @@ public class FileSystemStorageService : IStorageService
 
     private string GetFullPath(string fileName)
     {
-        var sanitized = fileName.Replace("..", "").TrimStart('/');
-        return Path.Combine(_basePath, sanitized);
+        var combined = Path.Combine(_basePath, fileName);
+        var fullPath = Path.GetFullPath(combined);
+
+        if (!fullPath.StartsWith(Path.GetFullPath(_basePath) + Path.DirectorySeparatorChar)
+            && fullPath != Path.GetFullPath(_basePath))
+        {
+            throw new ArgumentException($"Invalid file path: '{fileName}' resolves outside the storage directory.");
+        }
+
+        return fullPath;
     }
 
     public async Task UploadAsync(string fileName, Stream content, CancellationToken cancellationToken = default)

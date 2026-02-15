@@ -53,3 +53,6 @@ services:
           path: ./backend/Api/Api.csproj
         - action: rebuild
           path: ./backend/Core/Core.csproj
+
+volumes:
+  storage_data:
