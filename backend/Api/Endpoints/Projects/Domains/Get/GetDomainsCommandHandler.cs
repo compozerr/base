@@ -15,6 +15,7 @@ public sealed class GetDomainsCommandHandler(
             command.ProjectId) ?? throw new ArgumentException($"Project with ID {command.ProjectId} not found.");
 
         var domainDtos = new List<GetDomainDto>();
+        var seenValues = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
         foreach (var domain in project.Domains!.Where(x => x.DeletedAtUtc == null))
         {
@@ -32,7 +33,7 @@ public sealed class GetDomainsCommandHandler(
                 _ => false
             };
 
-            if (!string.IsNullOrEmpty(value))
+            if (!string.IsNullOrEmpty(value) && seenValues.Add(value))
             {
                 domainDtos.Add(
                     new GetDomainDto(

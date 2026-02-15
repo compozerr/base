@@ -116,10 +116,14 @@ function DomainItem({ domain, onVerify, onDelete, onSetPrimary, isSettingPrimary
             Setting as primary...
           </Badge>
         )}
-        {isPending && (
-          <Badge variant="outline" className="border-amber-500/30 text-amber-600 bg-amber-500/10">
+        {!domain.isVerified && !domain.isInternal && (
+          <Badge
+            variant="outline"
+            className="border-amber-500/30 text-amber-600 bg-amber-500/10 cursor-pointer hover:bg-amber-500/20 transition-colors"
+            onClick={(e) => { e.stopPropagation(); onVerify(domain.domainId!); }}
+          >
             <Clock className="w-3 h-3 mr-1" />
-            Pending
+            Unverified
           </Badge>
         )}
         <DropdownMenu>

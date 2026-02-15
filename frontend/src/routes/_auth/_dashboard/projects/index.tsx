@@ -84,7 +84,7 @@ function RouteComponent() {
             }
         },
         {
-            refetchInterval: hasActiveDeployments ? 10000 : false,
+            refetchInterval: hasActiveDeployments ? 10000 : 30000,
             getNextPageParam: (lastPage) => {
                 // If the current page *is* full, there may be more
                 if (!lastPage) return undefined;

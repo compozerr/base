@@ -35,6 +35,7 @@ public static class GetDomainsRoute
         }
 
         var domainDtos = new List<DomainDto>();
+        var seenValues = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
         foreach (var domain in project.Domains!)
         {
@@ -45,7 +46,7 @@ public static class GetDomainsRoute
                 _ => string.Empty,
             };
 
-            if (!string.IsNullOrEmpty(value))
+            if (!string.IsNullOrEmpty(value) && seenValues.Add(value))
             {
                 domainDtos.Add(
                     new DomainDto(

@@ -14,9 +14,8 @@ public sealed class AllocateDomains_ProjectServiceUpsertedEventHandler(
 {
     protected override async Task HandleBeforeSaveAsync(ProjectServiceUpsertedEvent domainEvent, CancellationToken cancellationToken)
     {
-        var project = await projectRepository.GetByIdAsync(
-            domainEvent.Entity.ProjectId,
-            cancellationToken) ?? throw new ArgumentException("Project not found");
+        var project = await projectRepository.GetProjectByIdWithDomainsAsync(
+            domainEvent.Entity.ProjectId) ?? throw new ArgumentException("Project not found");
 
         project.Domains ??= [];
         var existingDomain = project.Domains.FirstOrDefault(d => d.ServiceName == domainEvent.Entity.Name && d.Port == domainEvent.Entity.Port);
