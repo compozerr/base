@@ -20,16 +20,12 @@ services:
     ports:
       - "1235:5000"
     restart: always
+    environment:
+      - STORAGE__PROVIDER=filesystem
+      - STORAGE__BasePath=/app/storage-data
     volumes:
       - private_keys_data:/app/privateKeys
-      - storage_data:/app/storage-data
-    deploy:
-      resources:
-        limits:
-          memory: 2G
-        reservations:
-          memory: 512M
+      - ./storage-data:/app/storage-data
 
 volumes:
   private_keys_data:
-  storage_data:
