@@ -18,7 +18,7 @@ compozerr deploy [--wait] [--poll-interval <ms>]
 
 ## Description
 
-Build and deploy the current project. Compozerr commits and pushes your code to GitHub, triggers a remote build, and deploys the result to your configured server. The command must be run from within a Compozerr project directory. Requires authentication, a connected GitHub account, an active payment method, and a clean Git working tree.
+Build and deploy the current project. compozerr commits and pushes your code to GitHub, triggers a remote build, and deploys the result to your configured server. The command must be run from within a compozerr project directory. Requires authentication, a connected GitHub account, an active payment method, and a clean Git working tree.
 
 By default, the command returns after the deployment is queued. Use `--wait` to block until the deployment completes or fails.
 

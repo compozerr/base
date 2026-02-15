@@ -23,8 +23,8 @@ The dev servers run on the following ports:
 
 | Service  | Port |
 |----------|------|
-| Frontend | 3001 |
-| Backend  | 5000 |
+| Frontend | 1234 |
+| Backend  | 1235 |
 
 All file changes trigger automatic rebuilds. The frontend uses Vite with HMR for instant updates, and the backend uses `dotnet watch` for automatic recompilation.
 
@@ -34,15 +34,15 @@ Start the development environment:
 
 <CommandBlock command="compozerr dev" output="Starting development environment...
 
-  Frontend: http://localhost:3001
-  Backend:  http://localhost:5000
+  Frontend: http://localhost:1234
+  Backend:  http://localhost:1235
 
 Press Ctrl+C to stop." />
 
 Force non-interactive mode (useful for logging to a file):
 
-<CommandBlock command="compozerr dev --non-interactive" output="[frontend] Vite dev server running at http://localhost:3001
-[backend] Now listening on http://localhost:5000
+<CommandBlock command="compozerr dev --non-interactive" output="[frontend] Vite dev server running at http://localhost:1234
+[backend] Now listening on http://localhost:1235
 [frontend] HMR connected
 [backend] Application started" />
 

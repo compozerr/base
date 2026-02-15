@@ -5,7 +5,7 @@ title: Module System
 
 # Module System
 
-Modules are self-contained, full-stack features that plug into a Compozerr template project. Each module can contribute backend logic, frontend routes, or both.
+Modules are self-contained, full-stack features that plug into a compozerr template project. Each module can contribute backend logic, frontend routes, or both.
 
 ## What is a module
 

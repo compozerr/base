@@ -10,9 +10,9 @@ import WhatNext from '@site/src/components/WhatNext';
 
 # Deploy a Static Website
 
-Deploy any static site -- Vite, plain HTML, or any framework that outputs static files -- to Compozerr using Nginx.
+Deploy any static site -- Vite, plain HTML, or any framework that outputs static files -- to compozerr using Nginx.
 
-<Prerequisites items={["Compozerr CLI installed and authenticated", "A static site project (Vite, plain HTML, etc.)", "Payment method configured in the dashboard"]} />
+<Prerequisites items={["compozerr CLI installed and authenticated", "A static site project (Vite, plain HTML, etc.)", "Payment method configured in the dashboard"]} />
 
 ## 1. Add a Dockerfile
 
@@ -83,7 +83,7 @@ services:
       - "1234:80"
 ```
 
-## 4. Migrate to Compozerr
+## 4. Migrate to compozerr
 
 Run the migrate command:
 

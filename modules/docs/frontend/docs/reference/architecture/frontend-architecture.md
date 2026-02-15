@@ -5,7 +5,7 @@ title: Frontend Architecture
 
 # Frontend Architecture
 
-The Compozerr template frontend is a React application built with Vite, using TanStack Router for routing and OpenAPI Qraft for type-safe API calls.
+The compozerr template frontend is a React application built with Vite, using TanStack Router for routing and OpenAPI Qraft for type-safe API calls.
 
 ## TanStack Router
 
@@ -49,13 +49,13 @@ OpenAPI Qraft generates a type-safe API client from the backend's Swagger specif
 
 ### Regenerating the API client
 
-When the backend API changes, regenerate the client with the backend running on port 5000:
+When the backend API changes, regenerate the client with the backend running on port 1235:
 
 ```bash
 cd frontend && npx openapi-qraft \
   --plugin tanstack-query-react \
   --plugin openapi-typescript \
-  http://localhost:5000/swagger/v1/swagger.json \
+  http://localhost:1235/swagger/v1/swagger.json \
   --clean \
   -o src/generated \
   --export-type \

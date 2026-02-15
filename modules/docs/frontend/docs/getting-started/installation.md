@@ -10,7 +10,7 @@ import ReadMore from '@site/src/components/ReadMore';
 
 ## Install the CLI
 
-Run the install script to download and configure the Compozerr CLI:
+Run the install script to download and configure the compozerr CLI:
 
 <CommandBlock command='/bin/bash -c "$(curl -fsSL https://compozerr.com/install.sh)"' />
 
@@ -37,4 +37,4 @@ Authenticate with your GitHub account. This opens your browser for OAuth:
 
 ## Payment setup
 
-A payment method is required before you can deploy. Add one in the [Compozerr dashboard](https://compozerr.com/dashboard) under **Settings > Billing**.
+A payment method is required before you can deploy. Add one in the [compozerr dashboard](https://compozerr.com/projects) under **Settings > Billing**.

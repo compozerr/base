@@ -12,11 +12,11 @@ import WhatNext from '@site/src/components/WhatNext';
 
 Build a reusable full-stack module with backend services, endpoints, and frontend routes -- then share it across projects.
 
-<Prerequisites items={["Compozerr CLI installed and authenticated", "An existing Compozerr project (run compozerr new project first)", ".NET SDK 9.0 and Node.js >= 18"]} />
+<Prerequisites items={["compozerr CLI installed and authenticated", "An existing compozerr project (run compozerr new project first)", ".NET SDK 9.0 and Node.js >= 18"]} />
 
 ## 1. Scaffold the module
 
-From within your Compozerr project directory, run:
+From within your compozerr project directory, run:
 
 <CommandBlock command="compozerr new module my-module" output="Creating module my-module...
 Scaffolding backend feature...
@@ -137,11 +137,11 @@ Start the dev servers to verify everything works:
 
 <CommandBlock command="compozerr dev" />
 
-Visit **http://localhost:3001/my-module** to see your module's frontend route. The backend endpoint is available at **http://localhost:5000/v1/my-module/items**.
+Visit **http://localhost:1234/my-module** to see your module's frontend route. The backend endpoint is available at **http://localhost:1235/v1/my-module/items**.
 
 ## 7. Share with other projects
 
-Modules are managed as git submodules. Other Compozerr projects can add your module:
+Modules are managed as git submodules. Other compozerr projects can add your module:
 
 <CommandBlock command="compozerr add my-module" />
 
@@ -152,6 +152,6 @@ This clones the module into the target project's `modules/` directory and regist
 <ReadMore to="/reference/cli/new" title="compozerr new" description="Full reference for scaffolding projects and modules." />
 
 <WhatNext items={[
-  { title: "Deploy a Docker Compose Project", to: "/tutorials/deploy-docker-compose", description: "Deploy any project with a docker-compose.yml to Compozerr." },
+  { title: "Deploy a Docker Compose Project", to: "/tutorials/deploy-docker-compose", description: "Deploy any project with a docker-compose.yml to compozerr." },
   { title: "Set Up Custom Domains & SSL", to: "/tutorials/custom-domains-ssl", description: "Point your own domain to your deployed project with automatic SSL." }
 ]} />

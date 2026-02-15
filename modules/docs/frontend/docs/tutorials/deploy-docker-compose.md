@@ -10,9 +10,9 @@ import WhatNext from '@site/src/components/WhatNext';
 
 # Deploy a Docker Compose Project
 
-Take any project with a `docker-compose.yml` and deploy it to Compozerr in minutes.
+Take any project with a `docker-compose.yml` and deploy it to compozerr in minutes.
 
-<Prerequisites items={["Compozerr CLI installed and authenticated", "An existing project with a docker-compose.yml file", "Payment method configured in the dashboard"]} />
+<Prerequisites items={["compozerr CLI installed and authenticated", "An existing project with a docker-compose.yml file", "Payment method configured in the dashboard"]} />
 
 ## 1. Navigate to your project
 
@@ -20,7 +20,7 @@ Open a terminal and `cd` into the directory that contains your `docker-compose.y
 
 <CommandBlock command="cd ~/projects/my-app" />
 
-## 2. Migrate to Compozerr
+## 2. Migrate to compozerr
 
 Run the `migrate` command. The CLI detects your `docker-compose.yml` and walks you through project setup:
 
@@ -57,9 +57,9 @@ Key fields:
 
 ## 4. Set environment variables
 
-If your app requires environment variables, add them in the Compozerr dashboard:
+If your app requires environment variables, add them in the compozerr dashboard:
 
-1. Go to [compozerr.com/dashboard](https://compozerr.com/dashboard)
+1. Go to [compozerr.com/projects](https://compozerr.com/projects)
 2. Select your project
 3. Navigate to **Settings > Environment Variables**
 4. Add each variable and save

@@ -8,7 +8,7 @@ import FlagTable from '@site/src/components/FlagTable';
 
 # login / logout / me
 
-Manage your Compozerr account authentication from the terminal.
+Manage your compozerr account authentication from the terminal.
 
 ## login
 
@@ -20,7 +20,7 @@ compozerr login [--token <token>]
 
 ### Description
 
-Authenticate with Compozerr. In interactive mode, this opens your default browser for GitHub OAuth sign-in. For CI/CD pipelines and automated environments, pass a personal access token with the `--token` flag.
+Authenticate with compozerr. In interactive mode, this opens your default browser for GitHub OAuth sign-in. For CI/CD pipelines and automated environments, pass a personal access token with the `--token` flag.
 
 ### Flags
 
@@ -57,7 +57,7 @@ compozerr logout
 
 ### Description
 
-Sign out of Compozerr and clear stored credentials from your machine. After logging out, commands that require authentication will prompt you to sign in again.
+Sign out of compozerr and clear stored credentials from your machine. After logging out, commands that require authentication will prompt you to sign in again.
 
 ### Examples
 

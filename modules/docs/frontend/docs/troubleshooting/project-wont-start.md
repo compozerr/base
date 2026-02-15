@@ -33,12 +33,12 @@ If the file does not exist, navigate to your project root.
 
 ## Port conflicts
 
-The Compozerr template uses port **3001** for the frontend and **5000** for the backend. If another process is using these ports, startup will fail.
+The compozerr template uses port **1234** for the frontend and **1235** for the backend. If another process is using these ports, startup will fail.
 
 Check for conflicts:
 
-<CommandBlock command="lsof -i :3001" />
-<CommandBlock command="lsof -i :5000" />
+<CommandBlock command="lsof -i :1234" />
+<CommandBlock command="lsof -i :1235" />
 
 Kill the conflicting process or configure your project to use different ports.
 
@@ -54,7 +54,7 @@ If it is missing, copy the example and fill in the values:
 
 ## Node.js version
 
-Compozerr requires Node.js 18 or later:
+compozerr requires Node.js 18 or later:
 
 <CommandBlock command="node --version" />
 
@@ -62,7 +62,7 @@ If your version is older, update Node.js using your preferred version manager (n
 
 ## .NET SDK version
 
-The Compozerr template requires .NET SDK 9.0:
+The compozerr template requires .NET SDK 9.0:
 
 <CommandBlock command="dotnet --version" />
 

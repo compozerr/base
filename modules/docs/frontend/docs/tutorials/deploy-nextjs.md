@@ -10,13 +10,13 @@ import WhatNext from '@site/src/components/WhatNext';
 
 # Deploy a Next.js App
 
-Deploy an existing Next.js application to Compozerr with Docker and automatic SSL.
+Deploy an existing Next.js application to compozerr with Docker and automatic SSL.
 
-<Prerequisites items={["Compozerr CLI installed and authenticated", "An existing Next.js project", "Payment method configured in the dashboard"]} />
+<Prerequisites items={["compozerr CLI installed and authenticated", "An existing Next.js project", "Payment method configured in the dashboard"]} />
 
 ## 1. Add a Dockerfile
 
-Compozerr deploys Docker containers, so your Next.js app needs a Dockerfile. Create one in your project root using a multi-stage build for optimal image size:
+compozerr deploys Docker containers, so your Next.js app needs a Dockerfile. Create one in your project root using a multi-stage build for optimal image size:
 
 ```dockerfile
 FROM node:20-alpine AS deps
@@ -56,7 +56,7 @@ services:
       - "1234:3000"
 ```
 
-The left side of the port mapping (`1234`) is the external port Compozerr uses for routing. The right side (`3000`) must match the `EXPOSE` in your Dockerfile.
+The left side of the port mapping (`1234`) is the external port compozerr uses for routing. The right side (`3000`) must match the `EXPOSE` in your Dockerfile.
 
 ## 3. Handle NEXT_PUBLIC_ environment variables
 
@@ -82,11 +82,11 @@ ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
 # ... rest of build stage
 ```
 
-Set the actual values in the Compozerr dashboard under **Settings > Environment Variables**.
+Set the actual values in the compozerr dashboard under **Settings > Environment Variables**.
 
 <ReadMore to="/reference/configuration/environment-variables" title="Environment Variables" description="How environment variables work during build and runtime." />
 
-## 4. Migrate to Compozerr
+## 4. Migrate to compozerr
 
 Run the migrate command from your project directory:
 

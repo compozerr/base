@@ -8,7 +8,7 @@ import FlagTable from '@site/src/components/FlagTable';
 
 # new
 
-Scaffold new Compozerr projects and modules.
+Scaffold new compozerr projects and modules.
 
 ## new project
 
@@ -20,7 +20,7 @@ compozerr new project <name> [--location <iso>] [--tier <tier>] [--editor <name>
 
 ### Description
 
-Create a new Compozerr project. This scaffolds a full-stack application with a .NET backend, React frontend, Docker configuration, and database setup. The project is initialized as a Git repository and linked to a new GitHub repo. Requires authentication, a connected GitHub account, and an active payment method.
+Create a new compozerr project. This scaffolds a full-stack application with a .NET backend, React frontend, Docker configuration, and database setup. The project is initialized as a Git repository and linked to a new GitHub repo. Requires authentication, a connected GitHub account, and an active payment method.
 
 ### Arguments
 

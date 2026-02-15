@@ -10,13 +10,13 @@ import WhatNext from '@site/src/components/WhatNext';
 
 # Set Up Custom Domains & SSL
 
-Point your own domain to a deployed Compozerr project. SSL certificates are provisioned automatically.
+Point your own domain to a deployed compozerr project. SSL certificates are provisioned automatically.
 
-<Prerequisites items={["A deployed Compozerr project", "A domain name you own", "Access to your domain's DNS settings"]} />
+<Prerequisites items={["A deployed compozerr project", "A domain name you own", "Access to your domain's DNS settings"]} />
 
 ## 1. Add your domain in the dashboard
 
-1. Go to [compozerr.com/dashboard](https://compozerr.com/dashboard)
+1. Go to [compozerr.com/projects](https://compozerr.com/projects)
 2. Select your project
 3. Navigate to **Settings > Domains**
 4. Click **Add Domain** and enter your domain name (e.g., `example.com` or `app.example.com`)
@@ -49,7 +49,7 @@ When the output shows your project's IP address, DNS is ready.
 
 ## 4. SSL is automatic
 
-Once DNS points to your project, Compozerr automatically provisions an SSL certificate via Let's Encrypt. No configuration is needed -- HTTPS just works.
+Once DNS points to your project, compozerr automatically provisions an SSL certificate via Let's Encrypt. No configuration is needed -- HTTPS just works.
 
 Certificate renewal is also automatic. Certificates are renewed before they expire with zero downtime.
 

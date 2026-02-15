@@ -8,7 +8,7 @@ import FlagTable from '@site/src/components/FlagTable';
 
 # migrate
 
-Migrate an existing project to Compozerr.
+Migrate an existing project to compozerr.
 
 ## Synopsis
 
@@ -18,14 +18,14 @@ compozerr migrate [name] [--location <iso>] [--tier <tier>] [--skip-docker-setup
 
 ## Description
 
-Convert an existing project into a Compozerr-managed project. The CLI analyzes your project structure, detects the technology stack, generates the necessary Docker and Compozerr configuration, and sets up deployment infrastructure. Requires authentication, a connected GitHub account, an active payment method, and a clean Git working tree.
+Convert an existing project into a compozerr-managed project. The CLI analyzes your project structure, detects the technology stack, generates the necessary Docker and compozerr configuration, and sets up deployment infrastructure. Requires authentication, a connected GitHub account, an active payment method, and a clean Git working tree.
 
 The migration process:
 
 1. Detects your project template (e.g., Node.js, .NET, static site, Docker Compose)
 2. Generates a `Dockerfile` and `docker-compose.yml` if needed
 3. Creates a `compozerr.json` configuration file
-4. Links the project to Compozerr for deployment
+4. Links the project to compozerr for deployment
 
 ## Arguments
 

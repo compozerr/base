@@ -12,7 +12,7 @@ import WhatNext from '@site/src/components/WhatNext';
 
 Connect to your deployed project's VM to debug issues, inspect containers, or run one-off commands.
 
-<Prerequisites items={["Compozerr CLI installed and authenticated", "A deployed Compozerr project"]} />
+<Prerequisites items={["compozerr CLI installed and authenticated", "A deployed compozerr project"]} />
 
 ## 1. Open an interactive session
 
@@ -75,5 +75,5 @@ If you have multiple projects, specify which one to connect to:
 
 <WhatNext items={[
   { title: "Monitor Deployments", to: "/tutorials/monitor-deployments", description: "Track deployment status, view logs, and debug failures." },
-  { title: "Deploy a Docker Compose Project", to: "/tutorials/deploy-docker-compose", description: "Deploy any project with a docker-compose.yml to Compozerr." }
+  { title: "Deploy a Docker Compose Project", to: "/tutorials/deploy-docker-compose", description: "Deploy any project with a docker-compose.yml to compozerr." }
 ]} />

@@ -3,7 +3,7 @@ import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
-  title: 'Compozerr',
+  title: 'compozerr',
   tagline: 'Deploy anything. From code to cloud in one command.',
   favicon: 'img/favicon.ico',
   url: 'https://docs.compozerr.com',

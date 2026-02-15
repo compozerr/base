@@ -7,11 +7,27 @@
   width: 100%;
 }
 
+.flagTable th:nth-child(1),
+.flagTable td:nth-child(1) {
+  white-space: nowrap;
+}
+
+.flagTable th:nth-child(2),
+.flagTable td:nth-child(2) {
+  white-space: nowrap;
+}
+
+.flagTable th:nth-child(3),
+.flagTable td:nth-child(3) {
+  white-space: nowrap;
+}
+
 .flagTable code {
   font-size: 0.8rem;
   color: #10b981;
   background: rgba(16, 185, 129, 0.08);
   border: 1px solid rgba(16, 185, 129, 0.15);
+  white-space: nowrap;
 }
 
 .typeBadge {
@@ -22,6 +38,7 @@
   padding: 0.1rem 0.4rem;
   border-radius: 4px;
   font-family: 'JetBrains Mono', monospace;
+  white-space: nowrap;
 }
 
 .noDefault {

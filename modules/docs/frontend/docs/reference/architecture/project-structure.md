@@ -5,7 +5,7 @@ title: Project Structure
 
 # Project Structure
 
-A Compozerr template project has the following structure:
+A compozerr template project has the following structure:
 
 ```
 my-app/

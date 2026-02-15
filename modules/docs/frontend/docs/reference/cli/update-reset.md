@@ -20,7 +20,7 @@ compozerr update
 
 ### Description
 
-Update the Compozerr CLI to the latest version. The CLI checks for available updates and installs the newest release. After updating, the new version is available immediately.
+Update the compozerr CLI to the latest version. The CLI checks for available updates and installs the newest release. After updating, the new version is available immediately.
 
 ### Examples
 
@@ -69,7 +69,7 @@ Reset complete." />
 
 ## Global Flags
 
-The following flags are available on every Compozerr CLI command.
+The following flags are available on every compozerr CLI command.
 
 <FlagTable flags={[
   { name: "--json", type: "boolean", description: "Output results as JSON. Useful for scripting and CI/CD pipelines." },

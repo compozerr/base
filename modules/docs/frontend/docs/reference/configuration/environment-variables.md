@@ -9,7 +9,7 @@ Environment variables configure your application's runtime behavior -- API keys,
 
 ## How environment variables work
 
-1. You set environment variables in the [Compozerr dashboard](https://compozerr.com/dashboard) under your project's **Settings > Environment**.
+1. You set environment variables in the [compozerr dashboard](https://compozerr.com/projects) under your project's **Settings > Environment**.
 2. When you deploy, the values are pushed to your project's VM.
 3. The deployment system writes them to `.env` files in your project directory.
 4. Your application reads them at startup.
@@ -24,13 +24,13 @@ During deployment, the system writes environment variables to the appropriate lo
 - `frontend/.env` -- Variables consumed by the Vite frontend
 - Project root `.env` -- For projects that use a single `.env` file (e.g., Docker Compose projects)
 
-The system determines the correct location automatically. For the Compozerr full-stack template, backend and frontend variables are written to their respective directories.
+The system determines the correct location automatically. For the compozerr full-stack template, backend and frontend variables are written to their respective directories.
 
 ## Frontend variables
 
 Frontend variables are embedded into the JavaScript bundle at **build time**. They are not secret -- anyone can view them in the browser.
 
-For **Vite** frontends (the Compozerr template default), prefix variables with `VITE_`:
+For **Vite** frontends (the compozerr template default), prefix variables with `VITE_`:
 
 ```
 VITE_API_URL=https://api.example.com

@@ -10,9 +10,9 @@ import WhatNext from '@site/src/components/WhatNext';
 
 # Build a Full-Stack App
 
-Start from scratch with the Compozerr template -- a .NET 9 backend, React frontend, and module system -- then deploy to production.
+Start from scratch with the compozerr template -- a .NET 9 backend, React frontend, and module system -- then deploy to production.
 
-<Prerequisites items={["Compozerr CLI installed and authenticated", ".NET SDK 9.0", "Node.js >= 18", "Payment method configured in the dashboard"]} />
+<Prerequisites items={["compozerr CLI installed and authenticated", ".NET SDK 9.0", "Node.js >= 18", "Payment method configured in the dashboard"]} />
 
 ## 1. Create a new project
 
@@ -49,17 +49,17 @@ my-app/
 - **modules/** -- Self-contained feature modules that contribute backend services and frontend routes.
 - **compozerr.json** -- Project metadata, region, and module configuration.
 
-<ReadMore to="/reference/architecture/project-structure" title="Project Structure" description="Detailed breakdown of every directory and file in a Compozerr project." />
+<ReadMore to="/reference/architecture/project-structure" title="Project Structure" description="Detailed breakdown of every directory and file in a compozerr project." />
 
 ## 3. Start development
 
 Launch the dev servers:
 
-<CommandBlock command="compozerr dev" output="Starting backend on http://localhost:5000
-Starting frontend on http://localhost:3001
+<CommandBlock command="compozerr dev" output="Starting backend on http://localhost:1235
+Starting frontend on http://localhost:1234
 Watching for changes..." />
 
-The frontend runs at **http://localhost:3001** and the backend at **http://localhost:5000**. Both hot-reload on file changes.
+The frontend runs at **http://localhost:1234** and the backend at **http://localhost:1235**. Both hot-reload on file changes.
 
 <ReadMore to="/reference/cli/dev" title="compozerr dev" description="Full reference for the dev command, including TUI mode and non-interactive options." />
 
@@ -81,13 +81,13 @@ public class HelloEndpoints : CarterModule
 
 Save the file and the backend will hot-reload. Test it:
 
-<CommandBlock command="curl http://localhost:5000/v1/hello" output='{"message":"Hello from Compozerr!"}' />
+<CommandBlock command="curl http://localhost:1235/v1/hello" output='{"message":"Hello from Compozerr!"}' />
 
 ## 5. Regenerate the API client
 
 After adding or changing backend endpoints, regenerate the TypeScript types so the frontend stays in sync:
 
-<CommandBlock command='cd frontend && npx openapi-qraft --plugin tanstack-query-react --plugin openapi-typescript http://localhost:5000/swagger/v1/swagger.json --clean -o src/generated --export-type --properties-required-by-default --default-non-nullable' />
+<CommandBlock command='cd frontend && npx openapi-qraft --plugin tanstack-query-react --plugin openapi-typescript http://localhost:1235/swagger/v1/swagger.json --clean -o src/generated --export-type --properties-required-by-default --default-non-nullable' />
 
 This reads the OpenAPI spec from your running backend and generates typed React Query hooks in `frontend/src/generated/`.
 

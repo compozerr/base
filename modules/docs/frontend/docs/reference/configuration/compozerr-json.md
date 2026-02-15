@@ -5,7 +5,7 @@ title: compozerr.json
 
 # compozerr.json
 
-Every Compozerr project and module has a `compozerr.json` file at its root. This file tells the CLI and deployment system how to build, run, and configure your project.
+Every compozerr project and module has a `compozerr.json` file at its root. This file tells the CLI and deployment system how to build, run, and configure your project.
 
 There are two types: **project** configuration and **module** configuration.
 

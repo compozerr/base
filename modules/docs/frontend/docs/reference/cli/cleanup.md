@@ -17,7 +17,7 @@ compozerr cleanup
 
 ## Description
 
-Remove Docker artifacts created by Compozerr development and build processes. This reclaims disk space by cleaning up stopped containers, dangling images, and builder cache. This is a local operation and does not affect your deployed projects.
+Remove Docker artifacts created by compozerr development and build processes. This reclaims disk space by cleaning up stopped containers, dangling images, and builder cache. This is a local operation and does not affect your deployed projects.
 
 The cleanup targets:
 

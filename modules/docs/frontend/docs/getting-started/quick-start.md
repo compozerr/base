@@ -12,7 +12,7 @@ import WhatNext from '@site/src/components/WhatNext';
 
 Go from zero to a deployed app in five minutes.
 
-<Prerequisites items={["Compozerr CLI installed", "GitHub account connected", "Payment method set up"]} />
+<Prerequisites items={["compozerr CLI installed", "GitHub account connected", "Payment method set up"]} />
 
 ## 1. Install
 
@@ -42,7 +42,7 @@ Launch the dev servers:
 
 <CommandBlock command="compozerr dev" />
 
-The frontend runs at **http://localhost:3001** and the backend at **http://localhost:5000**. Changes hot-reload automatically.
+The frontend runs at **http://localhost:1234** and the backend at **http://localhost:1235**. Changes hot-reload automatically.
 
 <ReadMore to="/troubleshooting/project-wont-start" title="Troubleshooting: Project Won't Start" description="Fix common issues when the dev environment fails to start." />
 
@@ -57,6 +57,6 @@ Your app is live at https://my-app.compozerr.app" />
 Your app is now live with automatic SSL. Custom domains can be configured from the dashboard.
 
 <WhatNext items={[
-  { title: "Deploy a Docker Compose Project", to: "/tutorials/deploy-docker-compose", description: "Bring your own Docker Compose file and deploy it to Compozerr." },
-  { title: "Build a Full-Stack App", to: "/tutorials/build-fullstack-app", description: "Walk through building and deploying a complete application with the Compozerr template." }
+  { title: "Deploy a Docker Compose Project", to: "/tutorials/deploy-docker-compose", description: "Bring your own Docker Compose file and deploy it to compozerr." },
+  { title: "Build a Full-Stack App", to: "/tutorials/build-fullstack-app", description: "Walk through building and deploying a complete application with the compozerr template." }
 ]} />

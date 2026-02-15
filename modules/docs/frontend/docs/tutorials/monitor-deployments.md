@@ -12,7 +12,7 @@ import WhatNext from '@site/src/components/WhatNext';
 
 Track deployment status, view logs, and diagnose failures from the command line.
 
-<Prerequisites items={["Compozerr CLI installed and authenticated", "A Compozerr project with at least one deployment"]} />
+<Prerequisites items={["compozerr CLI installed and authenticated", "A compozerr project with at least one deployment"]} />
 
 ## 1. Check the latest deployment
 

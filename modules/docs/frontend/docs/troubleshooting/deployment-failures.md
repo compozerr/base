@@ -41,7 +41,7 @@ If the build succeeds but the application does not start:
 
 Your application may depend on environment variables that are not set on the server.
 
-Set them in the [Compozerr dashboard](https://compozerr.com/dashboard) under **Settings > Environment** before deploying. Variables set after deployment require a redeploy to take effect.
+Set them in the [compozerr dashboard](https://compozerr.com/projects) under **Settings > Environment** before deploying. Variables set after deployment require a redeploy to take effect.
 
 ## Port conflicts in Docker
 

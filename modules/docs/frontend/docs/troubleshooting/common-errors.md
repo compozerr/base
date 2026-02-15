@@ -17,7 +17,7 @@ You are not authenticated. Sign in with your GitHub account:
 
 ## "Payment required"
 
-A payment method is required before deploying. Add one in the [Compozerr dashboard](https://compozerr.com/dashboard) under **Settings > Billing**.
+A payment method is required before deploying. Add one in the [compozerr dashboard](https://compozerr.com/projects) under **Settings > Billing**.
 
 ## "GitHub not connected"
 
