@@ -23,9 +23,9 @@ const defaultFAQItems: FAQItem[] = [
       'All tiers include n8n hosting, custom domain support, SSL certificates, automatic backups, and 24/7 infrastructure monitoring. You get the full compozerr experience regardless of tier.',
   },
   {
-    question: 'How does the Black Friday special work?',
+    question: 'How does the promotional pricing work?',
     answer:
-      'The T1 tier is specially priced at $5/month (37% off from $8/month) for Black Friday. This pricing is automatically applied when you create an n8n project on the T1 tier.',
+      'The T1 tier is specially priced at $5/month (37% off from $8/month). This pricing is automatically applied when you create an n8n project on the T1 tier.',
   },
   {
     question: 'Do you offer refunds?',

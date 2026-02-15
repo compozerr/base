@@ -75,7 +75,8 @@ cd frontend && npx openapi-qraft --plugin tanstack-query-react --plugin openapi-
 ### Deployment
 
 ```bash
-compozerr deploy project
+# Push to main, tag with nbgv, and push the tag to trigger deploy
+git push compozerr main && nbgv tag && git push compozerr $(git describe --tags --abbrev=0)
 ```
 
 ## Architecture

@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Slider } from '@/components/ui/slider'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import { useSaleOffer } from '@/hooks/use-sale-offer'
 import { getLink } from '@/links'
 import { createFileRoute } from '@tanstack/react-router'
 import { Check, Cpu, HardDrive, MemoryStick, Plus, Workflow } from 'lucide-react'
@@ -21,10 +22,10 @@ function Pricing() {
   const { data: tiersData } = api.v1.getServersTiers.useQuery()
   const tiers = tiersData?.tiers ?? []
   const [selectedIndex, setSelectedIndex] = useState(1) // Default to T1
+  const sale = useSaleOffer()
 
   const selectedTier = tiers[selectedIndex] || tiers[0]
   const isT1 = selectedTier?.id?.value === 'T1'
-  const blackFridayPrice = 5
 
   // Helper to get price value
   const getPriceValue = (tier: typeof selectedTier) => {
@@ -60,8 +61,8 @@ function Pricing() {
               <Card className="border-zinc-800 bg-zinc-900/50 backdrop-blur-sm mb-12 relative overflow-visible">
                 {isT1 && (
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-10">
-                    <Badge className="bg-red-600 text-white hover:bg-red-700">
-                      🔥 Black Friday Deal
+                    <Badge className={`${sale.badgeColor} text-white`}>
+                      {sale.badge}
                     </Badge>
                   </div>
                 )}
@@ -101,7 +102,7 @@ function Pricing() {
                           <h3 className="text-3xl font-bold mb-1">{selectedTier?.id?.value}</h3>
                           {isT1 ? (
                             <div className="flex items-baseline gap-2">
-                              <span className="text-4xl font-bold text-red-500">${blackFridayPrice}</span>
+                              <span className={`text-4xl font-bold ${sale.priceColor}`}>${sale.salePrice}</span>
                               <span className="text-2xl text-muted-foreground">/mo</span>
                               <span className="text-sm text-muted-foreground line-through ml-2">
                                 ${getPriceValue(selectedTier)}/mo
@@ -156,7 +157,7 @@ function Pricing() {
                         {isT1 ? (
                           <Button
                             size="lg"
-                            className="w-full bg-red-600 hover:bg-red-700 text-white"
+                            className={`w-full ${sale.buttonColor} text-white`}
                             onClick={() => window.location.href = '/n8n'}
                           >
                             <Workflow className="mr-2 h-5 w-5" />
@@ -208,7 +209,7 @@ function Pricing() {
                               <TableCell key={tier.id?.value} className="text-center">
                                 {isT1 ? (
                                   <div className="space-y-1">
-                                    <div className="text-lg font-bold text-red-500">${blackFridayPrice}/mo</div>
+                                    <div className={`text-lg font-bold ${sale.priceColor}`}>${sale.salePrice}/mo</div>
                                     <div className="text-xs text-muted-foreground line-through">
                                       ${getPriceValue(tier)}/mo
                                     </div>
@@ -287,7 +288,7 @@ function Pricing() {
                   <CardContent className="p-8 text-center space-y-6">
                     <h3 className="text-2xl font-bold">Ready to Get Started?</h3>
                     <p className="text-muted-foreground">
-                      Deploy your n8n automation instance today with our Black Friday special pricing.
+                      Deploy your n8n automation instance today with our special pricing.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
                       <Button

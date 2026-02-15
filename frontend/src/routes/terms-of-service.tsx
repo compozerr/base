@@ -65,7 +65,7 @@ function TermsOfService() {
                 <li>You authorize us to charge your payment method for all applicable fees</li>
                 <li>Failure to pay may result in service suspension or termination</li>
                 <li>Refunds are handled on a case-by-case basis at our discretion</li>
-                <li>Promotional pricing (such as Black Friday specials) may have specific terms</li>
+                <li>Promotional pricing (such as seasonal sales) may have specific terms</li>
               </ul>
             </section>
 

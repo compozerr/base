@@ -10,6 +10,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useAuth } from '@/hooks/use-dynamic-auth'
 import { useN8nIntentEphemeralStorage } from '@/hooks/use-n8n-intent-ephemeral-storage.hook'
+import { useSaleOffer } from '@/hooks/use-sale-offer'
 import { useToast } from '@/hooks/use-toast'
 import { createFileRoute, redirect, useNavigate } from '@tanstack/react-router'
 import { motion, useMotionValue, useSpring } from 'framer-motion'
@@ -99,6 +100,7 @@ function N8nLandingPage() {
 function UnauthenticatedN8nFlow() {
   const navigate = useNavigate()
   const { setN8nIntentValue } = useN8nIntentEphemeralStorage();
+  const sale = useSaleOffer();
 
   const handleGetStarted = () => {
     setN8nIntentValue({ action: 'create' })
@@ -123,8 +125,8 @@ function UnauthenticatedN8nFlow() {
               {/* Section 1: Hero */}
               <section className="snap-start min-h-screen flex items-center justify-center pb-10">
                 <div className="text-center space-y-8 max-w-4xl mx-auto">
-                  <Badge className="bg-red-600 text-white hover:bg-red-700">
-                    🎉 Black Friday Special - 37% OFF
+                  <Badge className={`${sale.badgeColor} text-white`}>
+                    {sale.badge} - {sale.discount}
                   </Badge>
                   <h1 className="bg-gradient-to-br from-foreground from-30% via-foreground/90 to-foreground/70 bg-clip-text text-5xl font-bold tracking-tight text-transparent sm:text-6xl md:text-7xl lg:text-8xl">
                     Deploy n8n in Seconds
@@ -138,8 +140,8 @@ function UnauthenticatedN8nFlow() {
                   {/* Pricing Highlight */}
                   <div className="flex items-center justify-center gap-4">
                     <div className="text-center">
-                      <div className="text-4xl md:text-5xl font-bold text-red-500">$5<span className="text-2xl text-muted-foreground">/mo</span></div>
-                      <div className="text-sm text-muted-foreground line-through">$8/mo</div>
+                      <div className={`text-4xl md:text-5xl font-bold ${sale.priceColor}`}>${sale.salePrice}<span className="text-2xl text-muted-foreground">/mo</span></div>
+                      <div className="text-sm text-muted-foreground line-through">${sale.originalPrice}/mo</div>
                     </div>
                     <Badge variant="outline" className="text-lg px-4 py-2">
                       Limited Time Offer
@@ -248,7 +250,7 @@ function UnauthenticatedN8nFlow() {
                         <CardContent>
                           <p className="text-muted-foreground">
                             Simple, predictable pricing. No hidden fees, no surprise charges.
-                            Just $5/month for your n8n instance during this Black Friday special.
+                            Just ${sale.salePrice}/month for your n8n instance during our {sale.name}.
                           </p>
                         </CardContent>
                       </Card>
@@ -323,6 +325,7 @@ function AuthenticatedN8nFlow() {
   const navigate = useNavigate();
   const { user } = useAuth();
   const { setN8nIntentValue } = useN8nIntentEphemeralStorage();
+  const sale = useSaleOffer();
 
   const { data: locationsData } = api.v1.getCliLocations.useQuery()
   const { data: tiersData } = api.v1.getServersTiers.useQuery()
@@ -419,8 +422,8 @@ function AuthenticatedN8nFlow() {
               {/* Hero Section with Welcome */}
               <section className="min-h-[80vh] flex items-center justify-center">
                 <div className="text-center space-y-8 max-w-4xl mx-auto">
-                  <Badge className="mb-4 bg-red-600 text-white hover:bg-red-700">
-                    🎉 Black Friday Special - 37% OFF
+                  <Badge className={`mb-4 ${sale.badgeColor} text-white`}>
+                    {sale.badge} - {sale.discount}
                   </Badge>
                   <h1 className="pb-2 bg-gradient-to-br from-foreground from-30% via-foreground/90 to-foreground/70 bg-clip-text text-5xl font-bold tracking-tight text-transparent sm:text-6xl md:text-7xl">
                     Hello {user?.name}!
@@ -433,10 +436,10 @@ function AuthenticatedN8nFlow() {
                   {/* Pricing Highlight */}
                   <div className="flex items-center justify-center gap-4 pt-4">
                     <div className="text-center">
-                      <div className="text-5xl md:text-6xl font-bold text-red-500">
-                        $5<span className="text-3xl text-muted-foreground">/mo</span>
+                      <div className={`text-5xl md:text-6xl font-bold ${sale.priceColor}`}>
+                        ${sale.salePrice}<span className="text-3xl text-muted-foreground">/mo</span>
                       </div>
-                      <div className="text-lg text-muted-foreground line-through">$8/mo</div>
+                      <div className="text-lg text-muted-foreground line-through">${sale.originalPrice}/mo</div>
                     </div>
                     <Badge variant="outline" className="text-lg px-4 py-2">
                       Limited Time
