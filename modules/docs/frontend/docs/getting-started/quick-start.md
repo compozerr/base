@@ -55,5 +55,5 @@ Your app is now live with automatic SSL. Custom domains can be configured from t
 
 <WhatNext items={[
   { title: "Deploy a Docker Compose Project", to: "/tutorials/deploy-docker-compose", description: "Bring your own Docker Compose file and deploy it to Compozerr." },
-  { title: "Build a Full-Stack App", to: "/tutorials/build-full-stack-app", description: "Walk through building and deploying a complete application with the Compozerr template." }
+  { title: "Build a Full-Stack App", to: "/tutorials/build-fullstack-app", description: "Walk through building and deploying a complete application with the Compozerr template." }
 ]} />
