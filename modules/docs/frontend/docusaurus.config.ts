@@ -88,7 +88,7 @@ const config: Config = {
           ],
         },
       ],
-      copyright: `Copyright \u00a9 ${new Date().getFullYear()} Compozerr`,
+      copyright: `Copyright \u00a9 ${new Date().getFullYear()} compozerr`,
     },
     prism: {
       theme: prismThemes.github,

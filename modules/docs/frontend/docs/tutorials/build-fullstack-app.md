@@ -74,14 +74,14 @@ public class HelloEndpoints : CarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/v1/hello", () => new { message = "Hello from Compozerr!" });
+        app.MapGet("/v1/hello", () => new { message = "Hello from compozerr!" });
     }
 }
 ```
 
 Save the file and the backend will hot-reload. Test it:
 
-<CommandBlock command="curl http://localhost:1235/v1/hello" output='{"message":"Hello from Compozerr!"}' />
+<CommandBlock command="curl http://localhost:1235/v1/hello" output='{"message":"Hello from compozerr!"}' />
 
 ## 5. Regenerate the API client
 
