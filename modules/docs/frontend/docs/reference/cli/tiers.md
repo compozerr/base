@@ -51,3 +51,4 @@ Get tiers as JSON:
 
 - [`new project`](/reference/cli/new) -- Create a project with a specific tier
 - [`migrate`](/reference/cli/migrate) -- Migrate a project with a specific tier
+- [`deploy`](/reference/cli/deploy) -- Deploy your project to production

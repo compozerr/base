@@ -61,3 +61,4 @@ If the TUI cannot be initialized (no TTY detected), logs stream directly to stdo
 
 - [`new project`](/reference/cli/new) -- Create a project to develop
 - [`deploy`](/reference/cli/deploy) -- Deploy when ready for production
+- [`deployment`](/reference/cli/deployment) -- Monitor deployment status and logs

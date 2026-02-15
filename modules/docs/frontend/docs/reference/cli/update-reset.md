@@ -105,3 +105,4 @@ Combine flags for CI/CD pipelines:
 
 - [`login`](/reference/cli/login) -- Authenticate after a reset
 - [`me`](/reference/cli/login) -- Verify current account
+- [`deploy`](/reference/cli/deploy) -- Deploy your project to production

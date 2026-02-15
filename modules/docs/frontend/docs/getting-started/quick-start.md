@@ -5,6 +5,7 @@ title: Quick Start
 
 import CommandBlock from '@site/src/components/CommandBlock';
 import Prerequisites from '@site/src/components/Prerequisites';
+import ReadMore from '@site/src/components/ReadMore';
 import WhatNext from '@site/src/components/WhatNext';
 
 # Quick Start
@@ -42,6 +43,8 @@ Launch the dev servers:
 <CommandBlock command="compozerr dev" />
 
 The frontend runs at **http://localhost:3001** and the backend at **http://localhost:5000**. Changes hot-reload automatically.
+
+<ReadMore to="/troubleshooting/project-wont-start" title="Troubleshooting: Project Won't Start" description="Fix common issues when the dev environment fails to start." />
 
 ## 5. Deploy
 

@@ -87,9 +87,9 @@ public class ItemsEndpoints : CarterModule
 Add the corresponding MediatR command in `Commands/GetItemsCommand.cs`:
 
 ```csharp
-public sealed record GetItemsCommand : IRequest<List<ItemDto>>;
+public sealed record GetItemsCommand : ICommand<List<ItemDto>>;
 
-public sealed class GetItemsCommandHandler : IRequestHandler<GetItemsCommand, List<ItemDto>>
+public sealed class GetItemsCommandHandler : ICommandHandler<GetItemsCommand, List<ItemDto>>
 {
     public async Task<List<ItemDto>> Handle(GetItemsCommand command, CancellationToken ct)
     {
@@ -146,6 +146,8 @@ Modules are managed as git submodules. Other Compozerr projects can add your mod
 <CommandBlock command="compozerr add my-module" />
 
 This clones the module into the target project's `modules/` directory and registers it in the project configuration.
+
+<ReadMore to="/reference/cli/add-remove" title="compozerr add / remove" description="Full reference for adding and removing modules in a project." />
 
 <ReadMore to="/reference/cli/new" title="compozerr new" description="Full reference for scaffolding projects and modules." />
 

@@ -29,6 +29,10 @@ By default, the command returns after the deployment is queued. Use `--wait` to 
   { name: "--poll-interval", type: "number", default: "5000", description: "Polling interval in milliseconds when using --wait. Controls how frequently the CLI checks deployment status." }
 ]} />
 
+:::tip Global flags
+All commands support `--json`, `--quiet`, `--non-interactive`, `--yes`, and `--force-interactive`. See [global flags](/reference/cli/update-reset#global-flags) for details.
+:::
+
 ## Examples
 
 Deploy and return immediately:

@@ -87,6 +87,8 @@ Duration: 2m 34s" />
 
 If the status shows `Failed`, check the logs with `compozerr deployment logs` to diagnose the issue.
 
+<ReadMore to="/troubleshooting/deployment-failures" title="Troubleshooting Deployment Failures" description="Common deployment errors and how to fix them." />
+
 <WhatNext items={[
   { title: "Set Up Custom Domains & SSL", to: "/tutorials/custom-domains-ssl", description: "Point your own domain to your deployed project with automatic SSL." },
   { title: "Monitor Deployments", to: "/tutorials/monitor-deployments", description: "Track deployment status, view logs, and debug failures." }

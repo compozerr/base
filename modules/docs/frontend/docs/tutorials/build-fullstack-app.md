@@ -61,6 +61,8 @@ Watching for changes..." />
 
 The frontend runs at **http://localhost:3001** and the backend at **http://localhost:5000**. Both hot-reload on file changes.
 
+<ReadMore to="/reference/cli/dev" title="compozerr dev" description="Full reference for the dev command, including TUI mode and non-interactive options." />
+
 ## 4. Add a backend endpoint
 
 Create a new endpoint using Carter. Add a file at `backend/Api/Endpoints/HelloEndpoints.cs`:
@@ -117,6 +119,8 @@ Build complete.
 Your app is live at https://my-app.compozerr.app" />
 
 <ReadMore to="/reference/architecture/module-system" title="Module System" description="Learn how modules add backend features and frontend routes to your project." />
+
+<ReadMore to="/reference/architecture/frontend-architecture" title="Frontend Architecture" description="Deep dive into TanStack Router, the generated API client, and module route integration." />
 
 <WhatNext items={[
   { title: "Create & Publish a Module", to: "/tutorials/create-publish-module", description: "Build a reusable full-stack module and share it across projects." },

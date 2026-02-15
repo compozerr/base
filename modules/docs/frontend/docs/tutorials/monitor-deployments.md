@@ -63,6 +63,8 @@ For the complete timestamped log output:
 
 Log entries include severity levels: **Info**, **Warning**, **Error**, and **Success**. Look for **Error** entries to diagnose failures.
 
+<ReadMore to="/troubleshooting/deployment-failures" title="Troubleshooting Deployment Failures" description="Common deployment errors and how to fix them." />
+
 ## 4. List all deployments
 
 View a paginated list of all deployments for your project:

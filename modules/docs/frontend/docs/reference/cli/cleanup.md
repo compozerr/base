@@ -51,3 +51,4 @@ Run cleanup quietly:
 
 - [`dev`](/reference/cli/dev) -- Development environment that creates Docker artifacts
 - [`deploy`](/reference/cli/deploy) -- Build and deploy process that creates images
+- [`ssh`](/reference/cli/ssh) -- Connect to deployed projects for debugging
