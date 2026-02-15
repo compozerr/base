@@ -2,11 +2,29 @@
 slug: /
 sidebar_position: 0
 hide_table_of_contents: true
-title: Welcome
+title: Compozerr
 ---
 
-# Compozerr
+import CommandBlock from '@site/src/components/CommandBlock';
 
-Deploy anything. From code to cloud in one command.
+# Deploy anything.
 
-Content coming soon.
+**From code to cloud in one command.**
+
+Compozerr is a deployment platform for developers. Deploy Docker Compose projects, Next.js apps, static sites, or scaffold full-stack applications with the Compozerr template. Every deployment gets automatic SSL, custom domains, and access to a plug-and-play module system.
+
+[**Get Started →**](/getting-started/installation) &nbsp;&nbsp; [Browse Tutorials →](/tutorials/deploy-docker-compose)
+
+---
+
+## Quick start
+
+<CommandBlock command='/bin/bash -c "$(curl -fsSL https://compozerr.com/install.sh)"' />
+
+<CommandBlock command="compozerr login" />
+
+<CommandBlock command="compozerr new project my-app" />
+
+<CommandBlock command="compozerr deploy" output="Deploying my-app...
+Build complete.
+Your app is live at https://my-app.compozerr.app" />
