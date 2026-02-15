@@ -35,9 +35,12 @@ public sealed class ReportServicesCommandHandler(
         {
             ProjectService serviceToProcess;
             bool isNewService = false;
+            bool serviceChanged = true;
 
             if (existingServices.TryGetValue(serviceInfo.Name, out var existingService))
             {
+                serviceChanged = existingService.Port != serviceInfo.Port
+                              || existingService.Protocol != serviceInfo.Protocol;
                 existingService.Port = serviceInfo.Port;
                 existingService.Protocol = serviceInfo.Protocol;
                 serviceToProcess = existingService;
@@ -78,7 +81,10 @@ public sealed class ReportServicesCommandHandler(
                 isNewService = true;
             }
 
-            serviceToProcess.QueueDomainEvent<ProjectServiceUpsertedEvent>();
+            if (serviceChanged)
+            {
+                serviceToProcess.QueueDomainEvent<ProjectServiceUpsertedEvent>();
+            }
 
             if (isNewService)
             {
@@ -86,7 +92,7 @@ public sealed class ReportServicesCommandHandler(
                     serviceToProcess,
                     cancellationToken);
             }
-            else
+            else if (serviceChanged)
             {
                 await projectServiceRepository.UpdateAsync(
                     serviceToProcess,
