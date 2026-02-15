@@ -15,8 +15,16 @@ async function fetchAndSetUser(setUser: React.Dispatch<React.SetStateAction<Auth
     } catch (e) { }
 
     if (!response) {
+        const hadStoredUser = getStoredUser() !== null;
         setUser(null);
         setStoredUser(null);
+
+        // If we had a stored user but the server says we're not authenticated,
+        // the session was invalidated (e.g. after a deployment). Redirect to
+        // login immediately instead of rendering a broken page.
+        if (hadStoredUser) {
+            window.location.href = '/login?redirect=' + encodeURIComponent(window.location.href);
+        }
         return;
     }
 

@@ -25,7 +25,9 @@ services:
       - STORAGE__BasePath=/app/storage-data
     volumes:
       - private_keys_data:/app/privateKeys
+      - data_protection_keys:/app/keys
       - ./storage-data:/app/storage-data
 
 volumes:
   private_keys_data:
+  data_protection_keys:
