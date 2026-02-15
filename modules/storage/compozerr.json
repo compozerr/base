@@ -1,10 +1,10 @@
 {
     "type": "module",
     "name": "storage",
-    "port": "1237",
-    "start": "docker compose up",
-    "startupTimeoutMs": 10000,
-    "end": "docker compose stop",
-    "dockerComposeFile": "docker-compose.yml",
-    "readyMessage": "MinIO Object Storage Server"
+    "backend": {
+        "defaultEnvProperties": {
+            "STORAGE__PROVIDER": "filesystem",
+            "STORAGE__BASE_PATH": "/app/storage-data"
+        }
+    }
 }

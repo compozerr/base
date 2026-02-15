@@ -22,6 +22,7 @@ services:
     restart: always
     volumes:
       - private_keys_data:/app/privateKeys
+      - storage_data:/app/storage-data
     deploy:
       resources:
         limits:
@@ -31,3 +32,4 @@ services:
 
 volumes:
   private_keys_data:
+  storage_data:
