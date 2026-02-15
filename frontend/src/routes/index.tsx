@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { createFileRoute, redirect } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router'
 import Hero from '@/components/hero'
 import Features from '@/components/features'
 import Footer from '@/components/footer'
@@ -8,13 +8,6 @@ import Navbar from '@/components/navbar'
 
 export const Route = createFileRoute('/')({
   component: HomeComponent,
-  beforeLoad({ context }) {
-    if (context.auth.isAuthenticated) {
-      throw redirect({
-        to: '/projects',
-      })
-    }
-  },
 })
 
 function HomeComponent() {

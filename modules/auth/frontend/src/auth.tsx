@@ -74,7 +74,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         console.log('loginUrl', loginUrl)
 
         const search = new URLSearchParams(window.location.search)
-        location.href = loginUrl + '?returnUrl=' + encodeURIComponent(search.get('redirect') || '/')
+        location.href = loginUrl + '?returnUrl=' + encodeURIComponent(search.get('redirect') || '/projects')
     }, [])
 
     React.useEffect(() => {
