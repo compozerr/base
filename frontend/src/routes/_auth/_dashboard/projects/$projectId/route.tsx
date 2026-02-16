@@ -1,4 +1,3 @@
-import * as React from 'react'
 import {
   createFileRoute,
   Link,
@@ -8,8 +7,8 @@ import {
 import { cn } from '@/lib/utils'
 import { api } from '@/api-client'
 import { Button } from '@/components/ui/button'
+import { DashboardHeaderPortal } from '@/components/dashboard-header-portal'
 import { ChevronRight, ExternalLink } from 'lucide-react'
-import { AnimatePresence, motion } from 'framer-motion'
 
 export const Route = createFileRoute('/_auth/_dashboard/projects/$projectId')({
   component: RouteComponent,
@@ -43,26 +42,50 @@ function RouteComponent() {
 
   return (
     <div className="flex flex-col min-h-screen w-full">
-      {/* Navigation bar */}
-      <div className="border-b border-zinc-800 px-1 py-3">
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+      {/* Portal breadcrumbs + tabs into the dashboard header */}
+      <DashboardHeaderPortal>
+        <div className="flex items-center gap-4 flex-1 min-w-0">
           {/* Breadcrumb */}
-          <div className="flex items-center gap-1.5 text-sm">
+          <nav className="flex items-center gap-1.5 text-sm shrink-0" aria-label="Breadcrumb">
             <Link
               to="/projects"
-              className="text-muted-foreground hover:text-foreground transition-colors"
+              className="text-white/50 hover:text-white transition-colors"
             >
               Projects
             </Link>
-            <ChevronRight className="h-3.5 w-3.5 text-muted-foreground" />
-            <span className="font-medium text-foreground truncate max-w-[200px]">
+            <ChevronRight className="h-3 w-3 text-white/30" />
+            <span className="font-medium text-white truncate max-w-[160px]">
               {project?.name}
             </span>
-          </div>
+          </nav>
 
-          {/* Visit button */}
+          {/* Separator */}
+          <div className="h-4 w-px bg-white/[0.08] hidden sm:block" />
+
+          {/* Tabs */}
+          <nav className="flex items-center gap-0.5 overflow-x-auto scrollbar-none">
+            {tabs.map((tab) => {
+              const active = isTabActive(tab.href)
+              return (
+                <Link
+                  key={tab.name}
+                  to={tab.href}
+                  className={cn(
+                    'px-2.5 py-1 text-[13px] font-medium rounded-md transition-colors whitespace-nowrap',
+                    active
+                      ? 'bg-white/[0.08] text-white'
+                      : 'text-white/50 hover:text-white hover:bg-white/[0.04]',
+                  )}
+                >
+                  {tab.name}
+                </Link>
+              )
+            })}
+          </nav>
+
+          {/* Visit button - pushed to the right */}
           {project?.primaryDomain && (
-            <Button variant="outline" size="sm" className="gap-1.5 w-fit" asChild>
+            <Button variant="outline" size="sm" className="gap-1.5 ml-auto shrink-0 hidden sm:inline-flex" asChild>
               <a href={"https://" + project.primaryDomain} target="_blank" rel="noopener noreferrer">
                 <ExternalLink className="h-3.5 w-3.5" />
                 Visit
@@ -70,42 +93,11 @@ function RouteComponent() {
             </Button>
           )}
         </div>
-
-        {/* Pill tabs */}
-        <nav className="mt-3 flex items-center gap-1 overflow-x-auto scrollbar-none -mb-px">
-          {tabs.map((tab) => {
-            const active = isTabActive(tab.href)
-            return (
-              <Link
-                key={tab.name}
-                to={tab.href}
-                className={cn(
-                  'relative px-3.5 py-1.5 text-sm font-medium rounded-md transition-colors whitespace-nowrap',
-                  active
-                    ? 'bg-secondary text-foreground'
-                    : 'text-muted-foreground hover:text-foreground hover:bg-secondary/50',
-                )}
-              >
-                {tab.name}
-              </Link>
-            )
-          })}
-        </nav>
-      </div>
+      </DashboardHeaderPortal>
 
       {/* Page content */}
       <div className="py-6">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={pathname}
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.2, ease: 'easeInOut' }}
-          >
-            <Outlet />
-          </motion.div>
-        </AnimatePresence>
+        <Outlet />
       </div>
     </div>
   )

@@ -227,7 +227,7 @@ function RouteComponent() {
                             {serverTier ? (
                                 <div className="flex flex-col gap-1.5">
                                     <span className="flex items-center gap-2 text-sm text-foreground/80">
-                                        <MemoryStick className="h-4 w-4 text-blue-400" />
+                                        <MemoryStick className="h-4 w-4 text-zinc-400" />
                                         {serverTier.ramGb} GB RAM
                                     </span>
                                     <span className="flex items-center gap-2 text-sm text-foreground/80">

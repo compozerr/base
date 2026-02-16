@@ -40,7 +40,7 @@ function getStatusColor(status: DeploymentStatus) {
         case DeploymentStatus.Completed:
             return "bg-emerald-500";
         case DeploymentStatus.Deploying:
-            return "bg-blue-500";
+            return "bg-white";
         case DeploymentStatus.Queued:
             return "bg-amber-500";
         case DeploymentStatus.Failed:
@@ -57,7 +57,7 @@ function getStatusTextColor(status: DeploymentStatus) {
         case DeploymentStatus.Completed:
             return "text-emerald-500";
         case DeploymentStatus.Deploying:
-            return "text-blue-500";
+            return "text-white";
         case DeploymentStatus.Queued:
             return "text-amber-500";
         case DeploymentStatus.Failed:
@@ -242,7 +242,7 @@ function DeploymentCard({ deployment, projectId, router }: {
     return (
         <div
             className={`group relative rounded-lg border bg-card p-4 transition-colors hover:bg-accent/50 cursor-pointer ${
-                active ? "border-blue-500/30" : "border-border"
+                active ? "border-white/20" : "border-border"
             }`}
             onClick={() => {
                 router.navigate({ to: `/projects/${projectId}/deployments/${deployment.id}` })
@@ -250,7 +250,7 @@ function DeploymentCard({ deployment, projectId, router }: {
         >
             {/* Active deployment pulse border overlay */}
             {active && (
-                <div className="absolute inset-0 rounded-lg border border-blue-500/20 animate-pulse pointer-events-none" />
+                <div className="absolute inset-0 rounded-lg border border-white/10 animate-pulse pointer-events-none" />
             )}
 
             <div className="flex items-center gap-4">

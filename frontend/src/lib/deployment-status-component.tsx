@@ -5,7 +5,7 @@ export const getStatusDot = (status: DeploymentStatus) => {
         case DeploymentStatus.Completed:
             return <span className="h-2 w-2 rounded-full bg-green-500 mr-2"></span>
         case DeploymentStatus.Deploying:
-            return <span className="h-2 w-2 rounded-full bg-blue-500 mr-2"></span>
+            return <span className="h-2 w-2 rounded-full bg-white mr-2"></span>
         case DeploymentStatus.Failed:
             return <span className="h-2 w-2 rounded-full bg-red-500 mr-2"></span>
         case DeploymentStatus.Queued:

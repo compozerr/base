@@ -215,7 +215,7 @@ function RouteComponent() {
                         ))}
                     </div>
                     {filteredTotalProjectsCount !== totalProjectsCount && (
-                        <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
+                        <div className="flex items-center gap-1.5 text-sm text-muted-foreground whitespace-nowrap">
                             <Filter className="h-3.5 w-3.5" />
                             <span>Showing {filteredTotalProjectsCount} of {totalProjectsCount}</span>
                         </div>
@@ -326,14 +326,14 @@ function RouteComponent() {
                                                 },
                                             });
                                         }}
-                                        className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-blue-500/10 hover:bg-blue-500/20 transition-colors cursor-pointer ml-auto"
+                                        className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-white/[0.06] hover:bg-white/[0.1] transition-colors cursor-pointer ml-auto"
                                         title="View active deployment"
                                     >
                                         <span className="relative flex h-2 w-2">
-                                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75" />
-                                            <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500" />
+                                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white/60 opacity-75" />
+                                            <span className="relative inline-flex rounded-full h-2 w-2 bg-white" />
                                         </span>
-                                        <span className="text-[11px] font-medium text-blue-600 dark:text-blue-400">
+                                        <span className="text-[11px] font-medium text-zinc-300">
                                             Deploying
                                         </span>
                                     </button>

@@ -48,7 +48,7 @@ function getStatusBadgeClasses(status: DeploymentStatus) {
         case DeploymentStatus.Completed:
             return "bg-emerald-500/10 text-emerald-500 border-emerald-500/20";
         case DeploymentStatus.Deploying:
-            return "bg-blue-500/10 text-blue-500 border-blue-500/20";
+            return "bg-white/[0.06] text-white border-white/20";
         case DeploymentStatus.Queued:
             return "bg-amber-500/10 text-amber-500 border-amber-500/20";
         case DeploymentStatus.Failed:
@@ -65,7 +65,7 @@ function getStatusDotColor(status: DeploymentStatus) {
         case DeploymentStatus.Completed:
             return "bg-emerald-500";
         case DeploymentStatus.Deploying:
-            return "bg-blue-500";
+            return "bg-white";
         case DeploymentStatus.Queued:
             return "bg-amber-500";
         case DeploymentStatus.Failed:
@@ -212,7 +212,7 @@ function RouteComponent() {
                                 >
                                     <Clock className="h-3.5 w-3.5 text-muted-foreground" />
                                 </motion.div>
-                                <span className={cn("font-medium font-mono", isDeploying && "text-blue-500")}>
+                                <span className={cn("font-medium font-mono", isDeploying && "text-white")}>
                                     {buildDuration}
                                 </span>
                             </div>
@@ -223,11 +223,11 @@ function RouteComponent() {
                                     href={"https://" + deployment.url!}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="text-blue-500 hover:text-blue-400 hover:underline transition-colors text-sm truncate max-w-[200px]"
+                                    className="text-white hover:text-zinc-300 hover:underline transition-colors text-sm truncate max-w-[200px]"
                                 >
                                     {deployment.url}
                                 </a>
-                                <ExternalLink className="h-3 w-3 text-blue-500 flex-shrink-0" />
+                                <ExternalLink className="h-3 w-3 text-white flex-shrink-0" />
                                 <CopyButton value={deployment.url!} className="p-1" iconClassName="h-3 w-3" />
                             </div>
                         </InfoRow>
@@ -248,7 +248,7 @@ function RouteComponent() {
                             <div className="flex items-center gap-2">
                                 <GitCommit className="h-3.5 w-3.5 text-muted-foreground" />
                                 <CopyText value={deployment.commitHash!} className="font-mono">
-                                    <span className="font-mono text-sm font-medium hover:text-blue-500 transition-colors">{deployment.commitHash?.substring(0, 7)}</span>
+                                    <span className="font-mono text-sm font-medium hover:text-white transition-colors">{deployment.commitHash?.substring(0, 7)}</span>
                                 </CopyText>
                             </div>
                         </InfoRow>
@@ -289,7 +289,7 @@ function RouteComponent() {
                         <LogEntry key={index} {...log} />
                     ))}
                     {isDeploying && (
-                        <div className="flex items-center gap-2 mt-1 text-blue-400">
+                        <div className="flex items-center gap-2 mt-1 text-zinc-300">
                             <motion.span
                                 animate={{ opacity: [1, 0.3, 1] }}
                                 transition={{ duration: 1.5, repeat: Infinity }}

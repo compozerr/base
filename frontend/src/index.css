@@ -11,30 +11,30 @@
     --card-foreground: 0 0% 96%;
     --popover: 240 5% 7%;
     --popover-foreground: 0 0% 96%;
-    --primary: 217 91% 60%;
-    --primary-foreground: 0 0% 100%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 6% 6%;
     --secondary: 240 4% 12%;
     --secondary-foreground: 0 0% 96%;
     --muted: 240 4% 12%;
     --muted-foreground: 240 5% 55%;
-    --accent: 217 91% 60%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 240 4% 16%;
+    --accent-foreground: 0 0% 96%;
     --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 98%;
     --border: 240 4% 14%;
     --input: 240 4% 14%;
-    --ring: 217 91% 60%;
+    --ring: 0 0% 60%;
     --radius: 0.625rem;
 
     /* Sidebar */
     --sidebar-background: 240 6% 3%;
     --sidebar-foreground: 240 5% 90%;
-    --sidebar-primary: 217 91% 60%;
-    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-primary: 0 0% 98%;
+    --sidebar-primary-foreground: 240 6% 6%;
     --sidebar-accent: 240 4% 12%;
     --sidebar-accent-foreground: 240 5% 90%;
     --sidebar-border: 240 4% 14%;
-    --sidebar-ring: 217 91% 60%;
+    --sidebar-ring: 0 0% 60%;
 
     /* Custom tokens */
     --surface: 240 5% 7%;
@@ -51,29 +51,29 @@
     --card-foreground: 0 0% 96%;
     --popover: 240 5% 7%;
     --popover-foreground: 0 0% 96%;
-    --primary: 217 91% 60%;
-    --primary-foreground: 0 0% 100%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 6% 6%;
     --secondary: 240 4% 12%;
     --secondary-foreground: 0 0% 96%;
     --muted: 240 4% 12%;
     --muted-foreground: 240 5% 55%;
-    --accent: 217 91% 60%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 240 4% 16%;
+    --accent-foreground: 0 0% 96%;
     --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 98%;
     --border: 240 4% 14%;
     --input: 240 4% 14%;
-    --ring: 217 91% 60%;
+    --ring: 0 0% 60%;
     --radius: 0.625rem;
     --sidebar-background: 240 6% 3%;
     --sidebar-foreground: 240 5% 90%;
-    --sidebar-primary: 217 91% 60%;
-    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-primary: 0 0% 98%;
+    --sidebar-primary-foreground: 240 6% 6%;
     --sidebar-accent: 240 4% 12%;
     --sidebar-accent-foreground: 240 5% 90%;
     --sidebar-border: 240 4% 14%;
-    --sidebar-ring: 217 91% 60%;
-    --nav-accent: 199 89% 48%;
+    --sidebar-ring: 0 0% 60%;
+    --nav-accent: 0 0% 85%;
     --surface: 240 5% 7%;
     --surface-elevated: 240 4% 10%;
     --border-subtle: 240 4% 10%;
@@ -149,7 +149,7 @@ html {
 
 /* Glow effect for hero */
 .glow-blue {
-  box-shadow: 0 0 60px 10px rgba(59, 130, 246, 0.15);
+  box-shadow: 0 0 60px 10px rgba(255, 255, 255, 0.06);
 }
 
 /* Stagger animation utility */

@@ -12,9 +12,6 @@ import StripeAddPaymentMethodBanner from '@repo/stripe/stripe-add-payment-method
 import { api } from '@/api-client'
 import { LocalStorage } from '@/lib/storage'
 import { tryCatchify } from '@/lib/try-catchifier'
-import { AnimatePresence, motion } from 'framer-motion'
-import { ChevronRight } from 'lucide-react'
-import { useMemo } from 'react'
 
 export const Route = createFileRoute('/_auth/_dashboard')({
   component: RouteComponent,
@@ -46,62 +43,7 @@ export const Route = createFileRoute('/_auth/_dashboard')({
   }
 })
 
-const routeLabelMap: Record<string, string> = {
-  projects: 'Projects',
-  settings: 'Settings',
-  deployments: 'Deployments',
-  'intro-flow': 'Setup',
-}
-
-function Breadcrumbs() {
-  const routerState = useRouterState()
-  const pathname = routerState.location.pathname
-
-  const segments = useMemo(() => {
-    const parts = pathname.split('/').filter(Boolean)
-    const crumbs: { label: string; path: string }[] = []
-
-    for (let i = 0; i < parts.length; i++) {
-      const segment = parts[i]
-      if (!segment) continue
-      const path = '/' + parts.slice(0, i + 1).join('/')
-      const label = routeLabelMap[segment]
-      if (label) {
-        crumbs.push({ label, path })
-      }
-    }
-
-    return crumbs
-  }, [pathname])
-
-  if (segments.length === 0) return null
-
-  return (
-    <nav className="flex items-center gap-1.5 text-sm" aria-label="Breadcrumb">
-      {segments.map((segment, idx) => (
-        <span key={segment.path} className="flex items-center gap-1.5">
-          {idx > 0 && (
-            <ChevronRight className="h-3 w-3 text-white/30" />
-          )}
-          <span
-            className={
-              idx === segments.length - 1
-                ? 'font-medium text-white'
-                : 'text-white/50'
-            }
-          >
-            {segment.label}
-          </span>
-        </span>
-      ))}
-    </nav>
-  )
-}
-
 function RouteComponent() {
-  const routerState = useRouterState()
-  const pathname = routerState.location.pathname
-
   return (
     <div className="min-h-screen bg-black text-white">
       <SidebarProvider>
@@ -118,9 +60,8 @@ function RouteComponent() {
               <div className="hidden md:block">
                 <SidebarTrigger />
               </div>
-              <div className="hidden md:block">
-                <Breadcrumbs />
-              </div>
+              {/* Slot for route-level header content (breadcrumbs, tabs, etc.) */}
+              <div id="dashboard-header-slot" />
             </div>
             {/* Gradient bottom border */}
             <div className="h-px bg-gradient-to-r from-transparent via-white/[0.08] to-transparent" />
@@ -128,17 +69,7 @@ function RouteComponent() {
 
           {/* Content area */}
           <div className="mx-auto max-w-7xl p-4 pb-20 md:pb-4">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={pathname}
-                initial={{ opacity: 0, y: 6 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.15, ease: 'easeOut' }}
-              >
-                <Outlet />
-              </motion.div>
-            </AnimatePresence>
+            <Outlet />
           </div>
         </main>
       </SidebarProvider>
