@@ -6,7 +6,7 @@ import { ApiErrorHandler } from "./api-error-handler";
 export const queryClient = new QueryClient({
     defaultOptions: {
         queries: {
-            staleTime: 30 * 1000, // 30 seconds
+            staleTime: 0,
         },
         mutations: {
             onError: ApiErrorHandler.onError
