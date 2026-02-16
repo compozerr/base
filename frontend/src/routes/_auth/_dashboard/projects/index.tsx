@@ -138,6 +138,20 @@ function RouteComponent() {
     const stoppedProjectsCount = useMemo(() => totalProjectsCount - runningProjectsCount, [totalProjectsCount, runningProjectsCount]);
 
     const router = useRouter();
+    const searchInputRef = useRef<HTMLInputElement>(null);
+
+    // Intercept Cmd+F / Ctrl+F to focus search input
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if ((e.metaKey || e.ctrlKey) && e.key === 'f') {
+                e.preventDefault();
+                searchInputRef.current?.focus();
+                searchInputRef.current?.select();
+            }
+        };
+        document.addEventListener('keydown', handleKeyDown);
+        return () => document.removeEventListener('keydown', handleKeyDown);
+    }, []);
 
     // Infinite scroll observer
     const scrollSentinelRef = useRef<HTMLDivElement>(null);
@@ -192,6 +206,7 @@ function RouteComponent() {
                     <div className="relative w-full md:max-w-md">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                         <Input
+                            ref={searchInputRef}
                             placeholder="Search projects..."
                             className="pl-9 font-mono text-sm"
                             value={search}
