@@ -1,0 +1,9 @@
+{
+    "type": "module",
+    "name": "frontend",
+    "dev": {
+        "startCommand": "npx vite --port 1234 --host",
+        "port": "1234",
+        "readyMessage": "Local:"
+    }
+}
