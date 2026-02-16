@@ -3,10 +3,8 @@ import InfiniteScrollContainer from "@/components/infinite-scroll-container"
 import LoadingButton from "@/components/loading-button"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useTimeAgo } from '@/hooks/useTimeAgo'
 import { DeploymentStatus } from "@/lib/deployment-status"
-import { getStatusDot } from "@/lib/deployment-status-component"
 import { DeploymentStatusFilter } from "@/lib/deployment-status-filter"
 import { Formatter } from "@/lib/formatter"
 import { getLink } from "@/links"
@@ -15,7 +13,9 @@ import { motion } from "framer-motion"
 import {
     GitBranchIcon,
     GitCommitIcon,
-    RefreshCw
+    PackageIcon,
+    RefreshCw,
+    RocketIcon,
 } from "lucide-react"
 import { useMemo, useState } from "react"
 
@@ -25,6 +25,53 @@ export const Route = createFileRoute(
     component: RouteComponent,
     loader: (ctx) => api.v1.getProjectsProjectIdDeployments.prefetchQuery({ parameters: { path: { projectId: ctx.params.projectId } } })
 })
+
+const filterOptions = [
+    { label: "All", value: DeploymentStatusFilter.All },
+    { label: "Completed", value: DeploymentStatusFilter.Completed },
+    { label: "Deploying", value: DeploymentStatusFilter.Deploying },
+    { label: "Queued", value: DeploymentStatusFilter.Queued },
+    { label: "Failed", value: DeploymentStatusFilter.Failed },
+    { label: "Cancelled", value: DeploymentStatusFilter.Cancelled },
+] as const;
+
+function getStatusColor(status: DeploymentStatus) {
+    switch (status) {
+        case DeploymentStatus.Completed:
+            return "bg-emerald-500";
+        case DeploymentStatus.Deploying:
+            return "bg-blue-500";
+        case DeploymentStatus.Queued:
+            return "bg-amber-500";
+        case DeploymentStatus.Failed:
+            return "bg-red-500";
+        case DeploymentStatus.Cancelled:
+            return "bg-zinc-500";
+        default:
+            return "bg-zinc-500";
+    }
+}
+
+function getStatusTextColor(status: DeploymentStatus) {
+    switch (status) {
+        case DeploymentStatus.Completed:
+            return "text-emerald-500";
+        case DeploymentStatus.Deploying:
+            return "text-blue-500";
+        case DeploymentStatus.Queued:
+            return "text-amber-500";
+        case DeploymentStatus.Failed:
+            return "text-red-500";
+        case DeploymentStatus.Cancelled:
+            return "text-zinc-500";
+        default:
+            return "text-zinc-500";
+    }
+}
+
+function isActiveStatus(status: DeploymentStatus) {
+    return status === DeploymentStatus.Deploying || status === DeploymentStatus.Queued;
+}
 
 function RouteComponent() {
     const router = useRouter();
@@ -41,7 +88,7 @@ function RouteComponent() {
         {
             refetchInterval(ctx) {
                 const hasActive = ctx.state.data?.pages.flatMap(page => page.items ?? []).some(p => [DeploymentStatus.Deploying, DeploymentStatus.Queued].includes(p.status as DeploymentStatus));
-                return hasActive ? 10000 : 30000; // 10s if deploying, 30s otherwise
+                return hasActive ? 10000 : 30000;
             },
             getNextPageParam: (lastPage) => {
                 if (!lastPage) return undefined;
@@ -83,75 +130,16 @@ function RouteComponent() {
         refetch();
     }
 
-    function DeploymentRow({ deployment, projectId, router }: { deployment: typeof deployments[number], projectId: string, router: any }) {
-        const timeAgo = useTimeAgo(deployment.createdAt!);
-        return (
-            <div key={deployment.id} className={`flex items-center justify-between py-4 px-4 border-b bg-muted/50 hover:bg-muted/70 hover:cursor-pointer`}
-                onClick={() => {
-                    router.navigate({ to: `/projects/${projectId}/deployments/${deployment.id}` })
-                }}>
-                <div className="flex-1 min-w-0">
-                    <div className="flex items-center">
-                        <div className="min-w-0 flex-1 flex flex-row gap-2">
-                            <div className="flex items-start flex-col">
-                                <span className="font-mono text-sm">{deployment.id?.substring(0, 8)}</span>
-                                <div className="text-sm text-muted-foreground">{deployment.environment}</div>
-                            </div>
-                            {deployment.environment === "Production" && (
-                                <div className="flex items-center">
-                                    {deployment.isCurrent && (
-                                        <Badge
-                                            variant="outline"
-                                            className="text-xs rounded-full px-2 py-0 h-5 bg-primary/10 border-primary/20"
-                                        >
-                                            Current
-                                        </Badge>
-                                    )}
-                                </div>
-                            )}
-                        </div>
-                    </div>
-                </div>
-
-                <div className="flex items-center gap-2 flex-1">
-                    <div className="flex items-center">
-                        {getStatusDot(deployment.status as DeploymentStatus)}
-                        <span>{deployment.status}</span>
-                    </div>
-                    <div className="text-sm text-muted-foreground">{timeAgo}</div>
-                </div>
-
-                <div className="flex items-start flex-1 flex-col px-3">
-                    <div className="flex items-center gap-1">
-                        <GitBranchIcon className="h-4 w-4 py-[2px] text-muted-foreground" />
-                        <span className="truncate w-[200px]">{deployment.branch}</span>
-                    </div>
-                    <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                        <GitCommitIcon className="h-4 w-4" />
-                        <span className="font-mono">{deployment.commitHash?.substring(0, 6)}</span>
-                        <span className="truncate w-[200px]">{deployment.commitMessage}</span>
-                    </div>
-                </div>
-
-                <div className="flex items-center gap-4">
-                    <div className="text-sm text-muted-foreground text-right flex flex-col">
-                        <div>{Formatter.fromDate(deployment.createdAt, "long")}</div>
-                        <div>by {deployment.author}</div>
-                    </div>
-                </div>
-            </div>
-        );
-    }
-
     return (
         <div className="space-y-6">
-            <div className="flex justify-between items-center">
-                <div className="flex items-center gap-2">
+            {/* Header */}
+            <div className="flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-center">
+                <div className="flex items-center gap-3">
                     <h2 className="text-3xl font-bold tracking-tight">Deployments</h2>
                     <Button
                         variant="ghost"
                         size="icon"
-                        className="rounded-full"
+                        className="rounded-full h-8 w-8"
                         onClick={() => {
                             router.invalidate();
                         }}
@@ -166,85 +154,159 @@ function RouteComponent() {
                         </motion.div>
                     </Button>
                 </div>
-                <LoadingButton isLoading={isDeployFromLatestCommitPending} onClick={handleDeployFromLatestCommitAsync}>
+                <LoadingButton
+                    isLoading={isDeployFromLatestCommitPending}
+                    onClick={handleDeployFromLatestCommitAsync}
+                >
+                    <RocketIcon className="h-4 w-4 mr-2" />
                     Deploy from Latest Commit
                 </LoadingButton>
             </div>
 
-            <div className="flex flex-col md:flex-row gap-2">
-                {/* <div className="relative flex-1">
-                    <SearchIcon className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-                    <Input placeholder="All Branches..." className="pl-8 pr-10" />
-                    <ChevronDownIcon className="absolute right-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-                </div> */}
-
-                {/* <Select defaultValue="all">
-                    <SelectTrigger className="w-full md:w-[200px]">
-                        <SelectValue placeholder="All Environments" />
-                    </SelectTrigger>
-                    <SelectContent>
-                        <SelectItem value="all">All Environments</SelectItem>
-                        <SelectItem value="production">Production</SelectItem>
-                       
-                    </SelectContent>
-                </Select> */}
-
-                <Select defaultValue="all" onValueChange={(value) => {
-                    switch (value) {
-                        case "all":
-                            setFilter(DeploymentStatusFilter.All);
-                            break;
-                        case "completed":
-                            setFilter(DeploymentStatusFilter.Completed);
-                            break;
-                        case "deploying":
-                            setFilter(DeploymentStatusFilter.Deploying);
-                            break;
-                        case "queued":
-                            setFilter(DeploymentStatusFilter.Queued);
-                            break;
-                        case "failed":
-                            setFilter(DeploymentStatusFilter.Failed);
-                            break;
-                        case "cancelled":
-                            setFilter(DeploymentStatusFilter.Cancelled);
-                            break;
-                        default:
-                            setFilter(DeploymentStatusFilter.All);
-                            break;
-                    }
-                }
-                }>
-                    <SelectTrigger className="w-full md:w-[150px]">
-                        <SelectValue placeholder="Status" />
-                    </SelectTrigger>
-                    <SelectContent>
-                        <SelectItem value="all">All Status</SelectItem>
-                        <SelectItem value="completed">Completed</SelectItem>
-                        <SelectItem value="deploying">Deploying</SelectItem>
-                        <SelectItem value="queued">Queued</SelectItem>
-                        <SelectItem value="failed">Failed</SelectItem>
-                        <SelectItem value="cancelled">Cancelled</SelectItem>
-                    </SelectContent>
-                </Select>
+            {/* Segmented filter */}
+            <div className="flex flex-wrap gap-1 p-1 rounded-lg bg-muted/50 w-fit">
+                {filterOptions.map((option) => (
+                    <button
+                        key={option.label}
+                        onClick={() => setFilter(option.value)}
+                        className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
+                            filter === option.value
+                                ? "bg-background text-foreground shadow-sm"
+                                : "text-muted-foreground hover:text-foreground"
+                        }`}
+                    >
+                        {option.label}
+                    </button>
+                ))}
             </div>
 
+            {/* Deployment list */}
             {deployments?.length || 0 > 0 ? (
-                <div className="space-y-px">
-                    <InfiniteScrollContainer onBottomReached={fetchNextPage}>
-                        {deployments!.map((deployment) => (
-                            <DeploymentRow key={deployment.id} deployment={deployment} projectId={projectId} router={router} />
-                        ))}
-                    </InfiniteScrollContainer>
-                </div>
+                <InfiniteScrollContainer onBottomReached={fetchNextPage} className="space-y-2">
+                    {deployments!.map((deployment, index) => (
+                        <motion.div
+                            key={deployment.id}
+                            initial={{ opacity: 0, y: 8 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.2, delay: index * 0.03 }}
+                        >
+                            <DeploymentCard
+                                deployment={deployment}
+                                projectId={projectId}
+                                router={router}
+                            />
+                        </motion.div>
+                    ))}
+                </InfiniteScrollContainer>
             ) : (
-                <div className="text-center py-10">
-                    <p>No deployments found</p>
-                    {filter === DeploymentStatusFilter.All && <Button variant="outline" className="mt-4" onClick={() => open(getLink('addNewService'), '_blank')}>
-                        Create your first deployment
-                    </Button>}
+                <div className="flex flex-col items-center justify-center py-16 text-center">
+                    <div className="rounded-full bg-muted p-4 mb-4">
+                        <PackageIcon className="h-8 w-8 text-muted-foreground" />
+                    </div>
+                    <p className="text-lg font-medium mb-1">No deployments found</p>
+                    <p className="text-sm text-muted-foreground mb-4">
+                        {filter === DeploymentStatusFilter.All
+                            ? "Get started by deploying your first build."
+                            : "No deployments match the selected filter."}
+                    </p>
+                    {filter === DeploymentStatusFilter.All && (
+                        <Button variant="outline" onClick={() => open(getLink('addNewService'), '_blank')}>
+                            Create your first deployment
+                        </Button>
+                    )}
                 </div>
             )}
         </div>
     )
+}
+
+function DeploymentCard({ deployment, projectId, router }: {
+    deployment: {
+        id?: string | null;
+        environment?: string | null;
+        isCurrent?: boolean | null;
+        status?: string | null;
+        createdAt?: string | null;
+        branch?: string | null;
+        commitHash?: string | null;
+        commitMessage?: string | null;
+        author?: string | null;
+    };
+    projectId: string;
+    router: ReturnType<typeof useRouter>;
+}) {
+    const timeAgo = useTimeAgo(deployment.createdAt!);
+    const status = deployment.status as DeploymentStatus;
+    const active = isActiveStatus(status);
+
+    return (
+        <div
+            className={`group relative rounded-lg border bg-card p-4 transition-colors hover:bg-accent/50 cursor-pointer ${
+                active ? "border-blue-500/30" : "border-border"
+            }`}
+            onClick={() => {
+                router.navigate({ to: `/projects/${projectId}/deployments/${deployment.id}` })
+            }}
+        >
+            {/* Active deployment pulse border overlay */}
+            {active && (
+                <div className="absolute inset-0 rounded-lg border border-blue-500/20 animate-pulse pointer-events-none" />
+            )}
+
+            <div className="flex items-center gap-4">
+                {/* Status dot + deployment ID */}
+                <div className="flex items-center gap-3 min-w-[140px]">
+                    <div className="relative">
+                        <span className={`block h-3 w-3 rounded-full ${getStatusColor(status)}`} />
+                        {active && (
+                            <span className={`absolute inset-0 h-3 w-3 rounded-full ${getStatusColor(status)} animate-ping opacity-40`} />
+                        )}
+                    </div>
+                    <div className="flex flex-col">
+                        <span className="font-mono text-sm font-medium">{deployment.id?.substring(0, 8)}</span>
+                        <span className={`text-xs font-medium ${getStatusTextColor(status)}`}>{deployment.status}</span>
+                    </div>
+                </div>
+
+                {/* Current badge */}
+                {deployment.isCurrent && deployment.environment === "Production" && (
+                    <Badge className="bg-emerald-500/10 text-emerald-500 border-emerald-500/20 hover:bg-emerald-500/20 rounded-full text-xs px-2.5 py-0.5">
+                        Current
+                    </Badge>
+                )}
+
+                {/* Branch + commit info */}
+                <div className="flex-1 min-w-0 hidden sm:flex flex-col gap-0.5 px-2">
+                    <div className="flex items-center gap-1.5">
+                        <GitBranchIcon className="h-3.5 w-3.5 text-muted-foreground flex-shrink-0" />
+                        <span className="text-sm truncate max-w-[200px]">{deployment.branch}</span>
+                    </div>
+                    <div className="flex items-center gap-1.5 text-muted-foreground">
+                        <GitCommitIcon className="h-3.5 w-3.5 flex-shrink-0" />
+                        <span className="font-mono text-xs">{deployment.commitHash?.substring(0, 7)}</span>
+                        <span className="text-xs truncate max-w-[240px]">{deployment.commitMessage}</span>
+                    </div>
+                </div>
+
+                {/* Time + author */}
+                <div className="flex flex-col items-end text-right ml-auto flex-shrink-0">
+                    <span className="text-sm text-muted-foreground">{timeAgo}</span>
+                    <span className="text-xs text-muted-foreground">by {deployment.author}</span>
+                </div>
+            </div>
+
+            {/* Mobile: branch/commit (visible on small screens) */}
+            <div className="flex flex-col gap-0.5 mt-3 sm:hidden">
+                <div className="flex items-center gap-1.5">
+                    <GitBranchIcon className="h-3.5 w-3.5 text-muted-foreground flex-shrink-0" />
+                    <span className="text-sm truncate">{deployment.branch}</span>
+                </div>
+                <div className="flex items-center gap-1.5 text-muted-foreground">
+                    <GitCommitIcon className="h-3.5 w-3.5 flex-shrink-0" />
+                    <span className="font-mono text-xs">{deployment.commitHash?.substring(0, 7)}</span>
+                    <span className="text-xs truncate">{deployment.commitMessage}</span>
+                </div>
+            </div>
+        </div>
+    );
 }

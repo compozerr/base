@@ -13,7 +13,6 @@ import { Route as UsingModuleComponentRouteImport } from './routes/using-module-
 import { Route as TermsOfServiceRouteImport } from './routes/terms-of-service'
 import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
 import { Route as PricingRouteImport } from './routes/pricing'
-import { Route as NewYearRouteImport } from './routes/new-year'
 import { Route as N8nRouteImport } from './routes/n8n'
 import { Route as LoginRouteImport } from './../../modules/auth/frontend/src/routes/login'
 import { Route as ContactRouteImport } from './routes/contact'
@@ -21,7 +20,6 @@ import { Route as AuthRouteImport } from './../../modules/auth/frontend/src/rout
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as StripeIndexRouteImport } from './../../modules/stripe/frontend/src/routes/stripe/index'
 import { Route as InvoicesIndexRouteImport } from './../../modules/stripe/frontend/src/routes/invoices/index'
-import { Route as ExampleIndexRouteImport } from './../../modules/template/frontend/src/routes/example/index'
 import { Route as AuthLogoutRouteImport } from './../../modules/auth/frontend/src/routes/_auth/logout'
 import { Route as AuthDashboardRouteImport } from './routes/_auth/_dashboard'
 import { Route as AuthDashboardSettingsRouteImport } from './routes/_auth/_dashboard/settings'
@@ -57,11 +55,6 @@ const PricingRoute = PricingRouteImport.update({
   path: '/pricing',
   getParentRoute: () => rootRouteImport,
 } as any)
-const NewYearRoute = NewYearRouteImport.update({
-  id: '/new-year',
-  path: '/new-year',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const N8nRoute = N8nRouteImport.update({
   id: '/n8n',
   path: '/n8n',
@@ -94,11 +87,6 @@ const StripeIndexRoute = StripeIndexRouteImport.update({
 const InvoicesIndexRoute = InvoicesIndexRouteImport.update({
   id: '/invoices/',
   path: '/invoices/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ExampleIndexRoute = ExampleIndexRouteImport.update({
-  id: '/example/',
-  path: '/example/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthLogoutRoute = AuthLogoutRouteImport.update({
@@ -186,13 +174,11 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/login': typeof LoginRoute
   '/n8n': typeof N8nRoute
-  '/new-year': typeof NewYearRoute
   '/pricing': typeof PricingRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/terms-of-service': typeof TermsOfServiceRoute
   '/using-module-component': typeof UsingModuleComponentRoute
   '/logout': typeof AuthLogoutRoute
-  '/example': typeof ExampleIndexRoute
   '/invoices': typeof InvoicesIndexRoute
   '/stripe': typeof StripeIndexRoute
   '/intro-flow': typeof AuthDashboardIntroFlowRoute
@@ -213,13 +199,11 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/login': typeof LoginRoute
   '/n8n': typeof N8nRoute
-  '/new-year': typeof NewYearRoute
   '/pricing': typeof PricingRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/terms-of-service': typeof TermsOfServiceRoute
   '/using-module-component': typeof UsingModuleComponentRoute
   '/logout': typeof AuthLogoutRoute
-  '/example': typeof ExampleIndexRoute
   '/invoices': typeof InvoicesIndexRoute
   '/stripe': typeof StripeIndexRoute
   '/intro-flow': typeof AuthDashboardIntroFlowRoute
@@ -240,14 +224,12 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/login': typeof LoginRoute
   '/n8n': typeof N8nRoute
-  '/new-year': typeof NewYearRoute
   '/pricing': typeof PricingRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/terms-of-service': typeof TermsOfServiceRoute
   '/using-module-component': typeof UsingModuleComponentRoute
   '/_auth/_dashboard': typeof AuthDashboardRouteWithChildren
   '/_auth/logout': typeof AuthLogoutRoute
-  '/example/': typeof ExampleIndexRoute
   '/invoices/': typeof InvoicesIndexRoute
   '/stripe/': typeof StripeIndexRoute
   '/_auth/_dashboard/intro-flow': typeof AuthDashboardIntroFlowRoute
@@ -270,13 +252,11 @@ export interface FileRouteTypes {
     | '/contact'
     | '/login'
     | '/n8n'
-    | '/new-year'
     | '/pricing'
     | '/privacy-policy'
     | '/terms-of-service'
     | '/using-module-component'
     | '/logout'
-    | '/example'
     | '/invoices'
     | '/stripe'
     | '/intro-flow'
@@ -297,13 +277,11 @@ export interface FileRouteTypes {
     | '/contact'
     | '/login'
     | '/n8n'
-    | '/new-year'
     | '/pricing'
     | '/privacy-policy'
     | '/terms-of-service'
     | '/using-module-component'
     | '/logout'
-    | '/example'
     | '/invoices'
     | '/stripe'
     | '/intro-flow'
@@ -323,14 +301,12 @@ export interface FileRouteTypes {
     | '/contact'
     | '/login'
     | '/n8n'
-    | '/new-year'
     | '/pricing'
     | '/privacy-policy'
     | '/terms-of-service'
     | '/using-module-component'
     | '/_auth/_dashboard'
     | '/_auth/logout'
-    | '/example/'
     | '/invoices/'
     | '/stripe/'
     | '/_auth/_dashboard/intro-flow'
@@ -353,12 +329,10 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   LoginRoute: typeof LoginRoute
   N8nRoute: typeof N8nRoute
-  NewYearRoute: typeof NewYearRoute
   PricingRoute: typeof PricingRoute
   PrivacyPolicyRoute: typeof PrivacyPolicyRoute
   TermsOfServiceRoute: typeof TermsOfServiceRoute
   UsingModuleComponentRoute: typeof UsingModuleComponentRoute
-  ExampleIndexRoute: typeof ExampleIndexRoute
   InvoicesIndexRoute: typeof InvoicesIndexRoute
   StripeIndexRoute: typeof StripeIndexRoute
 }
@@ -391,13 +365,6 @@ declare module '@tanstack/react-router' {
       path: '/pricing'
       fullPath: '/pricing'
       preLoaderRoute: typeof PricingRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/new-year': {
-      id: '/new-year'
-      path: '/new-year'
-      fullPath: '/new-year'
-      preLoaderRoute: typeof NewYearRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/n8n': {
@@ -447,13 +414,6 @@ declare module '@tanstack/react-router' {
       path: '/invoices'
       fullPath: '/invoices'
       preLoaderRoute: typeof InvoicesIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/example/': {
-      id: '/example/'
-      path: '/example'
-      fullPath: '/example'
-      preLoaderRoute: typeof ExampleIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_auth/logout': {
@@ -642,12 +602,10 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   LoginRoute: LoginRoute,
   N8nRoute: N8nRoute,
-  NewYearRoute: NewYearRoute,
   PricingRoute: PricingRoute,
   PrivacyPolicyRoute: PrivacyPolicyRoute,
   TermsOfServiceRoute: TermsOfServiceRoute,
   UsingModuleComponentRoute: UsingModuleComponentRoute,
-  ExampleIndexRoute: ExampleIndexRoute,
   InvoicesIndexRoute: InvoicesIndexRoute,
   StripeIndexRoute: StripeIndexRoute,
 }

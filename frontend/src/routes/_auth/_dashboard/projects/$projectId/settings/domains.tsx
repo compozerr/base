@@ -9,7 +9,6 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { TabsContent } from '@/components/ui/tabs'
 import { createFileRoute } from '@tanstack/react-router'
 import { useEffect, useState, useMemo, useCallback, useRef } from 'react'
 import { z } from "zod"
@@ -61,7 +60,7 @@ function DomainItem({ domain, onVerify, onDelete, onSetPrimary, isSettingPrimary
       className={cn(
         "group relative flex items-center justify-between p-4 rounded-lg border transition-all duration-200",
         isPrimary && "bg-primary/5 border-primary/20 hover:border-primary/40",
-        !isPrimary && !isPending && "bg-card hover:bg-accent/50 border-border",
+        !isPrimary && !isPending && "bg-zinc-900/30 hover:bg-zinc-900/50 border-zinc-800",
         isPending && "bg-amber-500/5 border-amber-500/20 hover:border-amber-500/40 cursor-pointer",
         domain.isInternal && "border-dashed"
       )}
@@ -71,7 +70,7 @@ function DomainItem({ domain, onVerify, onDelete, onSetPrimary, isSettingPrimary
         <div className={cn(
           "flex-shrink-0 w-10 h-10 rounded-lg flex items-center justify-center",
           isPrimary && "bg-primary/10 text-primary",
-          !isPrimary && !isPending && "bg-muted text-muted-foreground",
+          !isPrimary && !isPending && "bg-zinc-800 text-muted-foreground",
           isPending && "bg-amber-500/10 text-amber-600"
         )}>
           <DomainIcon
@@ -87,7 +86,7 @@ function DomainItem({ domain, onVerify, onDelete, onSetPrimary, isSettingPrimary
             <div onClick={(e) => e.stopPropagation()}>
               <CopyText value={domain.value ?? ''}>
                 <h3 className={cn(
-                  "font-medium truncate cursor-pointer",
+                  "font-mono text-sm font-medium truncate cursor-pointer",
                   isPrimary && "text-primary",
                   isPending && "text-amber-600"
                 )}>
@@ -96,7 +95,7 @@ function DomainItem({ domain, onVerify, onDelete, onSetPrimary, isSettingPrimary
               </CopyText>
             </div>
             {domain.isInternal && (
-              <Badge variant="outline" className="text-xs font-normal border-dashed">
+              <Badge variant="outline" className="text-xs font-normal border-dashed border-zinc-700 text-muted-foreground">
                 Auto-generated
               </Badge>
             )}
@@ -104,7 +103,7 @@ function DomainItem({ domain, onVerify, onDelete, onSetPrimary, isSettingPrimary
           <div className="flex items-center gap-2 mt-0.5">
             <span className="text-sm text-muted-foreground">{domain.serviceName}</span>
             {domain.protocol && (
-              <span className="text-xs text-muted-foreground/60 uppercase">{domain.protocol}</span>
+              <span className="text-xs text-muted-foreground/60 font-mono uppercase">{domain.protocol}</span>
             )}
           </div>
         </div>
@@ -131,7 +130,7 @@ function DomainItem({ domain, onVerify, onDelete, onSetPrimary, isSettingPrimary
             <Button
               variant="ghost"
               size="icon"
-              className="opacity-0 group-hover:opacity-100 transition-opacity"
+              className="opacity-0 group-hover:opacity-100 transition-opacity h-8 w-8"
               onClick={(e) => e.stopPropagation()}
             >
               <MoreVertical className="h-4 w-4" />
@@ -199,7 +198,7 @@ function DomainSection({ title, description, children, isEmpty, emptyMessage }: 
   return (
     <div className="space-y-3">
       <div>
-        <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">{title}</h3>
+        <h3 className="text-xs font-medium text-muted-foreground uppercase tracking-widest">{title}</h3>
         {description && <p className="text-xs text-muted-foreground/60 mt-0.5">{description}</p>}
       </div>
       <div className="space-y-2">
@@ -416,10 +415,10 @@ function DomainsSettingsTab() {
   }, [])
 
   return (
-    <TabsContent value="domains" className="space-y-6 mt-6">
-      <Card>
+    <div className="space-y-6">
+      <Card className="rounded-xl border-zinc-800 bg-zinc-900/50">
         <CardHeader>
-          <CardTitle>Domains</CardTitle>
+          <CardTitle className="text-lg">Domains</CardTitle>
           <CardDescription>Manage domains for your project. Your primary domain is used as the main entry point.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-8">
@@ -489,17 +488,17 @@ function DomainsSettingsTab() {
               e.preventDefault();
               addDomainForm.handleSubmit();
             }}>
-              <div className="group relative flex items-center p-4 rounded-lg border border-dashed border-border hover:border-primary/40 bg-card/50 hover:bg-accent/30 transition-all duration-200">
+              <div className="group relative flex items-center p-4 rounded-lg border border-dashed border-zinc-800 hover:border-zinc-700 bg-zinc-900/30 hover:bg-zinc-900/50 transition-all duration-200">
                 <addDomainForm.Subscribe selector={(state) => state.values.protocol}>
                   {(protocol) => (
-                    <div className="flex-shrink-0 w-10 h-10 rounded-lg flex items-center justify-center bg-muted text-muted-foreground mr-4">
+                    <div className="flex-shrink-0 w-10 h-10 rounded-lg flex items-center justify-center bg-zinc-800 text-muted-foreground mr-4">
                       <DomainIcon protocol={protocol} className="w-5 h-5" />
                     </div>
                   )}
                 </addDomainForm.Subscribe>
                 <div className="flex flex-col sm:flex-row gap-3 flex-1 items-start sm:items-center">
                   <addDomainForm.AppField name='domain' children={(field) => (
-                    <field.TextField className='flex-1 min-w-0' placeholder='example.com' />
+                    <field.TextField className='flex-1 min-w-0 font-mono' placeholder='example.com' />
                   )} />
                   <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
                     <addDomainForm.AppField name="serviceName" listeners={{
@@ -543,7 +542,7 @@ function DomainsSettingsTab() {
             }} />
         </CardContent>
       </Card>
-    </TabsContent>
+    </div>
   )
 }
 
