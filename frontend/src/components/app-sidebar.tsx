@@ -2,7 +2,7 @@ import { api } from "@/api-client"
 import { CompozerrLogo } from "@/components/compozerr-logo"
 import { useAuth } from "@/hooks/use-dynamic-auth"
 import { getLink } from "@/links"
-import { useNavigate, useRouter, useRouterState } from "@tanstack/react-router"
+import { Link, useNavigate, useRouter, useRouterState } from "@tanstack/react-router"
 import { AnimatePresence, motion } from "framer-motion"
 import { ChevronDown, FileText, FolderGit2, Home, LogOut, Settings, User } from "lucide-react"
 import { useState } from "react"
@@ -56,7 +56,9 @@ export function AppSidebar() {
     <Sidebar className="border-r border-white/[0.06] bg-black/80 backdrop-blur-xl">
       {/* Brand */}
       <SidebarHeader className="border-b border-white/[0.06] px-4 py-5">
-        <CompozerrLogo className="text-lg text-white" />
+        <Link to="/">
+          <CompozerrLogo className="text-lg text-white hover:text-white/80 transition-colors" />
+        </Link>
       </SidebarHeader>
 
       <SidebarContent>
