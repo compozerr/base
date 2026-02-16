@@ -17,7 +17,6 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Switch } from '@/components/ui/switch'
-import { TabsContent } from '@/components/ui/tabs'
 import { createFileRoute, getRouteApi, useNavigate, } from '@tanstack/react-router'
 import React, { useEffect, useMemo, useState } from 'react'
 
@@ -26,8 +25,9 @@ import LoadingButton from '@/components/loading-button'
 import { Price } from '@/lib/price'
 import { useToast } from '@/hooks/use-toast'
 import { cn } from '@/lib/utils'
-import { Github, AlertTriangle, CheckCircle } from 'lucide-react'
-import { Alert, AlertDescription } from '@/components/ui/alert'
+import { Github, AlertTriangle, CheckCircle, Cpu, HardDrive, MemoryStick, Trash2 } from 'lucide-react'
+import { Badge } from '@/components/ui/badge'
+
 export const Route = createFileRoute(
   '/_auth/_dashboard/projects/$projectId/settings/general',
 )({
@@ -122,27 +122,30 @@ function GeneralSettingsTab() {
   const currentPath = window.location.pathname;
   const reconnectUrl = `${backendUrl}/v1/auth/login?returnUrl=${encodeURIComponent(currentPath)}`;
 
+  const hasChanges = project && tier && project.serverTier !== tier;
+
   return (
-    <TabsContent value="general" className="space-y-4 mt-6">
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Github className="h-5 w-5" />
-            GitHub Connection
-          </CardTitle>
-          <CardDescription>
-            Manage your GitHub connection for deployments.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="flex items-center justify-between">
-            <div className="space-y-1">
-              <p className="text-sm font-medium">Reconnect GitHub</p>
+    <div className="space-y-6">
+      {/* GitHub Connection */}
+      <Card className="rounded-xl border-zinc-800 bg-zinc-900/50">
+        <CardContent className="p-6">
+          <div className="flex items-start gap-4">
+            <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-zinc-800 flex items-center justify-center">
+              <Github className="h-5 w-5 text-zinc-400" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-2 mb-1">
+                <h3 className="font-medium">GitHub Connection</h3>
+                <Badge variant="outline" className="text-xs border-green-500/30 text-green-500 bg-green-500/10">
+                  <CheckCircle className="h-3 w-3 mr-1" />
+                  Connected
+                </Badge>
+              </div>
               <p className="text-sm text-muted-foreground">
-                If deployments are failing due to authentication errors, reconnect your GitHub account to refresh your access token.
+                If deployments fail due to authentication errors, reconnect your GitHub account to refresh your access token.
               </p>
             </div>
-            <Button variant="outline" asChild>
+            <Button variant="outline" size="sm" className="flex-shrink-0" asChild>
               <a href={reconnectUrl}>
                 <Github className="mr-2 h-4 w-4" />
                 Reconnect
@@ -152,112 +155,163 @@ function GeneralSettingsTab() {
         </CardContent>
       </Card>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>General Settings</CardTitle>
+      {/* General Settings */}
+      <Card className="rounded-xl border-zinc-800 bg-zinc-900/50">
+        <CardHeader className="pb-4">
+          <CardTitle className="text-lg">General Settings</CardTitle>
           <CardDescription>
-            Manage your project's basic settings.
+            Configure your project's deployment and server settings.
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="space-y-4">
-            {
-              !isN8nProject && (
-                <div className="space-y-2">
-                  <Label htmlFor="project-name">Deployment branch</Label>
-                  <Select
-                    value={'main'}
-                    onValueChange={(value) => console.log(value)}
-                  >
-                    <SelectTrigger className="w-full sm:w-1/2" id="modules-org">
-                      <SelectValue placeholder="Select organization" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {['main'].map((i) => (
-                        <SelectItem key={i} value={i!}>
-                          {i}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-              )
-            }
-            {
-              !isN8nProject && (
-                <div className="flex items-center justify-between">
-                  <div className="space-y-0.5">
-                    <Label htmlFor="auto-deploy">Auto Deploy</Label>
-                    <p className="text-sm text-muted-foreground pr-3">
-                      Automatically deploy when you push to the main branch.
-                    </p>
-                  </div>
-
-                  <Switch id="auto-deploy" checked={autoDeploy} disabled={!!error || !projectEnvironmentData} onCheckedChange={async (checked) => {
-                    setAutoDeploy(checked);
-                    await changeAutoDeployAsync({ autoDeploy: checked }).then(() => {
-                      toast({
-                        title: 'Auto Deploy changed',
-                        description: `Auto Deploy is now ${checked ? 'enabled' : 'disabled'}.`
-                      });
-                    }).catch((err) => {
-                      toast({
-                        title: 'Error changing Auto Deploy',
-                        description: err.message,
-                        variant: 'destructive'
-                      });
-                    })
-                  }} />
-                </div>
-              )}
+        <CardContent className="space-y-6">
+          {!isN8nProject && (
             <div className="space-y-2">
-              <Label htmlFor="project-name">Server tier</Label>
+              <Label htmlFor="deployment-branch" className="text-sm font-medium">Deployment Branch</Label>
               <Select
-                value={tier ?? 'Loading...'}
-                onValueChange={(value) =>
-                  setTier(value === '' ? null : value)
-                }
+                value={'main'}
+                onValueChange={(value) => console.log(value)}
               >
-                <SelectTrigger className="w-full sm:w-1/2" id="modules-org">
-                  <SelectValue placeholder="Select organization" />
+                <SelectTrigger className="w-full sm:w-64" id="deployment-branch">
+                  <SelectValue placeholder="Select branch" />
                 </SelectTrigger>
                 <SelectContent>
-                  {tiers && tiers.tiers!.map((t, idx) => {
-                    const isCurrentTier = project?.serverTier === t.id.value;
-                    const currentPriceValue = isCurrentTier ? project?.serverTierPrice ?? t.price : t.price;
-                    const isDiscounted = isCurrentTier && project?.serverTierPrice?.isDiscounted || false;
-
-                    return(
-                    <SelectItem key={idx} value={t.id!.value!}>
-                      {t.id!.value} - {t.ramGb}GB RAM, {t.cores} Cores, {t.diskGb}GB Disk - <span className={cn('font-bold', { 'text-red-300': isDiscounted })}>{Price.formatPrice(currentPriceValue)}/month</span> {t.promotionalText ? `(${t.promotionalText})` : ""}
+                  {['main'].map((i) => (
+                    <SelectItem key={i} value={i!}>
+                      <span className="font-mono text-sm">{i}</span>
                     </SelectItem>
-                  )})}
+                  ))}
                 </SelectContent>
               </Select>
             </div>
+          )}
+
+          {!isN8nProject && (
+            <div className="flex items-center justify-between rounded-lg border border-zinc-800 bg-zinc-900/30 p-4">
+              <div className="space-y-0.5">
+                <Label htmlFor="auto-deploy" className="text-sm font-medium">Auto Deploy</Label>
+                <p className="text-sm text-muted-foreground">
+                  Automatically deploy when you push to the main branch.
+                </p>
+              </div>
+              <Switch
+                id="auto-deploy"
+                checked={autoDeploy}
+                disabled={!!error || !projectEnvironmentData}
+                onCheckedChange={async (checked) => {
+                  setAutoDeploy(checked);
+                  await changeAutoDeployAsync({ autoDeploy: checked }).then(() => {
+                    toast({
+                      title: 'Auto Deploy changed',
+                      description: `Auto Deploy is now ${checked ? 'enabled' : 'disabled'}.`
+                    });
+                  }).catch((err) => {
+                    toast({
+                      title: 'Error changing Auto Deploy',
+                      description: err.message,
+                      variant: 'destructive'
+                    });
+                  })
+                }}
+              />
+            </div>
+          )}
+
+          <div className="space-y-3">
+            <Label className="text-sm font-medium">Server Tier</Label>
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {tiers && tiers.tiers!.map((t, idx) => {
+                const isCurrentTier = project?.serverTier === t.id.value;
+                const isSelected = tier === t.id.value;
+                const currentPriceValue = isCurrentTier ? project?.serverTierPrice ?? t.price : t.price;
+                const isDiscounted = isCurrentTier && project?.serverTierPrice?.isDiscounted || false;
+
+                return (
+                  <button
+                    key={idx}
+                    type="button"
+                    onClick={() => setTier(t.id!.value!)}
+                    className={cn(
+                      'relative flex flex-col gap-3 rounded-lg border p-4 text-left transition-all',
+                      isSelected
+                        ? 'border-primary bg-primary/5 ring-1 ring-primary'
+                        : 'border-zinc-800 bg-zinc-900/30 hover:border-zinc-700 hover:bg-zinc-900/50',
+                    )}
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="font-mono text-sm font-medium">{t.id!.value}</span>
+                      {isCurrentTier && (
+                        <Badge variant="secondary" className="text-xs">Current</Badge>
+                      )}
+                    </div>
+                    <div className="flex items-center gap-3 text-xs text-muted-foreground">
+                      <span className="flex items-center gap-1">
+                        <MemoryStick className="h-3 w-3" />
+                        {t.ramGb}GB
+                      </span>
+                      <span className="flex items-center gap-1">
+                        <Cpu className="h-3 w-3" />
+                        {t.cores} Core{t.cores !== 1 ? 's' : ''}
+                      </span>
+                      <span className="flex items-center gap-1">
+                        <HardDrive className="h-3 w-3" />
+                        {t.diskGb}GB
+                      </span>
+                    </div>
+                    <div className="flex items-baseline gap-1">
+                      <span className={cn('text-lg font-semibold', { 'text-red-400': isDiscounted })}>
+                        {Price.formatPrice(currentPriceValue)}
+                      </span>
+                      <span className="text-xs text-muted-foreground">/month</span>
+                    </div>
+                    {t.promotionalText && (
+                      <Badge variant="outline" className="w-fit text-xs border-amber-500/30 text-amber-500 bg-amber-500/10">
+                        {t.promotionalText}
+                      </Badge>
+                    )}
+                  </button>
+                )
+              })}
+            </div>
           </div>
         </CardContent>
-        <CardFooter>
-          <LoadingButton isLoading={savingChanges} disabled={!project || !tier || project.serverTier === tier} onClick={handleOnSaveChangesAsync}>Save Changes</LoadingButton>
+        <CardFooter className="border-t border-zinc-800 pt-6">
+          <LoadingButton
+            isLoading={savingChanges}
+            disabled={!hasChanges}
+            onClick={handleOnSaveChangesAsync}
+            className="w-full sm:w-auto"
+          >
+            Save Changes
+          </LoadingButton>
         </CardFooter>
       </Card>
 
-      <Card id="danger-zone" className='border-destructive border-dashed'>
-        <CardHeader>
-          <CardTitle>Danger Zone</CardTitle>
+      {/* Danger Zone */}
+      <Card id="danger-zone" className="rounded-xl border-dashed border-red-500/30 bg-red-500/5">
+        <CardHeader className="pb-4">
+          <CardTitle className="text-lg flex items-center gap-2 text-red-500">
+            <AlertTriangle className="h-5 w-5" />
+            Danger Zone
+          </CardTitle>
           <CardDescription>Irreversible and destructive actions.</CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent>
           <div className="flex items-center justify-between">
             <div>
-              <h3 className="font-medium text-destructive">Delete Project</h3>
+              <h3 className="font-medium">Delete Project</h3>
               <p className="text-sm text-muted-foreground pr-3">
-                Delete this project and all its resources. This action will also cancel your subscription.
+                Permanently delete this project and all its resources. This will also cancel your subscription.
               </p>
             </div>
-            <LoadingButton isLoading={wantsDeletion || deleteIsLoading} variant="destructive" onClick={() => {
-              setWantsDeletion(true);
-            }}>Delete</LoadingButton>
+            <LoadingButton
+              isLoading={wantsDeletion || deleteIsLoading}
+              variant="destructive"
+              size="sm"
+              onClick={() => setWantsDeletion(true)}
+            >
+              <Trash2 className="h-4 w-4 mr-2" />
+              Delete
+            </LoadingButton>
             <AreYouSureDialogConfirmWithText
               title='Are you sure you want to delete this project'
               subtitle="This action cannot be reverted, you'll have to add it again..."
@@ -280,7 +334,7 @@ function GeneralSettingsTab() {
           </div>
         </CardContent>
       </Card>
-    </TabsContent>
+    </div>
   )
 }
 

@@ -1,9 +1,8 @@
 import { Badge } from '@/components/ui/badge'
-import { Card, CardContent } from '@/components/ui/card'
 import { Formatter } from '@/lib/formatter'
 import { getProjectStateFromNumber as getProjectStateFromStateString, ProjectState } from '@/lib/project-state'
-import { createFileRoute, getRouteApi } from '@tanstack/react-router'
-import { Cpu, ExternalLink, Globe, HardDrive, HelpCircle, MemoryStick } from 'lucide-react'
+import { createFileRoute, getRouteApi, Link } from '@tanstack/react-router'
+import { Cpu, ExternalLink, Globe, HardDrive, HelpCircle, MemoryStick, Settings, Star, Github } from 'lucide-react'
 import { UsageGraph } from '@/components/usage-graph'
 import StartStopProjectButton from '@/components/project/project-startstop-button'
 import { api } from '@/api-client'
@@ -13,6 +12,9 @@ import { onN8nIntent } from '@/hooks/use-n8n-intent-ephemeral-storage.hook'
 import { useModal } from '@/hooks/use-modal'
 import confetti from 'canvas-confetti'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
+import { Button } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
+import { motion } from 'framer-motion'
 
 export const Route = createFileRoute('/_auth/_dashboard/projects/$projectId/')({
     component: RouteComponent,
@@ -36,6 +38,19 @@ function RouteComponent() {
                 return 'bg-red-500'
             default:
                 return 'bg-gray-500'
+        }
+    }
+
+    const getStateGlow = (state: ProjectState) => {
+        switch (state) {
+            case ProjectState.Running:
+                return 'shadow-[0_0_8px_rgba(34,197,94,0.4)]'
+            case ProjectState.Starting:
+                return 'shadow-[0_0_8px_rgba(234,179,8,0.4)]'
+            case ProjectState.Stopped:
+                return 'shadow-[0_0_8px_rgba(239,68,68,0.4)]'
+            default:
+                return ''
         }
     }
 
@@ -109,152 +124,212 @@ function RouteComponent() {
     };
 
     const templateType = getTemplateTypeDisplay(project.type);
+    const currentState = getProjectStateFromStateString(project.state);
 
     return (
         <div className="space-y-6">
-            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-                <div className="flex items-center gap-3">
-                    <h1 className="text-3xl font-bold">{project.name}</h1>
-                    <Badge
-                        className={getStateColor(getProjectStateFromStateString(project.state))}
-                    >
-                        {getProjectStateFromStateString(project.state)}
-                    </Badge>
-                </div>
-                {project.primaryDomain ? (
-                    <div className="flex items-center gap-2 text-sm">
-                        <Globe className="h-4 w-4" />
-                        <a
-                            href={`https://${project.primaryDomain}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="hover:underline"
+            {/* Hero Section */}
+            <motion.div
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+                className="space-y-4"
+            >
+                <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                    <div className="flex items-center gap-3">
+                        <h1 className="text-3xl font-bold tracking-tight">{project.name}</h1>
+                        <Badge
+                            className={cn(
+                                getStateColor(currentState),
+                                getStateGlow(currentState),
+                                'border-0'
+                            )}
                         >
-                            {project.primaryDomain}
-                        </a>
+                            {currentState}
+                        </Badge>
                     </div>
-                ) : null}
-            </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <Card className="h-fit">
-                    <CardContent className="pt-6">
-                        <div className="space-y-2">
-                            <h2 className="text-xl font-semibold">Project Details</h2>
-                            <div className="grid grid-cols-1 gap-4 mt-4">
-                                <div>
-                                    <h3 className="text-sm font-medium text-muted-foreground">Project ID</h3>
-                                    <p className="text-sm font-mono">{project.id}</p>
-                                </div>
-                                <div>
-                                    <h3 className="text-sm font-medium text-muted-foreground">Repository</h3>
-                                    <p className="text-sm ">
-                                        <a
-                                            className="flex flex-row items-center gap-1"
-                                            href={`https://github.com/${project.repoName}`}
-                                            target="_blank"
-                                            rel="noreferrer"
-                                        >
-                                            {project.repoName} <ExternalLink className="h-3.5 w-3.5" />
-                                        </a>
-                                    </p>
-                                </div>
-                                <div>
-                                    <h3 className="text-sm font-medium text-muted-foreground">Hardware - {serverTier?.id.value}</h3>
-                                    {serverTier ? (
-                                        <>
-                                            <span className="flex items-center gap-2 text-sm">
-                                                <MemoryStick className="h-4 w-4 text-muted-foreground" />
-                                                {serverTier.ramGb} GB RAM
-                                            </span>
-                                            <span className="flex items-center gap-2 text-sm">
-                                                <Cpu className="h-4 w-4 text-muted-foreground" />
-                                                {serverTier.cores} Cores vCPU
-                                            </span>
-                                            <span className="flex items-center gap-2 text-sm">
-                                                <HardDrive className="h-4 w-4 text-muted-foreground" />
-                                                {serverTier.diskGb} GB Disk
-                                            </span>
-                                        </>
+                    {/* Quick action buttons */}
+                    <div className="flex items-center gap-2">
+                        {project.id && project.state && (
+                            <StartStopProjectButton
+                                projectId={project.id}
+                                state={project.state}
+                                variant="outline"
+                                size="sm"
+                            />
+                        )}
+                        {project.primaryDomain && (
+                            <Button variant="outline" size="sm" className="gap-1.5" asChild>
+                                <a href={`https://${project.primaryDomain}`} target="_blank" rel="noopener noreferrer">
+                                    <Globe className="h-3.5 w-3.5" />
+                                    Visit
+                                </a>
+                            </Button>
+                        )}
+                        <Button variant="ghost" size="icon" className="h-9 w-9" asChild>
+                            <Link to="/projects/$projectId/settings" params={{ projectId }}>
+                                <Settings className="h-4 w-4" />
+                            </Link>
+                        </Button>
+                    </div>
+                </div>
 
-                                    ) : (
-                                        <>
-                                            <Skeleton className="h-[14px] w-[150px] mb-[7px]" />
-                                            <Skeleton className="h-[14px] w-[150px] my-[7px]" />
-                                            <Skeleton className="h-[14px] w-[150px] mt-[7px] mb-[4px]" />
-                                        </>
-                                    )}
-                                </div>
+                {/* Primary domain chip */}
+                {project.primaryDomain && (
+                    <a
+                        href={`https://${project.primaryDomain}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-secondary/60 text-sm text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
+                    >
+                        <Globe className="h-3.5 w-3.5" />
+                        {project.primaryDomain}
+                        <ExternalLink className="h-3 w-3" />
+                    </a>
+                )}
+            </motion.div>
 
-                                <div>
-                                    <h3 className="text-sm font-medium text-muted-foreground flex items-center gap-1">
-                                        Template Type
-                                        <TooltipProvider>
-                                            <Tooltip>
-                                                <TooltipTrigger asChild>
-                                                    <HelpCircle className="h-3.5 w-3.5 text-muted-foreground cursor-help" />
-                                                </TooltipTrigger>
-                                                <TooltipContent className="max-w-[250px]">
-                                                    <p>{templateType.description}</p>
-                                                    <p className="text-xs text-muted-foreground mt-1">
-                                                        Wrong type? Run <code className="bg-muted px-1 rounded">compozerr migrate --redetect</code> to update.
-                                                    </p>
-                                                </TooltipContent>
-                                            </Tooltip>
-                                        </TooltipProvider>
-                                    </h3>
-                                    <p className="text-sm">{templateType.label}</p>
-                                </div>
-
-                                <div>
-                                    <h3 className="text-sm font-medium text-muted-foreground">Status</h3>
-                                    <p className="text-sm flex items-center gap-2">
-                                        <span
-                                            className={`h-2 w-2 rounded-full ${getStateColor(getProjectStateFromStateString(project.state))}`}
-                                        ></span>
-                                        {getProjectStateFromStateString(project.state)}
-
-                                        {project.id && project.state && <StartStopProjectButton projectId={project.id} state={project.state} variant="ghost" />}
-                                    </p>
-                                </div>
-                            </div>
+            {/* Bento Grid */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                {/* Project Details Card */}
+                <motion.div
+                    initial={{ opacity: 0, y: 16 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3, delay: 0.05 }}
+                    className="rounded-xl border border-zinc-800 bg-zinc-900/50 backdrop-blur-sm p-6 hover:border-zinc-700 transition-colors"
+                >
+                    <h2 className="text-lg font-semibold mb-4">Project Details</h2>
+                    <div className="space-y-4">
+                        <div>
+                            <p className="text-xs font-medium text-muted-foreground mb-1">Project ID</p>
+                            <p className="text-sm font-mono text-foreground/80">{project.id}</p>
                         </div>
-                    </CardContent>
-                </Card>
 
-                <Card>
-                    <CardContent className="pt-6">
-                        <div className="space-y-2">
-                            <h2 className="text-xl font-semibold">Domains</h2>
-                            <div className="space-y-4 mt-4 relative max-h-[220px]">
-                                <div className="overflow-y-auto max-h-[220px] min-h-[100px] pr-1">
-                                    {domains && domains?.length > 0 ? (
-                                        domains.sort((d) => d === project.primaryDomain ? -1 : 1).map((d) => (
-                                            <div key={d} className="flex items-center justify-between mb-4">
-                                                <div>
-                                                    <p className="text-sm font-medium">{d}</p>
-                                                </div>
-                                                {project.primaryDomain === d ? (
-                                                    <Badge
-                                                        variant="outline"
-                                                    >
-                                                        Primary
-                                                    </Badge>
-                                                ) : null}
-                                            </div>
-                                        ))
-                                    ) : (
-                                        <span>No domains</span>
-                                    )}
-                                </div>
-                                <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-card to-transparent pointer-events-none" />
-                            </div>
+                        <div>
+                            <p className="text-xs font-medium text-muted-foreground mb-1">Repository</p>
+                            <a
+                                className="inline-flex items-center gap-1.5 text-sm hover:text-foreground text-foreground/80 transition-colors"
+                                href={`https://github.com/${project.repoName}`}
+                                target="_blank"
+                                rel="noreferrer"
+                            >
+                                <Github className="h-3.5 w-3.5" />
+                                {project.repoName}
+                                <ExternalLink className="h-3 w-3" />
+                            </a>
                         </div>
-                    </CardContent>
-                </Card>
-            </div>
 
-            <UsageGraph projectId={project.id!} />
-        </div >
+                        <div>
+                            <p className="text-xs font-medium text-muted-foreground mb-1">
+                                Hardware - {serverTier?.id.value}
+                            </p>
+                            {serverTier ? (
+                                <div className="flex flex-col gap-1.5">
+                                    <span className="flex items-center gap-2 text-sm text-foreground/80">
+                                        <MemoryStick className="h-4 w-4 text-blue-400" />
+                                        {serverTier.ramGb} GB RAM
+                                    </span>
+                                    <span className="flex items-center gap-2 text-sm text-foreground/80">
+                                        <Cpu className="h-4 w-4 text-green-400" />
+                                        {serverTier.cores} Cores vCPU
+                                    </span>
+                                    <span className="flex items-center gap-2 text-sm text-foreground/80">
+                                        <HardDrive className="h-4 w-4 text-amber-400" />
+                                        {serverTier.diskGb} GB Disk
+                                    </span>
+                                </div>
+                            ) : (
+                                <div className="flex flex-col gap-1.5">
+                                    <Skeleton className="h-[14px] w-[150px]" />
+                                    <Skeleton className="h-[14px] w-[150px]" />
+                                    <Skeleton className="h-[14px] w-[150px]" />
+                                </div>
+                            )}
+                        </div>
+
+                        <div>
+                            <p className="text-xs font-medium text-muted-foreground mb-1 flex items-center gap-1">
+                                Template Type
+                                <TooltipProvider>
+                                    <Tooltip>
+                                        <TooltipTrigger asChild>
+                                            <HelpCircle className="h-3 w-3 text-muted-foreground cursor-help" />
+                                        </TooltipTrigger>
+                                        <TooltipContent className="max-w-[250px]">
+                                            <p>{templateType.description}</p>
+                                            <p className="text-xs text-muted-foreground mt-1">
+                                                Wrong type? Run <code className="bg-muted px-1 rounded">compozerr migrate --redetect</code> to update.
+                                            </p>
+                                        </TooltipContent>
+                                    </Tooltip>
+                                </TooltipProvider>
+                            </p>
+                            <Badge variant="outline" className="text-xs">
+                                {templateType.label}
+                            </Badge>
+                        </div>
+                    </div>
+                </motion.div>
+
+                {/* Domains Card */}
+                <motion.div
+                    initial={{ opacity: 0, y: 16 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3, delay: 0.1 }}
+                    className="rounded-xl border border-zinc-800 bg-zinc-900/50 backdrop-blur-sm p-6 hover:border-zinc-700 transition-colors"
+                >
+                    <div className="flex items-center justify-between mb-4">
+                        <h2 className="text-lg font-semibold">Domains</h2>
+                        <Link
+                            to="/projects/$projectId/settings"
+                            params={{ projectId }}
+                            className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+                        >
+                            Manage Domains
+                        </Link>
+                    </div>
+
+                    <div className="space-y-2 max-h-[240px] overflow-y-auto pr-1">
+                        {domains && domains.length > 0 ? (
+                            domains
+                                .sort((d) => d === project.primaryDomain ? -1 : 1)
+                                .map((d) => (
+                                    <a
+                                        key={d}
+                                        href={`https://${d}`}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="flex items-center justify-between px-3 py-2 rounded-lg bg-zinc-800/50 hover:bg-zinc-800 transition-colors group"
+                                    >
+                                        <div className="flex items-center gap-2 text-sm text-foreground/80 group-hover:text-foreground transition-colors">
+                                            <Globe className="h-3.5 w-3.5 text-muted-foreground" />
+                                            <span className="truncate">{d}</span>
+                                        </div>
+                                        <div className="flex items-center gap-2">
+                                            {project.primaryDomain === d && (
+                                                <Star className="h-3.5 w-3.5 text-amber-400 fill-amber-400" />
+                                            )}
+                                            <ExternalLink className="h-3 w-3 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
+                                        </div>
+                                    </a>
+                                ))
+                        ) : (
+                            <p className="text-sm text-muted-foreground py-4 text-center">No domains configured</p>
+                        )}
+                    </div>
+                </motion.div>
+
+                {/* Resource Usage Card - spans full width on lg */}
+                <motion.div
+                    initial={{ opacity: 0, y: 16 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3, delay: 0.15 }}
+                    className="lg:col-span-2"
+                >
+                    <UsageGraph projectId={project.id!} />
+                </motion.div>
+            </div>
+        </div>
     )
 }

@@ -1,7 +1,7 @@
 import { api } from '@/api-client';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { cn } from '@/lib/utils';
-import { createFileRoute, Link, Outlet, useParams, useRouterState } from '@tanstack/react-router'
+import { createFileRoute, Link, Outlet, useRouterState } from '@tanstack/react-router'
+import { Settings, KeyRound, Globe, LucideIcon } from 'lucide-react';
 import { useMemo } from 'react';
 
 export const Route = createFileRoute(
@@ -9,6 +9,37 @@ export const Route = createFileRoute(
 )({
     component: RouteComponent,
 })
+
+function SettingsTab({ id, label, icon: Icon, active, params }: {
+    id: 'general' | 'environment' | 'domains'
+    label: string
+    icon: LucideIcon
+    active: boolean
+    params: { projectId: string }
+}) {
+    const routes = {
+        general: '/projects/$projectId/settings/general',
+        environment: '/projects/$projectId/settings/environment',
+        domains: '/projects/$projectId/settings/domains',
+    } as const;
+
+    return (
+        <Link
+            to={routes[id]}
+            params={params}
+            viewTransition
+            className={cn(
+                'relative flex items-center gap-2 px-4 py-2.5 text-sm font-medium transition-colors whitespace-nowrap border-b-2',
+                active
+                    ? 'border-primary text-foreground'
+                    : 'border-transparent text-muted-foreground hover:text-foreground hover:border-zinc-700',
+            )}
+        >
+            <Icon className="h-4 w-4" />
+            {label}
+        </Link>
+    )
+}
 
 function RouteComponent() {
     const params = Route.useParams();
@@ -22,34 +53,23 @@ function RouteComponent() {
     return (
         <div className="space-y-6">
             <div>
-                <h2 className="text-3xl font-bold tracking-tight">Project Settings</h2>
-                <p className="text-muted-foreground">
-                    Manage your project settings and configuration.
+                <h2 className="text-2xl font-semibold tracking-tight">Project Settings</h2>
+                <p className="text-sm text-muted-foreground mt-1">
+                    Manage your project configuration, environment, and domains.
                 </p>
             </div>
 
-            <Tabs className="w-full" value={tabRoute}>
-                <TabsList className={cn("grid w-full grid-cols-1 lg:w-auto h-full", {
-                    "md:grid-cols-3": project?.type !== "N8n",
-                    "md:grid-cols-2": project?.type === "N8n",
-                })}>
-                    <TabsTrigger value="general" asChild>
-                        <Link to="/projects/$projectId/settings/general" params={params} viewTransition>General</Link>
-                    </TabsTrigger>
-                    {
-                        project?.type !== "N8n" && (
-                            <TabsTrigger value="environment" asChild>
-                                <Link to="/projects/$projectId/settings/environment" params={params} viewTransition>Environment Variables</Link>
-                            </TabsTrigger>
-                        )
-                    }
-                    <TabsTrigger value="domains" asChild>
-                        <Link to="/projects/$projectId/settings/domains" params={params} viewTransition>Domains</Link>
-                    </TabsTrigger>
-                </TabsList>
+            <div className="border-b border-zinc-800">
+                <nav className="flex items-center gap-1 overflow-x-auto scrollbar-none -mb-px">
+                    <SettingsTab id="general" label="General" icon={Settings} active={tabRoute === 'general'} params={params} />
+                    {project?.type !== "N8n" && (
+                        <SettingsTab id="environment" label="Environment" icon={KeyRound} active={tabRoute === 'environment'} params={params} />
+                    )}
+                    <SettingsTab id="domains" label="Domains" icon={Globe} active={tabRoute === 'domains'} params={params} />
+                </nav>
+            </div>
 
-                <Outlet />
-            </Tabs>
+            <Outlet />
         </div>
     )
 }

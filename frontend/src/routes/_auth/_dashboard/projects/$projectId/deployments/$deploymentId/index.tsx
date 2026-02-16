@@ -4,14 +4,28 @@ import { CopyText } from '@/components/copy-text';
 import LoadingButton from '@/components/loading-button';
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useDuration } from '@/hooks/use-duration';
 import { DeploymentStatus } from '@/lib/deployment-status';
-import { getStatusDot } from '@/lib/deployment-status-component';
 import { Formatter } from '@/lib/formatter';
 import { cn } from '@/lib/utils';
 import { createFileRoute, useRouter } from '@tanstack/react-router';
-import { ArrowLeft, Calendar, CircleAlert, CircleCheck, CircleDot, Clock, ExternalLink, GitBranch, GitCommit, Info, TriangleAlert } from "lucide-react";
+import { motion } from 'framer-motion';
+import {
+    ArrowLeft,
+    Calendar,
+    ChevronRight,
+    CircleAlert,
+    CircleCheck,
+    CircleDot,
+    Clock,
+    ExternalLink,
+    GitBranch,
+    GitCommit,
+    Info,
+    TriangleAlert,
+    User,
+} from "lucide-react";
+import { useRef, useEffect } from 'react';
 
 export const Route = createFileRoute(
     '/_auth/_dashboard/projects/$projectId/deployments/$deploymentId/',
@@ -28,6 +42,40 @@ export const Route = createFileRoute(
         });
     },
 })
+
+function getStatusBadgeClasses(status: DeploymentStatus) {
+    switch (status) {
+        case DeploymentStatus.Completed:
+            return "bg-emerald-500/10 text-emerald-500 border-emerald-500/20";
+        case DeploymentStatus.Deploying:
+            return "bg-blue-500/10 text-blue-500 border-blue-500/20";
+        case DeploymentStatus.Queued:
+            return "bg-amber-500/10 text-amber-500 border-amber-500/20";
+        case DeploymentStatus.Failed:
+            return "bg-red-500/10 text-red-500 border-red-500/20";
+        case DeploymentStatus.Cancelled:
+            return "bg-zinc-500/10 text-zinc-400 border-zinc-500/20";
+        default:
+            return "bg-zinc-500/10 text-zinc-400 border-zinc-500/20";
+    }
+}
+
+function getStatusDotColor(status: DeploymentStatus) {
+    switch (status) {
+        case DeploymentStatus.Completed:
+            return "bg-emerald-500";
+        case DeploymentStatus.Deploying:
+            return "bg-blue-500";
+        case DeploymentStatus.Queued:
+            return "bg-amber-500";
+        case DeploymentStatus.Failed:
+            return "bg-red-500";
+        case DeploymentStatus.Cancelled:
+            return "bg-zinc-500";
+        default:
+            return "bg-zinc-500";
+    }
+}
 
 function RouteComponent() {
     const initialData = Route.useLoaderData();
@@ -52,45 +100,14 @@ function RouteComponent() {
         router.navigate({ to: `/projects/${projectId}/deployments` })
     }
 
-    const LogEntryComponent = (logEntry: Awaited<ReturnType<typeof api.v1.getProjectsProjectIdDeploymentsDeploymentIdLogs.fetchQuery>>[0]) => {
-        const getLogTextColor = () => {
-            const logLevel = logEntry.level;
-            if (logLevel === "Error") return "text-red-500";
-            if (logLevel === "Warning") return "text-yellow-500";
-            if (logLevel === "Info") return "text-gray-400";
-            if (logLevel === "Success") return "text-green-500";
-            return "text-gray-500";
-        }
-        const getIcon = () => {
-            switch (logEntry.level) {
-                case "Error":
-                    return <CircleAlert className={"h-4 w-4 min-h-4 min-w-4 text-red-500"} />;
-                case "Warning":
-                    return <TriangleAlert className="h-4 w-4 min-h-4 min-w-4 text-yellow-500" />;
-                case "Info":
-                    return <Info className="h-4 w-4 min-h-4 min-w-4 text-gray-400" />;
-                case "Success":
-                    return <CircleCheck className="h-4 w-4 min-h-4 min-w-4 text-green-500" />;
-                default:
-                    return <CircleDot className="h-4 w-4 min-h-4 min-w-4 text-gray-500" />;
+    const logContainerRef = useRef<HTMLDivElement>(null);
 
-            }
+    // Auto-scroll logs when deploying
+    useEffect(() => {
+        if (deployment?.status === DeploymentStatus.Deploying && logContainerRef.current) {
+            logContainerRef.current.scrollTop = logContainerRef.current.scrollHeight;
         }
-
-        return (
-            <div className="flex items-start gap-1 mb-1">
-                <div className='flex items-center gap-2 mr-1'>
-                    <span className="text-gray-500 mr-2 whitespace-nowrap">
-                        {logEntry.timestamp && Formatter.fromDate(new Date(new Date(logEntry.timestamp).getTime() - new Date(logEntry.timestamp).getTimezoneOffset() * 60000), "long")}
-                    </span>
-                    {getIcon()}
-                </div>
-                <span className={cn("whitespace-pre-wrap", getLogTextColor())}>
-                    {logEntry.message}
-                </span>
-            </div>
-        );
-    }
+    }, [logs, deployment?.status]);
 
     if (!deployment) {
         return (
@@ -106,7 +123,10 @@ function RouteComponent() {
             </div>
         )
     }
+
     const buildDuration = useDuration(deployment.buildDuration!, deployment.status as DeploymentStatus === DeploymentStatus.Deploying);
+    const status = deployment.status as DeploymentStatus;
+    const isDeploying = status === DeploymentStatus.Deploying;
 
     const { mutateAsync: redeployAsync, isPending: isRedeploying } = api.v1.postProjectsProjectIdDeploymentsDeploymentIdRedeploy.useMutation();
 
@@ -114,7 +134,7 @@ function RouteComponent() {
         await redeployAsync({
             path: {
                 deploymentId: deploymentId,
-                projectId: deploymentId // backend doesn't use this parameter for now
+                projectId: deploymentId
             }
         });
         goBack();
@@ -122,131 +142,216 @@ function RouteComponent() {
 
     return (
         <div className="space-y-6">
-            <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                    <Button variant="ghost" size="icon" onClick={goBack}>
+            {/* Breadcrumb + back */}
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <button onClick={goBack} className="hover:text-foreground transition-colors">
+                    Deployments
+                </button>
+                <ChevronRight className="h-3.5 w-3.5" />
+                <span className="text-foreground font-mono">{deployment.id?.substring(0, 8)}</span>
+            </div>
+
+            {/* Header */}
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <div className="flex items-center gap-3">
+                    <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full" onClick={goBack}>
                         <ArrowLeft className="h-4 w-4" />
                     </Button>
-                    <h2 className="text-2xl font-bold">Deployment {deployment.id?.substring(0, 8)}</h2>
+                    <h2 className="text-2xl font-bold font-mono">{deployment.id?.substring(0, 8)}</h2>
+                    <Badge
+                        variant="outline"
+                        className={cn("rounded-full text-xs px-2.5 py-0.5", getStatusBadgeClasses(status))}
+                    >
+                        <span className="relative flex h-2 w-2 mr-1.5">
+                            <span className={cn("block h-2 w-2 rounded-full", getStatusDotColor(status))} />
+                            {isDeploying && (
+                                <span className={cn("absolute inset-0 h-2 w-2 rounded-full animate-ping opacity-40", getStatusDotColor(status))} />
+                            )}
+                        </span>
+                        {deployment.status}
+                    </Badge>
                     {deployment.isCurrent && (
-                        <Badge
-                            variant="outline"
-                            className="ml-2 text-xs rounded-full px-2 py-0 h-5 bg-primary/10 border-primary/20"
-                        >
+                        <Badge className="bg-emerald-500/10 text-emerald-500 border-emerald-500/20 hover:bg-emerald-500/20 rounded-full text-xs px-2.5 py-0.5">
                             Current
                         </Badge>
                     )}
                 </div>
-                <div className="flex items-center gap-2">
-                    <LoadingButton isLoading={isRedeploying} onClick={handleRedeployAsync} variant="outline">
-                        Redeploy
-                    </LoadingButton>
-                </div>
+                <LoadingButton isLoading={isRedeploying} onClick={handleRedeployAsync} variant="outline">
+                    Redeploy
+                </LoadingButton>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <Card>
-                    <CardHeader>
-                        <CardTitle>Deployment Information</CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                        <div className="flex justify-between items-center">
-                            <div className="text-sm text-muted-foreground">Status</div>
-                            <div className="flex items-center font-medium">
-                                {getStatusDot(deployment.status as DeploymentStatus)}
+            {/* Info cards */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Deployment Info */}
+                <div className="rounded-xl border bg-card p-5 space-y-4">
+                    <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">Deployment Info</h3>
+                    <div className="space-y-3">
+                        <InfoRow label="Status">
+                            <Badge
+                                variant="outline"
+                                className={cn("rounded-full text-xs px-2.5 py-0.5", getStatusBadgeClasses(status))}
+                            >
                                 {deployment.status}
+                            </Badge>
+                        </InfoRow>
+                        <InfoRow label="Environment">
+                            <span className="font-medium">{deployment.environment}</span>
+                        </InfoRow>
+                        <InfoRow label="Created">
+                            <div className="flex items-center gap-2">
+                                <Calendar className="h-3.5 w-3.5 text-muted-foreground" />
+                                <span className="font-medium">{Formatter.fromDate(deployment.createdAt, "long")}</span>
                             </div>
-                        </div>
-                        <div className="flex justify-between items-center"> 
-                            <div className="text-sm text-muted-foreground">Environment</div>
-                            <div className="font-medium">{deployment.environment}</div>
-                        </div>
-                        <div className="flex justify-between items-center">
-                            <div className="text-sm text-muted-foreground">Created</div>
-                            <div className="flex items-center gap-2 font-medium">
-                                <Calendar className="h-4 w-4 text-muted-foreground" />
-                                {Formatter.fromDate(deployment.createdAt, "long")}
+                        </InfoRow>
+                        <InfoRow label="Duration">
+                            <div className="flex items-center gap-2">
+                                <motion.div
+                                    animate={isDeploying ? { rotate: 360 } : {}}
+                                    transition={isDeploying ? { duration: 2, repeat: Infinity, ease: "linear" } : {}}
+                                >
+                                    <Clock className="h-3.5 w-3.5 text-muted-foreground" />
+                                </motion.div>
+                                <span className={cn("font-medium font-mono", isDeploying && "text-blue-500")}>
+                                    {buildDuration}
+                                </span>
                             </div>
-                        </div>
-                        <div className="flex justify-between items-center">
-                            <div className="text-sm text-muted-foreground">Duration</div>
-                            <div className="flex items-center gap-2 font-medium">
-                                <Clock className="h-4 w-4 text-muted-foreground" />
-                                {buildDuration}
-                            </div>
-                        </div>
-                        <div className="flex justify-between items-center">
-                            <div className="text-sm text-muted-foreground pr-2">URL</div>
-                            <div className="flex items-center gap-2 font-medium">
+                        </InfoRow>
+                        <InfoRow label="URL">
+                            <div className="flex items-center gap-2">
                                 <a
                                     href={"https://" + deployment.url!}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="text-blue-500 hover:underline"
+                                    className="text-blue-500 hover:text-blue-400 hover:underline transition-colors text-sm truncate max-w-[200px]"
                                 >
                                     {deployment.url}
                                 </a>
-                                <CopyButton value={deployment.url!} />
+                                <ExternalLink className="h-3 w-3 text-blue-500 flex-shrink-0" />
+                                <CopyButton value={deployment.url!} className="p-1" iconClassName="h-3 w-3" />
                             </div>
-                        </div>
-                    </CardContent>
-                </Card>
+                        </InfoRow>
+                    </div>
+                </div>
 
-                <Card>
-                    <CardHeader>
-                        <CardTitle>Git Information</CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                        <div className="flex justify-between items-center">
-                            <div className="text-sm text-muted-foreground">Branch</div>
-                            <div className="flex items-center gap-2 font-medium">
-                                <GitBranch className="h-4 w-4 text-muted-foreground" />
-                                {deployment.branch}
+                {/* Git Info */}
+                <div className="rounded-xl border bg-card p-5 space-y-4">
+                    <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">Git Info</h3>
+                    <div className="space-y-3">
+                        <InfoRow label="Branch">
+                            <div className="flex items-center gap-2">
+                                <GitBranch className="h-3.5 w-3.5 text-muted-foreground" />
+                                <span className="font-medium">{deployment.branch}</span>
                             </div>
-                        </div>
-                        <div className="flex justify-between items-center">
-                            <div className="text-sm text-muted-foreground">Commit</div>
-                            <div className="flex items-center gap-2 font-medium">
-                                <GitCommit className="h-4 w-4 text-muted-foreground" />
-                                <CopyText value={deployment.commitHash!} className='font-mono' >
-                                    <span className="font-mono">{deployment.commitHash?.substring(0, 6)}</span>
+                        </InfoRow>
+                        <InfoRow label="Commit">
+                            <div className="flex items-center gap-2">
+                                <GitCommit className="h-3.5 w-3.5 text-muted-foreground" />
+                                <CopyText value={deployment.commitHash!} className="font-mono">
+                                    <span className="font-mono text-sm font-medium hover:text-blue-500 transition-colors">{deployment.commitHash?.substring(0, 7)}</span>
                                 </CopyText>
                             </div>
-                        </div>
-                        <div className="flex justify-between items-center">
-                            <div className="text-sm text-muted-foreground">Message</div>
-                            <div className="font-medium truncate pl-3" title={deployment.commitMessage ?? ""}>
+                        </InfoRow>
+                        <InfoRow label="Message">
+                            <span className="font-medium text-sm truncate max-w-[250px]" title={deployment.commitMessage ?? ""}>
                                 {deployment.commitMessage}
+                            </span>
+                        </InfoRow>
+                        <InfoRow label="Author">
+                            <div className="flex items-center gap-2">
+                                <User className="h-3.5 w-3.5 text-muted-foreground" />
+                                <span className="font-medium">{deployment.author}</span>
                             </div>
-                        </div>
-                        <div className="flex justify-between items-center">
-                            <div className="text-sm text-muted-foreground">Author</div>
-                            <div className="font-medium">{deployment.author}</div>
-                        </div>
-                    </CardContent>
-                </Card>
+                        </InfoRow>
+                    </div>
+                </div>
             </div>
 
-            <Card>
-                <CardHeader className="pb-2">
-                    <CardTitle className="text-lg flex justify-between">
-                        <span>Build Logs</span>
-                        <CopyButton value={logs?.flatMap((log) => `${log.timestamp} ${log.level} ${log.message}`).join("\n") ?? ""} className="flex items-center">
-                            <span className='ml-4 text-sm'>Copy</span>
-                        </CopyButton>
-                    </CardTitle>
-                    <CardDescription>Logs from the build process</CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <div className="bg-black text-green-400 font-mono text-sm p-4 rounded-md h-[400px] overflow-y-auto">
-                        <div className="whitespace-pre-wrap mb-1">
-                            {logs?.map((log, index) => (
-                                <LogEntryComponent key={index} {...log} />
-                            ))}
-                        </div>
+            {/* Build Logs */}
+            <div className="rounded-xl border bg-card overflow-hidden">
+                <div className="flex items-center justify-between px-5 py-3 border-b">
+                    <div>
+                        <h3 className="text-sm font-semibold">Build Logs</h3>
+                        <p className="text-xs text-muted-foreground">Output from the build process</p>
                     </div>
-                </CardContent>
-            </Card>
+                    <CopyButton
+                        value={logs?.flatMap((log) => `${log.timestamp} ${log.level} ${log.message}`).join("\n") ?? ""}
+                        className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground"
+                    >
+                        <span>Copy</span>
+                    </CopyButton>
+                </div>
+                <div
+                    ref={logContainerRef}
+                    className="bg-zinc-950 font-mono text-sm p-4 h-[440px] overflow-y-auto scrollbar-thin"
+                >
+                    {logs?.map((log, index) => (
+                        <LogEntry key={index} {...log} />
+                    ))}
+                    {isDeploying && (
+                        <div className="flex items-center gap-2 mt-1 text-blue-400">
+                            <motion.span
+                                animate={{ opacity: [1, 0.3, 1] }}
+                                transition={{ duration: 1.5, repeat: Infinity }}
+                                className="inline-block"
+                            >
+                                _
+                            </motion.span>
+                        </div>
+                    )}
+                </div>
+            </div>
         </div>
     )
+}
+
+function InfoRow({ label, children }: { label: string; children: React.ReactNode }) {
+    return (
+        <div className="flex justify-between items-center">
+            <span className="text-sm text-muted-foreground">{label}</span>
+            <div className="flex items-center">{children}</div>
+        </div>
+    );
+}
+
+function LogEntry(logEntry: {
+    timestamp?: string | null;
+    level?: string | null;
+    message?: string | null;
+}) {
+    const getLogTextColor = () => {
+        const logLevel = logEntry.level;
+        if (logLevel === "Error") return "text-red-400";
+        if (logLevel === "Warning") return "text-amber-400";
+        if (logLevel === "Info") return "text-zinc-400";
+        if (logLevel === "Success") return "text-emerald-400";
+        return "text-zinc-500";
+    }
+
+    const getIcon = () => {
+        switch (logEntry.level) {
+            case "Error":
+                return <CircleAlert className="h-3.5 w-3.5 min-h-3.5 min-w-3.5 text-red-400" />;
+            case "Warning":
+                return <TriangleAlert className="h-3.5 w-3.5 min-h-3.5 min-w-3.5 text-amber-400" />;
+            case "Info":
+                return <Info className="h-3.5 w-3.5 min-h-3.5 min-w-3.5 text-zinc-500" />;
+            case "Success":
+                return <CircleCheck className="h-3.5 w-3.5 min-h-3.5 min-w-3.5 text-emerald-400" />;
+            default:
+                return <CircleDot className="h-3.5 w-3.5 min-h-3.5 min-w-3.5 text-zinc-600" />;
+        }
+    }
+
+    return (
+        <div className="flex items-start gap-2 py-0.5 hover:bg-white/[0.02] rounded px-1 -mx-1">
+            <span className="text-zinc-600 whitespace-nowrap text-xs leading-5 select-none">
+                {logEntry.timestamp && Formatter.fromDate(new Date(new Date(logEntry.timestamp).getTime() - new Date(logEntry.timestamp).getTimezoneOffset() * 60000), "long")}
+            </span>
+            <span className="leading-5 flex-shrink-0">{getIcon()}</span>
+            <span className={cn("whitespace-pre-wrap leading-5 text-xs", getLogTextColor())}>
+                {logEntry.message}
+            </span>
+        </div>
+    );
 }

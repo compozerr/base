@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import * as React from 'react'
 import {
   createFileRoute,
   Link,
@@ -8,8 +8,8 @@ import {
 import { cn } from '@/lib/utils'
 import { api } from '@/api-client'
 import { Button } from '@/components/ui/button'
-import { ExternalLink } from 'lucide-react'
-import { useDashboardHeader } from '@/hooks/use-dashboard-header'
+import { ChevronRight, ExternalLink } from 'lucide-react'
+import { AnimatePresence, motion } from 'framer-motion'
 
 export const Route = createFileRoute('/_auth/_dashboard/projects/$projectId')({
   component: RouteComponent,
@@ -22,12 +22,12 @@ export const Route = createFileRoute('/_auth/_dashboard/projects/$projectId')({
   }
 })
 
-function ProjectNav({ projectId, projectName, primaryDomain, pathname }: {
-  projectId: string
-  projectName: string
-  primaryDomain?: string | null
-  pathname: string
-}) {
+function RouteComponent() {
+  const { pathname } = useLocation()
+  const { projectId } = Route.useLoaderData()
+
+  const { data: project } = api.v1.getProjectsProjectId.useQuery({ path: { projectId } })
+
   const isTabActive = (href: string) => {
     if (href === `/projects/${projectId}`) {
       return pathname === href
@@ -42,66 +42,71 @@ function ProjectNav({ projectId, projectName, primaryDomain, pathname }: {
   ]
 
   return (
-    <div className="flex items-center justify-between w-full pr-4">
-      <div className="flex items-center">
-        <h1 className="text-lg font-semibold mr-8">{projectName}</h1>
-        <nav className="flex items-center space-x-4 lg:space-x-6">
-          {tabs.map((tab) => (
+    <div className="flex flex-col min-h-screen w-full">
+      {/* Navigation bar */}
+      <div className="border-b border-zinc-800 px-1 py-3">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          {/* Breadcrumb */}
+          <div className="flex items-center gap-1.5 text-sm">
             <Link
-              key={tab.name}
-              to={tab.href}
-              className={cn(
-                'text-sm font-medium transition-colors hover:text-primary',
-                isTabActive(tab.href)
-                  ? 'border-b-2 border-primary'
-                  : 'text-muted-foreground',
-              )}
+              to="/projects"
+              className="text-muted-foreground hover:text-foreground transition-colors"
             >
-              {tab.name}
+              Projects
             </Link>
-          ))}
+            <ChevronRight className="h-3.5 w-3.5 text-muted-foreground" />
+            <span className="font-medium text-foreground truncate max-w-[200px]">
+              {project?.name}
+            </span>
+          </div>
+
+          {/* Visit button */}
+          {project?.primaryDomain && (
+            <Button variant="outline" size="sm" className="gap-1.5 w-fit" asChild>
+              <a href={"https://" + project.primaryDomain} target="_blank" rel="noopener noreferrer">
+                <ExternalLink className="h-3.5 w-3.5" />
+                Visit
+              </a>
+            </Button>
+          )}
+        </div>
+
+        {/* Pill tabs */}
+        <nav className="mt-3 flex items-center gap-1 overflow-x-auto scrollbar-none -mb-px">
+          {tabs.map((tab) => {
+            const active = isTabActive(tab.href)
+            return (
+              <Link
+                key={tab.name}
+                to={tab.href}
+                className={cn(
+                  'relative px-3.5 py-1.5 text-sm font-medium rounded-md transition-colors whitespace-nowrap',
+                  active
+                    ? 'bg-secondary text-foreground'
+                    : 'text-muted-foreground hover:text-foreground hover:bg-secondary/50',
+                )}
+              >
+                {tab.name}
+              </Link>
+            )
+          })}
         </nav>
       </div>
-      {primaryDomain && (
-        <Button variant="default" className="gap-2" asChild>
-          <a href={"https://" + primaryDomain} target="_blank" rel="noopener noreferrer">
-            <ExternalLink className="h-4 w-4" />
-            Visit
-          </a>
-        </Button>
-      )}
-    </div>
-  )
-}
 
-function RouteComponent() {
-  const { pathname } = useLocation()
-  const { projectId } = Route.useLoaderData()
-  const { setHeaderContent } = useDashboardHeader()
-
-  const { data: project } = api.v1.getProjectsProjectId.useQuery({ path: { projectId } })
-
-  useEffect(() => {
-    window.scrollTo(0, 0)
-  }, [projectId])
-
-  useEffect(() => {
-    if (project) {
-      setHeaderContent(
-        <ProjectNav
-          projectId={projectId}
-          projectName={project.name!}
-          primaryDomain={project.primaryDomain}
-          pathname={pathname}
-        />
-      )
-    }
-    return () => setHeaderContent(null)
-  }, [project, pathname, projectId, setHeaderContent])
-
-  return (
-    <div className="flex flex-col w-full">
-      <Outlet />
+      {/* Page content */}
+      <div className="py-6">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={pathname}
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.2, ease: 'easeInOut' }}
+          >
+            <Outlet />
+          </motion.div>
+        </AnimatePresence>
+      </div>
     </div>
   )
 }

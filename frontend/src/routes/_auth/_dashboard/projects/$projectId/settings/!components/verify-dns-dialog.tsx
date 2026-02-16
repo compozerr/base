@@ -22,7 +22,7 @@ import {
     DialogTitle
 } from "@/components/ui/dialog"
 import { useToast } from '@/hooks/use-toast'
-import { AlertTriangle } from 'lucide-react'
+import { AlertTriangle, Clock } from 'lucide-react'
 import React from 'react'
 
 interface Props {
@@ -190,21 +190,21 @@ const VerifyDnsDialog: React.FC<Props> = (props) => {
                             <AlertTriangle className="h-4 w-4" />
                             <AlertTitle>Remove these DNS records</AlertTitle>
                             <AlertDescription>
-                                <div className="rounded-md border border-destructive/50 bg-destructive/10 overflow-hidden">
+                                <div className="mt-2 rounded-md border border-destructive/30 overflow-hidden">
                                     <Table>
                                         <TableHeader>
-                                            <TableRow>
-                                                <TableHead className="text-destructive-foreground">Type</TableHead>
-                                                <TableHead className="text-destructive-foreground">Name</TableHead>
-                                                <TableHead className="text-destructive-foreground">Value</TableHead>
+                                            <TableRow className="border-destructive/30">
+                                                <TableHead className="text-destructive-foreground text-xs">Type</TableHead>
+                                                <TableHead className="text-destructive-foreground text-xs">Name</TableHead>
+                                                <TableHead className="text-destructive-foreground text-xs">Value</TableHead>
                                             </TableRow>
                                         </TableHeader>
                                         <TableBody>
                                             {conflictingRecords.map((record, index) => (
-                                                <TableRow key={index}>
-                                                    <TableCell className="font-medium">{record.type}</TableCell>
+                                                <TableRow key={index} className="border-destructive/20">
+                                                    <TableCell className="font-mono text-sm font-medium">{record.type}</TableCell>
                                                     <TableCell className="font-mono text-sm">{record.name}</TableCell>
-                                                    <TableCell className="font-mono text-sm">{record.value}</TableCell>
+                                                    <TableCell className="font-mono text-sm break-all">{record.value}</TableCell>
                                                 </TableRow>
                                             ))}
                                         </TableBody>
@@ -215,28 +215,28 @@ const VerifyDnsDialog: React.FC<Props> = (props) => {
                     )}
 
                     <div>
-                        <h4 className="font-medium mb-2">
+                        <h4 className="text-sm font-medium mb-2">
                             Add {dnsGuide?.recordType ?? 'DNS'} record
                         </h4>
-                        <div className="rounded-md border bg-card">
+                        <div className="rounded-lg border border-zinc-800 overflow-hidden">
                             <Table>
                                 <TableHeader>
-                                    <TableRow>
-                                        <TableHead>Type</TableHead>
-                                        <TableHead>Name</TableHead>
-                                        <TableHead>Value</TableHead>
-                                        <TableHead>TTL</TableHead>
+                                    <TableRow className="border-zinc-800">
+                                        <TableHead className="text-xs">Type</TableHead>
+                                        <TableHead className="text-xs">Name</TableHead>
+                                        <TableHead className="text-xs">Value</TableHead>
+                                        <TableHead className="text-xs">TTL</TableHead>
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
-                                    <TableRow>
-                                        <TableCell className="font-medium">
+                                    <TableRow className="border-zinc-800">
+                                        <TableCell className="font-mono text-sm font-medium">
                                             {dnsGuide?.recordType ?? 'CNAME'}
                                         </TableCell>
-                                        <TableCell>
+                                        <TableCell className="font-mono text-sm">
                                             {dnsGuide?.name && <CopyText value={dnsGuide.name}>{dnsGuide.name}</CopyText>}
                                         </TableCell>
-                                        <TableCell>
+                                        <TableCell className="font-mono text-sm">
                                             {dnsGuide?.recordValue ? (
                                                 <CopyText value={dnsGuide.recordValue}>{dnsGuide.recordValue}</CopyText>
                                             ) : (
@@ -245,22 +245,27 @@ const VerifyDnsDialog: React.FC<Props> = (props) => {
                                                 </span>
                                             )}
                                         </TableCell>
-                                        <TableCell>3600</TableCell>
+                                        <TableCell className="font-mono text-sm text-muted-foreground">3600</TableCell>
                                     </TableRow>
                                 </TableBody>
                             </Table>
                         </div>
                     </div>
 
-                    <div className="rounded-md bg-muted p-4">
-                        <h4 className="font-medium mb-2">DNS Propagation</h4>
-                        <p className="text-sm text-muted-foreground">
-                            DNS changes can take up to 48 hours to propagate
-                            worldwide, though they often take effect much sooner.
-                        </p>
+                    <div className="rounded-lg bg-zinc-900/50 border border-zinc-800 p-4">
+                        <div className="flex items-start gap-3">
+                            <Clock className="h-4 w-4 text-muted-foreground mt-0.5 flex-shrink-0" />
+                            <div>
+                                <h4 className="text-sm font-medium mb-1">DNS Propagation</h4>
+                                <p className="text-sm text-muted-foreground">
+                                    DNS changes can take up to 48 hours to propagate
+                                    worldwide, though they often take effect much sooner.
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <DialogFooter>
+                <DialogFooter className="gap-2">
                     <Button
                         variant="outline"
                         onClick={() => handleOpenChange(false)}

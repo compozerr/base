@@ -1,34 +1,18 @@
 import { api } from '@/api-client'
-import { DataTable } from '@/components/data-table'
 import StartStopProjectButton from '@/components/project/project-startstop-button'
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { Input } from '@/components/ui/input'
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from '@/components/ui/select'
-import {
-    AlertDialog,
-    AlertDialogAction,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-} from '@/components/ui/alert-dialog'
 import { useEphemeralQueryParams } from '@/hooks/use-ephemeral-storage.hook'
 import { ProjectStateFilter } from '@/lib/project-state-filter'
 import { getLink } from '@/links'
+import { cn } from '@/lib/utils'
 import { createFileRoute, useRouter } from '@tanstack/react-router'
-import { MoreVertical, Plus, Search, Workflow, CreditCard, Rocket, Filter, FolderGit2, Activity, Server, Terminal } from 'lucide-react'
-import { useEffect, useMemo, useState } from 'react'
-import { usePaymentMethod } from '@repo/stripe/hooks/use-payment-method';
+import { motion } from 'framer-motion'
+import { MoreVertical, Plus, Search, Workflow, Filter, FolderGit2, Activity, Server, Terminal, ExternalLink } from 'lucide-react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { z } from 'zod'
 
 const searchParamsSchema = z.object({
@@ -40,6 +24,15 @@ export const Route = createFileRoute('/_auth/_dashboard/projects/')({
     loader: () => api.v1.getProjects.prefetchQuery(),
     validateSearch: searchParamsSchema,
 })
+
+type FilterValue = 'all' | 'running' | 'stopped' | 'starting'
+
+const filterOptions: { value: FilterValue; label: string; stateFilter: ProjectStateFilter }[] = [
+    { value: 'all', label: 'All', stateFilter: ProjectStateFilter.All },
+    { value: 'running', label: 'Running', stateFilter: ProjectStateFilter.Running },
+    { value: 'stopped', label: 'Stopped', stateFilter: ProjectStateFilter.Stopped },
+    { value: 'starting', label: 'Starting', stateFilter: ProjectStateFilter.Starting },
+]
 
 function RouteComponent() {
     const [search, setSearch] = useState('');
@@ -64,8 +57,15 @@ function RouteComponent() {
         return () => clearTimeout(timer);
     }, [search]);
 
+    const [activeFilter, setActiveFilter] = useState<FilterValue>('all');
     const [filter, setFilter] = useState<ProjectStateFilter>(ProjectStateFilter.All);
     const [hasActiveDeployments, setHasActiveDeployments] = useState(false);
+
+    const handleFilterChange = useCallback((value: FilterValue) => {
+        setActiveFilter(value);
+        const option = filterOptions.find(o => o.value === value);
+        setFilter(option?.stateFilter ?? ProjectStateFilter.All);
+    }, []);
 
     const { data: allProjectData } = api.v1.getProjects.useQuery({
         query: {
@@ -86,7 +86,6 @@ function RouteComponent() {
         {
             refetchInterval: hasActiveDeployments ? 10000 : 30000,
             getNextPageParam: (lastPage) => {
-                // If the current page *is* full, there may be more
                 if (!lastPage) return undefined;
                 const currentPage = lastPage.page ?? 1;
                 const total = lastPage.totalProjectsCount ?? 0;
@@ -140,74 +139,81 @@ function RouteComponent() {
 
     const router = useRouter();
 
+    // Infinite scroll observer
+    const scrollSentinelRef = useRef<HTMLDivElement>(null);
+    useEffect(() => {
+        const sentinel = scrollSentinelRef.current;
+        if (!sentinel) return;
+        const observer = new IntersectionObserver(
+            (entries) => {
+                if (entries[0]?.isIntersecting) {
+                    fetchNextPage();
+                }
+            },
+            { rootMargin: '200px' }
+        );
+        observer.observe(sentinel);
+        return () => observer.disconnect();
+    }, [fetchNextPage]);
+
     return (
         <div className="mx-auto">
-            <header className="mb-8">
+            <header className="mb-6">
                 <h1 className="text-3xl font-bold mb-2">Projects</h1>
                 <p className="text-muted-foreground">
                     Manage and monitor your running projects
                 </p>
             </header>
 
-            <div className="grid gap-6 md:grid-cols-3 mb-8">
-                <DashboardCard
-                    title="Total Projects"
-                    value={totalProjectsCount.toString()}
-                    icon={<FolderGit2 className="h-5 w-5" />}
-                    iconColor="text-blue-500"
-                    iconBgColor="bg-blue-500/10"
-                />
-                <DashboardCard
-                    title="Running"
-                    value={runningProjectsCount.toString()}
-                    icon={<Activity className="h-5 w-5" />}
-                    iconColor="text-green-500"
-                    iconBgColor="bg-green-500/10"
-                />
-                <DashboardCard
-                    title="Stopped"
-                    value={stoppedProjectsCount.toString()}
-                    icon={<Server className="h-5 w-5" />}
-                    iconColor="text-gray-500"
-                    iconBgColor="bg-gray-500/10"
-                />
+            {/* Summary Bar */}
+            <div className="flex items-center gap-6 rounded-lg border bg-card px-5 py-3 mb-6">
+                <div className="flex items-center gap-2">
+                    <FolderGit2 className="h-4 w-4 text-muted-foreground" />
+                    <span className="text-xl font-semibold">{totalProjectsCount}</span>
+                    <span className="text-sm text-muted-foreground">Total</span>
+                </div>
+                <div className="h-5 w-px bg-border" />
+                <div className="flex items-center gap-2">
+                    <Activity className="h-4 w-4 text-green-500" />
+                    <span className="text-xl font-semibold text-green-500">{runningProjectsCount}</span>
+                    <span className="text-sm text-muted-foreground">Running</span>
+                </div>
+                <div className="h-5 w-px bg-border" />
+                <div className="flex items-center gap-2">
+                    <Server className="h-4 w-4 text-muted-foreground" />
+                    <span className="text-xl font-semibold text-muted-foreground">{stoppedProjectsCount}</span>
+                    <span className="text-sm text-muted-foreground">Stopped</span>
+                </div>
             </div>
 
-            <div className="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
-                <div className="flex items-center w-full md:w-auto gap-3">
-                    <div className="relative max-w-sm">
+            {/* Search, Filter & Actions */}
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center w-full md:w-auto gap-3">
+                    <div className="relative w-full md:max-w-md">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                        <Input placeholder="Search projects..." className="pl-9" value={search} onChange={(e) => setSearch(e.target.value)} />
+                        <Input
+                            placeholder="Search projects..."
+                            className="pl-9 font-mono text-sm"
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                        />
                     </div>
-                    <Select defaultValue="all" onValueChange={(value) => {
-                        switch (value) {
-                            case 'all':
-                                setFilter(ProjectStateFilter.All);
-                                break;
-                            case 'running':
-                                setFilter(ProjectStateFilter.Running);
-                                break;
-                            case 'stopped':
-                                setFilter(ProjectStateFilter.Stopped);
-                                break;
-                            case 'starting':
-                                setFilter(ProjectStateFilter.Starting);
-                                break;
-                            default:
-                                setFilter(ProjectStateFilter.All);
-                                break;
-                        }
-                    }}>
-                        <SelectTrigger className="w-[180px]">
-                            <SelectValue placeholder="Filter by status" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="all">All Projects</SelectItem>
-                            <SelectItem value="running">Running</SelectItem>
-                            <SelectItem value="stopped">Stopped</SelectItem>
-                            <SelectItem value="starting">Starting</SelectItem>
-                        </SelectContent>
-                    </Select>
+                    <div className="flex items-center rounded-lg border bg-muted/50 p-0.5">
+                        {filterOptions.map((option) => (
+                            <button
+                                key={option.value}
+                                onClick={() => handleFilterChange(option.value)}
+                                className={cn(
+                                    'px-3 py-1.5 text-sm font-medium rounded-md transition-colors',
+                                    activeFilter === option.value
+                                        ? 'bg-background text-foreground shadow-sm'
+                                        : 'text-muted-foreground hover:text-foreground'
+                                )}
+                            >
+                                {option.label}
+                            </button>
+                        ))}
+                    </div>
                     {filteredTotalProjectsCount !== totalProjectsCount && (
                         <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
                             <Filter className="h-3.5 w-3.5" />
@@ -225,116 +231,159 @@ function RouteComponent() {
                 </div>
             </div>
 
-            <DataTable onRowClick={(row) => {
-                if (!row.id) return;
-                router.navigate({ to: `/projects/${row.id}` });
-            }} isLoading={false} data={allProjects} fetchNextPage={fetchNextPage} columns={[
-                {
-                    accessorKey: 'name',
-                    header: 'Project',
-                    cell: ({ row }) => {
-                        const isN8n = row.original.type === 'N8n';
-                        const activeDeploymentId = row.original.activeDeploymentId;
-                        return <div className="flex items-center gap-2">
-                            {isN8n && (
-                                <div className="flex items-center justify-center w-8 h-8 rounded-md bg-primary/10">
-                                    <Workflow className="h-4 w-4 text-primary" />
+            {/* Project Card Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {allProjects.map((project, index) => {
+                    const isN8n = project.type === 'N8n';
+                    const state = project.state;
+                    const statusColor =
+                        state === 'Running' ? 'bg-green-500' :
+                        state === 'Stopped' ? 'bg-red-500' :
+                        state === 'Starting' ? 'bg-yellow-500' :
+                        'bg-gray-500';
+                    const statusTextColor =
+                        state === 'Running' ? 'text-green-500' :
+                        state === 'Stopped' ? 'text-red-500' :
+                        state === 'Starting' ? 'text-yellow-500' :
+                        'text-muted-foreground';
+
+                    return (
+                        <motion.div
+                            key={project.id}
+                            initial={{ opacity: 0, y: 12 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.25, delay: index * 0.04 }}
+                            onClick={() => {
+                                if (!project.id) return;
+                                router.navigate({ to: `/projects/${project.id}` });
+                            }}
+                            className="group relative rounded-lg border bg-card p-4 cursor-pointer transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-md hover:shadow-primary/5"
+                        >
+                            {/* Top: Name + type icon */}
+                            <div className="flex items-start justify-between mb-3">
+                                <div className="flex items-center gap-2.5 min-w-0">
+                                    <div className={cn(
+                                        'flex items-center justify-center w-8 h-8 rounded-md shrink-0',
+                                        isN8n ? 'bg-primary/10' : 'bg-muted'
+                                    )}>
+                                        {isN8n
+                                            ? <Workflow className="h-4 w-4 text-primary" />
+                                            : <FolderGit2 className="h-4 w-4 text-muted-foreground" />
+                                        }
+                                    </div>
+                                    <span className="font-semibold truncate">{project.name}</span>
                                 </div>
-                            )}
-                            <div className="flex flex-col gap-1">
-                                <div className="font-medium">{row.original.name}</div>
-                                <div className="text-xs text-muted-foreground">{row.original.repoName}</div>
-                                {activeDeploymentId && (
+                                <DropdownMenu>
+                                    <DropdownMenuTrigger asChild>
+                                        <Button
+                                            variant="ghost"
+                                            size="sm"
+                                            className="h-7 w-7 p-0 opacity-0 group-hover:opacity-100 transition-opacity"
+                                            onClick={(e) => e.stopPropagation()}
+                                        >
+                                            <MoreVertical className="h-4 w-4" />
+                                        </Button>
+                                    </DropdownMenuTrigger>
+                                    <DropdownMenuContent align="end" className="pointer-events-auto">
+                                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                                        <DropdownMenuItem onClick={(e) => {
+                                            e.stopPropagation();
+                                            router.navigate({ to: "/projects/$projectId", params: { projectId: project.id! } });
+                                        }}>View Details</DropdownMenuItem>
+                                        <DropdownMenuItem onClick={(e) => {
+                                            e.stopPropagation();
+                                            router.navigate({ to: "/projects/$projectId/settings/general", params: { projectId: project.id! } });
+                                        }}>Edit Service</DropdownMenuItem>
+                                        <DropdownMenuSeparator />
+                                        <DropdownMenuItem className="text-red-600" onClick={(e) => {
+                                            e.stopPropagation();
+                                            router.navigate({
+                                                to: "/projects/$projectId/settings/general", params: { projectId: project.id! }
+                                            });
+                                        }}>Delete Service</DropdownMenuItem>
+                                    </DropdownMenuContent>
+                                </DropdownMenu>
+                            </div>
+
+                            {/* Status indicator */}
+                            <div className="flex items-center gap-2 mb-3">
+                                <span className="relative flex h-2.5 w-2.5">
+                                    {state === 'Running' && (
+                                        <span className={cn('animate-ping absolute inline-flex h-full w-full rounded-full opacity-75', statusColor)} />
+                                    )}
+                                    <span className={cn('relative inline-flex rounded-full h-2.5 w-2.5', statusColor)} />
+                                </span>
+                                <span className={cn('text-sm font-medium', statusTextColor)}>{state}</span>
+                                {project.activeDeploymentId && (
                                     <button
                                         onClick={(e) => {
                                             e.stopPropagation();
                                             router.navigate({
                                                 to: '/projects/$projectId/deployments/$deploymentId',
                                                 params: {
-                                                    projectId: row.original.id!,
-                                                    deploymentId: activeDeploymentId,
+                                                    projectId: project.id!,
+                                                    deploymentId: project.activeDeploymentId!,
                                                 },
                                             });
                                         }}
-                                        className="group inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-blue-500/10 hover:bg-blue-500/20 transition-colors cursor-pointer w-fit"
+                                        className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-blue-500/10 hover:bg-blue-500/20 transition-colors cursor-pointer ml-auto"
                                         title="View active deployment"
                                     >
                                         <span className="relative flex h-2 w-2">
                                             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75" />
                                             <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500" />
                                         </span>
-                                        <span className="text-[11px] font-medium text-blue-600 dark:text-blue-400 group-hover:text-blue-700 dark:group-hover:text-blue-300 transition-colors">
+                                        <span className="text-[11px] font-medium text-blue-600 dark:text-blue-400">
                                             Deploying
                                         </span>
                                     </button>
                                 )}
                             </div>
-                        </div>
-                    }
-                },
-                {
-                    accessorKey: "serverTier",
-                    header: "Server Tier"
-                },
-                {
-                    accessorKey: "state",
-                    header: "State",
-                    cell: ({ row }) => {
-                        const state = row.original.state;
 
-                        return (<span
-                            className={`inline-flex items-center rounded-full px-2 py-1 text-xs ${state === "Running"
-                                ? "bg-green-500/10 text-green-500"
-                                : state === "Stopped"
-                                    ? "bg-red-500/10 text-red-500"
-                                    : "bg-yellow-500/10 text-yellow-500"
-                                }`}
-                        >
-                            {state}
-                        </span>)
-                    }
-                },
-                {
-                    accessorKey: "",
-                    header: "Actions",
-                    cell: ({ row }) => {
-                        const state = row.original.state;
-                        const projectId = row.original.id;
-
-                        return (
-                            <div className="flex gap-2">
-                                {state && projectId && <StartStopProjectButton projectId={projectId} state={state} />}
-                                <DropdownMenu>
-                                    <DropdownMenuTrigger asChild>
-                                        <Button variant="ghost" size="sm">
-                                            <MoreVertical className="h-4 w-4" />
-                                        </Button>
-                                    </DropdownMenuTrigger>
-                                    <DropdownMenuContent align="end" className='pointer-events-auto'>
-                                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                                        <DropdownMenuItem onClick={(e) => {
-                                            e.stopPropagation();
-                                            router.navigate({ to: "/projects/$projectId", params: { projectId: row.original.id! } });
-                                        }}>View Details</DropdownMenuItem>
-                                        <DropdownMenuItem onClick={(e) => {
-                                            e.stopPropagation();
-                                            router.navigate({ to: "/projects/$projectId/settings/general", params: { projectId: row.original.id! } });
-                                        }}>Edit Service</DropdownMenuItem>
-                                        <DropdownMenuSeparator />
-                                        <DropdownMenuItem className="text-red-600" onClick={(e) => {
-                                            e.stopPropagation();
-                                            router.navigate({
-                                                to: "/projects/$projectId/settings/general", params: { projectId: row.original.id! }
-                                            });
-                                        }}>Delete Service</DropdownMenuItem>
-                                    </DropdownMenuContent>
-                                </DropdownMenu>
+                            {/* Middle: Domain + repo */}
+                            <div className="space-y-1 mb-3">
+                                {project.primaryDomain && (
+                                    <a
+                                        href={`https://${project.primaryDomain}`}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        onClick={(e) => e.stopPropagation()}
+                                        className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors truncate"
+                                    >
+                                        <ExternalLink className="h-3 w-3 shrink-0" />
+                                        <span className="truncate">{project.primaryDomain}</span>
+                                    </a>
+                                )}
+                                {project.repoName && (
+                                    <p className="text-xs text-muted-foreground font-mono truncate">
+                                        {project.repoName}
+                                    </p>
+                                )}
                             </div>
-                        )
-                    }
-                }
-            ]} />
 
+                            {/* Bottom: Tier badge + start/stop */}
+                            <div className="flex items-center justify-between pt-2 border-t border-border/50">
+                                {project.serverTier && (
+                                    <Badge variant="secondary" className="text-xs">
+                                        {project.serverTier}
+                                    </Badge>
+                                )}
+                                {!project.serverTier && <span />}
+                                {state && project.id && (
+                                    <div onClick={(e) => e.stopPropagation()}>
+                                        <StartStopProjectButton projectId={project.id} state={state} size="sm" />
+                                    </div>
+                                )}
+                            </div>
+                        </motion.div>
+                    );
+                })}
+            </div>
+
+            {/* Infinite scroll sentinel */}
+            <div ref={scrollSentinelRef} className="h-4" />
+
+            {/* CLI Auth Dialog */}
             <Dialog open={cliAuthDialogOpen} onOpenChange={setCliAuthDialogOpen}>
                 <DialogContent>
                     <DialogHeader>
@@ -352,37 +401,5 @@ function RouteComponent() {
                 </DialogContent>
             </Dialog>
         </div>
-    )
-}
-
-function DashboardCard({
-    title,
-    value,
-    icon,
-    iconColor,
-    iconBgColor
-}: {
-    title: string;
-    value: string;
-    icon: React.ReactNode;
-    iconColor: string;
-    iconBgColor: string;
-}) {
-    return (
-        <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">
-                    {title}
-                </CardTitle>
-                <div className={`p-2 rounded-lg ${iconBgColor}`}>
-                    <div className={iconColor}>
-                        {icon}
-                    </div>
-                </div>
-            </CardHeader>
-            <CardContent>
-                <div className='text-3xl font-bold'>{value}</div>
-            </CardContent>
-        </Card>
     )
 }

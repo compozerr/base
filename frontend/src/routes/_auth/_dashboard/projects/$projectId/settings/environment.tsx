@@ -1,21 +1,21 @@
 import { api } from '@/api-client'
 import LoadingButton from '@/components/loading-button'
 import { Alert, AlertDescription } from '@/components/ui/alert'
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
     Card,
     CardContent,
     CardDescription,
+    CardFooter,
     CardHeader,
     CardTitle,
 } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Separator } from '@/components/ui/separator'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { cn } from '@/lib/utils'
 import { createFileRoute, useRouter } from '@tanstack/react-router'
-import { FileText, Info, PlusCircle, Trash2, Undo } from 'lucide-react'
+import { FileText, Info, PlusCircle, Trash2, Undo, Upload, GitBranch } from 'lucide-react'
 import React, { Fragment, useCallback, useEffect, useRef, useState } from 'react'
 import { SystemType } from '../../../../../../lib/system-type'
 
@@ -232,82 +232,82 @@ function EnvironmentSettingsTab() {
     }
 
     const variablesToShow = env.find(x => x.branch === selectedBranch)?.variables.filter(x => x.systemType === selectedSystemType);
+    const hasAnyChanges = availableSystemTypes.some(x => systemTypeHasChanges(x));
 
     return (
-        <TabsContent value="environment" className="space-y-4 mt-6">
-            <Card>
-                <CardHeader className='flex flex-row justify-between'>
-                    <div className='flex flex-col'>
-
-                        <CardTitle>Environment Variables</CardTitle>
+        <div className="space-y-6">
+            <Card className="rounded-xl border-zinc-800 bg-zinc-900/50">
+                <CardHeader className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+                    <div>
+                        <CardTitle className="text-lg">Environment Variables</CardTitle>
                         <CardDescription>
                             Manage environment variables for your project.
                         </CardDescription>
                     </div>
-                    <div className='w-1/4 justify-end flex pointer-events-auto'>
-                        <Select
-                            value={selectedBranch}
-                            onValueChange={(value) =>
-                                setSelectedBranch(value)
-                            }
-                        >
-                            <SelectTrigger className="w-1/2" id="select-branch">
-                                <SelectValue placeholder="Select branch" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                {env.map((i) => (
-                                    <SelectItem
-                                        key={i.branch}
-                                        value={i.branch}
-                                    >
-                                        {i.branch}
-                                    </SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
-                    </div>
-
+                    <Select
+                        value={selectedBranch}
+                        onValueChange={(value) => setSelectedBranch(value)}
+                    >
+                        <SelectTrigger className="w-full sm:w-40" id="select-branch">
+                            <GitBranch className="h-4 w-4 mr-2 text-muted-foreground" />
+                            <SelectValue placeholder="Select branch" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {env.map((i) => (
+                                <SelectItem key={i.branch} value={i.branch}>
+                                    <span className="font-mono text-sm">{i.branch}</span>
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
                 </CardHeader>
-                <CardContent className="space-y-4">
-
-                    {/* Info message showing where .env files are stored */}
-                    <Alert>
+                <CardContent className="space-y-6">
+                    {/* Info alert */}
+                    <Alert className="border-zinc-800 bg-zinc-900/30">
                         <FileText className="h-4 w-4" />
-                        <AlertDescription>
+                        <AlertDescription className="text-sm">
                             Environment variables are stored in{' '}
                             {environmentFiles.map((file, index) => (
                                 <Fragment key={file.filePath}>
-                                    <code className="bg-muted px-1 py-0.5 rounded text-sm">{file.filePath}</code>
+                                    <code className="font-mono text-xs bg-zinc-800 px-1.5 py-0.5 rounded">{file.filePath}</code>
                                     {index < environmentFiles.length - 1 && ' and '}
                                 </Fragment>
                             ))}
-                            {environmentFiles.length === 0 && <code className="bg-muted px-1 py-0.5 rounded text-sm">.env</code>}
+                            {environmentFiles.length === 0 && <code className="font-mono text-xs bg-zinc-800 px-1.5 py-0.5 rounded">.env</code>}
                         </AlertDescription>
                     </Alert>
 
-                    {/* Show tabs when there are multiple system types */}
+                    {/* System type tabs */}
                     {availableSystemTypes.length > 1 && (
-                        <Tabs defaultValue={selectedSystemType} className="w-full">
-                            <TabsList className={`grid w-full grid-cols-${availableSystemTypes.length}`}>
-                                {availableSystemTypes.map(x => (
-                                    <TabsTrigger
-                                        value={x}
-                                        onClick={() => setSelectedSystemType(x)}
-                                        className={systemTypeHasChanges(x) ? "italic" : ""}
-                                        key={x}
-                                    >
-                                        {x}
-                                    </TabsTrigger>
-                                ))}
-                            </TabsList>
-                        </Tabs>
+                        <div className="flex items-center gap-1 p-1 rounded-lg bg-zinc-900/50 border border-zinc-800 w-fit">
+                            {availableSystemTypes.map(x => (
+                                <button
+                                    key={x}
+                                    type="button"
+                                    onClick={() => setSelectedSystemType(x)}
+                                    className={cn(
+                                        'relative px-4 py-1.5 text-sm font-medium rounded-md transition-all',
+                                        selectedSystemType === x
+                                            ? 'bg-zinc-800 text-foreground shadow-sm'
+                                            : 'text-muted-foreground hover:text-foreground',
+                                    )}
+                                >
+                                    {x}
+                                    {systemTypeHasChanges(x) && (
+                                        <span className="absolute top-1 right-1 w-1.5 h-1.5 rounded-full bg-amber-500" />
+                                    )}
+                                </button>
+                            ))}
+                        </div>
                     )}
 
-                    {/* Drag and drop area for .env file */}
+                    {/* Drag and drop area */}
                     <div
                         className={cn(
-                            'border-2 border-dashed border-muted-foreground/25 rounded-lg p-6 text-center cursor-pointer hover:bg-muted/50 transition-colors',
-                            isDragging && 'bg-muted/50',
+                            'rounded-lg border-2 border-dashed p-8 text-center cursor-pointer transition-all',
+                            isDragging
+                                ? 'border-primary/50 bg-primary/5'
+                                : 'border-zinc-800 hover:border-zinc-700 hover:bg-zinc-900/30',
                         )}
                         onDragOver={handleDragOver}
                         onDragLeave={handleDragLeave}
@@ -330,126 +330,124 @@ function EnvironmentSettingsTab() {
                         />
                         <label htmlFor="env-file-upload" className="cursor-pointer">
                             <div className="flex flex-col items-center gap-2">
-                                <div className="rounded-full bg-primary/10 p-2">
-                                    <PlusCircle className="h-6 w-6 text-primary" />
+                                <div className="rounded-full bg-zinc-800 p-3">
+                                    <Upload className="h-5 w-5 text-muted-foreground" />
                                 </div>
-                                <h3 className="text-lg font-medium">Upload .env file</h3>
-                                <p className="text-sm text-muted-foreground max-w-md mx-auto">
-                                    Drag and drop your .env file here, or click to browse. We'll
-                                    automatically parse and add the variables.
+                                <p className="text-sm font-medium">Upload .env file</p>
+                                <p className="text-xs text-muted-foreground max-w-sm">
+                                    Drag and drop your .env file here, or click to browse.
+                                    Variables will be automatically parsed and added.
                                 </p>
                             </div>
                         </label>
                     </div>
 
-                    <Separator className="my-4" />
-
-                    <div className="space-y-4">
-                        {variablesToShow?.length ? variablesToShow.map((env, index) => (
-                            <div key={index} className="flex items-center gap-4">
-                                <div className="grid flex-1 gap-2">
-                                    <div className="grid grid-cols-2 gap-4">
-                                        <div>
-                                            <Input
-                                                id={`env-key-${index}`}
-                                                className={
-                                                    env.isDeleting ? 'line-through text-red-600' : ''
-                                                }
-                                                value={env.key}
-                                                readOnly
-                                                disabled={!env.isNew}
-                                            />
+                    {/* Variable list */}
+                    <div className="space-y-2">
+                        {variablesToShow?.length ? (
+                            <div className="rounded-lg border border-zinc-800 overflow-hidden divide-y divide-zinc-800/50">
+                                {variablesToShow.map((envVar, index) => (
+                                    <div
+                                        key={index}
+                                        className={cn(
+                                            'flex items-center gap-3 px-4 py-3 transition-colors',
+                                            envVar.isDeleting && 'bg-red-500/5',
+                                            envVar.isNew && !envVar.isDeleting && 'bg-green-500/5',
+                                        )}
+                                    >
+                                        <div className="flex-1 min-w-0 grid grid-cols-1 sm:grid-cols-2 gap-2">
+                                            <span className={cn(
+                                                'font-mono text-sm truncate',
+                                                envVar.isDeleting ? 'line-through text-red-500/70' : 'text-muted-foreground',
+                                            )}>
+                                                {envVar.key}
+                                            </span>
+                                            <span className={cn(
+                                                'font-mono text-sm truncate',
+                                                envVar.isDeleting ? 'line-through text-red-500/70' : 'text-foreground',
+                                            )}>
+                                                {envVar.value}
+                                            </span>
                                         </div>
-                                        <div>
-                                            <Input
-                                                id={`env-value-${index}`}
-                                                className={
-                                                    env.isDeleting ? 'line-through text-red-600' : ''
-                                                }
-                                                value={env.value}
-                                                readOnly
-                                                disabled={!env.isNew}
-                                            />
+                                        <div className="flex items-center gap-2 flex-shrink-0">
+                                            {envVar.isGenerated ? (
+                                                <Badge variant="outline" className="text-xs border-zinc-700 text-muted-foreground">
+                                                    <Info className="h-3 w-3 mr-1" />
+                                                    auto
+                                                </Badge>
+                                            ) : (
+                                                <Button
+                                                    variant="ghost"
+                                                    size="icon"
+                                                    className="h-8 w-8"
+                                                    onClick={() => toggleRemoveEnvVar(index)}
+                                                >
+                                                    {envVar.isDeleting ? (
+                                                        <Undo className="h-4 w-4 text-muted-foreground" />
+                                                    ) : (
+                                                        <Trash2 className="h-4 w-4 text-destructive" />
+                                                    )}
+                                                </Button>
+                                            )}
                                         </div>
                                     </div>
-                                </div>
-                                {env.isGenerated ? (
-                                    <div className="relative group p-2 mx-1">
-                                        <Info className="h-4 w-4 text-muted-foreground" />
-                                        <div className="absolute bottom-full right-full mb-2 hidden group-hover:block bg-secondary text-popover-foreground p-2 rounded shadow-lg text-sm w-[200px]">
-                                            This is an auto-generated variable, it can be overriden by adding the same name with a different value.
-                                        </div>
-                                    </div>
-                                ) : <Button
-                                    variant="ghost"
-                                    size="icon"
-                                    className=""
-                                    onClick={() => toggleRemoveEnvVar(index)}
-                                >
-                                    {env.isDeleting ? (
-                                        <Undo className="h-4 w-4 " />
-                                    ) : (
-                                        <Trash2 className="h-4 w-4 text-destructive" />
-                                    )}
-                                </Button>}
+                                ))}
                             </div>
-                        )) : <div className='flex flex-row justify-center'>
-                            <span className="italic">No variables here...</span>
-                        </div>}
+                        ) : (
+                            <div className="flex items-center justify-center py-8 text-sm text-muted-foreground">
+                                No variables configured for this system type.
+                            </div>
+                        )}
                     </div>
 
-                    <Separator className="my-4" />
-
+                    {/* Add new variable */}
                     <form onSubmit={(e) => {
                         e.preventDefault();
                         addEnvVar();
-                    }} className="space-y-4">
-                        <h3 className="text-lg font-medium">Add New Variable</h3>
-                        <div className="flex flex-row items-center gap-4">
-                            <div className="grid flex-1 gap-2">
-                                <div className="grid grid-cols-2 gap-4">
-                                    <div className="">
-                                        <Input
-                                            id="new-env-key"
-                                            ref={inputVariableRef}
-                                            placeholder="NEW_VARIABLE"
-                                            maxLength={255} 
-                                            value={newEnvKey}
-                                            onChange={(e) => setNewEnvKey(e.target.value)}
-                                        />
-                                    </div>
-                                    <div className="">
-                                        <Input
-                                            id="new-env-value"
-                                            placeholder="value"
-                                            value={newEnvValue}
-                                            maxLength={20 * 1024} // 20KB
-                                            onChange={(e) => {
-                                                // Additional check to ensure value doesn't exceed 1MB
-                                                if (e.target.value.length <= 20 * 1024) {
-                                                    setNewEnvValue(e.target.value)
-                                                }
-                                            }}
-                                        />
-                                    </div>
-                                </div>
+                    }}>
+                        <div className="rounded-lg border border-dashed border-zinc-800 p-4">
+                            <h4 className="text-sm font-medium mb-3">Add New Variable</h4>
+                            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                                <Input
+                                    id="new-env-key"
+                                    ref={inputVariableRef}
+                                    placeholder="VARIABLE_NAME"
+                                    maxLength={255}
+                                    value={newEnvKey}
+                                    onChange={(e) => setNewEnvKey(e.target.value)}
+                                    className="font-mono text-sm flex-1"
+                                />
+                                <Input
+                                    id="new-env-value"
+                                    placeholder="value"
+                                    value={newEnvValue}
+                                    maxLength={20 * 1024}
+                                    onChange={(e) => {
+                                        if (e.target.value.length <= 20 * 1024) {
+                                            setNewEnvValue(e.target.value)
+                                        }
+                                    }}
+                                    className="font-mono text-sm flex-1"
+                                />
+                                <Button type="submit" variant="outline" size="icon" className="h-10 w-10 flex-shrink-0">
+                                    <PlusCircle className="h-4 w-4" />
+                                </Button>
                             </div>
-                            <Button type="submit" variant="ghost">
-                                <PlusCircle className="h-4 w-4" />
-                            </Button>
                         </div>
                     </form>
-
-                    <Separator />
-
-                    <LoadingButton isLoading={isSavingEnvChanges} onClick={
-                        saveChanges
-                    } disabled={!availableSystemTypes.some(x => systemTypeHasChanges(x))}
-                    >Save Changes</LoadingButton>
-
                 </CardContent>
+                <CardFooter className="border-t border-zinc-800 pt-6">
+                    <LoadingButton
+                        isLoading={isSavingEnvChanges}
+                        onClick={saveChanges}
+                        disabled={!hasAnyChanges}
+                        className="w-full sm:w-auto"
+                    >
+                        Save Changes
+                    </LoadingButton>
+                </CardFooter>
             </Card>
-        </TabsContent>
+        </div>
     )
 }
 
