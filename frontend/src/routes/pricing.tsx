@@ -2,6 +2,7 @@ import { api } from '@/api-client'
 import FAQSection from '@/components/faq-section'
 import Footer from '@/components/footer'
 import Navbar from '@/components/navbar'
+import SEO from '@/components/seo'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Slider } from '@/components/ui/slider'
@@ -32,6 +33,11 @@ function Pricing() {
 
   return (
     <div className="relative min-h-screen bg-background">
+      <SEO
+        title="Pricing"
+        description="Transparent, predictable pricing for compozerr hosting. Choose the server tier that fits your workload. Scale up or down anytime, no lock-in."
+        canonical="/pricing"
+      />
       <Navbar />
 
       <main>

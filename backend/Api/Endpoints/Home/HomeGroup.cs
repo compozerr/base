@@ -1,4 +1,5 @@
 using Api.Endpoints.Home.Environment;
+using Api.Endpoints.Home.Sitemap;
 
 namespace Api.Endpoints.Home;
 
@@ -14,5 +15,6 @@ public class HomeGroup : CarterModule
         app.AddHomeRoute();
         app.AddEnvironmentRoute();
         app.AddVersionRoute();
+        app.AddSitemapRoute();
     }
 }

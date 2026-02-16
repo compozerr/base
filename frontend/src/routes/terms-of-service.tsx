@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import Navbar from '@/components/navbar'
 import Footer from '@/components/footer'
+import SEO from '@/components/seo'
 
 export const Route = createFileRoute('/terms-of-service')({
   component: TermsOfService,
@@ -9,6 +10,12 @@ export const Route = createFileRoute('/terms-of-service')({
 function TermsOfService() {
   return (
     <div className="flex min-h-screen flex-col">
+      <SEO
+        title="Terms of Service"
+        description="compozerr terms of service. By using our services, you agree to these terms."
+        canonical="/terms-of-service"
+        noindex={true}
+      />
       <Navbar />
       <main className="flex-1">
         <div className="container max-w-4xl py-12 md:py-16">

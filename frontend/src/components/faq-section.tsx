@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Helmet } from 'react-helmet-async'
 import { ChevronDown } from 'lucide-react'
 
 export interface FAQItem {
@@ -68,13 +69,31 @@ export default function FAQSection({
   className = '',
 }: FAQSectionProps) {
   return (
-    <div className={className}>
-      <h2 className="text-xl font-semibold mb-6">{title}</h2>
-      <div className="rounded-2xl border border-white/[0.06] bg-[hsl(var(--surface))] px-6">
-        {items.map((item, idx) => (
-          <FAQItemComponent key={idx} item={item} />
-        ))}
+    <>
+      <Helmet>
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": items.map(item => ({
+              "@type": "Question",
+              "name": item.question,
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": item.answer
+              }
+            }))
+          })}
+        </script>
+      </Helmet>
+      <div className={className}>
+        <h2 className="text-xl font-semibold mb-6">{title}</h2>
+        <div className="rounded-2xl border border-white/[0.06] bg-[hsl(var(--surface))] px-6">
+          {items.map((item, idx) => (
+            <FAQItemComponent key={idx} item={item} />
+          ))}
+        </div>
       </div>
-    </div>
+    </>
   )
 }

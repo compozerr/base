@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import Navbar from '@/components/navbar'
 import Footer from '@/components/footer'
+import SEO from '@/components/seo'
 
 export const Route = createFileRoute('/contact')({
   component: ContactPage,
@@ -11,6 +12,11 @@ function ContactPage() {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title="Contact"
+        description="Get in touch with the compozerr team. Have a question or feedback? We'd love to hear from you."
+        canonical="/contact"
+      />
       <Navbar />
 
       <div className="container max-w-3xl py-16 md:py-24">

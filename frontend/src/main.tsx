@@ -8,6 +8,7 @@ import { queryClient } from './api-client';
 import { Toaster } from './components/ui/toaster';
 import { ModalProvider } from './hooks/use-modal';
 import { LoadingAnimation } from './components/loading-animation';
+import { HelmetProvider } from 'react-helmet-async'
 
 const router = createRouter({
   routeTree,
@@ -48,12 +49,14 @@ const App = () => {
 
   return (
     <AuthProvider>
-      <QueryClientProvider client={queryClient}>
-        <ModalProvider>
-          <InnerApp />
-          <Toaster />
-        </ModalProvider>
-      </QueryClientProvider>
+      <HelmetProvider>
+        <QueryClientProvider client={queryClient}>
+          <ModalProvider>
+            <InnerApp />
+            <Toaster />
+          </ModalProvider>
+        </QueryClientProvider>
+      </HelmetProvider>
     </AuthProvider>
   );
 };

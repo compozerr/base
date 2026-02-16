@@ -3,6 +3,7 @@ import Hero from '@/components/hero'
 import Features from '@/components/features'
 import Footer from '@/components/footer'
 import Navbar from '@/components/navbar'
+import SEO from '@/components/seo'
 
 export const Route = createFileRoute('/')({
   component: HomeComponent,
@@ -11,6 +12,17 @@ export const Route = createFileRoute('/')({
 function HomeComponent() {
   return (
     <div className="relative min-h-screen bg-background">
+      <SEO
+        canonical="/"
+        structuredData={{
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          "name": "compozerr",
+          "url": "https://compozerr.com",
+          "description": "Modular full-stack templates with production-ready auth, database, payments, and more.",
+          "sameAs": []
+        }}
+      />
       <Navbar />
       <Hero />
       <Features />

@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import Navbar from '@/components/navbar'
 import Footer from '@/components/footer'
+import SEO from '@/components/seo'
 
 export const Route = createFileRoute('/privacy-policy')({
   component: PrivacyPolicy,
@@ -9,6 +10,12 @@ export const Route = createFileRoute('/privacy-policy')({
 function PrivacyPolicy() {
   return (
     <div className="flex min-h-screen flex-col">
+      <SEO
+        title="Privacy Policy"
+        description="compozerr privacy policy. Learn how we collect, use, and protect your personal information."
+        canonical="/privacy-policy"
+        noindex={true}
+      />
       <Navbar />
       <main className="flex-1">
         <div className="container max-w-4xl py-12 md:py-16">

@@ -3,6 +3,7 @@ import FAQSection from '@/components/faq-section'
 import Footer from '@/components/footer'
 import LoadingButton from '@/components/loading-button'
 import Navbar from '@/components/navbar'
+import SEO from '@/components/seo'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -100,6 +101,25 @@ function UnauthenticatedN8nFlow() {
 
   return (
     <div className="relative min-h-screen bg-background">
+      <SEO
+        title="n8n Hosting"
+        description="Deploy managed n8n automation instances with custom domains, SSL, and automatic backups. Independent European infrastructure, no Big Tech dependencies."
+        canonical="/n8n"
+        structuredData={{
+          "@context": "https://schema.org",
+          "@type": "Product",
+          "name": "n8n Hosting by compozerr",
+          "description": "Managed n8n automation hosting with complete control. Independent infrastructure, custom domains, automatic SSL.",
+          "brand": { "@type": "Brand", "name": "compozerr" },
+          "offers": {
+            "@type": "Offer",
+            "priceCurrency": "USD",
+            "price": "5.00",
+            "priceValidUntil": "2026-12-31",
+            "availability": "https://schema.org/InStock"
+          }
+        }}
+      />
       <Navbar />
 
       {/* Hero */}
@@ -369,6 +389,25 @@ function AuthenticatedN8nFlow() {
 
   return (
     <div className="relative min-h-screen bg-background">
+      <SEO
+        title="n8n Hosting"
+        description="Deploy managed n8n automation instances with custom domains, SSL, and automatic backups. Independent European infrastructure, no Big Tech dependencies."
+        canonical="/n8n"
+        structuredData={{
+          "@context": "https://schema.org",
+          "@type": "Product",
+          "name": "n8n Hosting by compozerr",
+          "description": "Managed n8n automation hosting with complete control. Independent infrastructure, custom domains, automatic SSL.",
+          "brand": { "@type": "Brand", "name": "compozerr" },
+          "offers": {
+            "@type": "Offer",
+            "priceCurrency": "USD",
+            "price": "5.00",
+            "priceValidUntil": "2026-12-31",
+            "availability": "https://schema.org/InStock"
+          }
+        }}
+      />
       <Navbar />
 
       <section className="relative overflow-hidden">
