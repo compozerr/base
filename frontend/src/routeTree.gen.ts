@@ -20,6 +20,7 @@ import { Route as AuthRouteImport } from './../../modules/auth/frontend/src/rout
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as StripeIndexRouteImport } from './../../modules/stripe/frontend/src/routes/stripe/index'
 import { Route as InvoicesIndexRouteImport } from './../../modules/stripe/frontend/src/routes/invoices/index'
+import { Route as ExampleIndexRouteImport } from './../../modules/template/frontend/src/routes/example/index'
 import { Route as AuthLogoutRouteImport } from './../../modules/auth/frontend/src/routes/_auth/logout'
 import { Route as AuthDashboardRouteImport } from './routes/_auth/_dashboard'
 import { Route as AuthDashboardSettingsRouteImport } from './routes/_auth/_dashboard/settings'
@@ -87,6 +88,11 @@ const StripeIndexRoute = StripeIndexRouteImport.update({
 const InvoicesIndexRoute = InvoicesIndexRouteImport.update({
   id: '/invoices/',
   path: '/invoices/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExampleIndexRoute = ExampleIndexRouteImport.update({
+  id: '/example/',
+  path: '/example/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthLogoutRoute = AuthLogoutRouteImport.update({
@@ -179,6 +185,7 @@ export interface FileRoutesByFullPath {
   '/terms-of-service': typeof TermsOfServiceRoute
   '/using-module-component': typeof UsingModuleComponentRoute
   '/logout': typeof AuthLogoutRoute
+  '/example': typeof ExampleIndexRoute
   '/invoices': typeof InvoicesIndexRoute
   '/stripe': typeof StripeIndexRoute
   '/intro-flow': typeof AuthDashboardIntroFlowRoute
@@ -204,6 +211,7 @@ export interface FileRoutesByTo {
   '/terms-of-service': typeof TermsOfServiceRoute
   '/using-module-component': typeof UsingModuleComponentRoute
   '/logout': typeof AuthLogoutRoute
+  '/example': typeof ExampleIndexRoute
   '/invoices': typeof InvoicesIndexRoute
   '/stripe': typeof StripeIndexRoute
   '/intro-flow': typeof AuthDashboardIntroFlowRoute
@@ -230,6 +238,7 @@ export interface FileRoutesById {
   '/using-module-component': typeof UsingModuleComponentRoute
   '/_auth/_dashboard': typeof AuthDashboardRouteWithChildren
   '/_auth/logout': typeof AuthLogoutRoute
+  '/example/': typeof ExampleIndexRoute
   '/invoices/': typeof InvoicesIndexRoute
   '/stripe/': typeof StripeIndexRoute
   '/_auth/_dashboard/intro-flow': typeof AuthDashboardIntroFlowRoute
@@ -257,6 +266,7 @@ export interface FileRouteTypes {
     | '/terms-of-service'
     | '/using-module-component'
     | '/logout'
+    | '/example'
     | '/invoices'
     | '/stripe'
     | '/intro-flow'
@@ -282,6 +292,7 @@ export interface FileRouteTypes {
     | '/terms-of-service'
     | '/using-module-component'
     | '/logout'
+    | '/example'
     | '/invoices'
     | '/stripe'
     | '/intro-flow'
@@ -307,6 +318,7 @@ export interface FileRouteTypes {
     | '/using-module-component'
     | '/_auth/_dashboard'
     | '/_auth/logout'
+    | '/example/'
     | '/invoices/'
     | '/stripe/'
     | '/_auth/_dashboard/intro-flow'
@@ -333,6 +345,7 @@ export interface RootRouteChildren {
   PrivacyPolicyRoute: typeof PrivacyPolicyRoute
   TermsOfServiceRoute: typeof TermsOfServiceRoute
   UsingModuleComponentRoute: typeof UsingModuleComponentRoute
+  ExampleIndexRoute: typeof ExampleIndexRoute
   InvoicesIndexRoute: typeof InvoicesIndexRoute
   StripeIndexRoute: typeof StripeIndexRoute
 }
@@ -414,6 +427,13 @@ declare module '@tanstack/react-router' {
       path: '/invoices'
       fullPath: '/invoices'
       preLoaderRoute: typeof InvoicesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/example/': {
+      id: '/example/'
+      path: '/example'
+      fullPath: '/example'
+      preLoaderRoute: typeof ExampleIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_auth/logout': {
@@ -606,6 +626,7 @@ const rootRouteChildren: RootRouteChildren = {
   PrivacyPolicyRoute: PrivacyPolicyRoute,
   TermsOfServiceRoute: TermsOfServiceRoute,
   UsingModuleComponentRoute: UsingModuleComponentRoute,
+  ExampleIndexRoute: ExampleIndexRoute,
   InvoicesIndexRoute: InvoicesIndexRoute,
   StripeIndexRoute: StripeIndexRoute,
 }
