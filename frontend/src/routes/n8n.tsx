@@ -137,7 +137,7 @@ function UnauthenticatedN8nFlow() {
             <Button
               onClick={handleGetStarted}
               size="lg"
-              className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium px-8 h-12 text-base"
+              className="bg-white text-black hover:bg-zinc-200 font-semibold px-8 h-12 text-base"
             >
               <Rocket className="mr-2 h-4 w-4" />
               Get started free
@@ -272,7 +272,7 @@ function UnauthenticatedN8nFlow() {
           <Button
             onClick={handleGetStarted}
             size="lg"
-            className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium px-10 h-12 text-base"
+            className="bg-white text-black hover:bg-zinc-200 font-semibold px-10 h-12 text-base"
           >
             <Rocket className="mr-2 h-4 w-4" />
             Deploy your n8n instance
@@ -421,7 +421,7 @@ function AuthenticatedN8nFlow() {
               disabled={!projectName || !selectedLocation || !selectedTier}
               onClick={handleCreate}
               size="lg"
-              className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium px-10 h-13 text-lg"
+              className="bg-white text-black hover:bg-zinc-200 font-semibold px-10 h-13 text-lg"
             >
               <Rocket className="mr-2 h-5 w-5" />
               Create my n8n instance

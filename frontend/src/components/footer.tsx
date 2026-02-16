@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router"
 import { useEffect, useState } from "react"
 import { apiBaseUrl } from "@/api-client"
+import { CompozerrLogo } from "./compozerr-logo"
 
 export default function Footer() {
   const frontendVersion = __APP_VERSION__
@@ -19,11 +20,8 @@ export default function Footer() {
         <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
           {/* Brand */}
           <div className="col-span-2 md:col-span-1">
-            <div className="flex items-center gap-2.5 mb-4">
-              <div className="flex h-7 w-7 items-center justify-center rounded-md bg-primary/10 border border-primary/20">
-                <span className="text-xs font-bold text-primary">C</span>
-              </div>
-              <span className="text-sm font-semibold tracking-tight">compozerr</span>
+            <div className="mb-4">
+              <CompozerrLogo className="text-sm" />
             </div>
             <p className="text-sm leading-relaxed text-muted-foreground max-w-[260px]">
               Independent hosting and modular templates for developers who value control.

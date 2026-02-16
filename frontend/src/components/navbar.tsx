@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router"
 import { Button } from "./ui/button"
+import { CompozerrLogo } from "./compozerr-logo"
 import { Workflow, Menu, X } from "lucide-react"
 import LoginButton from "./login-button"
 import { useState } from "react"
@@ -11,11 +12,8 @@ export default function Navbar() {
     <header className="sticky top-0 z-50 w-full border-b border-white/[0.06] bg-background/60 backdrop-blur-xl backdrop-saturate-150">
       <div className="container flex h-16 max-w-6xl items-center justify-between">
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-2.5">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 border border-primary/20">
-            <span className="text-sm font-bold text-primary">C</span>
-          </div>
-          <span className="text-[15px] font-semibold tracking-tight">compozerr</span>
+        <Link to="/" className="flex items-center">
+          <CompozerrLogo className="text-[15px]" />
         </Link>
 
         {/* Desktop nav */}

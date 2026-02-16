@@ -1,4 +1,5 @@
 import { api } from "@/api-client"
+import { CompozerrLogo } from "@/components/compozerr-logo"
 import { useAuth } from "@/hooks/use-dynamic-auth"
 import { getLink } from "@/links"
 import { useNavigate, useRouter, useRouterState } from "@tanstack/react-router"
@@ -55,9 +56,7 @@ export function AppSidebar() {
     <Sidebar className="border-r border-white/[0.06] bg-black/80 backdrop-blur-xl">
       {/* Brand */}
       <SidebarHeader className="border-b border-white/[0.06] px-4 py-5">
-        <span className="text-lg font-semibold tracking-tight text-white">
-          Compozerr
-        </span>
+        <CompozerrLogo className="text-lg text-white" />
       </SidebarHeader>
 
       <SidebarContent>
