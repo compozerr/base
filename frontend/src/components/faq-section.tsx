@@ -1,4 +1,5 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { useState } from 'react'
+import { ChevronDown } from 'lucide-react'
 
 export interface FAQItem {
   question: string
@@ -34,24 +35,46 @@ const defaultFAQItems: FAQItem[] = [
   },
 ]
 
+function FAQItemComponent({ item }: { item: FAQItem }) {
+  const [open, setOpen] = useState(false)
+
+  return (
+    <div className="border-b border-white/[0.04] last:border-0">
+      <button
+        onClick={() => setOpen(!open)}
+        className="flex w-full items-center justify-between py-5 text-left transition-colors hover:text-foreground"
+      >
+        <span className="text-sm font-medium pr-4">{item.question}</span>
+        <ChevronDown
+          className={`h-4 w-4 flex-shrink-0 text-muted-foreground transition-transform duration-200 ${
+            open ? 'rotate-180' : ''
+          }`}
+        />
+      </button>
+      <div
+        className={`overflow-hidden transition-all duration-200 ${
+          open ? 'max-h-40 pb-5' : 'max-h-0'
+        }`}
+      >
+        <p className="text-sm leading-relaxed text-muted-foreground">{item.answer}</p>
+      </div>
+    </div>
+  )
+}
+
 export default function FAQSection({
   items = defaultFAQItems,
-  title = 'Frequently Asked Questions',
+  title = 'Frequently asked questions',
   className = '',
 }: FAQSectionProps) {
   return (
-    <Card className={`border-zinc-800 bg-zinc-900/50 backdrop-blur-sm ${className}`}>
-      <CardHeader>
-        <CardTitle>{title}</CardTitle>
-      </CardHeader>
-      <CardContent className="space-y-6">
+    <div className={className}>
+      <h2 className="text-xl font-semibold mb-6">{title}</h2>
+      <div className="rounded-2xl border border-white/[0.06] bg-[hsl(var(--surface))] px-6">
         {items.map((item, idx) => (
-          <div key={idx}>
-            <h3 className="font-semibold mb-2">{item.question}</h3>
-            <p className="text-sm text-muted-foreground">{item.answer}</p>
-          </div>
+          <FAQItemComponent key={idx} item={item} />
         ))}
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   )
 }

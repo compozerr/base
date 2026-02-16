@@ -5,16 +5,13 @@ import LoadingButton from '@/components/loading-button'
 import Navbar from '@/components/navbar'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useAuth } from '@/hooks/use-dynamic-auth'
 import { useN8nIntentEphemeralStorage } from '@/hooks/use-n8n-intent-ephemeral-storage.hook'
 import { useSaleOffer } from '@/hooks/use-sale-offer'
-import { useToast } from '@/hooks/use-toast'
 import { createFileRoute, redirect, useNavigate } from '@tanstack/react-router'
-import { motion, useMotionValue, useSpring } from 'framer-motion'
-import { Check, DollarSign, Rocket, Shield, Zap } from 'lucide-react'
+import { Check, DollarSign, Rocket, Shield, Zap, ArrowRight } from 'lucide-react'
 import { useEffect, useMemo, useRef, useState } from 'react'
 
 
@@ -74,16 +71,12 @@ export const Route = createFileRoute('/n8n')({
         })
       }
     } catch (err) {
-      // If it's a redirect, re-throw it to let TanStack Router handle it
       if (err && typeof err === 'object' && ('status' in err && (err as any).status === 307)) {
         throw err
       }
-
-      // If it has redirect properties, it's a redirect
       if (err && typeof err === 'object' && 'options' in err && (err as any).options?.to) {
         throw err
       }
-
       console.error('Failed to auto-create n8n project:', err)
       throw redirect({ to: "/n8n" })
     }
@@ -92,11 +85,9 @@ export const Route = createFileRoute('/n8n')({
 
 function N8nLandingPage() {
   const { isAuthenticated } = useAuth();
-
   return isAuthenticated ? <AuthenticatedN8nFlow /> : <UnauthenticatedN8nFlow />
 }
 
-// Unauthenticated marketing landing page
 function UnauthenticatedN8nFlow() {
   const navigate = useNavigate()
   const { setN8nIntentValue } = useN8nIntentEphemeralStorage();
@@ -108,219 +99,192 @@ function UnauthenticatedN8nFlow() {
   }
 
   return (
-    <>
-      <MouseMoveEffect />
-      <div className="relative min-h-screen">
-        {/* Background gradients */}
-        <div className="pointer-events-none fixed inset-0">
-          <div className="absolute inset-0 bg-gradient-to-b from-background via-background/90 to-background" />
-          <div className="absolute right-0 top-0 h-[500px] w-[500px] bg-blue-500/10 blur-[100px]" />
-          <div className="absolute bottom-0 left-0 h-[500px] w-[500px] bg-purple-500/10 blur-[100px]" />
+    <div className="relative min-h-screen bg-background">
+      <Navbar />
+
+      {/* Hero */}
+      <section className="relative overflow-hidden">
+        <div className="absolute inset-0 bg-grid-pattern mask-fade-out opacity-30" />
+        <div className="pointer-events-none absolute left-1/2 top-0 -translate-x-1/2 h-[500px] w-[800px] bg-primary/[0.07] blur-[120px] rounded-full" />
+
+        <div className="container relative max-w-6xl flex flex-col items-center justify-center min-h-[80vh] py-24 text-center">
+          <Badge className={`animate-fade-up mb-6 ${sale.badgeColor} text-white text-xs px-3 py-1`}>
+            {sale.badge} — {sale.discount}
+          </Badge>
+
+          <h1 className="animate-fade-up max-w-3xl text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl" style={{ animationDelay: '100ms' }}>
+            Deploy n8n{' '}
+            <span className="bg-gradient-to-r from-primary via-blue-400 to-cyan-400 bg-clip-text text-transparent">
+              in seconds
+            </span>
+          </h1>
+
+          <p className="animate-fade-up mt-6 max-w-xl text-base text-muted-foreground sm:text-lg leading-relaxed" style={{ animationDelay: '200ms' }}>
+            Managed n8n automation hosting with complete control. Independent infrastructure, custom domains, automatic SSL. No Big Tech dependencies.
+          </p>
+
+          {/* Pricing highlight */}
+          <div className="animate-fade-up mt-8 flex items-center gap-4" style={{ animationDelay: '300ms' }}>
+            <div className="text-center">
+              <div className={`text-4xl md:text-5xl font-bold tracking-tight ${sale.priceColor}`}>
+                ${sale.salePrice}<span className="text-lg text-muted-foreground">/mo</span>
+              </div>
+              <div className="text-sm text-muted-foreground/50 line-through">${sale.originalPrice}/mo</div>
+            </div>
+          </div>
+
+          <div className="animate-fade-up mt-8 flex flex-col sm:flex-row items-center gap-3" style={{ animationDelay: '400ms' }}>
+            <Button
+              onClick={handleGetStarted}
+              size="lg"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium px-8 h-12 text-base"
+            >
+              <Rocket className="mr-2 h-4 w-4" />
+              Get started free
+            </Button>
+            <Button
+              variant="ghost"
+              size="lg"
+              className="text-muted-foreground hover:text-foreground font-medium px-6 h-12"
+              onClick={() => window.location.href = '/pricing'}
+            >
+              View all tiers
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
+          </div>
+
+          <p className="animate-fade-up mt-4 text-xs text-muted-foreground/50" style={{ animationDelay: '500ms' }}>
+            No credit card required &middot; Setup in seconds &middot; Cancel anytime
+          </p>
         </div>
+      </section>
 
-        <div className="relative z-10">
-          <Navbar />
-          <div className="h-screen snap-y snap-mandatory overflow-y-auto scroll-smooth">
-            <div className="container mx-auto px-4">
-              {/* Section 1: Hero */}
-              <section className="snap-start min-h-screen flex items-center justify-center pb-10">
-                <div className="text-center space-y-8 max-w-4xl mx-auto">
-                  <Badge className={`${sale.badgeColor} text-white`}>
-                    {sale.badge} - {sale.discount}
-                  </Badge>
-                  <h1 className="bg-gradient-to-br from-foreground from-30% via-foreground/90 to-foreground/70 bg-clip-text text-5xl font-bold tracking-tight text-transparent sm:text-6xl md:text-7xl lg:text-8xl">
-                    Deploy n8n in Seconds
-                  </h1>
-                  <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto">
-                    Create n8n automation workflows with complete control.
-                    <br />
-                    No Google, Amazon, Facebook, or Microsoft. Just pure, independent hosting - powered by <a href='https://www.ovhcloud.com/en/' className="underline" target="_blank" rel="noopener noreferrer">OVHcloud®</a>.
-                  </p>
-
-                  {/* Pricing Highlight */}
-                  <div className="flex items-center justify-center gap-4">
-                    <div className="text-center">
-                      <div className={`text-4xl md:text-5xl font-bold ${sale.priceColor}`}>${sale.salePrice}<span className="text-2xl text-muted-foreground">/mo</span></div>
-                      <div className="text-sm text-muted-foreground line-through">${sale.originalPrice}/mo</div>
-                    </div>
-                    <Badge variant="outline" className="text-lg px-4 py-2">
-                      Limited Time Offer
-                    </Badge>
-                  </div>
-
-                  <Button
-                    onClick={handleGetStarted}
-                    size="lg"
-                    className="bg-white text-black hover:bg-zinc-200 font-semibold text-lg px-8 py-6 h-auto transition-all duration-200 hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(255,255,255,0.4)] animate-pulse-glow"
-                  >
-                    <Rocket className="mr-2 h-5 w-5" />
-                    Get Started
-                  </Button>
-                  <p className="text-sm text-muted-foreground pb-10">
-                    No credit card required • Setup in seconds • Cancel anytime
-                  </p>
-                </div>
-              </section>
-
-              {/* Section 2: Demo Video + Features */}
-              <section className="snap-start min-h-screen flex items-center justify-center">
-                <div className="w-full mb-32">
-                  {/* Demo Video */}
-                  <div className="max-w-5xl mx-auto mb-16">
-                    <Card className="border-zinc-800 bg-zinc-900/50 backdrop-blur-sm overflow-hidden">
-                      <CardContent className="p-0">
-                        <div className="relative aspect-video bg-black">
-                          <video
-                            className="w-full h-full object-cover rounded-lg"
-                            autoPlay
-                            loop
-                            muted
-                            playsInline
-                            preload="metadata"
-                            style={{
-                              maxHeight: '600px',
-                              objectFit: 'cover',
-                              scale: '1.04',
-                            }}
-                          >
-                            <source src="/n8n-demo.mp4" type="video/mp4" />
-                            {/* Fallback content */}
-                            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-purple-500/10 flex items-center justify-center">
-                              <div className="text-center space-y-4">
-                                <div className="w-20 h-20 rounded-full bg-white/10 flex items-center justify-center mx-auto backdrop-blur-sm border border-white/20">
-                                  <Rocket className="h-10 w-10 text-white" />
-                                </div>
-                                <div>
-                                  <h3 className="text-xl font-semibold mb-2">See n8n in Action</h3>
-                                  <p className="text-sm text-muted-foreground">
-                                    Your browser doesn't support video playback
-                                  </p>
-                                </div>
-                              </div>
-                            </div>
-                          </video>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </div>
-
-                  {/* Features Grid */}
-                  <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-                    <TiltCard>
-                      <Card className="border-zinc-800 bg-zinc-900/50 backdrop-blur-sm h-full">
-                        <CardHeader>
-                          <div className="w-12 h-12 rounded-lg bg-blue-500/10 flex items-center justify-center mb-4">
-                            <Shield className="h-6 w-6 text-blue-400" />
-                          </div>
-                          <CardTitle>Independent Hosting</CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                          <p className="text-muted-foreground">
-                            Your data, your rules. Complete independence and control over your automation workflows with full privacy.
-                          </p>
-                        </CardContent>
-                      </Card>
-                    </TiltCard>
-
-                    <TiltCard>
-                      <Card className="border-zinc-800 bg-zinc-900/50 backdrop-blur-sm h-full">
-                        <CardHeader>
-                          <div className="w-12 h-12 rounded-lg bg-purple-500/10 flex items-center justify-center mb-4">
-                            <Zap className="h-6 w-6 text-purple-400" />
-                          </div>
-                          <CardTitle>One-Click Deploy</CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                          <p className="text-muted-foreground">
-                            Deploy n8n in seconds, not hours. Our automated setup handles
-                            everything from configuration to domain assignment.
-                          </p>
-                        </CardContent>
-                      </Card>
-                    </TiltCard>
-
-                    <TiltCard>
-                      <Card className="border-zinc-800 bg-zinc-900/50 backdrop-blur-sm h-full">
-                        <CardHeader>
-                          <div className="w-12 h-12 rounded-lg bg-green-500/10 flex items-center justify-center mb-4">
-                            <DollarSign className="h-6 w-6 text-green-400" />
-                          </div>
-                          <CardTitle>Transparent Pricing</CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                          <p className="text-muted-foreground">
-                            Simple, predictable pricing. No hidden fees, no surprise charges.
-                            Just ${sale.salePrice}/month for your n8n instance during our {sale.name}.
-                          </p>
-                        </CardContent>
-                      </Card>
-                    </TiltCard>
-                  </div>
-                </div>
-              </section>
-
-              {/* Section 3: Why Choose + FAQ */}
-              <section className="snap-start min-h-screen flex items-center justify-center">
-                <div className="w-full mb-32">
-                  {/* Why Choose + FAQ Grid */}
-                  <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto mb-16">
-                    {/* Why Choose Compozerr Card */}
-                    <Card className="border-zinc-800 bg-zinc-900/50 backdrop-blur-sm">
-                      <CardHeader>
-                        <CardTitle className="text-2xl font-bold text-center">Why Choose Compozerr?</CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                        <div className="space-y-4">
-                          {[
-                            'Complete control over your data and workflows',
-                            'No vendor lock-in or platform dependencies',
-                            'Custom domains and full SSL support',
-                            'Easy scaling without infrastructure headaches',
-                            'Privacy-focused with no data mining',
-                            'Simple setup - deploy in minutes, not days',
-                          ].map((feature, idx) => (
-                            <div key={idx} className="flex items-start gap-3">
-                              <Check className="h-5 w-5 text-green-400 flex-shrink-0 mt-0.5" />
-                              <p className="text-muted-foreground text-sm">{feature}</p>
-                            </div>
-                          ))}
-                        </div>
-                      </CardContent>
-                    </Card>
-
-                    {/* FAQ Section */}
-                    <div>
-                      <FAQSection />
-                    </div>
-                  </div>
-
-                  {/* CTA Button */}
+      {/* Demo Video */}
+      <section className="py-16">
+        <div className="container max-w-4xl">
+          <div className="rounded-2xl border border-white/[0.06] bg-[hsl(var(--surface))] overflow-hidden">
+            <div className="relative aspect-video bg-black/50">
+              <video
+                className="w-full h-full object-cover"
+                autoPlay
+                loop
+                muted
+                playsInline
+                preload="metadata"
+                style={{ scale: '1.04' }}
+              >
+                <source src="/n8n-demo.mp4" type="video/mp4" />
+                <div className="absolute inset-0 flex items-center justify-center">
                   <div className="text-center">
-                    <Button
-                      onClick={handleGetStarted}
-                      size="lg"
-                      className="bg-white text-black hover:bg-zinc-200 font-semibold text-lg px-8 py-6 h-auto transition-all duration-200 hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(255,255,255,0.4)] animate-pulse-glow"
-                    >
-                      <Rocket className="mr-2 h-5 w-5" />
-                      Deploy Your n8n Instance
-                    </Button>
+                    <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center mx-auto border border-white/10">
+                      <Rocket className="h-8 w-8 text-primary" />
+                    </div>
+                    <p className="mt-4 text-sm text-muted-foreground">See n8n in action</p>
                   </div>
                 </div>
-              </section>
-
-              {/* Footer Section */}
-              <section className="snap-start">
-                <Footer />
-              </section>
+              </video>
             </div>
           </div>
         </div>
-      </div>
-    </>
+      </section>
+
+      {/* Features */}
+      <section className="py-16">
+        <div className="container max-w-6xl">
+          <div className="grid md:grid-cols-3 gap-4">
+            {[
+              {
+                icon: Shield,
+                color: 'blue',
+                title: 'Independent Hosting',
+                description: 'Your data, your rules. Complete independence and control over your automation workflows with full privacy.',
+              },
+              {
+                icon: Zap,
+                color: 'violet',
+                title: 'One-Click Deploy',
+                description: 'Deploy n8n in seconds, not hours. Automated setup handles configuration, domains, and SSL.',
+              },
+              {
+                icon: DollarSign,
+                color: 'emerald',
+                title: 'Transparent Pricing',
+                description: `Simple, predictable pricing. No hidden fees. Just $${sale.salePrice}/month for your n8n instance during our ${sale.name}.`,
+              },
+            ].map((feature) => {
+              const colorMap: Record<string, string> = {
+                blue: 'bg-blue-500/[0.06] border-blue-500/10 text-blue-400',
+                violet: 'bg-violet-500/[0.06] border-violet-500/10 text-violet-400',
+                emerald: 'bg-emerald-500/[0.06] border-emerald-500/10 text-emerald-400',
+              }
+              return (
+                <div
+                  key={feature.title}
+                  className="rounded-xl border border-white/[0.06] bg-[hsl(var(--surface))] p-6 transition-colors hover:border-white/[0.1] hover:bg-[hsl(var(--surface-elevated))]"
+                >
+                  <div className={`mb-4 flex h-10 w-10 items-center justify-center rounded-lg border ${colorMap[feature.color]}`}>
+                    <feature.icon className="h-5 w-5" />
+                  </div>
+                  <h3 className="text-[15px] font-semibold mb-2">{feature.title}</h3>
+                  <p className="text-sm leading-relaxed text-muted-foreground">{feature.description}</p>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Why Choose + FAQ */}
+      <section className="py-16">
+        <div className="container max-w-6xl">
+          <div className="grid md:grid-cols-2 gap-8">
+            {/* Why Choose */}
+            <div>
+              <h2 className="text-xl font-semibold mb-6">Why compozerr?</h2>
+              <div className="rounded-2xl border border-white/[0.06] bg-[hsl(var(--surface))] p-6 space-y-4">
+                {[
+                  'Complete control over your data and workflows',
+                  'No vendor lock-in or platform dependencies',
+                  'Custom domains and full SSL support',
+                  'Easy scaling without infrastructure headaches',
+                  'Privacy-focused with no data mining',
+                  'Simple setup — deploy in minutes, not days',
+                ].map((feature, idx) => (
+                  <div key={idx} className="flex items-center gap-3">
+                    <div className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500/10 flex-shrink-0">
+                      <Check className="h-3 w-3 text-emerald-400" />
+                    </div>
+                    <span className="text-sm text-muted-foreground">{feature}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* FAQ */}
+            <FAQSection />
+          </div>
+        </div>
+      </section>
+
+      {/* Bottom CTA */}
+      <section className="py-16">
+        <div className="container max-w-6xl text-center">
+          <Button
+            onClick={handleGetStarted}
+            size="lg"
+            className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium px-10 h-12 text-base"
+          >
+            <Rocket className="mr-2 h-4 w-4" />
+            Deploy your n8n instance
+          </Button>
+        </div>
+      </section>
+
+      <Footer />
+    </div>
   )
 }
 
-// Authenticated project creation UI
 function AuthenticatedN8nFlow() {
   const navigate = useNavigate();
   const { user } = useAuth();
@@ -390,7 +354,6 @@ function AuthenticatedN8nFlow() {
 
       if (result.projectId) {
         await api.v1.getProjects.invalidateQueries({})
-
         setN8nIntentValue({
           action: 'created',
           projectId: result.projectId,
@@ -405,192 +368,73 @@ function AuthenticatedN8nFlow() {
   }
 
   return (
-    <>
-      <MouseMoveEffect />
-      <div className="relative min-h-screen">
-        {/* Background gradients */}
-        <div className="pointer-events-none fixed inset-0">
-          <div className="absolute inset-0 bg-gradient-to-b from-background via-background/90 to-background" />
-          <div className="absolute right-0 top-0 h-[500px] w-[500px] bg-blue-500/10 blur-[100px]" />
-          <div className="absolute bottom-0 left-0 h-[500px] w-[500px] bg-purple-500/10 blur-[100px]" />
-        </div>
+    <div className="relative min-h-screen bg-background">
+      <Navbar />
 
-        <div className="relative z-10 flex flex-col min-h-screen">
-          <Navbar />
-          <div className="flex-1 mb-72">
-            <div className="container mx-auto px-4 py-8">
-              {/* Hero Section with Welcome */}
-              <section className="min-h-[80vh] flex items-center justify-center">
-                <div className="text-center space-y-8 max-w-4xl mx-auto">
-                  <Badge className={`mb-4 ${sale.badgeColor} text-white`}>
-                    {sale.badge} - {sale.discount}
-                  </Badge>
-                  <h1 className="pb-2 bg-gradient-to-br from-foreground from-30% via-foreground/90 to-foreground/70 bg-clip-text text-5xl font-bold tracking-tight text-transparent sm:text-6xl md:text-7xl">
-                    Hello {user?.name}!
-                  </h1>
-                  <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto">
-                    You're one click away from deploying a new n8n automation instance.
-                    Self-hosted, independent, and ready in seconds.
-                  </p>
+      <section className="relative overflow-hidden">
+        <div className="absolute inset-0 bg-grid-pattern mask-fade-out opacity-30" />
+        <div className="pointer-events-none absolute left-1/2 top-0 -translate-x-1/2 h-[500px] w-[800px] bg-primary/[0.07] blur-[120px] rounded-full" />
 
-                  {/* Pricing Highlight */}
-                  <div className="flex items-center justify-center gap-4 pt-4">
-                    <div className="text-center">
-                      <div className={`text-5xl md:text-6xl font-bold ${sale.priceColor}`}>
-                        ${sale.salePrice}<span className="text-3xl text-muted-foreground">/mo</span>
-                      </div>
-                      <div className="text-lg text-muted-foreground line-through">${sale.originalPrice}/mo</div>
-                    </div>
-                    <Badge variant="outline" className="text-lg px-4 py-2">
-                      Limited Time
-                    </Badge>
-                  </div>
+        <div className="container relative max-w-6xl flex flex-col items-center justify-center min-h-[80vh] py-24 text-center">
+          <Badge className={`animate-fade-up mb-6 ${sale.badgeColor} text-white text-xs px-3 py-1`}>
+            {sale.badge} — {sale.discount}
+          </Badge>
 
-                  {/* Conditional Name Input */}
-                  {hasN8nProject && (
-                    <Card className="max-w-md mx-auto border-zinc-800 bg-zinc-900/50 backdrop-blur-sm">
-                      <CardContent className="pt-6 space-y-2">
-                        <Label htmlFor="projectName" className="text-base">Project Name</Label>
-                        <Input
-                          id="projectName"
-                          placeholder="My n8n service"
-                          value={projectName}
-                          onChange={(e) => setProjectName(e.target.value)}
-                          className="h-12 text-base"
-                        />
-                      </CardContent>
-                    </Card>
-                  )}
+          <h1 className="animate-fade-up max-w-3xl text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl" style={{ animationDelay: '100ms' }}>
+            Hello, {user?.name}
+          </h1>
 
-                  {/* Big Create Button */}
-                  <div className="pt-8">
-                    <LoadingButton
-                      isLoading={!!isPending}
-                      disabled={!projectName || !selectedLocation || !selectedTier}
-                      onClick={handleCreate}
-                      size="lg"
-                      className="bg-white text-black hover:bg-zinc-200 font-semibold text-xl px-12 py-8 h-auto transition-all duration-200 hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(255,255,255,0.4)] animate-pulse-glow"
-                    >
-                      <Rocket className="mr-3 h-6 w-6" />
-                      Create My n8n Instance
-                    </LoadingButton>
-                  </div>
+          <p className="animate-fade-up mt-4 max-w-xl text-base text-muted-foreground sm:text-lg leading-relaxed" style={{ animationDelay: '200ms' }}>
+            Deploy a new n8n automation instance. Self-hosted, independent, ready in seconds.
+          </p>
 
-                  <p className="text-sm text-muted-foreground pt-4">
-                    Deploy instantly • T1 Server • Fully managed • Cancel anytime
-                  </p>
-
-                </div>
-              </section>
+          {/* Pricing */}
+          <div className="animate-fade-up mt-8 flex items-center gap-4" style={{ animationDelay: '300ms' }}>
+            <div className="text-center">
+              <div className={`text-5xl md:text-6xl font-bold tracking-tight ${sale.priceColor}`}>
+                ${sale.salePrice}<span className="text-xl text-muted-foreground">/mo</span>
+              </div>
+              <div className="text-sm text-muted-foreground/50 line-through mt-1">${sale.originalPrice}/mo</div>
             </div>
           </div>
-          <Footer />
+
+          {/* Name input for additional projects */}
+          {hasN8nProject && (
+            <div className="animate-fade-up mt-8 w-full max-w-sm" style={{ animationDelay: '350ms' }}>
+              <div className="rounded-xl border border-white/[0.06] bg-[hsl(var(--surface))] p-5">
+                <Label htmlFor="projectName" className="text-sm font-medium mb-2 block text-left">Project name</Label>
+                <Input
+                  id="projectName"
+                  placeholder="My n8n service"
+                  value={projectName}
+                  onChange={(e) => setProjectName(e.target.value)}
+                  className="h-11 bg-background border-white/[0.06]"
+                />
+              </div>
+            </div>
+          )}
+
+          {/* Create button */}
+          <div className="animate-fade-up mt-8" style={{ animationDelay: '400ms' }}>
+            <LoadingButton
+              isLoading={!!isPending}
+              disabled={!projectName || !selectedLocation || !selectedTier}
+              onClick={handleCreate}
+              size="lg"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium px-10 h-13 text-lg"
+            >
+              <Rocket className="mr-2 h-5 w-5" />
+              Create my n8n instance
+            </LoadingButton>
+          </div>
+
+          <p className="animate-fade-up mt-4 text-xs text-muted-foreground/50" style={{ animationDelay: '500ms' }}>
+            Deploy instantly &middot; T1 Server &middot; Fully managed &middot; Cancel anytime
+          </p>
         </div>
-      </div>
-    </>
-  )
-}
+      </section>
 
-// 3D Tilt Card Component
-function TiltCard({ children, className = '' }: { children: React.ReactNode; className?: string }) {
-  const ref = useRef<HTMLDivElement>(null)
-  const rotateX = useMotionValue(0)
-  const rotateY = useMotionValue(0)
-
-  const smoothRotateX = useSpring(rotateX, { stiffness: 300, damping: 30 })
-  const smoothRotateY = useSpring(rotateY, { stiffness: 300, damping: 30 })
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!ref.current) return
-    const rect = ref.current.getBoundingClientRect()
-    const x = e.clientX - rect.left
-    const y = e.clientY - rect.top
-    const centerX = rect.width / 2
-    const centerY = rect.height / 2
-    const rotateXVal = ((y - centerY) / centerY) * -10
-    const rotateYVal = ((x - centerX) / centerX) * 10
-
-    rotateX.set(rotateXVal)
-    rotateY.set(rotateYVal)
-  }
-
-  const handleMouseLeave = () => {
-    rotateX.set(0)
-    rotateY.set(0)
-  }
-
-  return (
-    <motion.div
-      ref={ref}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      style={{
-        rotateX: smoothRotateX,
-        rotateY: smoothRotateY,
-        transformStyle: 'preserve-3d',
-      }}
-      className={className}
-      whileHover={{ scale: 1.05 }}
-      transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-    >
-      {children}
-    </motion.div>
-  )
-}
-
-// Mouse move effect component (similar to frontpage)
-function MouseMoveEffect() {
-  return (
-    <div className="absolute inset-0 pointer-events-none">
-      <style>{`
-        @keyframes wave {
-          0%, 100% {
-            transform: scale(0.8);
-            opacity: 0.1;
-          }
-          50% {
-            transform: scale(1);
-            opacity: 0.3;
-          }
-        }
-        .wave-dot {
-          animation: wave 3s ease-in-out infinite;
-        }
-        @keyframes pulse-glow {
-          0% {
-            box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4);
-          }
-          70% {
-            box-shadow: 0 0 0 10px rgba(255, 255, 255, 0);
-          }
-          100% {
-            box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
-          }
-        }
-        .animate-pulse-glow:hover {
-          animation: pulse-glow 1.5s infinite;
-        }
-      `}</style>
-      <div className="grid gap-6 p-4" style={{
-        gridTemplateColumns: 'repeat(auto-fit, minmax(6px, 1fr))',
-        minHeight: '100vh',
-        width: '100vw'
-      }}>
-        {Array.from({ length: 800 }, (_, i) => {
-          const row = Math.floor(i / 40);
-          const col = i % 40;
-          const delay = (row * 0.08 + col * 0.03) % 3;
-          return (
-            <div
-              key={i}
-              className="w-1.5 h-1.5 bg-blue-500/20 rounded-full wave-dot opacity-0"
-              style={{
-                animationDelay: `${delay}s`,
-              }}
-            />
-          );
-        })}
-      </div>
+      <Footer />
     </div>
   )
 }
