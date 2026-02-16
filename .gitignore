@@ -17,3 +17,4 @@ flyio.generated.json
 **/.idea
 
 settings.local.json
+.worktrees
