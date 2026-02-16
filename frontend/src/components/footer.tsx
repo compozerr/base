@@ -1,6 +1,18 @@
 import { Link } from "@tanstack/react-router"
+import { useEffect, useState } from "react"
+import { apiBaseUrl } from "@/api-client"
 
 export default function Footer() {
+  const frontendVersion = __APP_VERSION__
+  const [backendVersion, setBackendVersion] = useState<string | null>(null)
+
+  useEffect(() => {
+    fetch(`${apiBaseUrl}/v1/version`)
+      .then(res => res.json())
+      .then(data => setBackendVersion(data.version))
+      .catch(() => {})
+  }, [])
+
   return (
     <footer className="border-t">
       <div className="container flex flex-col gap-8 py-8 md:flex-row md:py-12">
@@ -48,12 +60,16 @@ export default function Footer() {
           </div>
         </div>
       </div>
-      <div className="container border-t py-6">
-        <p className="text-center text-sm text-muted-foreground">
-          © {new Date().getFullYear()} compozerr. All rights reserved.
+      <div className="container border-t py-6 flex flex-col md:flex-row items-center justify-between gap-2">
+        <p className="text-sm text-muted-foreground">
+          &copy; {new Date().getFullYear()} compozerr. All rights reserved.
+        </p>
+        <p className="text-xs text-muted-foreground/50">
+          {frontendVersion !== 'dev' && <>frontend {frontendVersion}</>}
+          {frontendVersion !== 'dev' && backendVersion && backendVersion !== 'dev' && <> &middot; </>}
+          {backendVersion && backendVersion !== 'dev' && <>backend {backendVersion}</>}
         </p>
       </div>
     </footer>
   )
 }
-

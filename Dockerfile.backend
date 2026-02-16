@@ -17,10 +17,14 @@ RUN dotnet publish ./Api/Api.csproj \
     
 # Use a lightweight runtime image for production
 FROM mcr.microsoft.com/dotnet/aspnet:9.0
+
+ARG APP_VERSION=dev
+
 WORKDIR /app
 
 # Set the ASP.NET Core environment to Production
 ENV ASPNETCORE_ENVIRONMENT=Production
+ENV APP_VERSION=$APP_VERSION
 
 # Configure .NET to respect container memory limits and optimize GC for containers
 ENV DOTNET_GCHeapHardLimit=0x20000000

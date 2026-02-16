@@ -10,6 +10,7 @@ import StripeAddPaymentMethodBanner from '@repo/stripe/stripe-add-payment-method
 import { api } from '@/api-client'
 import { LocalStorage } from '@/lib/storage'
 import { tryCatchify } from '@/lib/try-catchifier'
+import { DashboardHeaderProvider, useDashboardHeader } from '@/hooks/use-dashboard-header'
 
 export const Route = createFileRoute('/_auth/_dashboard')({
   component: RouteComponent,
@@ -41,6 +42,16 @@ export const Route = createFileRoute('/_auth/_dashboard')({
   }
 })
 
+function DashboardHeader() {
+  const { headerContent } = useDashboardHeader()
+  return (
+    <section className='flex flex-row items-center sticky top-0 bg-black z-50'>
+      <SidebarTrigger className='m-4 shrink-0' />
+      {headerContent}
+    </section>
+  )
+}
+
 function RouteComponent() {
   return (
     <>
@@ -49,12 +60,12 @@ function RouteComponent() {
           <AppSidebar />
           <main className='w-full'>
             <StripeAddPaymentMethodBanner />
-            <section className='flex flex-row justify-between sticky top-0 bg-black z-50 pb-3'>
-              <SidebarTrigger className='mt-4 ml-4' />
-            </section>
-            <main className='p-4 w-full'>
-              <Outlet />
-            </main>
+            <DashboardHeaderProvider>
+              <DashboardHeader />
+              <main className='p-4 w-full'>
+                <Outlet />
+              </main>
+            </DashboardHeaderProvider>
           </main>
         </SidebarProvider>
       </div>

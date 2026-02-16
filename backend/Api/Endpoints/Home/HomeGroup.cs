@@ -13,5 +13,6 @@ public class HomeGroup : CarterModule
     {
         app.AddHomeRoute();
         app.AddEnvironmentRoute();
+        app.AddVersionRoute();
     }
 }

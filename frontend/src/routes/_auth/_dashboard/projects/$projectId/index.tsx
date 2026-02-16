@@ -203,9 +203,7 @@ function RouteComponent() {
                                             </Tooltip>
                                         </TooltipProvider>
                                     </h3>
-                                    <p className="text-sm">
-                                        <Badge variant="outline">{templateType.label}</Badge>
-                                    </p>
+                                    <p className="text-sm">{templateType.label}</p>
                                 </div>
 
                                 <div>
