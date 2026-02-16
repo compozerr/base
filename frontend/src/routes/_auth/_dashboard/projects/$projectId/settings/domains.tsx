@@ -58,7 +58,7 @@ function DomainItem({ domain, onVerify, onDelete, onSetPrimary, isSettingPrimary
   return (
     <div
       className={cn(
-        "group relative flex items-center justify-between p-4 rounded-lg border transition-all duration-200",
+        "group relative p-4 rounded-lg border transition-all duration-200",
         isPrimary && "bg-primary/5 border-primary/20 hover:border-primary/40",
         !isPrimary && !isPending && "bg-zinc-900/30 hover:bg-zinc-900/50 border-zinc-800",
         isPending && "bg-amber-500/5 border-amber-500/20 hover:border-amber-500/40 cursor-pointer",
@@ -66,7 +66,7 @@ function DomainItem({ domain, onVerify, onDelete, onSetPrimary, isSettingPrimary
       )}
       onClick={isPending ? () => onVerify(domain.domainId!) : undefined}
     >
-      <div className="flex items-center gap-4 min-w-0 flex-1">
+      <div className="flex items-start gap-3 sm:gap-4">
         <div className={cn(
           "flex-shrink-0 w-10 h-10 rounded-lg flex items-center justify-center",
           isPrimary && "bg-primary/10 text-primary",
@@ -82,101 +82,104 @@ function DomainItem({ domain, onVerify, onDelete, onSetPrimary, isSettingPrimary
         </div>
 
         <div className="min-w-0 flex-1">
-          <div className="flex items-center gap-2">
-            <div onClick={(e) => e.stopPropagation()}>
-              <CopyText value={domain.value ?? ''}>
-                <h3 className={cn(
-                  "font-mono text-sm font-medium truncate cursor-pointer",
-                  isPrimary && "text-primary",
-                  isPending && "text-amber-600"
-                )}>
-                  {domain.value}
-                </h3>
-              </CopyText>
+          <div className="flex items-start justify-between gap-2">
+            <div className="min-w-0 flex-1">
+              <div onClick={(e) => e.stopPropagation()}>
+                <CopyText value={domain.value ?? ''}>
+                  <h3 className={cn(
+                    "font-mono text-sm font-medium truncate cursor-pointer",
+                    isPrimary && "text-primary",
+                    isPending && "text-amber-600"
+                  )}>
+                    {domain.value}
+                  </h3>
+                </CopyText>
+              </div>
+              <div className="flex items-center gap-2 mt-1 flex-wrap">
+                <span className="text-sm text-muted-foreground">{domain.serviceName}</span>
+                {domain.protocol && (
+                  <span className="text-xs text-muted-foreground/60 font-mono uppercase">{domain.protocol}</span>
+                )}
+                {domain.isInternal && (
+                  <Badge variant="outline" className="text-[10px] font-normal border-dashed border-zinc-700 text-muted-foreground">
+                    Auto-generated
+                  </Badge>
+                )}
+              </div>
             </div>
-            {domain.isInternal && (
-              <Badge variant="outline" className="text-xs font-normal border-dashed border-zinc-700 text-muted-foreground">
-                Auto-generated
-              </Badge>
-            )}
-          </div>
-          <div className="flex items-center gap-2 mt-0.5">
-            <span className="text-sm text-muted-foreground">{domain.serviceName}</span>
-            {domain.protocol && (
-              <span className="text-xs text-muted-foreground/60 font-mono uppercase">{domain.protocol}</span>
-            )}
+
+            <div className="flex items-center gap-1 flex-shrink-0">
+              {isSettingPrimary && (
+                <Badge variant="secondary" className="animate-pulse text-xs hidden sm:inline-flex">
+                  Setting as primary...
+                </Badge>
+              )}
+              {!domain.isVerified && !domain.isInternal && (
+                <Badge
+                  variant="outline"
+                  className="border-amber-500/30 text-amber-600 bg-amber-500/10 cursor-pointer hover:bg-amber-500/20 transition-colors text-xs"
+                  onClick={(e) => { e.stopPropagation(); onVerify(domain.domainId!); }}
+                >
+                  <Clock className="w-3 h-3 mr-1" />
+                  <span className="hidden sm:inline">Unverified</span>
+                  <span className="sm:hidden">!</span>
+                </Badge>
+              )}
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="sm:opacity-0 sm:group-hover:opacity-100 transition-opacity h-8 w-8"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <MoreVertical className="h-4 w-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  {!domain.isVerified && !domain.isInternal && (
+                    <DropdownMenuItem onClick={() => onVerify(domain.domainId!)}>
+                      <Check className="mr-2 h-4 w-4" />
+                      Verify DNS
+                    </DropdownMenuItem>
+                  )}
+                  {domain.value && (
+                    <CopyButton
+                      value={domain.value}
+                      className="gap-4"
+                      iconClassName="text-primary"
+                    >
+                      <span className="text-sm">Copy Domain</span>
+                    </CopyButton>
+                  )}
+                  {domain.value && (
+                    <DropdownMenuItem asChild>
+                      <a href={`https://${domain.value}`} target="_blank" rel="noopener noreferrer">
+                        <ExternalLink className="mr-2 h-4 w-4" />
+                        Visit Site
+                      </a>
+                    </DropdownMenuItem>
+                  )}
+                  {domain.isVerified && !domain.isPrimary && (
+                    <DropdownMenuItem onClick={() => onSetPrimary(domain.domainId!)}>
+                      <Star className="mr-2 h-4 w-4" />
+                      Set as primary
+                    </DropdownMenuItem>
+                  )}
+                  {!domain.isInternal && (
+                    <DropdownMenuItem
+                      className="text-red-500 focus:text-red-500 focus:bg-red-500/10"
+                      onClick={() => onDelete(domain.domainId!)}
+                    >
+                      <Trash2 className="mr-2 h-4 w-4" />
+                      Delete
+                    </DropdownMenuItem>
+                  )}
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
           </div>
         </div>
-      </div>
-
-      <div className="flex items-center gap-2">
-        {isSettingPrimary && (
-          <Badge variant="secondary" className="animate-pulse">
-            Setting as primary...
-          </Badge>
-        )}
-        {!domain.isVerified && !domain.isInternal && (
-          <Badge
-            variant="outline"
-            className="border-amber-500/30 text-amber-600 bg-amber-500/10 cursor-pointer hover:bg-amber-500/20 transition-colors"
-            onClick={(e) => { e.stopPropagation(); onVerify(domain.domainId!); }}
-          >
-            <Clock className="w-3 h-3 mr-1" />
-            Unverified
-          </Badge>
-        )}
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="opacity-0 group-hover:opacity-100 transition-opacity h-8 w-8"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <MoreVertical className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            {!domain.isVerified && !domain.isInternal && (
-              <DropdownMenuItem onClick={() => onVerify(domain.domainId!)}>
-                <Check className="mr-2 h-4 w-4" />
-                Verify DNS
-              </DropdownMenuItem>
-            )}
-            {domain.value && (
-              <CopyButton
-                value={domain.value}
-                className="gap-4"
-                iconClassName="text-primary"
-              >
-                <span className="text-sm">Copy Domain</span>
-              </CopyButton>
-            )}
-            {domain.value && (
-              <DropdownMenuItem asChild>
-                <a href={`https://${domain.value}`} target="_blank" rel="noopener noreferrer">
-                  <ExternalLink className="mr-2 h-4 w-4" />
-                  Visit Site
-                </a>
-              </DropdownMenuItem>
-            )}
-            {domain.isVerified && !domain.isPrimary && (
-              <DropdownMenuItem onClick={() => onSetPrimary(domain.domainId!)}>
-                <Star className="mr-2 h-4 w-4" />
-                Set as primary
-              </DropdownMenuItem>
-            )}
-            {!domain.isInternal && (
-              <DropdownMenuItem
-                className="text-red-500 focus:text-red-500 focus:bg-red-500/10"
-                onClick={() => onDelete(domain.domainId!)}
-              >
-                <Trash2 className="mr-2 h-4 w-4" />
-                Delete
-              </DropdownMenuItem>
-            )}
-          </DropdownMenuContent>
-        </DropdownMenu>
       </div>
     </div>
   )

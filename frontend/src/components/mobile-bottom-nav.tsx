@@ -1,12 +1,11 @@
 import { getLink } from "@/links"
 import { useNavigate, useRouterState } from "@tanstack/react-router"
-import { FileText, Home, Settings, User } from "lucide-react"
+import { FileText, Home, Settings } from "lucide-react"
 
 const navItems = [
   { label: "Projects", icon: Home, path: "/projects" as const },
   { label: "Settings", icon: Settings, path: "/settings" as const },
   { label: "Docs", icon: FileText, path: "docs" as const },
-  { label: "Profile", icon: User, path: "/settings" as const },
 ] as const
 
 export function MobileBottomNav() {
@@ -24,6 +23,7 @@ export function MobileBottomNav() {
 
   const isActive = (item: (typeof navItems)[number]) => {
     if (item.path === "docs") return false
+    if (item.path === "/settings") return currentPath === "/settings"
     return currentPath.startsWith(item.path)
   }
 

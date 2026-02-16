@@ -133,24 +133,26 @@ function GeneralSettingsTab() {
             <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-zinc-800 flex items-center justify-center">
               <Github className="h-5 w-5 text-zinc-400" />
             </div>
-            <div className="flex-1 min-w-0">
-              <div className="flex items-center gap-2 mb-1">
-                <h3 className="font-medium">GitHub Connection</h3>
-                <Badge variant="outline" className="text-xs border-green-500/30 text-green-500 bg-green-500/10">
-                  <CheckCircle className="h-3 w-3 mr-1" />
-                  Connected
-                </Badge>
+            <div className="flex-1 min-w-0 space-y-3">
+              <div>
+                <div className="flex items-center gap-2 mb-1">
+                  <h3 className="font-medium">GitHub Connection</h3>
+                  <Badge variant="outline" className="text-xs border-green-500/30 text-green-500 bg-green-500/10">
+                    <CheckCircle className="h-3 w-3 mr-1" />
+                    Connected
+                  </Badge>
+                </div>
+                <p className="text-sm text-muted-foreground">
+                  If deployments fail due to authentication errors, reconnect your GitHub account to refresh your access token.
+                </p>
               </div>
-              <p className="text-sm text-muted-foreground">
-                If deployments fail due to authentication errors, reconnect your GitHub account to refresh your access token.
-              </p>
+              <Button variant="outline" size="sm" className="w-full sm:w-auto" asChild>
+                <a href={reconnectUrl}>
+                  <Github className="mr-2 h-4 w-4" />
+                  Reconnect
+                </a>
+              </Button>
             </div>
-            <Button variant="outline" size="sm" className="flex-shrink-0" asChild>
-              <a href={reconnectUrl}>
-                <Github className="mr-2 h-4 w-4" />
-                Reconnect
-              </a>
-            </Button>
           </div>
         </CardContent>
       </Card>

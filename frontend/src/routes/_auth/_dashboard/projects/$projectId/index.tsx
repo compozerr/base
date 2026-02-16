@@ -265,9 +265,7 @@ function RouteComponent() {
                                     </Tooltip>
                                 </TooltipProvider>
                             </p>
-                            <Badge variant="outline" className="text-xs">
-                                {templateType.label}
-                            </Badge>
+                            <p className="text-sm text-foreground/80">{templateType.label}</p>
                         </div>
                     </div>
                 </motion.div>
