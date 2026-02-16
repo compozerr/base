@@ -6,8 +6,8 @@ const Links = {
         "prod": "https://docs.compozerr.com"
     },
     addNewService: {
-        "dev": "http://localhost:1236/basics/deploy-your-project",
-        "prod": "https://docs.compozerr.com/basics/deploy-your-project"
+        "dev": "http://localhost:1236/getting-started/quick-start",
+        "prod": "https://docs.compozerr.com/getting-started/quick-start"
     }
 } satisfies { [key: string]: Link };
 
