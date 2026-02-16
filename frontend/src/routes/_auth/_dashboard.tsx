@@ -55,13 +55,13 @@ function RouteComponent() {
 
           {/* Header */}
           <header className="sticky top-0 z-50 bg-black/80 backdrop-blur-md">
-            <div className="flex items-center gap-3 px-4 py-3">
+            <div className="flex items-center gap-3 px-4 py-2.5">
               {/* Sidebar trigger: desktop only */}
               <div className="hidden md:block">
                 <SidebarTrigger />
               </div>
               {/* Slot for route-level header content (breadcrumbs, tabs, etc.) */}
-              <div id="dashboard-header-slot" />
+              <div id="dashboard-header-slot" className="flex-1 min-w-0" />
             </div>
             {/* Gradient bottom border */}
             <div className="h-px bg-gradient-to-r from-transparent via-white/[0.08] to-transparent" />

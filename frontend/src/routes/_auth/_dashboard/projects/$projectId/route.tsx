@@ -44,26 +44,34 @@ function RouteComponent() {
     <div className="flex flex-col min-h-screen w-full">
       {/* Portal breadcrumbs + tabs into the dashboard header */}
       <DashboardHeaderPortal>
-        <div className="flex items-center gap-4 flex-1 min-w-0">
-          {/* Breadcrumb */}
-          <nav className="flex items-center gap-1.5 text-sm shrink-0" aria-label="Breadcrumb">
-            <Link
-              to="/projects"
-              className="text-white/50 hover:text-white transition-colors"
-            >
-              Projects
-            </Link>
-            <ChevronRight className="h-3 w-3 text-white/30" />
-            <span className="font-medium text-white truncate max-w-[160px]">
-              {project?.name}
-            </span>
-          </nav>
+        <div className="flex flex-col gap-1.5 w-full">
+          {/* Top row: breadcrumb + visit button */}
+          <div className="flex items-center justify-between gap-4">
+            <nav className="flex items-center gap-1.5 text-sm min-w-0" aria-label="Breadcrumb">
+              <Link
+                to="/projects"
+                className="text-white/50 hover:text-white transition-colors shrink-0"
+              >
+                Projects
+              </Link>
+              <ChevronRight className="h-3 w-3 text-white/30 shrink-0" />
+              <span className="font-medium text-white truncate">
+                {project?.name}
+              </span>
+            </nav>
 
-          {/* Separator */}
-          <div className="h-4 w-px bg-white/[0.08] hidden sm:block" />
+            {project?.primaryDomain && (
+              <Button variant="outline" size="sm" className="gap-1.5 shrink-0 hidden sm:inline-flex" asChild>
+                <a href={"https://" + project.primaryDomain} target="_blank" rel="noopener noreferrer">
+                  <ExternalLink className="h-3.5 w-3.5" />
+                  Visit
+                </a>
+              </Button>
+            )}
+          </div>
 
-          {/* Tabs */}
-          <nav className="flex items-center gap-0.5 overflow-x-auto scrollbar-none">
+          {/* Bottom row: tabs */}
+          <nav className="flex items-center gap-0.5 overflow-x-auto scrollbar-none -mb-0.5">
             {tabs.map((tab) => {
               const active = isTabActive(tab.href)
               return (
@@ -82,16 +90,6 @@ function RouteComponent() {
               )
             })}
           </nav>
-
-          {/* Visit button - pushed to the right */}
-          {project?.primaryDomain && (
-            <Button variant="outline" size="sm" className="gap-1.5 ml-auto shrink-0 hidden sm:inline-flex" asChild>
-              <a href={"https://" + project.primaryDomain} target="_blank" rel="noopener noreferrer">
-                <ExternalLink className="h-3.5 w-3.5" />
-                Visit
-              </a>
-            </Button>
-          )}
         </div>
       </DashboardHeaderPortal>
 

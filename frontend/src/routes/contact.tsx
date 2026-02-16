@@ -7,7 +7,7 @@ export const Route = createFileRoute('/contact')({
 })
 
 function ContactPage() {
-  const formUrl = import.meta.env.VITE_CONTACT_FORM_URL || 'https://tally.so/embed/A7PoWo?alignLeft=1&hideTitle=1&transparentBackground=1'
+  const formUrl = import.meta.env.VITE_CONTACT_FORM_URL || 'https://tally.so/embed/A7PoWo?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1'
 
   return (
     <div className="min-h-screen bg-background">
@@ -33,7 +33,7 @@ function ContactPage() {
             width="100%"
             height="379"
             title="Contact us"
-            className="border-0"
+            className="border-0 bg-black rounded-lg"
           />
         </div>
       </div>
