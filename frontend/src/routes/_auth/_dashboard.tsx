@@ -2,7 +2,6 @@ import {
   createFileRoute,
   Outlet,
   redirect,
-  useRouterState,
 } from '@tanstack/react-router'
 
 import { AppSidebar } from '@/components/app-sidebar'
@@ -55,13 +54,16 @@ function RouteComponent() {
 
           {/* Header */}
           <header className="sticky top-0 z-50 bg-black/80 backdrop-blur-md">
-            <div className="flex items-center gap-3 px-4 py-2.5">
-              {/* Sidebar trigger: desktop only */}
-              <div className="hidden md:block">
-                <SidebarTrigger />
+            <div className="px-4">
+              {/* Primary row: sidebar trigger + route-injected content */}
+              <div className="flex items-center gap-3 h-11">
+                <div className="hidden md:block shrink-0">
+                  <SidebarTrigger />
+                </div>
+                <div id="dashboard-header-breadcrumb" className="flex-1 min-w-0 flex items-center" />
               </div>
-              {/* Slot for route-level header content (breadcrumbs, tabs, etc.) */}
-              <div id="dashboard-header-slot" className="flex-1 min-w-0" />
+              {/* Secondary row: route-injected tabs (only rendered when a route portals into it) */}
+              <div id="dashboard-header-tabs" className="empty:hidden" />
             </div>
             {/* Gradient bottom border */}
             <div className="h-px bg-gradient-to-r from-transparent via-white/[0.08] to-transparent" />
