@@ -52,8 +52,8 @@ function RouteComponent() {
         <main className="w-full">
           <StripeAddPaymentMethodBanner />
 
-          {/* Header */}
-          <header className="sticky top-0 z-50 bg-black/80 backdrop-blur-md">
+          {/* Header: hidden on mobile where bottom nav is used */}
+          <header className="sticky top-0 z-50 bg-black/80 backdrop-blur-md hidden md:block">
             <div className="px-4">
               {/* Primary row: sidebar trigger + route-injected content */}
               <div className="flex items-center gap-3 h-11">
