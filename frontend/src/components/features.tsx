@@ -1,166 +1,118 @@
-import { useRef, useState } from "react"
-import { motion, useMotionTemplate, useMotionValue, animate, useSpring } from "framer-motion"
-import { Boxes, PuzzleIcon, Rocket, Database } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { useRef } from "react"
+import { motion, useInView } from "framer-motion"
+import { Boxes, PuzzleIcon, Rocket, Database, Terminal, Globe, Shield, Zap } from "lucide-react"
 
 const features = [
   {
-    name: "Modular Full-Stack Templates",
+    name: "Modular Templates",
     description:
-      "Build your project faster with ready-to-use full-stack modules combining frontend and backend implementations.",
+      "Full-stack modules that combine frontend and backend. Authentication, database, payments — pick the building blocks you need.",
     icon: PuzzleIcon,
   },
   {
     name: "Community Marketplace",
-    description: "Access a growing ecosystem of community-built modules, from authentication to payment systems.",
+    description: "Growing ecosystem of community-built modules. Share what you build, use what others have made.",
     icon: Boxes,
   },
   {
-    name: "Instant Project Setup",
+    name: "Instant Setup",
     description:
-      "Start your project in minutes by selecting and combining the modules you need, no configuration hassle.",
+      "One command to scaffold. No boilerplate, no configuration marathons. Start writing business logic immediately.",
     icon: Rocket,
   },
   {
     name: "Pre-built Integrations",
     description:
-      "Choose from various integrated solutions including auth, database, Stripe, and more - all working seamlessly together.",
+      "Auth, database, Stripe, email, storage — battle-tested implementations that work together out of the box.",
     icon: Database,
+  },
+  {
+    name: "n8n Hosting",
+    description:
+      "Deploy managed n8n automation instances with custom domains, SSL, and automatic backups. Independent infrastructure.",
+    icon: Zap,
+  },
+  {
+    name: "CLI-First Workflow",
+    description:
+      "Manage everything from your terminal. Create projects, deploy services, configure domains — all through a clean CLI.",
+    icon: Terminal,
+  },
+  {
+    name: "Custom Domains & SSL",
+    description:
+      "Bring your own domain with automatic SSL certificate provisioning. Zero-config HTTPS for every service.",
+    icon: Globe,
+  },
+  {
+    name: "Privacy-First Hosting",
+    description:
+      "European infrastructure, no Big Tech dependencies. Your data stays yours on independent, privacy-focused servers.",
+    icon: Shield,
   },
 ]
 
-function FeatureCard({ feature }: { feature: (typeof features)[0] }) {
+function FeatureCard({ feature, index }: { feature: (typeof features)[0]; index: number }) {
   const ref = useRef<HTMLDivElement>(null)
-  const [hovered, setHovered] = useState(false)
-
-  // Mouse position for gradient and rotation
-  const mouseX = useMotionValue(0)
-  const mouseY = useMotionValue(0)
-
-  // Mouse position for rotation (with spring physics)
-  const rotateX = useSpring(0, { stiffness: 150, damping: 15 })
-  const rotateY = useSpring(0, { stiffness: 150, damping: 15 })
-
-  // Click animation state
-  const [isPressed, setIsPressed] = useState(false)
-
-  function onMouseMove({ currentTarget, clientX, clientY }: React.MouseEvent) {
-    const { left, top, width, height } = currentTarget.getBoundingClientRect()
-
-    // Calculate mouse position for gradient
-    const x = (clientX - left) / width
-    const y = (clientY - top) / height
-    mouseX.set(x)
-    mouseY.set(y)
-
-    // Calculate rotation based on mouse position
-    const rotateXValue = (y - 0.5) * -20
-    const rotateYValue = (x - 0.5) * 20
-
-    rotateX.set(rotateXValue)
-    rotateY.set(rotateYValue)
-  }
-
-  function onClick() {
-    setIsPressed(true)
-    // Exaggerate the current rotation
-    const currentX = rotateX.get()
-    const currentY = rotateY.get()
-
-    // Animate to an exaggerated rotation and back
-    animate(rotateX, [currentX * 2, currentX], {
-      type: "spring",
-      stiffness: 400,
-      damping: 10,
-    })
-    animate(rotateY, [currentY * 2, currentY], {
-      type: "spring",
-      stiffness: 400,
-      damping: 10,
-    })
-
-    setTimeout(() => setIsPressed(false), 150)
-  }
-
-  const background = useMotionTemplate`
-    radial-gradient(
-      circle at ${mouseX.get() * 100}% ${mouseY.get() * 100}%,
-      rgba(var(--primary-rgb) / 0.1) 0%,
-      rgba(var(--primary-rgb) / 0.1) 25%,
-      rgba(var(--primary-rgb) / 0.05) 50%,
-      transparent 100%
-    ),
-    linear-gradient(
-      to bottom right,
-      rgba(var(--primary-rgb) / ${isPressed ? 0.2 : 0.1}) 0%,
-      rgba(var(--primary-rgb) / 0.05) 25%,
-      rgba(var(--primary-rgb) / 0.05) 50%,
-      transparent 100%
-    )
-  `
+  const isInView = useInView(ref, { once: true, margin: "-40px" })
 
   return (
     <motion.div
       ref={ref}
-      onMouseMove={onMouseMove}
-      onClick={onClick}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => {
-        setHovered(false)
-        rotateX.set(0)
-        rotateY.set(0)
-      }}
-      style={{
-        transformStyle: "preserve-3d",
-        rotateX,
-        rotateY,
-      }}
-      className="group relative overflow-hidden rounded-lg border bg-background p-8 transition-all duration-200  flex flex-col justify-between"
-      initial={{ scale: 1 }}
-      whileHover={{ scale: 1.02, transition: { duration: 0.2 } }}
+      initial={{ opacity: 0, y: 20 }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.4, delay: index * 0.05, ease: [0.25, 0.46, 0.45, 0.94] }}
+      className="group relative rounded-xl border border-white/[0.06] bg-[hsl(var(--surface))] p-6 transition-all duration-300 hover:border-white/[0.1] hover:bg-[hsl(var(--surface-elevated))]"
     >
-      <motion.div
-        className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-        style={{ background }}
-      />
-      <div className="relative flex items-center gap-4" style={{ transform: "translateZ(20px)" }}>
-        <feature.icon className="h-8 w-8" />
-        <h3 className="font-bold">{feature.name}</h3>
-      </div>
-      <p className="relative mt-2 text-muted-foreground" style={{ transform: "translateZ(20px)" }}>
-        {feature.description}
-      </p>
+      {/* Hover glow */}
+      <div className="pointer-events-none absolute inset-0 rounded-xl opacity-0 transition-opacity duration-300 group-hover:opacity-100 bg-gradient-to-br from-primary/[0.04] via-transparent to-transparent" />
 
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: hovered ? 1 : 0, y: hovered ? 0 : 10 }}
-        transition={{ duration: 0.2 }}
-        className="relative mt-4"
-        style={{ transform: "translateZ(20px)" }}
-      >
-        <Button variant="secondary" className="w-full">
-          Learn More
-        </Button>
-      </motion.div>
+      <div className="relative">
+        <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-primary/[0.08] border border-primary/[0.12]">
+          <feature.icon className="h-5 w-5 text-primary" />
+        </div>
+        <h3 className="mb-2 text-[15px] font-semibold tracking-tight">{feature.name}</h3>
+        <p className="text-sm leading-relaxed text-muted-foreground">
+          {feature.description}
+        </p>
+      </div>
     </motion.div>
   )
 }
 
 export default function Features() {
+  const sectionRef = useRef<HTMLDivElement>(null)
+  const isInView = useInView(sectionRef, { once: true, margin: "-100px" })
+
   return (
-    <section className="container space-y-16 py-24 md:py-32">
-      <div className="mx-auto max-w-[58rem] text-center">
-        <h2 className="font-bold text-3xl leading-[1.1] sm:text-3xl md:text-5xl">Build Faster, Build Better</h2>
-        <p className="mt-4 text-muted-foreground sm:text-lg">
-          Choose the modules you need and start building your full-stack application in minutes.
-        </p>
-      </div>
-      <div className="mx-auto grid max-w-5xl grid-cols-1 gap-8 md:grid-cols-2" style={{ perspective: "1000px" }}>
-        {features.map((feature) => (
-          <FeatureCard key={feature.name} feature={feature} />
-        ))}
+    <section className="relative py-24 md:py-32">
+      <div className="container max-w-6xl">
+        <div ref={sectionRef} className="mx-auto max-w-2xl text-center mb-16">
+          <motion.h2
+            initial={{ opacity: 0, y: 16 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.5 }}
+            className="text-3xl font-bold tracking-tight sm:text-4xl"
+          >
+            Everything you need to ship
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="mt-4 text-muted-foreground text-base"
+          >
+            A complete platform for building and deploying full-stack applications.
+            From templates to hosting, we've got every layer covered.
+          </motion.p>
+        </div>
+
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {features.map((feature, i) => (
+            <FeatureCard key={feature.name} feature={feature} index={i} />
+          ))}
+        </div>
       </div>
     </section>
   )
 }
-

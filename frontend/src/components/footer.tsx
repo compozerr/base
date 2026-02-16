@@ -14,60 +14,79 @@ export default function Footer() {
   }, [])
 
   return (
-    <footer className="border-t">
-      <div className="container flex flex-col gap-8 py-8 md:flex-row md:py-12">
-        <div className="flex-1 space-y-4">
-          <h2 className="font-bold">compozerr</h2>
-          <p className="text-sm text-muted-foreground max-w-[400px]">
-            Independent hosting for your automation workflows. Deploy n8n and other services without Big Tech dependencies.
-          </p>
-        </div>
-        <div className="grid flex-1 grid-cols-2 gap-12">
-          <div className="space-y-4">
-            <h3 className="text-sm font-medium">Legal</h3>
-            <ul className="space-y-3 text-sm">
+    <footer className="border-t border-white/[0.06]">
+      <div className="container max-w-6xl py-12 md:py-16">
+        <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
+          {/* Brand */}
+          <div className="col-span-2 md:col-span-1">
+            <div className="flex items-center gap-2.5 mb-4">
+              <div className="flex h-7 w-7 items-center justify-center rounded-md bg-primary/10 border border-primary/20">
+                <span className="text-xs font-bold text-primary">C</span>
+              </div>
+              <span className="text-sm font-semibold tracking-tight">compozerr</span>
+            </div>
+            <p className="text-sm leading-relaxed text-muted-foreground max-w-[260px]">
+              Independent hosting and modular templates for developers who value control.
+            </p>
+          </div>
+
+          {/* Product */}
+          <div>
+            <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/60 mb-4">Product</h3>
+            <ul className="space-y-2.5">
               <li>
-                <Link to="/contact" className="text-muted-foreground transition-colors hover:text-primary">
-                  Contact
+                <Link to="/n8n" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
+                  n8n Hosting
                 </Link>
               </li>
               <li>
-                <Link to="/terms-of-service" className="text-muted-foreground transition-colors hover:text-primary">
-                  Terms of Service
-                </Link>
-              </li>
-              <li>
-                <Link to="/privacy-policy" className="text-muted-foreground transition-colors hover:text-primary">
-                  Privacy Policy
+                <Link to="/pricing" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
+                  Pricing
                 </Link>
               </li>
             </ul>
           </div>
-          <div className="space-y-4">
-            <h3 className="text-sm font-medium">Product</h3>
-            <ul className="space-y-3 text-sm">
+
+          {/* Company */}
+          <div>
+            <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/60 mb-4">Company</h3>
+            <ul className="space-y-2.5">
               <li>
-                <Link to="/pricing" className="text-muted-foreground transition-colors hover:text-primary">
-                  Pricing
+                <Link to="/contact" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
+                  Contact
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Legal */}
+          <div>
+            <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/60 mb-4">Legal</h3>
+            <ul className="space-y-2.5">
+              <li>
+                <Link to="/terms-of-service" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
+                  Terms of Service
                 </Link>
               </li>
               <li>
-                <Link to="/n8n" className="text-muted-foreground transition-colors hover:text-primary">
-                  n8n Hosting
+                <Link to="/privacy-policy" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
+                  Privacy Policy
                 </Link>
               </li>
             </ul>
           </div>
         </div>
       </div>
-      <div className="container border-t py-6 flex flex-col md:flex-row items-center justify-between gap-2">
-        <p className="text-sm text-muted-foreground">
+
+      {/* Bottom bar */}
+      <div className="container max-w-6xl border-t border-white/[0.06] py-6 flex flex-col sm:flex-row items-center justify-between gap-2">
+        <p className="text-xs text-muted-foreground/50">
           &copy; {new Date().getFullYear()} compozerr. All rights reserved.
         </p>
-        <p className="text-xs text-muted-foreground/50">
-          {frontendVersion !== 'dev' && <>frontend {frontendVersion}</>}
+        <p className="text-xs text-muted-foreground/30">
+          {frontendVersion !== 'dev' && <>v{frontendVersion}</>}
           {frontendVersion !== 'dev' && backendVersion && backendVersion !== 'dev' && <> &middot; </>}
-          {backendVersion && backendVersion !== 'dev' && <>backend {backendVersion}</>}
+          {backendVersion && backendVersion !== 'dev' && <>api {backendVersion}</>}
         </p>
       </div>
     </footer>

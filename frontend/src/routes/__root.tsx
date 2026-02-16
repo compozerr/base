@@ -46,7 +46,7 @@ function InnerRootComponent() {
 
 function RootComponent() {
   return (
-    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+    <ThemeProvider attribute="class" defaultTheme="dark" forcedTheme="dark">
       <InnerRootComponent />
     </ThemeProvider>
   )
