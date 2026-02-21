@@ -1,4 +1,11 @@
 {
     "type": "module",
-    "name": "hangfire"
+    "name": "hangfire",
+    "version": "0.1.0",
+    "description": "Background job processing using Hangfire",
+    "backend": {
+        "projects": [
+            "backend/Jobs/Jobs.csproj"
+        ]
+    }
 }

@@ -1,6 +1,8 @@
 {
     "type": "module",
     "name": "stripe",
+    "version": "0.1.0",
+    "description": "Stripe payment processing, subscriptions, and billing management",
     "dependencies": {
         "compozerr-lib/auth": "*",
         "compozerr-lib/jobs": "*"
@@ -13,6 +15,10 @@
     "backend": {
         "defaultEnvProperties": {
             "STRIPE__API_KEY": "<YOUR_STRIPE_API_KEY>"
-        }
+        },
+        "projects": [
+            "backend/Stripe/Stripe.csproj",
+            "backend/Stripe.Abstractions/Stripe.Abstractions.csproj"
+        ]
     }
 }

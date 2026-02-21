@@ -1,10 +1,18 @@
 {
     "type": "module",
     "name": "auth",
+    "version": "0.1.0",
+    "description": "Authentication and authorization with JWT tokens and user management",
     "dependencies": {
         "compozerr-lib/database": "*"
     },
     "frontend": {
         "routesDir": "frontend/src/routes"
+    },
+    "backend": {
+        "projects": [
+            "backend/Auth/Auth.csproj",
+            "backend/Auth.Abstractions/Auth.Abstractions.csproj"
+        ]
     }
 }

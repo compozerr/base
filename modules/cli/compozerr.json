@@ -1,9 +1,19 @@
 {
     "type": "module",
     "name": "cli",
+    "version": "0.1.0",
+    "description": "CLI tools for project management and module operations",
     "dependencies": {
         "database": "latest",
         "auth": "latest",
         "github": "latest"
+    },
+    "backend": {
+        "projects": [
+            "backend/Cli/Cli.csproj",
+            "backend/Cli.Abstractions/Cli.Abstractions.csproj",
+            "backend/Cli.Auth/Cli.Auth.csproj",
+            "backend/Cli.Tests/Cli.Tests.csproj"
+        ]
     }
 }

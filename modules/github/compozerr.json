@@ -1,8 +1,16 @@
 {
     "type": "module",
     "name": "github",
+    "version": "0.1.0",
+    "description": "GitHub integration for repository management and OAuth authentication",
     "dependencies": {
         "auth": "latest",
         "database": "latest"
+    },
+    "backend": {
+        "projects": [
+            "backend/Github/Github.csproj",
+            "backend/Github.Abstractions/Github.Abstractions.csproj"
+        ]
     }
 }

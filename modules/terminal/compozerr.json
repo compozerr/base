@@ -1,8 +1,15 @@
 {
     "type": "module",
     "name": "terminal",
+    "version": "0.1.0",
+    "description": "Web-based terminal for remote server access",
     "dependencies": {
         "database": "latest",
         "auth": "latest"
+    },
+    "backend": {
+        "projects": [
+            "backend/Terminal/Terminal.csproj"
+        ]
     }
 }

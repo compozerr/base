@@ -1,6 +1,8 @@
 {
     "type": "module",
     "name": "docs",
+    "version": "0.1.0",
+    "description": "Documentation site powered by Docusaurus",
     "start": "cd frontend && npm run dev",
     "port": "1236",
     "readyMessage": "Docusaurus website is running at",

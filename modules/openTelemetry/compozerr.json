@@ -1,6 +1,8 @@
 {
     "type": "module",
     "name": "openTelemetry",
+    "version": "0.1.0",
+    "description": "OpenTelemetry observability with tracing, metrics, and logging",
     "start": "docker compose up",
     "dockerComposeFile": "docker-compose.yml",
     "end": "docker compose down",
@@ -9,6 +11,9 @@
     "backend": {
         "defaultEnvProperties": {
             "OTEL_EXPORTER_OTLP_ENDPOINT": "http://openTelemetry:18889"
-        }
+        },
+        "projects": [
+            "backend/OpenTelemetry/OpenTelemetryModule.csproj"
+        ]
     }
 }
