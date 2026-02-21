@@ -53,7 +53,10 @@ export class AddedModulesService {
 
     async getModulesWithStartCommandsAsync() {
         const modules = await this.getAllAddedModulesAsync();
-        return modules.filter(module => module.config.start?.trim());
+        return modules.filter(module => {
+            const startCmd = module.config.services?.start || module.config.start;
+            return startCmd?.trim();
+        });
     }
 
     async getModulesWithDockerComposeFileAsync() {

@@ -62,14 +62,20 @@ Command.terminateAllCallback = cleanupAsync;
 const modulesWithStartCommands = await moduleService.getModulesWithStartCommandsAsync();
 
 for (const module of modulesWithStartCommands) {
+    const startCmd = module.config.services?.start || module.config.start;
+    const stopCmd = module.config.services?.stop || module.config.end;
+    const readyCheck = module.config.services?.readyCheck || module.config.readyMessage;
+    const startupTimeoutMs = module.config.services?.startupTimeoutMs || module.config.startupTimeoutMs;
+    const port = module.config.services?.port || module.config.port;
+
     commands.push(new Command(
-        `cd modules/${module.name} && ${module.config.start}`,
+        `cd modules/${module.name} && ${startCmd}`,
         module.name,
         {
-            readyMessage: module.config.readyMessage,
-            port: module.config.port,
-            startupTimeoutMs: module.config.startupTimeoutMs,
-            endCommand: module.config.end
+            readyMessage: readyCheck,
+            port: port,
+            startupTimeoutMs: startupTimeoutMs,
+            endCommand: stopCmd
         }
     ));
 }

@@ -6,9 +6,19 @@ export const CompozerrFile = z.object({
     type: z.enum(["project", "module"]),
     name: z.string(),
     dependencies: z.record(z.string()).optional(),
+    services: z.object({
+        start: z.string().optional(),
+        stop: z.string().optional(),
+        readyCheck: z.string().optional(),
+        startupTimeoutMs: z.number().optional(),
+        port: z.string().optional(),
+    }).optional(),
+    /** @deprecated Use `services.start` instead */
     start: z.string().optional(),
     startupTimeoutMs: z.number().optional(),
+    /** @deprecated Use `services.readyCheck` instead */
     readyMessage: z.string().optional(),
+    /** @deprecated Use `services.stop` instead */
     end: z.string().optional(),
     port: z.string().optional(),
     backend: z.object({
