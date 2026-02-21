@@ -21,9 +21,16 @@ public static class LoginRoute
                 var returnUrl = context.Request.Query["returnUrl"].ToString();
                 var optionalSessionId = context.Request.Query["sessionId"].ToString();
 
+                // Resolve returnUrl against the frontend domain so the post-auth
+                // redirect goes to the frontend (compozerr.com) instead of the
+                // API domain (api.compozerr.com).
+                var resolvedReturnUrl = frontendLocation
+                    .GetFromPath(string.IsNullOrEmpty(returnUrl) ? "/" : returnUrl)
+                    .ToString();
+
                 var properties = new AuthenticationProperties
                 {
-                    RedirectUri = string.IsNullOrEmpty(returnUrl) ? "/" : returnUrl,
+                    RedirectUri = resolvedReturnUrl,
                     IsPersistent = true,
                     ExpiresUtc = dateTimeProvider.UtcNow.AddDays(30),
                     Items =

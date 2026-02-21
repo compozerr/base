@@ -8,6 +8,7 @@ using Core.Options;
 using Core.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -33,6 +34,11 @@ public class CoreFeature : IFeature
 
     public void ConfigureApp(WebApplication app)
     {
+        app.UseForwardedHeaders(new ForwardedHeadersOptions
+        {
+            ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+        });
+
         app.MapGroup("v1").MapCarter();
         app.UseCors(AppConstants.CorsPolicy);
 
