@@ -4,5 +4,6 @@
     "start": "cd frontend && npm run dev",
     "port": "1236",
     "readyMessage": "Docusaurus website is running at",
-    "startupTimeoutMs": 50000
+    "startupTimeoutMs": 50000,
+    "dockerComposeFile": "frontend/docker-compose.yml"
 }

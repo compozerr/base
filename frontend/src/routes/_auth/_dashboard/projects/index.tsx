@@ -180,7 +180,7 @@ function RouteComponent() {
             </header>
 
             {/* Summary Bar */}
-            <div className="flex items-center gap-6 rounded-lg border bg-card px-5 py-3 mb-6">
+            <div className="flex items-center gap-4 sm:gap-6 rounded-lg border bg-card px-3 sm:px-5 py-3 mb-6 overflow-x-auto">
                 <div className="flex items-center gap-2">
                     <FolderGit2 className="h-4 w-4 text-muted-foreground" />
                     <span className="text-xl font-semibold">{totalProjectsCount}</span>
@@ -265,8 +265,8 @@ function RouteComponent() {
                     return (
                         <motion.div
                             key={project.id}
-                            initial={{ opacity: 0, y: 12 }}
-                            animate={{ opacity: 1, y: 0 }}
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
                             transition={{ duration: 0.25, delay: index * 0.04 }}
                             onClick={() => {
                                 if (!project.id) return;

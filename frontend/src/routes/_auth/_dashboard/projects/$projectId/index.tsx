@@ -130,8 +130,8 @@ function RouteComponent() {
         <div className="space-y-6">
             {/* Hero Section */}
             <motion.div
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
                 transition={{ duration: 0.3 }}
                 className="space-y-4"
             >
@@ -194,8 +194,8 @@ function RouteComponent() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 {/* Project Details Card */}
                 <motion.div
-                    initial={{ opacity: 0, y: 16 }}
-                    animate={{ opacity: 1, y: 0 }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
                     transition={{ duration: 0.3, delay: 0.05 }}
                     className="rounded-xl border border-zinc-800 bg-zinc-900/50 backdrop-blur-sm p-6 hover:border-zinc-700 transition-colors"
                 >
@@ -272,8 +272,8 @@ function RouteComponent() {
 
                 {/* Domains Card */}
                 <motion.div
-                    initial={{ opacity: 0, y: 16 }}
-                    animate={{ opacity: 1, y: 0 }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
                     transition={{ duration: 0.3, delay: 0.1 }}
                     className="rounded-xl border border-zinc-800 bg-zinc-900/50 backdrop-blur-sm p-6 hover:border-zinc-700 transition-colors"
                 >
@@ -320,8 +320,8 @@ function RouteComponent() {
 
                 {/* Resource Usage Card - spans full width on lg */}
                 <motion.div
-                    initial={{ opacity: 0, y: 16 }}
-                    animate={{ opacity: 1, y: 0 }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
                     transition={{ duration: 0.3, delay: 0.15 }}
                     className="lg:col-span-2"
                 >

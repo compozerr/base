@@ -40,6 +40,28 @@ function RouteComponent() {
     { name: 'Settings', href: `/projects/${projectId}/settings` },
   ]
 
+  const tabNav = (
+    <nav className="flex items-center gap-0.5 overflow-x-auto scrollbar-none pb-2 pt-0.5">
+      {tabs.map((tab) => {
+        const active = isTabActive(tab.href)
+        return (
+          <Link
+            key={tab.name}
+            to={tab.href}
+            className={cn(
+              'px-2.5 py-1 text-[13px] font-medium rounded-md transition-colors whitespace-nowrap',
+              active
+                ? 'bg-white/[0.08] text-white'
+                : 'text-white/50 hover:text-white hover:bg-white/[0.04]',
+            )}
+          >
+            {tab.name}
+          </Link>
+        )
+      })}
+    </nav>
+  )
+
   return (
     <div className="flex flex-col min-h-screen w-full">
       {/* Breadcrumb row: inline with sidebar trigger */}
@@ -67,28 +89,15 @@ function RouteComponent() {
         )}
       </DashboardHeaderBreadcrumb>
 
-      {/* Tabs row: full width below breadcrumb */}
+      {/* Tabs row: desktop (portal into header) */}
       <DashboardHeaderTabs>
-        <nav className="flex items-center gap-0.5 overflow-x-auto scrollbar-none pb-2 pt-0.5">
-          {tabs.map((tab) => {
-            const active = isTabActive(tab.href)
-            return (
-              <Link
-                key={tab.name}
-                to={tab.href}
-                className={cn(
-                  'px-2.5 py-1 text-[13px] font-medium rounded-md transition-colors whitespace-nowrap',
-                  active
-                    ? 'bg-white/[0.08] text-white'
-                    : 'text-white/50 hover:text-white hover:bg-white/[0.04]',
-                )}
-              >
-                {tab.name}
-              </Link>
-            )
-          })}
-        </nav>
+        {tabNav}
       </DashboardHeaderTabs>
+
+      {/* Tabs row: mobile (inline, visible only on small screens) */}
+      <div className="md:hidden border-b border-white/[0.08] px-1 -mx-4 mb-2">
+        {tabNav}
+      </div>
 
       {/* Page content */}
       <div className="py-6">

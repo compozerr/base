@@ -59,8 +59,8 @@ function FeatureCard({ feature, index }: { feature: (typeof features)[0]; index:
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 20 }}
-      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      initial={{ opacity: 0 }}
+      animate={isInView ? { opacity: 1 } : {}}
       transition={{ duration: 0.4, delay: index * 0.05, ease: [0.25, 0.46, 0.45, 0.94] }}
       className="group relative rounded-xl border border-white/[0.06] bg-[hsl(var(--surface))] p-6 transition-all duration-300 hover:border-white/[0.1] hover:bg-[hsl(var(--surface-elevated))]"
     >
@@ -89,16 +89,16 @@ export default function Features() {
       <div className="container max-w-6xl">
         <div ref={sectionRef} className="mx-auto max-w-2xl text-center mb-16">
           <motion.h2
-            initial={{ opacity: 0, y: 16 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            initial={{ opacity: 0 }}
+            animate={isInView ? { opacity: 1 } : {}}
             transition={{ duration: 0.5 }}
             className="text-3xl font-bold tracking-tight sm:text-4xl"
           >
             Everything you need to ship
           </motion.h2>
           <motion.p
-            initial={{ opacity: 0, y: 16 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            initial={{ opacity: 0 }}
+            animate={isInView ? { opacity: 1 } : {}}
             transition={{ duration: 0.5, delay: 0.1 }}
             className="mt-4 text-muted-foreground text-base"
           >

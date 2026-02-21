@@ -28,18 +28,24 @@ function HomeComponent() {
       <Features />
 
       {/* Social proof / trust section */}
-      <section className="border-t border-white/[0.06] py-20">
-        <div className="container max-w-6xl text-center">
-          <p className="text-sm font-medium text-muted-foreground mb-8 tracking-wide uppercase">
-            Powered by independent infrastructure
-          </p>
-          <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-6 text-muted-foreground/40">
-            <span className="text-lg font-semibold tracking-tight">.NET 9</span>
-            <span className="text-lg font-semibold tracking-tight">React 19</span>
-            <span className="text-lg font-semibold tracking-tight">PostgreSQL</span>
-            <span className="text-lg font-semibold tracking-tight">Docker</span>
-            <span className="text-lg font-semibold tracking-tight">Traefik</span>
-            <span className="text-lg font-semibold tracking-tight">OVHcloud</span>
+      <section className="border-t border-white/[0.06] py-12 overflow-hidden">
+        <p className="text-sm font-medium text-muted-foreground tracking-wide uppercase text-center mb-6">
+          Powered by independent infrastructure
+        </p>
+        <div className="relative">
+          {/* Fade edges */}
+          <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-32 z-10 bg-gradient-to-r from-background to-transparent" />
+          <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-32 z-10 bg-gradient-to-l from-background to-transparent" />
+          <div className="flex animate-marquee">
+            {[...Array(4)].map((_, setIndex) => (
+              <div key={setIndex} className="flex shrink-0 items-center gap-16 px-8">
+                {['.NET 9', 'React 19', 'PostgreSQL', 'Docker', 'Traefik', 'OVHcloud'].map((tech) => (
+                  <span key={`${setIndex}-${tech}`} className="text-lg font-semibold tracking-tight text-muted-foreground/40 whitespace-nowrap">
+                    {tech}
+                  </span>
+                ))}
+              </div>
+            ))}
           </div>
         </div>
       </section>

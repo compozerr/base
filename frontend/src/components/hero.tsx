@@ -10,7 +10,7 @@ export default function Hero() {
       <div className="absolute inset-0 bg-grid-pattern mask-fade-out opacity-40" />
 
       {/* Glow accent */}
-      <div className="pointer-events-none absolute left-1/2 top-0 -translate-x-1/2 h-[500px] w-[800px] bg-primary/[0.07] blur-[120px] rounded-full" />
+      <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-[700px] w-[900px] bg-primary/[0.07] blur-[120px] rounded-full" />
 
       <div className="container relative max-w-6xl flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] py-24 text-center">
         {/* Eyebrow */}

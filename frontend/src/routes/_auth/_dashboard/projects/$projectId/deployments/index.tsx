@@ -186,8 +186,8 @@ function RouteComponent() {
                     {deployments!.map((deployment, index) => (
                         <motion.div
                             key={deployment.id}
-                            initial={{ opacity: 0, y: 8 }}
-                            animate={{ opacity: 1, y: 0 }}
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
                             transition={{ duration: 0.2, delay: index * 0.03 }}
                         >
                             <DeploymentCard
