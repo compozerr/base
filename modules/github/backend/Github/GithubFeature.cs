@@ -37,6 +37,7 @@ public class GithubFeature : IFeature
 
         services.AddSingleton<IGithubJsonWebTokenService, GithubJsonWebTokenService>();
         services.AddScoped<IGithubService, GithubService>();
+        services.AddScoped<IModuleSyncService, ModuleSyncService>();
         services.AddScoped<IGithubUserSettingsRepository, GithubUserSettingsRepository>();
         services.AddScoped<IPushWebhookEventRepository, PushWebhookEventRepository>();
         services.AddScoped<IModuleSyncEventRepository, ModuleSyncEventRepository>();
