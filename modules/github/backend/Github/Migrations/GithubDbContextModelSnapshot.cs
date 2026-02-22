@@ -52,6 +52,58 @@ namespace Github.Migrations
                     b.ToTable("GithubUserSettings", "github");
                 });
 
+            modelBuilder.Entity("Github.Models.ModuleSyncEvent", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("CompletedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("CreatedAtUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("DeletedAtUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("ErrorMessage")
+                        .HasColumnType("text");
+
+                    b.Property<int>("FilesChanged")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("ModuleName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("ModuleRepoUri")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("ProjectId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("PushWebhookEventId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("SourceCommitHash")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("TargetCommitHash")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("UpdatedAtUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ModuleSyncEvents", "github");
+                });
+
             modelBuilder.Entity("Github.Models.PushWebhookEvent", b =>
                 {
                     b.Property<Guid>("Id")
