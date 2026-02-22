@@ -104,10 +104,125 @@ public static class DevSeeder
         apiDb.ProjectUsages.AddRange(usages);
         await apiDb.SaveChangesAsync();
 
+        // --- Seed marketplace modules ---
+        await SeedMarketplaceAsync(apiDb, userId);
+
         Log.Information("[DevSeed] Seeded {ProjectCount} projects, {DeploymentCount} deployments, {UsageCount} usage records for user {UserId}",
             projects.Count, deployments.Count, usages.Count, userId);
 
         return new { message = "Seeded", seeded = true, projects = projects.Count, deployments = deployments.Count, usageRecords = usages.Count };
+    }
+
+    private static async Task SeedMarketplaceAsync(ApiDbContext apiDb, UserId userId)
+    {
+        if (await apiDb.ModuleRegistryEntries.AnyAsync())
+            return;
+
+        var now = DateTime.UtcNow;
+
+        var modules = new (string Org, string Name, string Desc, string[] Tags, int Installs, string Latest,
+            (string Ver, string Hash, string Notes, int DaysAgo)[] Versions)[]
+        {
+            ("compozerr", "stripe",
+                "Stripe billing, subscriptions, and invoices",
+                ["billing", "payments"], 1847, "1.2.0",
+                [
+                    ("1.0.0", "a1b2c3d4e5f6", "Initial release with Stripe Checkout and customer portal integration.", 90),
+                    ("1.1.0", "b2c3d4e5f6a7", "Add subscription management and usage-based billing support.", 45),
+                    ("1.2.0", "c3d4e5f6a7b8", "Add invoice PDF generation and webhook signature verification.", 12),
+                ]),
+
+            ("compozerr", "auth",
+                "Authentication with GitHub OAuth and API tokens",
+                ["auth", "security"], 3201, "1.2.0",
+                [
+                    ("1.0.0", "d4e5f6a7b8c9", "Initial release with GitHub OAuth login and JWT session tokens.", 120),
+                    ("1.1.0", "e5f6a7b8c9d0", "Add API token management and token-based authentication.", 60),
+                    ("1.2.0", "f6a7b8c9d0e1", "Add refresh token rotation and improved session security.", 20),
+                ]),
+
+            ("compozerr", "database",
+                "PostgreSQL with Entity Framework Core migrations",
+                ["database", "orm"], 4582, "2.1.0",
+                [
+                    ("1.0.0", "1a2b3c4d5e6f", "Initial release with PostgreSQL connection and EF Core setup.", 180),
+                    ("2.0.0", "2b3c4d5e6f7a", "Major upgrade to EF Core 9 with compiled models and bulk operations.", 75),
+                    ("2.1.0", "3c4d5e6f7a8b", "Add automatic migration runner and health check endpoint.", 15),
+                ]),
+
+            ("compozerr", "github",
+                "GitHub App integration, webhooks, and repository management",
+                ["github", "git", "webhooks"], 2156, "1.1.0",
+                [
+                    ("1.0.0", "4d5e6f7a8b9c", "Initial release with GitHub App installation and webhook processing.", 100),
+                    ("1.1.0", "5e6f7a8b9c0d", "Add repository dispatch events and improved webhook retry logic.", 30),
+                ]),
+
+            ("compozerr", "storage",
+                "File storage with S3-compatible backends",
+                ["storage", "files"], 891, "1.1.0",
+                [
+                    ("1.0.0", "6f7a8b9c0d1e", "Initial release with S3 file upload, download, and presigned URLs.", 70),
+                    ("1.0.1", "7a8b9c0d1e2f", "Fix multipart upload handling for files larger than 5GB.", 50),
+                    ("1.1.0", "8b9c0d1e2f3a", "Add MinIO support and automatic bucket provisioning.", 25),
+                ]),
+
+            ("compozerr", "mail",
+                "Email sending with SMTP and provider abstractions",
+                ["email", "notifications"], 1234, "1.1.0",
+                [
+                    ("1.0.0", "9c0d1e2f3a4b", "Initial release with SMTP sending and Razor template support.", 85),
+                    ("1.1.0", "0d1e2f3a4b5c", "Add SendGrid and Mailgun provider adapters with failover.", 35),
+                ]),
+
+            ("compozerr-lib", "jobs",
+                "Background job processing with Hangfire",
+                ["jobs", "queue", "background"], 567, "1.0.1",
+                [
+                    ("1.0.0", "1e2f3a4b5c6d", "Initial release with Hangfire dashboard, recurring and fire-and-forget jobs.", 55),
+                    ("1.0.1", "2f3a4b5c6d7e", "Fix job retry policy and add structured logging for failed jobs.", 28),
+                ]),
+
+            ("compozerr-lib", "terminal",
+                "Web-based terminal for remote SSH access",
+                ["terminal", "ssh"], 342, "1.0.0",
+                [
+                    ("0.9.0", "3a4b5c6d7e8f", "Beta release with basic xterm.js terminal and SSH tunneling.", 40),
+                    ("1.0.0", "4b5c6d7e8f9a", "Stable release with session persistence, resize support, and connection pooling.", 10),
+                ]),
+        };
+
+        foreach (var mod in modules)
+        {
+            var entry = new ModuleRegistryEntry
+            {
+                Name = mod.Name,
+                Organization = mod.Org,
+                Description = mod.Desc,
+                RepoUrl = new Uri($"https://github.com/{mod.Org}/{mod.Name}"),
+                LatestVersion = mod.Latest,
+                Tags = mod.Tags,
+                InstallCount = mod.Installs,
+                PublishedByUserId = userId,
+                CreatedAtUtc = now.AddDays(-mod.Versions[0].DaysAgo),
+            };
+            apiDb.ModuleRegistryEntries.Add(entry);
+
+            foreach (var ver in mod.Versions)
+            {
+                apiDb.ModuleVersionEntries.Add(new ModuleVersionEntry
+                {
+                    ModuleRegistryEntryId = entry.Id,
+                    Version = ver.Ver,
+                    CommitHash = ver.Hash,
+                    ReleaseNotes = ver.Notes,
+                    CreatedAtUtc = now.AddDays(-ver.DaysAgo),
+                });
+            }
+        }
+
+        await apiDb.SaveChangesAsync();
+        Log.Information("[DevSeed] Seeded {Count} marketplace modules", modules.Length);
     }
 
     private static List<Project> CreateProjects(UserId userId, LocationId locationId, ServerId serverId)
