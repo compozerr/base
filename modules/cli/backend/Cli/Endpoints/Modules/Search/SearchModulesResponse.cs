@@ -9,4 +9,7 @@ public sealed record SearchModuleItem(
     string Description,
     string LatestVersion,
     string RepoUrl,
-    int InstallCount);
+    int InstallCount,
+    string Organization,
+    string[] Tags,
+    string? IconUrl);
