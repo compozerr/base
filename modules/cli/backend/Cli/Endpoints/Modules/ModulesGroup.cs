@@ -4,6 +4,7 @@ using Cli.Endpoints.Modules.Info;
 using Cli.Endpoints.Modules.Release;
 using Cli.Endpoints.Modules.Search;
 using Cli.Endpoints.Modules.SyncStatus;
+using Cli.Endpoints.Modules.TrackInstall;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 
@@ -23,6 +24,7 @@ public static class ModuleGroup
         group.AddSearchModulesRoute();
         group.AddGetModuleInfoRoute();
         group.AddGetModuleSyncStatusRoute();
+        group.AddTrackInstallRoute();
 
         return group;
     }
