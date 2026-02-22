@@ -27,7 +27,7 @@ public class ModuleSyncProcessorJobIntegrationTests : IAsyncLifetime
         _fixture = fixture;
     }
 
-    public Task InitializeAsync() => Task.CompletedTask;
+    public async Task InitializeAsync() => await _fixture.CleanupDatabaseAsync();
 
     public async Task DisposeAsync()
     {

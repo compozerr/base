@@ -14,7 +14,7 @@ public class ModuleSyncServiceIntegrationTests : IAsyncLifetime
         _fixture = fixture;
     }
 
-    public Task InitializeAsync() => Task.CompletedTask;
+    public async Task InitializeAsync() => await _fixture.CleanupDatabaseAsync();
 
     public async Task DisposeAsync()
     {
@@ -59,6 +59,9 @@ public class ModuleSyncServiceIntegrationTests : IAsyncLifetime
         var client = _fixture.GitHubClient!;
         var sut = new ModuleSyncService();
 
+        // Use a unique file name to avoid interference from other tests
+        var uniqueFile = $"modules/test-module/backend/ModifyTest_{Guid.NewGuid():N}.cs";
+
         // First commit: add a file
         await GitHubTestHelper.CreateTestCommitAsync(
             client,
@@ -66,7 +69,7 @@ public class ModuleSyncServiceIntegrationTests : IAsyncLifetime
             _fixture.RepoName,
             new Dictionary<string, string>
             {
-                ["modules/test-module/backend/TestService.cs"] = "public class TestService { }"
+                [uniqueFile] = "public class TestService { }"
             });
 
         // Second commit: modify the file
@@ -76,7 +79,7 @@ public class ModuleSyncServiceIntegrationTests : IAsyncLifetime
             _fixture.RepoName,
             new Dictionary<string, string>
             {
-                ["modules/test-module/backend/TestService.cs"] = "public class TestService { public void DoWork() { } }"
+                [uniqueFile] = "public class TestService { public void DoWork() { } }"
             });
 
         // Act
@@ -98,6 +101,9 @@ public class ModuleSyncServiceIntegrationTests : IAsyncLifetime
         var client = _fixture.GitHubClient!;
         var sut = new ModuleSyncService();
 
+        // Use a unique file name to avoid interference from other tests
+        var uniqueFile = $"modules/test-module/backend/DeleteTest_{Guid.NewGuid():N}.cs";
+
         // First commit: add a file
         await GitHubTestHelper.CreateTestCommitAsync(
             client,
@@ -105,7 +111,7 @@ public class ModuleSyncServiceIntegrationTests : IAsyncLifetime
             _fixture.RepoName,
             new Dictionary<string, string>
             {
-                ["modules/test-module/backend/ToDelete.cs"] = "// will be deleted"
+                [uniqueFile] = "// will be deleted"
             });
 
         // Second commit: delete the file
@@ -114,7 +120,7 @@ public class ModuleSyncServiceIntegrationTests : IAsyncLifetime
             _fixture.RepoOwner,
             _fixture.RepoName,
             filesToAdd: new Dictionary<string, string>(),
-            filesToDelete: ["modules/test-module/backend/ToDelete.cs"]);
+            filesToDelete: [uniqueFile]);
 
         // Act
         var result = await sut.DetectModuleChangesAsync(

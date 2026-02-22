@@ -89,21 +89,15 @@ public sealed class ModuleSyncService : IModuleSyncService
         var mainRef = await moduleClient.Git.Reference.Get(moduleOwner, moduleRepoName, "heads/main");
         var currentSha = mainRef.Object.Sha;
 
-        // 2. Build tree items for the new tree
-        var treeItems = new List<NewTreeItem>();
+        // 2. Separate added/modified files from removed files
+        var addedOrModified = new List<(ModuleFileChange File, string BlobSha)>();
+        var removedPaths = new HashSet<string>();
 
         foreach (var file in changedFiles)
         {
             if (file.Status is "removed")
             {
-                // For deleted files, add a tree item with null sha to remove it
-                treeItems.Add(new NewTreeItem
-                {
-                    Path = file.RelativePath,
-                    Mode = "100644",
-                    Type = TreeType.Blob,
-                    Sha = null
-                });
+                removedPaths.Add(file.RelativePath);
                 continue;
             }
 
@@ -121,13 +115,7 @@ public sealed class ModuleSyncService : IModuleSyncService
                         Encoding = EncodingType.Base64
                     });
 
-                treeItems.Add(new NewTreeItem
-                {
-                    Path = file.RelativePath,
-                    Mode = "100644",
-                    Type = TreeType.Blob,
-                    Sha = blob.Sha
-                });
+                addedOrModified.Add((file, blob.Sha));
             }
             catch (Exception ex)
             {
@@ -137,21 +125,71 @@ public sealed class ModuleSyncService : IModuleSyncService
             }
         }
 
-        if (treeItems.Count == 0)
+        if (addedOrModified.Count == 0 && removedPaths.Count == 0)
         {
             Log.ForContext("Module", moduleName)
                .Information("No tree items to sync after processing, skipping commit");
             return currentSha;
         }
 
-        // 3. Create new tree based on current tree
-        var newTree = new NewTree { BaseTree = currentSha };
-        foreach (var item in treeItems)
-        {
-            newTree.Tree.Add(item);
-        }
+        // 3. Create new tree
+        TreeResponse createdTree;
 
-        var createdTree = await moduleClient.Git.Tree.Create(moduleOwner, moduleRepoName, newTree);
+        if (removedPaths.Count > 0)
+        {
+            // For deletions, build full tree from scratch (GitHub API doesn't support
+            // null sha in BaseTree mode). Read the current tree, exclude deleted paths,
+            // and add any new/modified files.
+            var currentTree = await moduleClient.Git.Tree.GetRecursive(
+                moduleOwner, moduleRepoName, currentSha);
+
+            var newTree = new NewTree();
+
+            foreach (var item in currentTree.Tree)
+            {
+                if (item.Type == TreeType.Blob && !removedPaths.Contains(item.Path))
+                {
+                    newTree.Tree.Add(new NewTreeItem
+                    {
+                        Path = item.Path,
+                        Mode = item.Mode,
+                        Type = TreeType.Blob,
+                        Sha = item.Sha
+                    });
+                }
+            }
+
+            foreach (var (file, blobSha) in addedOrModified)
+            {
+                newTree.Tree.Add(new NewTreeItem
+                {
+                    Path = file.RelativePath,
+                    Mode = "100644",
+                    Type = TreeType.Blob,
+                    Sha = blobSha
+                });
+            }
+
+            createdTree = await moduleClient.Git.Tree.Create(moduleOwner, moduleRepoName, newTree);
+        }
+        else
+        {
+            // Add-only: use BaseTree for efficiency
+            var newTree = new NewTree { BaseTree = currentSha };
+
+            foreach (var (file, blobSha) in addedOrModified)
+            {
+                newTree.Tree.Add(new NewTreeItem
+                {
+                    Path = file.RelativePath,
+                    Mode = "100644",
+                    Type = TreeType.Blob,
+                    Sha = blobSha
+                });
+            }
+
+            createdTree = await moduleClient.Git.Tree.Create(moduleOwner, moduleRepoName, newTree);
+        }
 
         // 4. Create commit
         var newCommit = new NewCommit(

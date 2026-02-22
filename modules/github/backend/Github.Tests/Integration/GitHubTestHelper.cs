@@ -1,7 +1,10 @@
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Cryptography;
-using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using System.Text.Json;
 using Octokit;
+using Org.BouncyCastle.Crypto;
+using Org.BouncyCastle.Crypto.Parameters;
+using Org.BouncyCastle.OpenSsl;
+using Org.BouncyCastle.Security;
 
 namespace Github.Tests.Integration;
 
@@ -11,22 +14,16 @@ public static class GitHubTestHelper
         string appId, string privateKeyBase64, string installationId)
     {
         var privateKeyBytes = Convert.FromBase64String(privateKeyBase64);
-        var privateKeyPem = System.Text.Encoding.UTF8.GetString(privateKeyBytes);
+        var pemString = Encoding.UTF8.GetString(privateKeyBytes);
 
-        var rsa = RSA.Create();
-        rsa.ImportFromPem(privateKeyPem);
+        // Use BouncyCastle for RSA signing to avoid macOS Apple crypto issues
+        // (SecKeyCreateSignature fails with OSStatus -50 for GitHub App PKCS#1 keys)
+        var pemReader = new PemReader(new StringReader(pemString));
+        var keyPair = (AsymmetricCipherKeyPair)pemReader.ReadObject();
+        var privateKey = (RsaPrivateCrtKeyParameters)keyPair.Private;
 
-        var signingCredentials = new SigningCredentials(
-            new RsaSecurityKey(rsa), SecurityAlgorithms.RsaSha256);
-
-        var now = DateTime.UtcNow;
-        var token = new JwtSecurityToken(
-            issuer: appId,
-            expires: now.AddMinutes(10),
-            notBefore: now.AddSeconds(-60),
-            signingCredentials: signingCredentials);
-
-        var jwt = new JwtSecurityTokenHandler().WriteToken(token);
+        var now = DateTimeOffset.UtcNow;
+        var jwt = CreateJwtWithBouncyCastle(privateKey, appId, now);
 
         var appClient = new GitHubClient(new ProductHeaderValue("compozerr-integration-tests"))
         {
@@ -62,9 +59,62 @@ public static class GitHubTestHelper
     {
         var beforeSha = await GetMainBranchShaAsync(client, owner, repo);
 
-        var newTree = new NewTree { BaseTree = beforeSha };
+        var deleteSet = filesToDelete?.ToHashSet() ?? [];
 
-        // Add files
+        if (deleteSet.Count > 0)
+        {
+            // For deletions, build the full tree without BaseTree:
+            // get the current recursive tree, filter out deleted paths, add new files
+            var currentTree = await client.Git.Tree.GetRecursive(owner, repo, beforeSha);
+            var newTree = new NewTree();
+
+            foreach (var item in currentTree.Tree)
+            {
+                if (item.Type == TreeType.Blob && !deleteSet.Contains(item.Path))
+                {
+                    newTree.Tree.Add(new NewTreeItem
+                    {
+                        Path = item.Path,
+                        Mode = item.Mode,
+                        Type = TreeType.Blob,
+                        Sha = item.Sha
+                    });
+                }
+            }
+
+            foreach (var (path, content) in filesToAdd)
+            {
+                var blob = await client.Git.Blob.Create(owner, repo, new NewBlob
+                {
+                    Content = content,
+                    Encoding = EncodingType.Utf8
+                });
+
+                newTree.Tree.Add(new NewTreeItem
+                {
+                    Path = path,
+                    Mode = "100644",
+                    Type = TreeType.Blob,
+                    Sha = blob.Sha
+                });
+            }
+
+            var createdDeleteTree = await client.Git.Tree.Create(owner, repo, newTree);
+            var deleteCommit = new NewCommit(
+                $"test: integration test commit {Guid.NewGuid():N}",
+                createdDeleteTree.Sha,
+                beforeSha);
+
+            var createdDeleteCommit = await client.Git.Commit.Create(owner, repo, deleteCommit);
+            await client.Git.Reference.Update(owner, repo, "heads/main",
+                new ReferenceUpdate(createdDeleteCommit.Sha, true));
+
+            return (beforeSha, createdDeleteCommit.Sha);
+        }
+
+        // Add-only path: use BaseTree for efficiency
+        var addTree = new NewTree { BaseTree = beforeSha };
+
         foreach (var (path, content) in filesToAdd)
         {
             var blob = await client.Git.Blob.Create(owner, repo, new NewBlob
@@ -73,7 +123,7 @@ public static class GitHubTestHelper
                 Encoding = EncodingType.Utf8
             });
 
-            newTree.Tree.Add(new NewTreeItem
+            addTree.Tree.Add(new NewTreeItem
             {
                 Path = path,
                 Mode = "100644",
@@ -82,22 +132,7 @@ public static class GitHubTestHelper
             });
         }
 
-        // Delete files
-        if (filesToDelete is not null)
-        {
-            foreach (var path in filesToDelete)
-            {
-                newTree.Tree.Add(new NewTreeItem
-                {
-                    Path = path,
-                    Mode = "100644",
-                    Type = TreeType.Blob,
-                    Sha = null
-                });
-            }
-        }
-
-        var createdTree = await client.Git.Tree.Create(owner, repo, newTree);
+        var createdTree = await client.Git.Tree.Create(owner, repo, addTree);
 
         var newCommit = new NewCommit(
             $"test: integration test commit {Guid.NewGuid():N}",
@@ -107,7 +142,7 @@ public static class GitHubTestHelper
         var createdCommit = await client.Git.Commit.Create(owner, repo, newCommit);
 
         await client.Git.Reference.Update(owner, repo, "heads/main",
-            new ReferenceUpdate(createdCommit.Sha));
+            new ReferenceUpdate(createdCommit.Sha, true));
 
         return (beforeSha, createdCommit.Sha);
     }
@@ -135,4 +170,33 @@ public static class GitHubTestHelper
             return null;
         }
     }
+
+    private static string CreateJwtWithBouncyCastle(
+        RsaPrivateCrtKeyParameters privateKey, string issuer, DateTimeOffset now)
+    {
+        var header = Base64UrlEncode(JsonSerializer.SerializeToUtf8Bytes(
+            new { alg = "RS256", typ = "JWT" }));
+
+        var payload = Base64UrlEncode(JsonSerializer.SerializeToUtf8Bytes(new
+        {
+            iat = now.AddSeconds(-60).ToUnixTimeSeconds(),
+            exp = now.AddMinutes(10).ToUnixTimeSeconds(),
+            iss = issuer
+        }));
+
+        var dataToSign = Encoding.ASCII.GetBytes($"{header}.{payload}");
+
+        var signer = SignerUtilities.GetSigner("SHA-256withRSA");
+        signer.Init(true, privateKey);
+        signer.BlockUpdate(dataToSign, 0, dataToSign.Length);
+        var signature = signer.GenerateSignature();
+
+        return $"{header}.{payload}.{Base64UrlEncode(signature)}";
+    }
+
+    private static string Base64UrlEncode(byte[] bytes)
+        => Convert.ToBase64String(bytes)
+            .TrimEnd('=')
+            .Replace('+', '-')
+            .Replace('/', '_');
 }

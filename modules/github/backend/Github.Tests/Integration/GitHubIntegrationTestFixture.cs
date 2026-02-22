@@ -1,6 +1,7 @@
 using Api.Data;
 using Api.Data.Repositories;
 using Auth.Services;
+using Core.Feature;
 using Database.Data;
 using Github.Data;
 using Github.Repositories;
@@ -74,6 +75,12 @@ public class GitHubIntegrationTestFixture : IAsyncLifetime
 
     private static IServiceProvider BuildServiceProvider(string connectionString)
     {
+        // Register assemblies so BaseDbContext can configure strongly-typed ID converters
+        var assemblyCallback = new AssembliesFeatureConfigureCallback();
+        var featureCallback = (IFeatureConfigureCallback)assemblyCallback;
+        featureCallback.Configure(typeof(GithubDbContext));  // Github assembly
+        featureCallback.Configure(typeof(ApiDbContext));      // Api.Data assembly
+
         var services = new ServiceCollection();
 
         var dataSourceBuilder = new NpgsqlDataSourceBuilder(connectionString);
@@ -140,6 +147,23 @@ public class GitHubIntegrationTestFixture : IAsyncLifetime
             await GitHubTestHelper.ResetMainBranchAsync(
                 GitHubClient, ModuleRepoOwner, ModuleRepoName, ModuleBaselineSha);
         }
+    }
+
+    public async Task CleanupDatabaseAsync()
+    {
+        if (Services is null) return;
+
+        using var scope = Services.CreateScope();
+        var githubDb = scope.ServiceProvider.GetRequiredService<GithubDbContext>();
+        var apiDb = scope.ServiceProvider.GetRequiredService<ApiDbContext>();
+
+        githubDb.ModuleSyncEvents.RemoveRange(githubDb.ModuleSyncEvents);
+        githubDb.PushWebhookEvents.RemoveRange(githubDb.PushWebhookEvents);
+        await githubDb.SaveChangesAsync();
+
+        apiDb.Projects.RemoveRange(apiDb.Projects);
+        apiDb.Modules.RemoveRange(apiDb.Modules);
+        await apiDb.SaveChangesAsync();
     }
 
     public async Task DisposeAsync()
