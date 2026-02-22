@@ -22,8 +22,8 @@ public sealed record DevCreateRepoCommandHandler(
         var bareRepoPath = Path.Combine(DevReposRoot, $"{command.Name}.git");
         Directory.CreateDirectory(DevReposRoot);
 
-        // Create bare repo
-        await RunGitAsync($"init --bare \"{bareRepoPath}\"");
+        // Create bare repo with main as default branch
+        await RunGitAsync($"init --bare --initial-branch=main \"{bareRepoPath}\"");
 
         // Create temp working copy, seed it, push to bare repo
         var workDir = Path.Combine(Path.GetTempPath(), $"compozerr-dev-init-{Guid.NewGuid():N}");
