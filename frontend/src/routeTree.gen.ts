@@ -18,9 +18,9 @@ import { Route as LoginRouteImport } from './../../modules/auth/frontend/src/rou
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AuthRouteImport } from './../../modules/auth/frontend/src/routes/_auth'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as TemplateIndexRouteImport } from './../../modules/template/frontend/src/routes/template/index'
 import { Route as StripeIndexRouteImport } from './../../modules/stripe/frontend/src/routes/stripe/index'
 import { Route as InvoicesIndexRouteImport } from './../../modules/stripe/frontend/src/routes/invoices/index'
-import { Route as ExampleIndexRouteImport } from './../../modules/template/frontend/src/routes/example/index'
 import { Route as AuthLogoutRouteImport } from './../../modules/auth/frontend/src/routes/_auth/logout'
 import { Route as AuthDashboardRouteImport } from './routes/_auth/_dashboard'
 import { Route as AuthDashboardSettingsRouteImport } from './routes/_auth/_dashboard/settings'
@@ -80,6 +80,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TemplateIndexRoute = TemplateIndexRouteImport.update({
+  id: '/template/',
+  path: '/template/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const StripeIndexRoute = StripeIndexRouteImport.update({
   id: '/stripe/',
   path: '/stripe/',
@@ -88,11 +93,6 @@ const StripeIndexRoute = StripeIndexRouteImport.update({
 const InvoicesIndexRoute = InvoicesIndexRouteImport.update({
   id: '/invoices/',
   path: '/invoices/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ExampleIndexRoute = ExampleIndexRouteImport.update({
-  id: '/example/',
-  path: '/example/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthLogoutRoute = AuthLogoutRouteImport.update({
@@ -185,9 +185,9 @@ export interface FileRoutesByFullPath {
   '/terms-of-service': typeof TermsOfServiceRoute
   '/using-module-component': typeof UsingModuleComponentRoute
   '/logout': typeof AuthLogoutRoute
-  '/example': typeof ExampleIndexRoute
   '/invoices': typeof InvoicesIndexRoute
   '/stripe': typeof StripeIndexRoute
+  '/template': typeof TemplateIndexRoute
   '/intro-flow': typeof AuthDashboardIntroFlowRoute
   '/settings': typeof AuthDashboardSettingsRoute
   '/projects/$projectId': typeof AuthDashboardProjectsProjectIdRouteRouteWithChildren
@@ -211,9 +211,9 @@ export interface FileRoutesByTo {
   '/terms-of-service': typeof TermsOfServiceRoute
   '/using-module-component': typeof UsingModuleComponentRoute
   '/logout': typeof AuthLogoutRoute
-  '/example': typeof ExampleIndexRoute
   '/invoices': typeof InvoicesIndexRoute
   '/stripe': typeof StripeIndexRoute
+  '/template': typeof TemplateIndexRoute
   '/intro-flow': typeof AuthDashboardIntroFlowRoute
   '/settings': typeof AuthDashboardSettingsRoute
   '/projects': typeof AuthDashboardProjectsIndexRoute
@@ -238,9 +238,9 @@ export interface FileRoutesById {
   '/using-module-component': typeof UsingModuleComponentRoute
   '/_auth/_dashboard': typeof AuthDashboardRouteWithChildren
   '/_auth/logout': typeof AuthLogoutRoute
-  '/example/': typeof ExampleIndexRoute
   '/invoices/': typeof InvoicesIndexRoute
   '/stripe/': typeof StripeIndexRoute
+  '/template/': typeof TemplateIndexRoute
   '/_auth/_dashboard/intro-flow': typeof AuthDashboardIntroFlowRoute
   '/_auth/_dashboard/settings': typeof AuthDashboardSettingsRoute
   '/_auth/_dashboard/projects/$projectId': typeof AuthDashboardProjectsProjectIdRouteRouteWithChildren
@@ -266,9 +266,9 @@ export interface FileRouteTypes {
     | '/terms-of-service'
     | '/using-module-component'
     | '/logout'
-    | '/example'
     | '/invoices'
     | '/stripe'
+    | '/template'
     | '/intro-flow'
     | '/settings'
     | '/projects/$projectId'
@@ -292,9 +292,9 @@ export interface FileRouteTypes {
     | '/terms-of-service'
     | '/using-module-component'
     | '/logout'
-    | '/example'
     | '/invoices'
     | '/stripe'
+    | '/template'
     | '/intro-flow'
     | '/settings'
     | '/projects'
@@ -318,9 +318,9 @@ export interface FileRouteTypes {
     | '/using-module-component'
     | '/_auth/_dashboard'
     | '/_auth/logout'
-    | '/example/'
     | '/invoices/'
     | '/stripe/'
+    | '/template/'
     | '/_auth/_dashboard/intro-flow'
     | '/_auth/_dashboard/settings'
     | '/_auth/_dashboard/projects/$projectId'
@@ -345,9 +345,9 @@ export interface RootRouteChildren {
   PrivacyPolicyRoute: typeof PrivacyPolicyRoute
   TermsOfServiceRoute: typeof TermsOfServiceRoute
   UsingModuleComponentRoute: typeof UsingModuleComponentRoute
-  ExampleIndexRoute: typeof ExampleIndexRoute
   InvoicesIndexRoute: typeof InvoicesIndexRoute
   StripeIndexRoute: typeof StripeIndexRoute
+  TemplateIndexRoute: typeof TemplateIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -415,6 +415,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/template/': {
+      id: '/template/'
+      path: '/template'
+      fullPath: '/template'
+      preLoaderRoute: typeof TemplateIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/stripe/': {
       id: '/stripe/'
       path: '/stripe'
@@ -427,13 +434,6 @@ declare module '@tanstack/react-router' {
       path: '/invoices'
       fullPath: '/invoices'
       preLoaderRoute: typeof InvoicesIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/example/': {
-      id: '/example/'
-      path: '/example'
-      fullPath: '/example'
-      preLoaderRoute: typeof ExampleIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_auth/logout': {
@@ -626,9 +626,9 @@ const rootRouteChildren: RootRouteChildren = {
   PrivacyPolicyRoute: PrivacyPolicyRoute,
   TermsOfServiceRoute: TermsOfServiceRoute,
   UsingModuleComponentRoute: UsingModuleComponentRoute,
-  ExampleIndexRoute: ExampleIndexRoute,
   InvoicesIndexRoute: InvoicesIndexRoute,
   StripeIndexRoute: StripeIndexRoute,
+  TemplateIndexRoute: TemplateIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
