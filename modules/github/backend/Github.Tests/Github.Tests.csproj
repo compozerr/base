@@ -9,14 +9,24 @@
 
   <ItemGroup>
     <PackageReference Include="coverlet.collector" Version="6.0.2" />
+    <PackageReference Include="MediatR" Version="12.4.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
     <PackageReference Include="Moq" Version="4.20.72" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.1" />
+    <PackageReference Include="Testcontainers.PostgreSql" Version="4.3.0" />
     <PackageReference Include="xunit" Version="2.9.2" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2" />
+    <PackageReference Include="Xunit.SkippableFact" Version="1.5.23" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="../Github/Github.csproj" />
+    <ProjectReference Include="../../../../backend/Api.Data/Api.Data.csproj" />
+    <ProjectReference Include="../../../../backend/Api.Abstractions/Api.Abstractions.csproj" />
+    <ProjectReference Include="../../../database/backend/Database/Database.csproj" />
+    <ProjectReference Include="../../../auth/backend/Auth.Abstractions/Auth.Abstractions.csproj" />
+    <ProjectReference Include="../../../auth/backend/Auth/Auth.csproj" />
   </ItemGroup>
 
   <ItemGroup>
