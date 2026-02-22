@@ -182,6 +182,104 @@ namespace Api.Data.Migrations
                     b.ToTable("Modules", "api");
                 });
 
+            modelBuilder.Entity("Api.Data.ModuleRegistryEntry", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Compatibility")
+                        .HasColumnType("jsonb");
+
+                    b.Property<DateTime>("CreatedAtUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("DeletedAtUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)");
+
+                    b.Property<string>("IconUrl")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<int>("InstallCount")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("LatestVersion")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
+
+                    b.Property<string>("Organization")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
+
+                    b.Property<Guid>("PublishedByUserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("RepoUrl")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.PrimitiveCollection<string[]>("Tags")
+                        .IsRequired()
+                        .HasColumnType("text[]");
+
+                    b.Property<DateTime?>("UpdatedAtUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Organization", "Name")
+                        .IsUnique();
+
+                    b.ToTable("ModuleRegistryEntries", "api");
+                });
+
+            modelBuilder.Entity("Api.Data.ModuleVersionEntry", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("CommitHash")
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("character varying(40)");
+
+                    b.Property<DateTime>("CreatedAtUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("DeletedAtUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("ModuleRegistryEntryId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("ReleaseNotes")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("UpdatedAtUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Version")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ModuleRegistryEntryId");
+
+                    b.ToTable("ModuleVersionEntries", "api");
+                });
+
             modelBuilder.Entity("Api.Data.Project", b =>
                 {
                     b.Property<Guid>("Id")
@@ -668,6 +766,17 @@ namespace Api.Data.Migrations
                     b.Navigation("Project");
                 });
 
+            modelBuilder.Entity("Api.Data.ModuleVersionEntry", b =>
+                {
+                    b.HasOne("Api.Data.ModuleRegistryEntry", "ModuleRegistryEntry")
+                        .WithMany("Versions")
+                        .HasForeignKey("ModuleRegistryEntryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ModuleRegistryEntry");
+                });
+
             modelBuilder.Entity("Api.Data.Project", b =>
                 {
                     b.HasOne("Api.Data.Server", "Server")
@@ -766,6 +875,11 @@ namespace Api.Data.Migrations
             modelBuilder.Entity("Api.Data.Location", b =>
                 {
                     b.Navigation("Servers");
+                });
+
+            modelBuilder.Entity("Api.Data.ModuleRegistryEntry", b =>
+                {
+                    b.Navigation("Versions");
                 });
 
             modelBuilder.Entity("Api.Data.Project", b =>
