@@ -40,6 +40,7 @@ public class ApiDataFeature : IFeature
         services.AddScoped<IProjectServiceRepository, ProjectServiceRepository>();
         services.AddScoped<IVMPoolRepository, VMPoolRepository>();
         services.AddScoped<IVMPoolItemRepository, VMPoolItemRepository>();
+        services.AddScoped<IModuleRegistryRepository, ModuleRegistryRepository>();
     }
 
     void IFeature.ConfigureApp(WebApplication app)
