@@ -123,6 +123,154 @@ public class ModuleSyncProcessorJobIntegrationTests : IAsyncLifetime
     }
 
     [SkippableFact]
+    public async Task ExecuteAsync_MultipleModulesChanged_SyncsRegisteredSkipsUnregistered()
+    {
+        Skip.IfNot(_fixture.IsConfigured, "GitHub App credentials not configured");
+
+        var client = _fixture.GitHubClient!;
+        using var scope = _fixture.Services!.CreateScope();
+
+        // Create a commit touching two modules
+        var (beforeSha, afterSha) = await GitHubTestHelper.CreateTestCommitAsync(
+            client,
+            _fixture.RepoOwner,
+            _fixture.RepoName,
+            new Dictionary<string, string>
+            {
+                ["modules/test-module/backend/Multi1.cs"] = "public class Multi1 { }",
+                ["modules/unknown-mod/backend/Multi2.cs"] = "public class Multi2 { }"
+            });
+
+        // Seed DB: Project
+        var projectRepo = scope.ServiceProvider.GetRequiredService<IProjectRepository>();
+        await projectRepo.AddAsync(new Project
+        {
+            Name = "multi-module-test",
+            RepoUri = new Uri($"https://github.com/{_fixture.RepoOwner}/{_fixture.RepoName}.git"),
+            UserId = UserId.Create(Guid.NewGuid()),
+            LocationId = LocationId.Create(Guid.NewGuid()),
+            State = ProjectState.Running,
+            ServerTierId = new ServerTierId("STARTER"),
+            GithubInstallationId = long.Parse(
+                Environment.GetEnvironmentVariable("INTEGRATION_TEST_INSTALLATION_ID")!)
+        });
+
+        // Only register test-module, not unknown-mod
+        var moduleRepo = scope.ServiceProvider.GetRequiredService<IModuleRepository>();
+        await moduleRepo.AddAsync(new Module
+        {
+            Name = "test-module",
+            RepoUri = new Uri($"https://github.com/{_fixture.ModRepoOwner}/{_fixture.ModRepoName}")
+        });
+
+        var pushEvent = CreatePushEvent(
+            _fixture.RepoOwner, _fixture.RepoName,
+            beforeSha, afterSha,
+            "refs/heads/main",
+            "feat: changes across modules");
+
+        var pushEventRepo = scope.ServiceProvider.GetRequiredService<IPushWebhookEventRepository>();
+        var pushWebhookEvent = await pushEventRepo.AddAsync(new PushWebhookEvent
+        {
+            Event = pushEvent
+        });
+
+        var mockGithubService = new Mock<IGithubService>();
+        mockGithubService
+            .Setup(s => s.GetInstallationClientByInstallationIdAsync(It.IsAny<string>()))
+            .ReturnsAsync(new GetInstallationClientByInstallationIdResponse(client, "test-token"));
+
+        var moduleSyncService = scope.ServiceProvider.GetRequiredService<IModuleSyncService>();
+        var moduleSyncEventRepo = scope.ServiceProvider.GetRequiredService<IModuleSyncEventRepository>();
+
+        var job = new ModuleSyncProcessorJob(
+            pushEventRepo,
+            moduleSyncEventRepo,
+            mockGithubService.Object,
+            moduleSyncService,
+            scope.ServiceProvider.GetRequiredService<IServiceScopeFactory>());
+
+        await job.ExecuteAsync(pushWebhookEvent.Id);
+
+        // Assert: two sync events — one Succeeded, one Skipped
+        var syncEvents = await moduleSyncEventRepo.GetByPushWebhookEventIdAsync(pushWebhookEvent.Id);
+        Assert.Equal(2, syncEvents.Count);
+
+        var succeeded = syncEvents.Single(e => e.ModuleName == "test-module");
+        Assert.Equal(ModuleSyncStatus.Succeeded, succeeded.Status);
+        Assert.NotNull(succeeded.TargetCommitHash);
+
+        var skipped = syncEvents.Single(e => e.ModuleName == "unknown-mod");
+        Assert.Equal(ModuleSyncStatus.Skipped, skipped.Status);
+    }
+
+    [SkippableFact]
+    public async Task ExecuteAsync_NoModuleChanges_NoSyncEvents()
+    {
+        Skip.IfNot(_fixture.IsConfigured, "GitHub App credentials not configured");
+
+        var client = _fixture.GitHubClient!;
+        using var scope = _fixture.Services!.CreateScope();
+
+        // Create a commit with ONLY root-level files (no modules/ changes)
+        var (beforeSha, afterSha) = await GitHubTestHelper.CreateTestCommitAsync(
+            client,
+            _fixture.RepoOwner,
+            _fixture.RepoName,
+            new Dictionary<string, string>
+            {
+                ["README.md"] = $"# Updated {Guid.NewGuid():N}",
+                ["backend/Api/Startup.cs"] = "public class Startup { }"
+            });
+
+        var projectRepo = scope.ServiceProvider.GetRequiredService<IProjectRepository>();
+        await projectRepo.AddAsync(new Project
+        {
+            Name = "no-module-changes-test",
+            RepoUri = new Uri($"https://github.com/{_fixture.RepoOwner}/{_fixture.RepoName}.git"),
+            UserId = UserId.Create(Guid.NewGuid()),
+            LocationId = LocationId.Create(Guid.NewGuid()),
+            State = ProjectState.Running,
+            ServerTierId = new ServerTierId("STARTER"),
+            GithubInstallationId = long.Parse(
+                Environment.GetEnvironmentVariable("INTEGRATION_TEST_INSTALLATION_ID")!)
+        });
+
+        var pushEvent = CreatePushEvent(
+            _fixture.RepoOwner, _fixture.RepoName,
+            beforeSha, afterSha,
+            "refs/heads/main",
+            "docs: update readme");
+
+        var pushEventRepo = scope.ServiceProvider.GetRequiredService<IPushWebhookEventRepository>();
+        var pushWebhookEvent = await pushEventRepo.AddAsync(new PushWebhookEvent
+        {
+            Event = pushEvent
+        });
+
+        var mockGithubService = new Mock<IGithubService>();
+        mockGithubService
+            .Setup(s => s.GetInstallationClientByInstallationIdAsync(It.IsAny<string>()))
+            .ReturnsAsync(new GetInstallationClientByInstallationIdResponse(client, "test-token"));
+
+        var moduleSyncService = scope.ServiceProvider.GetRequiredService<IModuleSyncService>();
+        var moduleSyncEventRepo = scope.ServiceProvider.GetRequiredService<IModuleSyncEventRepository>();
+
+        var job = new ModuleSyncProcessorJob(
+            pushEventRepo,
+            moduleSyncEventRepo,
+            mockGithubService.Object,
+            moduleSyncService,
+            scope.ServiceProvider.GetRequiredService<IServiceScopeFactory>());
+
+        await job.ExecuteAsync(pushWebhookEvent.Id);
+
+        // Assert: no sync events — changes were outside modules/
+        var syncEvents = await moduleSyncEventRepo.GetByPushWebhookEventIdAsync(pushWebhookEvent.Id);
+        Assert.Empty(syncEvents);
+    }
+
+    [SkippableFact]
     public async Task ExecuteAsync_SkipsSyncCommits_PreventsLoops()
     {
         Skip.IfNot(_fixture.IsConfigured, "GitHub App credentials not configured");
