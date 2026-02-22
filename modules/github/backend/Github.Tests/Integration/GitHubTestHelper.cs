@@ -50,14 +50,16 @@ public static class GitHubTestHelper
     /// Creates a test commit programmatically using the Git Data API.
     /// Returns (beforeSha, afterSha).
     /// </summary>
+    /// <param name="parentSha">Optional explicit parent SHA. If null, reads current HEAD of main.</param>
     public static async Task<(string BeforeSha, string AfterSha)> CreateTestCommitAsync(
         IGitHubClient client,
         string owner,
         string repo,
         Dictionary<string, string> filesToAdd,
-        IReadOnlyList<string>? filesToDelete = null)
+        IReadOnlyList<string>? filesToDelete = null,
+        string? parentSha = null)
     {
-        var beforeSha = await GetMainBranchShaAsync(client, owner, repo);
+        var beforeSha = parentSha ?? await GetMainBranchShaAsync(client, owner, repo);
 
         var deleteSet = filesToDelete?.ToHashSet() ?? [];
 

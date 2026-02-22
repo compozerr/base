@@ -62,7 +62,7 @@ public class ModuleSyncServiceIntegrationTests : IAsyncLifetime
         // Use a unique file name to avoid interference from other tests
         var uniqueFile = $"modules/test-module/backend/ModifyTest_{Guid.NewGuid():N}.cs";
 
-        // First commit: add a file — capture its afterSha to use as the compare base
+        // First commit: add a file
         var (_, firstCommitSha) = await GitHubTestHelper.CreateTestCommitAsync(
             client,
             _fixture.RepoOwner,
@@ -72,7 +72,7 @@ public class ModuleSyncServiceIntegrationTests : IAsyncLifetime
                 [uniqueFile] = "public class TestService { }"
             });
 
-        // Second commit: modify the file
+        // Second commit: modify the file — chain directly off first commit
         var (_, afterSha) = await GitHubTestHelper.CreateTestCommitAsync(
             client,
             _fixture.RepoOwner,
@@ -80,10 +80,10 @@ public class ModuleSyncServiceIntegrationTests : IAsyncLifetime
             new Dictionary<string, string>
             {
                 [uniqueFile] = "public class TestService { public void DoWork() { } }"
-            });
+            },
+            parentSha: firstCommitSha);
 
-        // Act — use firstCommitSha (not the second call's beforeSha) to guarantee
-        // we're comparing the exact commits with proper parent chain
+        // Act
         var result = await sut.DetectModuleChangesAsync(
             client, _fixture.RepoOwner, _fixture.RepoName, firstCommitSha, afterSha);
 
@@ -105,7 +105,7 @@ public class ModuleSyncServiceIntegrationTests : IAsyncLifetime
         // Use a unique file name to avoid interference from other tests
         var uniqueFile = $"modules/test-module/backend/DeleteTest_{Guid.NewGuid():N}.cs";
 
-        // First commit: add a file — capture its afterSha to use as the compare base
+        // First commit: add a file
         var (_, firstCommitSha) = await GitHubTestHelper.CreateTestCommitAsync(
             client,
             _fixture.RepoOwner,
@@ -115,15 +115,16 @@ public class ModuleSyncServiceIntegrationTests : IAsyncLifetime
                 [uniqueFile] = "// will be deleted"
             });
 
-        // Second commit: delete the file
+        // Second commit: delete the file — chain directly off first commit
         var (_, afterSha) = await GitHubTestHelper.CreateTestCommitAsync(
             client,
             _fixture.RepoOwner,
             _fixture.RepoName,
             filesToAdd: new Dictionary<string, string>(),
-            filesToDelete: [uniqueFile]);
+            filesToDelete: [uniqueFile],
+            parentSha: firstCommitSha);
 
-        // Act — use firstCommitSha to guarantee proper parent chain for compare
+        // Act
         var result = await sut.DetectModuleChangesAsync(
             client, _fixture.RepoOwner, _fixture.RepoName, firstCommitSha, afterSha);
 
