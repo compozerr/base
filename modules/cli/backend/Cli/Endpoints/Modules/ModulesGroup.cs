@@ -3,6 +3,7 @@ using Cli.Endpoints.Modules.ForkModule;
 using Cli.Endpoints.Modules.Info;
 using Cli.Endpoints.Modules.Release;
 using Cli.Endpoints.Modules.Search;
+using Cli.Endpoints.Modules.SyncStatus;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 
@@ -21,6 +22,7 @@ public static class ModuleGroup
         group.AddReleaseModuleRoute();
         group.AddSearchModulesRoute();
         group.AddGetModuleInfoRoute();
+        group.AddGetModuleSyncStatusRoute();
 
         return group;
     }
