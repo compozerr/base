@@ -11,7 +11,7 @@ public static class SearchModulesRoute
 
     public static RouteHandlerBuilder AddSearchModulesRoute(this IEndpointRouteBuilder app)
     {
-        return app.MapGet(Route, ExecuteAsync);
+        return app.MapGet(Route, ExecuteAsync).AllowAnonymous();
     }
 
     public static Task<SearchModulesResponse> ExecuteAsync(

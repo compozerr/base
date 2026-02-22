@@ -10,7 +10,7 @@ public static class GetModuleInfoRoute
 
     public static RouteHandlerBuilder AddGetModuleInfoRoute(this IEndpointRouteBuilder app)
     {
-        return app.MapGet(Route, ExecuteAsync);
+        return app.MapGet(Route, ExecuteAsync).AllowAnonymous();
     }
 
     public static Task<GetModuleInfoResponse> ExecuteAsync(
