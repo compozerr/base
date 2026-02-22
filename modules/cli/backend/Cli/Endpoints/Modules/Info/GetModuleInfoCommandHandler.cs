@@ -1,23 +1,40 @@
+using Api.Data.Repositories;
 using Core.MediatR;
 
 namespace Cli.Endpoints.Modules.Info;
 
-public sealed class GetModuleInfoCommandHandler :
+public sealed class GetModuleInfoCommandHandler(
+    IModuleRegistryRepository repository) :
     ICommandHandler<GetModuleInfoCommand, GetModuleInfoResponse>
 {
-    public Task<GetModuleInfoResponse> Handle(
+    public async Task<GetModuleInfoResponse> Handle(
         GetModuleInfoCommand command,
         CancellationToken cancellationToken = default)
     {
-        // TODO: Look up from marketplace registry
-        return Task.FromResult(new GetModuleInfoResponse(
-            Found: false,
-            Name: null,
-            Description: null,
-            LatestVersion: null,
-            RepoUrl: null,
-            Tags: null,
-            Versions: null,
-            InstallCount: 0));
+        var entry = await repository.GetByOrgAndNameAsync(command.Organization, command.ModuleName);
+
+        if (entry is null)
+        {
+            return new GetModuleInfoResponse(
+                Found: false, null, null, null, null, null, null, null, 0, null, null, null);
+        }
+
+        var versions = entry.Versions.Select(v => new ModuleVersionDto(
+            v.Version, v.CommitHash, v.ReleaseNotes, v.CreatedAtUtc
+        )).ToArray();
+
+        return new GetModuleInfoResponse(
+            Found: true,
+            entry.Name,
+            entry.Organization,
+            entry.Description,
+            entry.LatestVersion,
+            entry.RepoUrl.ToString(),
+            entry.Tags,
+            versions,
+            entry.InstallCount,
+            entry.IconUrl,
+            entry.Compatibility,
+            entry.CreatedAtUtc);
     }
 }
