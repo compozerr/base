@@ -38,6 +38,11 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link to="/modules" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
+                  Marketplace
+                </Link>
+              </li>
+              <li>
                 <Link to="/pricing" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
                   Pricing
                 </Link>

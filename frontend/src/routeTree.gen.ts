@@ -18,12 +18,15 @@ import { Route as LoginRouteImport } from './../../modules/auth/frontend/src/rou
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AuthRouteImport } from './../../modules/auth/frontend/src/routes/_auth'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ModulesIndexRouteImport } from './routes/modules/index'
+import { Route as ModulesOrgNameRouteImport } from './routes/modules/$org.$name'
 import { Route as TemplateIndexRouteImport } from './../../modules/template/frontend/src/routes/template/index'
 import { Route as StripeIndexRouteImport } from './../../modules/stripe/frontend/src/routes/stripe/index'
 import { Route as InvoicesIndexRouteImport } from './../../modules/stripe/frontend/src/routes/invoices/index'
 import { Route as AuthLogoutRouteImport } from './../../modules/auth/frontend/src/routes/_auth/logout'
 import { Route as AuthDashboardRouteImport } from './routes/_auth/_dashboard'
 import { Route as AuthDashboardSettingsRouteImport } from './routes/_auth/_dashboard/settings'
+import { Route as AuthDashboardMyModulesRouteImport } from './routes/_auth/_dashboard/my-modules'
 import { Route as AuthDashboardIntroFlowRouteImport } from './routes/_auth/_dashboard/intro-flow'
 import { Route as AuthDashboardProjectsIndexRouteImport } from './routes/_auth/_dashboard/projects/index'
 import { Route as AuthDashboardProjectsProjectIdRouteRouteImport } from './routes/_auth/_dashboard/projects/$projectId/route'
@@ -80,6 +83,16 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ModulesIndexRoute = ModulesIndexRouteImport.update({
+  id: '/modules/',
+  path: '/modules/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ModulesOrgNameRoute = ModulesOrgNameRouteImport.update({
+  id: '/modules/$org/$name',
+  path: '/modules/$org/$name',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TemplateIndexRoute = TemplateIndexRouteImport.update({
   id: '/template/',
   path: '/template/',
@@ -107,6 +120,11 @@ const AuthDashboardRoute = AuthDashboardRouteImport.update({
 const AuthDashboardSettingsRoute = AuthDashboardSettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
+  getParentRoute: () => AuthDashboardRoute,
+} as any)
+const AuthDashboardMyModulesRoute = AuthDashboardMyModulesRouteImport.update({
+  id: '/my-modules',
+  path: '/my-modules',
   getParentRoute: () => AuthDashboardRoute,
 } as any)
 const AuthDashboardIntroFlowRoute = AuthDashboardIntroFlowRouteImport.update({
@@ -188,7 +206,10 @@ export interface FileRoutesByFullPath {
   '/invoices': typeof InvoicesIndexRoute
   '/stripe': typeof StripeIndexRoute
   '/template': typeof TemplateIndexRoute
+  '/modules': typeof ModulesIndexRoute
+  '/modules/$org/$name': typeof ModulesOrgNameRoute
   '/intro-flow': typeof AuthDashboardIntroFlowRoute
+  '/my-modules': typeof AuthDashboardMyModulesRoute
   '/settings': typeof AuthDashboardSettingsRoute
   '/projects/$projectId': typeof AuthDashboardProjectsProjectIdRouteRouteWithChildren
   '/projects': typeof AuthDashboardProjectsIndexRoute
@@ -214,7 +235,10 @@ export interface FileRoutesByTo {
   '/invoices': typeof InvoicesIndexRoute
   '/stripe': typeof StripeIndexRoute
   '/template': typeof TemplateIndexRoute
+  '/modules': typeof ModulesIndexRoute
+  '/modules/$org/$name': typeof ModulesOrgNameRoute
   '/intro-flow': typeof AuthDashboardIntroFlowRoute
+  '/my-modules': typeof AuthDashboardMyModulesRoute
   '/settings': typeof AuthDashboardSettingsRoute
   '/projects': typeof AuthDashboardProjectsIndexRoute
   '/projects/$projectId': typeof AuthDashboardProjectsProjectIdIndexRoute
@@ -241,7 +265,10 @@ export interface FileRoutesById {
   '/invoices/': typeof InvoicesIndexRoute
   '/stripe/': typeof StripeIndexRoute
   '/template/': typeof TemplateIndexRoute
+  '/modules/': typeof ModulesIndexRoute
+  '/modules/$org/$name': typeof ModulesOrgNameRoute
   '/_auth/_dashboard/intro-flow': typeof AuthDashboardIntroFlowRoute
+  '/_auth/_dashboard/my-modules': typeof AuthDashboardMyModulesRoute
   '/_auth/_dashboard/settings': typeof AuthDashboardSettingsRoute
   '/_auth/_dashboard/projects/$projectId': typeof AuthDashboardProjectsProjectIdRouteRouteWithChildren
   '/_auth/_dashboard/projects/': typeof AuthDashboardProjectsIndexRoute
@@ -269,7 +296,10 @@ export interface FileRouteTypes {
     | '/invoices'
     | '/stripe'
     | '/template'
+    | '/modules'
+    | '/modules/$org/$name'
     | '/intro-flow'
+    | '/my-modules'
     | '/settings'
     | '/projects/$projectId'
     | '/projects'
@@ -295,7 +325,10 @@ export interface FileRouteTypes {
     | '/invoices'
     | '/stripe'
     | '/template'
+    | '/modules'
+    | '/modules/$org/$name'
     | '/intro-flow'
+    | '/my-modules'
     | '/settings'
     | '/projects'
     | '/projects/$projectId'
@@ -321,7 +354,10 @@ export interface FileRouteTypes {
     | '/invoices/'
     | '/stripe/'
     | '/template/'
+    | '/modules/'
+    | '/modules/$org/$name'
     | '/_auth/_dashboard/intro-flow'
+    | '/_auth/_dashboard/my-modules'
     | '/_auth/_dashboard/settings'
     | '/_auth/_dashboard/projects/$projectId'
     | '/_auth/_dashboard/projects/'
@@ -348,6 +384,8 @@ export interface RootRouteChildren {
   InvoicesIndexRoute: typeof InvoicesIndexRoute
   StripeIndexRoute: typeof StripeIndexRoute
   TemplateIndexRoute: typeof TemplateIndexRoute
+  ModulesIndexRoute: typeof ModulesIndexRoute
+  ModulesOrgNameRoute: typeof ModulesOrgNameRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -436,6 +474,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof InvoicesIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/modules/': {
+      id: '/modules/'
+      path: '/modules'
+      fullPath: '/modules'
+      preLoaderRoute: typeof ModulesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/modules/$org/$name': {
+      id: '/modules/$org/$name'
+      path: '/modules/$org/$name'
+      fullPath: '/modules/$org/$name'
+      preLoaderRoute: typeof ModulesOrgNameRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_auth/logout': {
       id: '/_auth/logout'
       path: '/logout'
@@ -455,6 +507,13 @@ declare module '@tanstack/react-router' {
       path: '/settings'
       fullPath: '/settings'
       preLoaderRoute: typeof AuthDashboardSettingsRouteImport
+      parentRoute: typeof AuthDashboardRoute
+    }
+    '/_auth/_dashboard/my-modules': {
+      id: '/_auth/_dashboard/my-modules'
+      path: '/my-modules'
+      fullPath: '/my-modules'
+      preLoaderRoute: typeof AuthDashboardMyModulesRouteImport
       parentRoute: typeof AuthDashboardRoute
     }
     '/_auth/_dashboard/intro-flow': {
@@ -587,6 +646,7 @@ const AuthDashboardProjectsProjectIdRouteRouteWithChildren =
 
 interface AuthDashboardRouteChildren {
   AuthDashboardIntroFlowRoute: typeof AuthDashboardIntroFlowRoute
+  AuthDashboardMyModulesRoute: typeof AuthDashboardMyModulesRoute
   AuthDashboardSettingsRoute: typeof AuthDashboardSettingsRoute
   AuthDashboardProjectsProjectIdRouteRoute: typeof AuthDashboardProjectsProjectIdRouteRouteWithChildren
   AuthDashboardProjectsIndexRoute: typeof AuthDashboardProjectsIndexRoute
@@ -594,6 +654,7 @@ interface AuthDashboardRouteChildren {
 
 const AuthDashboardRouteChildren: AuthDashboardRouteChildren = {
   AuthDashboardIntroFlowRoute: AuthDashboardIntroFlowRoute,
+  AuthDashboardMyModulesRoute: AuthDashboardMyModulesRoute,
   AuthDashboardSettingsRoute: AuthDashboardSettingsRoute,
   AuthDashboardProjectsProjectIdRouteRoute:
     AuthDashboardProjectsProjectIdRouteRouteWithChildren,
@@ -629,6 +690,8 @@ const rootRouteChildren: RootRouteChildren = {
   InvoicesIndexRoute: InvoicesIndexRoute,
   StripeIndexRoute: StripeIndexRoute,
   TemplateIndexRoute: TemplateIndexRoute,
+  ModulesIndexRoute: ModulesIndexRoute,
+  ModulesOrgNameRoute: ModulesOrgNameRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

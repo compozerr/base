@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router"
 import { Button } from "./ui/button"
 import { CompozerrLogo } from "./compozerr-logo"
-import { Workflow, Menu, X } from "lucide-react"
+import { Workflow, Menu, X, Package } from "lucide-react"
 import LoginButton from "./login-button"
 import { useState } from "react"
 
@@ -22,6 +22,12 @@ export default function Navbar() {
             <Button variant="ghost" size="sm" className="gap-2 text-muted-foreground hover:text-foreground text-[13px] font-medium">
               <Workflow className="h-3.5 w-3.5 text-primary/70 group-hover:text-primary transition-colors" />
               n8n Hosting
+            </Button>
+          </Link>
+          <Link to="/modules" className="group">
+            <Button variant="ghost" size="sm" className="gap-2 text-muted-foreground hover:text-foreground text-[13px] font-medium">
+              <Package className="h-3.5 w-3.5 text-primary/70 group-hover:text-primary transition-colors" />
+              Marketplace
             </Button>
           </Link>
           <Link to="/pricing">
@@ -57,6 +63,10 @@ export default function Navbar() {
             <Link to="/n8n" onClick={() => setMobileOpen(false)} className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-muted-foreground hover:text-foreground hover:bg-white/[0.04] text-sm font-medium transition-colors">
               <Workflow className="h-4 w-4 text-primary/70" />
               n8n Hosting
+            </Link>
+            <Link to="/modules" onClick={() => setMobileOpen(false)} className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-muted-foreground hover:text-foreground hover:bg-white/[0.04] text-sm font-medium transition-colors">
+              <Package className="h-4 w-4 text-primary/70" />
+              Marketplace
             </Link>
             <Link to="/pricing" onClick={() => setMobileOpen(false)} className="px-3 py-2.5 rounded-lg text-muted-foreground hover:text-foreground hover:bg-white/[0.04] text-sm font-medium transition-colors">
               Pricing
