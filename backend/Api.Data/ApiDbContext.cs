@@ -24,6 +24,8 @@ public class ApiDbContext(
     public DbSet<VMPool> VMPools => Set<VMPool>();
     public DbSet<VMPoolItem> VMPoolItems => Set<VMPoolItem>();
     public DbSet<TerminalSession> TerminalSessions => Set<TerminalSession>();
+    public DbSet<ModuleRegistryEntry> ModuleRegistryEntries => Set<ModuleRegistryEntry>();
+    public DbSet<ModuleVersionEntry> ModuleVersionEntries => Set<ModuleVersionEntry>();
 
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
     {
@@ -41,6 +43,15 @@ public class ApiDbContext(
         modelBuilder.ApplyConfiguration(new DomainConfiguration());
         modelBuilder.ApplyConfiguration(new ProjectConfiguration());
         modelBuilder.ApplyConfiguration(new ProjectServiceConfiguration());
+
+        modelBuilder.Entity<ModuleRegistryEntry>(entity =>
+        {
+            entity.HasIndex(e => new { e.Organization, e.Name }).IsUnique();
+            entity.HasMany(e => e.Versions)
+                .WithOne(v => v.ModuleRegistryEntry)
+                .HasForeignKey(v => v.ModuleRegistryEntryId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
 
         modelBuilder.Entity<Server>()
             .HasOne(s => s.Secret)
