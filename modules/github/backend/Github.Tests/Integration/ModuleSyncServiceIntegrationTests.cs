@@ -122,6 +122,9 @@ public class ModuleSyncServiceIntegrationTests : IAsyncLifetime
             filesToAdd: new Dictionary<string, string>(),
             filesToDelete: [uniqueFile]);
 
+        // Brief delay for GitHub API eventual consistency
+        await Task.Delay(2000);
+
         // Act
         var result = await sut.DetectModuleChangesAsync(
             client, _fixture.RepoOwner, _fixture.RepoName, beforeSha, afterSha);
