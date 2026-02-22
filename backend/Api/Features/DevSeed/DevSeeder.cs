@@ -18,6 +18,8 @@ public static class DevSeeder
         using var scope = services.CreateScope();
         var apiDb = scope.ServiceProvider.GetRequiredService<ApiDbContext>();
         await EnsureInfrastructureAsync(apiDb);
+        // Seed marketplace modules at startup so public pages have data without requiring auth
+        await SeedMarketplaceAsync(apiDb, null);
     }
 
     private static async Task<(Location location, Server server)> EnsureInfrastructureAsync(ApiDbContext apiDb)
@@ -113,7 +115,7 @@ public static class DevSeeder
         return new { message = "Seeded", seeded = true, projects = projects.Count, deployments = deployments.Count, usageRecords = usages.Count };
     }
 
-    private static async Task SeedMarketplaceAsync(ApiDbContext apiDb, UserId userId)
+    private static async Task SeedMarketplaceAsync(ApiDbContext apiDb, UserId? userId)
     {
         if (await apiDb.ModuleRegistryEntries.AnyAsync())
             return;
@@ -203,7 +205,7 @@ public static class DevSeeder
                 LatestVersion = mod.Latest,
                 Tags = mod.Tags,
                 InstallCount = mod.Installs,
-                PublishedByUserId = userId,
+                PublishedByUserId = userId ?? new UserId(Guid.Empty),
                 CreatedAtUtc = now.AddDays(-mod.Versions[0].DaysAgo),
             };
             apiDb.ModuleRegistryEntries.Add(entry);
