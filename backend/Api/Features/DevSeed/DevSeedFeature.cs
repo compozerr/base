@@ -22,6 +22,9 @@ public class DevSeedFeature : IFeature
         if (!app.Environment.IsDevelopment())
             return;
 
+        // Seed infrastructure data (location + server) at startup so CLI commands work
+        DevSeeder.EnsureInfrastructureAsync(app.Services).GetAwaiter().GetResult();
+
         var devGroup = app.MapGroup("/v1/dev").RequireAuthorization();
 
         devGroup.MapPost("/seed", async (ApiDbContext apiDb, ICurrentUserAccessor currentUserAccessor) =>

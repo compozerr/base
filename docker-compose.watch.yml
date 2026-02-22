@@ -41,6 +41,7 @@ services:
     volumes:
       - ./.resights-documents:/app/resights-documents
       - storage_data:/app/storage-data
+      - /tmp/compozerr-dev-repos:/tmp/compozerr-dev-repos
     develop:
       watch:
         - action: sync

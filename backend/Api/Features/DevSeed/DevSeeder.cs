@@ -2,31 +2,41 @@ using Api.Abstractions;
 using Api.Data;
 using Auth.Abstractions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 
 namespace Api.Features.DevSeed;
 
 public static class DevSeeder
 {
-    public static async Task<object> SeedForUser(ApiDbContext apiDb, UserId userId)
+    /// <summary>
+    /// Ensures the dev location and server exist in the database.
+    /// Called at startup so CLI commands (compozerr new, migrate) pass validation.
+    /// </summary>
+    public static async Task EnsureInfrastructureAsync(IServiceProvider services)
     {
-        Log.Information("[DevSeed] Seeding development data for user {UserId}...", userId);
+        using var scope = services.CreateScope();
+        var apiDb = scope.ServiceProvider.GetRequiredService<ApiDbContext>();
+        await EnsureInfrastructureAsync(apiDb);
+    }
 
-        // --- Ensure location exists ---
-        var location = await apiDb.Locations.FirstOrDefaultAsync();
+    private static async Task<(Location location, Server server)> EnsureInfrastructureAsync(ApiDbContext apiDb)
+    {
+        var location = await apiDb.Locations.FirstOrDefaultAsync(l => l.IsoCountryCode == "deu");
         if (location is null)
         {
             location = new Location
             {
-                IsoCountryCode = "DEU",
+                IsoCountryCode = "deu",
                 CreatedAtUtc = DateTime.UtcNow,
             };
             apiDb.Locations.Add(location);
             await apiDb.SaveChangesAsync();
+            Log.Information("[DevSeed] Created dev location (deu)");
         }
 
-        // --- Ensure server + secret exist ---
-        var server = await apiDb.Servers.FirstOrDefaultAsync();
+        var server = await apiDb.Servers.FirstOrDefaultAsync(
+            s => s.LocationId == location.Id && s.ServerVisibility == ServerVisibility.Public && s.DeletedAtUtc == null);
         if (server is null)
         {
             var secretId = SecretId.Create(Guid.NewGuid());
@@ -60,7 +70,17 @@ public static class DevSeeder
             };
             apiDb.Secrets.Add(secret);
             await apiDb.SaveChangesAsync();
+            Log.Information("[DevSeed] Created dev server + secret");
         }
+
+        return (location, server);
+    }
+
+    public static async Task<object> SeedForUser(ApiDbContext apiDb, UserId userId)
+    {
+        Log.Information("[DevSeed] Seeding development data for user {UserId}...", userId);
+
+        var (location, server) = await EnsureInfrastructureAsync(apiDb);
 
         // --- Seed projects ---
         var projects = CreateProjects(userId, location.Id, server.Id);

@@ -33,10 +33,20 @@ public class GithubFeature : IFeature
             });
         });
 
-        services.AddRequiredConfigurationOptions<GithubAppOptions>("Github:GithubApp");
+        var isDev = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development";
 
-        services.AddSingleton<IGithubJsonWebTokenService, GithubJsonWebTokenService>();
-        services.AddScoped<IGithubService, GithubService>();
+        if (isDev)
+        {
+            services.AddScoped<IGithubService, MockGithubService>();
+            Serilog.Log.Information("[Github] Using MockGithubService (development mode)");
+        }
+        else
+        {
+            services.AddRequiredConfigurationOptions<GithubAppOptions>("Github:GithubApp");
+            services.AddSingleton<IGithubJsonWebTokenService, GithubJsonWebTokenService>();
+            services.AddScoped<IGithubService, GithubService>();
+        }
+
         services.AddScoped<IModuleSyncService, ModuleSyncService>();
         services.AddScoped<IGithubUserSettingsRepository, GithubUserSettingsRepository>();
         services.AddScoped<IPushWebhookEventRepository, PushWebhookEventRepository>();
