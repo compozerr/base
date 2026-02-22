@@ -12,6 +12,10 @@ public sealed class DefaultWebhookEventProcessor(
     {
         var entity = await pushWebhookEventRepository.AddAsync(new() { Event = pushEvent });
 
+        // Deploy pipeline (existing)
         PushWebhookProcessorJob.Enqueue(entity.Id);
+
+        // Module sync pipeline (runs independently)
+        ModuleSyncProcessorJob.Enqueue(entity.Id);
     }
 }
