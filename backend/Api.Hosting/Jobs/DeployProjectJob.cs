@@ -24,6 +24,7 @@ public class DeployProjectJob(
             d => d.Include(x => x.Project)) ?? throw new ArgumentException("Deployment not found");
 
         deployment.Status = DeploymentStatus.Deploying;
+        deployment.StartedAtUtc = DateTime.UtcNow;
         await deploymentRepository.UpdateAsync(deployment);
 
         try

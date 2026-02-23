@@ -15,6 +15,7 @@ public class Deployment : BaseEntityWithId<DeploymentId>
     
     public required DeploymentStatus Status { get; set; }
 
+    public DateTime? StartedAtUtc { get; set; }
     public TimeSpan? BuildDuration { get; set; }
 
     public virtual User? User { get; set; }

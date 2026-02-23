@@ -64,6 +64,9 @@ namespace Api.Data.Migrations
                     b.Property<Guid?>("ServerId")
                         .HasColumnType("uuid");
 
+                    b.Property<DateTime?>("StartedAtUtc")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<int>("Status")
                         .HasColumnType("integer");
 
@@ -187,7 +190,7 @@ namespace Api.Data.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");
 
-                    b.Property<string>("Compatibility")
+                    b.Property<Dictionary<string, string>>("Compatibility")
                         .HasColumnType("jsonb");
 
                     b.Property<DateTime>("CreatedAtUtc")

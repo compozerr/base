@@ -48,9 +48,9 @@ function getStatusBadgeClasses(status: DeploymentStatus) {
         case DeploymentStatus.Completed:
             return "bg-emerald-500/10 text-emerald-500 border-emerald-500/20";
         case DeploymentStatus.Deploying:
-            return "bg-white/[0.06] text-white border-white/20";
-        case DeploymentStatus.Queued:
             return "bg-amber-500/10 text-amber-500 border-amber-500/20";
+        case DeploymentStatus.Queued:
+            return "bg-white/[0.06] text-white border-white/20";
         case DeploymentStatus.Failed:
             return "bg-red-500/10 text-red-500 border-red-500/20";
         case DeploymentStatus.Cancelled:
@@ -65,9 +65,9 @@ function getStatusDotColor(status: DeploymentStatus) {
         case DeploymentStatus.Completed:
             return "bg-emerald-500";
         case DeploymentStatus.Deploying:
-            return "bg-white";
-        case DeploymentStatus.Queued:
             return "bg-amber-500";
+        case DeploymentStatus.Queued:
+            return "bg-white";
         case DeploymentStatus.Failed:
             return "bg-red-500";
         case DeploymentStatus.Cancelled:
@@ -124,9 +124,10 @@ function RouteComponent() {
         )
     }
 
-    const buildDuration = useDuration(deployment.buildDuration!, deployment.status as DeploymentStatus === DeploymentStatus.Deploying);
     const status = deployment.status as DeploymentStatus;
     const isDeploying = status === DeploymentStatus.Deploying;
+    const isQueued = status === DeploymentStatus.Queued;
+    const buildDuration = useDuration(deployment.buildDuration!, isDeploying);
 
     const { mutateAsync: redeployAsync, isPending: isRedeploying } = api.v1.postProjectsProjectIdDeploymentsDeploymentIdRedeploy.useMutation();
 
@@ -212,8 +213,8 @@ function RouteComponent() {
                                 >
                                     <Clock className="h-3.5 w-3.5 text-muted-foreground" />
                                 </motion.div>
-                                <span className={cn("font-medium font-mono", isDeploying && "text-white")}>
-                                    {buildDuration}
+                                <span className={cn("font-medium font-mono", isDeploying && "text-amber-500")}>
+                                    {isQueued ? "Waiting..." : buildDuration}
                                 </span>
                             </div>
                         </InfoRow>

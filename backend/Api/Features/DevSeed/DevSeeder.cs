@@ -390,6 +390,7 @@ public static class DevSeeder
                     CommitEmail = "dev@compozerr.local",
                     Status = status,
                     BuildDuration = status == DeploymentStatus.Deploying ? null : TimeSpan.FromSeconds(rng.Next(30, 300)),
+                    StartedAtUtc = status == DeploymentStatus.Queued ? null : createdAt.AddSeconds(rng.Next(1, 5)),
                     CreatedAtUtc = createdAt,
                 });
             }

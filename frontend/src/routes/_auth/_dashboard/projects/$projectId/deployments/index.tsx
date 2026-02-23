@@ -3,6 +3,7 @@ import InfiniteScrollContainer from "@/components/infinite-scroll-container"
 import LoadingButton from "@/components/loading-button"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { useDuration } from '@/hooks/use-duration'
 import { useTimeAgo } from '@/hooks/useTimeAgo'
 import { DeploymentStatus } from "@/lib/deployment-status"
 import { DeploymentStatusFilter } from "@/lib/deployment-status-filter"
@@ -11,6 +12,7 @@ import { getLink } from "@/links"
 import { createFileRoute, useRouter } from '@tanstack/react-router'
 import { motion } from "framer-motion"
 import {
+    Clock,
     GitBranchIcon,
     GitCommitIcon,
     PackageIcon,
@@ -40,9 +42,9 @@ function getStatusColor(status: DeploymentStatus) {
         case DeploymentStatus.Completed:
             return "bg-emerald-500";
         case DeploymentStatus.Deploying:
-            return "bg-white";
-        case DeploymentStatus.Queued:
             return "bg-amber-500";
+        case DeploymentStatus.Queued:
+            return "bg-white";
         case DeploymentStatus.Failed:
             return "bg-red-500";
         case DeploymentStatus.Cancelled:
@@ -57,9 +59,9 @@ function getStatusTextColor(status: DeploymentStatus) {
         case DeploymentStatus.Completed:
             return "text-emerald-500";
         case DeploymentStatus.Deploying:
-            return "text-white";
-        case DeploymentStatus.Queued:
             return "text-amber-500";
+        case DeploymentStatus.Queued:
+            return "text-white";
         case DeploymentStatus.Failed:
             return "text-red-500";
         case DeploymentStatus.Cancelled:
@@ -231,6 +233,7 @@ function DeploymentCard({ deployment, projectId, router }: {
         commitHash?: string | null;
         commitMessage?: string | null;
         author?: string | null;
+        buildDuration?: string | null;
     };
     projectId: string;
     router: ReturnType<typeof useRouter>;
@@ -238,6 +241,9 @@ function DeploymentCard({ deployment, projectId, router }: {
     const timeAgo = useTimeAgo(deployment.createdAt!);
     const status = deployment.status as DeploymentStatus;
     const active = isActiveStatus(status);
+    const isDeploying = status === DeploymentStatus.Deploying;
+    const isQueued = status === DeploymentStatus.Queued;
+    const duration = useDuration(deployment.buildDuration!, isDeploying);
 
     return (
         <div
@@ -288,9 +294,16 @@ function DeploymentCard({ deployment, projectId, router }: {
                     </div>
                 </div>
 
-                {/* Time + author */}
+                {/* Time + duration + author */}
                 <div className="flex flex-col items-end text-right ml-auto flex-shrink-0">
-                    <span className="text-sm text-muted-foreground">{timeAgo}</span>
+                    <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
+                        <span>{timeAgo}</span>
+                        <span className="text-zinc-600">·</span>
+                        <Clock className="h-3 w-3" />
+                        <span className="font-mono text-xs">
+                            {isQueued ? "—" : duration}
+                        </span>
+                    </div>
                     <span className="text-xs text-muted-foreground">by {deployment.author}</span>
                 </div>
             </div>
