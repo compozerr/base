@@ -1,4 +1,5 @@
 
+using Api.Endpoints.Server.TcpAllocations;
 using Api.Endpoints.Server.Tiers.Get;
 
 namespace Api.Endpoints.Server;
@@ -15,5 +16,6 @@ public class ServerGroup : CarterModule
         app.AddCreateNewServerRoute();
         app.AddUpdateServerRoute();
         app.AddGetTiersRoute();
+        app.AddGetTcpAllocationsRoute();
     }
 }

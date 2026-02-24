@@ -285,6 +285,20 @@ public sealed class HostingApi(
         return await response.Content.ReadAsStringAsync();
     }
 
+    public async Task UpdateTcpProxyAsync(ProjectId projectId)
+    {
+        var response = await HttpClient.PutAsync("/tcp-proxy", JsonContent.Create(new
+        {
+            projectId = projectId.Value.ToString()
+        }));
+
+        if (!response.IsSuccessStatusCode)
+        {
+            Log.ForContext("BaseDomain", HttpClient.BaseDomain)
+               .Error("Failed to update TCP proxy for project {projectId}: {response}", projectId, await response.Content.ReadAsStringAsync());
+        }
+    }
+
     private async Task<string> GetValidatedOAuthTokenAsync(Auth.Abstractions.UserId userId)
     {
         var userLogin = await githubService.GetUserLoginAsync(userId);

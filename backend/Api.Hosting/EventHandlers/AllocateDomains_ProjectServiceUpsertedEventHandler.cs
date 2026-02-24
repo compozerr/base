@@ -14,6 +14,9 @@ public sealed class AllocateDomains_ProjectServiceUpsertedEventHandler(
 {
     protected override async Task HandleBeforeSaveAsync(ProjectServiceUpsertedEvent domainEvent, CancellationToken cancellationToken)
     {
+        if (domainEvent.Entity.Protocol == Protocol.Tcp)
+            return;
+
         var project = await projectRepository.GetProjectByIdWithDomainsAsync(
             domainEvent.Entity.ProjectId) ?? throw new ArgumentException("Project not found");
 

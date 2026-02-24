@@ -6,7 +6,9 @@ public sealed record ProjectServiceDto(
     string Name,
     string Port,
     Protocol Protocol,
-    bool IsSystem);
+    bool IsSystem,
+    int? AllocatedTcpPort,
+    string? TcpHost);
 
 public sealed record GetProjectServicesResponse(
     List<ProjectServiceDto> Services);

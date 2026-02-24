@@ -106,4 +106,10 @@ public sealed class MockHostingApi(IProjectRepository projectRepository) : IHost
         Console.WriteLine($"[MOCK] Executing command in project {projectId}: {command}");
         return Task.FromResult(new CommandExecutionResult(0, $"Mock output for: {command}", ""));
     }
+
+    public Task UpdateTcpProxyAsync(ProjectId projectId)
+    {
+        Console.WriteLine($"[MOCK] Updating TCP proxy for project: {projectId}");
+        return Task.CompletedTask;
+    }
 }

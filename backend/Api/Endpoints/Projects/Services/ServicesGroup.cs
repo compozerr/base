@@ -1,4 +1,6 @@
+using Api.Endpoints.Projects.Services.ExposeTcp;
 using Api.Endpoints.Projects.Services.Get;
+using Api.Endpoints.Projects.Services.UnexposeTcp;
 
 namespace Api.Endpoints.Projects.Services;
 
@@ -11,6 +13,8 @@ public static class ServicesGroup
         var group = app.MapGroup(Route);
 
         group.AddGetProjectServicesRoute();
+        group.AddExposeTcpRoute();
+        group.AddUnexposeTcpRoute();
 
         return group;
     }

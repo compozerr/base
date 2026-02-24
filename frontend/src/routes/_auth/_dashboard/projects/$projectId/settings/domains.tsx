@@ -1,4 +1,4 @@
-import { api } from '@/api-client'
+import { api, apiBaseUrl } from '@/api-client'
 import { useAppForm } from '@/components/form/use-app-form'
 import LoadingButton from '@/components/loading-button'
 import { Badge } from '@/components/ui/badge'
@@ -12,11 +12,12 @@ import {
 import { createFileRoute } from '@tanstack/react-router'
 import { useEffect, useState, useMemo, useCallback, useRef } from 'react'
 import { z } from "zod"
+import { useMutation } from '@tanstack/react-query'
 
 import VerifyDnsDialog from './!components/verify-dns-dialog'
 import AreYouSureDialog from '@/components/are-you-sure-dialog'
 import { Button } from '@/components/ui/button'
-import { Trash2, MoreVertical, Check, Globe, Server, Clock, Star, ExternalLink, Network } from 'lucide-react'
+import { Trash2, MoreVertical, Check, Globe, Server, Clock, Star, ExternalLink, Network, Database, EyeOff, ChevronDown } from 'lucide-react'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -26,9 +27,100 @@ import {
 import { CopyButton } from '@/components/copy-button'
 import { CopyText } from '@/components/copy-text'
 import { cn } from '@/lib/utils'
-import { components } from '@/generated';
+import { components } from '@/generated'
+import { useToast } from '@/hooks/use-toast'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip'
 
 type DomainDto = NonNullable<Awaited<ReturnType<typeof api.v1.getProjectsProjectIdDomains.fetchQuery>>["domains"]>[number]
+
+type ServiceDto = NonNullable<NonNullable<Awaited<ReturnType<typeof api.v1.getProjectsProjectIdServices.fetchQuery>>>["services"]>[number]
+
+// TCP ports that are classified as database/TCP services
+const TCP_PORTS = new Set([5432, 3306, 6379, 27017, 1433, 5433, 3389, 22])
+
+interface ExposeTcpResponse {
+  allocatedPort: number
+  host: string
+}
+
+async function exposeTcpService(projectId: string, serviceName: string): Promise<ExposeTcpResponse> {
+  const res = await fetch(
+    `${apiBaseUrl}/v1/projects/${encodeURIComponent(projectId)}/services/${encodeURIComponent(serviceName)}/expose-tcp`,
+    { method: 'POST', credentials: 'include' },
+  )
+  if (!res.ok) {
+    const text = await res.text()
+    throw new Error(text || `Failed to expose TCP service: ${res.status}`)
+  }
+  return res.json()
+}
+
+async function unexposeTcpService(projectId: string, serviceName: string): Promise<void> {
+  const res = await fetch(
+    `${apiBaseUrl}/v1/projects/${encodeURIComponent(projectId)}/services/${encodeURIComponent(serviceName)}/expose-tcp`,
+    { method: 'DELETE', credentials: 'include' },
+  )
+  if (!res.ok) {
+    const text = await res.text()
+    throw new Error(text || `Failed to unexpose TCP service: ${res.status}`)
+  }
+}
+
+async function updateServiceProtocol(projectId: string, serviceName: string, protocol: 'Http' | 'Tcp'): Promise<void> {
+  const res = await fetch(
+    `${apiBaseUrl}/v1/projects/${encodeURIComponent(projectId)}/services/${encodeURIComponent(serviceName)}/protocol`,
+    {
+      method: 'PATCH',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ protocol }),
+    },
+  )
+  if (!res.ok) {
+    const text = await res.text()
+    throw new Error(text || `Failed to update protocol: ${res.status}`)
+  }
+}
+
+function getConnectionStringTemplate(serviceName: string, port: string, host: string, allocatedPort: number): string {
+  const portNum = parseInt(port)
+  if (portNum === 5432) return `postgresql://user:password@${host}:${allocatedPort}/dbname`
+  if (portNum === 3306) return `mysql://user:password@${host}:${allocatedPort}/dbname`
+  if (portNum === 6379) return `redis://${host}:${allocatedPort}`
+  if (portNum === 27017) return `mongodb://user:password@${host}:${allocatedPort}/dbname`
+  return `${host}:${allocatedPort}`
+}
+
+function getServiceTypeLabel(port: string): string {
+  const portNum = parseInt(port)
+  switch (portNum) {
+    case 5432: case 5433: return 'PostgreSQL'
+    case 3306: return 'MySQL'
+    case 6379: return 'Redis'
+    case 27017: return 'MongoDB'
+    case 1433: return 'SQL Server'
+    default: return 'TCP'
+  }
+}
+
+function ServiceIcon({ port, protocol, className }: {
+  port?: string | null
+  protocol?: string
+  className?: string
+}) {
+  if (protocol === 'Http') return <Globe className={className} />
+
+  const portNum = parseInt(port ?? '0')
+  if (TCP_PORTS.has(portNum)) return <Database className={className} />
+  if (protocol === 'Tcp') return <Network className={className} />
+
+  return <Globe className={className} />
+}
 
 function DomainIcon({ protocol, isPrimary, isInternal, className }: {
   protocol?: string | null
@@ -211,6 +303,179 @@ function DomainSection({ title, description, children, isEmpty, emptyMessage }: 
   )
 }
 
+// Extended service type with TCP allocation fields (until backend schema is regenerated)
+interface ServiceWithTcp extends ServiceDto {
+  allocatedTcpPort?: number | null
+  tcpHost?: string | null
+}
+
+interface ServiceItemProps {
+  service: ServiceWithTcp
+  domain?: DomainDto
+  projectId: string
+  onExpose: (serviceName: string) => void
+  onUnexpose: (serviceName: string) => void
+  onProtocolChange: (serviceName: string, protocol: 'Http' | 'Tcp') => void
+  isExposing: boolean
+  isUnexposing: boolean
+  isChangingProtocol: boolean
+}
+
+function ServiceItem({ service, domain, projectId, onExpose, onUnexpose, onProtocolChange, isExposing, isUnexposing, isChangingProtocol }: ServiceItemProps) {
+  const isHttp = service.protocol === 'Http'
+  const isTcp = service.protocol === 'Tcp'
+  const isExposed = isTcp && !!service.allocatedTcpPort && !!service.tcpHost
+  const internalDomainValue = domain?.value
+
+  const connectionString = isExposed
+    ? getConnectionStringTemplate(service.name!, service.port!, service.tcpHost!, service.allocatedTcpPort!)
+    : null
+
+  const typeLabel = isTcp ? getServiceTypeLabel(service.port!) : 'HTTP'
+
+  return (
+    <div className="group relative p-4 rounded-lg border border-zinc-800 bg-zinc-900/30 hover:bg-zinc-900/50 transition-all duration-200">
+      <div className="flex items-start gap-3 sm:gap-4">
+        <div className="flex-shrink-0 w-10 h-10 rounded-lg flex items-center justify-center bg-zinc-800 text-muted-foreground">
+          <ServiceIcon port={service.port} protocol={service.protocol} className="w-5 h-5" />
+        </div>
+
+        <div className="min-w-0 flex-1">
+          <div className="flex items-start justify-between gap-2">
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center gap-2">
+                <h3 className="font-medium text-sm">{service.name}</h3>
+                <span className="text-xs text-muted-foreground/60 font-mono">:{service.port}</span>
+              </div>
+              <div className="flex items-center gap-2 mt-1 flex-wrap">
+                <Badge variant="outline" className="text-[10px] font-normal border-zinc-700 text-muted-foreground font-mono">
+                  {typeLabel}
+                </Badge>
+
+                {/* HTTP service: show domain link */}
+                {isHttp && internalDomainValue && (
+                  <a
+                    href={`https://${internalDomainValue}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs text-muted-foreground hover:text-foreground transition-colors font-mono truncate flex items-center gap-1"
+                  >
+                    {internalDomainValue}
+                    <ExternalLink className="w-3 h-3 flex-shrink-0" />
+                  </a>
+                )}
+
+                {/* TCP service: not exposed */}
+                {isTcp && !isExposed && (
+                  <span className="text-xs text-muted-foreground/60">Internal only</span>
+                )}
+
+                {/* TCP service: exposed */}
+                {isTcp && isExposed && (
+                  <CopyText value={connectionString!}>
+                    <span className="text-xs text-muted-foreground hover:text-foreground transition-colors font-mono cursor-pointer">
+                      {service.tcpHost}:{service.allocatedTcpPort}
+                    </span>
+                  </CopyText>
+                )}
+              </div>
+            </div>
+
+            <div className="flex items-center gap-1.5 flex-shrink-0">
+              {/* Protocol toggle */}
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="h-7 px-2 text-xs text-muted-foreground hover:text-foreground"
+                    disabled={isChangingProtocol}
+                  >
+                    {service.protocol}
+                    <ChevronDown className="ml-1 h-3 w-3" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem
+                    onClick={() => onProtocolChange(service.name!, 'Http')}
+                    disabled={service.protocol === 'Http'}
+                  >
+                    <Globe className="mr-2 h-4 w-4" />
+                    HTTP
+                    {service.protocol === 'Http' && <Check className="ml-auto h-4 w-4" />}
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={() => onProtocolChange(service.name!, 'Tcp')}
+                    disabled={service.protocol === 'Tcp'}
+                  >
+                    <Network className="mr-2 h-4 w-4" />
+                    TCP
+                    {service.protocol === 'Tcp' && <Check className="ml-auto h-4 w-4" />}
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+
+              {/* TCP expose/unexpose actions */}
+              {isTcp && !isExposed && (
+                <LoadingButton
+                  isLoading={isExposing}
+                  variant="outline"
+                  size="sm"
+                  className="h-7 px-3 text-xs"
+                  onClick={() => onExpose(service.name!)}
+                >
+                  Expose
+                </LoadingButton>
+              )}
+
+              {isTcp && isExposed && (
+                <div className="flex items-center gap-1">
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <CopyButton value={connectionString!} className="h-7 w-7 p-0">
+                          <span className="sr-only">Copy connection string</span>
+                        </CopyButton>
+                      </TooltipTrigger>
+                      <TooltipContent side="bottom">
+                        <p className="font-mono text-xs max-w-xs break-all">{connectionString}</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                  <LoadingButton
+                    isLoading={isUnexposing}
+                    variant="ghost"
+                    size="sm"
+                    className="h-7 px-2 text-xs text-muted-foreground hover:text-red-500"
+                    onClick={() => onUnexpose(service.name!)}
+                  >
+                    <EyeOff className="h-3 w-3 mr-1" />
+                    Unexpose
+                  </LoadingButton>
+                </div>
+              )}
+
+              {/* HTTP external link */}
+              {isHttp && internalDomainValue && (
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-7 w-7"
+                  asChild
+                >
+                  <a href={`https://${internalDomainValue}`} target="_blank" rel="noopener noreferrer">
+                    <ExternalLink className="h-3.5 w-3.5" />
+                  </a>
+                </Button>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 export const Route = createFileRoute(
   '/_auth/_dashboard/projects/$projectId/settings/domains',
 )({
@@ -226,6 +491,8 @@ export const Route = createFileRoute(
 
 function DomainsSettingsTab() {
   const { projectId } = Route.useParams();
+
+  const { toast } = useToast();
 
   const { data: projectData } = api.v1.getProjectsProjectId.useQuery({ path: { projectId } });
 
@@ -253,21 +520,44 @@ function DomainsSettingsTab() {
     }
   });
 
-  const availableServices = useMemo(() =>
-    servicesData?.services?.map(s => s.name).filter((name): name is string => !!name) ?? [],
+  const services = useMemo(() =>
+    (servicesData?.services ?? []) as ServiceWithTcp[],
     [servicesData]
+  );
+
+  // Only HTTP services are available for custom domain assignment
+  const httpServices = useMemo(() =>
+    services.filter(s => s.protocol === 'Http'),
+    [services]
+  );
+
+  const availableServices = useMemo(() =>
+    httpServices.map(s => s.name).filter((name): name is string => !!name),
+    [httpServices]
   );
 
   // Map service names to their ports for protocol guessing
   const servicePortMap = useMemo(() => {
     const map = new Map<string, string>();
-    servicesData?.services?.forEach(s => {
+    services.forEach(s => {
       if (s.name && s.port) {
         map.set(s.name, s.port);
       }
     });
     return map;
-  }, [servicesData]);
+  }, [services]);
+
+  // Build a map of service name -> internal domain for display in services table
+  const serviceDomainMap = useMemo(() => {
+    const map = new Map<string, DomainDto>();
+    const domains = data?.domains ?? [];
+    domains.forEach(d => {
+      if (d.isInternal && d.serviceName) {
+        map.set(d.serviceName, d);
+      }
+    });
+    return map;
+  }, [data?.domains]);
 
   // Guess protocol based on common port mappings
   const guessProtocol = useCallback((serviceName: string): components["schemas"]["Api.Data.Protocol"] => {
@@ -275,9 +565,7 @@ function DomainsSettingsTab() {
     if (!port) return 'Http';
 
     const portNum = parseInt(port);
-    const tcpPorts = [5432, 3306, 6379, 27017, 1433, 5433, 3389, 22, 21, 25, 110, 143, 587];
-
-    return tcpPorts.includes(portNum) ? 'Tcp' : 'Http';
+    return TCP_PORTS.has(portNum) ? 'Tcp' : 'Http';
   }, [servicePortMap]);
 
   const addDomainSchema = useMemo(() => z.object({
@@ -306,6 +594,20 @@ function DomainsSettingsTab() {
     });
   }
 
+  const invalidateServices = () => {
+    api.v1.getProjectsProjectIdServices.invalidateQueries({
+      parameters: {
+        path: {
+          projectId
+        }
+      }
+    });
+  }
+
+  const invalidateAll = () => {
+    invalidate();
+    invalidateServices();
+  }
 
   const { mutateAsync } = api.v1.postProjectsProjectIdDomains.useMutation({
     path: {
@@ -349,6 +651,85 @@ function DomainsSettingsTab() {
     }
   })
 
+  // TCP expose mutation
+  const [exposingService, setExposingService] = useState<string | null>(null);
+  const exposeTcpMutation = useMutation({
+    mutationFn: (serviceName: string) => exposeTcpService(projectId, serviceName),
+    onMutate: (serviceName) => setExposingService(serviceName),
+    onSuccess: (_data, serviceName) => {
+      invalidateAll();
+      toast({
+        title: 'TCP service exposed',
+        description: `${serviceName} is now accessible externally.`,
+      });
+    },
+    onError: (error) => {
+      toast({
+        title: 'Failed to expose service',
+        description: error instanceof Error ? error.message : String(error),
+        variant: 'destructive',
+      });
+    },
+    onSettled: () => setExposingService(null),
+  });
+
+  // TCP unexpose mutation
+  const [unexposingService, setUnexposingService] = useState<string | null>(null);
+  const unexposeTcpMutation = useMutation({
+    mutationFn: (serviceName: string) => unexposeTcpService(projectId, serviceName),
+    onMutate: (serviceName) => setUnexposingService(serviceName),
+    onSuccess: (_data, serviceName) => {
+      invalidateAll();
+      toast({
+        title: 'TCP service unexposed',
+        description: `${serviceName} is now internal only.`,
+      });
+    },
+    onError: (error) => {
+      toast({
+        title: 'Failed to unexpose service',
+        description: error instanceof Error ? error.message : String(error),
+        variant: 'destructive',
+      });
+    },
+    onSettled: () => setUnexposingService(null),
+  });
+
+  // Protocol change mutation
+  const [changingProtocolService, setChangingProtocolService] = useState<string | null>(null);
+  const changeProtocolMutation = useMutation({
+    mutationFn: ({ serviceName, protocol }: { serviceName: string; protocol: 'Http' | 'Tcp' }) =>
+      updateServiceProtocol(projectId, serviceName, protocol),
+    onMutate: ({ serviceName }) => setChangingProtocolService(serviceName),
+    onSuccess: (_data, { serviceName, protocol }) => {
+      invalidateAll();
+      toast({
+        title: 'Protocol updated',
+        description: `${serviceName} is now configured as ${protocol}.`,
+      });
+    },
+    onError: (error) => {
+      toast({
+        title: 'Failed to update protocol',
+        description: error instanceof Error ? error.message : String(error),
+        variant: 'destructive',
+      });
+    },
+    onSettled: () => setChangingProtocolService(null),
+  });
+
+  const handleExpose = useCallback((serviceName: string) => {
+    exposeTcpMutation.mutate(serviceName);
+  }, [exposeTcpMutation]);
+
+  const handleUnexpose = useCallback((serviceName: string) => {
+    unexposeTcpMutation.mutate(serviceName);
+  }, [unexposeTcpMutation]);
+
+  const handleProtocolChange = useCallback((serviceName: string, protocol: 'Http' | 'Tcp') => {
+    changeProtocolMutation.mutate({ serviceName, protocol });
+  }, [changeProtocolMutation]);
+
   const deleteDomainAsync = async () => {
     if (!deleteDomainId) return;
 
@@ -373,7 +754,7 @@ function DomainsSettingsTab() {
     defaultValues: {
       domain: '',
       serviceName: availableServices[0] ?? '',
-      protocol: guessProtocol(availableServices[0] ?? '')
+      protocol: 'Http' as components["schemas"]["Api.Data.Protocol"]
     },
     validators: {
       onChange: addDomainSchema
@@ -419,10 +800,43 @@ function DomainsSettingsTab() {
 
   return (
     <div className="space-y-6">
+      {/* Services Section */}
       <Card className="rounded-xl border-zinc-800 bg-zinc-900/50">
         <CardHeader>
-          <CardTitle className="text-lg">Domains</CardTitle>
-          <CardDescription>Manage domains for your project. Your primary domain is used as the main entry point.</CardDescription>
+          <CardTitle className="text-lg">Services</CardTitle>
+          <CardDescription>All detected services in your project. HTTP services get auto-generated domains. TCP services can be exposed externally.</CardDescription>
+        </CardHeader>
+        <CardContent>
+          {services.length === 0 ? (
+            <div className="text-sm text-muted-foreground/60 text-center py-8">
+              No services detected yet. Deploy your project to see services here.
+            </div>
+          ) : (
+            <div className="space-y-2">
+              {services.map((service) => (
+                <ServiceItem
+                  key={service.name}
+                  service={service}
+                  domain={serviceDomainMap.get(service.name!)}
+                  projectId={projectId}
+                  onExpose={handleExpose}
+                  onUnexpose={handleUnexpose}
+                  onProtocolChange={handleProtocolChange}
+                  isExposing={exposingService === service.name}
+                  isUnexposing={unexposingService === service.name}
+                  isChangingProtocol={changingProtocolService === service.name}
+                />
+              ))}
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
+      {/* Custom Domains Section */}
+      <Card className="rounded-xl border-zinc-800 bg-zinc-900/50">
+        <CardHeader>
+          <CardTitle className="text-lg">Custom Domains</CardTitle>
+          <CardDescription>Manage custom domains for your HTTP services. Your primary domain is used as the main entry point.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-8">
           {/* Primary Domain Section */}
@@ -485,7 +899,7 @@ function DomainsSettingsTab() {
           {/* Add Custom Domain Section */}
           <DomainSection
             title="Add Custom Domain"
-            description="Connect your own domain to this project"
+            description="Connect your own domain to an HTTP service"
           >
             <form onSubmit={(e) => {
               e.preventDefault();
