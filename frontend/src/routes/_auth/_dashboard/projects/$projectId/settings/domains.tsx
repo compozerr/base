@@ -87,13 +87,18 @@ async function updateServiceProtocol(projectId: string, serviceName: string, pro
   }
 }
 
+function stripScheme(url: string): string {
+  return url.replace(/^https?:\/\//, '')
+}
+
 function getConnectionStringTemplate(serviceName: string, port: string, host: string, allocatedPort: number): string {
+  const bare = stripScheme(host)
   const portNum = parseInt(port)
-  if (portNum === 5432) return `postgresql://user:password@${host}:${allocatedPort}/dbname`
-  if (portNum === 3306) return `mysql://user:password@${host}:${allocatedPort}/dbname`
-  if (portNum === 6379) return `redis://${host}:${allocatedPort}`
-  if (portNum === 27017) return `mongodb://user:password@${host}:${allocatedPort}/dbname`
-  return `${host}:${allocatedPort}`
+  if (portNum === 5432) return `postgresql://user:password@${bare}:${allocatedPort}/dbname`
+  if (portNum === 3306) return `mysql://user:password@${bare}:${allocatedPort}/dbname`
+  if (portNum === 6379) return `redis://${bare}:${allocatedPort}`
+  if (portNum === 27017) return `mongodb://user:password@${bare}:${allocatedPort}/dbname`
+  return `${bare}:${allocatedPort}`
 }
 
 function getServiceTypeLabel(port: string): string {
@@ -374,7 +379,7 @@ function ServiceItem({ service, domain, projectId, onExpose, onUnexpose, onProto
                 {isTcp && isExposed && (
                   <CopyText value={connectionString!}>
                     <span className="text-xs text-muted-foreground hover:text-foreground transition-colors font-mono cursor-pointer">
-                      {service.tcpHost}:{service.allocatedTcpPort}
+                      {stripScheme(service.tcpHost!)}:{service.allocatedTcpPort}
                     </span>
                   </CopyText>
                 )}
