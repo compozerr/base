@@ -23,6 +23,11 @@ for (const module of modulesWithDockerComposeFile) {
 
 const moduleComposeContextsEnvironmentVars = Object.entries(moduleComposeContexts).map(([name, path]) => `COMPOSE_${name.toUpperCase()}_CONTEXT=${path}`).join(" ");
 
+// Set CACHE_BUST to current git SHA to invalidate Docker layer cache on each deploy
+const gitShaProcess = new Deno.Command("git", { args: ["rev-parse", "--short", "HEAD"], stdout: "piped", stderr: "null" });
+const gitShaOutput = await gitShaProcess.output();
+const cacheBust = new TextDecoder().decode(gitShaOutput.stdout).trim() || "unknown";
+
 if (!Deno.args.includes("--no-build")) {
     console.log("🧹 Cleaning old build cache...");
     const cleanCommand = "docker builder prune --filter until=168h --keep-storage=20GB -f";
@@ -36,7 +41,7 @@ if (!Deno.args.includes("--no-build")) {
 }
 
 const commandFlags = `-f ${dockerComposeFiles.join(" -f ")}`
-const upCommand = `${moduleComposeContextsEnvironmentVars} docker-compose ${commandFlags} up${Deno.args.includes("--no-build") ? "" : " --build"}${Deno.args.includes("-d") ? " -d" : ""}`;
+const upCommand = `CACHE_BUST=${cacheBust} ${moduleComposeContextsEnvironmentVars} docker-compose ${commandFlags} up${Deno.args.includes("--no-build") ? "" : " --build"}${Deno.args.includes("-d") ? " -d" : ""}`;
 
 console.log({ upCommand })
 
