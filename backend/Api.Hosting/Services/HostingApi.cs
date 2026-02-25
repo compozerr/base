@@ -7,6 +7,7 @@ using Api.Hosting.Dtos;
 using Api.Hosting.Endpoints.Deployments.ChangeDeploymentStatus;
 using Github.Services;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 
@@ -287,9 +288,29 @@ public sealed class HostingApi(
 
     public async Task UpdateTcpProxyAsync(ProjectId projectId)
     {
+        using var scope = serviceProvider.CreateScope();
+        var dbContext = scope.ServiceProvider.GetRequiredService<ApiDbContext>();
+
+        var projectIds = await dbContext.Projects
+            .Where(p => p.ServerId == ServerId)
+            .Select(p => p.Id)
+            .ToListAsync();
+
+        var allocations = await dbContext.TcpPortAllocations
+            .Where(a => projectIds.Contains(a.ProjectId))
+            .Select(a => new
+            {
+                projectId = a.ProjectId.Value.ToString(),
+                serviceName = a.ServiceName,
+                internalPort = a.InternalPort,
+                allocatedPort = a.AllocatedPort,
+                vmIp = a.VmIp
+            })
+            .ToListAsync();
+
         var response = await HttpClient.PutAsync("/tcp-proxy", JsonContent.Create(new
         {
-            projectId = projectId.Value.ToString()
+            allocations
         }));
 
         if (!response.IsSuccessStatusCode)
