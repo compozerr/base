@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Template", "..\modules\template\backend\Template\Template.csproj", "{3A732EB6-3169-408B-B0FD-5D94B418DE25}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Core\Core.csproj", "{F2850118-E7CF-4EFB-8048-87773B0EE5D7}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api", "Api\Api.csproj", "{48A374D9-B9F7-443A-92AA-0E14B4B7414A}"
@@ -71,18 +69,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{3A732EB6-3169-408B-B0FD-5D94B418DE25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3A732EB6-3169-408B-B0FD-5D94B418DE25}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3A732EB6-3169-408B-B0FD-5D94B418DE25}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{3A732EB6-3169-408B-B0FD-5D94B418DE25}.Debug|x64.Build.0 = Debug|Any CPU
-		{3A732EB6-3169-408B-B0FD-5D94B418DE25}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{3A732EB6-3169-408B-B0FD-5D94B418DE25}.Debug|x86.Build.0 = Debug|Any CPU
-		{3A732EB6-3169-408B-B0FD-5D94B418DE25}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3A732EB6-3169-408B-B0FD-5D94B418DE25}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3A732EB6-3169-408B-B0FD-5D94B418DE25}.Release|x64.ActiveCfg = Release|Any CPU
-		{3A732EB6-3169-408B-B0FD-5D94B418DE25}.Release|x64.Build.0 = Release|Any CPU
-		{3A732EB6-3169-408B-B0FD-5D94B418DE25}.Release|x86.ActiveCfg = Release|Any CPU
-		{3A732EB6-3169-408B-B0FD-5D94B418DE25}.Release|x86.Build.0 = Release|Any CPU
 		{F2850118-E7CF-4EFB-8048-87773B0EE5D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F2850118-E7CF-4EFB-8048-87773B0EE5D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F2850118-E7CF-4EFB-8048-87773B0EE5D7}.Debug|x64.ActiveCfg = Debug|Any CPU
