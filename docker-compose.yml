@@ -3,8 +3,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.frontend
-      args:
-        - CACHE_BUST=${CACHE_BUST:-dev}
     ports:
       - "1234:5173"
     restart: always

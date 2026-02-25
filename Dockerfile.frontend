@@ -4,9 +4,6 @@ RUN npm install -g turbo
 ARG APP_VERSION=dev
 
 WORKDIR /app
-
-# Cache-bust: changing this arg invalidates COPY and all subsequent layers
-ARG CACHE_BUST=dev
 COPY . .
 
 # Install dependencies
