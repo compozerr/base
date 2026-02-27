@@ -1,4 +1,4 @@
-import { api } from "@/api-client"
+import { api, apiBaseUrl } from "@/api-client"
 import InfiniteScrollContainer from "@/components/infinite-scroll-container"
 import LoadingButton from "@/components/loading-button"
 import { Badge } from "@/components/ui/badge"
@@ -19,6 +19,7 @@ import {
     RefreshCw,
     RocketIcon,
 } from "lucide-react"
+import { useMutation } from "@tanstack/react-query"
 import { useMemo, useState } from "react"
 
 export const Route = createFileRoute(
@@ -132,6 +133,20 @@ function RouteComponent() {
         refetch();
     }
 
+    const { mutateAsync: cancelDeploymentAsync } = useMutation({
+        mutationFn: async (deploymentId: string) => {
+            const res = await fetch(
+                `${apiBaseUrl}/v1/projects/${encodeURIComponent(projectId)}/deployments/${encodeURIComponent(deploymentId)}/cancel`,
+                { method: 'POST', credentials: 'include' },
+            );
+            if (!res.ok) {
+                const text = await res.text();
+                throw new Error(text || 'Failed to cancel deployment');
+            }
+            return res.json();
+        },
+    });
+
     return (
         <div className="space-y-6">
             {/* Header */}
@@ -196,6 +211,10 @@ function RouteComponent() {
                                 deployment={deployment}
                                 projectId={projectId}
                                 router={router}
+                                onCancel={async (deploymentId: string) => {
+                                    await cancelDeploymentAsync(deploymentId);
+                                    refetch();
+                                }}
                             />
                         </motion.div>
                     ))}
@@ -222,7 +241,7 @@ function RouteComponent() {
     )
 }
 
-function DeploymentCard({ deployment, projectId, router }: {
+function DeploymentCard({ deployment, projectId, router, onCancel }: {
     deployment: {
         id?: string | null;
         environment?: string | null;
@@ -237,6 +256,7 @@ function DeploymentCard({ deployment, projectId, router }: {
     };
     projectId: string;
     router: ReturnType<typeof useRouter>;
+    onCancel: (deploymentId: string) => Promise<void>;
 }) {
     const timeAgo = useTimeAgo(deployment.createdAt!);
     const status = deployment.status as DeploymentStatus;
@@ -306,6 +326,21 @@ function DeploymentCard({ deployment, projectId, router }: {
                     </div>
                     <span className="text-xs text-muted-foreground">by {deployment.author}</span>
                 </div>
+
+                {/* Cancel button for active deployments */}
+                {active && (
+                    <Button
+                        variant="ghost"
+                        size="sm"
+                        className="text-red-400 hover:text-red-300 hover:bg-red-500/10 ml-2 flex-shrink-0"
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            onCancel(deployment.id!);
+                        }}
+                    >
+                        Cancel
+                    </Button>
+                )}
             </div>
 
             {/* Mobile: branch/commit (visible on small screens) */}
