@@ -1,4 +1,4 @@
-import { api } from '@/api-client';
+import { api, apiBaseUrl } from '@/api-client';
 import { CopyButton } from '@/components/copy-button';
 import { CopyText } from '@/components/copy-text';
 import LoadingButton from '@/components/loading-button';
@@ -8,6 +8,7 @@ import { useDuration } from '@/hooks/use-duration';
 import { DeploymentStatus } from '@/lib/deployment-status';
 import { Formatter } from '@/lib/formatter';
 import { cn } from '@/lib/utils';
+import { useMutation } from '@tanstack/react-query';
 import { createFileRoute, useRouter } from '@tanstack/react-router';
 import { motion } from 'framer-motion';
 import {
@@ -81,7 +82,7 @@ function RouteComponent() {
     const initialData = Route.useLoaderData();
     const { projectId, deploymentId } = Route.useParams();
 
-    const { data: deployment } = api.v1.getProjectsProjectIdDeploymentsDeploymentId.useQuery(
+    const { data: deployment, refetch } = api.v1.getProjectsProjectIdDeploymentsDeploymentId.useQuery(
         { path: { projectId, deploymentId } },
         {
             initialData,
@@ -141,6 +142,22 @@ function RouteComponent() {
         goBack();
     };
 
+    const { mutateAsync: cancelDeploymentAsync, isPending: isCancelling } = useMutation({
+        mutationFn: async () => {
+            const response = await fetch(`${apiBaseUrl}/v1/projects/${projectId}/deployments/${deploymentId}/cancel`, {
+                method: 'POST',
+                credentials: 'include',
+            });
+            if (!response.ok) throw new Error('Failed to cancel deployment');
+            return response.json();
+        }
+    });
+
+    const handleCancelAsync = async () => {
+        await cancelDeploymentAsync();
+        refetch();
+    };
+
     return (
         <div className="space-y-6">
             {/* Breadcrumb + back */}
@@ -177,9 +194,21 @@ function RouteComponent() {
                         </Badge>
                     )}
                 </div>
-                <LoadingButton isLoading={isRedeploying} onClick={handleRedeployAsync} variant="outline">
-                    Redeploy
-                </LoadingButton>
+                <div className="flex items-center gap-2">
+                    {(isDeploying || isQueued) && (
+                        <LoadingButton
+                            isLoading={isCancelling}
+                            onClick={handleCancelAsync}
+                            variant="destructive"
+                            size="sm"
+                        >
+                            Cancel
+                        </LoadingButton>
+                    )}
+                    <LoadingButton isLoading={isRedeploying} onClick={handleRedeployAsync} variant="outline">
+                        Redeploy
+                    </LoadingButton>
+                </div>
             </div>
 
             {/* Info cards */}
