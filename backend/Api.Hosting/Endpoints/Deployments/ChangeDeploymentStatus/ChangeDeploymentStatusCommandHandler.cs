@@ -27,6 +27,9 @@ public sealed class ChangeDeploymentStatusCommandHandler(
             case DeploymentStatus.Failed:
                 deployment.BuildDuration = deployment.GetBuildDuration();
                 break;
+            case DeploymentStatus.Cancelled:
+                deployment.BuildDuration = deployment.GetBuildDuration();
+                break;
             default:
                 break;
         }

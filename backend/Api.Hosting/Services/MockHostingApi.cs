@@ -112,4 +112,10 @@ public sealed class MockHostingApi(IProjectRepository projectRepository) : IHost
         Console.WriteLine($"[MOCK] Updating TCP proxy for project: {projectId}");
         return Task.CompletedTask;
     }
+
+    public Task CancelDeploymentAsync(DeploymentId deploymentId)
+    {
+        Console.WriteLine($"[MOCK] Cancelling deployment: {deploymentId}");
+        return Task.CompletedTask;
+    }
 }

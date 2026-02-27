@@ -18,6 +18,7 @@ public interface IHostingApi
     Task<CommandExecutionResult> ExecuteCommandAsync(ProjectId projectId, string command);
     Task<string> DebugTerminalAsync(ProjectId projectId);
     Task UpdateTcpProxyAsync(ProjectId projectId);
+    Task CancelDeploymentAsync(DeploymentId deploymentId);
 }
 
 public sealed record CommandExecutionResult(int ExitCode, string Stdout, string Stderr);

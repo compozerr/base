@@ -1,3 +1,4 @@
+using Api.Endpoints.Projects.Deployments.CancelDeployment;
 using Api.Endpoints.Projects.Deployments.DeployFromLatestCommit;
 using Api.Endpoints.Projects.Deployments.Logs.Get;
 using Api.Endpoints.Projects.Deployments.RedeployDeployment;
@@ -17,6 +18,7 @@ public static class DeploymentsGroup
         group.AddGetLogRoute();
         group.AddRedeployDeploymentRoute();
         group.AddDeployFromLatestCommitRoute();
+        group.AddCancelDeploymentRoute();
 
         return group;
     }

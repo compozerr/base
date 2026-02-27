@@ -184,6 +184,24 @@ public sealed class HostingApi(
                 deploymentStatus));
     }
 
+    public async Task CancelDeploymentAsync(DeploymentId deploymentId)
+    {
+        var timeout = TimeSpan.FromSeconds(30);
+        using var cts = new CancellationTokenSource(timeout);
+
+        var response = await HttpClient.PostAsync("/projects/cancel", JsonContent.Create(new
+        {
+            deploymentId = deploymentId.Value.ToString()
+        }), cts.Token);
+
+        if (!response.IsSuccessStatusCode)
+        {
+            Log.ForContext("BaseDomain", HttpClient.BaseDomain)
+               .Error("Failed to cancel deployment {deploymentId}: {response}",
+                   deploymentId, await response.Content.ReadAsStringAsync());
+        }
+    }
+
     public async Task<ProjectUsageDto[]?> GetProjectsUsageAsync()
     {
         var response = await HttpClient.GetAsync("/monitoring/vms-usage");
