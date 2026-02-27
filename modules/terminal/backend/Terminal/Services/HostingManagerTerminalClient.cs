@@ -5,13 +5,14 @@ using Api.Abstractions;
 using Api.Data;
 using Api.Hosting.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 
 namespace Terminal.Services;
 
 public sealed class HostingManagerTerminalClient : IHostingManagerTerminalClient, IDisposable
 {
-    private readonly ApiDbContext _dbContext;
+    private readonly IServiceScopeFactory _scopeFactory;
     private readonly ICryptoService _cryptoService;
     private readonly IHttpClientFactory _httpClientFactory;
 
@@ -20,11 +21,11 @@ public sealed class HostingManagerTerminalClient : IHostingManagerTerminalClient
     private Task? _receiveTask;
 
     public HostingManagerTerminalClient(
-        ApiDbContext dbContext,
+        IServiceScopeFactory scopeFactory,
         ICryptoService cryptoService,
         IHttpClientFactory httpClientFactory)
     {
-        _dbContext = dbContext;
+        _scopeFactory = scopeFactory;
         _cryptoService = cryptoService;
         _httpClientFactory = httpClientFactory;
     }
@@ -34,7 +35,9 @@ public sealed class HostingManagerTerminalClient : IHostingManagerTerminalClient
         try
         {
             // Get server for signing
-            var server = await _dbContext.Servers.FirstOrDefaultAsync(s => s.ApiDomain == apiDomain);
+            await using var scope = _scopeFactory.CreateAsyncScope();
+            var dbContext = scope.ServiceProvider.GetRequiredService<ApiDbContext>();
+            var server = await dbContext.Servers.FirstOrDefaultAsync(s => s.ApiDomain == apiDomain);
             if (server == null) return false;
 
             var httpClient = _httpClientFactory.CreateClient();
@@ -73,7 +76,9 @@ public sealed class HostingManagerTerminalClient : IHostingManagerTerminalClient
         Func<string, Task> onError)
     {
         // Get server for signing
-        var server = await _dbContext.Servers.FirstOrDefaultAsync(s => s.ApiDomain == apiDomain);
+        await using var scope = _scopeFactory.CreateAsyncScope();
+        var dbContext = scope.ServiceProvider.GetRequiredService<ApiDbContext>();
+        var server = await dbContext.Servers.FirstOrDefaultAsync(s => s.ApiDomain == apiDomain);
         if (server == null)
         {
             throw new InvalidOperationException($"Server not found for domain: {apiDomain}");

@@ -7,6 +7,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using Terminal.Events;
 using Terminal.Services;
@@ -29,6 +30,7 @@ public sealed class TerminalHub : Hub
     private readonly ITerminalConnectionManager _connectionManager;
     private readonly IPublisher _publisher;
     private readonly IHubContext<TerminalHub> _hubContext;
+    private readonly IServiceScopeFactory _scopeFactory;
 
     // Track active sessions by connection ID
     private static readonly ConcurrentDictionary<string, TerminalSessionId> _activeSessions = new();
@@ -40,7 +42,8 @@ public sealed class TerminalHub : Hub
         IHostingManagerTerminalClient hostingClient,
         ITerminalConnectionManager connectionManager,
         IPublisher publisher,
-        IHubContext<TerminalHub> hubContext)
+        IHubContext<TerminalHub> hubContext,
+        IServiceScopeFactory scopeFactory)
     {
         _dbContext = dbContext;
         _currentUserAccessor = currentUserAccessor;
@@ -49,6 +52,7 @@ public sealed class TerminalHub : Hub
         _connectionManager = connectionManager;
         _publisher = publisher;
         _hubContext = hubContext;
+        _scopeFactory = scopeFactory;
     }
 
     public async Task<StartSessionResult> StartSession(string projectIdString)
@@ -98,13 +102,17 @@ public sealed class TerminalHub : Hub
         try
         {
             var connectionId = Context.ConnectionId;
+            var scopeFactory = _scopeFactory;
             await _hostingClient.ConnectAsync(
                 project.Server.ApiDomain,
                 projectId,
                 onData: async (data) => await _hubContext.Clients.Client(connectionId).SendAsync("OnOutput", data),
                 onDisconnected: async (reason) =>
                 {
-                    await _sessionService.EndSessionAsync(session.Id, reason);
+                    // Create a fresh scope — the original hub scope is long disposed
+                    await using var scope = scopeFactory.CreateAsyncScope();
+                    var sessionService = scope.ServiceProvider.GetRequiredService<ITerminalSessionService>();
+                    await sessionService.EndSessionAsync(session.Id, reason);
                     _activeSessions.TryRemove(connectionId, out _);
                     await _connectionManager.RemoveClientAsync(connectionId);
                     await _hubContext.Clients.Client(connectionId).SendAsync("OnDisconnected", reason);
