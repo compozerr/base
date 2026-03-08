@@ -3,6 +3,7 @@ using Api.Hosting.Endpoints.Projects.ProjectDomains;
 using Api.Hosting.Endpoints.Projects.ProjectEnvironment;
 using Api.Hosting.Endpoints.Projects.ProjectState;
 using Api.Hosting.Endpoints.Projects.Services;
+using Api.Hosting.Endpoints.Projects.TcpAllocations;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 
@@ -21,6 +22,7 @@ public static class ProjectsGroup
         group.AddProjectEnvironmentGroup();
         group.AddProjectStateRoute();
         group.AddReportServicesRoute();
+        group.AddGetTcpAllocationsRoute();
 
         return group;
     }
