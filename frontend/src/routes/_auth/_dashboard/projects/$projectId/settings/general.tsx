@@ -22,6 +22,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 
 import { api } from '@/api-client'
 import LoadingButton from '@/components/loading-button'
+import { orgFetch } from '@/lib/org-storage'
 import { Price } from '@/lib/price'
 import { useToast } from '@/hooks/use-toast'
 import { cn } from '@/lib/utils'
@@ -369,7 +370,7 @@ function TransferProjectSection({ projectId, projectName }: { projectId: string;
   const { data: organizations } = useQuery<Org[]>({
     queryKey: ['organizations'],
     queryFn: async () => {
-      const res = await fetch(`${apiBaseUrl}/v1/organizations`, { credentials: 'include' })
+      const res = await orgFetch(`${apiBaseUrl}/v1/organizations`)
       if (!res.ok) return []
       return res.json()
     },
@@ -378,9 +379,8 @@ function TransferProjectSection({ projectId, projectName }: { projectId: string;
 
   const transferMutation = useMutation({
     mutationFn: async (targetOrgId: string) => {
-      const res = await fetch(`${apiBaseUrl}/v1/organizations/${targetOrgId}/transfer-project`, {
+      const res = await orgFetch(`${apiBaseUrl}/v1/organizations/${targetOrgId}/transfer-project`, {
         method: 'POST',
-        credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ projectId }),
       })

@@ -16,6 +16,7 @@ import {
 import { useToast } from '@/hooks/use-toast'
 import { motion } from 'framer-motion'
 import { apiBaseUrl } from '@/api-client'
+import { orgFetch } from '@/lib/org-storage'
 import { useAuth } from '@/hooks/use-dynamic-auth'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import * as React from 'react'
@@ -46,7 +47,6 @@ function OrganizationsPage() {
   const { data: organizations, isLoading } = useQuery<Organization[]>({
     queryKey: ['organizations'],
     queryFn: async () => {
-      const res = await fetch(`${apiBaseUrl}/v1/organizations`, { credentials: 'include' })
       if (!res.ok) throw new Error('Failed to fetch organizations')
       return res.json()
     },
@@ -54,7 +54,7 @@ function OrganizationsPage() {
 
   const createOrgMutation = useMutation({
     mutationFn: async ({ name, slug }: { name: string; slug: string }) => {
-      const res = await fetch(`${apiBaseUrl}/v1/organizations`, {
+      const res = await orgFetch(`${apiBaseUrl}/v1/organizations`, {
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },

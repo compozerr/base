@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge'
 import { Skeleton } from '@/components/ui/skeleton'
 import { motion } from 'framer-motion'
 import { apiBaseUrl } from '@/api-client'
+import { orgFetch } from '@/lib/org-storage'
 import { useQuery } from '@tanstack/react-query'
 
 interface OrganizationDetail {
@@ -27,7 +28,6 @@ function OrganizationDetailPage() {
   const { data: org, isLoading } = useQuery<OrganizationDetail>({
     queryKey: ['organization', orgId],
     queryFn: async () => {
-      const res = await fetch(`${apiBaseUrl}/v1/organizations/${orgId}`, { credentials: 'include' })
       if (!res.ok) throw new Error('Failed to fetch organization')
       return res.json()
     },

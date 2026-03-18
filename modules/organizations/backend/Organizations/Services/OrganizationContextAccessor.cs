@@ -12,9 +12,11 @@ public sealed class OrganizationContextAccessor(
     IOrganizationRepository organizationRepository) : IOrganizationContextAccessor
 {
     private const string OrganizationIdHeader = "X-Organization-Id";
+    private OrganizationId? _cached;
 
     public async Task<OrganizationId> GetCurrentOrganizationIdAsync()
     {
+        if (_cached is not null) return _cached;
         var httpContext = httpContextAccessor.HttpContext;
 
         // Try to get from header
@@ -22,6 +24,7 @@ public sealed class OrganizationContextAccessor(
             && !string.IsNullOrEmpty(headerValue)
             && OrganizationId.TryParse(headerValue!, out var orgId))
         {
+            _cached = orgId;
             return orgId;
         }
 
@@ -34,6 +37,7 @@ public sealed class OrganizationContextAccessor(
         if (personalOrg is null)
             throw new InvalidOperationException("User does not have a personal organization.");
 
+        _cached = personalOrg.Id;
         return personalOrg.Id;
     }
 

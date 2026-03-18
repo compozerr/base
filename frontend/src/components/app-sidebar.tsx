@@ -1,5 +1,5 @@
 import { api, apiBaseUrl } from "@/api-client"
-import { getCurrentOrgId, setCurrentOrgId as persistOrgId } from "@/lib/org-storage"
+import { getCurrentOrgId, setCurrentOrgId as persistOrgId, orgFetch } from "@/lib/org-storage"
 import { CompozerrLogo } from "@/components/compozerr-logo"
 import { useAuth } from "@/hooks/use-dynamic-auth"
 import { getLink } from "@/links"
@@ -43,10 +43,11 @@ export function AppSidebar() {
   const { data: organizations } = useQuery<Organization[]>({
     queryKey: ["organizations"],
     queryFn: async () => {
-      const res = await fetch(`${apiBaseUrl}/v1/organizations`, { credentials: "include" })
+      const res = await orgFetch(`${apiBaseUrl}/v1/organizations`)
       if (!res.ok) return []
       return res.json()
     },
+    staleTime: 60_000,
   })
 
   const [currentOrgId, setCurrentOrgId] = useState<string | null>(() =>
