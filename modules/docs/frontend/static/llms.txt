@@ -1,0 +1,286 @@
+# Compozerr
+
+> Compozerr is a deployment platform — "Vercel for anything that runs in Docker." Deploy any project with a single command, from code to cloud in seconds.
+
+Compozerr supports any language or framework that runs in Docker. Projects are deployed to managed Proxmox VMs with automatic SSL, domain routing via Traefik, and real-time build log streaming.
+
+## Getting Started
+
+Install the CLI:
+```bash
+curl -fsSL https://cli.compozerr.com/install.sh | bash
+```
+
+Authenticate:
+```bash
+compozerr login
+# Or for CI/automation:
+compozerr login --token YOUR_API_TOKEN
+```
+
+## Deploy Workflow (3 Steps)
+
+### Step 1: Migrate your project
+```bash
+cd your-project
+compozerr migrate
+```
+This auto-detects your project type, creates a `compozerr.json` config file, and registers the project with Compozerr. You can also specify options non-interactively:
+```bash
+compozerr migrate my-app --location fra --tier hobby
+```
+
+### Step 2: Commit the config
+```bash
+git add compozerr.json && git commit -m "Add compozerr config" && git push
+```
+
+### Step 3: Deploy
+```bash
+compozerr deploy
+```
+To wait for completion:
+```bash
+compozerr deploy --wait
+```
+
+## Critical: Port 80 Requirement
+
+**Your container must listen on port 80.** Compozerr's Traefik reverse proxy routes all HTTP traffic to port 80 inside your container. If your app listens on a different port (e.g., 3000, 8080), you must either:
+
+1. Configure your app to listen on port 80, or
+2. Use a Dockerfile that maps the port:
+   ```dockerfile
+   EXPOSE 80
+   CMD ["node", "server.js", "--port", "80"]
+   ```
+3. Use Docker Compose with port mapping:
+   ```yaml
+   services:
+     app:
+       build: .
+       ports:
+         - "80:3000"  # Maps container port 3000 to port 80
+   ```
+
+## compozerr.json Configuration
+
+The `compozerr.json` file in your project root configures how Compozerr deploys your project.
+
+### Project Configuration
+
+```json
+{
+  "type": "project",
+  "name": "my-app",
+  "id": "auto-generated-uuid",
+  "templateType": "dockerfile",
+  "templateFile": "Dockerfile",
+  "start": "docker compose up -d",
+  "cwd": "backend"
+}
+```
+
+**Required fields:**
+- `type`: Must be `"project"`
+- `name`: Project name (used as GitHub repository identifier)
+
+**Optional fields:**
+- `id`: Auto-generated project UUID (do not edit manually)
+- `templateType`: One of `"dockerfile"` | `"docker-compose"` | `"compozerr-standard"` — auto-detected by `migrate`
+- `templateFile`: Path to the detected template file (e.g., `"Dockerfile"`, `"docker-compose.yml"`)
+- `start`: Custom start command (default: `npm run serve -- -d`)
+- `cwd`: Working directory relative to git root for the start command
+- `dev`: Development-only start command
+- `modules`: Module dependencies as `{ "name": "owner/module@version" }`
+
+### Valid templateType Values
+
+| Value | Detected When | Default Start Command |
+|-------|--------------|----------------------|
+| `dockerfile` | `Dockerfile` found in root or subdirectory | None (Docker build + run) |
+| `docker-compose` | `docker-compose.yml` or `compose.yml` found | `docker compose up` |
+| `compozerr-standard` | Monorepo with frontend/, backend/, and compose file | `npm run serve -- -d` |
+
+**Important:** Only these three values are valid. Using any other value (e.g., `"node"`) will cause a deployment error.
+
+## CLI Reference
+
+### Account Commands
+
+#### `compozerr login`
+Sign in to your Compozerr account.
+```bash
+compozerr login                    # Interactive: opens browser for OAuth
+compozerr login --token <token>    # Non-interactive: API token authentication
+```
+
+#### `compozerr logout`
+Sign out and clear session.
+
+#### `compozerr me`
+View your account details (email, display name, user ID).
+
+### Project Commands
+
+#### `compozerr migrate [name]`
+Set up an existing project for Compozerr deployment.
+- `[name]` — Project name (optional, prompts or defaults to folder name)
+- `--location <iso>` — Hosting location ISO code (e.g., `fra`, `nyc`)
+- `--tier <tier>` — Server tier (e.g., `hobby`, `pro`)
+- `--skip-docker-setup` — Skip Docker assistant if no Dockerfile detected
+- `--redetect` — Re-detect template type for already migrated project
+
+#### `compozerr deploy`
+Deploy your project to Compozerr hosting.
+- `--wait` — Wait for deployment to complete before returning
+- `--poll-interval <ms>` — Status check frequency (default: 5000)
+
+#### `compozerr dev`
+Start local development environment with hot-reload.
+
+#### `compozerr ssh [project-id]`
+Connect to your deployed project via terminal.
+- `[project-id]` — Project ID (defaults to current directory's compozerr.json)
+- `-c, --command <command>` — Execute a single command and exit
+
+### Deployment Commands
+
+#### `compozerr deployment status`
+Check the status of your latest deployment.
+
+#### `compozerr deployment logs`
+View build logs for a deployment.
+
+#### `compozerr deployment list`
+List all deployments for the current project.
+
+### Module Commands
+
+#### `compozerr add <module>`
+Add a module to your project.
+
+#### `compozerr remove <module>`
+Remove a module from your project.
+
+#### `compozerr update`
+Update modules to their latest versions.
+
+#### `compozerr module search <query>`
+Search for available modules.
+
+#### `compozerr module info <module>`
+View detailed information about a module.
+
+### Utility Commands
+
+#### `compozerr tiers`
+List available server tiers with pricing.
+- `--location <iso>` — Filter by location
+
+#### `compozerr cleanup`
+Clean up temporary files and configurations.
+
+#### `compozerr reset`
+Reset CLI configuration to defaults.
+
+#### `compozerr doctor`
+Validate your project setup before deploying. Checks compozerr.json, git remote, template files, and authentication.
+
+## Global Flags
+
+All commands support these flags:
+- `--json` — Output results as structured JSON (machine-readable)
+- `-n, --non-interactive` — Disable prompts (for CI/scripting)
+- `-y, --yes` — Auto-confirm all prompts
+- `-q, --quiet` — Suppress non-essential output
+- `--verbose` — Enable debug output
+
+## JSON Output Format
+
+When using `--json`, all commands return structured responses:
+
+**Success:**
+```json
+{
+  "success": true,
+  "data": { ... },
+  "message": "Operation completed"
+}
+```
+
+**Error:**
+```json
+{
+  "success": false,
+  "error": {
+    "code": "ERROR_CODE",
+    "message": "Human-readable error description",
+    "recoverable": true,
+    "suggestedAction": {
+      "type": "AUTHENTICATE",
+      "description": "Run login command",
+      "command": "compozerr login"
+    }
+  }
+}
+```
+
+## Error Codes
+
+| Code | Meaning | Suggested Fix |
+|------|---------|--------------|
+| `AUTH_REQUIRED` | Not logged in | Run `compozerr login` |
+| `PAYMENT_REQUIRED` | No payment method | Add at https://compozerr.com/settings/billing |
+| `GITHUB_ACCESS_REQUIRED` | GitHub App not installed | Install at https://github.com/apps/compozerr |
+| `NO_COMPOZERR_FILE` | Missing compozerr.json | Run `compozerr migrate` |
+| `INVALID_COMPOZERR_FILE` | Malformed compozerr.json | Check syntax and field values |
+| `GIT_REMOTE_NOT_FOUND` | No git remote configured | Run `git remote add origin <url>` |
+| `GIT_DIRTY_WORKING_TREE` | Uncommitted changes | Commit or stash changes |
+| `DEPLOYMENT_FAILED` | Deployment error | Check build logs with `compozerr deployment logs` |
+| `PROJECT_NOT_FOUND` | Invalid project ID | Verify compozerr.json id field |
+| `NETWORK_ERROR` | Connection issue | Check internet and retry |
+
+## Common Workflows for AI Agents
+
+### Deploy an Existing Project
+```bash
+compozerr login --token $COMPOZERR_TOKEN
+cd /path/to/project
+compozerr migrate my-project --location fra --tier hobby --non-interactive
+git add compozerr.json && git commit -m "Add compozerr config" && git push
+compozerr deploy --wait --json
+```
+
+### Check Deployment Status
+```bash
+compozerr deployment status --json
+```
+
+### Validate Before Deploying
+```bash
+compozerr doctor --json
+```
+
+### Deploy a Docker Compose Project
+Ensure your `docker-compose.yml` maps services to port 80:
+```yaml
+services:
+  web:
+    build: .
+    ports:
+      - "80:3000"
+```
+Then:
+```bash
+compozerr migrate --non-interactive
+compozerr deploy --wait
+```
+
+## Documentation
+
+- [Getting Started](https://docs.compozerr.com/getting-started/installation)
+- [CLI Reference](https://docs.compozerr.com/reference/cli/deploy)
+- [Configuration](https://docs.compozerr.com/reference/configuration/compozerr-json)
+- [How Deployment Works](https://docs.compozerr.com/reference/architecture/how-deployment-works)
+- [Troubleshooting](https://docs.compozerr.com/troubleshooting/deployment-failures)
