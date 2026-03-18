@@ -33,19 +33,10 @@ public static class GetProjectsRoute
     {
         var stateFilter = Enum.Parse<ProjectStateFilter>(stateFlags.ToString());
 
-        // Try to get org-scoped projects; fall back to user-scoped if no org context
-        (List<Api.Data.Project> projects, int totalProjectsCount, int runningProjectsCount, Dictionary<Api.Abstractions.ProjectId, Api.Abstractions.DeploymentId> activeDeployments) result;
-        try
-        {
-            var orgId = await orgContextAccessor.GetCurrentOrganizationIdAsync();
-            result = await projectRepository.GetProjectsForOrganizationPagedAsync(orgId, page, pageSize, search, stateFilter);
-        }
-        catch
-        {
-            result = await projectRepository.GetProjectsForUserPagedAsync(page, pageSize, search, stateFilter);
-        }
-
-        var (projects, totalProjectsCount, runningProjectsCount, activeDeployments) = result;
+        var orgId = await orgContextAccessor.GetCurrentOrganizationIdOrDefaultAsync();
+        var (projects, totalProjectsCount, runningProjectsCount, activeDeployments) = orgId is not null
+            ? await projectRepository.GetProjectsForOrganizationPagedAsync(orgId, page, pageSize, search, stateFilter)
+            : await projectRepository.GetProjectsForUserPagedAsync(page, pageSize, search, stateFilter);
 
         List<GetProjectResponse> projectsDto = [.. projects.Select(
             p => new GetProjectResponse(

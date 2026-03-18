@@ -23,7 +23,7 @@ app.UseFeatures();
 // Register org routes that need Api.Data references (can't live in Organizations module due to circular dep)
 var orgApiGroup = app.MapGroup("v1/organizations")
    .RequireAuthorization()
-   .RequireRateLimiting("strict")
+   .RequireRateLimiting("authenticated")
    .WithTags("Organizations");
 
 orgApiGroup.AddTransferProjectRoute();

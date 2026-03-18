@@ -1,4 +1,5 @@
 import { api, apiBaseUrl } from "@/api-client"
+import { getCurrentOrgId, setCurrentOrgId as persistOrgId } from "@/lib/org-storage"
 import { CompozerrLogo } from "@/components/compozerr-logo"
 import { useAuth } from "@/hooks/use-dynamic-auth"
 import { getLink } from "@/links"
@@ -29,8 +30,6 @@ interface Organization {
   avatarUrl?: string | null
 }
 
-const ORG_STORAGE_KEY = "compozerr-current-org-id"
-
 export function AppSidebar() {
   const navigate = useNavigate()
   const router = useRouter()
@@ -51,7 +50,7 @@ export function AppSidebar() {
   })
 
   const [currentOrgId, setCurrentOrgId] = useState<string | null>(() =>
-    localStorage.getItem(ORG_STORAGE_KEY)
+    getCurrentOrgId()
   )
 
   // Auto-select personal org if none selected
@@ -61,7 +60,7 @@ export function AppSidebar() {
     const personal = organizations.find((o) => o.isPersonal) ?? organizations[0]
     if (personal) {
       setCurrentOrgId(personal.id)
-      localStorage.setItem(ORG_STORAGE_KEY, personal.id)
+      persistOrgId(personal.id)
     }
   }, [organizations, currentOrgId])
 
@@ -69,9 +68,8 @@ export function AppSidebar() {
 
   const switchOrg = (org: Organization) => {
     setCurrentOrgId(org.id)
-    localStorage.setItem(ORG_STORAGE_KEY, org.id)
+    persistOrgId(org.id)
     setOrgSwitcherOpen(false)
-    // Refresh projects for the new org
     api.v1.getProjects.invalidateQueries()
   }
 

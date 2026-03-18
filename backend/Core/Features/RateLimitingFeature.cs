@@ -26,7 +26,7 @@ public class RateLimitingFeature : IFeature
                     partitionKey: clientIp,
                     factory: _ => new FixedWindowRateLimiterOptions
                     {
-                        PermitLimit = 100,
+                        PermitLimit = 200,
                         Window = TimeSpan.FromMinutes(1),
                         QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
                         QueueLimit = 0 // No queueing for global limiter
@@ -38,7 +38,7 @@ public class RateLimitingFeature : IFeature
             // 1. Strict policy - for sensitive endpoints (auth, payment, etc.)
             options.AddFixedWindowLimiter("strict", options =>
             {
-                options.PermitLimit = 10;
+                options.PermitLimit = 30;
                 options.Window = TimeSpan.FromMinutes(1);
                 options.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
                 options.QueueLimit = 0;

@@ -15,7 +15,7 @@ public class OrganizationsGroup : CarterModule
     public OrganizationsGroup() : base("organizations")
     {
         RequireAuthorization();
-        RequireRateLimiting("strict");
+        RequireRateLimiting("authenticated");
         WithTags("Organizations");
     }
 

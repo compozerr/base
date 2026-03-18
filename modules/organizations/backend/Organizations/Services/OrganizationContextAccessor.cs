@@ -36,4 +36,22 @@ public sealed class OrganizationContextAccessor(
 
         return personalOrg.Id;
     }
+
+    public async Task<OrganizationId?> GetCurrentOrganizationIdOrDefaultAsync()
+    {
+        var httpContext = httpContextAccessor.HttpContext;
+
+        if (httpContext?.Request.Headers.TryGetValue(OrganizationIdHeader, out var headerValue) == true
+            && !string.IsNullOrEmpty(headerValue)
+            && OrganizationId.TryParse(headerValue!, out var orgId))
+        {
+            return orgId;
+        }
+
+        var userId = currentUserAccessor.CurrentUserId;
+        if (userId is null) return null;
+
+        var personalOrg = await organizationRepository.GetPersonalOrgForUserAsync(userId);
+        return personalOrg?.Id;
+    }
 }

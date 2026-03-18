@@ -9,4 +9,9 @@ public interface IOrganizationContextAccessor
     /// Resolves from X-Organization-Id header, or defaults to the user's personal organization.
     /// </summary>
     Task<OrganizationId> GetCurrentOrganizationIdAsync();
+
+    /// <summary>
+    /// Gets the current organization ID or null if not available.
+    /// </summary>
+    Task<OrganizationId?> GetCurrentOrganizationIdOrDefaultAsync();
 }
