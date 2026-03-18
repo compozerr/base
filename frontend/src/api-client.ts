@@ -16,11 +16,18 @@ export const queryClient = new QueryClient({
 
 export const apiBaseUrl = import.meta.env.VITE_BACKEND_URL;
 
+const ORG_STORAGE_KEY = "compozerr-current-org-id";
+
 export const api = createAPIClient({
     requestFn: (schema: OperationSchema, requestInfo: RequestFnInfo, options?: RequestFnOptions) => {
+        const orgId = localStorage.getItem(ORG_STORAGE_KEY);
+        const headers = new Headers(requestInfo.headers);
+        if (orgId) {
+            headers.set("X-Organization-Id", orgId);
+        }
         return requestFn(
             schema,
-            { ...requestInfo, credentials: "include" },
+            { ...requestInfo, credentials: "include", headers },
             { ...options }
         );
     },

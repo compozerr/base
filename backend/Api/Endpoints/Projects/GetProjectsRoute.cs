@@ -2,6 +2,7 @@ using Api.Data;
 using Api.Data.Repositories;
 using Api.Endpoints.Projects.Project.Get;
 using Api.Hosting.Services;
+using Organizations.Services;
 
 namespace Api.Endpoints.Projects;
 
@@ -24,13 +25,27 @@ public static class GetProjectsRoute
 
     public static async Task<GetProjectsResponse> ExecuteAsync(
         IProjectRepository projectRepository,
+        IOrganizationContextAccessor orgContextAccessor,
         string? search = null,
         int stateFlags = (int)ProjectStateFilter.All,
         int page = 1,
         int pageSize = 20)
     {
         var stateFilter = Enum.Parse<ProjectStateFilter>(stateFlags.ToString());
-        var (projects, totalProjectsCount, runningProjectsCount, activeDeployments) = await projectRepository.GetProjectsForUserPagedAsync(page, pageSize, search, stateFilter);
+
+        // Try to get org-scoped projects; fall back to user-scoped if no org context
+        (List<Api.Data.Project> projects, int totalProjectsCount, int runningProjectsCount, Dictionary<Api.Abstractions.ProjectId, Api.Abstractions.DeploymentId> activeDeployments) result;
+        try
+        {
+            var orgId = await orgContextAccessor.GetCurrentOrganizationIdAsync();
+            result = await projectRepository.GetProjectsForOrganizationPagedAsync(orgId, page, pageSize, search, stateFilter);
+        }
+        catch
+        {
+            result = await projectRepository.GetProjectsForUserPagedAsync(page, pageSize, search, stateFilter);
+        }
+
+        var (projects, totalProjectsCount, runningProjectsCount, activeDeployments) = result;
 
         List<GetProjectResponse> projectsDto = [.. projects.Select(
             p => new GetProjectResponse(

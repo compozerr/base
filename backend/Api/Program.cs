@@ -20,12 +20,14 @@ var app = builder.Build();
 
 app.UseFeatures();
 
-// Register transfer project route (in Api project since it needs Api.Data references)
-app.MapGroup("v1/organizations")
+// Register org routes that need Api.Data references (can't live in Organizations module due to circular dep)
+var orgApiGroup = app.MapGroup("v1/organizations")
    .RequireAuthorization()
    .RequireRateLimiting("strict")
-   .WithTags("Organizations")
-   .AddTransferProjectRoute();
+   .WithTags("Organizations");
+
+orgApiGroup.AddTransferProjectRoute();
+orgApiGroup.AddSearchGithubUsersRoute();
 
 Log.Information("Application starting up");
 
