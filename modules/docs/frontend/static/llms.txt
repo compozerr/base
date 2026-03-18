@@ -27,7 +27,7 @@ compozerr migrate
 ```
 This auto-detects your project type, creates a `compozerr.json` config file, and registers the project with Compozerr. You can also specify options non-interactively:
 ```bash
-compozerr migrate my-app --location fra --tier hobby
+compozerr migrate my-app --location fra --tier T0
 ```
 
 ### Step 2: Commit the config
@@ -175,7 +175,7 @@ View detailed information about a module.
 ### Utility Commands
 
 #### `compozerr tiers`
-List available server tiers with pricing.
+List available server tiers with pricing. Tiers are named T0-T4 (T0 is smallest/cheapest). Always run this before `migrate` to pick the right tier.
 - `--location <iso>` — Filter by location
 
 #### `compozerr cleanup`
@@ -247,7 +247,12 @@ When using `--json`, all commands return structured responses:
 ```bash
 compozerr login --token $COMPOZERR_TOKEN
 cd /path/to/project
-compozerr migrate my-project --location fra --tier hobby --non-interactive
+
+# Check available tiers first, then pick one that fits the project
+compozerr tiers --json
+
+# Migrate with the chosen tier (T0-T4, see tiers output for specs/pricing)
+compozerr migrate my-project --location fra --tier T0 --non-interactive
 git add compozerr.json && git commit -m "Add compozerr config" && git push
 compozerr deploy --wait --json
 ```
