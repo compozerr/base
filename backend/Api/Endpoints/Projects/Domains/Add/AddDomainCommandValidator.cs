@@ -3,6 +3,7 @@ using Api.Data.Repositories;
 using Auth.Services;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
+using Organizations.Services;
 
 namespace Api.Endpoints.Projects.Domains.Add;
 
@@ -26,12 +27,19 @@ public sealed class AddDomainCommandValidator : AbstractValidator<AddDomainComma
               await using var scope = scopeFactory.CreateAsyncScope();
               var projectRepository = scope.ServiceProvider.GetRequiredService<IProjectRepository>();
               var currentUserAccessor = scope.ServiceProvider.GetRequiredService<ICurrentUserAccessor>();
+              var currentUserId = currentUserAccessor.CurrentUserId;
+              if (currentUserId is null) return false;
 
-              var project = await projectRepository.GetByIdAsync(
-                  projectId,
-                  cancellationToken);
+              var project = await projectRepository.GetByIdAsync(projectId, cancellationToken);
+              if (project is null) return false;
 
-              return project?.UserId == currentUserAccessor.CurrentUserId;
+              if (project.OrganizationId is not null)
+              {
+                  var orgAuthService = scope.ServiceProvider.GetRequiredService<IOrganizationAuthorizationService>();
+                  return await orgAuthService.CanAccessProjectAsync(project.OrganizationId, currentUserId, cancellationToken);
+              }
+
+              return project.UserId == currentUserId;
           })
           .WithErrorCode("403");
 

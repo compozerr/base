@@ -86,8 +86,7 @@ public static class GetDeploymentsRoute
         CancellationToken cancellationToken = default)
     {
         var query = deploymentRepository.Query()
-            .Where(x => x.UserId == currentUserAccessor.CurrentUserId
-                && x.ProjectId == projectId);
+            .Where(x => x.ProjectId == projectId);
 
         if (statusFilter != DeploymentStatusFilter.All)
         {

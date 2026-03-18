@@ -16,5 +16,7 @@
     <ProjectReference Include="../../modules/auth/backend/Auth/Auth.csproj" />
     <ProjectReference Include="..\..\modules\database\backend\Database\Database.csproj" />
     <ProjectReference Include="..\Api.Abstractions\Api.Abstractions.csproj" />
+    <ProjectReference Include="..\..\modules\organizations\backend\Organizations.Abstractions\Organizations.Abstractions.csproj" />
+    <ProjectReference Include="..\..\modules\organizations\backend\Organizations\Organizations.csproj" />
   </ItemGroup>
 </Project>

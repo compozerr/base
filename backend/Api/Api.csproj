@@ -18,6 +18,7 @@
     <ProjectReference Include="..\..\modules\mail-resend\backend\MailResend\MailResend.csproj" />
     <ProjectReference Include="..\..\modules\mail\backend\Mail\Mail.csproj" />
     <ProjectReference Include="..\..\modules\terminal\backend\Terminal\Terminal.csproj" />
+    <ProjectReference Include="..\..\modules\organizations\backend\Organizations\Organizations.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Include="../.env">

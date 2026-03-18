@@ -16,7 +16,8 @@
         "openTelemetry": "local",
         "storage": "local",
         "terminal": "local",
-        "docs": "local"
+        "docs": "local",
+        "organizations": "local"
     },
     "dependencies": {
         "template": "latest",

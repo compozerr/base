@@ -1,0 +1,19 @@
+{
+    "type": "module",
+    "name": "organizations",
+    "version": "0.1.0",
+    "description": "Organization management with roles, invitations, and multi-user project ownership",
+    "dependencies": {
+        "compozerr-lib/auth": "*",
+        "compozerr-lib/database": "*"
+    },
+    "frontend": {
+        "routesDir": "frontend/src/routes"
+    },
+    "backend": {
+        "projects": [
+            "backend/Organizations/Organizations.csproj",
+            "backend/Organizations.Abstractions/Organizations.Abstractions.csproj"
+        ]
+    }
+}

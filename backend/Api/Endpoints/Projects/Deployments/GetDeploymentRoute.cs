@@ -3,6 +3,7 @@ using Api.Data.Extensions;
 using Api.Data.Repositories;
 using Auth.Services;
 using Microsoft.EntityFrameworkCore;
+using Organizations.Services;
 
 namespace Api.Endpoints.Projects.Deployments;
 
@@ -19,7 +20,8 @@ public static class GetDeploymentRoute
         ProjectId projectId,
         DeploymentId deploymentId,
         ICurrentUserAccessor currentUserAccessor,
-        IDeploymentRepository deploymentRepository)
+        IDeploymentRepository deploymentRepository,
+        IOrganizationAuthorizationService orgAuthService)
     {
         var currentDeploymentId = await deploymentRepository.GetCurrentDeploymentId(projectId);
 
@@ -37,7 +39,12 @@ public static class GetDeploymentRoute
             throw new ArgumentException("Deployment not found");
         }
 
-        if (deployment.UserId != currentUserAccessor.CurrentUserId)
+        var userId = currentUserAccessor.CurrentUserId!;
+        var hasAccess = deployment.Project?.OrganizationId is not null
+            ? await orgAuthService.CanAccessProjectAsync(deployment.Project.OrganizationId, userId)
+            : deployment.UserId == userId;
+
+        if (!hasAccess)
         {
             throw new ArgumentException("Deployment not found");
         }

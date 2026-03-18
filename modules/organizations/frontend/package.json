@@ -1,0 +1,13 @@
+{
+  "name": "@repo/organizations",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./org-switcher": "./src/components/org-switcher.tsx",
+    "./org-provider": "./src/components/org-provider.tsx"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0"
+  }
+}

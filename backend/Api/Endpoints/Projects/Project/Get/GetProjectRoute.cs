@@ -4,6 +4,7 @@ using Api.Data.Repositories;
 using Api.Hosting.Services;
 using Auth.Services;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Organizations.Services;
 using Stripe.Endpoints.Subscriptions.GetUserSubscriptions;
 using Stripe.Services;
 
@@ -22,11 +23,19 @@ public static class GetProjectRoute
         ProjectId projectId,
         ICurrentUserAccessor currentUserAccessor,
         IProjectRepository projectRepository,
+        IOrganizationAuthorizationService orgAuthService,
         ISubscriptionsService subscriptionsService)
     {
         var project = await projectRepository.GetProjectByIdWithDomainsAsync(projectId);
+        if (project is null)
+            return TypedResults.NotFound();
 
-        if (project == null || project.UserId != currentUserAccessor.CurrentUserId)
+        var userId = currentUserAccessor.CurrentUserId!;
+        var hasAccess = project.OrganizationId is not null
+            ? await orgAuthService.CanAccessProjectAsync(project.OrganizationId, userId)
+            : project.UserId == userId;
+
+        if (!hasAccess)
         {
             return TypedResults.NotFound();
         }

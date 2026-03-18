@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using Api.Abstractions;
 using Auth.Abstractions;
+using Organizations.Abstractions;
 
 namespace Api.Data;
 
@@ -14,6 +15,12 @@ public class Project : BaseEntityWithId<ProjectId>
     public required ProjectState State { get; set; }
     public required ServerTierId ServerTierId { get; set; }
     public ProjectType Type { get; set; } = ProjectType.Compozerr;
+
+    /// <summary>
+    /// The organization that owns this project.
+    /// Nullable during migration period — will become required once all projects are migrated.
+    /// </summary>
+    public OrganizationId? OrganizationId { get; set; }
 
     /// <summary>
     /// GitHub App Installation ID for this project's repository.

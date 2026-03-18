@@ -26,6 +26,7 @@
     <ProjectReference Include="../../../jobs/backend/Jobs/Jobs.csproj" />
     <ProjectReference Include="..\..\..\..\backend\Api.Abstractions\Api.Abstractions.csproj" />
     <ProjectReference Include="..\Stripe.Abstractions\Stripe.Abstractions.csproj" />
+    <ProjectReference Include="..\..\..\..\modules\organizations\backend\Organizations\Organizations.csproj" />
   </ItemGroup>
 
 </Project>

@@ -6,6 +6,9 @@ using Auth.Models;
 using Auth.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
+using Organizations.Abstractions;
+using Organizations.Data.Repositories;
+using Organizations.Services;
 using Stripe.Data.Repositories;
 using Stripe.Options;
 
@@ -15,6 +18,8 @@ public sealed class CurrentStripeCustomerIdAccessor(
     IHttpContextAccessor httpContextAccessor,
     IStripeCustomerRepository stripeCustomerRepository,
     IUserRepository userRepository,
+    IOrganizationContextAccessor organizationContextAccessor,
+    IOrganizationRepository organizationRepository,
     IOptions<StripeOptions> options) : ICurrentStripeCustomerIdAccessor
 {
     private readonly StripeClient stripeClient = new(
@@ -156,5 +161,49 @@ public sealed class CurrentStripeCustomerIdAccessor(
         }
 
         return await userRepository.GetByIdAsync(userId, cancellationToken);
+    }
+
+    public async Task<string> GetOrCreateStripeCustomerIdForOrganization(OrganizationId orgId)
+    {
+        var orgIdString = orgId.Value.ToString();
+        var orgLock = GetUserLock(orgIdString);
+
+        await orgLock.WaitAsync();
+        try
+        {
+            // Try to find existing Stripe customer for this org
+            var existingCustomerId = await stripeCustomerRepository.GetStripeCustomerIdByInternalIdAsync(orgIdString);
+            if (existingCustomerId != null)
+            {
+                return existingCustomerId;
+            }
+
+            // Create new Stripe customer for the organization
+            var org = await organizationRepository.GetByIdAsync(orgId);
+            var ownerUser = org is not null ? await GetUserAsync(org.OwnerUserId.Value.ToString()) : null;
+
+            var customerService = new CustomerService(stripeClient);
+            var createOptions = new CustomerCreateOptions
+            {
+                Description = $"Organization: {org?.Name ?? orgIdString}",
+                Name = org?.Name ?? $"Organization {orgIdString}",
+                Email = ownerUser?.Email,
+                Metadata = new Dictionary<string, string>
+                {
+                    { "InternalId", orgIdString },
+                    { "Type", "organization" }
+                }
+            };
+
+            var customer = await customerService.CreateAsync(createOptions);
+
+            await stripeCustomerRepository.SetStripeCustomerIdAsync(orgIdString, customer.Id);
+
+            return customer.Id;
+        }
+        finally
+        {
+            orgLock.Release();
+        }
     }
 }
