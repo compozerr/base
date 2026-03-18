@@ -71,8 +71,7 @@ public sealed class AddGithubCollaborator_InvitationAcceptedEventHandler(
                 await installationClient.InstallationClient.Repository.Collaborator.Add(
                     owner,
                     repoName,
-                    githubUsername,
-                    new CollaboratorRequest(Permission.Push));
+                    githubUsername);
 
                 Logger.Information(
                     "Added GitHub collaborator {Username} to {Owner}/{Repo} for org {OrgId}",
