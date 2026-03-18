@@ -5,6 +5,7 @@ using Auth.Abstractions;
 using Auth.Repositories;
 using Jobs;
 using Microsoft.EntityFrameworkCore;
+using Organizations.Abstractions;
 using Organizations.Data;
 using Organizations.Data.Repositories;
 using Organizations.Models;

@@ -297,6 +297,9 @@ namespace Api.Data.Migrations
                     b.Property<long?>("GithubInstallationId")
                         .HasColumnType("bigint");
 
+                    b.Property<Guid?>("OrganizationId")
+                        .HasColumnType("uuid");
+
                     b.Property<Guid>("LocationId")
                         .HasColumnType("uuid");
 
@@ -332,6 +335,8 @@ namespace Api.Data.Migrations
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("OrganizationId");
 
                     b.HasIndex("ServerId");
 
