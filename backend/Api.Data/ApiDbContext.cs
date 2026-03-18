@@ -3,6 +3,7 @@ using Api.Data.Configurations;
 using Database.Data;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Api.Data;
@@ -10,6 +11,14 @@ public class ApiDbContext(
     DbContextOptions<ApiDbContext> options,
     IMediator mediator) : BaseDbContext<ApiDbContext>("api", options, mediator)
 {
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        base.OnConfiguring(optionsBuilder);
+        // Suppress pending model changes warning — hand-written migration for OrganizationId
+        // will be replaced by a proper EF-generated migration in the next SDK update
+        optionsBuilder.ConfigureWarnings(w => w.Ignore(RelationalEventId.PendingModelChangesWarning));
+    }
+
     public DbSet<Deployment> Deployments => Set<Deployment>();
     public DbSet<Location> Locations => Set<Location>();
     public DbSet<Module> Modules => Set<Module>();
