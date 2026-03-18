@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# LLM-friendly documentation
+# See https://llmstxt.org for the standard
+Sitemap: https://docs.compozerr.com/sitemap.xml
+LLMs-Txt: https://docs.compozerr.com/llms.txt

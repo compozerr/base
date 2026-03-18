@@ -16,6 +16,17 @@ const config: Config = {
       onBrokenMarkdownLinks: 'warn',
     },
   },
+  headTags: [
+    {
+      tagName: 'link',
+      attributes: {
+        rel: 'alternate',
+        type: 'text/plain',
+        href: '/llms.txt',
+        title: 'LLM-friendly documentation',
+      },
+    },
+  ],
   i18n: {
     defaultLocale: 'en',
     locales: ['en'],
