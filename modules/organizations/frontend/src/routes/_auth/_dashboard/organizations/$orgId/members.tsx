@@ -80,7 +80,7 @@ function MembersPage() {
   const { data: members, isLoading: membersLoading } = useQuery<Member[]>({
     queryKey: ['organization-members', orgId],
     queryFn: async () => {
-      const res = await fetch(`${apiBaseUrl}/organizations/${orgId}/members`, { credentials: 'include' })
+      const res = await fetch(`${apiBaseUrl}/v1/organizations/${orgId}/members`, { credentials: 'include' })
       if (!res.ok) throw new Error('Failed to fetch members')
       return res.json()
     },
@@ -89,7 +89,7 @@ function MembersPage() {
   const { data: invitations } = useQuery<Invitation[]>({
     queryKey: ['organization-invitations', orgId],
     queryFn: async () => {
-      const res = await fetch(`${apiBaseUrl}/organizations/${orgId}/invitations`, { credentials: 'include' })
+      const res = await fetch(`${apiBaseUrl}/v1/organizations/${orgId}/invitations`, { credentials: 'include' })
       if (!res.ok) return []
       return res.json()
     },
@@ -97,7 +97,7 @@ function MembersPage() {
 
   const inviteMutation = useMutation({
     mutationFn: async ({ email, role }: { email: string; role: string }) => {
-      const res = await fetch(`${apiBaseUrl}/organizations/${orgId}/invitations`, {
+      const res = await fetch(`${apiBaseUrl}/v1/organizations/${orgId}/invitations`, {
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
@@ -123,7 +123,7 @@ function MembersPage() {
 
   const removeMemberMutation = useMutation({
     mutationFn: async (memberId: string) => {
-      const res = await fetch(`${apiBaseUrl}/organizations/${orgId}/members/${memberId}`, {
+      const res = await fetch(`${apiBaseUrl}/v1/organizations/${orgId}/members/${memberId}`, {
         method: 'DELETE',
         credentials: 'include',
       })

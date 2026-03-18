@@ -369,7 +369,7 @@ function TransferProjectSection({ projectId, projectName }: { projectId: string;
   const { data: organizations } = useQuery<Org[]>({
     queryKey: ['organizations'],
     queryFn: async () => {
-      const res = await fetch(`${apiBaseUrl}/organizations`, { credentials: 'include' })
+      const res = await fetch(`${apiBaseUrl}/v1/organizations`, { credentials: 'include' })
       if (!res.ok) return []
       return res.json()
     },
@@ -378,7 +378,7 @@ function TransferProjectSection({ projectId, projectName }: { projectId: string;
 
   const transferMutation = useMutation({
     mutationFn: async (targetOrgId: string) => {
-      const res = await fetch(`${apiBaseUrl}/organizations/${targetOrgId}/transfer-project`, {
+      const res = await fetch(`${apiBaseUrl}/v1/organizations/${targetOrgId}/transfer-project`, {
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },

@@ -44,7 +44,7 @@ export function AppSidebar() {
   const { data: organizations } = useQuery<Organization[]>({
     queryKey: ["organizations"],
     queryFn: async () => {
-      const res = await fetch(`${apiBaseUrl}/organizations`, { credentials: "include" })
+      const res = await fetch(`${apiBaseUrl}/v1/organizations`, { credentials: "include" })
       if (!res.ok) return []
       return res.json()
     },

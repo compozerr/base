@@ -21,7 +21,7 @@ var app = builder.Build();
 app.UseFeatures();
 
 // Register transfer project route (in Api project since it needs Api.Data references)
-app.MapGroup("organizations")
+app.MapGroup("v1/organizations")
    .RequireAuthorization()
    .RequireRateLimiting("strict")
    .WithTags("Organizations")
