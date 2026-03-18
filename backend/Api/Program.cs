@@ -19,6 +19,8 @@ var app = builder.Build();
 
 app.UseFeatures();
 
+Api.Endpoints.Admin.RunMigrationRoute.MapAdminRoutes(app);
+
 Log.Information("Application starting up");
 
 try
