@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Routing;
 using Organizations.Abstractions;
 using Organizations.Services;
 
-namespace Organizations.Endpoints.TransferProject;
+namespace Api.Endpoints.Organizations;
 
 public record TransferProjectRequest(Guid ProjectId);
 

@@ -6,7 +6,6 @@ using Organizations.Endpoints.Get;
 using Organizations.Endpoints.GetAll;
 using Organizations.Endpoints.Invitations;
 using Organizations.Endpoints.Members;
-using Organizations.Endpoints.TransferProject;
 using Organizations.Endpoints.Update;
 
 namespace Organizations.Endpoints;
@@ -27,7 +26,6 @@ public class OrganizationsGroup : CarterModule
         app.AddGetOrganizationRoute();
         app.AddUpdateOrganizationRoute();
         app.AddDeleteOrganizationRoute();
-        app.AddTransferProjectRoute();
         app.AddMembersGroup();
         app.AddInvitationsGroup();
     }

@@ -1,3 +1,4 @@
+using Api.Endpoints.Organizations;
 using Core.Extensions;
 using Core.Feature;
 using Core.Helpers.Env;
@@ -18,6 +19,13 @@ builder.Services.ValidateAllConfiguration();
 var app = builder.Build();
 
 app.UseFeatures();
+
+// Register transfer project route (in Api project since it needs Api.Data references)
+app.MapGroup("organizations")
+   .RequireAuthorization()
+   .RequireRateLimiting("strict")
+   .WithTags("Organizations")
+   .AddTransferProjectRoute();
 
 Log.Information("Application starting up");
 
