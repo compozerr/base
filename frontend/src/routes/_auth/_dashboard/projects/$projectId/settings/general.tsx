@@ -25,8 +25,18 @@ import LoadingButton from '@/components/loading-button'
 import { Price } from '@/lib/price'
 import { useToast } from '@/hooks/use-toast'
 import { cn } from '@/lib/utils'
-import { Github, AlertTriangle, CheckCircle, Cpu, HardDrive, MemoryStick, Trash2 } from 'lucide-react'
+import { Github, AlertTriangle, Building2, CheckCircle, Cpu, HardDrive, MemoryStick, Trash2, ArrowRightLeft, User } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
+import { apiBaseUrl } from '@/api-client'
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 
 export const Route = createFileRoute(
   '/_auth/_dashboard/projects/$projectId/settings/general',
@@ -288,6 +298,9 @@ function GeneralSettingsTab() {
         </CardFooter>
       </Card>
 
+      {/* Transfer Project */}
+      <TransferProjectSection projectId={projectId} projectName={project?.name} />
+
       {/* Danger Zone */}
       <Card id="danger-zone" className="rounded-xl border-dashed border-red-500/30 bg-red-500/5">
         <CardHeader className="pb-4">
@@ -337,6 +350,138 @@ function GeneralSettingsTab() {
         </CardContent>
       </Card>
     </div>
+  )
+}
+
+interface Org {
+  id: string
+  name: string
+  slug: string
+  isPersonal: boolean
+}
+
+function TransferProjectSection({ projectId, projectName }: { projectId: string; projectName?: string }) {
+  const [transferDialogOpen, setTransferDialogOpen] = useState(false)
+  const [selectedOrgId, setSelectedOrgId] = useState<string | null>(null)
+  const { toast } = useToast()
+  const queryClient = useQueryClient()
+
+  const { data: organizations } = useQuery<Org[]>({
+    queryKey: ['organizations'],
+    queryFn: async () => {
+      const res = await fetch(`${apiBaseUrl}/organizations`, { credentials: 'include' })
+      if (!res.ok) return []
+      return res.json()
+    },
+    enabled: transferDialogOpen,
+  })
+
+  const transferMutation = useMutation({
+    mutationFn: async (targetOrgId: string) => {
+      const res = await fetch(`${apiBaseUrl}/organizations/${targetOrgId}/transfer-project`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ projectId }),
+      })
+      if (!res.ok) {
+        const err = await res.json().catch(() => null)
+        throw new Error(err?.detail || 'Failed to transfer project')
+      }
+      return res.json()
+    },
+    onSuccess: () => {
+      toast({ title: 'Project transferred', description: `${projectName} has been moved.`, variant: 'success' })
+      queryClient.invalidateQueries({ queryKey: ['organizations'] })
+      setTransferDialogOpen(false)
+      setSelectedOrgId(null)
+    },
+    onError: (error: Error) => {
+      toast({ title: 'Error', description: error.message, variant: 'destructive' })
+    },
+  })
+
+  return (
+    <>
+      <Card className="rounded-xl border-zinc-800 bg-zinc-900/50">
+        <CardHeader className="pb-4">
+          <CardTitle className="text-lg flex items-center gap-2">
+            <ArrowRightLeft className="h-5 w-5" />
+            Transfer Project
+          </CardTitle>
+          <CardDescription>Move this project to a different organization.</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm text-muted-foreground pr-3">
+                Transfer this project to another organization you are an admin of.
+                All settings, deployments, and domains will be preserved.
+              </p>
+            </div>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setTransferDialogOpen(true)}
+            >
+              <ArrowRightLeft className="h-4 w-4 mr-2" />
+              Transfer
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+
+      <Dialog open={transferDialogOpen} onOpenChange={setTransferDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Transfer Project</DialogTitle>
+            <DialogDescription>
+              Select the organization to transfer <strong>{projectName}</strong> to.
+              You must be an admin of the target organization.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-2">
+            {organizations?.map((org) => (
+              <button
+                key={org.id}
+                onClick={() => setSelectedOrgId(org.id)}
+                className={cn(
+                  'flex w-full items-center gap-3 rounded-lg border p-3 text-left transition-all',
+                  selectedOrgId === org.id
+                    ? 'border-primary bg-primary/5 ring-1 ring-primary'
+                    : 'border-zinc-800 bg-zinc-900/30 hover:border-zinc-700'
+                )}
+              >
+                <div className="flex h-8 w-8 items-center justify-center rounded-md bg-muted">
+                  {org.isPersonal ? (
+                    <User className="h-4 w-4 text-muted-foreground" />
+                  ) : (
+                    <Building2 className="h-4 w-4 text-muted-foreground" />
+                  )}
+                </div>
+                <div>
+                  <p className="text-sm font-medium">
+                    {org.isPersonal ? 'Personal Account' : org.name}
+                  </p>
+                  <p className="text-xs text-muted-foreground font-mono">{org.slug}</p>
+                </div>
+              </button>
+            ))}
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setTransferDialogOpen(false)}>
+              Cancel
+            </Button>
+            <Button
+              onClick={() => selectedOrgId && transferMutation.mutate(selectedOrgId)}
+              disabled={!selectedOrgId || transferMutation.isPending}
+            >
+              {transferMutation.isPending ? 'Transferring...' : 'Transfer Project'}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </>
   )
 }
 

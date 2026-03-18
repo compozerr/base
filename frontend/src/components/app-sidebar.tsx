@@ -1,11 +1,12 @@
-import { api } from "@/api-client"
+import { api, apiBaseUrl } from "@/api-client"
 import { CompozerrLogo } from "@/components/compozerr-logo"
 import { useAuth } from "@/hooks/use-dynamic-auth"
 import { getLink } from "@/links"
 import { Link, useNavigate, useRouter, useRouterState } from "@tanstack/react-router"
 import { AnimatePresence, motion } from "framer-motion"
-import { Building2, ChevronDown, FileText, FolderGit2, Home, LogOut, Package, Settings, User } from "lucide-react"
-import { useState } from "react"
+import { Building2, Check, ChevronDown, ChevronsUpDown, FileText, FolderGit2, Home, LogOut, Package, Plus, Settings, User } from "lucide-react"
+import { useEffect, useState } from "react"
+import { useQuery } from "@tanstack/react-query"
 import {
   Sidebar,
   SidebarContent,
@@ -20,14 +21,59 @@ import {
   SidebarSeparator,
 } from "./ui/sidebar"
 
+interface Organization {
+  id: string
+  name: string
+  slug: string
+  isPersonal: boolean
+  avatarUrl?: string | null
+}
+
+const ORG_STORAGE_KEY = "compozerr-current-org-id"
+
 export function AppSidebar() {
   const navigate = useNavigate()
   const router = useRouter()
   const routerState = useRouterState()
   const currentPath = routerState.location.pathname
   const [projectSwitcherOpen, setProjectSwitcherOpen] = useState(false)
+  const [orgSwitcherOpen, setOrgSwitcherOpen] = useState(false)
 
   const { logout, user } = useAuth()
+
+  const { data: organizations } = useQuery<Organization[]>({
+    queryKey: ["organizations"],
+    queryFn: async () => {
+      const res = await fetch(`${apiBaseUrl}/organizations`, { credentials: "include" })
+      if (!res.ok) return []
+      return res.json()
+    },
+  })
+
+  const [currentOrgId, setCurrentOrgId] = useState<string | null>(() =>
+    localStorage.getItem(ORG_STORAGE_KEY)
+  )
+
+  // Auto-select personal org if none selected
+  useEffect(() => {
+    if (!organizations || organizations.length === 0) return
+    if (currentOrgId && organizations.find((o) => o.id === currentOrgId)) return
+    const personal = organizations.find((o) => o.isPersonal) ?? organizations[0]
+    if (personal) {
+      setCurrentOrgId(personal.id)
+      localStorage.setItem(ORG_STORAGE_KEY, personal.id)
+    }
+  }, [organizations, currentOrgId])
+
+  const currentOrg = organizations?.find((o) => o.id === currentOrgId)
+
+  const switchOrg = (org: Organization) => {
+    setCurrentOrgId(org.id)
+    localStorage.setItem(ORG_STORAGE_KEY, org.id)
+    setOrgSwitcherOpen(false)
+    // Refresh projects for the new org
+    api.v1.getProjects.invalidateQueries()
+  }
 
   const { data: projectsData } = api.v1.getProjects.useQuery({
     query: { stateFlags: 0 },
@@ -45,20 +91,84 @@ export function AppSidebar() {
 
   const isActive = (path: string) => currentPath.startsWith(path)
 
-  // Extract current project ID from path
   const projectMatch = currentPath.match(/^\/projects\/([^/]+)/)
   const currentProjectId = projectMatch?.[1]
-  const currentProject = projectsData?.projects?.find(
-    (p) => p.id === currentProjectId
-  )
 
   return (
     <Sidebar className="border-r border-white/[0.06] bg-black/80 backdrop-blur-xl">
       {/* Brand */}
-      <SidebarHeader className="border-b border-white/[0.06] px-4 py-5">
-        <Link to="/">
+      <SidebarHeader className="border-b border-white/[0.06] px-4 py-4">
+        <Link to="/" className="mb-3 block">
           <CompozerrLogo className="text-lg text-white hover:text-white/80 transition-colors" />
         </Link>
+
+        {/* Org Switcher */}
+        <div className="relative">
+          <button
+            onClick={() => setOrgSwitcherOpen((v) => !v)}
+            className="flex w-full items-center gap-2 rounded-md border border-white/[0.08] bg-white/[0.03] px-3 py-2 text-sm transition-colors hover:bg-white/[0.06]"
+          >
+            {currentOrg?.isPersonal ? (
+              user?.avatarUrl ? (
+                <img src={user.avatarUrl} alt="" className="h-5 w-5 rounded-full" />
+              ) : (
+                <User className="h-4 w-4 text-white/50" />
+              )
+            ) : (
+              <Building2 className="h-4 w-4 text-white/50" />
+            )}
+            <span className="flex-1 truncate text-left text-white/80">
+              {currentOrg?.isPersonal ? "Personal Account" : currentOrg?.name ?? "Select org..."}
+            </span>
+            <ChevronsUpDown className="h-3.5 w-3.5 shrink-0 text-white/30" />
+          </button>
+
+          <AnimatePresence>
+            {orgSwitcherOpen && (
+              <>
+                <div className="fixed inset-0 z-40" onClick={() => setOrgSwitcherOpen(false)} />
+                <motion.div
+                  initial={{ opacity: 0, y: -4 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -4 }}
+                  transition={{ duration: 0.12 }}
+                  className="absolute left-0 right-0 top-full z-50 mt-1 rounded-md border border-white/[0.08] bg-zinc-900 p-1 shadow-xl"
+                >
+                  {organizations?.map((org) => (
+                    <button
+                      key={org.id}
+                      onClick={() => switchOrg(org)}
+                      className="flex w-full items-center gap-2 rounded-sm px-2 py-1.5 text-sm text-white/70 transition-colors hover:bg-white/[0.06] hover:text-white"
+                    >
+                      {org.isPersonal ? (
+                        <User className="h-3.5 w-3.5 shrink-0 text-white/40" />
+                      ) : (
+                        <Building2 className="h-3.5 w-3.5 shrink-0 text-white/40" />
+                      )}
+                      <span className="flex-1 truncate text-left">
+                        {org.isPersonal ? "Personal Account" : org.name}
+                      </span>
+                      {org.id === currentOrgId && (
+                        <Check className="h-3.5 w-3.5 shrink-0 text-white/60" />
+                      )}
+                    </button>
+                  ))}
+                  <div className="my-1 border-t border-white/[0.06]" />
+                  <button
+                    onClick={() => {
+                      setOrgSwitcherOpen(false)
+                      navigate({ to: "/organizations" })
+                    }}
+                    className="flex w-full items-center gap-2 rounded-sm px-2 py-1.5 text-sm text-white/50 transition-colors hover:bg-white/[0.06] hover:text-white"
+                  >
+                    <Plus className="h-3.5 w-3.5" />
+                    <span>Manage Organizations</span>
+                  </button>
+                </motion.div>
+              </>
+            )}
+          </AnimatePresence>
+        </div>
       </SidebarHeader>
 
       <SidebarContent>
@@ -118,23 +228,6 @@ export function AppSidebar() {
                 >
                   <Settings className="h-4 w-4" />
                   <span>Settings</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  onClick={() =>
-                    navigate({ viewTransition: true, to: "/organizations" })
-                  }
-                  isActive={isActive("/organizations")}
-                  tooltip="Organizations"
-                  className={
-                    isActive("/organizations")
-                      ? "relative text-white before:absolute before:left-0 before:top-1/2 before:h-5 before:-translate-y-1/2 before:w-[2px] before:rounded-r before:bg-[hsl(var(--nav-accent))]"
-                      : "text-white/60 hover:text-white"
-                  }
-                >
-                  <Building2 className="h-4 w-4" />
-                  <span>Organizations</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
