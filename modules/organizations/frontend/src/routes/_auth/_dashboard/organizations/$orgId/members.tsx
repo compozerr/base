@@ -1,6 +1,67 @@
-import { createFileRoute } from '@tanstack/react-router'
-import { Plus, Shield, User, MoreVertical, Mail } from 'lucide-react'
-import { useState } from 'react'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import { Plus, Shield, User, ChevronLeft, Mail, UserMinus } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { Input } from '@/components/ui/input'
+import { Skeleton } from '@/components/ui/skeleton'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog'
+import { useToast } from '@/hooks/use-toast'
+import { motion } from 'framer-motion'
+import { apiBaseUrl } from '@/api-client'
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import * as React from 'react'
+
+interface Member {
+  id: string
+  userId: string
+  name: string
+  email: string
+  avatarUrl?: string | null
+  role: 'Admin' | 'Member'
+  joinedAtUtc: string
+}
+
+interface Invitation {
+  id: string
+  email: string
+  role: 'Admin' | 'Member'
+  status: string
+  expiresAtUtc: string
+  createdAtUtc: string
+}
 
 export const Route = createFileRoute('/_auth/_dashboard/organizations/$orgId/members')({
   component: MembersPage,
@@ -8,113 +69,294 @@ export const Route = createFileRoute('/_auth/_dashboard/organizations/$orgId/mem
 
 function MembersPage() {
   const { orgId } = Route.useParams()
-  const [showInviteDialog, setShowInviteDialog] = useState(false)
-  const [inviteEmail, setInviteEmail] = useState('')
-  const [inviteRole, setInviteRole] = useState<'Admin' | 'Member'>('Member')
+  const navigate = useNavigate()
+  const { toast } = useToast()
+  const queryClient = useQueryClient()
+  const [inviteDialogOpen, setInviteDialogOpen] = React.useState(false)
+  const [inviteEmail, setInviteEmail] = React.useState('')
+  const [inviteRole, setInviteRole] = React.useState('Member')
+  const [removeMemberId, setRemoveMemberId] = React.useState<string | null>(null)
+
+  const { data: members, isLoading: membersLoading } = useQuery<Member[]>({
+    queryKey: ['organization-members', orgId],
+    queryFn: async () => {
+      const res = await fetch(`${apiBaseUrl}/organizations/${orgId}/members`, { credentials: 'include' })
+      if (!res.ok) throw new Error('Failed to fetch members')
+      return res.json()
+    },
+  })
+
+  const { data: invitations } = useQuery<Invitation[]>({
+    queryKey: ['organization-invitations', orgId],
+    queryFn: async () => {
+      const res = await fetch(`${apiBaseUrl}/organizations/${orgId}/invitations`, { credentials: 'include' })
+      if (!res.ok) return []
+      return res.json()
+    },
+  })
+
+  const inviteMutation = useMutation({
+    mutationFn: async ({ email, role }: { email: string; role: string }) => {
+      const res = await fetch(`${apiBaseUrl}/organizations/${orgId}/invitations`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, role: role === 'Admin' ? 0 : 1 }),
+      })
+      if (!res.ok) {
+        const err = await res.json().catch(() => null)
+        throw new Error(err?.detail || 'Failed to send invitation')
+      }
+      return res.json()
+    },
+    onSuccess: () => {
+      toast({ title: 'Invitation sent', description: `Invitation sent to ${inviteEmail}`, variant: 'success' })
+      queryClient.invalidateQueries({ queryKey: ['organization-invitations', orgId] })
+      setInviteDialogOpen(false)
+      setInviteEmail('')
+      setInviteRole('Member')
+    },
+    onError: (error: Error) => {
+      toast({ title: 'Error', description: error.message, variant: 'destructive' })
+    },
+  })
+
+  const removeMemberMutation = useMutation({
+    mutationFn: async (memberId: string) => {
+      const res = await fetch(`${apiBaseUrl}/organizations/${orgId}/members/${memberId}`, {
+        method: 'DELETE',
+        credentials: 'include',
+      })
+      if (!res.ok) {
+        const err = await res.json().catch(() => null)
+        throw new Error(err?.detail || 'Failed to remove member')
+      }
+    },
+    onSuccess: () => {
+      toast({ title: 'Member removed', variant: 'success' })
+      queryClient.invalidateQueries({ queryKey: ['organization-members', orgId] })
+      setRemoveMemberId(null)
+    },
+    onError: (error: Error) => {
+      toast({ title: 'Error', description: error.message, variant: 'destructive' })
+    },
+  })
+
+  const handleInvite = () => {
+    if (!inviteEmail.trim()) return
+    inviteMutation.mutate({ email: inviteEmail.trim(), role: inviteRole })
+  }
+
+  const formatDate = (dateStr: string) => new Date(dateStr).toLocaleDateString()
 
   return (
-    <div className="mx-auto max-w-3xl px-6 py-10">
-      <div className="flex items-center justify-between mb-8">
-        <div>
-          <h1 className="text-2xl font-semibold text-white">Members</h1>
-          <p className="mt-1 text-sm text-white/50">
-            Manage who has access to this organization
-          </p>
-        </div>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.3 }}
+    >
+      <header className="mb-6">
         <button
-          onClick={() => setShowInviteDialog(true)}
-          className="inline-flex items-center gap-2 rounded-lg bg-white px-4 py-2 text-sm font-medium text-black hover:bg-white/90 transition-colors"
+          onClick={() => navigate({ to: '/organizations/$orgId', params: { orgId } })}
+          className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors mb-4"
         >
-          <Plus className="h-4 w-4" />
-          Invite Member
+          <ChevronLeft className="h-4 w-4" />
+          Back to organization
         </button>
-      </div>
-
-      {/* Members list placeholder */}
-      <div className="rounded-lg border border-white/[0.08] overflow-hidden">
-        <div className="border-b border-white/[0.06] px-4 py-3">
-          <p className="text-xs font-medium uppercase tracking-wider text-white/40">Members</p>
-        </div>
-        <div className="divide-y divide-white/[0.06]">
-          {/* Placeholder member row */}
-          <div className="flex items-center gap-3 px-4 py-3">
-            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white/[0.08]">
-              <User className="h-4 w-4 text-white/50" />
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-white">You</p>
-              <p className="text-xs text-white/40">Owner</p>
-            </div>
-            <span className="inline-flex items-center gap-1 rounded-full bg-white/[0.06] px-2.5 py-0.5 text-xs font-medium text-white/60">
-              <Shield className="h-3 w-3" />
-              Admin
-            </span>
-          </div>
-        </div>
-      </div>
-
-      {/* Invite dialog */}
-      {showInviteDialog && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
-          <div className="w-full max-w-md rounded-xl border border-white/[0.08] bg-neutral-900 p-6 shadow-2xl">
-            <h2 className="text-lg font-semibold text-white mb-1">Invite a member</h2>
-            <p className="text-sm text-white/50 mb-6">
-              They'll receive an email invitation to join your organization.
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold mb-2">Members</h1>
+            <p className="text-muted-foreground">
+              Manage who has access to this organization
             </p>
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-white/70 mb-1.5">Email address</label>
-                <div className="relative">
-                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-white/30" />
-                  <input
-                    type="email"
-                    value={inviteEmail}
-                    onChange={(e) => setInviteEmail(e.target.value)}
-                    placeholder="colleague@company.com"
-                    className="w-full rounded-lg border border-white/[0.08] bg-white/[0.04] pl-10 pr-4 py-2.5 text-sm text-white placeholder-white/30 focus:border-white/20 focus:outline-none focus:ring-1 focus:ring-white/20"
-                  />
-                </div>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-white/70 mb-1.5">Role</label>
-                <div className="flex gap-2">
-                  {(['Member', 'Admin'] as const).map((role) => (
-                    <button
-                      key={role}
-                      onClick={() => setInviteRole(role)}
-                      className={`flex-1 rounded-lg border px-3 py-2 text-sm font-medium transition-colors ${
-                        inviteRole === role
-                          ? 'border-white/20 bg-white/[0.08] text-white'
-                          : 'border-white/[0.06] text-white/50 hover:border-white/[0.1] hover:text-white/70'
-                      }`}
-                    >
-                      {role}
-                    </button>
-                  ))}
-                </div>
+          </div>
+          <Button onClick={() => setInviteDialogOpen(true)}>
+            <Plus className="h-4 w-4 mr-2" />
+            Invite Member
+          </Button>
+        </div>
+      </header>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Team Members</CardTitle>
+          <CardDescription>
+            {membersLoading ? (
+              <Skeleton className="h-4 w-32" />
+            ) : (
+              `${members?.length ?? 0} member${(members?.length ?? 0) !== 1 ? 's' : ''}`
+            )}
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          {membersLoading ? (
+            <div className="space-y-3">
+              <Skeleton className="h-12 w-full" />
+              <Skeleton className="h-12 w-full" />
+            </div>
+          ) : members && members.length > 0 ? (
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Member</TableHead>
+                  <TableHead>Role</TableHead>
+                  <TableHead>Joined</TableHead>
+                  <TableHead className="w-[50px]"></TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {members.map((member) => (
+                  <TableRow key={member.id}>
+                    <TableCell>
+                      <div className="flex items-center gap-3">
+                        {member.avatarUrl ? (
+                          <img src={member.avatarUrl} alt="" className="h-8 w-8 rounded-full ring-1 ring-white/10" />
+                        ) : (
+                          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-muted">
+                            <User className="h-4 w-4 text-muted-foreground" />
+                          </div>
+                        )}
+                        <div>
+                          <p className="text-sm font-medium">{member.name}</p>
+                          <p className="text-xs text-muted-foreground">{member.email}</p>
+                        </div>
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <Badge variant={member.role === 'Admin' ? 'default' : 'secondary'}>
+                        {member.role === 'Admin' && <Shield className="h-3 w-3 mr-1" />}
+                        {member.role}
+                      </Badge>
+                    </TableCell>
+                    <TableCell className="text-muted-foreground text-sm">
+                      {formatDate(member.joinedAtUtc)}
+                    </TableCell>
+                    <TableCell>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="h-8 w-8 p-0"
+                        onClick={() => setRemoveMemberId(member.id)}
+                      >
+                        <UserMinus className="h-4 w-4 text-destructive" />
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          ) : (
+            <p className="text-muted-foreground text-sm">No members found.</p>
+          )}
+        </CardContent>
+      </Card>
+
+      {invitations && invitations.length > 0 && (
+        <Card className="mt-4">
+          <CardHeader>
+            <CardTitle className="text-base">Pending Invitations</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Email</TableHead>
+                  <TableHead>Role</TableHead>
+                  <TableHead>Expires</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {invitations.map((inv) => (
+                  <TableRow key={inv.id}>
+                    <TableCell className="font-mono text-sm">{inv.email}</TableCell>
+                    <TableCell>
+                      <Badge variant="outline">{inv.role}</Badge>
+                    </TableCell>
+                    <TableCell className="text-muted-foreground text-sm">
+                      {formatDate(inv.expiresAtUtc)}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
+      )}
+
+      <Dialog open={inviteDialogOpen} onOpenChange={setInviteDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Invite a Member</DialogTitle>
+            <DialogDescription>
+              They'll receive an email invitation to join your organization.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <label htmlFor="invite-email" className="text-sm font-medium">
+                Email address
+              </label>
+              <div className="relative">
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input
+                  id="invite-email"
+                  type="email"
+                  value={inviteEmail}
+                  onChange={(e) => setInviteEmail(e.target.value)}
+                  placeholder="colleague@company.com"
+                  className="pl-9"
+                  onKeyDown={(e) => e.key === 'Enter' && handleInvite()}
+                />
               </div>
             </div>
-            <div className="mt-6 flex gap-3 justify-end">
-              <button
-                onClick={() => setShowInviteDialog(false)}
-                className="rounded-lg px-4 py-2 text-sm font-medium text-white/60 hover:text-white transition-colors"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={() => {
-                  // TODO: Call API to invite
-                  setShowInviteDialog(false)
-                  setInviteEmail('')
-                }}
-                className="rounded-lg bg-white px-4 py-2 text-sm font-medium text-black hover:bg-white/90 transition-colors"
-              >
-                Send Invitation
-              </button>
+            <div className="space-y-2">
+              <label htmlFor="invite-role" className="text-sm font-medium">
+                Role
+              </label>
+              <Select value={inviteRole} onValueChange={setInviteRole}>
+                <SelectTrigger id="invite-role">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Member">Member</SelectItem>
+                  <SelectItem value="Admin">Admin</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
           </div>
-        </div>
-      )}
-    </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setInviteDialogOpen(false)}>
+              Cancel
+            </Button>
+            <Button
+              onClick={handleInvite}
+              disabled={!inviteEmail.trim() || inviteMutation.isPending}
+            >
+              {inviteMutation.isPending ? 'Sending...' : 'Send Invitation'}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <AlertDialog open={!!removeMemberId} onOpenChange={(open) => { if (!open) setRemoveMemberId(null) }}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Remove Member</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to remove this member? They will lose access to all projects in this organization immediately.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => removeMemberId && removeMemberMutation.mutate(removeMemberId)}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              Remove Member
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </motion.div>
   )
 }
