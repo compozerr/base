@@ -1,5 +1,6 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { Plus, Shield, User, ChevronLeft, UserMinus, Search, Github } from 'lucide-react'
+import { useAuth } from '@/hooks/use-dynamic-auth'
 import { Button } from '@/components/ui/button'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -79,6 +80,7 @@ function MembersPage() {
   const { orgId } = Route.useParams()
   const navigate = useNavigate()
   const { toast } = useToast()
+  const { user: currentUser } = useAuth()
   const queryClient = useQueryClient()
   const [inviteDialogOpen, setInviteDialogOpen] = React.useState(false)
   const [searchQuery, setSearchQuery] = React.useState('')
@@ -276,14 +278,16 @@ function MembersPage() {
                       {formatDate(member.joinedAtUtc)}
                     </TableCell>
                     <TableCell>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="h-8 w-8 p-0"
-                        onClick={() => setRemoveMemberId(member.id)}
-                      >
-                        <UserMinus className="h-4 w-4 text-destructive" />
-                      </Button>
+                      {member.userId !== currentUser?.id && (
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="h-8 w-8 p-0"
+                          onClick={() => setRemoveMemberId(member.id)}
+                        >
+                          <UserMinus className="h-4 w-4 text-destructive" />
+                        </Button>
+                      )}
                     </TableCell>
                   </TableRow>
                 ))}
