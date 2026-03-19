@@ -5,7 +5,7 @@ import { useAuth } from "@/hooks/use-dynamic-auth"
 import { getLink } from "@/links"
 import { Link, useNavigate, useRouter, useRouterState } from "@tanstack/react-router"
 import { AnimatePresence, motion } from "framer-motion"
-import { Building2, Check, ChevronDown, ChevronsUpDown, FileText, FolderGit2, Home, LogOut, Package, Plus, Settings, User } from "lucide-react"
+import { Building2, Check, ChevronDown, ChevronsUpDown, FileText, FolderGit2, Home, LogOut, Package, Settings, User } from "lucide-react"
 import { useEffect, useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 import {
@@ -160,7 +160,7 @@ export function AppSidebar() {
                     }}
                     className="flex w-full items-center gap-2 rounded-sm px-2 py-1.5 text-sm text-white/50 transition-colors hover:bg-white/[0.06] hover:text-white"
                   >
-                    <Plus className="h-3.5 w-3.5" />
+                    <Settings className="h-3.5 w-3.5" />
                     <span>Manage Organizations</span>
                   </button>
                 </motion.div>
