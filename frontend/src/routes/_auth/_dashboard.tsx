@@ -6,6 +6,7 @@ import {
 
 import { AppSidebar } from '@/components/app-sidebar'
 import { MobileBottomNav } from '@/components/mobile-bottom-nav'
+import { MobileOrgPicker } from '@/components/mobile-org-picker'
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 import StripeAddPaymentMethodBanner from '@repo/stripe/stripe-add-payment-method-banner'
 import { api } from '@/api-client'
@@ -51,6 +52,11 @@ function RouteComponent() {
 
         <main className="w-full">
           <StripeAddPaymentMethodBanner />
+
+          {/* Mobile org picker: sticky top bar, hidden on desktop */}
+          <div className="sticky top-0 z-50 bg-black/90 backdrop-blur-lg md:hidden">
+            <MobileOrgPicker />
+          </div>
 
           {/* Header: hidden on mobile where bottom nav is used */}
           <header className="sticky top-0 z-50 bg-black/80 backdrop-blur-md hidden md:block">
