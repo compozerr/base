@@ -44,6 +44,12 @@ To wait for completion:
 compozerr deploy --wait
 ```
 
+## Critical: Bun Is Not Supported as a Runtime
+
+**Do not use `oven/bun` Docker images or Bun as a runtime in Dockerfiles deployed to Compozerr.** The deployment VMs run inside KVM virtualization on Proxmox, and the Bun binary has compatibility issues in this environment. The deployment pipeline also only supports npm/Node.js for dependency installation.
+
+**Use Node.js instead.** Replace `FROM oven/bun:*` with `FROM node:20-alpine` (or similar) and rewrite any Bun-specific APIs (`Bun.serve`, `Bun.file`, etc.) to use Node.js equivalents.
+
 ## Critical: Port 80 Requirement
 
 **Your container must listen on port 80.** Compozerr's Traefik reverse proxy routes all HTTP traffic to port 80 inside your container. If your app listens on a different port (e.g., 3000, 8080), you must either:

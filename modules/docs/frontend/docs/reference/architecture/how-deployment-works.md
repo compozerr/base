@@ -27,6 +27,8 @@ Your Git repository is cloned on the VM. For subsequent deployments, the existin
 
 Dependencies are installed based on your project type -- `npm install`, `dotnet restore`, or whatever your stack requires.
 
+**Note:** Bun is not supported as a runtime. Use Node.js and npm instead. See [Deployment Failures](/troubleshooting/deployment-failures#bun-runtime-not-supported) for details.
+
 ### 6. Inject environment variables
 
 Environment variables configured in the dashboard are written to `.env` files in the appropriate locations on the VM.

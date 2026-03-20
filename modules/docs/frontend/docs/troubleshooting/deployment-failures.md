@@ -55,6 +55,14 @@ Deployments time out after **15 minutes**. If your build takes longer, optimize 
 - Order Dockerfile instructions so that dependency installation comes before code copying -- this enables Docker layer caching
 - Add a `.dockerignore` file to exclude `node_modules/`, `.git/`, and other large directories from the build context
 
+## Bun runtime not supported
+
+**Compozerr does not support Bun as a runtime.** If your Dockerfile uses `FROM oven/bun` or your start command uses `bun run`, the container will fail to start on the deployment VM.
+
+The deployment VMs run inside KVM virtualization (Proxmox), and the Bun binary has compatibility issues in this environment. The platform's dependency pipeline also only supports npm.
+
+**Fix:** Replace `oven/bun` with a Node.js base image (e.g., `node:20-alpine`) and rewrite any Bun-specific APIs (`Bun.serve`, `Bun.file`) to use standard Node.js modules.
+
 ## Git authentication
 
 If the deployment fails to pull your code, your GitHub connection may have expired. Reconnect your GitHub account in the dashboard under **Settings > GitHub**.
