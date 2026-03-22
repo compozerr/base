@@ -24,7 +24,18 @@ public sealed class PushWebhookEventRepository(
         await using var scope = serviceScopeFactory.CreateAsyncScope();
         var projectRepository = scope.ServiceProvider.GetRequiredService<IProjectRepository>();
 
-        var projects = await projectRepository.GetFilteredAsync(x => x.RepoUri == gitUrl);
+        // GitHub webhooks always send CloneUrl with .git suffix (e.g. https://github.com/owner/repo.git)
+        // but the stored RepoUri may or may not have .git depending on how it was set.
+        // Normalize by checking both variants.
+        var urlStr = gitUrl.ToString().TrimEnd('/');
+        var withoutGit = urlStr.EndsWith(".git", StringComparison.OrdinalIgnoreCase)
+            ? new Uri(urlStr[..^4])
+            : gitUrl;
+        var withGit = urlStr.EndsWith(".git", StringComparison.OrdinalIgnoreCase)
+            ? gitUrl
+            : new Uri(urlStr + ".git");
+
+        var projects = await projectRepository.GetFilteredAsync(x => x.RepoUri == withoutGit || x.RepoUri == withGit);
         if (projects.Count > 1)
         {
             throw new InvalidOperationException($"Multiple projects found for git URL: {gitUrl}");
