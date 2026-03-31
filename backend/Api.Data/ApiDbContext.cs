@@ -36,6 +36,7 @@ public class ApiDbContext(
     public DbSet<ModuleRegistryEntry> ModuleRegistryEntries => Set<ModuleRegistryEntry>();
     public DbSet<ModuleVersionEntry> ModuleVersionEntries => Set<ModuleVersionEntry>();
     public DbSet<TcpPortAllocation> TcpPortAllocations => Set<TcpPortAllocation>();
+    public DbSet<Environment> Environments => Set<Environment>();
 
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
     {
@@ -54,6 +55,7 @@ public class ApiDbContext(
         modelBuilder.ApplyConfiguration(new ProjectConfiguration());
         modelBuilder.ApplyConfiguration(new ProjectServiceConfiguration());
         modelBuilder.ApplyConfiguration(new TcpPortAllocationConfiguration());
+        modelBuilder.ApplyConfiguration(new EnvironmentConfiguration());
 
         modelBuilder.Entity<ModuleRegistryEntry>(entity =>
         {
