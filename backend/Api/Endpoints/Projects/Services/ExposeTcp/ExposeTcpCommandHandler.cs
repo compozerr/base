@@ -35,7 +35,7 @@ public sealed class ExposeTcpCommandHandler(
         if (existing is not null)
         {
             var hostingApiExisting = await hostingApiFactory.GetHostingApiAsync(project.ServerId!);
-            await hostingApiExisting.UpdateTcpProxyAsync(command.ProjectId);
+            await hostingApiExisting.UpdateDomainsForProjectAsync(command.ProjectId);
             return new ExposeTcpResponse(existing.AllocatedPort, project.Server.ApiDomain);
         }
 
@@ -44,7 +44,7 @@ public sealed class ExposeTcpCommandHandler(
         try
         {
             var hostingApi = await hostingApiFactory.GetHostingApiAsync(project.ServerId!);
-            await hostingApi.UpdateTcpProxyAsync(command.ProjectId);
+            await hostingApi.UpdateDomainsForProjectAsync(command.ProjectId);
         }
         catch
         {
