@@ -58,6 +58,9 @@ namespace Api.Data.Migrations
                     b.Property<DateTime?>("DeletedAtUtc")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<Guid?>("EnvironmentId")
+                        .HasColumnType("uuid");
+
                     b.Property<Guid>("ProjectId")
                         .HasColumnType("uuid");
 
@@ -77,6 +80,8 @@ namespace Api.Data.Migrations
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("EnvironmentId");
 
                     b.HasIndex("ProjectId");
 
@@ -297,9 +302,6 @@ namespace Api.Data.Migrations
                     b.Property<long?>("GithubInstallationId")
                         .HasColumnType("bigint");
 
-                    b.Property<Guid?>("OrganizationId")
-                        .HasColumnType("uuid");
-
                     b.Property<Guid>("LocationId")
                         .HasColumnType("uuid");
 
@@ -307,6 +309,9 @@ namespace Api.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)");
+
+                    b.Property<Guid?>("OrganizationId")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("RepoUri")
                         .IsRequired()
@@ -336,8 +341,6 @@ namespace Api.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OrganizationId");
-
                     b.HasIndex("ServerId");
 
                     b.ToTable("Projects", "api");
@@ -361,8 +364,22 @@ namespace Api.Data.Migrations
                     b.Property<DateTime?>("DeletedAtUtc")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<string>("Name")
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
+
                     b.Property<Guid>("ProjectId")
                         .HasColumnType("uuid");
+
+                    b.Property<int?>("PullRequestNumber")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Subdomain")
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("integer");
 
                     b.Property<DateTime?>("UpdatedAtUtc")
                         .HasColumnType("timestamp with time zone");
@@ -795,6 +812,10 @@ namespace Api.Data.Migrations
 
             modelBuilder.Entity("Api.Data.Deployment", b =>
                 {
+                    b.HasOne("Api.Data.ProjectEnvironment", "Environment")
+                        .WithMany("Deployments")
+                        .HasForeignKey("EnvironmentId");
+
                     b.HasOne("Api.Data.Project", "Project")
                         .WithMany()
                         .HasForeignKey("ProjectId")
@@ -804,6 +825,8 @@ namespace Api.Data.Migrations
                     b.HasOne("Api.Data.Server", null)
                         .WithMany("Deployments")
                         .HasForeignKey("ServerId");
+
+                    b.Navigation("Environment");
 
                     b.Navigation("Project");
                 });
@@ -841,11 +864,13 @@ namespace Api.Data.Migrations
 
             modelBuilder.Entity("Api.Data.ProjectEnvironment", b =>
                 {
-                    b.HasOne("Api.Data.Project", null)
+                    b.HasOne("Api.Data.Project", "Project")
                         .WithMany("ProjectEnvironments")
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Project");
                 });
 
             modelBuilder.Entity("Api.Data.ProjectEnvironmentVariable", b =>
@@ -875,17 +900,6 @@ namespace Api.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Api.Data.TcpPortAllocation", b =>
-                {
-                    b.HasOne("Api.Data.Project", "Project")
-                        .WithMany()
-                        .HasForeignKey("ProjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Project");
-                });
-
             modelBuilder.Entity("Api.Data.Secret", b =>
                 {
                     b.HasOne("Api.Data.Server", "Server")
@@ -904,6 +918,17 @@ namespace Api.Data.Migrations
                         .HasForeignKey("LocationId");
 
                     b.Navigation("Location");
+                });
+
+            modelBuilder.Entity("Api.Data.TcpPortAllocation", b =>
+                {
+                    b.HasOne("Api.Data.Project", "Project")
+                        .WithMany()
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Project");
                 });
 
             modelBuilder.Entity("Api.Data.TerminalSession", b =>
@@ -959,6 +984,8 @@ namespace Api.Data.Migrations
 
             modelBuilder.Entity("Api.Data.ProjectEnvironment", b =>
                 {
+                    b.Navigation("Deployments");
+
                     b.Navigation("ProjectEnvironmentVariables");
                 });
 
