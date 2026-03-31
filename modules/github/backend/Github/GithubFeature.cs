@@ -50,6 +50,7 @@ public class GithubFeature : IFeature
         services.AddScoped<IModuleSyncService, ModuleSyncService>();
         services.AddScoped<IGithubUserSettingsRepository, GithubUserSettingsRepository>();
         services.AddScoped<IPushWebhookEventRepository, PushWebhookEventRepository>();
+        services.AddScoped<IPullRequestWebhookEventRepository, PullRequestWebhookEventRepository>();
         services.AddScoped<IModuleSyncEventRepository, ModuleSyncEventRepository>();
         services.AddHttpClient();
 

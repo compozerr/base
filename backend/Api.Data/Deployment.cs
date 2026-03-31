@@ -18,6 +18,12 @@ public class Deployment : BaseEntityWithId<DeploymentId>
     public DateTime? StartedAtUtc { get; set; }
     public TimeSpan? BuildDuration { get; set; }
 
+    /// <summary>
+    /// The environment this deployment targets. Nullable for backward compatibility.
+    /// </summary>
+    public ProjectEnvironmentId? EnvironmentId { get; set; }
+
     public virtual User? User { get; set; }
     public virtual Project? Project { get; set; }
+    public virtual ProjectEnvironment? Environment { get; set; }
 }

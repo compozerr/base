@@ -71,17 +71,17 @@ public sealed class PushWebhookProcessorJob(
                 return;    
             }
 
-            if (deployCommand.CommitBranch is not "main")
+            var projectEnvironment = await projectEnvironmentRepository.GetProjectEnvironmentByBranchAsync(
+                projectId, deployCommand.CommitBranch);
+
+            if (projectEnvironment is null)
             {
                 Log.ForContext(nameof(deployCommand), deployCommand)
                    .ForContext(nameof(pushWebhookEvent), pushWebhookEvent.Id)
-                   .Information("Skipping deployment for non-main branch {Branch} in PushWebhookEvent {PushWebhookEventId}",
-                                deployCommand.CommitBranch, pushWebhookEvent.Id);
+                   .Information("No environment found for branch {Branch} on project {ProjectId}, skipping deployment in PushWebhookEvent {PushWebhookEventId}",
+                                deployCommand.CommitBranch, projectId, pushWebhookEvent.Id);
                 return;
             }
-
-            var projectEnvironment = await projectEnvironmentRepository.GetProjectEnvironmentByBranchAsync(
-                projectId, deployCommand.CommitBranch) ?? throw new ArgumentException($"Project environment for branch {deployCommand.CommitBranch} not found, for project {projectId}.");
 
             if (projectEnvironment.AutoDeploy is false)
             {

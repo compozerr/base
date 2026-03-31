@@ -37,6 +37,7 @@ function RouteComponent() {
   const tabs = [
     { name: 'Overview', href: `/projects/${projectId}` },
     { name: 'Deployments', href: `/projects/${projectId}/deployments` },
+    { name: 'Environments', href: `/projects/${projectId}/environments` },
     { name: 'Settings', href: `/projects/${projectId}/settings` },
   ]
 
