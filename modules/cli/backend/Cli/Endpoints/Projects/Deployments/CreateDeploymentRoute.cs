@@ -10,7 +10,8 @@ public sealed record CreateDeploymentRequest(
     string CommitMessage,
     string CommitAuthor,
     string CommitBranch,
-    string CommitEmail);
+    string CommitEmail,
+    Guid? EnvironmentId = null);
 
 public static class CreateDeploymentRoute
 {
@@ -29,5 +30,6 @@ public static class CreateDeploymentRoute
                 request.CommitMessage,
                 request.CommitAuthor,
                 request.CommitBranch,
-                request.CommitEmail));
+                request.CommitEmail,
+                EnvironmentId: request.EnvironmentId.HasValue ? ProjectEnvironmentId.Create(request.EnvironmentId.Value) : null));
 }

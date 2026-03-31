@@ -1,6 +1,7 @@
 using Api.Endpoints.Projects.Environments.Create;
 using Api.Endpoints.Projects.Environments.Delete;
 using Api.Endpoints.Projects.Environments.Get;
+using Api.Endpoints.Projects.Environments.Promote;
 
 namespace Api.Endpoints.Projects.Environments;
 
@@ -15,6 +16,7 @@ public static class EnvironmentsGroup
         group.AddGetEnvironmentsRoute();
         group.AddCreateEnvironmentRoute();
         group.AddDeleteEnvironmentRoute();
+        group.AddPromoteEnvironmentRoute();
 
         return group;
     }

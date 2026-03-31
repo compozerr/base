@@ -38,6 +38,6 @@ public sealed class CreateEnvironmentCommandHandler(
            .Information("Created {Type} environment '{Name}' for project {ProjectId}",
                command.Type, command.Name, command.ProjectId);
 
-        return new CreateEnvironmentResponse(environment.Id.Value);
+        return new CreateEnvironmentResponse(environment.Id.Value, environment.Subdomain);
     }
 }

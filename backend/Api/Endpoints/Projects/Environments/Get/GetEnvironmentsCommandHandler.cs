@@ -1,23 +1,19 @@
 using Api.Abstractions;
 using Api.Data;
+using Api.Data.Repositories;
 using Core.MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace Api.Endpoints.Projects.Environments.Get;
 
 public sealed class GetEnvironmentsCommandHandler(
-    ApiDbContext dbContext) : ICommandHandler<GetEnvironmentsCommand, GetEnvironmentsResponse>
+    IProjectEnvironmentRepository environmentRepository) : ICommandHandler<GetEnvironmentsCommand, GetEnvironmentsResponse>
 {
     public async Task<GetEnvironmentsResponse> Handle(
         GetEnvironmentsCommand command,
         CancellationToken cancellationToken = default)
     {
-        var environments = await dbContext.ProjectEnvironments
-            .Where(e => e.ProjectId == command.ProjectId)
-            .Include(e => e.Deployments!.OrderByDescending(d => d.CreatedAtUtc).Take(1))
-            .OrderBy(e => e.Type)
-            .ThenByDescending(e => e.CreatedAtUtc)
-            .ToListAsync(cancellationToken);
+        var environments = await environmentRepository.GetByProjectIdWithLatestDeploymentAsync(
+            command.ProjectId, cancellationToken);
 
         var dtos = environments.Select(e => new EnvironmentDto(
             e.Id.Value,
