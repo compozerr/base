@@ -31,6 +31,11 @@ public sealed class PullRequestWebhookEventRepository(
             : new Uri(urlStr + ".git");
 
         var projects = await projectRepository.GetFilteredAsync(x => x.RepoUri == withoutGit || x.RepoUri == withGit);
-        return projects.Count == 1 ? projects[0].Id : null;
+        if (projects.Count > 1)
+        {
+            throw new InvalidOperationException($"Multiple projects found for git URL: {gitUrl}");
+        }
+
+        return projects.Count == 0 ? null : projects[0].Id;
     }
 }

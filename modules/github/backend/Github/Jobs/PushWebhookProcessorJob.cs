@@ -92,7 +92,7 @@ public sealed class PushWebhookProcessorJob(
                 return;
             }
 
-            await mediator.Send(deployCommand);
+            await mediator.Send(deployCommand with { EnvironmentId = projectEnvironment.Id });
         }
         catch (CouldNotFindProjectFromGitUrlException ex)
         {

@@ -67,7 +67,7 @@ function useEnvironments(projectId: string) {
 
 function RouteComponent() {
     const { projectId } = getRouteApi('/_auth/_dashboard/projects/$projectId').useLoaderData()
-    const { data, refetch, isLoading } = useEnvironments(projectId)
+    const { data, refetch, isLoading, error } = useEnvironments(projectId)
     const queryClient = useQueryClient()
 
     const [rotation, setRotation] = useState(0)
@@ -113,6 +113,16 @@ function RouteComponent() {
             {isLoading && (
                 <div className="flex items-center justify-center py-16">
                     <div className="animate-spin h-6 w-6 border-2 border-muted-foreground border-t-transparent rounded-full" />
+                </div>
+            )}
+
+            {/* Error state */}
+            {error && !isLoading && (
+                <div className="flex flex-col items-center justify-center py-12 text-center">
+                    <p className="text-sm text-red-400 mb-2">Failed to load environments</p>
+                    <Button variant="outline" size="sm" onClick={() => refetch()}>
+                        Try again
+                    </Button>
                 </div>
             )}
 
@@ -326,7 +336,7 @@ function CreatePreviewDialog({
                     body: JSON.stringify({
                         name,
                         branch,
-                        type: 1, // Preview
+                        type: 'Preview',
                     }),
                 },
             )

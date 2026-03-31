@@ -48,6 +48,7 @@ public sealed class PullRequestWebhookProcessorJob(
                 Log.Information(
                     "No project found for git URL {GitUrl} in PullRequestWebhookEvent {EventId}",
                     gitUrl, webhookEvent.Id);
+                await MarkAsHandledAsync(webhookEvent);
                 return;
             }
 
@@ -59,6 +60,7 @@ public sealed class PullRequestWebhookProcessorJob(
             switch (action)
             {
                 case "opened":
+                case "reopened":
                 case "synchronize":
                     await HandlePrOpenedOrSynchronizeAsync(
                         prEvent, projectId, environmentRepository, projectRepository, mediator);
@@ -75,6 +77,8 @@ public sealed class PullRequestWebhookProcessorJob(
                         action, webhookEvent.Id);
                     break;
             }
+
+            await MarkAsHandledAsync(webhookEvent);
         }
         catch (Exception ex)
         {
@@ -82,15 +86,21 @@ public sealed class PullRequestWebhookProcessorJob(
                 "Error processing PullRequestWebhookEvent {EventId}",
                 webhookEvent.Id);
 
-            webhookEvent.ErrorMessage = ex.Message;
-            webhookEvent.ErroredAt = DateTime.UtcNow;
-            await pullRequestWebhookEventRepository.UpdateAsync(webhookEvent);
+            await MarkAsErroredAsync(webhookEvent, ex.Message);
         }
-        finally
-        {
-            webhookEvent.HandledAt = DateTime.UtcNow;
-            await pullRequestWebhookEventRepository.UpdateAsync(webhookEvent);
-        }
+    }
+
+    private async Task MarkAsHandledAsync(PullRequestWebhookEvent webhookEvent)
+    {
+        webhookEvent.HandledAt = DateTime.UtcNow;
+        await pullRequestWebhookEventRepository.UpdateAsync(webhookEvent);
+    }
+
+    private async Task MarkAsErroredAsync(PullRequestWebhookEvent webhookEvent, string errorMessage)
+    {
+        webhookEvent.ErrorMessage = errorMessage;
+        webhookEvent.ErroredAt = DateTime.UtcNow;
+        await pullRequestWebhookEventRepository.UpdateAsync(webhookEvent);
     }
 
     private static async Task HandlePrOpenedOrSynchronizeAsync(
@@ -117,7 +127,7 @@ public sealed class PullRequestWebhookProcessorJob(
             // Trigger deployment for existing environment
             if (existing.AutoDeploy && prEvent.PullRequest.Head.Sha is { } commitSha)
             {
-                await TriggerDeploymentAsync(mediator, projectId, prEvent, branchName, commitSha);
+                await TriggerDeploymentAsync(mediator, projectId, existing.Id, prEvent, branchName, commitSha);
             }
 
             return;
@@ -127,7 +137,6 @@ public sealed class PullRequestWebhookProcessorJob(
         var project = await projectRepository.GetByIdAsync(projectId);
         var projectName = project?.Name ?? "project";
 
-        var sanitizedBranch = SanitizeForSubdomain(branchName);
         var sanitizedProject = SanitizeForSubdomain(projectName);
         var subdomain = $"pr-{prNumber}-{sanitizedProject}";
         if (subdomain.Length > 63)
@@ -154,7 +163,7 @@ public sealed class PullRequestWebhookProcessorJob(
         // Trigger initial deployment
         if (prEvent.PullRequest.Head.Sha is { } sha)
         {
-            await TriggerDeploymentAsync(mediator, projectId, prEvent, branchName, sha);
+            await TriggerDeploymentAsync(mediator, projectId, environment.Id, prEvent, branchName, sha);
         }
     }
 
@@ -187,6 +196,7 @@ public sealed class PullRequestWebhookProcessorJob(
     private static async Task TriggerDeploymentAsync(
         IMediator mediator,
         ProjectId projectId,
+        ProjectEnvironmentId environmentId,
         Octokit.Webhooks.Events.PullRequestEvent prEvent,
         string branchName,
         string commitSha)
@@ -198,18 +208,24 @@ public sealed class PullRequestWebhookProcessorJob(
             CommitAuthor: prEvent.PullRequest.User.Login,
             CommitBranch: branchName,
             CommitEmail: prEvent.PullRequest.User.Login + "@users.noreply.github.com",
-            OverrideAuthorization: true);
+            OverrideAuthorization: true,
+            EnvironmentId: environmentId);
 
         await mediator.Send(deployCommand);
     }
 
     private static string SanitizeForSubdomain(string input)
     {
-        return new string(input
+        var replaced = new string(input
             .ToLowerInvariant()
             .Select(c => char.IsLetterOrDigit(c) ? c : '-')
-            .ToArray())
-            .Trim('-');
+            .ToArray());
+
+        // Collapse consecutive dashes and trim leading/trailing dashes
+        while (replaced.Contains("--"))
+            replaced = replaced.Replace("--", "-");
+
+        return replaced.Trim('-');
     }
 
     private static string Truncate(string value, int maxLength)

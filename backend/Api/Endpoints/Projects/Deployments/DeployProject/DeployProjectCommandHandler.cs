@@ -31,7 +31,8 @@ public sealed record DeployProjectCommandHandler(
             CommitBranch = command.CommitBranch,
             CommitEmail = command.CommitEmail,
             UserId = project.UserId,
-            Status = DeploymentStatus.Queued
+            Status = DeploymentStatus.Queued,
+            EnvironmentId = command.EnvironmentId
         };
 
         newDeployment.QueueDomainEvent<DeploymentQueuedEvent>();

@@ -53,10 +53,15 @@ public sealed class CreateEnvironmentCommandHandler(
 
     private static string SanitizeForSubdomain(string input)
     {
-        return new string(input
+        var replaced = new string(input
             .ToLowerInvariant()
             .Select(c => char.IsLetterOrDigit(c) ? c : '-')
-            .ToArray())
-            .Trim('-');
+            .ToArray());
+
+        // Collapse consecutive dashes and trim leading/trailing dashes
+        while (replaced.Contains("--"))
+            replaced = replaced.Replace("--", "-");
+
+        return replaced.Trim('-');
     }
 }
