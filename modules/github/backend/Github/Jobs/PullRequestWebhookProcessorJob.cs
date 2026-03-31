@@ -13,6 +13,7 @@ namespace Github.Jobs;
 
 public sealed class PullRequestWebhookProcessorJob(
     IPullRequestWebhookEventRepository pullRequestWebhookEventRepository,
+    IPushWebhookEventRepository pushWebhookEventRepository,
     IServiceScopeFactory serviceScopeFactory) : JobBase<PullRequestWebhookProcessorJob, PullRequestWebhookEventId>
 {
     public override async Task ExecuteAsync(PullRequestWebhookEventId eventId)
@@ -42,7 +43,7 @@ public sealed class PullRequestWebhookProcessorJob(
                 throw new InvalidOperationException("Invalid repository clone URL in PR event.");
             }
 
-            var projectId = await pullRequestWebhookEventRepository.GetProjectIdFromGitUrlAsync(gitUrl);
+            var projectId = await pushWebhookEventRepository.GetProjectIdFromGitUrlAsync(gitUrl);
             if (projectId is null)
             {
                 Log.Information(
@@ -136,11 +137,7 @@ public sealed class PullRequestWebhookProcessorJob(
         // Create new preview environment
         var project = await projectRepository.GetByIdAsync(projectId);
         var projectName = project?.Name ?? "project";
-
-        var sanitizedProject = SanitizeForSubdomain(projectName);
-        var subdomain = $"pr-{prNumber}-{sanitizedProject}";
-        if (subdomain.Length > 63)
-            subdomain = subdomain[..63].TrimEnd('-');
+        var subdomain = SubdomainHelper.GeneratePrSubdomain(projectName, prNumber);
 
         var environment = new ProjectEnvironment
         {
@@ -212,20 +209,6 @@ public sealed class PullRequestWebhookProcessorJob(
             EnvironmentId: environmentId);
 
         await mediator.Send(deployCommand);
-    }
-
-    private static string SanitizeForSubdomain(string input)
-    {
-        var replaced = new string(input
-            .ToLowerInvariant()
-            .Select(c => char.IsLetterOrDigit(c) ? c : '-')
-            .ToArray());
-
-        // Collapse consecutive dashes and trim leading/trailing dashes
-        while (replaced.Contains("--"))
-            replaced = replaced.Replace("--", "-");
-
-        return replaced.Trim('-');
     }
 
     private static string Truncate(string value, int maxLength)

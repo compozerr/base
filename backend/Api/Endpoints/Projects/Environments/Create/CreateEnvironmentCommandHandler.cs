@@ -18,7 +18,7 @@ public sealed class CreateEnvironmentCommandHandler(
             ?? throw new InvalidOperationException($"Project {command.ProjectId} not found.");
 
         var subdomain = command.Type == EnvironmentType.Preview
-            ? GenerateSubdomain(project.Name, command.Branch)
+            ? SubdomainHelper.GenerateSubdomain(project.Name, command.Branch)
             : null;
 
         var environment = new ProjectEnvironment
@@ -39,29 +39,5 @@ public sealed class CreateEnvironmentCommandHandler(
                command.Type, command.Name, command.ProjectId);
 
         return new CreateEnvironmentResponse(environment.Id.Value);
-    }
-
-    private static string GenerateSubdomain(string projectName, string branch)
-    {
-        var sanitizedProject = SanitizeForSubdomain(projectName);
-        var sanitizedBranch = SanitizeForSubdomain(branch);
-
-        // Limit length to keep subdomain reasonable
-        var subdomain = $"{sanitizedBranch}-{sanitizedProject}";
-        return subdomain.Length > 63 ? subdomain[..63].TrimEnd('-') : subdomain;
-    }
-
-    private static string SanitizeForSubdomain(string input)
-    {
-        var replaced = new string(input
-            .ToLowerInvariant()
-            .Select(c => char.IsLetterOrDigit(c) ? c : '-')
-            .ToArray());
-
-        // Collapse consecutive dashes and trim leading/trailing dashes
-        while (replaced.Contains("--"))
-            replaced = replaced.Replace("--", "-");
-
-        return replaced.Trim('-');
     }
 }
