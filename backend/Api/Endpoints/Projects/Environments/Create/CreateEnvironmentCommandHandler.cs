@@ -23,7 +23,7 @@ public sealed class CreateEnvironmentCommandHandler(
 
         var serverTier = ServerTiers.GetById(new ServerTierId(command.Tier));
 
-        var environment = new ProjectEnvironment
+        var environment = new Data.ProjectEnvironment
         {
             Id = ProjectEnvironmentId.CreateNew(),
             ProjectId = command.ProjectId,

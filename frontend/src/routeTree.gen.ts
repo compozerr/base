@@ -34,8 +34,8 @@ import { Route as AuthDashboardOrganizationsOrgIdIndexRouteImport } from './../.
 import { Route as AuthDashboardOrganizationsOrgIdMembersRouteImport } from './../../modules/organizations/frontend/src/routes/_auth/_dashboard/organizations/$orgId/members'
 import { Route as AuthDashboardProjectsProjectIdSettingsRouteRouteImport } from './routes/_auth/_dashboard/projects/$projectId/settings/route'
 import { Route as AuthDashboardProjectsProjectIdSettingsIndexRouteImport } from './routes/_auth/_dashboard/projects/$projectId/settings/index'
-import { Route as AuthDashboardProjectsProjectIdDeploymentsIndexRouteImport } from './routes/_auth/_dashboard/projects/$projectId/deployments/index'
 import { Route as AuthDashboardProjectsProjectIdEnvironmentsIndexRouteImport } from './routes/_auth/_dashboard/projects/$projectId/environments/index'
+import { Route as AuthDashboardProjectsProjectIdDeploymentsIndexRouteImport } from './routes/_auth/_dashboard/projects/$projectId/deployments/index'
 import { Route as AuthDashboardProjectsProjectIdSettingsGeneralRouteImport } from './routes/_auth/_dashboard/projects/$projectId/settings/general'
 import { Route as AuthDashboardProjectsProjectIdSettingsEnvironmentRouteImport } from './routes/_auth/_dashboard/projects/$projectId/settings/environment'
 import { Route as AuthDashboardProjectsProjectIdSettingsDomainsRouteImport } from './routes/_auth/_dashboard/projects/$projectId/settings/domains'
@@ -172,6 +172,12 @@ const AuthDashboardProjectsProjectIdSettingsIndexRoute =
     path: '/',
     getParentRoute: () => AuthDashboardProjectsProjectIdSettingsRouteRoute,
   } as any)
+const AuthDashboardProjectsProjectIdEnvironmentsIndexRoute =
+  AuthDashboardProjectsProjectIdEnvironmentsIndexRouteImport.update({
+    id: '/environments/',
+    path: '/environments/',
+    getParentRoute: () => AuthDashboardProjectsProjectIdRouteRoute,
+  } as any)
 const AuthDashboardProjectsProjectIdDeploymentsIndexRoute =
   AuthDashboardProjectsProjectIdDeploymentsIndexRouteImport.update({
     id: '/deployments/',
@@ -195,12 +201,6 @@ const AuthDashboardProjectsProjectIdSettingsDomainsRoute =
     id: '/domains',
     path: '/domains',
     getParentRoute: () => AuthDashboardProjectsProjectIdSettingsRouteRoute,
-  } as any)
-const AuthDashboardProjectsProjectIdEnvironmentsIndexRoute =
-  AuthDashboardProjectsProjectIdEnvironmentsIndexRouteImport.update({
-    id: '/environments/',
-    path: '/environments/',
-    getParentRoute: () => AuthDashboardProjectsProjectIdRouteRoute,
   } as any)
 const AuthDashboardProjectsProjectIdDeploymentsDeploymentIdIndexRoute =
   AuthDashboardProjectsProjectIdDeploymentsDeploymentIdIndexRouteImport.update({
@@ -591,18 +591,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthDashboardProjectsProjectIdSettingsIndexRouteImport
       parentRoute: typeof AuthDashboardProjectsProjectIdSettingsRouteRoute
     }
-    '/_auth/_dashboard/projects/$projectId/deployments/': {
-      id: '/_auth/_dashboard/projects/$projectId/deployments/'
-      path: '/deployments'
-      fullPath: '/projects/$projectId/deployments'
-      preLoaderRoute: typeof AuthDashboardProjectsProjectIdDeploymentsIndexRouteImport
-      parentRoute: typeof AuthDashboardProjectsProjectIdRouteRoute
-    }
     '/_auth/_dashboard/projects/$projectId/environments/': {
       id: '/_auth/_dashboard/projects/$projectId/environments/'
       path: '/environments'
       fullPath: '/projects/$projectId/environments'
       preLoaderRoute: typeof AuthDashboardProjectsProjectIdEnvironmentsIndexRouteImport
+      parentRoute: typeof AuthDashboardProjectsProjectIdRouteRoute
+    }
+    '/_auth/_dashboard/projects/$projectId/deployments/': {
+      id: '/_auth/_dashboard/projects/$projectId/deployments/'
+      path: '/deployments'
+      fullPath: '/projects/$projectId/deployments'
+      preLoaderRoute: typeof AuthDashboardProjectsProjectIdDeploymentsIndexRouteImport
       parentRoute: typeof AuthDashboardProjectsProjectIdRouteRoute
     }
     '/_auth/_dashboard/projects/$projectId/settings/general': {

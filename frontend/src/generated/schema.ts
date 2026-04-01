@@ -4,6 +4,56 @@
  */
 
 export type paths = {
+    "/v1/dev/seed": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/api-tokens": {
         parameters: {
             query?: never;
@@ -789,7 +839,46 @@ export type paths = {
         patch?: never;
         trace?: never;
     };
-    "/v1/example": {
+    "/v1/cli/modules/release": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["Cli.Endpoints.Modules.Release.ReleaseModuleCommand"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Cli.Endpoints.Modules.Release.ReleaseModuleResponse"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/cli/modules/search": {
         parameters: {
             query?: never;
             header?: never;
@@ -798,8 +887,11 @@ export type paths = {
         };
         get: {
             parameters: {
-                query: {
-                    name: string;
+                query?: {
+                    Query?: string;
+                    Tags?: string[];
+                    Limit?: number;
+                    Offset?: number;
                 };
                 header?: never;
                 path?: never;
@@ -813,13 +905,124 @@ export type paths = {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": components["schemas"]["Template.Endpoints.Example.GetExampleResponse"];
+                        "application/json": components["schemas"]["Cli.Endpoints.Modules.Search.SearchModulesResponse"];
                     };
                 };
             };
         };
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/cli/modules/info/{organization}/{moduleName}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    organization: string;
+                    moduleName: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Cli.Endpoints.Modules.Info.GetModuleInfoResponse"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/cli/modules/sync-status": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query: {
+                    projectId: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Cli.Endpoints.Modules.SyncStatus.GetModuleSyncStatusResponse"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/cli/modules/{organization}/{moduleName}/track-install": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    organization: string;
+                    moduleName: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
         delete?: never;
         options?: never;
         head?: never;
@@ -1043,6 +1246,39 @@ export type paths = {
         patch?: never;
         trace?: never;
     };
+    "/v1/v1/version": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/hosting/deployments/{deploymentId}/status": {
         parameters: {
             query?: never;
@@ -1242,6 +1478,41 @@ export type paths = {
         patch?: never;
         trace?: never;
     };
+    "/v1/hosting/projects/tcp-allocations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Api.Hosting.Endpoints.Projects.TcpAllocations.TcpAllocationDto"][];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/hosting/projects/{projectId}/domains": {
         parameters: {
             query?: never;
@@ -1319,6 +1590,76 @@ export type paths = {
         };
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/invitations/{token}/accept": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    token: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/invitations/{token}/decline": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    token: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
         delete?: never;
         options?: never;
         head?: never;
@@ -1417,6 +1758,408 @@ export type paths = {
         patch?: never;
         trace?: never;
     };
+    "/v1/organizations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Organizations.Endpoints.GetAll.OrganizationListItem"][];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["Organizations.Endpoints.Create.CreateOrganizationCommand"];
+                };
+            };
+            responses: {
+                /** @description Created */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Organizations.Endpoints.Create.CreateOrganizationResponse"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/organizations/{organizationId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    organizationId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    organizationId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["Organizations.Endpoints.Update.UpdateOrganizationRequest"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Organizations.Endpoints.Update.UpdateOrganizationResponse"];
+                    };
+                };
+            };
+        };
+        post?: never;
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    organizationId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/organizations/{organizationId}/members": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    organizationId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/organizations/{organizationId}/members/{memberId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    organizationId: string;
+                    memberId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["Organizations.Endpoints.Members.UpdateMemberRole.UpdateMemberRoleRequest"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        post?: never;
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    organizationId: string;
+                    memberId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/organizations/{organizationId}/invitations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    organizationId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    organizationId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["Organizations.Endpoints.Invitations.InviteUser.InviteUserRequest"];
+                };
+            };
+            responses: {
+                /** @description Created */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Organizations.Endpoints.Invitations.InviteUser.InviteUserResponse"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/organizations/{organizationId}/invitations/{invitationId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    organizationId: string;
+                    invitationId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/organizations/{organizationId}/transfer-project": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    organizationId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["Api.Endpoints.Organizations.TransferProjectRequest"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/organizations/github-user-search": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query: {
+                    q: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/projects/{projectId}": {
         parameters: {
             query?: never;
@@ -1482,6 +2225,107 @@ export type paths = {
         patch?: never;
         trace?: never;
     };
+    "/v1/projects/{projectId}/repo-status": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    projectId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Api.Endpoints.Projects.Project.RepoStatus.RepoStatusResponse"];
+                    };
+                };
+                /** @description Not Found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/projects/{projectId}/repo-url": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    projectId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["Api.Endpoints.Projects.Project.UpdateRepoUrl.UpdateRepoUrlRequest"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Api.Endpoints.Projects.Project.UpdateRepoUrl.UpdateRepoUrlResponse"];
+                    };
+                };
+                /** @description Bad Request */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": string;
+                    };
+                };
+                /** @description Not Found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/projects/{projectId}/start": {
         parameters: {
             query?: never;
@@ -1518,6 +2362,82 @@ export type paths = {
         trace?: never;
     };
     "/v1/projects/{projectId}/stop": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    projectId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/projects/{projectId}/exec": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    projectId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["Api.Endpoints.Projects.Project.ExecuteCommand.ExecuteCommandRequest"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Api.Endpoints.Projects.Project.ExecuteCommand.ExecuteCommandResponse"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/projects/{projectId}/debug-terminal": {
         parameters: {
             query?: never;
             header?: never;
@@ -1822,6 +2742,44 @@ export type paths = {
         patch?: never;
         trace?: never;
     };
+    "/v1/projects/{projectId}/deployments/{deploymentId}/cancel": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    projectId: string;
+                    deploymentId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Api.Endpoints.Projects.Deployments.CancelDeployment.CancelDeploymentResponse"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/projects/{projectId}/environment": {
         parameters: {
             query?: never;
@@ -1916,6 +2874,186 @@ export type paths = {
                     };
                     content: {
                         "application/json": components["schemas"]["Api.Endpoints.Projects.ProjectEnvironment.ChangeAutoDeploy.ChangeAutoDeployResponse"];
+                    };
+                };
+            };
+        };
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/projects/{projectId}/environments": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    projectId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Api.Endpoints.Projects.Environments.Get.GetEnvironmentsResponse"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    projectId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["Api.Endpoints.Projects.Environments.Create.CreateEnvironmentRequest"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Api.Endpoints.Projects.Environments.Create.CreateEnvironmentResponse"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/projects/{projectId}/environments/{environmentId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    projectId: string;
+                    environmentId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Api.Endpoints.Projects.Environments.Delete.DeleteEnvironmentResponse"];
+                    };
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/projects/{projectId}/environments/{environmentId}/promote": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    projectId: string;
+                    environmentId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Api.Endpoints.Projects.Environments.Promote.PromoteEnvironmentResponse"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/projects/{projectId}/environments/{environmentId}/tier": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    projectId: string;
+                    environmentId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["Api.Endpoints.Projects.Environments.ChangeTier.ChangeEnvironmentTierRequest"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Api.Endpoints.Projects.Environments.ChangeTier.ChangeEnvironmentTierResponse"];
                     };
                 };
             };
@@ -2217,6 +3355,66 @@ export type paths = {
         patch?: never;
         trace?: never;
     };
+    "/v1/projects/{projectId}/services/{serviceName}/expose-tcp": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    projectId: string;
+                    serviceName: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Api.Endpoints.Projects.Services.ExposeTcp.ExposeTcpResponse"];
+                    };
+                };
+            };
+        };
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    projectId: string;
+                    serviceName: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Api.Endpoints.Projects.Services.UnexposeTcp.UnexposeTcpResponse"];
+                    };
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/servers": {
         parameters: {
             query?: never;
@@ -2298,6 +3496,43 @@ export type paths = {
                     };
                     content: {
                         "application/json": components["schemas"]["Api.Endpoints.Server.Tiers.Get.GetTiersResponse"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/servers/{serverId}/tcp-allocations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    serverId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Api.Endpoints.Server.TcpAllocations.GetTcpAllocationsResponse"];
                     };
                 };
             };
@@ -2757,6 +3992,8 @@ export type components = {
             filePath: string | null;
             displayName: string | null;
         };
+        /** @enum {string} */
+        "Api.Data.EnvironmentType": "Production" | "Preview";
         "Api.Data.GetProjectEnvironmentResponse": {
             autoDeploy: boolean;
             projectType: components["schemas"]["Api.Abstractions.ProjectType"];
@@ -2788,6 +4025,13 @@ export type components = {
         };
         /** @enum {string} */
         "Api.Data.SystemType": "Unknown" | "Frontend" | "Backend" | "General";
+        "Api.Endpoints.Organizations.TransferProjectRequest": {
+            /** Format: uuid */
+            projectId: string;
+        };
+        "Api.Endpoints.Projects.Deployments.CancelDeployment.CancelDeploymentResponse": {
+            success: boolean;
+        };
         "Api.Endpoints.Projects.Deployments.GetDeploymentResponse": {
             /** Format: uuid */
             id: string;
@@ -2856,6 +4100,53 @@ export type components = {
         "Api.Endpoints.Projects.Domains.SetPrimary.SetPrimaryResponse": {
             success: boolean;
         };
+        "Api.Endpoints.Projects.Environments.ChangeTier.ChangeEnvironmentTierRequest": {
+            tier: string | null;
+        };
+        "Api.Endpoints.Projects.Environments.ChangeTier.ChangeEnvironmentTierResponse": {
+            tier: string | null;
+            /** Format: double */
+            monthlyPrice: number;
+        };
+        "Api.Endpoints.Projects.Environments.Create.CreateEnvironmentRequest": {
+            name: string | null;
+            branch: string | null;
+            tier: string | null;
+            type: components["schemas"]["Api.Data.EnvironmentType"];
+        };
+        "Api.Endpoints.Projects.Environments.Create.CreateEnvironmentResponse": {
+            /** Format: uuid */
+            id: string;
+            subdomain: string | null;
+            tier: string | null;
+            /** Format: double */
+            monthlyPrice: number;
+        };
+        "Api.Endpoints.Projects.Environments.Delete.DeleteEnvironmentResponse": Record<string, never>;
+        "Api.Endpoints.Projects.Environments.Get.EnvironmentDto": {
+            /** Format: uuid */
+            id: string;
+            name: string | null;
+            type: string | null;
+            branches: string[] | null;
+            autoDeploy: boolean;
+            /** Format: int32 */
+            pullRequestNumber: number | null;
+            subdomain: string | null;
+            /** Format: date-time */
+            createdAtUtc: string;
+            /** Format: date-time */
+            lastDeploymentAtUtc: string | null;
+            serverTierId: string | null;
+            /** Format: double */
+            monthlyPrice: number | null;
+        };
+        "Api.Endpoints.Projects.Environments.Get.GetEnvironmentsResponse": {
+            environments: components["schemas"]["Api.Endpoints.Projects.Environments.Get.EnvironmentDto"][] | null;
+        };
+        "Api.Endpoints.Projects.Environments.Promote.PromoteEnvironmentResponse": {
+            statusUrl: string | null;
+        };
         "Api.Endpoints.Projects.GetProjectsResponse": {
             /** Format: int32 */
             totalProjectsCount: number;
@@ -2868,6 +4159,15 @@ export type components = {
             pageSize: number;
         };
         "Api.Endpoints.Projects.Project.Delete.DeleteProjectResponse": Record<string, never>;
+        "Api.Endpoints.Projects.Project.ExecuteCommand.ExecuteCommandRequest": {
+            command: string | null;
+        };
+        "Api.Endpoints.Projects.Project.ExecuteCommand.ExecuteCommandResponse": {
+            /** Format: int32 */
+            exitCode: number;
+            stdout: string | null;
+            stderr: string | null;
+        };
         "Api.Endpoints.Projects.Project.Get.GetProjectResponse": {
             /** Format: uuid */
             id: string;
@@ -2882,12 +4182,38 @@ export type components = {
             /** Format: uuid */
             activeDeploymentId: string | null;
         };
+        /**
+         * Format: int32
+         * @enum {integer}
+         */
+        "Api.Endpoints.Projects.Project.RepoStatus.RepoStatus": 0 | 1 | 2 | 3 | 4 | 5;
+        "Api.Endpoints.Projects.Project.RepoStatus.RepoStatusResponse": {
+            status: components["schemas"]["Api.Endpoints.Projects.Project.RepoStatus.RepoStatus"];
+            currentName: string | null;
+            newName: string | null;
+            newUrl: string | null;
+            isPrivate: boolean | null;
+            isArchived: boolean | null;
+            defaultBranch: string | null;
+            message: string | null;
+        };
+        "Api.Endpoints.Projects.Project.UpdateRepoUrl.UpdateRepoUrlRequest": {
+            repoUrl: string | null;
+        };
+        "Api.Endpoints.Projects.Project.UpdateRepoUrl.UpdateRepoUrlResponse": {
+            repoName: string | null;
+        };
         "Api.Endpoints.Projects.ProjectEnvironment.ChangeAutoDeploy.ChangeAutoDeployRequest": {
             autoDeploy: boolean;
         };
         "Api.Endpoints.Projects.ProjectEnvironment.ChangeAutoDeploy.ChangeAutoDeployResponse": Record<string, never>;
         "Api.Endpoints.Projects.ProjectEnvironment.UpsertProjectEnvironmentVariablesRequest": {
             variables: components["schemas"]["Api.Data.ProjectEnvironmentVariableDto"][] | null;
+        };
+        "Api.Endpoints.Projects.Services.ExposeTcp.ExposeTcpResponse": {
+            /** Format: int32 */
+            allocatedPort: number;
+            host: string | null;
         };
         "Api.Endpoints.Projects.Services.Get.GetProjectServicesResponse": {
             services: components["schemas"]["Api.Endpoints.Projects.Services.Get.ProjectServiceDto"][] | null;
@@ -2897,7 +4223,11 @@ export type components = {
             port: string | null;
             protocol: components["schemas"]["Api.Data.Protocol"];
             isSystem: boolean;
+            /** Format: int32 */
+            allocatedTcpPort: number | null;
+            tcpHost: string | null;
         };
+        "Api.Endpoints.Projects.Services.UnexposeTcp.UnexposeTcpResponse": Record<string, never>;
         "Api.Endpoints.Projects.Usage.Get.GetUsageResponse": {
             points: {
                 CPU: components["schemas"]["Api.Endpoints.Projects.Usage.Get.UsagePoint"][];
@@ -2919,6 +4249,17 @@ export type components = {
         };
         /** @enum {string} */
         "Api.Endpoints.Projects.Usage.Get.UsageSpan": "Total" | "Day" | "Week" | "Month" | "Year";
+        "Api.Endpoints.Server.TcpAllocations.GetTcpAllocationsResponse": {
+            allocations: components["schemas"]["Api.Endpoints.Server.TcpAllocations.TcpAllocationDto"][] | null;
+        };
+        "Api.Endpoints.Server.TcpAllocations.TcpAllocationDto": {
+            projectId: string | null;
+            serviceName: string | null;
+            internalPort: string | null;
+            /** Format: int32 */
+            allocatedPort: number;
+            vmIp: string | null;
+        };
         "Api.Endpoints.Server.Tiers.Get.GetTiersResponse": {
             tiers: components["schemas"]["Api.Abstractions.ServerTier"][] | null;
         };
@@ -2976,6 +4317,13 @@ export type components = {
             name: string | null;
             port: string | null;
             protocol: components["schemas"]["Api.Data.Protocol"];
+        };
+        "Api.Hosting.Endpoints.Projects.TcpAllocations.TcpAllocationDto": {
+            projectId: string | null;
+            serviceName: string | null;
+            internalPort: string | null;
+            /** Format: int32 */
+            allocatedPort: number;
         };
         /** Format: uuid */
         "Auth.Abstractions.UserId": string;
@@ -3082,6 +4430,79 @@ export type components = {
             forkedModules: components["schemas"]["Cli.Endpoints.Modules.Add.ModuleDto"][] | null;
             sharedBranchName: string | null;
         };
+        "Cli.Endpoints.Modules.Info.GetModuleInfoResponse": {
+            found: boolean;
+            name: string | null;
+            organization: string | null;
+            description: string | null;
+            latestVersion: string | null;
+            repoUrl: string | null;
+            tags: string[] | null;
+            versions: components["schemas"]["Cli.Endpoints.Modules.Info.ModuleVersionDto"][] | null;
+            /** Format: int32 */
+            installCount: number;
+            iconUrl: string | null;
+            compatibility: {
+                [key: string]: string;
+            } | null;
+            /** Format: date-time */
+            publishedAt: string | null;
+        };
+        "Cli.Endpoints.Modules.Info.ModuleVersionDto": {
+            version: string | null;
+            commitHash: string | null;
+            releaseNotes: string | null;
+            /** Format: date-time */
+            createdAt: string;
+        };
+        "Cli.Endpoints.Modules.Release.ReleaseModuleCommand": {
+            organization: string | null;
+            moduleName: string | null;
+            version: string | null;
+            repoUrl: string | null;
+            description: string | null;
+            releaseNotes: string | null;
+            commitHash: string | null;
+            tags: string[] | null;
+            compatibility: {
+                [key: string]: string;
+            } | null;
+        };
+        "Cli.Endpoints.Modules.Release.ReleaseModuleResponse": {
+            success: boolean;
+            tagName: string | null;
+            errorMessage: string | null;
+        };
+        "Cli.Endpoints.Modules.Search.SearchModuleItem": {
+            name: string | null;
+            description: string | null;
+            latestVersion: string | null;
+            repoUrl: string | null;
+            /** Format: int32 */
+            installCount: number;
+            organization: string | null;
+            tags: string[] | null;
+            iconUrl: string | null;
+        };
+        "Cli.Endpoints.Modules.Search.SearchModulesResponse": {
+            modules: components["schemas"]["Cli.Endpoints.Modules.Search.SearchModuleItem"][] | null;
+            /** Format: int32 */
+            total: number;
+        };
+        "Cli.Endpoints.Modules.SyncStatus.GetModuleSyncStatusResponse": {
+            syncs: components["schemas"]["Cli.Endpoints.Modules.SyncStatus.ModuleSyncStatusItem"][] | null;
+        };
+        "Cli.Endpoints.Modules.SyncStatus.ModuleSyncStatusItem": {
+            moduleName: string | null;
+            status: components["schemas"]["Github.Models.ModuleSyncStatus"];
+            sourceCommitHash: string | null;
+            targetCommitHash: string | null;
+            /** Format: int32 */
+            filesChanged: number;
+            /** Format: date-time */
+            completedAt: string | null;
+            errorMessage: string | null;
+        };
         "Cli.Endpoints.Projects.CreateProjectRequest": {
             repoName: string | null;
             repoUrl: string | null;
@@ -3097,6 +4518,8 @@ export type components = {
             commitAuthor: string | null;
             commitBranch: string | null;
             commitEmail: string | null;
+            /** Format: uuid */
+            environmentId: string | null;
         };
         "Cli.Endpoints.Projects.GetProjectByRepoUrlRequest": {
             repoUrl: string | null;
@@ -3185,6 +4608,11 @@ export type components = {
             installationId: string | null;
             type: components["schemas"]["Github.Endpoints.SetDefaultInstallationId.DefaultInstallationIdSelectionType"];
         };
+        /**
+         * Format: int32
+         * @enum {integer}
+         */
+        "Github.Models.ModuleSyncStatus": 0 | 1 | 2 | 3 | 4;
         "Github.Services.RepositoryDto": {
             ownedByInstallationId: string | null;
             name: string | null;
@@ -3196,6 +4624,49 @@ export type components = {
             subject: string | null;
             htmlBody: string | null;
         };
+        "Organizations.Endpoints.Create.CreateOrganizationCommand": {
+            name: string | null;
+            slug: string | null;
+        };
+        "Organizations.Endpoints.Create.CreateOrganizationResponse": {
+            /** Format: uuid */
+            id: string;
+            name: string | null;
+            slug: string | null;
+        };
+        "Organizations.Endpoints.GetAll.OrganizationListItem": {
+            /** Format: uuid */
+            id: string;
+            name: string | null;
+            slug: string | null;
+            isPersonal: boolean;
+            avatarUrl: string | null;
+        };
+        "Organizations.Endpoints.Invitations.InviteUser.InviteUserRequest": {
+            email: string | null;
+            role: components["schemas"]["Organizations.Models.OrganizationRole"];
+        };
+        "Organizations.Endpoints.Invitations.InviteUser.InviteUserResponse": {
+            /** Format: uuid */
+            invitationId: string;
+        };
+        "Organizations.Endpoints.Members.UpdateMemberRole.UpdateMemberRoleRequest": {
+            role: components["schemas"]["Organizations.Models.OrganizationRole"];
+        };
+        "Organizations.Endpoints.Update.UpdateOrganizationRequest": {
+            name: string | null;
+            avatarUrl: string | null;
+        };
+        "Organizations.Endpoints.Update.UpdateOrganizationResponse": {
+            /** Format: uuid */
+            id: string;
+            name: string | null;
+        };
+        /**
+         * Format: int32
+         * @enum {integer}
+         */
+        "Organizations.Models.OrganizationRole": 0 | 1;
         "Stripe.Endpoints.Invoices.GetInvoices.GetInvoicesResponse": {
             monthlyGroups: components["schemas"]["Stripe.Services.MonthlyInvoiceGroup"][] | null;
         };
@@ -3302,9 +4773,6 @@ export type components = {
             /** Format: int32 */
             expiryYear: number;
             isDefault: boolean;
-        };
-        "Template.Endpoints.Example.GetExampleResponse": {
-            message: string | null;
         };
     };
     responses: never;
