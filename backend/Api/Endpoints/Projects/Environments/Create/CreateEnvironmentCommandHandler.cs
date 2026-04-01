@@ -21,6 +21,8 @@ public sealed class CreateEnvironmentCommandHandler(
             ? SubdomainHelper.GenerateSubdomain(project.Name, command.Branch)
             : null;
 
+        var serverTier = ServerTiers.GetById(new ServerTierId(command.Tier));
+
         var environment = new ProjectEnvironment
         {
             Id = ProjectEnvironmentId.CreateNew(),
@@ -29,8 +31,11 @@ public sealed class CreateEnvironmentCommandHandler(
             Type = command.Type,
             Branches = [command.Branch],
             AutoDeploy = true,
-            Subdomain = subdomain
+            Subdomain = subdomain,
+            ServerTierId = serverTier.Id
         };
+
+        // TODO: Create Stripe subscription via SubscriptionService
 
         await environmentRepository.AddAsync(environment, cancellationToken);
 
@@ -38,6 +43,10 @@ public sealed class CreateEnvironmentCommandHandler(
            .Information("Created {Type} environment '{Name}' for project {ProjectId}",
                command.Type, command.Name, command.ProjectId);
 
-        return new CreateEnvironmentResponse(environment.Id.Value, environment.Subdomain);
+        return new CreateEnvironmentResponse(
+            environment.Id.Value,
+            environment.Subdomain,
+            serverTier.Id.Value,
+            serverTier.Price.Value);
     }
 }

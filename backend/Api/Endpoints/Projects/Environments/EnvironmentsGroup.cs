@@ -1,3 +1,4 @@
+using Api.Endpoints.Projects.Environments.ChangeTier;
 using Api.Endpoints.Projects.Environments.Create;
 using Api.Endpoints.Projects.Environments.Delete;
 using Api.Endpoints.Projects.Environments.Get;
@@ -17,6 +18,7 @@ public static class EnvironmentsGroup
         group.AddCreateEnvironmentRoute();
         group.AddDeleteEnvironmentRoute();
         group.AddPromoteEnvironmentRoute();
+        group.AddChangeEnvironmentTierRoute();
 
         return group;
     }

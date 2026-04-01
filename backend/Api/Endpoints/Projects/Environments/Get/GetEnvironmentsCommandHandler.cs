@@ -15,17 +15,37 @@ public sealed class GetEnvironmentsCommandHandler(
         var environments = await environmentRepository.GetByProjectIdWithLatestDeploymentAsync(
             command.ProjectId, cancellationToken);
 
-        var dtos = environments.Select(e => new EnvironmentDto(
-            e.Id.Value,
-            e.Name ?? (e.Type == EnvironmentType.Production ? "Production" : $"Preview ({string.Join(", ", e.Branches)})"),
-            e.Type.ToString(),
-            e.Branches,
-            e.AutoDeploy,
-            e.PullRequestNumber,
-            e.Subdomain,
-            e.CreatedAtUtc,
-            e.Deployments?.FirstOrDefault()?.CreatedAtUtc
-        )).ToList();
+        var dtos = environments.Select(e =>
+        {
+            var serverTierId = e.ServerTierId?.Value;
+            decimal? monthlyPrice = null;
+
+            if (e.ServerTierId is not null)
+            {
+                try
+                {
+                    monthlyPrice = ServerTiers.GetById(e.ServerTierId).Price.Value;
+                }
+                catch (ArgumentException)
+                {
+                    // Gracefully handle unknown tier IDs on existing environments
+                }
+            }
+
+            return new EnvironmentDto(
+                e.Id.Value,
+                e.Name ?? (e.Type == EnvironmentType.Production ? "Production" : $"Preview ({string.Join(", ", e.Branches)})"),
+                e.Type.ToString(),
+                e.Branches,
+                e.AutoDeploy,
+                e.PullRequestNumber,
+                e.Subdomain,
+                e.CreatedAtUtc,
+                e.Deployments?.FirstOrDefault()?.CreatedAtUtc,
+                serverTierId,
+                monthlyPrice
+            );
+        }).ToList();
 
         return new GetEnvironmentsResponse(dtos);
     }

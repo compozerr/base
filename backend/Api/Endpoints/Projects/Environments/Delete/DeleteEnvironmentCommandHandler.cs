@@ -22,6 +22,8 @@ public sealed class DeleteEnvironmentCommandHandler(
         if (environment.Type == EnvironmentType.Production)
             throw new InvalidOperationException("Cannot delete production environment.");
 
+        // TODO: Cancel Stripe subscription if StripeSubscriptionId is set
+
         await environmentRepository.DeleteAsync(environment.Id, cancellationToken);
 
         Log.Information("Deleted environment {EnvironmentId} for project {ProjectId}",

@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Api.Abstractions;
 
 namespace Api.Data;
 
@@ -23,6 +24,11 @@ public class ProjectEnvironment : BaseEntityWithId<ProjectEnvironmentId>
     /// </summary>
     [MaxLength(255)]
     public string? Subdomain { get; set; }
+
+    public ServerTierId? ServerTierId { get; set; }
+    public string? StripeSubscriptionId { get; set; }
+    public string? StripeSubscriptionItemId { get; set; }
+    public EnvironmentBillingStatus BillingStatus { get; set; } = EnvironmentBillingStatus.Active;
 
     public virtual Project? Project { get; set; }
     public virtual ICollection<ProjectEnvironmentVariable>? ProjectEnvironmentVariables { get; set; }

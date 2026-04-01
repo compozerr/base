@@ -136,7 +136,9 @@ public sealed class HostingApi(
                     repoName,
                     commitHash,
                     deploymentId = deployment.Id.Value.ToString(),
-                    serverTier = ServerTiers.GetById(deployment.Project.ServerTierId),
+                    serverTier = ServerTiers.GetById(
+                        deployment.Environment?.ServerTierId
+                        ?? deployment.Project.ServerTierId),
                     environmentName = deployment.Environment?.Name,
                     environmentType = deployment.Environment?.Type.ToString().ToLower()
                 }), cts.Token);

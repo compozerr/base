@@ -23,6 +23,7 @@ public static class CreateEnvironmentRoute
             projectId,
             request.Name,
             request.Branch,
+            request.Tier,
             request.Type));
 
         return TypedResults.Ok(result);
@@ -32,4 +33,5 @@ public static class CreateEnvironmentRoute
 public sealed record CreateEnvironmentRequest(
     string Name,
     string Branch,
+    string Tier,
     EnvironmentType Type = EnvironmentType.Preview);

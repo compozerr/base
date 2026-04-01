@@ -111,56 +111,29 @@ public sealed class PullRequestWebhookProcessorJob(
         IProjectRepository projectRepository,
         IMediator mediator)
     {
-        var prNumber = (int)prEvent.PullRequest.Number;
         var branchName = prEvent.PullRequest.Head.Ref;
-        var prTitle = prEvent.PullRequest.Title;
 
-        // Check if a preview environment already exists for this branch
+        // Look for an existing environment matching the branch
         var existing = await environmentRepository.GetProjectEnvironmentByBranchAsync(
             projectId, branchName);
 
-        if (existing is not null)
+        if (existing is null)
         {
             Log.Information(
-                "Preview environment already exists for branch {Branch} on project {ProjectId}, triggering deployment",
+                "No environment exists for branch {Branch} on project {ProjectId}. " +
+                "Environments must be created manually with a billing tier.",
                 branchName, projectId);
-
-            // Trigger deployment for existing environment
-            if (existing.AutoDeploy && prEvent.PullRequest.Head.Sha is { } commitSha)
-            {
-                await TriggerDeploymentAsync(mediator, projectId, existing.Id, prEvent, branchName, commitSha);
-            }
-
             return;
         }
 
-        // Create new preview environment
-        var project = await projectRepository.GetByIdAsync(projectId);
-        var projectName = project?.Name ?? "project";
-        var subdomain = SubdomainHelper.GeneratePrSubdomain(projectName, prNumber);
-
-        var environment = new ProjectEnvironment
-        {
-            Id = ProjectEnvironmentId.CreateNew(),
-            ProjectId = projectId,
-            Name = $"PR #{prNumber}: {Truncate(prTitle, 100)}",
-            Type = EnvironmentType.Preview,
-            Branches = [branchName],
-            AutoDeploy = true,
-            PullRequestNumber = prNumber,
-            Subdomain = subdomain
-        };
-
-        await environmentRepository.AddAsync(environment);
-
         Log.Information(
-            "Created preview environment {EnvironmentId} for PR #{PrNumber} on project {ProjectId}",
-            environment.Id, prNumber, projectId);
+            "Found existing environment {EnvironmentId} for branch {Branch} on project {ProjectId}",
+            existing.Id, branchName, projectId);
 
-        // Trigger initial deployment
-        if (prEvent.PullRequest.Head.Sha is { } sha)
+        // Trigger deployment for existing environment if auto-deploy is on
+        if (existing.AutoDeploy && prEvent.PullRequest.Head.Sha is { } commitSha)
         {
-            await TriggerDeploymentAsync(mediator, projectId, environment.Id, prEvent, branchName, sha);
+            await TriggerDeploymentAsync(mediator, projectId, existing.Id, prEvent, branchName, commitSha);
         }
     }
 

@@ -14,4 +14,6 @@ public sealed record EnvironmentDto(
     int? PullRequestNumber,
     string? Subdomain,
     DateTime CreatedAtUtc,
-    DateTime? LastDeploymentAtUtc);
+    DateTime? LastDeploymentAtUtc,
+    string? ServerTierId,
+    decimal? MonthlyPrice);
