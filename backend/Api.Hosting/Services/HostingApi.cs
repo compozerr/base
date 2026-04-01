@@ -140,7 +140,8 @@ public sealed class HostingApi(
                         deployment.Environment?.ServerTierId
                         ?? deployment.Project.ServerTierId),
                     environmentName = deployment.Environment?.Name,
-                    environmentType = deployment.Environment?.Type.ToString().ToLower()
+                    environmentType = deployment.Environment?.Type.ToString().ToLower(),
+                    subdomain = deployment.Environment?.Subdomain
                 }), cts.Token);
 
                 if (!deployResponse.IsSuccessStatusCode)

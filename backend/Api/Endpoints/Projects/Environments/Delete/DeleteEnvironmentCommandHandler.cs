@@ -24,6 +24,14 @@ public sealed class DeleteEnvironmentCommandHandler(
 
         // TODO: Cancel Stripe subscription if StripeSubscriptionId is set
 
+        // TODO: Call hosting API to delete preview VM for environment.
+        // The hosting server has a DELETE /:projectId/preview/:environmentName endpoint,
+        // but IHostingApi doesn't expose a method for it yet. Once that method is added,
+        // inject IHostingApiFactory, resolve the hosting API for the project's ServerId,
+        // and call the delete method before removing the entity below.
+        Log.Warning("TODO: Call hosting API to delete preview VM for environment {EnvironmentName} (project {ProjectId})",
+            environment.Name, command.ProjectId);
+
         await environmentRepository.DeleteAsync(environment.Id, cancellationToken);
 
         Log.Information("Deleted environment {EnvironmentId} for project {ProjectId}",

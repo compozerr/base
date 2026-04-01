@@ -1,10 +1,8 @@
 using Api.Abstractions;
 using Api.Data;
 using Api.Data.Repositories;
-using Api.Endpoints.Projects.Deployments.DeployProject;
 using Core.MediatR;
-using Core.Services;
-using Database.Extensions;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace Api.Endpoints.Projects.Environments.Promote;
@@ -12,8 +10,7 @@ namespace Api.Endpoints.Projects.Environments.Promote;
 public sealed class PromoteEnvironmentCommandHandler(
     IProjectEnvironmentRepository environmentRepository,
     IDeploymentRepository deploymentRepository,
-    IProjectRepository projectRepository,
-    IFrontendLocation frontendLocation) : ICommandHandler<PromoteEnvironmentCommand, PromoteEnvironmentResponse>
+    IMediator mediator) : ICommandHandler<PromoteEnvironmentCommand, PromoteEnvironmentResponse>
 {
     public async Task<PromoteEnvironmentResponse> Handle(
         PromoteEnvironmentCommand command,
@@ -39,34 +36,19 @@ public sealed class PromoteEnvironmentCommandHandler(
             .GetSingleAsync(e => e.ProjectId == command.ProjectId && e.Type == EnvironmentType.Production, cancellationToken)
             ?? throw new InvalidOperationException("No production environment found for this project.");
 
-        var project = (await projectRepository.GetByIdAsync(command.ProjectId, cancellationToken))!;
+        Log.Information("Promotion deployment queued from environment {PreviewEnvironmentId} to production",
+            command.EnvironmentId);
 
-        var newDeployment = new Deployment
-        {
-            Id = DeploymentId.CreateNew(),
-            ProjectId = command.ProjectId,
-            Project = project,
-            CommitHash = latestDeployment.CommitHash,
-            CommitMessage = latestDeployment.CommitMessage,
-            CommitAuthor = latestDeployment.CommitAuthor,
-            CommitBranch = latestDeployment.CommitBranch,
-            CommitEmail = latestDeployment.CommitEmail,
-            UserId = project.UserId,
-            Status = DeploymentStatus.Queued,
-            EnvironmentId = productionEnvironment.Id
-        };
+        var response = await mediator.Send(new DeployProjectCommand(
+            environment.ProjectId,
+            latestDeployment.CommitHash,
+            latestDeployment.CommitMessage,
+            latestDeployment.CommitAuthor,
+            latestDeployment.CommitBranch,
+            latestDeployment.CommitEmail,
+            EnvironmentId: productionEnvironment.Id
+        ), cancellationToken);
 
-        newDeployment.QueueDomainEvent<DeploymentQueuedEvent>();
-
-        Log.ForContext(nameof(newDeployment), newDeployment)
-           .Information("Promotion deployment queued from environment {PreviewEnvironmentId} to production",
-               command.EnvironmentId);
-
-        var deployment = await deploymentRepository.AddAsync(newDeployment, cancellationToken);
-
-        var statusUrl = frontendLocation.GetFromPath(
-            $"projects/{deployment.ProjectId.Value}/deployments/{deployment.Id.Value}").ToString();
-
-        return new PromoteEnvironmentResponse(statusUrl);
+        return new PromoteEnvironmentResponse(response.StatusUrl);
     }
 }
