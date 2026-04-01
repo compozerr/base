@@ -1,5 +1,5 @@
 import { createFileRoute, getRouteApi } from '@tanstack/react-router'
-import { apiBaseUrl } from '@/api-client'
+import { api } from '@/api-client'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
@@ -17,7 +17,6 @@ import { useTimeAgo } from '@/hooks/useTimeAgo'
 import { useModal } from '@/hooks/use-modal'
 import { useToast } from '@/hooks/use-toast'
 import { cn } from '@/lib/utils'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { motion } from 'framer-motion'
 import {
     Clock,
@@ -40,70 +39,6 @@ export const Route = createFileRoute(
     component: RouteComponent,
 })
 
-// --- Types ---
-
-interface EnvironmentDto {
-    id: string
-    name: string | null
-    type: 'Production' | 'Preview'
-    branches: string[]
-    autoDeploy: boolean
-    pullRequestNumber: number | null
-    subdomain: string | null
-    createdAtUtc: string
-    lastDeploymentAtUtc: string | null
-    serverTierId: string | null
-    monthlyPrice: number | null
-}
-
-interface GetEnvironmentsResponse {
-    environments: EnvironmentDto[]
-}
-
-interface TierDto {
-    id: { value: string }
-    ramGb: number
-    cores: number
-    diskGb: number
-    price: { value: number; currency: string }
-    promotionalText: string | null
-}
-
-interface GetTiersResponse {
-    tiers: TierDto[]
-}
-
-// --- Hooks ---
-
-function useEnvironments(projectId: string) {
-    return useQuery<GetEnvironmentsResponse>({
-        queryKey: ['environments', projectId],
-        queryFn: async () => {
-            const res = await fetch(
-                `${apiBaseUrl}/v1/projects/${encodeURIComponent(projectId)}/environments`,
-                { credentials: 'include' },
-            )
-            if (!res.ok) throw new Error('Failed to fetch environments')
-            return res.json()
-        },
-        refetchInterval: 30_000,
-    })
-}
-
-function useTiers() {
-    return useQuery<GetTiersResponse>({
-        queryKey: ['server-tiers'],
-        queryFn: async () => {
-            const res = await fetch(`${apiBaseUrl}/v1/servers/tiers`, {
-                credentials: 'include',
-            })
-            if (!res.ok) throw new Error('Failed to fetch tiers')
-            return res.json()
-        },
-        staleTime: 5 * 60_000,
-    })
-}
-
 // --- Page ---
 
 function RouteComponent() {
@@ -111,10 +46,13 @@ function RouteComponent() {
         '/_auth/_dashboard/projects/$projectId',
     ).useLoaderData()
 
-    const { data, refetch, isLoading, error } = useEnvironments(projectId)
-    const { data: tiersData } = useTiers()
+    const { data, refetch, isLoading, error } =
+        api.v1.getProjectsProjectIdEnvironments.useQuery(
+            { path: { projectId } },
+            { refetchInterval: 30_000 },
+        )
+    const { data: tiersData } = api.v1.getServersTiers.useQuery()
     const tiers = tiersData?.tiers ?? []
-    const queryClient = useQueryClient()
 
     const [rotation, setRotation] = useState(0)
     const handleRefresh = () => {
@@ -132,8 +70,8 @@ function RouteComponent() {
     )
 
     const invalidate = () =>
-        queryClient.invalidateQueries({
-            queryKey: ['environments', projectId],
+        api.v1.getProjectsProjectIdEnvironments.invalidateQueries({
+            parameters: { path: { projectId } },
         })
 
     return (
@@ -185,7 +123,7 @@ function RouteComponent() {
             )}
 
             {/* Error */}
-            {error && !isLoading && (
+            {!!error && !isLoading && (
                 <div className="flex flex-col items-center justify-center py-12 text-center">
                     <p className="text-sm text-red-400 mb-2">
                         Failed to load environments
@@ -271,6 +209,22 @@ function RouteComponent() {
 
 // --- Environment Card ---
 
+type EnvironmentDto = NonNullable<
+    NonNullable<
+        Awaited<ReturnType<typeof api.v1.getProjectsProjectIdEnvironments>>
+    >['data']
+>['environments'] extends (infer U)[] | null
+    ? U
+    : never
+
+type TierDto = NonNullable<
+    NonNullable<
+        Awaited<ReturnType<typeof api.v1.getServersTiers>>
+    >['data']
+>['tiers'] extends (infer U)[] | null
+    ? U
+    : never
+
 function EnvironmentCard({
     environment: env,
     projectId,
@@ -291,19 +245,13 @@ function EnvironmentCard({
         : null
 
     const tier = env.serverTierId
-        ? tiers.find((t) => t.id.value === env.serverTierId)
+        ? tiers.find((t) => t.id?.value === env.serverTierId)
         : undefined
 
-    const { mutateAsync: deleteEnv, isPending: isDeleting } = useMutation({
-        mutationFn: async () => {
-            const res = await fetch(
-                `${apiBaseUrl}/v1/projects/${encodeURIComponent(projectId)}/environments/${encodeURIComponent(env.id)}`,
-                { method: 'DELETE', credentials: 'include' },
-            )
-            if (!res.ok) throw new Error('Failed to delete environment')
-            return res.json()
-        },
-    })
+    const { mutateAsync: deleteEnv, isPending: isDeleting } =
+        api.v1.deleteProjectsProjectIdEnvironmentsEnvironmentId.useMutation({
+            path: { projectId, environmentId: env.id },
+        })
 
     const handleDelete = async () => {
         const name = env.name ?? env.id
@@ -363,7 +311,7 @@ function EnvironmentCard({
 
                     {/* Meta row */}
                     <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-[13px] text-muted-foreground">
-                        {env.branches.length > 0 && (
+                        {env.branches && env.branches.length > 0 && (
                             <span className="flex items-center gap-1.5">
                                 <GitBranch className="h-3.5 w-3.5 shrink-0" />
                                 <span className="font-mono text-xs">
@@ -493,40 +441,26 @@ function CreateEnvironmentDialog({
     const [selectedTier, setSelectedTier] = useState('T0')
     const { toast } = useToast()
 
-    const { data: tiersData } = useTiers()
+    const { data: tiersData } = api.v1.getServersTiers.useQuery()
     const tiers = tiersData?.tiers ?? []
 
-    const selectedTierData = tiers.find((t) => t.id.value === selectedTier)
-    const monthlyPrice = selectedTierData?.price.value ?? 5
+    const selectedTierData = tiers.find((t) => t.id?.value === selectedTier)
+    const monthlyPrice = selectedTierData?.price?.value ?? 5
 
-    const { mutateAsync: createEnvironment, isPending } = useMutation({
-        mutationFn: async () => {
-            const res = await fetch(
-                `${apiBaseUrl}/v1/projects/${encodeURIComponent(projectId)}/environments`,
-                {
-                    method: 'POST',
-                    credentials: 'include',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        name,
-                        branch,
-                        type: 'Preview',
-                        tier: selectedTier,
-                    }),
-                },
-            )
-            if (!res.ok) {
-                const text = await res.text()
-                throw new Error(text || 'Failed to create environment')
-            }
-            return res.json()
-        },
-    })
+    const { mutateAsync: createEnvironment, isPending } =
+        api.v1.postProjectsProjectIdEnvironments.useMutation({
+            path: { projectId },
+        })
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
         try {
-            await createEnvironment()
+            await createEnvironment({
+                name,
+                branch,
+                type: 'Preview',
+                tier: selectedTier,
+            })
             toast({
                 title: 'Environment created',
                 description: `"${name}" is being provisioned on ${selectedTier}.`,
@@ -607,10 +541,10 @@ function CreateEnvironmentDialog({
                                     selectedTier === t.id.value
                                 return (
                                     <button
-                                        key={t.id.value}
+                                        key={t.id.value!}
                                         type="button"
                                         onClick={() =>
-                                            setSelectedTier(t.id.value)
+                                            setSelectedTier(t.id.value!)
                                         }
                                         className={cn(
                                             'relative flex flex-col gap-2 rounded-lg border p-3 text-left transition-all',
