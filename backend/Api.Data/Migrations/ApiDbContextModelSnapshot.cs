@@ -354,6 +354,9 @@ namespace Api.Data.Migrations
                     b.Property<bool>("AutoDeploy")
                         .HasColumnType("boolean");
 
+                    b.Property<int>("BillingStatus")
+                        .HasColumnType("integer");
+
                     b.PrimitiveCollection<List<string>>("Branches")
                         .IsRequired()
                         .HasColumnType("text[]");
@@ -373,6 +376,15 @@ namespace Api.Data.Migrations
 
                     b.Property<int?>("PullRequestNumber")
                         .HasColumnType("integer");
+
+                    b.Property<string>("ServerTierId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("StripeSubscriptionId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("StripeSubscriptionItemId")
+                        .HasColumnType("text");
 
                     b.Property<string>("Subdomain")
                         .HasMaxLength(255)

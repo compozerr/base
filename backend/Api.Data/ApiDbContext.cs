@@ -52,6 +52,7 @@ public class ApiDbContext(
 
         modelBuilder.ApplyConfiguration(new DomainConfiguration());
         modelBuilder.ApplyConfiguration(new ProjectConfiguration());
+        modelBuilder.ApplyConfiguration(new ProjectEnvironmentConfiguration());
         modelBuilder.ApplyConfiguration(new ProjectServiceConfiguration());
         modelBuilder.ApplyConfiguration(new TcpPortAllocationConfiguration());
 
