@@ -183,7 +183,4 @@ public sealed class PullRequestWebhookProcessorJob(
 
         await mediator.Send(deployCommand);
     }
-
-    private static string Truncate(string value, int maxLength)
-        => value.Length <= maxLength ? value : value[..maxLength];
 }

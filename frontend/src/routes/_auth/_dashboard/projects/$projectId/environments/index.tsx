@@ -13,7 +13,6 @@ import {
 } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Switch } from '@/components/ui/switch'
 import { useTimeAgo } from '@/hooks/useTimeAgo'
 import { useModal } from '@/hooks/use-modal'
 import { useToast } from '@/hooks/use-toast'
@@ -30,7 +29,6 @@ import {
     Plus,
     RefreshCw,
     Rocket,
-    Settings,
     Trash2,
     Zap,
 } from 'lucide-react'
@@ -106,11 +104,6 @@ function useTiers() {
     })
 }
 
-function formatPrice(value: number | null | undefined): string {
-    if (value == null || value === 0) return 'Free'
-    return `$${value.toFixed(2)}`
-}
-
 // --- Page ---
 
 function RouteComponent() {
@@ -119,6 +112,8 @@ function RouteComponent() {
     ).useLoaderData()
 
     const { data, refetch, isLoading, error } = useEnvironments(projectId)
+    const { data: tiersData } = useTiers()
+    const tiers = tiersData?.tiers ?? []
     const queryClient = useQueryClient()
 
     const [rotation, setRotation] = useState(0)
@@ -170,7 +165,7 @@ function RouteComponent() {
                     </div>
                     {totalMonthlyCost > 0 && (
                         <p className="text-sm text-muted-foreground mt-1">
-                            Total: {formatPrice(totalMonthlyCost)}/month across{' '}
+                            Total: ${totalMonthlyCost.toFixed(0)}/month across{' '}
                             {environments.length} environment
                             {environments.length !== 1 ? 's' : ''}
                         </p>
@@ -215,6 +210,7 @@ function RouteComponent() {
                     <EnvironmentCard
                         environment={productionEnv}
                         projectId={projectId}
+                        tiers={tiers}
                         onChanged={invalidate}
                     />
                 </motion.div>
@@ -240,6 +236,7 @@ function RouteComponent() {
                                 <EnvironmentCard
                                     environment={env}
                                     projectId={projectId}
+                                    tiers={tiers}
                                     onChanged={invalidate}
                                 />
                             </motion.div>
@@ -277,10 +274,12 @@ function RouteComponent() {
 function EnvironmentCard({
     environment: env,
     projectId,
+    tiers,
     onChanged,
 }: {
     environment: EnvironmentDto
     projectId: string
+    tiers: TierDto[]
     onChanged: () => void
 }) {
     const modal = useModal()
@@ -291,6 +290,10 @@ function EnvironmentCard({
         ? `https://${env.subdomain}.preview.compozerr.app`
         : null
 
+    const tier = env.serverTierId
+        ? tiers.find((t) => t.id.value === env.serverTierId)
+        : undefined
+
     const { mutateAsync: deleteEnv, isPending: isDeleting } = useMutation({
         mutationFn: async () => {
             const res = await fetch(
@@ -299,21 +302,6 @@ function EnvironmentCard({
             )
             if (!res.ok) throw new Error('Failed to delete environment')
             return res.json()
-        },
-    })
-
-    const { mutateAsync: toggleAutoDeploy } = useMutation({
-        mutationFn: async (checked: boolean) => {
-            const res = await fetch(
-                `${apiBaseUrl}/v1/projects/${encodeURIComponent(projectId)}/environment/change-auto-deploy`,
-                {
-                    method: 'PUT',
-                    credentials: 'include',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ autoDeploy: checked }),
-                },
-            )
-            if (!res.ok) throw new Error('Failed to update auto-deploy')
         },
     })
 
@@ -406,34 +394,15 @@ function EnvironmentCard({
                         )}
                     </div>
 
-                    {/* Auto-deploy toggle */}
-                    <div className="flex items-center gap-2.5">
-                        <Switch
-                            id={`auto-deploy-${env.id}`}
-                            checked={env.autoDeploy}
-                            className="scale-[0.85] origin-left"
-                            onCheckedChange={async (checked) => {
-                                try {
-                                    await toggleAutoDeploy(checked)
-                                    toast({
-                                        title: `Auto-deploy ${checked ? 'enabled' : 'disabled'}`,
-                                    })
-                                    onChanged()
-                                } catch {
-                                    toast({
-                                        title: 'Failed to update',
-                                        variant: 'destructive',
-                                    })
-                                }
-                            }}
-                        />
-                        <Label
-                            htmlFor={`auto-deploy-${env.id}`}
-                            className="text-xs text-muted-foreground cursor-pointer select-none"
+                    {/* Auto-deploy status */}
+                    {env.autoDeploy && (
+                        <Badge
+                            variant="outline"
+                            className="text-[11px] border-zinc-700 text-zinc-400"
                         >
-                            Auto-deploy on push
-                        </Label>
-                    </div>
+                            Auto-deploy
+                        </Badge>
+                    )}
                 </div>
 
                 {/* Right: cost + actions */}
@@ -469,35 +438,25 @@ function EnvironmentCard({
             </div>
 
             {/* Tier specs bar */}
-            {env.serverTierId && (
+            {env.serverTierId && tier && (
                 <div className="border-t border-zinc-800/60 px-5 py-2.5 flex items-center gap-4 text-[11px] text-zinc-500">
                     <TierSpecBadge
                         icon={MemoryStick}
-                        label={tierSpecs[env.serverTierId]?.ram ?? '—'}
+                        label={`${tier.ramGb} GB`}
                     />
                     <TierSpecBadge
                         icon={Cpu}
-                        label={tierSpecs[env.serverTierId]?.cores ?? '—'}
+                        label={`${tier.cores} Core${tier.cores !== 1 ? 's' : ''}`}
                     />
                     <TierSpecBadge
                         icon={HardDrive}
-                        label={tierSpecs[env.serverTierId]?.disk ?? '—'}
+                        label={`${tier.diskGb} GB`}
                     />
                 </div>
             )}
         </div>
     )
 }
-
-// Quick lookup so cards don't need the tiers API call
-const tierSpecs: Record<string, { ram: string; cores: string; disk: string }> =
-    {
-        T0: { ram: '0.5 GB', cores: '0.5 Core', disk: '50 GB' },
-        T1: { ram: '1 GB', cores: '1 Core', disk: '50 GB' },
-        T2: { ram: '2 GB', cores: '2 Cores', disk: '50 GB' },
-        T3: { ram: '4 GB', cores: '2 Cores', disk: '50 GB' },
-        T4: { ram: '8 GB', cores: '3 Cores', disk: '50 GB' },
-    }
 
 function TierSpecBadge({
     icon: Icon,
