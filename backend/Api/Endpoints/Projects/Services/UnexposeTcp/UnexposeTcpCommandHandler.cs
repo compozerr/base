@@ -28,7 +28,7 @@ public sealed class UnexposeTcpCommandHandler(
         await context.SaveChangesAsync(cancellationToken);
 
         var hostingApi = await hostingApiFactory.GetHostingApiAsync(project.ServerId!);
-        await hostingApi.UpdateTcpProxyAsync(command.ProjectId);
+        await hostingApi.UpdateDomainsForProjectAsync(command.ProjectId);
 
         return new();
     }

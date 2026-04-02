@@ -7,7 +7,6 @@ using Api.Hosting.Dtos;
 using Api.Hosting.Endpoints.Deployments.ChangeDeploymentStatus;
 using Github.Services;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 
@@ -189,24 +188,6 @@ public sealed class HostingApi(
                 deploymentStatus));
     }
 
-    public async Task CancelDeploymentAsync(DeploymentId deploymentId)
-    {
-        var timeout = TimeSpan.FromSeconds(30);
-        using var cts = new CancellationTokenSource(timeout);
-
-        var response = await HttpClient.PostAsync("/projects/cancel", JsonContent.Create(new
-        {
-            deploymentId = deploymentId.Value.ToString()
-        }), cts.Token);
-
-        if (!response.IsSuccessStatusCode)
-        {
-            Log.ForContext("BaseDomain", HttpClient.BaseDomain)
-               .Error("Failed to cancel deployment {deploymentId}: {response}",
-                   deploymentId, await response.Content.ReadAsStringAsync());
-        }
-    }
-
     public async Task<ProjectUsageDto[]?> GetProjectsUsageAsync()
     {
         var response = await HttpClient.GetAsync("/monitoring/vms-usage");
@@ -307,40 +288,6 @@ public sealed class HostingApi(
     {
         var response = await HttpClient.GetAsync($"/terminal/debug/{projectId.Value}");
         return await response.Content.ReadAsStringAsync();
-    }
-
-    public async Task UpdateTcpProxyAsync(ProjectId projectId)
-    {
-        using var scope = serviceProvider.CreateScope();
-        var dbContext = scope.ServiceProvider.GetRequiredService<ApiDbContext>();
-
-        var projectIds = await dbContext.Projects
-            .Where(p => p.ServerId == ServerId)
-            .Select(p => p.Id)
-            .ToListAsync();
-
-        var allocations = await dbContext.TcpPortAllocations
-            .Where(a => projectIds.Contains(a.ProjectId))
-            .Select(a => new
-            {
-                projectId = a.ProjectId.Value.ToString(),
-                serviceName = a.ServiceName,
-                internalPort = a.InternalPort,
-                allocatedPort = a.AllocatedPort,
-                vmIp = a.VmIp
-            })
-            .ToListAsync();
-
-        var response = await HttpClient.PutAsync("/tcp-proxy", JsonContent.Create(new
-        {
-            allocations
-        }));
-
-        if (!response.IsSuccessStatusCode)
-        {
-            Log.ForContext("BaseDomain", HttpClient.BaseDomain)
-               .Error("Failed to update TCP proxy for project {projectId}: {response}", projectId, await response.Content.ReadAsStringAsync());
-        }
     }
 
     private async Task<string> GetValidatedOAuthTokenAsync(Auth.Abstractions.UserId userId)
