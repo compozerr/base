@@ -104,6 +104,38 @@ namespace Github.Migrations
                     b.ToTable("ModuleSyncEvents", "github");
                 });
 
+            modelBuilder.Entity("Github.Models.PullRequestWebhookEvent", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAtUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("DeletedAtUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("ErrorMessage")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("ErroredAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<PullRequestEvent>("Event")
+                        .IsRequired()
+                        .HasColumnType("jsonb");
+
+                    b.Property<DateTime?>("HandledAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("UpdatedAtUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PullRequestWebhookEvents", "github");
+                });
+
             modelBuilder.Entity("Github.Models.PushWebhookEvent", b =>
                 {
                     b.Property<Guid>("Id")

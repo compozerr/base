@@ -1,11 +1,13 @@
+using Api.Abstractions;
 using Api.Data;
 using Api.Data.Repositories;
 using Core.MediatR;
+using Serilog;
 
 namespace Api.Endpoints.Projects.Environments.Create;
 
 public sealed class CreateEnvironmentCommandHandler(
-    IEnvironmentRepository environmentRepository,
+    IProjectEnvironmentRepository environmentRepository,
     IProjectRepository projectRepository) : ICommandHandler<CreateEnvironmentCommand, CreateEnvironmentResponse>
 {
     public async Task<CreateEnvironmentResponse> Handle(
@@ -13,42 +15,38 @@ public sealed class CreateEnvironmentCommandHandler(
         CancellationToken cancellationToken = default)
     {
         var project = await projectRepository.GetByIdAsync(command.ProjectId, cancellationToken)
-            ?? throw new ArgumentException($"Project with ID {command.ProjectId} not found.");
+            ?? throw new InvalidOperationException($"Project {command.ProjectId} not found.");
 
-        var subdomain = GenerateSubdomain(project.Name, command.Name);
+        var subdomain = command.Type == EnvironmentType.Preview
+            ? SubdomainHelper.GenerateSubdomain(project.Name, command.Branch)
+            : null;
 
-        var environment = new Api.Data.Environment
+        var serverTier = ServerTiers.GetById(new ServerTierId(command.Tier));
+
+        var environment = new Data.ProjectEnvironment
         {
-            Id = EnvironmentId.CreateNew(),
+            Id = ProjectEnvironmentId.CreateNew(),
             ProjectId = command.ProjectId,
             Name = command.Name,
-            Branch = command.Branch,
             Type = command.Type,
-            Status = EnvironmentStatus.Active,
+            Branches = [command.Branch],
+            AutoDeploy = true,
             Subdomain = subdomain,
+            ServerTierId = serverTier.Id
         };
 
-        var created = await environmentRepository.AddAsync(environment, cancellationToken);
+        // TODO: Create Stripe subscription via SubscriptionService
 
-        return new CreateEnvironmentResponse(created.Id.Value.ToString());
-    }
+        await environmentRepository.AddAsync(environment, cancellationToken);
 
-    private static string GenerateSubdomain(string projectName, string environmentName)
-    {
-        var sanitized = $"{projectName}-{environmentName}"
-            .ToLowerInvariant()
-            .Replace(" ", "-");
+        Log.ForContext(nameof(environment), environment, true)
+           .Information("Created {Type} environment '{Name}' for project {ProjectId}",
+               command.Type, command.Name, command.ProjectId);
 
-        // Remove any characters that aren't alphanumeric or hyphens
-        sanitized = System.Text.RegularExpressions.Regex.Replace(sanitized, @"[^a-z0-9\-]", "");
-
-        // Trim leading/trailing hyphens and collapse multiple hyphens
-        sanitized = System.Text.RegularExpressions.Regex.Replace(sanitized, @"-+", "-").Trim('-');
-
-        // Limit length to fit within subdomain constraints
-        if (sanitized.Length > 63)
-            sanitized = sanitized[..63].TrimEnd('-');
-
-        return sanitized;
+        return new CreateEnvironmentResponse(
+            environment.Id.Value,
+            environment.Subdomain,
+            serverTier.Id.Value,
+            serverTier.Price.Value);
     }
 }

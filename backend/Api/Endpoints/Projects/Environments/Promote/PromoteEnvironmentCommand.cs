@@ -5,4 +5,4 @@ namespace Api.Endpoints.Projects.Environments.Promote;
 
 public sealed record PromoteEnvironmentCommand(
     ProjectId ProjectId,
-    EnvironmentId EnvironmentId) : ICommand<PromoteEnvironmentResponse>;
+    ProjectEnvironmentId EnvironmentId) : ICommand<PromoteEnvironmentResponse>;

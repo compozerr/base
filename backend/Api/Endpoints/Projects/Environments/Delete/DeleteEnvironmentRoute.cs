@@ -14,9 +14,7 @@ public static class DeleteEnvironmentRoute
 
     public static Task<DeleteEnvironmentResponse> ExecuteAsync(
         ProjectId projectId,
-        EnvironmentId environmentId,
+        ProjectEnvironmentId environmentId,
         IMediator mediator)
-        => mediator.Send(
-            new DeleteEnvironmentCommand(
-                environmentId));
+        => mediator.Send(new DeleteEnvironmentCommand(projectId, environmentId));
 }

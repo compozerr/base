@@ -1,13 +1,9 @@
 using Api.Abstractions;
 using Api.Data;
 using MediatR;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace Api.Endpoints.Projects.Environments.Create;
-
-public sealed record CreateEnvironmentRequest(
-    string Name,
-    string Branch,
-    EnvironmentType Type);
 
 public static class CreateEnvironmentRoute
 {
@@ -18,14 +14,24 @@ public static class CreateEnvironmentRoute
         return app.MapPost(Route, ExecuteAsync);
     }
 
-    public static Task<CreateEnvironmentResponse> ExecuteAsync(
+    public static async Task<Ok<CreateEnvironmentResponse>> ExecuteAsync(
         ProjectId projectId,
         CreateEnvironmentRequest request,
         IMediator mediator)
-        => mediator.Send(
-            new CreateEnvironmentCommand(
-                projectId,
-                request.Name,
-                request.Branch,
-                request.Type));
+    {
+        var result = await mediator.Send(new CreateEnvironmentCommand(
+            projectId,
+            request.Name,
+            request.Branch,
+            request.Tier,
+            request.Type));
+
+        return TypedResults.Ok(result);
+    }
 }
+
+public sealed record CreateEnvironmentRequest(
+    string Name,
+    string Branch,
+    string Tier,
+    EnvironmentType Type = EnvironmentType.Preview);

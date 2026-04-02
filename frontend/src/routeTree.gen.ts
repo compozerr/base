@@ -34,6 +34,7 @@ import { Route as AuthDashboardOrganizationsOrgIdIndexRouteImport } from './../.
 import { Route as AuthDashboardOrganizationsOrgIdMembersRouteImport } from './../../modules/organizations/frontend/src/routes/_auth/_dashboard/organizations/$orgId/members'
 import { Route as AuthDashboardProjectsProjectIdSettingsRouteRouteImport } from './routes/_auth/_dashboard/projects/$projectId/settings/route'
 import { Route as AuthDashboardProjectsProjectIdSettingsIndexRouteImport } from './routes/_auth/_dashboard/projects/$projectId/settings/index'
+import { Route as AuthDashboardProjectsProjectIdEnvironmentsIndexRouteImport } from './routes/_auth/_dashboard/projects/$projectId/environments/index'
 import { Route as AuthDashboardProjectsProjectIdDeploymentsIndexRouteImport } from './routes/_auth/_dashboard/projects/$projectId/deployments/index'
 import { Route as AuthDashboardProjectsProjectIdSettingsGeneralRouteImport } from './routes/_auth/_dashboard/projects/$projectId/settings/general'
 import { Route as AuthDashboardProjectsProjectIdSettingsEnvironmentRouteImport } from './routes/_auth/_dashboard/projects/$projectId/settings/environment'
@@ -171,6 +172,12 @@ const AuthDashboardProjectsProjectIdSettingsIndexRoute =
     path: '/',
     getParentRoute: () => AuthDashboardProjectsProjectIdSettingsRouteRoute,
   } as any)
+const AuthDashboardProjectsProjectIdEnvironmentsIndexRoute =
+  AuthDashboardProjectsProjectIdEnvironmentsIndexRouteImport.update({
+    id: '/environments/',
+    path: '/environments/',
+    getParentRoute: () => AuthDashboardProjectsProjectIdRouteRoute,
+  } as any)
 const AuthDashboardProjectsProjectIdDeploymentsIndexRoute =
   AuthDashboardProjectsProjectIdDeploymentsIndexRouteImport.update({
     id: '/deployments/',
@@ -229,6 +236,7 @@ export interface FileRoutesByFullPath {
   '/projects/$projectId/settings/environment': typeof AuthDashboardProjectsProjectIdSettingsEnvironmentRoute
   '/projects/$projectId/settings/general': typeof AuthDashboardProjectsProjectIdSettingsGeneralRoute
   '/projects/$projectId/deployments': typeof AuthDashboardProjectsProjectIdDeploymentsIndexRoute
+  '/projects/$projectId/environments': typeof AuthDashboardProjectsProjectIdEnvironmentsIndexRoute
   '/projects/$projectId/settings/': typeof AuthDashboardProjectsProjectIdSettingsIndexRoute
   '/projects/$projectId/deployments/$deploymentId': typeof AuthDashboardProjectsProjectIdDeploymentsDeploymentIdIndexRoute
 }
@@ -257,6 +265,7 @@ export interface FileRoutesByTo {
   '/projects/$projectId/settings/environment': typeof AuthDashboardProjectsProjectIdSettingsEnvironmentRoute
   '/projects/$projectId/settings/general': typeof AuthDashboardProjectsProjectIdSettingsGeneralRoute
   '/projects/$projectId/deployments': typeof AuthDashboardProjectsProjectIdDeploymentsIndexRoute
+  '/projects/$projectId/environments': typeof AuthDashboardProjectsProjectIdEnvironmentsIndexRoute
   '/projects/$projectId/settings': typeof AuthDashboardProjectsProjectIdSettingsIndexRoute
   '/projects/$projectId/deployments/$deploymentId': typeof AuthDashboardProjectsProjectIdDeploymentsDeploymentIdIndexRoute
 }
@@ -290,6 +299,7 @@ export interface FileRoutesById {
   '/_auth/_dashboard/projects/$projectId/settings/environment': typeof AuthDashboardProjectsProjectIdSettingsEnvironmentRoute
   '/_auth/_dashboard/projects/$projectId/settings/general': typeof AuthDashboardProjectsProjectIdSettingsGeneralRoute
   '/_auth/_dashboard/projects/$projectId/deployments/': typeof AuthDashboardProjectsProjectIdDeploymentsIndexRoute
+  '/_auth/_dashboard/projects/$projectId/environments/': typeof AuthDashboardProjectsProjectIdEnvironmentsIndexRoute
   '/_auth/_dashboard/projects/$projectId/settings/': typeof AuthDashboardProjectsProjectIdSettingsIndexRoute
   '/_auth/_dashboard/projects/$projectId/deployments/$deploymentId/': typeof AuthDashboardProjectsProjectIdDeploymentsDeploymentIdIndexRoute
 }
@@ -322,6 +332,7 @@ export interface FileRouteTypes {
     | '/projects/$projectId/settings/environment'
     | '/projects/$projectId/settings/general'
     | '/projects/$projectId/deployments'
+    | '/projects/$projectId/environments'
     | '/projects/$projectId/settings/'
     | '/projects/$projectId/deployments/$deploymentId'
   fileRoutesByTo: FileRoutesByTo
@@ -350,6 +361,7 @@ export interface FileRouteTypes {
     | '/projects/$projectId/settings/environment'
     | '/projects/$projectId/settings/general'
     | '/projects/$projectId/deployments'
+    | '/projects/$projectId/environments'
     | '/projects/$projectId/settings'
     | '/projects/$projectId/deployments/$deploymentId'
   id:
@@ -382,6 +394,7 @@ export interface FileRouteTypes {
     | '/_auth/_dashboard/projects/$projectId/settings/environment'
     | '/_auth/_dashboard/projects/$projectId/settings/general'
     | '/_auth/_dashboard/projects/$projectId/deployments/'
+    | '/_auth/_dashboard/projects/$projectId/environments/'
     | '/_auth/_dashboard/projects/$projectId/settings/'
     | '/_auth/_dashboard/projects/$projectId/deployments/$deploymentId/'
   fileRoutesById: FileRoutesById
@@ -578,6 +591,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthDashboardProjectsProjectIdSettingsIndexRouteImport
       parentRoute: typeof AuthDashboardProjectsProjectIdSettingsRouteRoute
     }
+    '/_auth/_dashboard/projects/$projectId/environments/': {
+      id: '/_auth/_dashboard/projects/$projectId/environments/'
+      path: '/environments'
+      fullPath: '/projects/$projectId/environments'
+      preLoaderRoute: typeof AuthDashboardProjectsProjectIdEnvironmentsIndexRouteImport
+      parentRoute: typeof AuthDashboardProjectsProjectIdRouteRoute
+    }
     '/_auth/_dashboard/projects/$projectId/deployments/': {
       id: '/_auth/_dashboard/projects/$projectId/deployments/'
       path: '/deployments'
@@ -644,6 +664,7 @@ interface AuthDashboardProjectsProjectIdRouteRouteChildren {
   AuthDashboardProjectsProjectIdSettingsRouteRoute: typeof AuthDashboardProjectsProjectIdSettingsRouteRouteWithChildren
   AuthDashboardProjectsProjectIdIndexRoute: typeof AuthDashboardProjectsProjectIdIndexRoute
   AuthDashboardProjectsProjectIdDeploymentsIndexRoute: typeof AuthDashboardProjectsProjectIdDeploymentsIndexRoute
+  AuthDashboardProjectsProjectIdEnvironmentsIndexRoute: typeof AuthDashboardProjectsProjectIdEnvironmentsIndexRoute
   AuthDashboardProjectsProjectIdDeploymentsDeploymentIdIndexRoute: typeof AuthDashboardProjectsProjectIdDeploymentsDeploymentIdIndexRoute
 }
 
@@ -655,6 +676,8 @@ const AuthDashboardProjectsProjectIdRouteRouteChildren: AuthDashboardProjectsPro
       AuthDashboardProjectsProjectIdIndexRoute,
     AuthDashboardProjectsProjectIdDeploymentsIndexRoute:
       AuthDashboardProjectsProjectIdDeploymentsIndexRoute,
+    AuthDashboardProjectsProjectIdEnvironmentsIndexRoute:
+      AuthDashboardProjectsProjectIdEnvironmentsIndexRoute,
     AuthDashboardProjectsProjectIdDeploymentsDeploymentIdIndexRoute:
       AuthDashboardProjectsProjectIdDeploymentsDeploymentIdIndexRoute,
   }

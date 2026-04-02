@@ -57,6 +57,7 @@ public class ProjectsGroup : CarterModule
 
         app.AddDeploymentsGroup();
         app.AddProjectEnvironmentGroup();
+        app.AddEnvironmentsGroup();
         app.AddDomainsGroup();
         app.AddEnvironmentsGroup();
         app.AddServicesGroup();

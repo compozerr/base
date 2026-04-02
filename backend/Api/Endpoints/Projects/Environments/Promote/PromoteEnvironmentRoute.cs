@@ -14,10 +14,7 @@ public static class PromoteEnvironmentRoute
 
     public static Task<PromoteEnvironmentResponse> ExecuteAsync(
         ProjectId projectId,
-        EnvironmentId environmentId,
+        ProjectEnvironmentId environmentId,
         IMediator mediator)
-        => mediator.Send(
-            new PromoteEnvironmentCommand(
-                projectId,
-                environmentId));
+        => mediator.Send(new PromoteEnvironmentCommand(projectId, environmentId));
 }
