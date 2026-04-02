@@ -34,5 +34,4 @@ public class Project : BaseEntityWithId<ProjectId>
     public virtual ICollection<Domain>? Domains { get; set; }
     public virtual ICollection<ProjectUsage>? ProjectUsages { get; set; }
     public virtual ICollection<ProjectService>? ProjectServices { get; set; }
-    public virtual ICollection<Environment>? Environments { get; set; }
 }
