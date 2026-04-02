@@ -12,12 +12,15 @@ public class Deployment : BaseEntityWithId<DeploymentId>
     public required string CommitAuthor { get; set; }
     public required string CommitBranch { get; set; }
     public required string CommitEmail { get; set; }
-    
+
     public required DeploymentStatus Status { get; set; }
 
     public DateTime? StartedAtUtc { get; set; }
     public TimeSpan? BuildDuration { get; set; }
 
+    public EnvironmentId? EnvironmentId { get; set; }
+
     public virtual User? User { get; set; }
     public virtual Project? Project { get; set; }
+    public virtual Environment? Environment { get; set; }
 }

@@ -3,6 +3,7 @@ using Api.Abstractions;
 using Api.Data.Repositories;
 using Api.Endpoints.Projects.Deployments;
 using Api.Endpoints.Projects.Domains;
+using Api.Endpoints.Projects.Environments;
 using Api.Endpoints.Projects.Project.ChangeTier;
 using Api.Endpoints.Projects.Project.Delete;
 using Api.Endpoints.Projects.Project.ExecuteCommand;
@@ -57,6 +58,7 @@ public class ProjectsGroup : CarterModule
         app.AddDeploymentsGroup();
         app.AddProjectEnvironmentGroup();
         app.AddDomainsGroup();
+        app.AddEnvironmentsGroup();
         app.AddServicesGroup();
 
         app.AddGetUsageRoute();
