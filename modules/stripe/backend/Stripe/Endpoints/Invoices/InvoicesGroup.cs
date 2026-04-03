@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
-using Stripe.Endpoints.Invoices.DownloadMonthlyInvoice;
 using Stripe.Endpoints.Invoices.GetInvoices;
 
 namespace Stripe.Endpoints.Invoices;
@@ -14,7 +13,6 @@ public static class InvoicesGroup
         var group = app.MapGroup(Route);
 
         group.AddGetInvoicesRoute();
-        group.AddDownloadMonthlyInvoiceRoute();
 
         return group;
     }

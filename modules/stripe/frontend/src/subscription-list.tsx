@@ -142,6 +142,17 @@ export const SubscriptionList: React.FC<SubscriptionListProps> = () => {
 
   const total = calculateTotal();
 
+  // Group subscriptions by project for subtotals
+  const groupedByProject = useMemo(() => {
+    const groups = new Map<string, typeof subscriptions>();
+    for (const sub of subscriptions) {
+      const pid = sub.projectId ?? 'unknown';
+      if (!groups.has(pid)) groups.set(pid, []);
+      groups.get(pid)!.push(sub);
+    }
+    return groups;
+  }, [subscriptions]);
+
   return (
     <div className="space-y-4">
       <h3 className="text-lg font-medium">Your Subscriptions</h3>
@@ -152,7 +163,6 @@ export const SubscriptionList: React.FC<SubscriptionListProps> = () => {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Project</TableHead>
                   <TableHead>Environment</TableHead>
                   <TableHead>Tier</TableHead>
                   <TableHead>Status</TableHead>
@@ -162,53 +172,71 @@ export const SubscriptionList: React.FC<SubscriptionListProps> = () => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {subscriptions.map((subscription) => {
-                  const envInfo = subscriptionToEnvMap.get(subscription.id!);
+                {[...groupedByProject.entries()].map(([projectId, projectSubs]) => {
+                  const projectName = projectNameMap.get(projectId) ?? 'Unknown Project';
+                  const projectTotal = projectSubs.reduce((sum, s) =>
+                    s.status === 'active' && !s.cancelAtPeriodEnd ? sum + (s.amount.amount || 0) : sum, 0);
+                  const currency = projectSubs[0]?.amount.currency || 'USD';
+
                   return (
-                    <TableRow key={subscription.id}>
-                      <TableCell className="font-medium">
-                        <Link to={`/projects/$projectId`} params={{ projectId: subscription.projectId! }}>
-                          {projectNameMap.get(subscription.projectId!) ?? 'Unknown Project'}
-                        </Link>
-                      </TableCell>
-                      <TableCell>
-                        {envInfo ? (
-                          <span className="flex items-center gap-1.5">
-                            <span>{envInfo.name}</span>
-                            <Badge variant="outline" className="text-[10px]">{envInfo.type}</Badge>
-                            <BillingStatusBadge status={envInfo.billingStatus} />
-                          </span>
-                        ) : (
-                          <span className="text-muted-foreground text-xs">—</span>
-                        )}
-                      </TableCell>
-                      <TableCell>{subscription.serverTierId}</TableCell>
-                      <TableCell>
-                        {subscription.status!.charAt(0).toUpperCase() + subscription.status!.slice(1)}
-                        {subscription.cancelAtPeriodEnd ? ' (Cancels at period end)' : ''}
-                      </TableCell>
-                      <TableCell>
-                        {new Date(subscription.currentPeriodStart!).toLocaleDateString()} - {new Date(subscription.currentPeriodEnd!).toLocaleDateString()}
-                      </TableCell>
-                      <TableCell className="text-right">
-                        {formatCurrency(subscription.amount.amount || 0, subscription.amount.currency || 'USD')}
-                      </TableCell>
-                      <TableCell className='text-right'>
-                        {subscription.status === 'active' && !subscription.cancelAtPeriodEnd && subscription.projectId && (
-                          <Link to="/projects/$projectId/environments" params={{ projectId: subscription.projectId! }}>
-                            <Button variant="outline" size="sm">
+                    <React.Fragment key={projectId}>
+                      {/* Project header row */}
+                      <TableRow className="bg-muted/30 hover:bg-muted/30">
+                        <TableCell colSpan={4} className="font-semibold py-2">
+                          <Link to="/projects/$projectId" params={{ projectId }}>
+                            {projectName}
+                          </Link>
+                        </TableCell>
+                        <TableCell className="text-right font-semibold py-2">
+                          {formatCurrency(projectTotal, currency)}/mo
+                        </TableCell>
+                        <TableCell className="py-2">
+                          <Link to="/projects/$projectId/environments" params={{ projectId }}>
+                            <Button variant="outline" size="sm" className="h-7 text-xs">
                               Manage
                             </Button>
                           </Link>
-                        )}
-                      </TableCell>
-                    </TableRow>
+                        </TableCell>
+                      </TableRow>
+
+                      {/* Environment rows */}
+                      {projectSubs.map((subscription) => {
+                        const envInfo = subscriptionToEnvMap.get(subscription.id!);
+                        return (
+                          <TableRow key={subscription.id}>
+                            <TableCell className="pl-6">
+                              {envInfo ? (
+                                <span className="flex items-center gap-1.5">
+                                  <span>{envInfo.name}</span>
+                                  <Badge variant="outline" className="text-[10px]">{envInfo.type}</Badge>
+                                  <BillingStatusBadge status={envInfo.billingStatus} />
+                                </span>
+                              ) : (
+                                <span className="text-muted-foreground text-xs">—</span>
+                              )}
+                            </TableCell>
+                            <TableCell>{subscription.serverTierId}</TableCell>
+                            <TableCell>
+                              {subscription.status!.charAt(0).toUpperCase() + subscription.status!.slice(1)}
+                              {subscription.cancelAtPeriodEnd ? ' (Cancels at period end)' : ''}
+                            </TableCell>
+                            <TableCell>
+                              {new Date(subscription.currentPeriodStart!).toLocaleDateString()} - {new Date(subscription.currentPeriodEnd!).toLocaleDateString()}
+                            </TableCell>
+                            <TableCell className="text-right">
+                              {formatCurrency(subscription.amount.amount || 0, subscription.amount.currency || 'USD')}
+                            </TableCell>
+                            <TableCell></TableCell>
+                          </TableRow>
+                        );
+                      })}
+                    </React.Fragment>
                   );
                 })}
               </TableBody>
               <TableFooter>
                 <TableRow>
-                  <TableCell colSpan={5}>Total</TableCell>
+                  <TableCell colSpan={4}>Total</TableCell>
                   <TableCell className="text-right">{formatCurrency(total.amount, total.currency)}</TableCell>
                   <TableCell></TableCell>
                 </TableRow>

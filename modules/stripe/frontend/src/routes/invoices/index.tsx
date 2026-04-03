@@ -1,154 +1,73 @@
 import { createFileRoute } from '@tanstack/react-router'
 import {
   Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
   CardContent,
 } from '@/components/ui/card'
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from '@/components/ui/collapsible'
-import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
-import { FileText, Download, ChevronDown, ChevronUp } from 'lucide-react'
-import { api, apiBaseUrl } from '@/api-client'
-import { useState } from 'react'
-import { components } from '@/generated/schema'
+import {
+  Table,
+  TableHeader,
+  TableBody,
+  TableRow,
+  TableHead,
+  TableCell,
+} from '@/components/ui/table'
+import { FileText, ExternalLink } from 'lucide-react'
+import { api } from '@/api-client'
 
 export const Route = createFileRoute('/invoices/')({
   component: RouteComponent,
 })
 
-function MonthlyInvoiceCard({ group }: { group: components["schemas"]["Stripe.Services.MonthlyInvoiceGroup"] }) {
-  const [isOpen, setIsOpen] = useState(false)
-
-  const formatCurrency = (amount: number, currency: string) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: currency.toUpperCase(),
-    }).format(amount / 100)
+const statusBadge = (status: string | null) => {
+  switch (status) {
+    case 'paid':
+      return <Badge className="bg-emerald-500/15 text-emerald-400 border-0 text-[10px]">Paid</Badge>
+    case 'open':
+      return <Badge className="bg-amber-500/15 text-amber-400 border-0 text-[10px]">Open</Badge>
+    case 'void':
+      return <Badge variant="outline" className="text-[10px]">Void</Badge>
+    case 'uncollectible':
+      return <Badge className="bg-red-500/15 text-red-400 border-0 text-[10px]">Uncollectible</Badge>
+    default:
+      return <Badge variant="outline" className="text-[10px]">{status}</Badge>
   }
-
-  const handleDownloadMonthly = async () => {
-    try {
-      const response = await fetch(
-        `${apiBaseUrl}/v1/stripe/invoices/monthly/${group.yearMonth}/download`,
-        {
-          method: 'POST',
-          credentials: 'include',
-        }
-      )
-
-      if (!response.ok) {
-        throw new Error('Failed to download invoice')
-      }
-
-      const blob = await response.blob()
-      const url = window.URL.createObjectURL(blob)
-      const a = document.createElement('a')
-      a.href = url
-      a.download = `invoice-${group.yearMonth}.pdf`
-      document.body.appendChild(a)
-      a.click()
-      document.body.removeChild(a)
-      window.URL.revokeObjectURL(url)
-    } catch (error) {
-      console.error('Error downloading invoice:', error)
-      alert('Failed to download invoice. Please try again.')
-    }
-  }
-
-  return (
-    <Card>
-      <CardHeader>
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <CardTitle className="text-xl">{group.monthLabel}</CardTitle>
-            {group.isOngoing && (
-              <Badge variant="secondary">Ongoing</Badge>
-            )}
-          </div>
-          <div className="flex items-center gap-4">
-            <span className="text-lg font-semibold">
-              {formatCurrency(group.monthTotal.amount || 0, group.monthTotal.currency || 'usd')}
-            </span>
-            {!group.isOngoing && (
-              <Button onClick={handleDownloadMonthly} size="sm">
-                <Download className="h-4 w-4 mr-2" />
-                Download Invoice
-              </Button>
-            )}
-          </div>
-        </div>
-        {group.isOngoing && (
-          <CardDescription>
-            This month is ongoing. Invoice will be available for download next month.
-          </CardDescription>
-        )}
-      </CardHeader>
-      <CardContent>
-        <Collapsible open={isOpen} onOpenChange={setIsOpen}>
-          <CollapsibleTrigger asChild>
-            <Button variant="ghost" size="sm" className="w-full justify-between">
-              <span className="text-sm text-muted-foreground">
-                {isOpen ? 'Hide' : 'Show'} invoice details ({group.invoices!.length} invoice{group.invoices!.length !== 1 ? 's' : ''})
-              </span>
-              {isOpen ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
-            </Button>
-          </CollapsibleTrigger>
-          <CollapsibleContent className="mt-4">
-            <div className="space-y-4">
-              {group.invoices!.map((invoice) => (
-                <div key={invoice.id} className="border rounded-lg p-4">
-                  <div className="flex justify-between items-start mb-3">
-                    <span className="font-mono text-xs text-muted-foreground">
-                      {invoice.id}
-                    </span>
-                    <span className="font-semibold">
-                      {formatCurrency(invoice.total?.amount || 0, invoice.total?.currency || 'usd')}
-                    </span>
-                  </div>
-                  <div className="space-y-2">
-                    {invoice.lines?.map((line) => (
-                      <div key={line.id} className="flex justify-between text-sm">
-                        <span className="text-muted-foreground">
-                          {line.description || 'Service'}
-                        </span>
-                        <span className="font-medium">
-                          {formatCurrency(line?.amount?.amount || 0, line?.amount?.currency || 'usd')}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </CollapsibleContent>
-        </Collapsible>
-      </CardContent>
-    </Card>
-  )
 }
 
+const formatDate = (unixTimestamp: number) =>
+  new Date(unixTimestamp * 1000).toLocaleDateString('en-US', {
+    month: 'short', day: 'numeric', year: 'numeric',
+  })
+
+const formatPeriod = (start: number, end: number) => {
+  const s = new Date(start * 1000)
+  const e = new Date(end * 1000)
+  return `${s.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} - ${e.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`
+}
+
+const formatCurrency = (amount: number, currency: string) =>
+  new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: currency.toUpperCase(),
+  }).format(amount / 100)
+
 function RouteComponent() {
-  const { data: invoicesData, isLoading, error } = api.v1.getStripeInvoices.useQuery();
+  const { data: invoicesData, isLoading, error } = api.v1.getStripeInvoices.useQuery()
+  const invoices = invoicesData?.invoices ?? []
 
   return (
     <main className="container mx-auto p-6">
       <div className="mb-6">
-        <h1 className="text-3xl font-bold mb-2">Monthly Invoices</h1>
+        <h1 className="text-3xl font-bold mb-2">Invoices</h1>
         <p className="text-muted-foreground">
-          View and download your monthly consolidated invoices
+          View your invoices and payment history
         </p>
       </div>
 
       {isLoading ? (
         <div className="space-y-4">
-          <Skeleton className="h-32 w-full" />
           <Skeleton className="h-32 w-full" />
           <Skeleton className="h-32 w-full" />
         </div>
@@ -160,12 +79,56 @@ function RouteComponent() {
             </p>
           </CardContent>
         </Card>
-      ) : invoicesData?.monthlyGroups && invoicesData.monthlyGroups.length > 0 ? (
-        <div className="space-y-6">
-          {invoicesData.monthlyGroups.map((group) => (
-            <MonthlyInvoiceCard key={group.yearMonth} group={group} />
-          ))}
-        </div>
+      ) : invoices.length > 0 ? (
+        <Card>
+          <CardContent className="p-0">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Date</TableHead>
+                  <TableHead>Period</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead className="text-right">Amount</TableHead>
+                  <TableHead></TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {invoices.map((invoice) => (
+                  <TableRow key={invoice.id}>
+                    <TableCell className="text-sm">{formatDate(invoice.created)}</TableCell>
+                    <TableCell className="text-sm text-muted-foreground">
+                      {formatPeriod(invoice.periodStart, invoice.periodEnd)}
+                    </TableCell>
+                    <TableCell>{statusBadge(invoice.status)}</TableCell>
+                    <TableCell className="text-right font-medium">
+                      {formatCurrency(invoice.total.amount || 0, invoice.total.currency || 'usd')}
+                    </TableCell>
+                    <TableCell className="text-right">
+                      <div className="flex items-center justify-end gap-1.5">
+                        {invoice.hostedInvoiceUrl && (
+                          <Button variant="outline" size="sm" className="h-7 text-xs" asChild>
+                            <a href={invoice.hostedInvoiceUrl} target="_blank" rel="noopener noreferrer">
+                              <ExternalLink className="h-3 w-3 mr-1" />
+                              View
+                            </a>
+                          </Button>
+                        )}
+                        {invoice.invoicePdf && (
+                          <Button variant="ghost" size="sm" className="h-7 text-xs" asChild>
+                            <a href={invoice.invoicePdf} target="_blank" rel="noopener noreferrer">
+                              <FileText className="h-3 w-3 mr-1" />
+                              PDF
+                            </a>
+                          </Button>
+                        )}
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
       ) : (
         <Card>
           <CardContent className="py-12">

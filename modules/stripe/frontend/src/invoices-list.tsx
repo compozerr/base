@@ -1,149 +1,74 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { api } from '@/api-client';
 import {
   Card,
   CardContent,
-  CardHeader,
-  CardTitle,
-  CardDescription,
 } from '@/components/ui/card';
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from '@/components/ui/collapsible';
-import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Download, ChevronDown, ChevronUp, FileText } from 'lucide-react';
-import { components } from '@/generated';
+import {
+  Table,
+  TableHeader,
+  TableBody,
+  TableRow,
+  TableHead,
+  TableCell,
+} from '@/components/ui/table';
+import { ExternalLink, FileText } from 'lucide-react';
 
-interface InvoicesListProps {
-}
-
-function MonthlyInvoiceCard({ group }: { group: components['schemas']['Stripe.Services.MonthlyInvoiceGroup'] }) {
-  const [isOpen, setIsOpen] = useState(false)
-
-  const formatCurrency = (amount: number, currency: string) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: currency.toUpperCase(),
-    }).format(amount / 100)
+const statusBadge = (status: string | null) => {
+  switch (status) {
+    case 'paid':
+      return <Badge className="bg-emerald-500/15 text-emerald-400 border-0 text-[10px]">Paid</Badge>;
+    case 'open':
+      return <Badge className="bg-amber-500/15 text-amber-400 border-0 text-[10px]">Open</Badge>;
+    case 'void':
+      return <Badge variant="outline" className="text-[10px]">Void</Badge>;
+    case 'uncollectible':
+      return <Badge className="bg-red-500/15 text-red-400 border-0 text-[10px]">Uncollectible</Badge>;
+    default:
+      return <Badge variant="outline" className="text-[10px]">{status}</Badge>;
   }
+};
 
-  const handleDownloadMonthly = async () => {
-    try {
-      const result = await api.v1.downloadMonthlyInvoice({
-        parameters: { path: { yearMonth: group.yearMonth! } }
-      });
+const formatDate = (unixTimestamp: number) => {
+  return new Date(unixTimestamp * 1000).toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  });
+};
 
-      if (!result.response?.ok) {
-        throw new Error('Failed to download invoice')
-      }
+const formatPeriod = (start: number, end: number) => {
+  const startDate = new Date(start * 1000);
+  const endDate = new Date(end * 1000);
+  return `${startDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} - ${endDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`;
+};
 
-      const blob = await result.response.blob();
+const formatCurrency = (amount: number, currency: string) => {
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: currency.toUpperCase(),
+  }).format(amount / 100);
+};
 
-      const url = window.URL.createObjectURL(blob)
-      const a = document.createElement('a')
-      a.href = url
-      a.download = `invoice-${group.yearMonth}.pdf`
-      document.body.appendChild(a)
-      a.click()
-      document.body.removeChild(a)
-      window.URL.revokeObjectURL(url)
-    } catch (error) {
-      console.error('Error downloading invoice:', error)
-      alert('Failed to download invoice. Please try again.')
-    }
-  }
-
-  return (
-    <Card>
-      <CardHeader>
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <CardTitle className="text-xl">{group.monthLabel}</CardTitle>
-            {group.isOngoing && (
-              <Badge variant="secondary">Ongoing</Badge>
-            )}
-          </div>
-          <div className="flex items-center gap-4">
-            <span className="text-lg font-semibold">
-              {formatCurrency(group.monthTotal!.amount || 0, group.monthTotal!.currency || 'usd')}
-            </span>
-            {!group.isOngoing && (
-              <Button onClick={handleDownloadMonthly} size="sm">
-                <Download className="h-4 w-4 mr-2" />
-                Download
-              </Button>
-            )}
-          </div>
-        </div>
-        {group.isOngoing && (
-          <CardDescription>
-            This month is ongoing. Invoice will be available next month.
-          </CardDescription>
-        )}
-        {group.appliedBalance && group.appliedBalance.amount !== 0 && (
-          <CardDescription className="mt-2">
-            Applied balance: {formatCurrency(group.appliedBalance.amount || 0, group.appliedBalance.currency || 'usd')}
-          </CardDescription>
-        )}
-      </CardHeader>
-      <CardContent>
-        <Collapsible open={isOpen} onOpenChange={setIsOpen}>
-          <CollapsibleTrigger asChild>
-            <Button variant="ghost" size="sm" className="w-full justify-between">
-              <span className="text-sm text-muted-foreground">
-                {isOpen ? 'Hide' : 'Show'} details ({group.invoices!.length} invoice{group.invoices!.length !== 1 ? 's' : ''})
-              </span>
-              {isOpen ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
-            </Button>
-          </CollapsibleTrigger>
-          <CollapsibleContent className="mt-4">
-            <div className="space-y-4">
-              {group.invoices!.map((invoice) => (
-                <div key={invoice.id} className="border rounded-lg p-4">
-                  <div className="flex justify-between items-start mb-3">
-                    <span className="font-mono text-xs text-muted-foreground">
-                      {invoice.id}
-                    </span>
-                    <span className="font-semibold">
-                      {formatCurrency(invoice.total?.amount || 0, invoice.total?.currency || 'usd')}
-                    </span>
-                  </div>
-                  <div className="space-y-2">
-                    {invoice.lines?.map((line) => (
-                      <div key={line.id} className="flex justify-between text-sm">
-                        <span className="text-muted-foreground">
-                          {line.description || 'Service'}
-                        </span>
-                        <span className="font-medium">
-                          {formatCurrency(line?.amount?.amount || 0, line?.amount?.currency || 'usd')}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </CollapsibleContent>
-        </Collapsible>
-      </CardContent>
-    </Card>
-  )
-}
-
-export const InvoicesList: React.FC<InvoicesListProps> = () => {
+export const InvoicesList: React.FC = () => {
   const { data: invoicesData, isLoading, error } = api.v1.getStripeInvoices.useQuery();
 
   if (isLoading) {
     return (
       <div className="space-y-4">
-        <h2 className="text-2xl font-bold">Invoices</h2>
-        <Skeleton className="h-32 w-full" />
-        <Skeleton className="h-32 w-full" />
-        <Skeleton className="h-32 w-full" />
+        <h3 className="text-lg font-medium">Invoices</h3>
+        <Card>
+          <CardContent className="p-0">
+            <div className="space-y-2 p-4">
+              <Skeleton className="h-10 w-full" />
+              <Skeleton className="h-10 w-full" />
+              <Skeleton className="h-10 w-full" />
+            </div>
+          </CardContent>
+        </Card>
       </div>
     );
   }
@@ -151,33 +76,90 @@ export const InvoicesList: React.FC<InvoicesListProps> = () => {
   if (error) {
     return (
       <div className="space-y-4">
-        <h2 className="text-2xl font-bold">Invoices</h2>
-        <Card>
-          <CardContent className="py-8">
-            <p className="text-destructive text-center">
-              Error loading invoices: {(error as Error).message}
-            </p>
-          </CardContent>
-        </Card>
+        <h3 className="text-lg font-medium">Invoices</h3>
+        <div className="text-destructive">
+          Error loading invoices: {(error as Error).message}
+        </div>
       </div>
     );
   }
 
+  const invoices = invoicesData?.invoices ?? [];
+
   return (
-    <div className="space-y-6">
-      <h2 className="text-2xl font-bold">Invoices</h2>
-      {invoicesData?.monthlyGroups && invoicesData.monthlyGroups.length > 0 ? (
-        invoicesData.monthlyGroups.map((group) => (
-          <MonthlyInvoiceCard key={group.yearMonth} group={group!} />
-        ))
+    <div className="space-y-4">
+      <h3 className="text-lg font-medium">Invoices</h3>
+
+      {invoices.length > 0 ? (
+        <Card>
+          <CardContent className="p-0">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Date</TableHead>
+                  <TableHead>Period</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead className="text-right">Amount</TableHead>
+                  <TableHead></TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {invoices.map((invoice) => (
+                  <TableRow key={invoice.id}>
+                    <TableCell className="text-sm">
+                      {formatDate(invoice.created)}
+                    </TableCell>
+                    <TableCell className="text-sm text-muted-foreground">
+                      {formatPeriod(invoice.periodStart, invoice.periodEnd)}
+                    </TableCell>
+                    <TableCell>
+                      {statusBadge(invoice.status)}
+                    </TableCell>
+                    <TableCell className="text-right font-medium">
+                      {formatCurrency(invoice.total.amount || 0, invoice.total.currency || 'usd')}
+                    </TableCell>
+                    <TableCell className="text-right">
+                      <div className="flex items-center justify-end gap-1.5">
+                        {invoice.hostedInvoiceUrl && (
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="h-7 text-xs"
+                            asChild
+                          >
+                            <a href={invoice.hostedInvoiceUrl} target="_blank" rel="noopener noreferrer">
+                              <ExternalLink className="h-3 w-3 mr-1" />
+                              View
+                            </a>
+                          </Button>
+                        )}
+                        {invoice.invoicePdf && (
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="h-7 text-xs"
+                            asChild
+                          >
+                            <a href={invoice.invoicePdf} target="_blank" rel="noopener noreferrer">
+                              <FileText className="h-3 w-3 mr-1" />
+                              PDF
+                            </a>
+                          </Button>
+                        )}
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
       ) : (
         <Card>
-          <CardContent className="py-12">
+          <CardContent className="py-6">
             <div className="text-center space-y-3">
-              <FileText className="h-12 w-12 mx-auto text-muted-foreground opacity-50" />
-              <p className="text-muted-foreground">
-                No invoices found. Once you have invoices in Stripe, they will appear here.
-              </p>
+              <FileText className="h-10 w-10 mx-auto text-muted-foreground opacity-50" />
+              <p className="text-muted-foreground">No invoices yet</p>
             </div>
           </CardContent>
         </Card>
@@ -187,4 +169,3 @@ export const InvoicesList: React.FC<InvoicesListProps> = () => {
 };
 
 export default InvoicesList;
-

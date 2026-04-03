@@ -1,4 +1,3 @@
-using System.Text;
 using Microsoft.Extensions.Options;
 using Serilog;
 using Stripe.Options;
@@ -23,24 +22,26 @@ public class InvoicesService(
         try
         {
             var service = new InvoiceService(_stripeClient);
-            var options = new InvoiceListOptions
+            var listOptions = new InvoiceListOptions
             {
                 Customer = stripeCustomerId,
-                Limit = 20,
+                Limit = 100,
             };
 
             var invoices = await service.ListAsync(
-                options,
+                listOptions,
                 null,
                 cancellationToken);
 
-            return [.. invoices.Select(InvoiceDto.FromInvoice)];
+            return [.. invoices
+                .Where(i => i.Status != "draft")
+                .Select(InvoiceDto.FromInvoice)];
         }
         catch (Exception ex)
         {
             Log.Error(ex, "Error retrieving invoices for customer {CustomerId}", stripeCustomerId);
         }
 
-        return new List<InvoiceDto>();
+        return [];
     }
 }
