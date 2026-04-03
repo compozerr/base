@@ -29,7 +29,7 @@ public class DeployFromLatestCommitJob(
             latestCommit.Sha,
             latestCommit.Commit.Message,
             latestCommit.Commit.Author.Name,
-            latestCommit.Commit.Committer.Name,
+            "main",
             latestCommit.Commit.Author.Email,
             OverrideAuthorization: args.OverrideAuthorization);
 
