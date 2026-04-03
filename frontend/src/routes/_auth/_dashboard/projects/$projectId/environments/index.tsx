@@ -1,6 +1,7 @@
 import { createFileRoute, getRouteApi } from '@tanstack/react-router'
 import { api, apiBaseUrl } from '@/api-client'
 import { Badge } from '@/components/ui/badge'
+import LoadingButton from '@/components/loading-button'
 import { Button } from '@/components/ui/button'
 import {
     Dialog,
@@ -24,7 +25,7 @@ import { useTimeAgo } from '@/hooks/useTimeAgo'
 import { useModal } from '@/hooks/use-modal'
 import { useToast } from '@/hooks/use-toast'
 import { cn } from '@/lib/utils'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { motion } from 'framer-motion'
 import {
     Clock,
@@ -119,6 +120,7 @@ function RouteComponent() {
                 </div>
                 <CreateEnvironmentDialog
                     projectId={projectId}
+                    usedBranches={environments.flatMap((e) => e.branches ?? [])}
                     onCreated={invalidate}
                 />
             </div>
@@ -261,6 +263,38 @@ function EnvironmentCard({
             path: { projectId, environmentId: env.id },
         })
 
+    const { mutateAsync: deployAsync, isPending: isDeploying } = useMutation({
+        mutationFn: async () => {
+            const url = new URL(
+                `${apiBaseUrl}/v1/projects/${encodeURIComponent(projectId)}/deployments/deploy-from-latest-commit`,
+            )
+            url.searchParams.set('environmentId', env.id)
+            const res = await fetch(url, {
+                method: 'POST',
+                credentials: 'include',
+            })
+            if (!res.ok) {
+                const text = await res.text()
+                throw new Error(text || 'Failed to deploy')
+            }
+        },
+        onSuccess: () => {
+            toast({
+                title: 'Deployment started',
+                description: `Deploying latest commit to "${env.name ?? env.id}".`,
+            })
+            onChanged()
+        },
+        onError: (err) => {
+            toast({
+                title: 'Deploy failed',
+                description:
+                    err instanceof Error ? err.message : 'Unknown error',
+                variant: 'destructive',
+            })
+        },
+    })
+
     const handleDelete = async () => {
         const name = env.name ?? env.id
         const confirmed = await modal.confirm(
@@ -377,6 +411,19 @@ function EnvironmentCard({
 
                     {/* Actions */}
                     <div className="flex items-center gap-1.5">
+                        <LoadingButton
+                            variant="outline"
+                            size="sm"
+                            className="h-8 text-xs"
+                            isLoading={isDeploying}
+                            onClick={(e) => {
+                                e.stopPropagation()
+                                deployAsync()
+                            }}
+                        >
+                            <Rocket className="h-3.5 w-3.5 mr-1" />
+                            Deploy
+                        </LoadingButton>
                         {!isProduction && (
                             <Button
                                 variant="ghost"
@@ -450,9 +497,11 @@ const MANUAL_BRANCH = '__manual__'
 
 function CreateEnvironmentDialog({
     projectId,
+    usedBranches,
     onCreated,
 }: {
     projectId: string
+    usedBranches: string[]
     onCreated: () => void
 }) {
     const [open, setOpen] = useState(false)
@@ -573,13 +622,26 @@ function CreateEnvironmentDialog({
                                         <SelectValue placeholder="Select a branch" />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        {branches.map((b) => (
-                                            <SelectItem key={b} value={b}>
-                                                <span className="font-mono text-xs">
-                                                    {b}
-                                                </span>
-                                            </SelectItem>
-                                        ))}
+                                        {branches.map((b) => {
+                                            const isUsed = usedBranches.includes(b)
+                                            return (
+                                                <SelectItem
+                                                    key={b}
+                                                    value={b}
+                                                    disabled={isUsed}
+                                                >
+                                                    <span
+                                                        className={cn(
+                                                            'font-mono text-xs',
+                                                            isUsed && 'text-muted-foreground line-through',
+                                                        )}
+                                                    >
+                                                        {b}
+                                                        {isUsed && ' (in use)'}
+                                                    </span>
+                                                </SelectItem>
+                                            )
+                                        })}
                                         <SelectItem value={MANUAL_BRANCH}>
                                             <span className="text-muted-foreground">
                                                 Enter manually...
