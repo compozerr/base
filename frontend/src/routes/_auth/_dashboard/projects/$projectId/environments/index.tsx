@@ -1,4 +1,4 @@
-import { createFileRoute, getRouteApi } from '@tanstack/react-router'
+import { createFileRoute, getRouteApi, Link } from '@tanstack/react-router'
 import { api, apiBaseUrl } from '@/api-client'
 import { Badge } from '@/components/ui/badge'
 import LoadingButton from '@/components/loading-button'
@@ -312,9 +312,11 @@ function EnvironmentCard({
     }
 
     return (
-        <div
+        <Link
+            to="/projects/$projectId/environments/$environmentId"
+            params={{ projectId, environmentId: env.id }}
             className={cn(
-                'group rounded-xl border backdrop-blur-sm transition-all',
+                'block group rounded-xl border backdrop-blur-sm transition-all cursor-pointer',
                 isProduction
                     ? 'border-emerald-500/20 bg-emerald-950/10 hover:border-emerald-500/35'
                     : 'border-zinc-800 bg-zinc-900/40 hover:border-zinc-700',
@@ -368,6 +370,7 @@ function EnvironmentCard({
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="flex items-center gap-1.5 hover:text-foreground transition-colors"
+                                onClick={(e) => e.stopPropagation()}
                             >
                                 <Globe className="h-3.5 w-3.5 shrink-0" />
                                 <span className="truncate max-w-[220px]">
@@ -418,6 +421,7 @@ function EnvironmentCard({
                             isLoading={isDeploying}
                             onClick={(e) => {
                                 e.stopPropagation()
+                                e.preventDefault()
                                 deployAsync()
                             }}
                         >
@@ -429,7 +433,7 @@ function EnvironmentCard({
                                 variant="ghost"
                                 size="icon"
                                 className="h-8 w-8 text-muted-foreground hover:text-red-400 hover:bg-red-500/10"
-                                onClick={handleDelete}
+                                onClick={(e) => { e.stopPropagation(); e.preventDefault(); handleDelete() }}
                                 disabled={isDeleting}
                                 title="Delete environment"
                             >
@@ -457,7 +461,7 @@ function EnvironmentCard({
                     />
                 </div>
             )}
-        </div>
+        </Link>
     )
 }
 

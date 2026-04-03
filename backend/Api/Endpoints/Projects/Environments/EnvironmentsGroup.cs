@@ -1,6 +1,8 @@
+using Api.Endpoints.Projects.Environments.ChangeAutoDeploy;
 using Api.Endpoints.Projects.Environments.ChangeTier;
 using Api.Endpoints.Projects.Environments.Create;
 using Api.Endpoints.Projects.Environments.Delete;
+using Api.Endpoints.Projects.Environments.Deployments;
 using Api.Endpoints.Projects.Environments.Get;
 using Api.Endpoints.Projects.Environments.GetBranches;
 using Api.Endpoints.Projects.Environments.Promote;
@@ -21,6 +23,8 @@ public static class EnvironmentsGroup
         group.AddDeleteEnvironmentRoute();
         group.AddPromoteEnvironmentRoute();
         group.AddChangeEnvironmentTierRoute();
+        group.AddChangeEnvironmentAutoDeployRoute();
+        group.AddGetEnvironmentDeploymentsRoute();
 
         return group;
     }

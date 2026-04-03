@@ -37,8 +37,7 @@ import { Route as AuthDashboardProjectsProjectIdSettingsIndexRouteImport } from 
 import { Route as AuthDashboardProjectsProjectIdEnvironmentsIndexRouteImport } from './routes/_auth/_dashboard/projects/$projectId/environments/index'
 import { Route as AuthDashboardProjectsProjectIdDeploymentsIndexRouteImport } from './routes/_auth/_dashboard/projects/$projectId/deployments/index'
 import { Route as AuthDashboardProjectsProjectIdSettingsGeneralRouteImport } from './routes/_auth/_dashboard/projects/$projectId/settings/general'
-import { Route as AuthDashboardProjectsProjectIdSettingsEnvironmentRouteImport } from './routes/_auth/_dashboard/projects/$projectId/settings/environment'
-import { Route as AuthDashboardProjectsProjectIdSettingsDomainsRouteImport } from './routes/_auth/_dashboard/projects/$projectId/settings/domains'
+import { Route as AuthDashboardProjectsProjectIdEnvironmentsEnvironmentIdIndexRouteImport } from './routes/_auth/_dashboard/projects/$projectId/environments/$environmentId/index'
 import { Route as AuthDashboardProjectsProjectIdDeploymentsDeploymentIdIndexRouteImport } from './routes/_auth/_dashboard/projects/$projectId/deployments/$deploymentId/index'
 
 const TermsOfServiceRoute = TermsOfServiceRouteImport.update({
@@ -190,18 +189,14 @@ const AuthDashboardProjectsProjectIdSettingsGeneralRoute =
     path: '/general',
     getParentRoute: () => AuthDashboardProjectsProjectIdSettingsRouteRoute,
   } as any)
-const AuthDashboardProjectsProjectIdSettingsEnvironmentRoute =
-  AuthDashboardProjectsProjectIdSettingsEnvironmentRouteImport.update({
-    id: '/environment',
-    path: '/environment',
-    getParentRoute: () => AuthDashboardProjectsProjectIdSettingsRouteRoute,
-  } as any)
-const AuthDashboardProjectsProjectIdSettingsDomainsRoute =
-  AuthDashboardProjectsProjectIdSettingsDomainsRouteImport.update({
-    id: '/domains',
-    path: '/domains',
-    getParentRoute: () => AuthDashboardProjectsProjectIdSettingsRouteRoute,
-  } as any)
+const AuthDashboardProjectsProjectIdEnvironmentsEnvironmentIdIndexRoute =
+  AuthDashboardProjectsProjectIdEnvironmentsEnvironmentIdIndexRouteImport.update(
+    {
+      id: '/environments/$environmentId/',
+      path: '/environments/$environmentId/',
+      getParentRoute: () => AuthDashboardProjectsProjectIdRouteRoute,
+    } as any,
+  )
 const AuthDashboardProjectsProjectIdDeploymentsDeploymentIdIndexRoute =
   AuthDashboardProjectsProjectIdDeploymentsDeploymentIdIndexRouteImport.update({
     id: '/deployments/$deploymentId/',
@@ -232,13 +227,12 @@ export interface FileRoutesByFullPath {
   '/organizations/$orgId/members': typeof AuthDashboardOrganizationsOrgIdMembersRoute
   '/organizations/$orgId': typeof AuthDashboardOrganizationsOrgIdIndexRoute
   '/projects/$projectId/': typeof AuthDashboardProjectsProjectIdIndexRoute
-  '/projects/$projectId/settings/domains': typeof AuthDashboardProjectsProjectIdSettingsDomainsRoute
-  '/projects/$projectId/settings/environment': typeof AuthDashboardProjectsProjectIdSettingsEnvironmentRoute
   '/projects/$projectId/settings/general': typeof AuthDashboardProjectsProjectIdSettingsGeneralRoute
   '/projects/$projectId/deployments': typeof AuthDashboardProjectsProjectIdDeploymentsIndexRoute
   '/projects/$projectId/environments': typeof AuthDashboardProjectsProjectIdEnvironmentsIndexRoute
   '/projects/$projectId/settings/': typeof AuthDashboardProjectsProjectIdSettingsIndexRoute
   '/projects/$projectId/deployments/$deploymentId': typeof AuthDashboardProjectsProjectIdDeploymentsDeploymentIdIndexRoute
+  '/projects/$projectId/environments/$environmentId': typeof AuthDashboardProjectsProjectIdEnvironmentsEnvironmentIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -261,13 +255,12 @@ export interface FileRoutesByTo {
   '/organizations/$orgId/members': typeof AuthDashboardOrganizationsOrgIdMembersRoute
   '/organizations/$orgId': typeof AuthDashboardOrganizationsOrgIdIndexRoute
   '/projects/$projectId': typeof AuthDashboardProjectsProjectIdIndexRoute
-  '/projects/$projectId/settings/domains': typeof AuthDashboardProjectsProjectIdSettingsDomainsRoute
-  '/projects/$projectId/settings/environment': typeof AuthDashboardProjectsProjectIdSettingsEnvironmentRoute
   '/projects/$projectId/settings/general': typeof AuthDashboardProjectsProjectIdSettingsGeneralRoute
   '/projects/$projectId/deployments': typeof AuthDashboardProjectsProjectIdDeploymentsIndexRoute
   '/projects/$projectId/environments': typeof AuthDashboardProjectsProjectIdEnvironmentsIndexRoute
   '/projects/$projectId/settings': typeof AuthDashboardProjectsProjectIdSettingsIndexRoute
   '/projects/$projectId/deployments/$deploymentId': typeof AuthDashboardProjectsProjectIdDeploymentsDeploymentIdIndexRoute
+  '/projects/$projectId/environments/$environmentId': typeof AuthDashboardProjectsProjectIdEnvironmentsEnvironmentIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -295,13 +288,12 @@ export interface FileRoutesById {
   '/_auth/_dashboard/organizations/$orgId/members': typeof AuthDashboardOrganizationsOrgIdMembersRoute
   '/_auth/_dashboard/organizations/$orgId/': typeof AuthDashboardOrganizationsOrgIdIndexRoute
   '/_auth/_dashboard/projects/$projectId/': typeof AuthDashboardProjectsProjectIdIndexRoute
-  '/_auth/_dashboard/projects/$projectId/settings/domains': typeof AuthDashboardProjectsProjectIdSettingsDomainsRoute
-  '/_auth/_dashboard/projects/$projectId/settings/environment': typeof AuthDashboardProjectsProjectIdSettingsEnvironmentRoute
   '/_auth/_dashboard/projects/$projectId/settings/general': typeof AuthDashboardProjectsProjectIdSettingsGeneralRoute
   '/_auth/_dashboard/projects/$projectId/deployments/': typeof AuthDashboardProjectsProjectIdDeploymentsIndexRoute
   '/_auth/_dashboard/projects/$projectId/environments/': typeof AuthDashboardProjectsProjectIdEnvironmentsIndexRoute
   '/_auth/_dashboard/projects/$projectId/settings/': typeof AuthDashboardProjectsProjectIdSettingsIndexRoute
   '/_auth/_dashboard/projects/$projectId/deployments/$deploymentId/': typeof AuthDashboardProjectsProjectIdDeploymentsDeploymentIdIndexRoute
+  '/_auth/_dashboard/projects/$projectId/environments/$environmentId/': typeof AuthDashboardProjectsProjectIdEnvironmentsEnvironmentIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -328,13 +320,12 @@ export interface FileRouteTypes {
     | '/organizations/$orgId/members'
     | '/organizations/$orgId'
     | '/projects/$projectId/'
-    | '/projects/$projectId/settings/domains'
-    | '/projects/$projectId/settings/environment'
     | '/projects/$projectId/settings/general'
     | '/projects/$projectId/deployments'
     | '/projects/$projectId/environments'
     | '/projects/$projectId/settings/'
     | '/projects/$projectId/deployments/$deploymentId'
+    | '/projects/$projectId/environments/$environmentId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -357,13 +348,12 @@ export interface FileRouteTypes {
     | '/organizations/$orgId/members'
     | '/organizations/$orgId'
     | '/projects/$projectId'
-    | '/projects/$projectId/settings/domains'
-    | '/projects/$projectId/settings/environment'
     | '/projects/$projectId/settings/general'
     | '/projects/$projectId/deployments'
     | '/projects/$projectId/environments'
     | '/projects/$projectId/settings'
     | '/projects/$projectId/deployments/$deploymentId'
+    | '/projects/$projectId/environments/$environmentId'
   id:
     | '__root__'
     | '/'
@@ -390,13 +380,12 @@ export interface FileRouteTypes {
     | '/_auth/_dashboard/organizations/$orgId/members'
     | '/_auth/_dashboard/organizations/$orgId/'
     | '/_auth/_dashboard/projects/$projectId/'
-    | '/_auth/_dashboard/projects/$projectId/settings/domains'
-    | '/_auth/_dashboard/projects/$projectId/settings/environment'
     | '/_auth/_dashboard/projects/$projectId/settings/general'
     | '/_auth/_dashboard/projects/$projectId/deployments/'
     | '/_auth/_dashboard/projects/$projectId/environments/'
     | '/_auth/_dashboard/projects/$projectId/settings/'
     | '/_auth/_dashboard/projects/$projectId/deployments/$deploymentId/'
+    | '/_auth/_dashboard/projects/$projectId/environments/$environmentId/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -612,19 +601,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthDashboardProjectsProjectIdSettingsGeneralRouteImport
       parentRoute: typeof AuthDashboardProjectsProjectIdSettingsRouteRoute
     }
-    '/_auth/_dashboard/projects/$projectId/settings/environment': {
-      id: '/_auth/_dashboard/projects/$projectId/settings/environment'
-      path: '/environment'
-      fullPath: '/projects/$projectId/settings/environment'
-      preLoaderRoute: typeof AuthDashboardProjectsProjectIdSettingsEnvironmentRouteImport
-      parentRoute: typeof AuthDashboardProjectsProjectIdSettingsRouteRoute
-    }
-    '/_auth/_dashboard/projects/$projectId/settings/domains': {
-      id: '/_auth/_dashboard/projects/$projectId/settings/domains'
-      path: '/domains'
-      fullPath: '/projects/$projectId/settings/domains'
-      preLoaderRoute: typeof AuthDashboardProjectsProjectIdSettingsDomainsRouteImport
-      parentRoute: typeof AuthDashboardProjectsProjectIdSettingsRouteRoute
+    '/_auth/_dashboard/projects/$projectId/environments/$environmentId/': {
+      id: '/_auth/_dashboard/projects/$projectId/environments/$environmentId/'
+      path: '/environments/$environmentId'
+      fullPath: '/projects/$projectId/environments/$environmentId'
+      preLoaderRoute: typeof AuthDashboardProjectsProjectIdEnvironmentsEnvironmentIdIndexRouteImport
+      parentRoute: typeof AuthDashboardProjectsProjectIdRouteRoute
     }
     '/_auth/_dashboard/projects/$projectId/deployments/$deploymentId/': {
       id: '/_auth/_dashboard/projects/$projectId/deployments/$deploymentId/'
@@ -637,18 +619,12 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthDashboardProjectsProjectIdSettingsRouteRouteChildren {
-  AuthDashboardProjectsProjectIdSettingsDomainsRoute: typeof AuthDashboardProjectsProjectIdSettingsDomainsRoute
-  AuthDashboardProjectsProjectIdSettingsEnvironmentRoute: typeof AuthDashboardProjectsProjectIdSettingsEnvironmentRoute
   AuthDashboardProjectsProjectIdSettingsGeneralRoute: typeof AuthDashboardProjectsProjectIdSettingsGeneralRoute
   AuthDashboardProjectsProjectIdSettingsIndexRoute: typeof AuthDashboardProjectsProjectIdSettingsIndexRoute
 }
 
 const AuthDashboardProjectsProjectIdSettingsRouteRouteChildren: AuthDashboardProjectsProjectIdSettingsRouteRouteChildren =
   {
-    AuthDashboardProjectsProjectIdSettingsDomainsRoute:
-      AuthDashboardProjectsProjectIdSettingsDomainsRoute,
-    AuthDashboardProjectsProjectIdSettingsEnvironmentRoute:
-      AuthDashboardProjectsProjectIdSettingsEnvironmentRoute,
     AuthDashboardProjectsProjectIdSettingsGeneralRoute:
       AuthDashboardProjectsProjectIdSettingsGeneralRoute,
     AuthDashboardProjectsProjectIdSettingsIndexRoute:
@@ -666,6 +642,7 @@ interface AuthDashboardProjectsProjectIdRouteRouteChildren {
   AuthDashboardProjectsProjectIdDeploymentsIndexRoute: typeof AuthDashboardProjectsProjectIdDeploymentsIndexRoute
   AuthDashboardProjectsProjectIdEnvironmentsIndexRoute: typeof AuthDashboardProjectsProjectIdEnvironmentsIndexRoute
   AuthDashboardProjectsProjectIdDeploymentsDeploymentIdIndexRoute: typeof AuthDashboardProjectsProjectIdDeploymentsDeploymentIdIndexRoute
+  AuthDashboardProjectsProjectIdEnvironmentsEnvironmentIdIndexRoute: typeof AuthDashboardProjectsProjectIdEnvironmentsEnvironmentIdIndexRoute
 }
 
 const AuthDashboardProjectsProjectIdRouteRouteChildren: AuthDashboardProjectsProjectIdRouteRouteChildren =
@@ -680,6 +657,8 @@ const AuthDashboardProjectsProjectIdRouteRouteChildren: AuthDashboardProjectsPro
       AuthDashboardProjectsProjectIdEnvironmentsIndexRoute,
     AuthDashboardProjectsProjectIdDeploymentsDeploymentIdIndexRoute:
       AuthDashboardProjectsProjectIdDeploymentsDeploymentIdIndexRoute,
+    AuthDashboardProjectsProjectIdEnvironmentsEnvironmentIdIndexRoute:
+      AuthDashboardProjectsProjectIdEnvironmentsEnvironmentIdIndexRoute,
   }
 
 const AuthDashboardProjectsProjectIdRouteRouteWithChildren =
