@@ -12,7 +12,8 @@ public sealed class AddProjectEnvironment_ProjectCreatedEventHandler : EntityDom
         {
             ProjectId = domainEvent.Entity.Id,
             Branches = ["main"],
-            AutoDeploy = true
+            AutoDeploy = true,
+            ServerTierId = domainEvent.Entity.ServerTierId
         };
 
         domainEvent.Entity.ProjectEnvironments = [defaultEnvironment];
