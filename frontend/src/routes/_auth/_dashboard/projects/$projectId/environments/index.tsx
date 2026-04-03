@@ -351,6 +351,19 @@ function EnvironmentCard({
                                 {env.serverTierId}
                             </Badge>
                         )}
+
+                        {env.billingStatus && env.billingStatus !== 'Active' && (
+                            <Badge
+                                className={cn(
+                                    'border-0 text-[10px] font-medium',
+                                    env.billingStatus === 'Trialing' && 'bg-amber-500/15 text-amber-400',
+                                    env.billingStatus === 'Suspended' && 'bg-red-500/15 text-red-400',
+                                    env.billingStatus === 'Cancelled' && 'bg-zinc-500/15 text-zinc-400',
+                                )}
+                            >
+                                {env.billingStatus === 'Trialing' ? 'Trial' : env.billingStatus}
+                            </Badge>
+                        )}
                     </div>
 
                     {/* Meta row */}

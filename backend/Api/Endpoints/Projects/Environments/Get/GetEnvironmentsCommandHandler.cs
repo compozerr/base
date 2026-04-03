@@ -43,7 +43,9 @@ public sealed class GetEnvironmentsCommandHandler(
                 e.CreatedAtUtc,
                 e.Deployments?.FirstOrDefault()?.CreatedAtUtc,
                 serverTierId,
-                monthlyPrice
+                monthlyPrice,
+                e.BillingStatus.ToString(),
+                e.StripeSubscriptionId
             );
         }).ToList();
 

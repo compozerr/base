@@ -3,12 +3,14 @@ using Api.Data;
 using Api.Data.Repositories;
 using Core.MediatR;
 using Serilog;
+using Stripe.Services;
 
 namespace Api.Endpoints.Projects.Environments.Create;
 
 public sealed class CreateEnvironmentCommandHandler(
     IProjectEnvironmentRepository environmentRepository,
-    IProjectRepository projectRepository) : ICommandHandler<CreateEnvironmentCommand, CreateEnvironmentResponse>
+    IProjectRepository projectRepository,
+    ISubscriptionsService subscriptionsService) : ICommandHandler<CreateEnvironmentCommand, CreateEnvironmentResponse>
 {
     public async Task<CreateEnvironmentResponse> Handle(
         CreateEnvironmentCommand command,
@@ -35,18 +37,46 @@ public sealed class CreateEnvironmentCommandHandler(
             ServerTierId = serverTier.Id
         };
 
-        // TODO: Create Stripe subscription via SubscriptionService
+        var subscription = await subscriptionsService.CreateSubscriptionTierAsync(
+            command.ProjectId,
+            serverTier.Id,
+            cancellationToken: cancellationToken);
 
-        await environmentRepository.AddAsync(environment, cancellationToken);
+        environment.StripeSubscriptionId = subscription.Id;
+        environment.BillingStatus = MapBillingStatus(subscription.Status);
+
+        try
+        {
+            await environmentRepository.AddAsync(environment, cancellationToken);
+        }
+        catch
+        {
+            // Compensate: cancel the just-created Stripe subscription to avoid orphaned billing
+            await subscriptionsService.CancelSubscriptionAsync(
+                subscription.Id,
+                cancelImmediately: true,
+                CancellationToken.None);
+            throw;
+        }
 
         Log.ForContext(nameof(environment), environment, true)
-           .Information("Created {Type} environment '{Name}' for project {ProjectId}",
-               command.Type, command.Name, command.ProjectId);
+           .Information("Created {Type} environment '{Name}' for project {ProjectId} with subscription {SubscriptionId}",
+               command.Type, command.Name, command.ProjectId, subscription.Id);
 
         return new CreateEnvironmentResponse(
             environment.Id.Value,
             environment.Subdomain,
             serverTier.Id.Value,
-            serverTier.Price.Value);
+            serverTier.Price.Value,
+            environment.BillingStatus.ToString());
     }
+
+    private static EnvironmentBillingStatus MapBillingStatus(string stripeStatus) => stripeStatus switch
+    {
+        "trialing" => EnvironmentBillingStatus.Trialing,
+        "active" => EnvironmentBillingStatus.Active,
+        "past_due" or "unpaid" => EnvironmentBillingStatus.Suspended,
+        "canceled" or "incomplete_expired" => EnvironmentBillingStatus.Cancelled,
+        _ => EnvironmentBillingStatus.Active,
+    };
 }

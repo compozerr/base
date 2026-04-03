@@ -14,6 +14,7 @@ public interface IHostingApi
     Task StartProjectAsync(ProjectId projectId);
     Task StopProjectAsync(ProjectId projectId);
     Task DeleteProjectAsync(ProjectId projectId);
+    Task DeletePreviewEnvironmentAsync(ProjectId projectId, string environmentName);
     Task<HealthCheckResponse> HealthCheckProjectAsync(ProjectId projectId);
     Task<CommandExecutionResult> ExecuteCommandAsync(ProjectId projectId, string command);
     Task<string> DebugTerminalAsync(ProjectId projectId);

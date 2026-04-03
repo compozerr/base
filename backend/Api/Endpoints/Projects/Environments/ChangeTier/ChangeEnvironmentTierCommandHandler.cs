@@ -5,13 +5,15 @@ using Core.MediatR;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
+using Stripe.Services;
 
 namespace Api.Endpoints.Projects.Environments.ChangeTier;
 
 public sealed class ChangeEnvironmentTierCommandHandler(
     IProjectEnvironmentRepository environmentRepository,
     IDeploymentRepository deploymentRepository,
-    IMediator mediator) : ICommandHandler<ChangeEnvironmentTierCommand, ChangeEnvironmentTierResponse>
+    IMediator mediator,
+    ISubscriptionsService subscriptionsService) : ICommandHandler<ChangeEnvironmentTierCommand, ChangeEnvironmentTierResponse>
 {
     public async Task<ChangeEnvironmentTierResponse> Handle(
         ChangeEnvironmentTierCommand command,
@@ -27,7 +29,34 @@ public sealed class ChangeEnvironmentTierCommandHandler(
 
         environment.ServerTierId = serverTier.Id;
 
-        // TODO: Update Stripe subscription via SubscriptionService
+        if (!string.IsNullOrEmpty(environment.StripeSubscriptionId))
+        {
+            var subscription = await subscriptionsService.UpdateSubscriptionTierAsync(
+                environment.StripeSubscriptionId,
+                environment.ProjectId,
+                serverTier.Id,
+                cancellationToken: cancellationToken);
+
+            environment.BillingStatus = MapBillingStatus(subscription.Status);
+
+            Log.Information(
+                "Updated Stripe subscription {SubscriptionId} to tier {Tier} for environment {EnvironmentId}",
+                subscription.Id, command.Tier, command.EnvironmentId);
+        }
+        else
+        {
+            Log.Warning(
+                "Environment {EnvironmentId} has no Stripe subscription. Creating one for tier {Tier}.",
+                command.EnvironmentId, command.Tier);
+
+            var subscription = await subscriptionsService.CreateSubscriptionTierAsync(
+                environment.ProjectId,
+                serverTier.Id,
+                cancellationToken: cancellationToken);
+
+            environment.StripeSubscriptionId = subscription.Id;
+            environment.BillingStatus = MapBillingStatus(subscription.Status);
+        }
 
         await environmentRepository.UpdateAsync(environment, cancellationToken);
 
@@ -39,6 +68,15 @@ public sealed class ChangeEnvironmentTierCommandHandler(
 
         return new ChangeEnvironmentTierResponse(serverTier.Id.Value, serverTier.Price.Value);
     }
+
+    private static EnvironmentBillingStatus MapBillingStatus(string stripeStatus) => stripeStatus switch
+    {
+        "trialing" => EnvironmentBillingStatus.Trialing,
+        "active" => EnvironmentBillingStatus.Active,
+        "past_due" or "unpaid" => EnvironmentBillingStatus.Suspended,
+        "canceled" or "incomplete_expired" => EnvironmentBillingStatus.Cancelled,
+        _ => EnvironmentBillingStatus.Active,
+    };
 
     private async Task RedeployLastDeploymentAsync(
         Data.ProjectEnvironment environment,

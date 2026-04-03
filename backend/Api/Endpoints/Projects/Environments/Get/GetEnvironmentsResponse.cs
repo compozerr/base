@@ -16,4 +16,6 @@ public sealed record EnvironmentDto(
     DateTime CreatedAtUtc,
     DateTime? LastDeploymentAtUtc,
     string? ServerTierId,
-    decimal? MonthlyPrice);
+    decimal? MonthlyPrice,
+    string? BillingStatus,
+    string? StripeSubscriptionId);

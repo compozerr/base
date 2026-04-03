@@ -1,3 +1,1 @@
-namespace Api.Endpoints.Projects.Environments.Delete;
-
-public sealed record DeleteEnvironmentResponse;
+// Response moved to Api.Abstractions/DeleteEnvironmentCommand.cs for cross-module access

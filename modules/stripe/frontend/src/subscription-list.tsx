@@ -4,6 +4,7 @@ import {
   Card,
   CardContent,
 } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import {
@@ -16,7 +17,7 @@ import {
   TableFooter
 } from '@/components/ui/table';
 
-import { Link, useNavigate } from '@tanstack/react-router'
+import { Link } from '@tanstack/react-router'
 
 interface SubscriptionListProps {
 }
@@ -26,28 +27,53 @@ export const SubscriptionList: React.FC<SubscriptionListProps> = () => {
 
   const subscriptions = subscriptionsData?.subscriptions || [];
 
+  // Get unique project IDs from subscriptions
+  const uniqueProjectIds = useMemo(() => {
+    return [...new Set(subscriptions.map(s => s.projectId).filter(Boolean))] as string[];
+  }, [subscriptions]);
+
   const projectQueries = api.v1.getProjectsProjectId.useQueries({
-    queries: (subscriptions || []).map((s) => ({
-      parameters: {
-        path: {
-          projectId: s.projectId || ''
-        }
-      },
-      enabled: !!s.projectId
+    queries: uniqueProjectIds.map((pid) => ({
+      parameters: { path: { projectId: pid } },
+      enabled: !!pid
+    }))
+  });
+
+  // Fetch environments for each project to match subscriptions to environments
+  const environmentQueries = api.v1.getProjectsProjectIdEnvironments.useQueries({
+    queries: uniqueProjectIds.map((pid) => ({
+      parameters: { path: { projectId: pid } },
+      enabled: !!pid
     }))
   });
 
   const projects = useMemo(() => {
     if (isLoading || error) return [];
     return projectQueries.map(x => x.data).filter(Boolean);
-  }, [projectQueries, subscriptions]);
+  }, [projectQueries, isLoading, error]);
+
+  // Build a map: stripeSubscriptionId -> environment
+  const subscriptionToEnvMap = useMemo(() => {
+    const map = new Map<string, { name: string; type: string; billingStatus: string | null }>();
+    for (const q of environmentQueries) {
+      if (!q.data?.environments) continue;
+      for (const env of q.data.environments) {
+        if (env.stripeSubscriptionId) {
+          map.set(env.stripeSubscriptionId, {
+            name: env.name ?? 'Unknown',
+            type: env.type ?? 'Production',
+            billingStatus: env.billingStatus ?? null,
+          });
+        }
+      }
+    }
+    return map;
+  }, [environmentQueries]);
 
   const getProjectNameById = useCallback((projectId: string) => {
     const project = projects.find(p => p?.id === projectId);
     return project ? project.name : 'Unknown Project';
   }, [projects]);
-
-  const navigate = useNavigate();
 
   if (isLoading) {
     return (
@@ -99,9 +125,17 @@ export const SubscriptionList: React.FC<SubscriptionListProps> = () => {
 
   const total = calculateTotal();
 
-  const navigateToProjectSettings = (projectId: string) => {
-    if (!projectId) return;
-    window.location.href = `/projects/${projectId}/settings/general`;
+  const billingStatusBadge = (status: string | null) => {
+    if (!status) return null;
+    const variants: Record<string, { variant: 'default' | 'secondary' | 'destructive' | 'outline'; label: string }> = {
+      Active: { variant: 'default', label: 'Active' },
+      Trialing: { variant: 'secondary', label: 'Trial' },
+      Suspended: { variant: 'destructive', label: 'Suspended' },
+      Cancelled: { variant: 'outline', label: 'Cancelled' },
+    };
+    const cfg = variants[status];
+    if (!cfg) return null;
+    return <Badge variant={cfg.variant} className="text-[10px] ml-1.5">{cfg.label}</Badge>;
   };
 
   return (
@@ -114,7 +148,8 @@ export const SubscriptionList: React.FC<SubscriptionListProps> = () => {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Name</TableHead>
+                  <TableHead>Project</TableHead>
+                  <TableHead>Environment</TableHead>
                   <TableHead>Tier</TableHead>
                   <TableHead>Status</TableHead>
                   <TableHead>Period</TableHead>
@@ -123,37 +158,53 @@ export const SubscriptionList: React.FC<SubscriptionListProps> = () => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {subscriptions.map((subscription) => (
-                  <TableRow key={subscription.id}>
-                    <TableCell className="font-medium"><Link to={`/projects/$projectId`} params={{ projectId: subscription.projectId! }}>{getProjectNameById(subscription.projectId!)}</Link></TableCell>
-                    <TableCell>{subscription.serverTierId}</TableCell>
-                    <TableCell>
-                      {subscription.status!.charAt(0).toUpperCase() + subscription.status!.slice(1)}
-                      {subscription.cancelAtPeriodEnd ? ' (Cancels at period end)' : ''}
-                    </TableCell>
-                    <TableCell>
-                      {new Date(subscription.currentPeriodStart!).toLocaleDateString()} - {new Date(subscription.currentPeriodEnd!).toLocaleDateString()}
-                    </TableCell>
-                    <TableCell className="text-right">
-                      {formatCurrency(subscription.amount.amount || 0, subscription.amount.currency || 'USD')}
-                    </TableCell>
-                    <TableCell className='text-right'>
-                      {subscription.status === 'active' && !subscription.cancelAtPeriodEnd && subscription.projectId && (
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => navigate({ to: `/projects/${subscription.projectId}/settings/general` })}
-                        >
-                          Manage Subscription
-                        </Button>
-                      )}
-                    </TableCell>
-                  </TableRow>
-                ))}
+                {subscriptions.map((subscription) => {
+                  const envInfo = subscriptionToEnvMap.get(subscription.id!);
+                  return (
+                    <TableRow key={subscription.id}>
+                      <TableCell className="font-medium">
+                        <Link to={`/projects/$projectId`} params={{ projectId: subscription.projectId! }}>
+                          {getProjectNameById(subscription.projectId!)}
+                        </Link>
+                      </TableCell>
+                      <TableCell>
+                        {envInfo ? (
+                          <span className="flex items-center gap-1.5">
+                            <span>{envInfo.name}</span>
+                            <Badge variant="outline" className="text-[10px]">{envInfo.type}</Badge>
+                            {billingStatusBadge(envInfo.billingStatus)}
+                          </span>
+                        ) : (
+                          <span className="text-muted-foreground text-xs">—</span>
+                        )}
+                      </TableCell>
+                      <TableCell>{subscription.serverTierId}</TableCell>
+                      <TableCell>
+                        {subscription.status!.charAt(0).toUpperCase() + subscription.status!.slice(1)}
+                        {subscription.cancelAtPeriodEnd ? ' (Cancels at period end)' : ''}
+                      </TableCell>
+                      <TableCell>
+                        {new Date(subscription.currentPeriodStart!).toLocaleDateString()} - {new Date(subscription.currentPeriodEnd!).toLocaleDateString()}
+                      </TableCell>
+                      <TableCell className="text-right">
+                        {formatCurrency(subscription.amount.amount || 0, subscription.amount.currency || 'USD')}
+                      </TableCell>
+                      <TableCell className='text-right'>
+                        {subscription.status === 'active' && !subscription.cancelAtPeriodEnd && subscription.projectId && (
+                          <Link to="/projects/$projectId/environments" params={{ projectId: subscription.projectId! }}>
+                            <Button variant="outline" size="sm">
+                              Manage
+                            </Button>
+                          </Link>
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
               </TableBody>
               <TableFooter>
                 <TableRow>
-                  <TableCell colSpan={4}>Total</TableCell>
+                  <TableCell colSpan={5}>Total</TableCell>
                   <TableCell className="text-right">{formatCurrency(total.amount, total.currency)}</TableCell>
                   <TableCell></TableCell>
                 </TableRow>

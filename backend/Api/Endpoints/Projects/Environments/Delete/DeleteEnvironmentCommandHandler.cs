@@ -1,13 +1,18 @@
 using Api.Abstractions;
 using Api.Data;
 using Api.Data.Repositories;
+using Api.Hosting.Services;
 using Core.MediatR;
 using Serilog;
+using Stripe.Services;
 
 namespace Api.Endpoints.Projects.Environments.Delete;
 
 public sealed class DeleteEnvironmentCommandHandler(
-    IProjectEnvironmentRepository environmentRepository) : ICommandHandler<DeleteEnvironmentCommand, DeleteEnvironmentResponse>
+    IProjectEnvironmentRepository environmentRepository,
+    IProjectRepository projectRepository,
+    ISubscriptionsService subscriptionsService,
+    IHostingApiFactory hostingApiFactory) : ICommandHandler<DeleteEnvironmentCommand, DeleteEnvironmentResponse>
 {
     public async Task<DeleteEnvironmentResponse> Handle(
         DeleteEnvironmentCommand command,
@@ -22,15 +27,30 @@ public sealed class DeleteEnvironmentCommandHandler(
         if (environment.Type == EnvironmentType.Production)
             throw new InvalidOperationException("Cannot delete production environment.");
 
-        // TODO: Cancel Stripe subscription if StripeSubscriptionId is set
+        if (!string.IsNullOrEmpty(environment.StripeSubscriptionId))
+        {
+            await subscriptionsService.CancelSubscriptionAsync(
+                environment.StripeSubscriptionId,
+                cancelImmediately: true,
+                cancellationToken);
 
-        // TODO: Call hosting API to delete preview VM for environment.
-        // The hosting server has a DELETE /:projectId/preview/:environmentName endpoint,
-        // but IHostingApi doesn't expose a method for it yet. Once that method is added,
-        // inject IHostingApiFactory, resolve the hosting API for the project's ServerId,
-        // and call the delete method before removing the entity below.
-        Log.Warning("TODO: Call hosting API to delete preview VM for environment {EnvironmentName} (project {ProjectId})",
-            environment.Name, command.ProjectId);
+            Log.Information("Cancelled Stripe subscription {SubscriptionId} for environment {EnvironmentId}",
+                environment.StripeSubscriptionId, command.EnvironmentId);
+        }
+
+        // Delete preview VM on hosting server
+        if (environment.Name is not null)
+        {
+            var project = await projectRepository.GetByIdAsync(command.ProjectId, cancellationToken);
+            if (project?.ServerId is { } serverId)
+            {
+                var hostingApi = await hostingApiFactory.GetHostingApiAsync(serverId);
+                await hostingApi.DeletePreviewEnvironmentAsync(command.ProjectId, environment.Name);
+
+                Log.Information("Deleted preview VM for environment {EnvironmentName} on project {ProjectId}",
+                    environment.Name, command.ProjectId);
+            }
+        }
 
         await environmentRepository.DeleteAsync(environment.Id, cancellationToken);
 

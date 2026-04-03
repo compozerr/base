@@ -69,7 +69,7 @@ public sealed class PullRequestWebhookProcessorJob(
 
                 case "closed":
                     await HandlePrClosedAsync(
-                        prEvent, projectId, environmentRepository);
+                        prEvent, projectId, environmentRepository, mediator);
                     break;
 
                 default:
@@ -140,7 +140,8 @@ public sealed class PullRequestWebhookProcessorJob(
     private static async Task HandlePrClosedAsync(
         Octokit.Webhooks.Events.PullRequestEvent prEvent,
         ProjectId projectId,
-        IProjectEnvironmentRepository environmentRepository)
+        IProjectEnvironmentRepository environmentRepository,
+        IMediator mediator)
     {
         var branchName = prEvent.PullRequest.Head.Ref;
 
@@ -155,8 +156,8 @@ public sealed class PullRequestWebhookProcessorJob(
             return;
         }
 
-        // Delete the preview environment
-        await environmentRepository.DeleteAsync(environment.Id);
+        // Delete via command handler to trigger Stripe cancellation and VM cleanup
+        await mediator.Send(new DeleteEnvironmentCommand(projectId, environment.Id));
 
         Log.Information(
             "Deleted preview environment {EnvironmentId} for closed PR on project {ProjectId}",

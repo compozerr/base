@@ -4121,6 +4121,7 @@ export type components = {
             tier: string | null;
             /** Format: double */
             monthlyPrice: number;
+            billingStatus: string | null;
         };
         "Api.Endpoints.Projects.Environments.Delete.DeleteEnvironmentResponse": Record<string, never>;
         "Api.Endpoints.Projects.Environments.Get.EnvironmentDto": {
@@ -4140,6 +4141,8 @@ export type components = {
             serverTierId: string | null;
             /** Format: double */
             monthlyPrice: number | null;
+            billingStatus: string | null;
+            stripeSubscriptionId: string | null;
         };
         "Api.Endpoints.Projects.Environments.Get.GetEnvironmentsResponse": {
             environments: components["schemas"]["Api.Endpoints.Projects.Environments.Get.EnvironmentDto"][] | null;

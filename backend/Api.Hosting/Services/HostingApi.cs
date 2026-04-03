@@ -238,6 +238,17 @@ public sealed class HostingApi(
         await projectRepository.SetProjectStateAsync(projectId, ProjectState.Deleting);
     }
 
+    public async Task DeletePreviewEnvironmentAsync(ProjectId projectId, string environmentName)
+    {
+        var response = await HttpClient.DeleteAsync($"/projects/{projectId.Value}/preview/{Uri.EscapeDataString(environmentName)}");
+        if (!response.IsSuccessStatusCode)
+        {
+            Log.ForContext("BaseDomain", HttpClient.BaseDomain)
+               .Error("Failed to delete preview environment {EnvironmentName} for project {ProjectId}: {Response}",
+                   environmentName, projectId, await response.Content.ReadAsStringAsync());
+        }
+    }
+
     public async Task<HealthCheckResponse> HealthCheckProjectAsync(ProjectId projectId)
     {
         var response = await HttpClient.GetAsync($"/projects/health/{projectId.Value}");

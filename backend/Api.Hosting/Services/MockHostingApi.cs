@@ -13,6 +13,12 @@ public sealed class MockHostingApi(IProjectRepository projectRepository) : IHost
         return Task.CompletedTask;
     }
 
+    public Task DeletePreviewEnvironmentAsync(ProjectId projectId, string environmentName)
+    {
+        Console.WriteLine($"[MOCK] Deleting preview environment {environmentName} for project {projectId}");
+        return Task.CompletedTask;
+    }
+
     public Task DeployAsync(Deployment deployment)
     {
         Console.WriteLine("Deployment Mock");
