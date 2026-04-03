@@ -37,7 +37,7 @@ public sealed class ChangeEnvironmentTierCommandHandler(
                 serverTier.Id,
                 cancellationToken: cancellationToken);
 
-            environment.BillingStatus = MapBillingStatus(subscription.Status);
+            environment.BillingStatus = EnvironmentBillingStatusExtensions.FromStripeStatus(subscription.Status);
 
             Log.Information(
                 "Updated Stripe subscription {SubscriptionId} to tier {Tier} for environment {EnvironmentId}",
@@ -55,7 +55,7 @@ public sealed class ChangeEnvironmentTierCommandHandler(
                 cancellationToken: cancellationToken);
 
             environment.StripeSubscriptionId = subscription.Id;
-            environment.BillingStatus = MapBillingStatus(subscription.Status);
+            environment.BillingStatus = EnvironmentBillingStatusExtensions.FromStripeStatus(subscription.Status);
         }
 
         await environmentRepository.UpdateAsync(environment, cancellationToken);
@@ -68,15 +68,6 @@ public sealed class ChangeEnvironmentTierCommandHandler(
 
         return new ChangeEnvironmentTierResponse(serverTier.Id.Value, serverTier.Price.Value);
     }
-
-    private static EnvironmentBillingStatus MapBillingStatus(string stripeStatus) => stripeStatus switch
-    {
-        "trialing" => EnvironmentBillingStatus.Trialing,
-        "active" => EnvironmentBillingStatus.Active,
-        "past_due" or "unpaid" => EnvironmentBillingStatus.Suspended,
-        "canceled" or "incomplete_expired" => EnvironmentBillingStatus.Cancelled,
-        _ => EnvironmentBillingStatus.Active,
-    };
 
     private async Task RedeployLastDeploymentAsync(
         Data.ProjectEnvironment environment,

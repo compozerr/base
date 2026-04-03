@@ -43,7 +43,7 @@ public sealed class CreateEnvironmentCommandHandler(
             cancellationToken: cancellationToken);
 
         environment.StripeSubscriptionId = subscription.Id;
-        environment.BillingStatus = MapBillingStatus(subscription.Status);
+        environment.BillingStatus = EnvironmentBillingStatusExtensions.FromStripeStatus(subscription.Status);
 
         try
         {
@@ -71,12 +71,4 @@ public sealed class CreateEnvironmentCommandHandler(
             environment.BillingStatus.ToString());
     }
 
-    private static EnvironmentBillingStatus MapBillingStatus(string stripeStatus) => stripeStatus switch
-    {
-        "trialing" => EnvironmentBillingStatus.Trialing,
-        "active" => EnvironmentBillingStatus.Active,
-        "past_due" or "unpaid" => EnvironmentBillingStatus.Suspended,
-        "canceled" or "incomplete_expired" => EnvironmentBillingStatus.Cancelled,
-        _ => EnvironmentBillingStatus.Active,
-    };
 }

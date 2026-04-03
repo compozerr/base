@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { api } from '@/api-client';
 import {
   Card,
@@ -18,6 +18,20 @@ import {
 } from '@/components/ui/table';
 
 import { Link } from '@tanstack/react-router'
+
+const BILLING_STATUS_VARIANTS: Record<string, { variant: 'default' | 'secondary' | 'destructive' | 'outline'; label: string }> = {
+  Active: { variant: 'default', label: 'Active' },
+  Trialing: { variant: 'secondary', label: 'Trial' },
+  Suspended: { variant: 'destructive', label: 'Suspended' },
+  Cancelled: { variant: 'outline', label: 'Cancelled' },
+};
+
+function BillingStatusBadge({ status }: { status: string | null }) {
+  if (!status) return null;
+  const cfg = BILLING_STATUS_VARIANTS[status];
+  if (!cfg) return null;
+  return <Badge variant={cfg.variant} className="text-[10px] ml-1.5">{cfg.label}</Badge>;
+}
 
 interface SubscriptionListProps {
 }
@@ -70,9 +84,12 @@ export const SubscriptionList: React.FC<SubscriptionListProps> = () => {
     return map;
   }, [environmentQueries]);
 
-  const getProjectNameById = useCallback((projectId: string) => {
-    const project = projects.find(p => p?.id === projectId);
-    return project ? project.name : 'Unknown Project';
+  const projectNameMap = useMemo(() => {
+    const map = new Map<string, string>();
+    for (const p of projects) {
+      if (p?.id && p.name) map.set(p.id, p.name);
+    }
+    return map;
   }, [projects]);
 
   if (isLoading) {
@@ -125,19 +142,6 @@ export const SubscriptionList: React.FC<SubscriptionListProps> = () => {
 
   const total = calculateTotal();
 
-  const billingStatusBadge = (status: string | null) => {
-    if (!status) return null;
-    const variants: Record<string, { variant: 'default' | 'secondary' | 'destructive' | 'outline'; label: string }> = {
-      Active: { variant: 'default', label: 'Active' },
-      Trialing: { variant: 'secondary', label: 'Trial' },
-      Suspended: { variant: 'destructive', label: 'Suspended' },
-      Cancelled: { variant: 'outline', label: 'Cancelled' },
-    };
-    const cfg = variants[status];
-    if (!cfg) return null;
-    return <Badge variant={cfg.variant} className="text-[10px] ml-1.5">{cfg.label}</Badge>;
-  };
-
   return (
     <div className="space-y-4">
       <h3 className="text-lg font-medium">Your Subscriptions</h3>
@@ -164,7 +168,7 @@ export const SubscriptionList: React.FC<SubscriptionListProps> = () => {
                     <TableRow key={subscription.id}>
                       <TableCell className="font-medium">
                         <Link to={`/projects/$projectId`} params={{ projectId: subscription.projectId! }}>
-                          {getProjectNameById(subscription.projectId!)}
+                          {projectNameMap.get(subscription.projectId!) ?? 'Unknown Project'}
                         </Link>
                       </TableCell>
                       <TableCell>
@@ -172,7 +176,7 @@ export const SubscriptionList: React.FC<SubscriptionListProps> = () => {
                           <span className="flex items-center gap-1.5">
                             <span>{envInfo.name}</span>
                             <Badge variant="outline" className="text-[10px]">{envInfo.type}</Badge>
-                            {billingStatusBadge(envInfo.billingStatus)}
+                            <BillingStatusBadge status={envInfo.billingStatus} />
                           </span>
                         ) : (
                           <span className="text-muted-foreground text-xs">—</span>
