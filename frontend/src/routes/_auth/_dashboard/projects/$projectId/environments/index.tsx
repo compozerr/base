@@ -1,5 +1,5 @@
 import { createFileRoute, getRouteApi } from '@tanstack/react-router'
-import { api } from '@/api-client'
+import { api, apiBaseUrl } from '@/api-client'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
@@ -13,10 +13,18 @@ import {
 } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select'
 import { useTimeAgo } from '@/hooks/useTimeAgo'
 import { useModal } from '@/hooks/use-modal'
 import { useToast } from '@/hooks/use-toast'
 import { cn } from '@/lib/utils'
+import { useQuery } from '@tanstack/react-query'
 import { motion } from 'framer-motion'
 import {
     Clock,
@@ -241,7 +249,7 @@ function EnvironmentCard({
     const isProduction = env.type === 'Production'
 
     const previewUrl = env.subdomain
-        ? `https://${env.subdomain}.preview.compozerr.app`
+        ? `https://${env.subdomain}.preview.sites.fra1.compozerr.com`
         : null
 
     const tier = env.serverTierId
@@ -329,7 +337,7 @@ function EnvironmentCard({
                             >
                                 <Globe className="h-3.5 w-3.5 shrink-0" />
                                 <span className="truncate max-w-[220px]">
-                                    {env.subdomain}.preview.compozerr.app
+                                    {env.subdomain}.preview.sites.fra1.compozerr.com
                                 </span>
                             </a>
                         )}
@@ -428,6 +436,18 @@ function LastDeploy({ date }: { date: string }) {
 
 // --- Create Environment Dialog ---
 
+function branchToEnvName(branch: string): string {
+    const parts = branch.split('/')
+    const last = parts.at(-1) ?? branch
+    return last
+        .replace(/[^a-zA-Z0-9-]/g, '-')
+        .replace(/-+/g, '-')
+        .replace(/^-|-$/g, '')
+        .toLowerCase()
+}
+
+const MANUAL_BRANCH = '__manual__'
+
 function CreateEnvironmentDialog({
     projectId,
     onCreated,
@@ -437,9 +457,39 @@ function CreateEnvironmentDialog({
 }) {
     const [open, setOpen] = useState(false)
     const [name, setName] = useState('')
+    const [nameManuallyEdited, setNameManuallyEdited] = useState(false)
     const [branch, setBranch] = useState('')
+    const [isManualBranch, setIsManualBranch] = useState(false)
     const [selectedTier, setSelectedTier] = useState('T0')
     const { toast } = useToast()
+
+    const { data: branchesData } = useQuery({
+        queryKey: ['branches', projectId],
+        queryFn: async () => {
+            const res = await fetch(
+                `${apiBaseUrl}/v1/projects/${encodeURIComponent(projectId)}/environments/branches`,
+                { credentials: 'include' },
+            )
+            if (!res.ok) return { branches: [] as string[] }
+            return res.json() as Promise<{ branches: string[] }>
+        },
+        enabled: open,
+        staleTime: 60_000,
+    })
+    const branches = branchesData?.branches ?? []
+
+    const handleBranchSelect = (value: string) => {
+        if (value === MANUAL_BRANCH) {
+            setIsManualBranch(true)
+            setBranch('')
+            return
+        }
+        setIsManualBranch(false)
+        setBranch(value)
+        if (!nameManuallyEdited) {
+            setName(branchToEnvName(value))
+        }
+    }
 
     const { data: tiersData } = api.v1.getServersTiers.useQuery()
     const tiers = tiersData?.tiers ?? []
@@ -481,6 +531,8 @@ function CreateEnvironmentDialog({
     const resetForm = () => {
         setName('')
         setBranch('')
+        setNameManuallyEdited(false)
+        setIsManualBranch(false)
         setSelectedTier('T0')
     }
 
@@ -508,25 +560,73 @@ function CreateEnvironmentDialog({
                 </DialogHeader>
 
                 <form onSubmit={handleSubmit} className="space-y-5">
-                    {/* Name + Branch */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {/* Branch + Name */}
+                    <div className="space-y-4">
+                        <div className="space-y-2">
+                            <Label>Branch</Label>
+                            {branches.length > 0 && !isManualBranch ? (
+                                <Select
+                                    value={branch}
+                                    onValueChange={handleBranchSelect}
+                                >
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Select a branch" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        {branches.map((b) => (
+                                            <SelectItem key={b} value={b}>
+                                                <span className="font-mono text-xs">
+                                                    {b}
+                                                </span>
+                                            </SelectItem>
+                                        ))}
+                                        <SelectItem value={MANUAL_BRANCH}>
+                                            <span className="text-muted-foreground">
+                                                Enter manually...
+                                            </span>
+                                        </SelectItem>
+                                    </SelectContent>
+                                </Select>
+                            ) : (
+                                <div className="flex gap-2">
+                                    <Input
+                                        placeholder="feature/my-branch"
+                                        value={branch}
+                                        onChange={(e) => {
+                                            setBranch(e.target.value)
+                                            if (!nameManuallyEdited && e.target.value) {
+                                                setName(branchToEnvName(e.target.value))
+                                            }
+                                        }}
+                                        required
+                                    />
+                                    {branches.length > 0 && (
+                                        <Button
+                                            type="button"
+                                            variant="outline"
+                                            size="sm"
+                                            className="shrink-0"
+                                            onClick={() => {
+                                                setIsManualBranch(false)
+                                                setBranch('')
+                                            }}
+                                        >
+                                            <GitBranch className="h-3.5 w-3.5" />
+                                        </Button>
+                                    )}
+                                </div>
+                            )}
+                        </div>
                         <div className="space-y-2">
                             <Label htmlFor="env-name">Name</Label>
                             <Input
                                 id="env-name"
                                 placeholder="staging"
                                 value={name}
-                                onChange={(e) => setName(e.target.value)}
-                                required
-                            />
-                        </div>
-                        <div className="space-y-2">
-                            <Label htmlFor="env-branch">Branch</Label>
-                            <Input
-                                id="env-branch"
-                                placeholder="develop"
-                                value={branch}
-                                onChange={(e) => setBranch(e.target.value)}
+                                onChange={(e) => {
+                                    setName(e.target.value)
+                                    setNameManuallyEdited(true)
+                                }}
                                 required
                             />
                         </div>

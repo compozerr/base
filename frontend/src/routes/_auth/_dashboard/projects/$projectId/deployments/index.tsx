@@ -294,10 +294,15 @@ function DeploymentCard({ deployment, projectId, router, onCancel }: {
                     </div>
                 </div>
 
-                {/* Current badge */}
-                {deployment.isCurrent && deployment.environment === "Production" && (
+                {/* Current / Environment badge */}
+                {deployment.isCurrent && (
                     <Badge className="bg-emerald-500/10 text-emerald-500 border-emerald-500/20 hover:bg-emerald-500/20 rounded-full text-xs px-2.5 py-0.5">
                         Current
+                    </Badge>
+                )}
+                {deployment.environment && deployment.environment !== "Production" && (
+                    <Badge className="bg-sky-500/10 text-sky-400 border-sky-500/20 hover:bg-sky-500/20 rounded-full text-xs px-2.5 py-0.5">
+                        {deployment.environment}
                     </Badge>
                 )}
 

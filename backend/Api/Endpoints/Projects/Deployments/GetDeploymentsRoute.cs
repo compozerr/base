@@ -62,7 +62,7 @@ public static class GetDeploymentsRoute
                 x.Id.Value,
                 x.Project?.Domains?.GetPrimary()?.GetValue ?? "unknown",
                 x.Status,
-                "Production",
+                x.Environment?.Name ?? x.Environment?.Type.ToString() ?? "Production",
                 x.CommitBranch,
                 x.CommitHash,
                 x.CommitMessage,
@@ -102,6 +102,7 @@ public static class GetDeploymentsRoute
             .Include(x => x.Project!)
                 .ThenInclude(x => x.Server!)
                     .ThenInclude(x => x.Location)
+            .Include(x => x.Environment)
             .OrderByDescending(x => x.CreatedAtUtc)
             .AsPageable(page, pageSize)
             .ToListAsync(cancellationToken);

@@ -32,7 +32,8 @@ public static class GetDeploymentRoute
                     .ThenInclude(x => x.Domains)
                 .Include(x => x.Project!)
                     .ThenInclude(x => x.Server!)
-                        .ThenInclude(x => x.Location));
+                        .ThenInclude(x => x.Location)
+                .Include(x => x.Environment));
 
         if (deployment is not { ProjectId: not null } || deployment.ProjectId != projectId)
         {
@@ -53,7 +54,7 @@ public static class GetDeploymentRoute
             deployment.Id.Value,
             deployment.Project?.Domains?.GetPrimary()?.GetValue ?? "unknown",
             deployment.Status,
-            "Production",
+            deployment.Environment?.Name ?? deployment.Environment?.Type.ToString() ?? "Production",
             deployment.CommitBranch,
             deployment.CommitHash,
             deployment.CommitMessage,
