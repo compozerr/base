@@ -59,7 +59,6 @@ public class ProjectsGroup : CarterModule
         app.AddProjectEnvironmentGroup();
         app.AddEnvironmentsGroup();
         app.AddDomainsGroup();
-        app.AddEnvironmentsGroup();
         app.AddServicesGroup();
 
         app.AddGetUsageRoute();
