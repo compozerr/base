@@ -149,9 +149,6 @@ function EnvironmentDetailPage() {
             toast({ title: 'Deployment started', description: `Deploying latest commit.` })
             refetchEnvs()
         },
-        onError: (err) => {
-            toast({ title: 'Deploy failed', description: err instanceof Error ? err.message : 'Unknown error', variant: 'destructive' })
-        },
     })
 
     // --- Delete ---

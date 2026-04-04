@@ -283,14 +283,6 @@ function EnvironmentCard({
             })
             onChanged()
         },
-        onError: (err) => {
-            toast({
-                title: 'Deploy failed',
-                description:
-                    err instanceof Error ? err.message : 'Unknown error',
-                variant: 'destructive',
-            })
-        },
     })
 
     const handleDelete = async () => {
