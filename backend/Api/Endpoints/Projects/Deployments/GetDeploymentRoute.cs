@@ -52,7 +52,7 @@ public static class GetDeploymentRoute
 
         return new GetDeploymentResponse(
             deployment.Id.Value,
-            deployment.Environment?.GetUrl() ?? deployment.Project?.Domains?.GetPrimary()?.GetValue ?? "unknown",
+            deployment.ResolveUrl(),
             deployment.Status,
             deployment.Environment?.Name ?? deployment.Environment?.Type.ToString() ?? "Production",
             deployment.CommitBranch,

@@ -47,4 +47,7 @@ public class ProjectEnvironment : BaseEntityWithId<ProjectEnvironmentId>
 
         return Project?.Domains?.GetPrimary()?.GetValue;
     }
+
+    public static string FormatInvoiceDescription(string? projectName, string? environmentName, ServerTierId tierId)
+        => $"{projectName ?? "Project"} — {environmentName ?? "Environment"} ({tierId.Value})";
 }

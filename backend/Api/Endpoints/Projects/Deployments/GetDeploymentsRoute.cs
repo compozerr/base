@@ -60,7 +60,7 @@ public static class GetDeploymentsRoute
             totalCount,
             [..userDeployments.Select(x => new GetDeploymentResponse(
                 x.Id.Value,
-                x.Environment?.GetUrl() ?? x.Project?.Domains?.GetPrimary()?.GetValue ?? "unknown",
+                x.ResolveUrl(),
                 x.Status,
                 x.Environment?.Name ?? x.Environment?.Type.ToString() ?? "Production",
                 x.CommitBranch,

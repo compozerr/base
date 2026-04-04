@@ -28,8 +28,7 @@ public sealed class ChangeEnvironmentTierCommandHandler(
 
         var serverTier = ServerTiers.GetById(new ServerTierId(command.Tier));
         var project = await projectRepository.GetByIdAsync(command.ProjectId, cancellationToken);
-        var envName = environment.Name ?? "Environment";
-        var invoiceDescription = $"{project?.Name ?? "Project"} — {envName} ({serverTier.Id.Value})";
+        var invoiceDescription = Data.ProjectEnvironment.FormatInvoiceDescription(project?.Name, environment.Name, serverTier.Id);
 
         environment.ServerTierId = serverTier.Id;
 
