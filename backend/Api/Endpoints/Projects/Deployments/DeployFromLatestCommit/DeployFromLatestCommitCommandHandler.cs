@@ -20,20 +20,24 @@ public sealed class DeployFromLatestCommitCommandHandler(
 		var project = await projectRepository.GetByIdAsync(command.ProjectId, cancellationToken) ??
 			throw new InvalidOperationException($"Project with ID {command.ProjectId} not found.");
 
-		// Resolve branch from specified environment, or fall back to production environment's branch
+		// Resolve environment and branch
+		ProjectEnvironmentId? environmentId = command.EnvironmentId;
 		string? branch = null;
-		if (command.EnvironmentId is not null)
+
+		if (environmentId is not null)
 		{
-			var environment = await environmentRepository.GetByIdAsync(command.EnvironmentId, cancellationToken);
+			var environment = await environmentRepository.GetByIdAsync(environmentId, cancellationToken);
 			branch = environment?.Branches.FirstOrDefault();
 		}
 		else
 		{
+			// No environment specified — default to production environment
 			var environments = await environmentRepository.GetByProjectIdWithLatestDeploymentAsync(
 				command.ProjectId, cancellationToken);
-			branch = environments
-				.FirstOrDefault(e => e.Type == EnvironmentType.Production)
-				?.Branches.FirstOrDefault();
+			var productionEnv = environments
+				.FirstOrDefault(e => e.Type == EnvironmentType.Production);
+			branch = productionEnv?.Branches.FirstOrDefault();
+			environmentId = productionEnv?.Id;
 		}
 
 		var latestCommit = branch is not null && project.GithubInstallationId is { } installationId
@@ -48,7 +52,7 @@ public sealed class DeployFromLatestCommitCommandHandler(
 				latestCommit.Commit.Author.Name,
 				branch ?? "main",
 				latestCommit.Commit.Author.Email,
-				EnvironmentId: command.EnvironmentId);
+				EnvironmentId: environmentId);
 
 		await sender.Send(
 			deployProjectCommand,
