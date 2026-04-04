@@ -37,9 +37,12 @@ public sealed class CreateEnvironmentCommandHandler(
             ServerTierId = serverTier.Id
         };
 
+        var invoiceDescription = $"{project.Name} — {command.Name} ({serverTier.Id.Value})";
+
         var subscription = await subscriptionsService.CreateSubscriptionTierAsync(
             command.ProjectId,
             serverTier.Id,
+            itemDescription: invoiceDescription,
             cancellationToken: cancellationToken);
 
         environment.StripeSubscriptionId = subscription.Id;

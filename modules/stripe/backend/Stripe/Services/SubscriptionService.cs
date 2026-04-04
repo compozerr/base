@@ -28,12 +28,14 @@ public interface ISubscriptionsService
         ProjectId projectId,
         ServerTierId serverTierId,
         string? couponCode = null,
+        string? itemDescription = null,
         CancellationToken cancellationToken = default);
 
     Task<SubscriptionDto> CreateSubscriptionTierAsync(
         ProjectId projectId,
         ServerTierId serverTierId,
         string? couponCode = null,
+        string? itemDescription = null,
         CancellationToken cancellationToken = default);
 
     Task<SubscriptionDto> CancelSubscriptionAsync(
@@ -100,6 +102,7 @@ public sealed class SubscriptionsService(
         ProjectId projectId,
         ServerTierId serverTierId,
         string? couponCode = null,
+        string? itemDescription = null,
         CancellationToken cancellationToken = default)
     {
         try
@@ -122,6 +125,7 @@ public sealed class SubscriptionsService(
                         Price = priceId
                     }
                 },
+                Description = itemDescription,
                 Discounts = !string.IsNullOrWhiteSpace(couponCode) ?
                 [
                     new SubscriptionDiscountOptions
@@ -157,6 +161,7 @@ public sealed class SubscriptionsService(
         ProjectId projectId,
         ServerTierId serverTierId,
         string? couponCode = null,
+        string? itemDescription = null,
         CancellationToken cancellationToken = default)
     {
         try
@@ -167,16 +172,20 @@ public sealed class SubscriptionsService(
             bool hasPaymentMethod = await GetUserHasPaymentMethodAsync(cancellationToken);
 
             var service = new Stripe.SubscriptionService(_stripeClient);
+
+            var subscriptionItem = new SubscriptionItemOptions
+            {
+                Price = Prices.GetPriceId(serverTierId.Value, _isProduction)
+            };
+
+            if (!string.IsNullOrWhiteSpace(itemDescription))
+                subscriptionItem.Metadata = new Dictionary<string, string> { { "description", itemDescription } };
+
             var options = new SubscriptionCreateOptions
             {
                 Customer = stripeCustomerId,
-                Items = new List<SubscriptionItemOptions>
-                {
-                    new SubscriptionItemOptions
-                    {
-                        Price = Prices.GetPriceId(serverTierId.Value, _isProduction)
-                    }
-                },
+                Items = new List<SubscriptionItemOptions> { subscriptionItem },
+                Description = itemDescription,
                 Metadata = new Dictionary<string, string>
                 {
                     { "project_id", projectId.Value.ToString() },

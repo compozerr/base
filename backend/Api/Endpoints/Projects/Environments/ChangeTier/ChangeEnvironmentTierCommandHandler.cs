@@ -11,6 +11,7 @@ namespace Api.Endpoints.Projects.Environments.ChangeTier;
 
 public sealed class ChangeEnvironmentTierCommandHandler(
     IProjectEnvironmentRepository environmentRepository,
+    IProjectRepository projectRepository,
     IDeploymentRepository deploymentRepository,
     IMediator mediator,
     ISubscriptionsService subscriptionsService) : ICommandHandler<ChangeEnvironmentTierCommand, ChangeEnvironmentTierResponse>
@@ -26,6 +27,9 @@ public sealed class ChangeEnvironmentTierCommandHandler(
             throw new InvalidOperationException("Environment does not belong to the specified project.");
 
         var serverTier = ServerTiers.GetById(new ServerTierId(command.Tier));
+        var project = await projectRepository.GetByIdAsync(command.ProjectId, cancellationToken);
+        var envName = environment.Name ?? "Environment";
+        var invoiceDescription = $"{project?.Name ?? "Project"} — {envName} ({serverTier.Id.Value})";
 
         environment.ServerTierId = serverTier.Id;
 
@@ -35,6 +39,7 @@ public sealed class ChangeEnvironmentTierCommandHandler(
                 environment.StripeSubscriptionId,
                 environment.ProjectId,
                 serverTier.Id,
+                itemDescription: invoiceDescription,
                 cancellationToken: cancellationToken);
 
             environment.BillingStatus = EnvironmentBillingStatusExtensions.FromStripeStatus(subscription.Status);
@@ -52,6 +57,7 @@ public sealed class ChangeEnvironmentTierCommandHandler(
             var subscription = await subscriptionsService.CreateSubscriptionTierAsync(
                 environment.ProjectId,
                 serverTier.Id,
+                itemDescription: invoiceDescription,
                 cancellationToken: cancellationToken);
 
             environment.StripeSubscriptionId = subscription.Id;

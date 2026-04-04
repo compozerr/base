@@ -24,8 +24,8 @@ public sealed class UpsertSubscriptionCommandHandler(
                 existingSubscription.Id,
                 command.ProjectId,
                 command.ServerTierId,
-                command.CouponCode,
-                cancellationToken);
+                couponCode: command.CouponCode,
+                cancellationToken: cancellationToken);
 
             await publisher.Publish(
                 new StripeSubscriptionUpdatedEvent(
@@ -42,8 +42,8 @@ public sealed class UpsertSubscriptionCommandHandler(
             var session = await subscriptionService.CreateSubscriptionTierAsync(
                 command.ProjectId,
                 command.ServerTierId,
-                command.CouponCode,
-                cancellationToken);
+                couponCode: command.CouponCode,
+                cancellationToken: cancellationToken);
 
             await publisher.Publish(
                 new StripeSubscriptionUpdatedEvent(

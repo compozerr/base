@@ -27,14 +27,22 @@ This is a modular monorepo combining a .NET 9.0 backend with a React + TypeScrip
 # Install all dependencies (backend + frontend)
 npm run install:dep
 
-# Start development servers (frontend + backend in parallel)
-npm run dev
+# Start development servers (frontend + backend in parallel) using Compozerr CLI
+compozerr dev
 # Frontend: http://localhost:3001
 # Backend: http://localhost:5000
+
+# If compozerr CLI is not installed:
+curl -fsSL https://compozerr.com/install | bash
+
+# Alternative: start dev servers without CLI
+npm run dev
 
 # Build everything
 npm run build
 ```
+
+**Important**: Always run `compozerr dev` and test changes in the browser before pushing frontend changes to production.
 
 ### Backend
 
