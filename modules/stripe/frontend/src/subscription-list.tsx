@@ -7,6 +7,7 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
+import { formatCurrency } from './invoice-utils';
 import {
   Table,
   TableHeader,
@@ -117,30 +118,12 @@ export const SubscriptionList: React.FC<SubscriptionListProps> = () => {
     );
   }
 
-  const formatCurrency = (amount: number, currency: string) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: currency,
-    }).format(amount);
-  };
-
-  const calculateTotal = () => {
+  const total = useMemo(() => {
     if (subscriptions.length === 0) return { amount: 0, currency: 'USD' };
-
-    const total = subscriptions.reduce((sum, subscription) => {
-      if (subscription.status === 'active' && !subscription.cancelAtPeriodEnd) {
-        return sum + (subscription.amount.amount || 0);
-      }
-      return sum;
-    }, 0);
-
-    return {
-      amount: total,
-      currency: subscriptions[0]?.amount.currency || 'USD'
-    };
-  };
-
-  const total = calculateTotal();
+    const sum = subscriptions.reduce((acc, s) =>
+      s.status === 'active' && !s.cancelAtPeriodEnd ? acc + (s.amount.amount || 0) : acc, 0);
+    return { amount: sum, currency: subscriptions[0]?.amount.currency || 'USD' };
+  }, [subscriptions]);
 
   // Group subscriptions by project for subtotals
   const groupedByProject = useMemo(() => {
@@ -180,7 +163,6 @@ export const SubscriptionList: React.FC<SubscriptionListProps> = () => {
 
                   return (
                     <React.Fragment key={projectId}>
-                      {/* Project header row */}
                       <TableRow className="bg-muted/30 hover:bg-muted/30">
                         <TableCell colSpan={4} className="font-semibold py-2">
                           <Link to="/projects/$projectId" params={{ projectId }}>
@@ -199,7 +181,6 @@ export const SubscriptionList: React.FC<SubscriptionListProps> = () => {
                         </TableCell>
                       </TableRow>
 
-                      {/* Environment rows */}
                       {projectSubs.map((subscription) => {
                         const envInfo = subscriptionToEnvMap.get(subscription.id!);
                         return (

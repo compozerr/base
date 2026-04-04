@@ -26,6 +26,7 @@ public class InvoicesService(
             {
                 Customer = stripeCustomerId,
                 Limit = 100,
+                Status = "paid",
             };
 
             var invoices = await service.ListAsync(
@@ -33,8 +34,15 @@ public class InvoicesService(
                 null,
                 cancellationToken);
 
-            return [.. invoices
-                .Where(i => i.Status != "draft")
+            // Also fetch open invoices
+            listOptions.Status = "open";
+            var openInvoices = await service.ListAsync(
+                listOptions,
+                null,
+                cancellationToken);
+
+            return [.. invoices.Concat(openInvoices)
+                .OrderByDescending(i => i.Created)
                 .Select(InvoiceDto.FromInvoice)];
         }
         catch (Exception ex)
