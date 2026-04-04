@@ -22,6 +22,8 @@ public sealed class ProjectEnvironmentRepository(
         => Query()
             .Where(e => e.ProjectId == projectId)
             .Include(e => e.Deployments!.OrderByDescending(d => d.CreatedAtUtc).Take(1))
+            .Include(e => e.Project!).ThenInclude(p => p.Domains)
+            .Include(e => e.Project!).ThenInclude(p => p.Server!)
             .OrderBy(e => e.Type)
             .ThenByDescending(e => e.CreatedAtUtc)
             .ToListAsync(cancellationToken);

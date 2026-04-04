@@ -13,6 +13,7 @@ public sealed record EnvironmentDto(
     bool AutoDeploy,
     int? PullRequestNumber,
     string? Subdomain,
+    string? Url,
     DateTime CreatedAtUtc,
     DateTime? LastDeploymentAtUtc,
     string? ServerTierId,

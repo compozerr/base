@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using Api.Abstractions;
+using Api.Data.Extensions;
 
 namespace Api.Data;
 
@@ -33,4 +34,17 @@ public class ProjectEnvironment : BaseEntityWithId<ProjectEnvironmentId>
     public virtual Project? Project { get; set; }
     public virtual ICollection<ProjectEnvironmentVariable>? ProjectEnvironmentVariables { get; set; }
     public virtual ICollection<Deployment>? Deployments { get; set; }
+
+    /// <summary>
+    /// Returns the environment's URL. Preview environments use the preview subdomain
+    /// (e.g., "dev-myproject.preview.sites.fra1.compozerr.com"), production environments
+    /// use the project's primary domain.
+    /// </summary>
+    public string? GetUrl()
+    {
+        if (Type == EnvironmentType.Preview && Subdomain is not null)
+            return $"{Subdomain}.preview.sites.{Project?.Server?.HostName}.compozerr.com";
+
+        return Project?.Domains?.GetPrimary()?.GetValue;
+    }
 }

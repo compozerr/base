@@ -250,9 +250,7 @@ function EnvironmentCard({
     const { toast } = useToast()
     const isProduction = env.type === 'Production'
 
-    const previewUrl = env.subdomain
-        ? `https://${env.subdomain}.preview.sites.fra1.compozerr.com`
-        : null
+    const previewUrl = env.url ? `https://${env.url}` : null
 
     const tier = env.serverTierId
         ? tiers.find((t) => t.id?.value === env.serverTierId)
@@ -387,7 +385,7 @@ function EnvironmentCard({
                             >
                                 <Globe className="h-3.5 w-3.5 shrink-0" />
                                 <span className="truncate max-w-[220px]">
-                                    {env.subdomain}.preview.sites.fra1.compozerr.com
+                                    {env.url}
                                 </span>
                             </a>
                         )}

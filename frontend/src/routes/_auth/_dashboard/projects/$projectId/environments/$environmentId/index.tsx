@@ -133,9 +133,7 @@ function EnvironmentDetailPage() {
 
     const isProduction = env?.type === 'Production'
     const branch = env?.branches?.[0] ?? 'main'
-    const previewUrl = env?.subdomain
-        ? `https://${env.subdomain}.preview.sites.fra1.compozerr.com`
-        : null
+    const previewUrl = env?.url ? `https://${env.url}` : null
 
     // --- Deploy ---
     const { mutateAsync: deployAsync, isPending: isDeploying } = useMutation({
@@ -235,7 +233,7 @@ function EnvironmentDetailPage() {
                                 >
                                     <Globe className="h-3.5 w-3.5" />
                                     <span className="truncate max-w-[260px]">
-                                        {env.subdomain}.preview.sites.fra1.compozerr.com
+                                        {env?.url}
                                     </span>
                                 </a>
                             )}

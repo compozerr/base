@@ -40,6 +40,7 @@ public sealed class GetEnvironmentsCommandHandler(
                 e.AutoDeploy,
                 e.PullRequestNumber,
                 e.Subdomain,
+                e.GetUrl(),
                 e.CreatedAtUtc,
                 e.Deployments?.FirstOrDefault()?.CreatedAtUtc,
                 serverTierId,
