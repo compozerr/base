@@ -93,6 +93,23 @@ export const SubscriptionList: React.FC<SubscriptionListProps> = () => {
     return map;
   }, [projects]);
 
+  const total = useMemo(() => {
+    if (subscriptions.length === 0) return { amount: 0, currency: 'USD' };
+    const sum = subscriptions.reduce((acc, s) =>
+      s.status === 'active' && !s.cancelAtPeriodEnd ? acc + (s.amount.amount || 0) : acc, 0);
+    return { amount: sum, currency: subscriptions[0]?.amount.currency || 'USD' };
+  }, [subscriptions]);
+
+  const groupedByProject = useMemo(() => {
+    const groups = new Map<string, typeof subscriptions>();
+    for (const sub of subscriptions) {
+      const pid = sub.projectId ?? 'unknown';
+      if (!groups.has(pid)) groups.set(pid, []);
+      groups.get(pid)!.push(sub);
+    }
+    return groups;
+  }, [subscriptions]);
+
   if (isLoading) {
     return (
       <div className="space-y-4">
@@ -117,24 +134,6 @@ export const SubscriptionList: React.FC<SubscriptionListProps> = () => {
       </div>
     );
   }
-
-  const total = useMemo(() => {
-    if (subscriptions.length === 0) return { amount: 0, currency: 'USD' };
-    const sum = subscriptions.reduce((acc, s) =>
-      s.status === 'active' && !s.cancelAtPeriodEnd ? acc + (s.amount.amount || 0) : acc, 0);
-    return { amount: sum, currency: subscriptions[0]?.amount.currency || 'USD' };
-  }, [subscriptions]);
-
-  // Group subscriptions by project for subtotals
-  const groupedByProject = useMemo(() => {
-    const groups = new Map<string, typeof subscriptions>();
-    for (const sub of subscriptions) {
-      const pid = sub.projectId ?? 'unknown';
-      if (!groups.has(pid)) groups.set(pid, []);
-      groups.get(pid)!.push(sub);
-    }
-    return groups;
-  }, [subscriptions]);
 
   return (
     <div className="space-y-4">
