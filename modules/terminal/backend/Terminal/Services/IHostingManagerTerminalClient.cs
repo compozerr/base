@@ -1,14 +1,12 @@
-using Api.Abstractions;
-
 namespace Terminal.Services;
 
 public interface IHostingManagerTerminalClient
 {
-    Task<bool> IsVmRunningAsync(string apiDomain, ProjectId projectId);
+    Task<bool> IsVmRunningAsync(string apiDomain, string vmIdentifier);
 
     Task ConnectAsync(
         string apiDomain,
-        ProjectId projectId,
+        string vmIdentifier,
         Func<string, Task> onData,
         Func<string, Task> onDisconnected,
         Func<string, Task> onError);

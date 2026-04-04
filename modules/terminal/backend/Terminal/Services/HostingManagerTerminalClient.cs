@@ -1,7 +1,6 @@
 using System.Net.WebSockets;
 using System.Text;
 using System.Text.Json;
-using Api.Abstractions;
 using Api.Data;
 using Api.Hosting.Services;
 using Microsoft.EntityFrameworkCore;
@@ -30,7 +29,7 @@ public sealed class HostingManagerTerminalClient : IHostingManagerTerminalClient
         _httpClientFactory = httpClientFactory;
     }
 
-    public async Task<bool> IsVmRunningAsync(string apiDomain, ProjectId projectId)
+    public async Task<bool> IsVmRunningAsync(string apiDomain, string vmIdentifier)
     {
         try
         {
@@ -45,7 +44,7 @@ public sealed class HostingManagerTerminalClient : IHostingManagerTerminalClient
 
             var signature = _cryptoService.SignStringWithKey("", server.Id.Value.ToString());
 
-            var request = new HttpRequestMessage(HttpMethod.Get, $"/terminal/status/{projectId.Value}");
+            var request = new HttpRequestMessage(HttpMethod.Get, $"/terminal/status/{vmIdentifier}");
             request.Headers.Add("x-signature", signature);
 
             var response = await httpClient.SendAsync(request);
@@ -61,7 +60,7 @@ public sealed class HostingManagerTerminalClient : IHostingManagerTerminalClient
         }
         catch (Exception ex)
         {
-            Log.ForContext("ProjectId", projectId)
+            Log.ForContext("VmIdentifier", vmIdentifier)
                .ForContext("Error", ex.Message)
                .Error("Failed to check VM status");
             return false;
@@ -70,7 +69,7 @@ public sealed class HostingManagerTerminalClient : IHostingManagerTerminalClient
 
     public async Task ConnectAsync(
         string apiDomain,
-        ProjectId projectId,
+        string vmIdentifier,
         Func<string, Task> onData,
         Func<string, Task> onDisconnected,
         Func<string, Task> onError)
@@ -86,12 +85,12 @@ public sealed class HostingManagerTerminalClient : IHostingManagerTerminalClient
 
         // Create signed WebSocket connection
         var timestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString();
-        var signatureContent = $"{projectId.Value}:{timestamp}";
+        var signatureContent = $"{vmIdentifier}:{timestamp}";
         var signature = _cryptoService.SignStringWithKey(signatureContent, server.Id.Value.ToString());
 
         // Convert https:// URL to wss:// WebSocket URL
         var apiUri = new Uri(apiDomain);
-        var wsUri = new Uri($"wss://{apiUri.Host}/terminal/{projectId.Value}?timestamp={timestamp}&signature={Uri.EscapeDataString(signature)}");
+        var wsUri = new Uri($"wss://{apiUri.Host}/terminal/{vmIdentifier}?timestamp={timestamp}&signature={Uri.EscapeDataString(signature)}");
 
         _webSocket = new ClientWebSocket();
         _receiveCts = new CancellationTokenSource();

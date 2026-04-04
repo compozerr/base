@@ -55,7 +55,14 @@ public sealed class TerminalHub : Hub
         _scopeFactory = scopeFactory;
     }
 
-    public async Task<StartSessionResult> StartSession(string projectIdString)
+    private const string PreviewSeparator = "--preview--";
+
+    private static string BuildVmIdentifier(ProjectId projectId, string? environmentName)
+        => environmentName != null
+            ? $"{projectId.Value}{PreviewSeparator}{environmentName}"
+            : projectId.Value.ToString();
+
+    public async Task<StartSessionResult> StartSession(string projectIdString, string? environmentName = null)
     {
         var userId = _currentUserAccessor.CurrentUserId;
         if (userId == null)
@@ -85,8 +92,22 @@ public sealed class TerminalHub : Hub
             return new StartSessionResult(false, Error: "Project has no assigned server");
         }
 
+        // If an environment name is specified, verify it exists
+        if (environmentName != null)
+        {
+            var environment = await _dbContext.Set<ProjectEnvironment>()
+                .FirstOrDefaultAsync(e => e.ProjectId == projectId && e.Name == environmentName);
+
+            if (environment == null)
+            {
+                return new StartSessionResult(false, Error: $"Environment '{environmentName}' not found");
+            }
+        }
+
+        var vmIdentifier = BuildVmIdentifier(projectId, environmentName);
+
         // Check VM status via hosting manager
-        var vmRunning = await _hostingClient.IsVmRunningAsync(project.Server.ApiDomain, projectId);
+        var vmRunning = await _hostingClient.IsVmRunningAsync(project.Server.ApiDomain, vmIdentifier);
         if (!vmRunning)
         {
             return new StartSessionResult(false, Error: "VM is not running", VmRunning: false);
@@ -105,7 +126,7 @@ public sealed class TerminalHub : Hub
             var scopeFactory = _scopeFactory;
             await _hostingClient.ConnectAsync(
                 project.Server.ApiDomain,
-                projectId,
+                vmIdentifier,
                 onData: async (data) => await _hubContext.Clients.Client(connectionId).SendAsync("OnOutput", data),
                 onDisconnected: async (reason) =>
                 {

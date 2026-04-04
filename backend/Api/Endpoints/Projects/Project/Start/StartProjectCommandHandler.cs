@@ -17,7 +17,7 @@ public sealed class StartProjectCommandHandler(
         if (project?.ServerId is { } serverId)
         {
             var hostingApi = await hostingApiFactory.GetHostingApiAsync(serverId);
-            await hostingApi.StartProjectAsync(command.ProjectId);
+            await hostingApi.StartProjectAsync(command.ProjectId, command.EnvironmentName);
         }
 
         return new();

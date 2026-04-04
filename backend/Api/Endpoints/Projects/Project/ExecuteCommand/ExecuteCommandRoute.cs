@@ -17,7 +17,7 @@ public static class ExecuteCommandRoute
         ExecuteCommandRequest request,
         IMediator mediator)
         => mediator.Send(
-            new ExecuteCommandCommand(projectId, request.Command));
+            new ExecuteCommandCommand(projectId, request.Command, request.EnvironmentName));
 }
 
-public sealed record ExecuteCommandRequest(string Command);
+public sealed record ExecuteCommandRequest(string Command, string? EnvironmentName = null);

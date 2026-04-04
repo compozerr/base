@@ -195,11 +195,19 @@ public sealed class HostingApi(
         return projectsUsage;
     }
 
-    public async Task StartProjectAsync(ProjectId projectId)
+    private const string PreviewSeparator = "--preview--";
+
+    private static string BuildVmIdentifier(ProjectId projectId, string? environmentName)
+        => environmentName != null
+            ? $"{projectId.Value}{PreviewSeparator}{environmentName}"
+            : projectId.Value.ToString();
+
+    public async Task StartProjectAsync(ProjectId projectId, string? environmentName = null)
     {
+        var vmIdentifier = BuildVmIdentifier(projectId, environmentName);
         var response = await HttpClient.PostAsync("/projects/start", JsonContent.Create(new
         {
-            projectId = projectId.Value.ToString()
+            projectId = vmIdentifier
         }));
 
         if (!response.IsSuccessStatusCode)
@@ -275,11 +283,12 @@ public sealed class HostingApi(
         };
     }
 
-    public async Task<CommandExecutionResult> ExecuteCommandAsync(ProjectId projectId, string command)
+    public async Task<CommandExecutionResult> ExecuteCommandAsync(ProjectId projectId, string command, string? environmentName = null)
     {
+        var vmIdentifier = BuildVmIdentifier(projectId, environmentName);
         var response = await HttpClient.PostAsync("/projects/exec", JsonContent.Create(new
         {
-            projectId = projectId.Value.ToString(),
+            projectId = vmIdentifier,
             command
         }));
 

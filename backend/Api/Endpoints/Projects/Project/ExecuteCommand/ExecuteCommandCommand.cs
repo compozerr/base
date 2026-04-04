@@ -5,4 +5,5 @@ namespace Api.Endpoints.Projects.Project.ExecuteCommand;
 
 public sealed record ExecuteCommandCommand(
     ProjectId ProjectId,
-    string Command) : ICommand<ExecuteCommandResponse>;
+    string Command,
+    string? EnvironmentName = null) : ICommand<ExecuteCommandResponse>;

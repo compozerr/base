@@ -4,4 +4,5 @@ using Core.MediatR;
 namespace Api.Endpoints.Projects.Project.Start;
 
 public sealed record StartProjectCommand(
-    ProjectId ProjectId) : ICommand<StartProjectResponse>;
+    ProjectId ProjectId,
+    string? EnvironmentName = null) : ICommand<StartProjectResponse>;

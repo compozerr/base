@@ -14,7 +14,8 @@ public static class StartProjectRoute
 
     public static Task ExecuteAsync(
         ProjectId projectId,
-        IMediator mediator)
+        IMediator mediator,
+        string? environmentName = null)
         => mediator.Send(
-            new StartProjectCommand(projectId));
+            new StartProjectCommand(projectId, environmentName));
 }

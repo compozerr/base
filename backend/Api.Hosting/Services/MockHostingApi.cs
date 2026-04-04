@@ -86,7 +86,7 @@ public sealed class MockHostingApi(IProjectRepository projectRepository) : IHost
         return Task.FromResult(new HealthCheckResponse { Code = HealthCheckCode.Healthy });
     }
 
-    public async Task StartProjectAsync(ProjectId projectId)
+    public async Task StartProjectAsync(ProjectId projectId, string? environmentName = null)
     {
         await projectRepository.SetProjectStateAsync(projectId, ProjectState.Running);
     }
@@ -107,7 +107,7 @@ public sealed class MockHostingApi(IProjectRepository projectRepository) : IHost
         return Task.FromResult("{\"mock\": true}");
     }
 
-    public Task<CommandExecutionResult> ExecuteCommandAsync(ProjectId projectId, string command)
+    public Task<CommandExecutionResult> ExecuteCommandAsync(ProjectId projectId, string command, string? environmentName = null)
     {
         Console.WriteLine($"[MOCK] Executing command in project {projectId}: {command}");
         return Task.FromResult(new CommandExecutionResult(0, $"Mock output for: {command}", ""));

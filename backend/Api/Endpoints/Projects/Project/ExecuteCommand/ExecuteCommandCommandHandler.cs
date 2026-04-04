@@ -18,7 +18,7 @@ public sealed class ExecuteCommandCommandHandler(
             return new ExecuteCommandResponse(-1, "", "Project not found or has no server");
 
         var hostingApi = await hostingApiFactory.GetHostingApiAsync(serverId);
-        var result = await hostingApi.ExecuteCommandAsync(command.ProjectId, command.Command);
+        var result = await hostingApi.ExecuteCommandAsync(command.ProjectId, command.Command, command.EnvironmentName);
 
         return new ExecuteCommandResponse(result.ExitCode, result.Stdout, result.Stderr);
     }
