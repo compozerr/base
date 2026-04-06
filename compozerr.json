@@ -8,7 +8,7 @@
         "cli": "compozerr-test2/cli@latest",
         "github": "compozerr-test2/github@latest",
         "stripe": "compozerr-test2/stripe@latest",
-        "jobs": "local",
+        "jobs": "compozerr-test2/jobs@latest",
         "mail": "compozerr-lib/mail@latest",
         "mail-resend": "compozerr-lib/mail-resend@latest",
         "config": "compozerr-lib/config@latest",

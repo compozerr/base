@@ -88,11 +88,11 @@
       }
     },
     "jobs": {
-      "source": "local",
+      "source": "https://github.com/compozerr-test2/jobs.git",
       "version": "0.1.0",
-      "resolvedCommit": "ba898463b22f921c9df51d84f939464339ec81ac",
-      "installedAt": "2026-04-06T18:00:00.000Z",
-      "updatedAt": "2026-04-06T18:00:00.000Z",
+      "resolvedCommit": "964162705228597e091d05d8955b1cad26d883c8",
+      "installedAt": "2026-04-06T20:31:21.922Z",
+      "updatedAt": "2026-04-06T20:31:21.922Z",
       "integrity": "",
       "dependencies": {}
     },

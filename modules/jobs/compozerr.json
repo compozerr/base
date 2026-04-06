@@ -1,11 +1,16 @@
 {
-    "type": "module",
-    "name": "hangfire",
-    "version": "0.1.0",
-    "description": "Background job processing using Hangfire",
-    "backend": {
-        "projects": [
-            "backend/Jobs/Jobs.csproj"
-        ]
-    }
+  "type": "module",
+  "name": "hangfire",
+  "version": "0.1.0",
+  "description": "Background job processing using Hangfire",
+  "backend": {
+    "projects": [
+      "backend/Jobs/Jobs.csproj"
+    ]
+  },
+  "origin": {
+    "repo": "https://x-access-token:ghs_7JLr6bo71Acoz1u5xKe6zCA9i3iIuy1neCEG@github.com/compozerr-test2/jobs.git",
+    "commit": "964162705228597e091d05d8955b1cad26d883c8",
+    "addedAt": "2026-04-06T20:31:21.922Z"
+  }
 }
