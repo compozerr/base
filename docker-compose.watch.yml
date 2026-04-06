@@ -27,7 +27,8 @@ services:
       context: .
       dockerfile: Dockerfile.backend.dev
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     ports:
       - "1235:5000"
     env_file:

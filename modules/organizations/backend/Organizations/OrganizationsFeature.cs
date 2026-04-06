@@ -18,6 +18,7 @@ public class OrganizationsFeature : IFeature
             options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"), b =>
             {
                 b.MigrationsAssembly(typeof(OrganizationsDbContext).Assembly.FullName);
+                b.MigrationsHistoryTable("__EFMigrationsHistory", "organizations");
             });
         });
 

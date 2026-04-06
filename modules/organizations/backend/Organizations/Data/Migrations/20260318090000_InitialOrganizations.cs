@@ -1,11 +1,15 @@
 using System;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Organizations.Data;
 
 #nullable disable
 
 namespace Organizations.Data.Migrations
 {
     /// <inheritdoc />
+    [DbContext(typeof(OrganizationsDbContext))]
+    [Migration("20260318090000_InitialOrganizations")]
     public partial class InitialOrganizations : Migration
     {
         /// <inheritdoc />
