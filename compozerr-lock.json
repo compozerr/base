@@ -51,11 +51,11 @@
       }
     },
     "cli": {
-      "source": "local",
+      "source": "https://github.com/compozerr-test2/cli.git",
       "version": "0.1.0",
-      "resolvedCommit": "ba898463b22f921c9df51d84f939464339ec81ac",
-      "installedAt": "2026-04-06T18:00:00.000Z",
-      "updatedAt": "2026-04-06T18:00:00.000Z",
+      "resolvedCommit": "3b55c570156bbae3240bfb26b1b6a96d156c823a",
+      "installedAt": "2026-04-06T19:40:57.763Z",
+      "updatedAt": "2026-04-06T19:40:57.763Z",
       "integrity": "",
       "dependencies": {
         "database": "latest",
