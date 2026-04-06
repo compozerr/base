@@ -7,6 +7,7 @@ using Github.Endpoints.SetDefaultInstallationId;
 using Github.Services;
 using MediatR;
 using Octokit;
+using Serilog;
 
 namespace Cli.Endpoints.Repos;
 
@@ -29,25 +30,47 @@ public sealed record CreateRepoCommandHandler(
         var currentInstallation = userInstallations.Single(
             userInstallation => userInstallation.InstallationId == clientResponse.InstallationId);
 
-        var response = command.Type switch
+        Repository response;
+        switch (command.Type)
         {
-            DefaultInstallationIdSelectionType.Projects => await clientResponse.InstallationClient.Repository.Generate(
-                "compozerr",
-                "base",
-                new(command.Name)
+            case DefaultInstallationIdSelectionType.Projects:
+                response = await clientResponse.InstallationClient.Repository.Generate(
+                    "compozerr",
+                    "base",
+                    new(command.Name)
+                    {
+                        Private = true,
+                        Description = "Created by compozerr.com",
+                        Owner = currentInstallation.Name
+                    });
+                break;
+            case DefaultInstallationIdSelectionType.Modules:
+                try
                 {
-                    Private = true,
-                    Description = "Created by compozerr.com",
-                    Owner = currentInstallation.Name
+                    response = (await GithubService.ForkRepositoryAsync(clientResponse.InstallationClient,
+                        "compozerr",
+                        "template",
+                        currentInstallation.Name,
+                        command.Name)).Item1;
                 }
-            ),
-            DefaultInstallationIdSelectionType.Modules => (await GithubService.ForkRepositoryAsync(clientResponse.InstallationClient,
-                            "compozerr",
-                            "template",
-                            currentInstallation.Name,
-                            command.Name)).Item1,
-            _ => throw new ArgumentOutOfRangeException(nameof(command.Type), command.Type, null)
-        };
+                catch (Exception ex)
+                {
+                    // If repo already exists (from a previous failed publish), reuse it
+                    Log.Warning(ex, "Fork failed for {Module}, attempting to use existing repo", command.Name);
+                    try
+                    {
+                        response = await clientResponse.InstallationClient.Repository.Get(
+                            currentInstallation.Name, command.Name);
+                    }
+                    catch
+                    {
+                        throw ex; // Re-throw original if repo doesn't exist either
+                    }
+                }
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(command.Type), command.Type, null);
+        }
 
         var cloneUrl = $"https://x-access-token:{clientResponse.InstallationToken}@github.com/{response.FullName}.git";
         var gitUrl = $"https://github.com/{response.FullName}.git";
