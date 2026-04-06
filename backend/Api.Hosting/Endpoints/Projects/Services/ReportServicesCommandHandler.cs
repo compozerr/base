@@ -10,7 +10,8 @@ namespace Api.Hosting.Endpoints.Projects.Services;
 public sealed class ReportServicesCommandHandler(
     IProjectServiceRepository projectServiceRepository,
     IProjectRepository projectRepository,
-    IDomainRepository domainRepository)
+    IDomainRepository domainRepository,
+    ApiDbContext context)
     : ICommandHandler<ReportServicesCommand, ReportServicesResponse>
 {
     private static readonly string[] SystemServices = ["Frontend", "Backend"];
@@ -19,6 +20,11 @@ public sealed class ReportServicesCommandHandler(
         ReportServicesCommand command,
         CancellationToken cancellationToken)
     {
+        var productionEnvId = await context.Set<Api.Data.ProjectEnvironment>()
+            .Where(e => e.ProjectId == command.ProjectId && e.Type == EnvironmentType.Production)
+            .Select(e => e.Id)
+            .FirstOrDefaultAsync(cancellationToken);
+
         var project = await projectRepository.GetSingleAsync(
             x => x.Id == command.ProjectId,
             i => i.Include(x => x.ProjectServices)
@@ -43,6 +49,7 @@ public sealed class ReportServicesCommandHandler(
                               || existingService.Protocol != serviceInfo.Protocol;
                 existingService.Port = serviceInfo.Port;
                 existingService.Protocol = serviceInfo.Protocol;
+                existingService.ProjectEnvironmentId ??= productionEnvId;
                 serviceToProcess = existingService;
             }
             else if (portToServiceName.TryGetValue(serviceInfo.Port, out var oldServiceName))
@@ -66,6 +73,7 @@ public sealed class ReportServicesCommandHandler(
                 serviceToRename.Name = serviceInfo.Name;
                 serviceToRename.Port = serviceInfo.Port;
                 serviceToRename.Protocol = serviceInfo.Protocol;
+                serviceToRename.ProjectEnvironmentId ??= productionEnvId;
                 serviceToProcess = serviceToRename;
             }
             else
@@ -73,6 +81,7 @@ public sealed class ReportServicesCommandHandler(
                 serviceToProcess = new ProjectService
                 {
                     ProjectId = command.ProjectId,
+                    ProjectEnvironmentId = productionEnvId,
                     Name = serviceInfo.Name,
                     Port = serviceInfo.Port,
                     Protocol = serviceInfo.Protocol,

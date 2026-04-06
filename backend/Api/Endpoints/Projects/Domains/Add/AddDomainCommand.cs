@@ -8,4 +8,5 @@ public sealed record AddDomainCommand(
     ProjectId ProjectId,
     string Domain,
     string ServiceName,
-    Protocol Protocol) : ICommand<AddDomainResponse>;
+    Protocol Protocol,
+    ProjectEnvironmentId? EnvironmentId = null) : ICommand<AddDomainResponse>;

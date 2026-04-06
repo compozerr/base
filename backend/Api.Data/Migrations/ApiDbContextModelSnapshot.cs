@@ -109,6 +109,9 @@ namespace Api.Data.Migrations
                         .HasMaxLength(6)
                         .HasColumnType("character varying(6)");
 
+                    b.Property<Guid?>("ProjectEnvironmentId")
+                        .HasColumnType("uuid");
+
                     b.Property<Guid>("ProjectId")
                         .HasColumnType("uuid");
 
@@ -129,6 +132,8 @@ namespace Api.Data.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ProjectEnvironmentId");
 
                     b.HasIndex("ProjectId");
 
@@ -462,6 +467,9 @@ namespace Api.Data.Migrations
                         .HasMaxLength(10)
                         .HasColumnType("character varying(10)");
 
+                    b.Property<Guid?>("ProjectEnvironmentId")
+                        .HasColumnType("uuid");
+
                     b.Property<Guid>("ProjectId")
                         .HasColumnType("uuid");
 
@@ -474,6 +482,8 @@ namespace Api.Data.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ProjectEnvironmentId");
 
                     b.HasIndex("ProjectId", "Name")
                         .IsUnique();
@@ -845,6 +855,11 @@ namespace Api.Data.Migrations
 
             modelBuilder.Entity("Api.Data.Domain", b =>
                 {
+                    b.HasOne("Api.Data.ProjectEnvironment", "ProjectEnvironment")
+                        .WithMany()
+                        .HasForeignKey("ProjectEnvironmentId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
                     b.HasOne("Api.Data.Project", "Project")
                         .WithMany("Domains")
                         .HasForeignKey("ProjectId")
@@ -852,6 +867,8 @@ namespace Api.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Project");
+
+                    b.Navigation("ProjectEnvironment");
                 });
 
             modelBuilder.Entity("Api.Data.ModuleVersionEntry", b =>
@@ -894,6 +911,11 @@ namespace Api.Data.Migrations
 
             modelBuilder.Entity("Api.Data.ProjectService", b =>
                 {
+                    b.HasOne("Api.Data.ProjectEnvironment", "ProjectEnvironment")
+                        .WithMany()
+                        .HasForeignKey("ProjectEnvironmentId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
                     b.HasOne("Api.Data.Project", "Project")
                         .WithMany("ProjectServices")
                         .HasForeignKey("ProjectId")
@@ -901,6 +923,8 @@ namespace Api.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Project");
+
+                    b.Navigation("ProjectEnvironment");
                 });
 
             modelBuilder.Entity("Api.Data.ProjectUsage", b =>

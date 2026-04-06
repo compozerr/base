@@ -14,5 +14,10 @@ public sealed class DomainConfiguration : IEntityTypeConfiguration<Domain>
 
         builder.Property(x => x.Protocol)
             .HasMaxLength(20);
+
+        builder.HasOne(x => x.ProjectEnvironment)
+            .WithMany()
+            .HasForeignKey(x => x.ProjectEnvironmentId)
+            .OnDelete(DeleteBehavior.SetNull);
     }
 }

@@ -22,6 +22,7 @@ public static class ProjectsGroup
         group.AddProjectEnvironmentGroup();
         group.AddProjectStateRoute();
         group.AddReportServicesRoute();
+        group.AddReportEnvironmentServicesRoute();
         group.AddGetTcpAllocationsRoute();
 
         return group;

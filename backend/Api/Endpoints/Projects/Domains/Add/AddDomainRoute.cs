@@ -7,7 +7,8 @@ namespace Api.Endpoints.Projects.Domains.Add;
 public sealed record AddDomainRequest(
     string Domain,
     string ServiceName,
-    Protocol Protocol);
+    Protocol Protocol,
+    Guid? EnvironmentId = null);
 
 public static class AddDomainRoute
 {
@@ -27,5 +28,6 @@ public static class AddDomainRoute
                 projectId,
                 request.Domain,
                 request.ServiceName,
-                request.Protocol));
+                request.Protocol,
+                request.EnvironmentId is { } envId ? new ProjectEnvironmentId(envId) : null));
 }

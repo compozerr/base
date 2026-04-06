@@ -14,7 +14,10 @@ public class Domain : BaseEntityWithId<DomainId>
     public required Protocol Protocol { get; set; } = Protocol.Http;
     public bool IsPrimary { get; set; } = false;
 
+    public ProjectEnvironmentId? ProjectEnvironmentId { get; set; }
+
     public virtual Project? Project { get; set; }
+    public virtual ProjectEnvironment? ProjectEnvironment { get; set; }
 
     public virtual string GetValue => string.Empty;
 }

@@ -23,6 +23,7 @@ public sealed class AddDomainCommandHandler(
         var externalDomainEntity = new ExternalDomain
         {
             ProjectId = command.ProjectId,
+            ProjectEnvironmentId = command.EnvironmentId,
             ServiceName = command.ServiceName,
             Port = service.Port,
             Protocol = command.Protocol,

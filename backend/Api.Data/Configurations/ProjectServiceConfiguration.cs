@@ -12,6 +12,11 @@ public sealed class ProjectServiceConfiguration : IEntityTypeConfiguration<Proje
             .HasForeignKey(x => x.ProjectId)
             .OnDelete(DeleteBehavior.Cascade);
 
+        builder.HasOne(x => x.ProjectEnvironment)
+            .WithMany()
+            .HasForeignKey(x => x.ProjectEnvironmentId)
+            .OnDelete(DeleteBehavior.SetNull);
+
         builder.HasIndex(x => new { x.ProjectId, x.Name })
             .IsUnique();
 

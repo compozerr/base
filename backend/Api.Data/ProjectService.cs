@@ -5,6 +5,7 @@ namespace Api.Data;
 public class ProjectService : BaseEntityWithId<ProjectServiceId>
 {
     public required ProjectId ProjectId { get; set; }
+    public ProjectEnvironmentId? ProjectEnvironmentId { get; set; }
     [MaxLength(255)]
     public required string Name { get; set; }
     [MaxLength(6)]
@@ -13,4 +14,5 @@ public class ProjectService : BaseEntityWithId<ProjectServiceId>
     public bool IsSystem { get; set; }
 
     public virtual Project? Project { get; set; }
+    public virtual ProjectEnvironment? ProjectEnvironment { get; set; }
 }

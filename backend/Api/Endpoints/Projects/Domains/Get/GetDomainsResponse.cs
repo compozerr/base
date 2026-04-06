@@ -9,7 +9,9 @@ public sealed record GetDomainDto(
     string Value,
     bool IsInternal,
     bool IsVerified,
-    bool IsPrimary);
+    bool IsPrimary,
+    Guid? EnvironmentId = null,
+    string? EnvironmentName = null);
 
 public sealed record GetDomainsResponse(
     List<GetDomainDto> Domains

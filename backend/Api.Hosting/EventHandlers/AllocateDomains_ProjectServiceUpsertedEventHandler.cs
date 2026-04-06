@@ -5,12 +5,14 @@ using Api.Hosting.Endpoints.Projects.Services;
 using Api.Hosting.Services;
 using Core.Abstractions;
 using Database.Extensions;
+using Microsoft.EntityFrameworkCore;
 
 namespace Api.Hosting.EventHandlers;
 
 public sealed class AllocateDomains_ProjectServiceUpsertedEventHandler(
     IProjectRepository projectRepository,
-    ISubdomainHashService subdomainHashService) : EntityDomainEventHandlerBase<ProjectServiceUpsertedEvent>
+    ISubdomainHashService subdomainHashService,
+    ApiDbContext context) : EntityDomainEventHandlerBase<ProjectServiceUpsertedEvent>
 {
     protected override async Task HandleBeforeSaveAsync(ProjectServiceUpsertedEvent domainEvent, CancellationToken cancellationToken)
     {
@@ -20,31 +22,55 @@ public sealed class AllocateDomains_ProjectServiceUpsertedEventHandler(
         var project = await projectRepository.GetProjectByIdWithDomainsAsync(
             domainEvent.Entity.ProjectId) ?? throw new ArgumentException("Project not found");
 
+        ProjectEnvironment? environment = null;
+        if (domainEvent.Entity.ProjectEnvironmentId is { } envId)
+        {
+            environment = await context.Set<ProjectEnvironment>()
+                .FirstOrDefaultAsync(e => e.Id == envId, cancellationToken);
+        }
+
         project.Domains ??= [];
-        var existingDomain = project.Domains.FirstOrDefault(d => d.ServiceName == domainEvent.Entity.Name && d.Port == domainEvent.Entity.Port);
-        var newDomain = BuildCustomInternalDomain(project, domainEvent.Entity);
+
+        // Filter existing domains for this environment
+        var existingDomain = project.Domains.FirstOrDefault(d =>
+            d.ServiceName == domainEvent.Entity.Name
+            && d.Port == domainEvent.Entity.Port
+            && d.ProjectEnvironmentId == domainEvent.Entity.ProjectEnvironmentId);
+
+        var newDomain = BuildInternalDomain(project, domainEvent.Entity, environment);
 
         if (existingDomain == null || !existingDomain.GetValue.Contains(newDomain.Subdomain))
         {
             newDomain.QueueDomainEvent<DomainChangeEvent>();
             project.Domains.Add(newDomain);
-            // No need to call UpdateAsync - changes to tracked entities are saved automatically
-            // by the current SaveChangesAsync that triggered this handler
         }
     }
 
-    private InternalDomain BuildCustomInternalDomain(Project project, ProjectService service)
+    private InternalDomain BuildInternalDomain(Project project, ProjectService service, ProjectEnvironment? environment)
     {
-        var hash = subdomainHashService.GetHash(project.Id);
+        string subdomain;
+
+        if (environment?.Type == EnvironmentType.Preview && environment.Subdomain is not null)
+        {
+            // Preview: prefix with service name
+            subdomain = $"{service.Name.ToLower()}-{environment.Subdomain}.preview";
+        }
+        else
+        {
+            // Production: existing pattern
+            var hash = subdomainHashService.GetHash(project.Id);
+            subdomain = $"{service.Name.ToLower()}.{hash}";
+        }
 
         return new()
         {
             ProjectId = project.Id,
+            ProjectEnvironmentId = service.ProjectEnvironmentId,
             ServiceName = service.Name,
             Port = service.Port,
             Protocol = service.Protocol,
             IsPrimary = false,
-            Subdomain = $"{service.Name.ToLower()}.{hash}",
+            Subdomain = subdomain,
         };
     }
 }
