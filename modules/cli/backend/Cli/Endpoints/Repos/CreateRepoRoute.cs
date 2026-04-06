@@ -11,7 +11,8 @@ public record CreateRepoRequest(
     DefaultInstallationIdSelectionType Type,
     string LocationIsoCode,
     string Tier,
-    string? ProjectId);
+    string? ProjectId,
+    bool Publish = false);
 
 public static class CreateRepoRoute
 {
@@ -31,5 +32,6 @@ public static class CreateRepoRoute
                 createRepoRequest.Type,
                 createRepoRequest.LocationIsoCode,
                 createRepoRequest.Tier,
-                createRepoRequest.ProjectId != null ? ProjectId.Parse(createRepoRequest.ProjectId) : null));
+                createRepoRequest.ProjectId != null ? ProjectId.Parse(createRepoRequest.ProjectId) : null,
+                createRepoRequest.Publish));
 }
