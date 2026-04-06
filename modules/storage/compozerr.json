@@ -1,15 +1,20 @@
 {
-    "type": "module",
-    "name": "storage",
-    "version": "0.1.0",
-    "description": "File storage abstraction with filesystem and cloud provider support",
-    "backend": {
-        "defaultEnvProperties": {
-            "STORAGE__PROVIDER": "filesystem",
-            "STORAGE__BasePath": "/app/storage-data"
-        },
-        "projects": [
-            "backend/Storage/Storage.csproj"
-        ]
-    }
+  "type": "module",
+  "name": "storage",
+  "version": "0.1.0",
+  "description": "File storage abstraction with filesystem and cloud provider support",
+  "backend": {
+    "defaultEnvProperties": {
+      "STORAGE__PROVIDER": "filesystem",
+      "STORAGE__BasePath": "/app/storage-data"
+    },
+    "projects": [
+      "backend/Storage/Storage.csproj"
+    ]
+  },
+  "origin": {
+    "repo": "https://x-access-token:ghs_l79D2Q6CrhrBgFcGleZ9kB4WNcm0dI1Bi8UM@github.com/compozerr-test2/storage.git",
+    "commit": "be5338ba732099f20f593c801e0f745482c43ffc",
+    "addedAt": "2026-04-06T19:55:33.238Z"
+  }
 }

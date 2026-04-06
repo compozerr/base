@@ -13,7 +13,7 @@
         "mail-resend": "compozerr-lib/mail-resend@latest",
         "config": "compozerr-lib/config@latest",
         "openTelemetry": "local",
-        "storage": "local",
+        "storage": "compozerr-test2/storage@latest",
         "terminal": "local",
         "docs": "local",
         "organizations": "local"
