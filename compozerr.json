@@ -4,7 +4,7 @@
     "id": "0198a99a-d92f-70ff-b90d-201bc173963a",
     "modules": {
         "database": "compozerr-test2/database@latest",
-        "auth": "local",
+        "auth": "compozerr-test2/auth@latest",
         "cli": "local",
         "github": "local",
         "stripe": "local",

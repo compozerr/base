@@ -40,11 +40,11 @@
       "dependencies": {}
     },
     "auth": {
-      "source": "local",
+      "source": "https://github.com/compozerr-test2/auth.git",
       "version": "0.1.0",
-      "resolvedCommit": "ba898463b22f921c9df51d84f939464339ec81ac",
-      "installedAt": "2026-04-06T18:00:00.000Z",
-      "updatedAt": "2026-04-06T18:00:00.000Z",
+      "resolvedCommit": "a59634bc995d1c9241a178f7926ea55e65e316e4",
+      "installedAt": "2026-04-06T19:40:06.268Z",
+      "updatedAt": "2026-04-06T19:40:06.268Z",
       "integrity": "",
       "dependencies": {
         "compozerr-lib/database": "*"

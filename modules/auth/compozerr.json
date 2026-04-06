@@ -1,18 +1,23 @@
 {
-    "type": "module",
-    "name": "auth",
-    "version": "0.1.0",
-    "description": "Authentication and authorization with JWT tokens and user management",
-    "dependencies": {
-        "compozerr-lib/database": "*"
-    },
-    "frontend": {
-        "routesDir": "frontend/src/routes"
-    },
-    "backend": {
-        "projects": [
-            "backend/Auth/Auth.csproj",
-            "backend/Auth.Abstractions/Auth.Abstractions.csproj"
-        ]
-    }
+  "type": "module",
+  "name": "auth",
+  "version": "0.1.0",
+  "description": "Authentication and authorization with JWT tokens and user management",
+  "dependencies": {
+    "compozerr-lib/database": "*"
+  },
+  "frontend": {
+    "routesDir": "frontend/src/routes"
+  },
+  "backend": {
+    "projects": [
+      "backend/Auth/Auth.csproj",
+      "backend/Auth.Abstractions/Auth.Abstractions.csproj"
+    ]
+  },
+  "origin": {
+    "repo": "https://x-access-token:ghs_MWVAaAxm0Oq5j6sFVDnRG5ytub4XFA3IuJyU@github.com/compozerr-test2/auth.git",
+    "commit": "a59634bc995d1c9241a178f7926ea55e65e316e4",
+    "addedAt": "2026-04-06T19:40:06.268Z"
+  }
 }
