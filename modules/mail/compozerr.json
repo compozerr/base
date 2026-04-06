@@ -1,0 +1,22 @@
+{
+    "type": "module",
+    "name": "mail",
+    "version": "0.1.0",
+    "description": "Email templating and sending abstractions with React Email frontend",
+    "origin": {
+        "repo": "https://github.com/compozerr-lib/mail",
+        "commit": "unknown",
+        "addedAt": "2025-01-01T00:00:00Z"
+    },
+    "start": "cd frontend && npm run generate && npm run dev 2>/dev/null",
+    "readyMessage": "Running preview at",
+    "startupTimeoutMs": 15000,
+    "port": "1239",
+    "dependencies": {},
+    "backend": {
+        "projects": [
+            "backend/Mail/Mail.csproj",
+            "backend/Mail.Tests/Mail.Tests.csproj"
+        ]
+    }
+}
