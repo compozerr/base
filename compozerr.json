@@ -5,7 +5,7 @@
     "modules": {
         "database": "compozerr-test2/database@latest",
         "auth": "compozerr-test2/auth@latest",
-        "cli": "local",
+        "cli": "compozerr-test2/cli@latest",
         "github": "local",
         "stripe": "local",
         "jobs": "local",
