@@ -1,0 +1,14 @@
+{
+  "lockVersion": 1,
+  "modules": {
+    "mail": {
+      "source": "https://github.com/compozerr-test2/mail.git",
+      "version": "0.1.0",
+      "resolvedCommit": "web",
+      "installedAt": "2026-04-06T17:54:24.861Z",
+      "updatedAt": "2026-04-06T17:54:24.861Z",
+      "integrity": "",
+      "dependencies": {}
+    }
+  }
+}
