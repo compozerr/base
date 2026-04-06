@@ -20,6 +20,15 @@
       "dependencies": {
         "compozerr-lib/mail": ""
       }
+    },
+    "config": {
+      "source": "https://github.com/compozerr-test2/config.git",
+      "version": "0.1.0",
+      "resolvedCommit": "web",
+      "installedAt": "2026-04-06T17:56:04.521Z",
+      "updatedAt": "2026-04-06T17:56:04.521Z",
+      "integrity": "",
+      "dependencies": {}
     }
   }
 }
