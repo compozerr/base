@@ -385,33 +385,23 @@ void IFeature.ConfigureApp(WebApplication app)
 
 ## Running from Git Worktrees
 
-When working in a git worktree (e.g., `.worktrees/feature-branch/`), extra setup is needed before `compozerr dev` will work:
+Worktrees work out of the box — modules are regular directories (subtrees, not submodules) and `compozerr dev` auto-copies `backend/.env` from the main worktree if missing.
 
 ```bash
-# 1. Copy the .env file (gitignored, not in worktree)
-cp /Users/milo/milodev/gits/web/backend/.env backend/.env
-
-# 2. Install frontend dependencies
+# From the worktree directory:
 npm install
-
-# 3. Start dev
 compozerr dev
+# That's it — .env is copied automatically
 ```
 
-### Known issues with worktrees
+### Notes
 
-- **Missing `.env`**: The file is gitignored so worktrees start without it. The backend crashes on startup with `OptionsValidationException`. Fix: copy from main repo.
-- **`dotnet watch` is stricter than `dotnet build`**: If `Api.csproj` references a project file that doesn't exist, `dotnet build` logs a warning but `dotnet watch` (used inside Docker) treats it as fatal and refuses to start. This means stale csproj references that are harmless locally will break Docker dev.
 - **macOS port 5000 conflict**: AirTunes/AirPlay uses port 5000. The docker-compose maps backend to port 1235 externally. Don't try to access `localhost:5000` — use `localhost:1235`.
+- **`dotnet watch` is stricter than `dotnet build`**: If `Api.csproj` references a project file that doesn't exist, `dotnet build` logs a warning but `dotnet watch` (used inside Docker) treats it as fatal. Keep csproj references clean.
 
-### What should be fixed in the CLI (`/Users/milo/milodev/gits/cli`)
+### Future improvement in the CLI (`/Users/milo/milodev/gits/cli`)
 
-The `compozerr dev` command (in `src/commands/dev.ts`) has gaps:
-
-1. **No `.env` bootstrapping**: Module `defaultEnvProperties` / `envDefaults` from `compozerr.json` files are defined in the schema (`compozerr-file.ts`) but **never used** by the dev command. The dev command should:
-   - Check if `backend/.env` exists
-   - If not, create it by merging defaults from all modules
-   - This would make worktrees self-bootstrapping
+Module `envDefaults` from `compozerr.json` files are defined in the schema (`compozerr-file.ts`) but **never used** by the dev command. For fresh clones (not worktrees), the dev command should bootstrap a default `.env` from module defaults. This would eliminate the need for any manual `.env` setup.
 
 ## Module System
 
