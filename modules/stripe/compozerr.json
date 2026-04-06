@@ -1,24 +1,29 @@
 {
-    "type": "module",
-    "name": "stripe",
-    "version": "0.1.0",
-    "description": "Stripe payment processing, subscriptions, and billing management",
-    "dependencies": {
-        "compozerr-lib/auth": "*",
-        "compozerr-lib/jobs": "*"
+  "type": "module",
+  "name": "stripe",
+  "version": "0.1.0",
+  "description": "Stripe payment processing, subscriptions, and billing management",
+  "dependencies": {
+    "compozerr-lib/auth": "*",
+    "compozerr-lib/jobs": "*"
+  },
+  "end": "",
+  "port": "",
+  "frontend": {
+    "routesDir": "frontend/src/routes"
+  },
+  "backend": {
+    "defaultEnvProperties": {
+      "STRIPE__API_KEY": "<YOUR_STRIPE_API_KEY>"
     },
-    "end": "",
-    "port": "",
-    "frontend": {
-        "routesDir": "frontend/src/routes"
-    },
-    "backend": {
-        "defaultEnvProperties": {
-            "STRIPE__API_KEY": "<YOUR_STRIPE_API_KEY>"
-        },
-        "projects": [
-            "backend/Stripe/Stripe.csproj",
-            "backend/Stripe.Abstractions/Stripe.Abstractions.csproj"
-        ]
-    }
+    "projects": [
+      "backend/Stripe/Stripe.csproj",
+      "backend/Stripe.Abstractions/Stripe.Abstractions.csproj"
+    ]
+  },
+  "origin": {
+    "repo": "https://x-access-token:ghs_8MROaGzGiPteq8MnVGSQlkw7uLyAGa1rbYn8@github.com/compozerr-test2/stripe.git",
+    "commit": "a6561a9ad5c1a9275062fbaaf9351ee63f430645",
+    "addedAt": "2026-04-06T20:30:47.161Z"
+  }
 }

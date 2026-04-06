@@ -76,11 +76,11 @@
       }
     },
     "stripe": {
-      "source": "local",
+      "source": "https://github.com/compozerr-test2/stripe.git",
       "version": "0.1.0",
-      "resolvedCommit": "ba898463b22f921c9df51d84f939464339ec81ac",
-      "installedAt": "2026-04-06T18:00:00.000Z",
-      "updatedAt": "2026-04-06T18:00:00.000Z",
+      "resolvedCommit": "a6561a9ad5c1a9275062fbaaf9351ee63f430645",
+      "installedAt": "2026-04-06T20:30:47.162Z",
+      "updatedAt": "2026-04-06T20:30:47.162Z",
       "integrity": "",
       "dependencies": {
         "compozerr-lib/auth": "*",
