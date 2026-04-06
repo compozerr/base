@@ -1,0 +1,24 @@
+{
+    "name": "@repo/mail",
+    "version": "0.0.0",
+    "private": true,
+    "exports": {
+        "./mail-component": "./src/mail-component.tsx"
+    },
+    "scripts": {
+        "dev": "email dev --dir ../../../frontend/src/email-templates --port 1239",
+        "generate": "tsx ./scripts/generate.ts"
+    },
+    "devDependencies": {
+        "@react-email/preview-server": "5.0.5",
+        "@repo/config": "*",
+        "@types/react": "^19.2.7",
+        "@types/react-dom": "^19.2.3",
+        "react-email": "5.0.5"
+    },
+    "dependencies": {
+        "@react-email/components": "1.0.1",
+        "react-dom": "^19.0.0",
+        "react": "^19.2.0"
+    }
+}
