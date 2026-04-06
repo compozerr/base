@@ -1,16 +1,21 @@
 {
-    "type": "module",
-    "name": "github",
-    "version": "0.1.0",
-    "description": "GitHub integration for repository management and OAuth authentication",
-    "dependencies": {
-        "auth": "latest",
-        "database": "latest"
-    },
-    "backend": {
-        "projects": [
-            "backend/Github/Github.csproj",
-            "backend/Github.Abstractions/Github.Abstractions.csproj"
-        ]
-    }
+  "type": "module",
+  "name": "github",
+  "version": "0.1.0",
+  "description": "GitHub integration for repository management and OAuth authentication",
+  "dependencies": {
+    "auth": "latest",
+    "database": "latest"
+  },
+  "backend": {
+    "projects": [
+      "backend/Github/Github.csproj",
+      "backend/Github.Abstractions/Github.Abstractions.csproj"
+    ]
+  },
+  "origin": {
+    "repo": "https://x-access-token:ghs_ewDFu8UyNv7mWtqN4p04JPLXzuYWDA17WeQQ@github.com/compozerr-test2/github.git",
+    "commit": "7166682868053c816fac288a2e825393020b939b",
+    "addedAt": "2026-04-06T20:28:05.597Z"
+  }
 }

@@ -6,7 +6,7 @@
         "database": "compozerr-test2/database@latest",
         "auth": "compozerr-test2/auth@latest",
         "cli": "compozerr-test2/cli@latest",
-        "github": "local",
+        "github": "compozerr-test2/github@latest",
         "stripe": "local",
         "jobs": "local",
         "mail": "compozerr-lib/mail@latest",

@@ -64,11 +64,11 @@
       }
     },
     "github": {
-      "source": "local",
+      "source": "https://github.com/compozerr-test2/github.git",
       "version": "0.1.0",
-      "resolvedCommit": "ba898463b22f921c9df51d84f939464339ec81ac",
-      "installedAt": "2026-04-06T18:00:00.000Z",
-      "updatedAt": "2026-04-06T18:00:00.000Z",
+      "resolvedCommit": "7166682868053c816fac288a2e825393020b939b",
+      "installedAt": "2026-04-06T20:28:05.597Z",
+      "updatedAt": "2026-04-06T20:28:05.597Z",
       "integrity": "",
       "dependencies": {
         "auth": "latest",
