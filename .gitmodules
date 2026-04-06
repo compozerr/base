@@ -1,4 +1,0 @@
-[submodule "modules/mail-resend"]
-	path = modules/mail-resend
-	url = https://github.com/compozerr-lib/mail-resend.git
-	branch = main
