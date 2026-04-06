@@ -1,0 +1,22 @@
+{
+    "type": "module",
+    "name": "mailresend",
+    "version": "0.1.0",
+    "description": "Email sending provider using the Resend API",
+    "origin": {
+        "repo": "https://github.com/compozerr-lib/mail-resend",
+        "commit": "unknown",
+        "addedAt": "2025-01-01T00:00:00Z"
+    },
+    "dependencies": {
+        "compozerr-lib/mail": ""
+    },
+    "backend": {
+        "defaultEnvProperties": {
+            "MAILRESEND__API_KEY": "<YOUR_MAILRESEND_API_KEY>"
+        },
+        "projects": [
+            "backend/MailResend/MailResend.csproj"
+        ]
+    }
+}
