@@ -24,23 +24,21 @@ This is a modular monorepo combining a .NET 9.0 backend with a React + TypeScrip
 ### Development
 
 ```bash
-# Install all dependencies (backend + frontend)
-npm run install:dep
-
-# Start development servers (frontend + backend in parallel) using Compozerr CLI
+# Start everything (installs deps + copies .env automatically if needed)
 compozerr dev
 # Frontend: http://localhost:1234
-# Backend: http://localhost:1235 (mapped from container port 5000)
+# Backend: http://localhost:1235 (Swagger: http://localhost:1235/swagger/v1/swagger.json)
 
 # If compozerr CLI is not installed:
 curl -fsSL https://compozerr.com/install | bash
-
-# Alternative: start dev servers without CLI
-npm run dev
-
-# Build everything
-npm run build
 ```
+
+`compozerr dev` handles everything automatically:
+- Detects missing `node_modules` → runs `npm install`
+- Detects missing `backend/.env` in worktrees → copies from main worktree
+- Starts Docker (Postgres + backend with hot-reload) and frontend (Vite)
+
+**Requires**: Docker Desktop running. The backend runs inside a Docker container.
 
 **Important**: Always run `compozerr dev` and test changes in the browser before pushing frontend changes to production.
 
@@ -385,23 +383,22 @@ void IFeature.ConfigureApp(WebApplication app)
 
 ## Running from Git Worktrees
 
-Worktrees work out of the box — modules are regular directories (subtrees, not submodules) and `compozerr dev` auto-copies `backend/.env` from the main worktree if missing.
+Worktrees work out of the box — just run `compozerr dev`. The CLI auto-handles everything:
 
 ```bash
-# From the worktree directory:
-npm install
+git worktree add .worktrees/my-feature -b feature/my-feature
+cd .worktrees/my-feature
 compozerr dev
-# That's it — .env is copied automatically
+# Automatically: npm install → copy .env → start Docker + frontend
 ```
+
+Modules are regular git-tracked directories (subtrees, not submodules) — no `git submodule update` needed.
 
 ### Notes
 
 - **macOS port 5000 conflict**: AirTunes/AirPlay uses port 5000. The docker-compose maps backend to port 1235 externally. Don't try to access `localhost:5000` — use `localhost:1235`.
 - **`dotnet watch` is stricter than `dotnet build`**: If `Api.csproj` references a project file that doesn't exist, `dotnet build` logs a warning but `dotnet watch` (used inside Docker) treats it as fatal. Keep csproj references clean.
-
-### Future improvement in the CLI (`/Users/milo/milodev/gits/cli`)
-
-Module `envDefaults` from `compozerr.json` files are defined in the schema (`compozerr-file.ts`) but **never used** by the dev command. For fresh clones (not worktrees), the dev command should bootstrap a default `.env` from module defaults. This would eliminate the need for any manual `.env` setup.
+- **Fresh clones** (not worktrees): `backend/.env` must be created manually since there's no main worktree to copy from. See `backend/.env.example` for required variables. Future CLI improvement: bootstrap from module `envDefaults` in `compozerr.json`.
 
 ## Module System
 
