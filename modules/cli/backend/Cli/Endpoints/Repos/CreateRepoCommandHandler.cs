@@ -41,14 +41,6 @@ public sealed record CreateRepoCommandHandler(
                     Owner = currentInstallation.Name
                 }
             ),
-            DefaultInstallationIdSelectionType.Modules when command.Publish => await clientResponse.InstallationClient.Repository.Create(
-                currentInstallation.Name,
-                new(command.Name)
-                {
-                    Private = true,
-                    Description = "Created by compozerr.com",
-                    AutoInit = false
-                }),
             DefaultInstallationIdSelectionType.Modules => (await GithubService.ForkRepositoryAsync(clientResponse.InstallationClient,
                             "compozerr",
                             "template",
