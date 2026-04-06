@@ -37,6 +37,7 @@ import { Route as AuthDashboardProjectsProjectIdSettingsIndexRouteImport } from 
 import { Route as AuthDashboardProjectsProjectIdEnvironmentsIndexRouteImport } from './routes/_auth/_dashboard/projects/$projectId/environments/index'
 import { Route as AuthDashboardProjectsProjectIdDeploymentsIndexRouteImport } from './routes/_auth/_dashboard/projects/$projectId/deployments/index'
 import { Route as AuthDashboardProjectsProjectIdSettingsGeneralRouteImport } from './routes/_auth/_dashboard/projects/$projectId/settings/general'
+import { Route as AuthDashboardProjectsProjectIdSettingsDomainsRouteImport } from './routes/_auth/_dashboard/projects/$projectId/settings/domains'
 import { Route as AuthDashboardProjectsProjectIdEnvironmentsEnvironmentIdIndexRouteImport } from './routes/_auth/_dashboard/projects/$projectId/environments/$environmentId/index'
 import { Route as AuthDashboardProjectsProjectIdDeploymentsDeploymentIdIndexRouteImport } from './routes/_auth/_dashboard/projects/$projectId/deployments/$deploymentId/index'
 
@@ -189,6 +190,12 @@ const AuthDashboardProjectsProjectIdSettingsGeneralRoute =
     path: '/general',
     getParentRoute: () => AuthDashboardProjectsProjectIdSettingsRouteRoute,
   } as any)
+const AuthDashboardProjectsProjectIdSettingsDomainsRoute =
+  AuthDashboardProjectsProjectIdSettingsDomainsRouteImport.update({
+    id: '/domains',
+    path: '/domains',
+    getParentRoute: () => AuthDashboardProjectsProjectIdSettingsRouteRoute,
+  } as any)
 const AuthDashboardProjectsProjectIdEnvironmentsEnvironmentIdIndexRoute =
   AuthDashboardProjectsProjectIdEnvironmentsEnvironmentIdIndexRouteImport.update(
     {
@@ -227,6 +234,7 @@ export interface FileRoutesByFullPath {
   '/organizations/$orgId/members': typeof AuthDashboardOrganizationsOrgIdMembersRoute
   '/organizations/$orgId': typeof AuthDashboardOrganizationsOrgIdIndexRoute
   '/projects/$projectId/': typeof AuthDashboardProjectsProjectIdIndexRoute
+  '/projects/$projectId/settings/domains': typeof AuthDashboardProjectsProjectIdSettingsDomainsRoute
   '/projects/$projectId/settings/general': typeof AuthDashboardProjectsProjectIdSettingsGeneralRoute
   '/projects/$projectId/deployments': typeof AuthDashboardProjectsProjectIdDeploymentsIndexRoute
   '/projects/$projectId/environments': typeof AuthDashboardProjectsProjectIdEnvironmentsIndexRoute
@@ -255,6 +263,7 @@ export interface FileRoutesByTo {
   '/organizations/$orgId/members': typeof AuthDashboardOrganizationsOrgIdMembersRoute
   '/organizations/$orgId': typeof AuthDashboardOrganizationsOrgIdIndexRoute
   '/projects/$projectId': typeof AuthDashboardProjectsProjectIdIndexRoute
+  '/projects/$projectId/settings/domains': typeof AuthDashboardProjectsProjectIdSettingsDomainsRoute
   '/projects/$projectId/settings/general': typeof AuthDashboardProjectsProjectIdSettingsGeneralRoute
   '/projects/$projectId/deployments': typeof AuthDashboardProjectsProjectIdDeploymentsIndexRoute
   '/projects/$projectId/environments': typeof AuthDashboardProjectsProjectIdEnvironmentsIndexRoute
@@ -288,6 +297,7 @@ export interface FileRoutesById {
   '/_auth/_dashboard/organizations/$orgId/members': typeof AuthDashboardOrganizationsOrgIdMembersRoute
   '/_auth/_dashboard/organizations/$orgId/': typeof AuthDashboardOrganizationsOrgIdIndexRoute
   '/_auth/_dashboard/projects/$projectId/': typeof AuthDashboardProjectsProjectIdIndexRoute
+  '/_auth/_dashboard/projects/$projectId/settings/domains': typeof AuthDashboardProjectsProjectIdSettingsDomainsRoute
   '/_auth/_dashboard/projects/$projectId/settings/general': typeof AuthDashboardProjectsProjectIdSettingsGeneralRoute
   '/_auth/_dashboard/projects/$projectId/deployments/': typeof AuthDashboardProjectsProjectIdDeploymentsIndexRoute
   '/_auth/_dashboard/projects/$projectId/environments/': typeof AuthDashboardProjectsProjectIdEnvironmentsIndexRoute
@@ -320,6 +330,7 @@ export interface FileRouteTypes {
     | '/organizations/$orgId/members'
     | '/organizations/$orgId'
     | '/projects/$projectId/'
+    | '/projects/$projectId/settings/domains'
     | '/projects/$projectId/settings/general'
     | '/projects/$projectId/deployments'
     | '/projects/$projectId/environments'
@@ -348,6 +359,7 @@ export interface FileRouteTypes {
     | '/organizations/$orgId/members'
     | '/organizations/$orgId'
     | '/projects/$projectId'
+    | '/projects/$projectId/settings/domains'
     | '/projects/$projectId/settings/general'
     | '/projects/$projectId/deployments'
     | '/projects/$projectId/environments'
@@ -380,6 +392,7 @@ export interface FileRouteTypes {
     | '/_auth/_dashboard/organizations/$orgId/members'
     | '/_auth/_dashboard/organizations/$orgId/'
     | '/_auth/_dashboard/projects/$projectId/'
+    | '/_auth/_dashboard/projects/$projectId/settings/domains'
     | '/_auth/_dashboard/projects/$projectId/settings/general'
     | '/_auth/_dashboard/projects/$projectId/deployments/'
     | '/_auth/_dashboard/projects/$projectId/environments/'
@@ -601,6 +614,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthDashboardProjectsProjectIdSettingsGeneralRouteImport
       parentRoute: typeof AuthDashboardProjectsProjectIdSettingsRouteRoute
     }
+    '/_auth/_dashboard/projects/$projectId/settings/domains': {
+      id: '/_auth/_dashboard/projects/$projectId/settings/domains'
+      path: '/domains'
+      fullPath: '/projects/$projectId/settings/domains'
+      preLoaderRoute: typeof AuthDashboardProjectsProjectIdSettingsDomainsRouteImport
+      parentRoute: typeof AuthDashboardProjectsProjectIdSettingsRouteRoute
+    }
     '/_auth/_dashboard/projects/$projectId/environments/$environmentId/': {
       id: '/_auth/_dashboard/projects/$projectId/environments/$environmentId/'
       path: '/environments/$environmentId'
@@ -619,12 +639,15 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthDashboardProjectsProjectIdSettingsRouteRouteChildren {
+  AuthDashboardProjectsProjectIdSettingsDomainsRoute: typeof AuthDashboardProjectsProjectIdSettingsDomainsRoute
   AuthDashboardProjectsProjectIdSettingsGeneralRoute: typeof AuthDashboardProjectsProjectIdSettingsGeneralRoute
   AuthDashboardProjectsProjectIdSettingsIndexRoute: typeof AuthDashboardProjectsProjectIdSettingsIndexRoute
 }
 
 const AuthDashboardProjectsProjectIdSettingsRouteRouteChildren: AuthDashboardProjectsProjectIdSettingsRouteRouteChildren =
   {
+    AuthDashboardProjectsProjectIdSettingsDomainsRoute:
+      AuthDashboardProjectsProjectIdSettingsDomainsRoute,
     AuthDashboardProjectsProjectIdSettingsGeneralRoute:
       AuthDashboardProjectsProjectIdSettingsGeneralRoute,
     AuthDashboardProjectsProjectIdSettingsIndexRoute:

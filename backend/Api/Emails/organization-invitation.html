@@ -2,133 +2,36 @@
 <html dir="ltr" lang="en">
   <head>
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
-    <meta name="x-apple-disable-message-reformatting" />
   </head>
-  <body style="background-color:#0a0a0a">
-    <div
-      style="display:none;overflow:hidden;line-height:1px;opacity:0;max-height:0;max-width:0"
-      data-skip-in-text="true">
-      You've been invited to join % OrganizationName %
-    </div>
-    <table
-      border="0"
-      width="100%"
-      cellpadding="0"
-      cellspacing="0"
-      role="presentation"
-      align="center">
-      <tbody>
-        <tr>
-          <td
-            style='background-color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Ubuntu,sans-serif'>
-            <table
-              align="center"
-              width="100%"
-              border="0"
-              cellpadding="0"
-              cellspacing="0"
-              role="presentation"
-              style="max-width:560px;background-color:#111111;margin:0 auto;border-radius:12px;border:1px solid #222222">
-              <tbody>
-                <tr style="width:100%">
-                  <td>
-                    <table
-                      align="center"
-                      width="100%"
-                      border="0"
-                      cellpadding="0"
-                      cellspacing="0"
-                      role="presentation"
-                      style="padding:40px 40px 32px 40px;border-bottom:1px solid #222222">
-                      <tbody>
-                        <tr>
-                          <td>
-                            <p
-                              style="font-size:20px;line-height:24px;color:#ffffff;font-weight:600;margin:0 0 8px 0">
-                              % CompanyName %
-                            </p>
-                            <p
-                              style="font-size:14px;line-height:24px;color:#888888;margin:0;font-weight:400">
-                              Organization Invitation
-                            </p>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                    <table
-                      align="center"
-                      width="100%"
-                      border="0"
-                      cellpadding="0"
-                      cellspacing="0"
-                      role="presentation"
-                      style="padding:40px">
-                      <tbody>
-                        <tr>
-                          <td>
-                            <p
-                              style="font-size:16px;line-height:24px;color:#ffffff;font-weight:500;margin:0 0 24px 0">
-                              You've been invited!
-                            </p>
-                            <p
-                              style="font-size:15px;line-height:22px;color:#cccccc;margin:0 0 24px 0">
-                              <strong style="color:#ffffff">% InviterName %</strong> has invited you to join the organization
-                              <strong style="color:#ffffff">% OrganizationName %</strong> as a <strong style="color:#ffffff">% Role %</strong>.
-                            </p>
-                            <table
-                              align="center"
-                              width="100%"
-                              border="0"
-                              cellpadding="0"
-                              cellspacing="0"
-                              role="presentation"
-                              style="text-align:center;margin:32px 0">
-                              <tbody>
-                                <tr>
-                                  <td>
-                                    <a
-                                      href="% AcceptLink %"
-                                      style="background-color:#ffffff;color:#000000;text-decoration:none;font-size:14px;font-weight:600;padding:12px 32px;border-radius:8px;display:inline-block"
-                                      target="_blank"
-                                      >Accept Invitation</a>
-                                  </td>
-                                </tr>
-                              </tbody>
-                            </table>
-                            <p
-                              style="font-size:13px;line-height:20px;color:#888888;margin:0 0 8px 0">
-                              This invitation will expire in 7 days. If you don't have a compozerr account yet, you'll be prompted to create one.
-                            </p>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                    <table
-                      align="center"
-                      width="100%"
-                      border="0"
-                      cellpadding="0"
-                      cellspacing="0"
-                      role="presentation"
-                      style="padding:24px 40px;border-top:1px solid #222222;text-align:center">
-                      <tbody>
-                        <tr>
-                          <td>
-                            <p
-                              style="font-size:12px;line-height:24px;color:#666666;margin:0 0 8px 0">
-                              % CompanyAddress %
-                            </p>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </td>
-        </tr>
-      </tbody>
+  <body style="background-color:#0a0a0a;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif">
+    <table border="0" width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;margin:0 auto;padding:40px 20px">
+      <tr>
+        <td style="color:#fafafa;font-size:24px;font-weight:bold;padding-bottom:20px">
+          {{CompanyName}}
+        </td>
+      </tr>
+      <tr>
+        <td style="color:#fafafa;font-size:16px;padding-bottom:16px">
+          Hi there,
+        </td>
+      </tr>
+      <tr>
+        <td style="color:#a1a1aa;font-size:14px;line-height:1.6;padding-bottom:24px">
+          {{InviterName}} has invited you to join <strong style="color:#fafafa">{{OrganizationName}}</strong> as a <strong style="color:#fafafa">{{Role}}</strong>.
+        </td>
+      </tr>
+      <tr>
+        <td style="padding-bottom:32px">
+          <a href="{{AcceptLink}}" style="display:inline-block;background-color:#fafafa;color:#0a0a0a;font-size:14px;font-weight:600;padding:12px 24px;border-radius:6px;text-decoration:none">
+            Accept Invitation
+          </a>
+        </td>
+      </tr>
+      <tr>
+        <td style="color:#52525b;font-size:12px;border-top:1px solid #27272a;padding-top:20px">
+          {{CompanyAddress}}
+        </td>
+      </tr>
     </table>
   </body>
 </html>

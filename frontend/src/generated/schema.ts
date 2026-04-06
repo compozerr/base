@@ -1478,6 +1478,48 @@ export type paths = {
         patch?: never;
         trace?: never;
     };
+    "/v1/hosting/projects/{projectId}/environments/{environmentId}/services": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    projectId: string;
+                    environmentId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["Api.Hosting.Endpoints.Projects.Services.ReportServicesRequest"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Api.Hosting.Endpoints.Projects.Services.ReportServicesResponse"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/hosting/projects/tcp-allocations": {
         parameters: {
             query?: never;
@@ -2319,7 +2361,9 @@ export type paths = {
         };
         get: {
             parameters: {
-                query?: never;
+                query?: {
+                    environmentName?: string;
+                };
                 header?: never;
                 path: {
                     projectId: string;
@@ -2700,7 +2744,9 @@ export type paths = {
         put?: never;
         post: {
             parameters: {
-                query?: never;
+                query?: {
+                    environmentId?: string;
+                };
                 header?: never;
                 path: {
                     projectId: string;
@@ -2931,6 +2977,43 @@ export type paths = {
         patch?: never;
         trace?: never;
     };
+    "/v1/projects/{projectId}/environments/branches": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    projectId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Api.Endpoints.Projects.Environments.GetBranches.GetBranchesResponse"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/projects/{projectId}/environments/{environmentId}": {
         parameters: {
             query?: never;
@@ -2959,7 +3042,7 @@ export type paths = {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": components["schemas"]["Api.Endpoints.Projects.Environments.Delete.DeleteEnvironmentResponse"];
+                        "application/json": components["schemas"]["Api.Abstractions.DeleteEnvironmentResponse"];
                     };
                 };
             };
@@ -3042,6 +3125,163 @@ export type paths = {
                 };
             };
         };
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/projects/{projectId}/environments/{environmentId}/auto-deploy": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    projectId: string;
+                    environmentId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["Api.Endpoints.Projects.Environments.ChangeAutoDeploy.ChangeEnvironmentAutoDeployRequest"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/projects/{projectId}/environments/{environmentId}/deployments": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    page?: number;
+                    pageSize?: number;
+                };
+                header?: never;
+                path: {
+                    projectId: string;
+                    environmentId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Core.Results.PagedResult`1[[Api.Endpoints.Projects.Deployments.GetDeploymentResponse, Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/projects/{projectId}/environments/{environmentId}/services": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    projectId: string;
+                    environmentId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Api.Endpoints.Projects.Services.Get.GetProjectServicesResponse"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/projects/{projectId}/environments/{environmentId}/domains": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    projectId: string;
+                    environmentId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Api.Endpoints.Projects.Domains.Get.GetDomainsResponse"];
+                    };
+                };
+            };
+        };
+        put?: never;
         post?: never;
         delete?: never;
         options?: never;
@@ -3262,6 +3502,48 @@ export type paths = {
         options?: never;
         head?: never;
         patch?: never;
+        trace?: never;
+    };
+    "/v1/projects/{projectId}/domains/{domainId}/environment": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    projectId: string;
+                    domainId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["Api.Endpoints.Projects.Domains.ChangeEnvironment.ChangeDomainEnvironmentRequest"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Api.Endpoints.Projects.Domains.ChangeEnvironment.ChangeDomainEnvironmentResponse"];
+                    };
+                };
+            };
+        };
         trace?: never;
     };
     "/v1/projects/{projectId}/domains/{domainId}/parent": {
@@ -3937,6 +4219,7 @@ export type components = {
         "<>f__AnonymousType0`1[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]": {
             installUrl: string | null;
         };
+        "Api.Abstractions.DeleteEnvironmentResponse": Record<string, never>;
         "Api.Abstractions.DeployFromLatestCommitResponse": Record<string, never>;
         "Api.Abstractions.DeployProjectResponse": {
             statusUrl: string | null;
@@ -4049,10 +4332,17 @@ export type components = {
             domain: string | null;
             serviceName: string | null;
             protocol: components["schemas"]["Api.Data.Protocol"];
+            /** Format: uuid */
+            environmentId: string | null;
         };
         "Api.Endpoints.Projects.Domains.Add.AddDomainResponse": {
             domainId: string | null;
         };
+        "Api.Endpoints.Projects.Domains.ChangeEnvironment.ChangeDomainEnvironmentRequest": {
+            /** Format: uuid */
+            environmentId: string | null;
+        };
+        "Api.Endpoints.Projects.Domains.ChangeEnvironment.ChangeDomainEnvironmentResponse": Record<string, never>;
         "Api.Endpoints.Projects.Domains.Delete.DeleteDomainResponse": Record<string, never>;
         "Api.Endpoints.Projects.Domains.Get.GetDomainDto": {
             /** Format: uuid */
@@ -4063,6 +4353,9 @@ export type components = {
             isInternal: boolean;
             isVerified: boolean;
             isPrimary: boolean;
+            /** Format: uuid */
+            environmentId: string | null;
+            environmentName: string | null;
         };
         "Api.Endpoints.Projects.Domains.Get.GetDomainsResponse": {
             domains: components["schemas"]["Api.Endpoints.Projects.Domains.Get.GetDomainDto"][] | null;
@@ -4083,6 +4376,9 @@ export type components = {
         };
         "Api.Endpoints.Projects.Domains.SetPrimary.SetPrimaryResponse": {
             success: boolean;
+        };
+        "Api.Endpoints.Projects.Environments.ChangeAutoDeploy.ChangeEnvironmentAutoDeployRequest": {
+            autoDeploy: boolean;
         };
         "Api.Endpoints.Projects.Environments.ChangeTier.ChangeEnvironmentTierRequest": {
             tier: string | null;
@@ -4107,7 +4403,6 @@ export type components = {
             monthlyPrice: number;
             billingStatus: string | null;
         };
-        "Api.Endpoints.Projects.Environments.Delete.DeleteEnvironmentResponse": Record<string, never>;
         "Api.Endpoints.Projects.Environments.Get.EnvironmentDto": {
             /** Format: uuid */
             id: string;
@@ -4118,6 +4413,7 @@ export type components = {
             /** Format: int32 */
             pullRequestNumber: number | null;
             subdomain: string | null;
+            url: string | null;
             /** Format: date-time */
             createdAtUtc: string;
             /** Format: date-time */
@@ -4130,6 +4426,9 @@ export type components = {
         };
         "Api.Endpoints.Projects.Environments.Get.GetEnvironmentsResponse": {
             environments: components["schemas"]["Api.Endpoints.Projects.Environments.Get.EnvironmentDto"][] | null;
+        };
+        "Api.Endpoints.Projects.Environments.GetBranches.GetBranchesResponse": {
+            branches: string[] | null;
         };
         "Api.Endpoints.Projects.Environments.Promote.PromoteEnvironmentResponse": {
             statusUrl: string | null;
@@ -4148,6 +4447,7 @@ export type components = {
         "Api.Endpoints.Projects.Project.Delete.DeleteProjectResponse": Record<string, never>;
         "Api.Endpoints.Projects.Project.ExecuteCommand.ExecuteCommandRequest": {
             command: string | null;
+            environmentName: string | null;
         };
         "Api.Endpoints.Projects.Project.ExecuteCommand.ExecuteCommandResponse": {
             /** Format: int32 */
@@ -4752,5 +5052,4 @@ export type components = {
     pathItems: never;
 };
 export type $defs = Record<string, never>;
-export interface operations {
-}
+export type operations = Record<string, never>;
