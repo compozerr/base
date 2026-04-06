@@ -3,7 +3,6 @@
     "name": "web",
     "id": "0198a99a-d92f-70ff-b90d-201bc173963a",
     "modules": {
-        "template": "compozerr/template@latest",
         "database": "local",
         "auth": "local",
         "cli": "local",
@@ -18,12 +17,5 @@
         "terminal": "local",
         "docs": "local",
         "organizations": "local"
-    },
-    "dependencies": {
-        "template": "latest",
-        "database": "latest",
-        "auth": "latest",
-        "cli": "latest",
-        "github": "latest"
     }
 }
