@@ -14,5 +14,10 @@
       "backend/Auth/Auth.csproj",
       "backend/Auth.Abstractions/Auth.Abstractions.csproj"
     ]
+  },
+  "origin": {
+    "repo": "https://x-access-token:ghs_K5gc3YhFbMrd1lJfQuriL70oIutzuU4gcl0i@github.com/compozerr-test2/auth.git",
+    "commit": "4397d61fce36d30aedd638522dcba6c2a5182576",
+    "addedAt": "2026-04-06T20:26:12.446Z"
   }
 }
