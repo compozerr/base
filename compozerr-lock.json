@@ -29,6 +29,123 @@
       "updatedAt": "2026-04-06T17:56:04.521Z",
       "integrity": "",
       "dependencies": {}
+    },
+    "database": {
+      "source": "local",
+      "version": "0.1.0",
+      "resolvedCommit": "ba898463b22f921c9df51d84f939464339ec81ac",
+      "installedAt": "2026-04-06T18:00:00.000Z",
+      "updatedAt": "2026-04-06T18:00:00.000Z",
+      "integrity": "",
+      "dependencies": {}
+    },
+    "auth": {
+      "source": "local",
+      "version": "0.1.0",
+      "resolvedCommit": "ba898463b22f921c9df51d84f939464339ec81ac",
+      "installedAt": "2026-04-06T18:00:00.000Z",
+      "updatedAt": "2026-04-06T18:00:00.000Z",
+      "integrity": "",
+      "dependencies": {
+        "compozerr-lib/database": "*"
+      }
+    },
+    "cli": {
+      "source": "local",
+      "version": "0.1.0",
+      "resolvedCommit": "ba898463b22f921c9df51d84f939464339ec81ac",
+      "installedAt": "2026-04-06T18:00:00.000Z",
+      "updatedAt": "2026-04-06T18:00:00.000Z",
+      "integrity": "",
+      "dependencies": {
+        "database": "latest",
+        "auth": "latest",
+        "github": "latest"
+      }
+    },
+    "github": {
+      "source": "local",
+      "version": "0.1.0",
+      "resolvedCommit": "ba898463b22f921c9df51d84f939464339ec81ac",
+      "installedAt": "2026-04-06T18:00:00.000Z",
+      "updatedAt": "2026-04-06T18:00:00.000Z",
+      "integrity": "",
+      "dependencies": {
+        "auth": "latest",
+        "database": "latest"
+      }
+    },
+    "stripe": {
+      "source": "local",
+      "version": "0.1.0",
+      "resolvedCommit": "ba898463b22f921c9df51d84f939464339ec81ac",
+      "installedAt": "2026-04-06T18:00:00.000Z",
+      "updatedAt": "2026-04-06T18:00:00.000Z",
+      "integrity": "",
+      "dependencies": {
+        "compozerr-lib/auth": "*",
+        "compozerr-lib/jobs": "*"
+      }
+    },
+    "jobs": {
+      "source": "local",
+      "version": "0.1.0",
+      "resolvedCommit": "ba898463b22f921c9df51d84f939464339ec81ac",
+      "installedAt": "2026-04-06T18:00:00.000Z",
+      "updatedAt": "2026-04-06T18:00:00.000Z",
+      "integrity": "",
+      "dependencies": {}
+    },
+    "openTelemetry": {
+      "source": "local",
+      "version": "0.1.0",
+      "resolvedCommit": "ba898463b22f921c9df51d84f939464339ec81ac",
+      "installedAt": "2026-04-06T18:00:00.000Z",
+      "updatedAt": "2026-04-06T18:00:00.000Z",
+      "integrity": "",
+      "dependencies": {}
+    },
+    "storage": {
+      "source": "local",
+      "version": "0.1.0",
+      "resolvedCommit": "ba898463b22f921c9df51d84f939464339ec81ac",
+      "installedAt": "2026-04-06T18:00:00.000Z",
+      "updatedAt": "2026-04-06T18:00:00.000Z",
+      "integrity": "",
+      "dependencies": {}
+    },
+    "terminal": {
+      "source": "local",
+      "version": "0.1.0",
+      "resolvedCommit": "ba898463b22f921c9df51d84f939464339ec81ac",
+      "installedAt": "2026-04-06T18:00:00.000Z",
+      "updatedAt": "2026-04-06T18:00:00.000Z",
+      "integrity": "",
+      "dependencies": {
+        "database": "latest",
+        "auth": "latest"
+      }
+    },
+    "docs": {
+      "source": "local",
+      "version": "0.1.0",
+      "resolvedCommit": "ba898463b22f921c9df51d84f939464339ec81ac",
+      "installedAt": "2026-04-06T18:00:00.000Z",
+      "updatedAt": "2026-04-06T18:00:00.000Z",
+      "integrity": "",
+      "dependencies": {}
+    },
+    "organizations": {
+      "source": "local",
+      "version": "0.1.0",
+      "resolvedCommit": "ba898463b22f921c9df51d84f939464339ec81ac",
+      "installedAt": "2026-04-06T18:00:00.000Z",
+      "updatedAt": "2026-04-06T18:00:00.000Z",
+      "integrity": "",
+      "dependencies": {
+        "compozerr-lib/auth": "*",
+        "compozerr-lib/database": "*"
+      }
     }
   }
 }
