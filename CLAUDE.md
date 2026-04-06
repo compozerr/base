@@ -29,8 +29,8 @@ npm run install:dep
 
 # Start development servers (frontend + backend in parallel) using Compozerr CLI
 compozerr dev
-# Frontend: http://localhost:3001
-# Backend: http://localhost:5000
+# Frontend: http://localhost:1234
+# Backend: http://localhost:1235 (mapped from container port 5000)
 
 # If compozerr CLI is not installed:
 curl -fsSL https://compozerr.com/install | bash
@@ -382,6 +382,44 @@ void IFeature.ConfigureApp(WebApplication app)
 - Backend OpenAPI spec changed - regenerate frontend API client
 - Check that `frontend/src/generated/` is up to date
 - Verify API endpoint exists in backend
+
+## Running from Git Worktrees
+
+When working in a git worktree (e.g., `.worktrees/feature-branch/`), extra setup is needed before `compozerr dev` will work:
+
+```bash
+# 1. Copy the .env file (gitignored, not in worktree)
+cp /Users/milo/milodev/gits/web/backend/.env backend/.env
+
+# 2. Install frontend dependencies
+npm install
+
+# 3. Start dev
+compozerr dev
+```
+
+### Known issues with worktrees
+
+- **Missing `.env`**: The file is gitignored so worktrees start without it. The backend crashes on startup with `OptionsValidationException`. Fix: copy from main repo.
+- **`dotnet watch` is stricter than `dotnet build`**: If `Api.csproj` references a project file that doesn't exist, `dotnet build` logs a warning but `dotnet watch` (used inside Docker) treats it as fatal and refuses to start. This means stale csproj references that are harmless locally will break Docker dev.
+- **macOS port 5000 conflict**: AirTunes/AirPlay uses port 5000. The docker-compose maps backend to port 1235 externally. Don't try to access `localhost:5000` — use `localhost:1235`.
+
+### What should be fixed in the CLI (`/Users/milo/milodev/gits/cli`)
+
+The `compozerr dev` command (in `src/commands/dev.ts`) has gaps:
+
+1. **No `.env` bootstrapping**: Module `defaultEnvProperties` / `envDefaults` from `compozerr.json` files are defined in the schema (`compozerr-file.ts`) but **never used** by the dev command. The dev command should:
+   - Check if `backend/.env` exists
+   - If not, create it by merging defaults from all modules
+   - This would make worktrees self-bootstrapping
+
+## Module System
+
+Modules live in `modules/` as regular git-tracked directories (converted from submodules to subtrees). There are plans to further evolve the module system — see `docs/plans/2026-02-20-module-system-redesign.md` and the implementation plan.
+
+**Migration scripts** (already run):
+- `scripts/migrate-submodules-to-subtrees.sh` — converts submodules to subtrees
+- `scripts/test-subtree-migration.sh` — validates the migration
 
 ## Key Architectural Decisions
 

@@ -20,6 +20,27 @@
         "type": "string"
       }
     },
+    "services": {
+      "type": "object",
+      "properties": {
+        "start": {
+          "type": "string"
+        },
+        "stop": {
+          "type": "string"
+        },
+        "readyCheck": {
+          "type": "string"
+        },
+        "startupTimeoutMs": {
+          "type": "number"
+        },
+        "port": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
     "start": {
       "type": "string"
     },
