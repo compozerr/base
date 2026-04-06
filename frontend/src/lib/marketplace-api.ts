@@ -62,6 +62,21 @@ export async function searchModules(params: {
   return res.json()
 }
 
+export interface MyModuleDto {
+  name: string
+  repoUrl: string
+}
+
+export async function getMyModules(): Promise<MyModuleDto[]> {
+  const res = await fetch(`${BASE_URL}/v1/cli/modules/mine`, {
+    credentials: 'include',
+  })
+  if (!res.ok) {
+    throw new Error(`Failed to fetch modules: ${res.status}`)
+  }
+  return res.json()
+}
+
 export async function getModuleInfo(
   org: string,
   name: string,
