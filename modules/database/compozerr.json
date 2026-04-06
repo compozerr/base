@@ -16,10 +16,5 @@
       "backend/Database/Database.csproj",
       "backend/Database.Tests/Database.Tests.csproj"
     ]
-  },
-  "origin": {
-    "repo": "https://x-access-token:ghs_4cLB4F5hVo2Yo9O067PVjIencYioWL0bBKLo@github.com/compozerr-test2/database.git",
-    "commit": "4a2f518e0ace3c10131982213d6fc683dd821f6f",
-    "addedAt": "2026-04-06T19:39:03.803Z"
   }
 }

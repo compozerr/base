@@ -15,10 +15,5 @@
       "backend/Cli.Auth/Cli.Auth.csproj",
       "backend/Cli.Tests/Cli.Tests.csproj"
     ]
-  },
-  "origin": {
-    "repo": "https://x-access-token:ghs_q7OOxBz5RcNWPA8g19MCfvrgfCxIXa49eY6O@github.com/compozerr-test2/cli.git",
-    "commit": "3b55c570156bbae3240bfb26b1b6a96d156c823a",
-    "addedAt": "2026-04-06T19:40:57.763Z"
   }
 }

@@ -31,31 +31,31 @@
       "dependencies": {}
     },
     "database": {
-      "source": "https://github.com/compozerr-test2/database.git",
+      "source": "local",
       "version": "0.1.0",
-      "resolvedCommit": "4a2f518e0ace3c10131982213d6fc683dd821f6f",
-      "installedAt": "2026-04-06T19:39:03.803Z",
-      "updatedAt": "2026-04-06T19:39:03.803Z",
+      "resolvedCommit": "ba898463b22f921c9df51d84f939464339ec81ac",
+      "installedAt": "2026-04-06T18:00:00.000Z",
+      "updatedAt": "2026-04-06T18:00:00.000Z",
       "integrity": "",
       "dependencies": {}
     },
     "auth": {
-      "source": "https://github.com/compozerr-test2/auth.git",
+      "source": "local",
       "version": "0.1.0",
-      "resolvedCommit": "a59634bc995d1c9241a178f7926ea55e65e316e4",
-      "installedAt": "2026-04-06T19:40:06.268Z",
-      "updatedAt": "2026-04-06T19:40:06.268Z",
+      "resolvedCommit": "ba898463b22f921c9df51d84f939464339ec81ac",
+      "installedAt": "2026-04-06T18:00:00.000Z",
+      "updatedAt": "2026-04-06T18:00:00.000Z",
       "integrity": "",
       "dependencies": {
         "compozerr-lib/database": "*"
       }
     },
     "cli": {
-      "source": "https://github.com/compozerr-test2/cli.git",
+      "source": "local",
       "version": "0.1.0",
-      "resolvedCommit": "3b55c570156bbae3240bfb26b1b6a96d156c823a",
-      "installedAt": "2026-04-06T19:40:57.763Z",
-      "updatedAt": "2026-04-06T19:40:57.763Z",
+      "resolvedCommit": "ba898463b22f921c9df51d84f939464339ec81ac",
+      "installedAt": "2026-04-06T18:00:00.000Z",
+      "updatedAt": "2026-04-06T18:00:00.000Z",
       "integrity": "",
       "dependencies": {
         "database": "latest",
