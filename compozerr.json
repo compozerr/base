@@ -1,0 +1,11 @@
+{
+    "type": "module",
+    "name": "config",
+    "version": "0.1.0",
+    "description": "Shared configuration utilities and environment variable management",
+    "origin": {
+        "repo": "https://github.com/compozerr-lib/config",
+        "commit": "unknown",
+        "addedAt": "2025-01-01T00:00:00Z"
+    }
+}
