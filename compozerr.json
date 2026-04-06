@@ -3,7 +3,7 @@
     "name": "web",
     "id": "0198a99a-d92f-70ff-b90d-201bc173963a",
     "modules": {
-        "database": "local",
+        "database": "compozerr-test2/database@latest",
         "auth": "local",
         "cli": "local",
         "github": "local",

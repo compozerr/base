@@ -1,20 +1,25 @@
 {
-    "type": "module",
-    "name": "database",
-    "version": "0.1.0",
-    "description": "PostgreSQL database with Entity Framework Core and Docker Compose support",
-    "dependencies": {},
-    "start": "docker compose up",
-    "dockerComposeFile": "docker-compose.yml",
-    "end": "docker compose down",
-    "readyMessage": "regex:database system is ready to accept connections|Attaching to",
-    "backend": {
-        "defaultEnvProperties": {
-            "CONNECTION_STRINGS__DEFAULT_CONNECTION": "Host=localhost;Database=myapp;Username=postgres;Password=019661c0-7b26-76de-9dfc-c4ce956cdca0"
-        },
-        "projects": [
-            "backend/Database/Database.csproj",
-            "backend/Database.Tests/Database.Tests.csproj"
-        ]
-    }
+  "type": "module",
+  "name": "database",
+  "version": "0.1.0",
+  "description": "PostgreSQL database with Entity Framework Core and Docker Compose support",
+  "dependencies": {},
+  "start": "docker compose up",
+  "dockerComposeFile": "docker-compose.yml",
+  "end": "docker compose down",
+  "readyMessage": "regex:database system is ready to accept connections|Attaching to",
+  "backend": {
+    "defaultEnvProperties": {
+      "CONNECTION_STRINGS__DEFAULT_CONNECTION": "Host=localhost;Database=myapp;Username=postgres;Password=019661c0-7b26-76de-9dfc-c4ce956cdca0"
+    },
+    "projects": [
+      "backend/Database/Database.csproj",
+      "backend/Database.Tests/Database.Tests.csproj"
+    ]
+  },
+  "origin": {
+    "repo": "https://x-access-token:ghs_4cLB4F5hVo2Yo9O067PVjIencYioWL0bBKLo@github.com/compozerr-test2/database.git",
+    "commit": "4a2f518e0ace3c10131982213d6fc683dd821f6f",
+    "addedAt": "2026-04-06T19:39:03.803Z"
+  }
 }
