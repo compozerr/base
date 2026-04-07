@@ -72,7 +72,8 @@ jobs:
                       cd ${{ secrets.DEPLOY_PATH }}
                       sudo git fetch --tags --force
                       sudo git fetch origin
-                      sudo git stash
+                      sudo git stash --include-untracked || true
+                      sudo git clean -fd
                       sudo git checkout --detach ${{ github.ref_name }}
                       sudo git submodule update --init --recursive
                       npm run serve -- -d
