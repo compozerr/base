@@ -80,7 +80,7 @@ jobs:
                       sudo git clean -ffdx
                       sudo git checkout --detach ${{ github.ref_name }}
                       sudo git submodule update --init --recursive
-                      # Restore preserved files
-                      sudo cp /tmp/backend.env.bak backend/.env 2>/dev/null || true
-                      sudo cp /tmp/frontend.env.bak frontend/.env 2>/dev/null || true
+                      # Restore preserved files (or create empty placeholders so the build works)
+                      sudo cp /tmp/backend.env.bak backend/.env 2>/dev/null || sudo touch backend/.env
+                      sudo cp /tmp/frontend.env.bak frontend/.env 2>/dev/null || sudo touch frontend/.env
                       npm run serve -- -d
