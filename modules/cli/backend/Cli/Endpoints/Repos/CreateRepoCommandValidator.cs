@@ -16,18 +16,24 @@ public sealed class CreateRepoCommandValidator : AbstractValidator<CreateRepoCom
             .Matches(@"^[a-z0-9]+(?:(?:(?:[._]|__|[-]*)[a-z0-9]+)+)?$")
             .WithMessage("Repository name must adhere to the pattern [a-z0-9]+(?:(?:(?:[._]|__|[-]*)[a-z0-9]+)+)? (e.g. my-module).");
 
-        RuleFor(x => x.Name).MustAsync(async (command, name, cancellationToken) =>
+        // Uniqueness check only for Projects. For Modules, the handler is
+        // idempotent and reuses existing repos to support retry-on-failure
+        // and re-publishing.
+        When(x => x.Type == Github.Endpoints.SetDefaultInstallationId.DefaultInstallationIdSelectionType.Projects, () =>
         {
-            await using var scope = scopeFactory.CreateAsyncScope();
-            var githubService = scope.ServiceProvider.GetRequiredService<IGithubService>();
-            var currentUserAccessor = scope.ServiceProvider.GetRequiredService<ICurrentUserAccessor>();
+            RuleFor(x => x.Name).MustAsync(async (command, name, cancellationToken) =>
+            {
+                await using var scope = scopeFactory.CreateAsyncScope();
+                var githubService = scope.ServiceProvider.GetRequiredService<IGithubService>();
+                var currentUserAccessor = scope.ServiceProvider.GetRequiredService<ICurrentUserAccessor>();
 
-            var reposForCurrentUser = await githubService.GetRepositoriesByUserDefaultIdAsync(
-                currentUserAccessor.CurrentUserId!,
-                command.Type);
+                var reposForCurrentUser = await githubService.GetRepositoriesByUserDefaultIdAsync(
+                    currentUserAccessor.CurrentUserId!,
+                    command.Type);
 
-            return !reposForCurrentUser.Any(r => r.Name == name);
-        }).WithMessage("Repository name must be unique.");
+                return !reposForCurrentUser.Any(r => r.Name == name);
+            }).WithMessage("Repository name must be unique.");
+        });
 
         When(x => x.ProjectId != null, () =>
         {
