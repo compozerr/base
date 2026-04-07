@@ -1,0 +1,17 @@
+name: Auto Issue Fix
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  fix:
+    if: github.event.issue.user.login == 'tomilodk' && startsWith(github.event.issue.title, '[Auto]')
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+      id-token: write
+      actions: read
+    uses: compozerr/.github/.github/workflows/auto-issue-fix.yml@test
+    secrets: inherit

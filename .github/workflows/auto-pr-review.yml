@@ -1,0 +1,21 @@
+name: Auto PR Review
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  review:
+    if: startsWith(github.head_ref, 'auto-fix/')
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+      id-token: write
+      actions: read
+    uses: compozerr/.github/.github/workflows/auto-pr-review.yml@test
+    with:
+      language: dotnet
+      pre_test_setup: touch backend/.env
+      test_command: dotnet test backend/Base.sln
+    secrets: inherit
