@@ -9,9 +9,7 @@ using Api.Endpoints.Projects.Project.Delete;
 using Api.Endpoints.Projects.Project.ExecuteCommand;
 using Api.Endpoints.Projects.Project.Get;
 using Api.Endpoints.Projects.Project.Start;
-using Api.Endpoints.Projects.Project.RepoStatus;
 using Api.Endpoints.Projects.Project.Stop;
-using Api.Endpoints.Projects.Project.UpdateRepoUrl;
 using Api.Endpoints.Projects.ProjectEnvironment;
 using Api.Endpoints.Projects.Services;
 using Api.Endpoints.Projects.Usage.Get;
@@ -30,8 +28,6 @@ public class ProjectsGroup : CarterModule
     public override void AddRoutes(IEndpointRouteBuilder app)
     {
         app.AddGetProjectRoute();
-        app.AddGetRepoStatusRoute();
-        app.AddUpdateRepoUrlRoute();
         app.AddStartProjectRoute();
         app.AddStopProjectRoute();
         app.AddDeleteProjectRoute();

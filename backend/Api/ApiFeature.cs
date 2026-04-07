@@ -70,5 +70,9 @@ public class ApiFeature : IFeature
     {
         // Run every 5 minutes to check domains due for verification
         app.AddRecurringJob<DomainVerificationJob>(new Cron("*/5 * * * *"));
+
+        // Run hourly to detect repositories that have been renamed or
+        // transferred on GitHub and auto-update the stored repo URL.
+        app.AddRecurringJob<RepositoryCheckJob>(Cron.Hourly());
     }
 }
