@@ -485,7 +485,7 @@ namespace Api.Data.Migrations
 
                     b.HasIndex("ProjectEnvironmentId");
 
-                    b.HasIndex("ProjectId", "Name")
+                    b.HasIndex("ProjectId", "ProjectEnvironmentId", "Name")
                         .IsUnique();
 
                     b.ToTable("ProjectServices", "api");

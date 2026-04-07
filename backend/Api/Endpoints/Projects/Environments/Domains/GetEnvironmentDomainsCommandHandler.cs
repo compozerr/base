@@ -16,13 +16,11 @@ public sealed class GetEnvironmentDomainsCommandHandler(
             .FirstOrDefaultAsync(e => e.Id == command.EnvironmentId, cancellationToken)
             ?? throw new ArgumentException("Environment not found");
 
-        var isProduction = environment.Type == EnvironmentType.Production;
-
         var domains = await context.Domains
             .Include(d => d.Project).ThenInclude(p => p!.Server)
-            .Where(d => d.ProjectId == command.ProjectId && d.DeletedAtUtc == null)
-            .Where(d => d.ProjectEnvironmentId == command.EnvironmentId
-                     || (isProduction && d.ProjectEnvironmentId == null))
+            .Where(d => d.ProjectId == command.ProjectId
+                     && d.DeletedAtUtc == null
+                     && d.ProjectEnvironmentId == command.EnvironmentId)
             .ToListAsync(cancellationToken);
 
         var envName = environment.Name

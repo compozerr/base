@@ -17,7 +17,7 @@ public sealed class ProjectServiceConfiguration : IEntityTypeConfiguration<Proje
             .HasForeignKey(x => x.ProjectEnvironmentId)
             .OnDelete(DeleteBehavior.SetNull);
 
-        builder.HasIndex(x => new { x.ProjectId, x.Name })
+        builder.HasIndex(x => new { x.ProjectId, x.ProjectEnvironmentId, x.Name })
             .IsUnique();
 
         builder.Property(x => x.Name)

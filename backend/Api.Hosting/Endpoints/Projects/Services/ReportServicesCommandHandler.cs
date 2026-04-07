@@ -20,22 +20,33 @@ public sealed class ReportServicesCommandHandler(
         ReportServicesCommand command,
         CancellationToken cancellationToken)
     {
+        // Legacy non-env-scoped endpoint. Kept for backwards compat with old hosting
+        // managers — always scopes to the project's production environment. Once
+        // every hosting agent passes environmentId, this endpoint becomes dead code.
         var productionEnvId = await context.Set<Api.Data.ProjectEnvironment>()
-            .Where(e => e.ProjectId == command.ProjectId && e.Type == EnvironmentType.Production)
+            .Where(e => e.ProjectId == command.ProjectId
+                     && e.Type == EnvironmentType.Production
+                     && e.DeletedAtUtc == null)
             .Select(e => e.Id)
-            .FirstOrDefaultAsync(cancellationToken);
+            .FirstOrDefaultAsync(cancellationToken)
+            ?? throw new InvalidOperationException(
+                $"Project with ID {command.ProjectId} has no production environment");
 
         var project = await projectRepository.GetSingleAsync(
             x => x.Id == command.ProjectId,
-            i => i.Include(x => x.ProjectServices)
-                    .Include(x => x.Domains), cancellationToken)
+            i => i.Include(x => x.ProjectServices!.Where(s => s.ProjectEnvironmentId == productionEnvId))
+                    .Include(x => x.Domains!.Where(d => d.DeletedAtUtc == null
+                                                     && d.ProjectEnvironmentId == productionEnvId)), cancellationToken)
                     ?? throw new InvalidOperationException($"Project with ID {command.ProjectId} not found");
 
         var existingServices = project.ProjectServices?.ToDictionary(s => s.Name, s => s)
             ?? [];
 
-        var portToServiceName = project.ProjectServices?.ToDictionary(s => s.Port, s => s.Name)
-            ?? [];
+        // Port-based rename detection across the prod env. GroupBy + First handles
+        // the (theoretical) case of two prod services sharing a port.
+        var portToServiceName = project.ProjectServices?
+            .GroupBy(s => s.Port)
+            .ToDictionary(g => g.Key, g => g.First().Name) ?? [];
 
         foreach (var serviceInfo in command.Services)
         {
@@ -49,7 +60,6 @@ public sealed class ReportServicesCommandHandler(
                               || existingService.Protocol != serviceInfo.Protocol;
                 existingService.Port = serviceInfo.Port;
                 existingService.Protocol = serviceInfo.Protocol;
-                existingService.ProjectEnvironmentId ??= productionEnvId;
                 serviceToProcess = existingService;
             }
             else if (portToServiceName.TryGetValue(serviceInfo.Port, out var oldServiceName))
@@ -73,7 +83,6 @@ public sealed class ReportServicesCommandHandler(
                 serviceToRename.Name = serviceInfo.Name;
                 serviceToRename.Port = serviceInfo.Port;
                 serviceToRename.Protocol = serviceInfo.Protocol;
-                serviceToRename.ProjectEnvironmentId ??= productionEnvId;
                 serviceToProcess = serviceToRename;
             }
             else
@@ -109,7 +118,10 @@ public sealed class ReportServicesCommandHandler(
             }
         }
 
-        // Remove system domains that have no corresponding open port
+        // Remove system domains in prod env that have no corresponding open port.
+        // Soft-deleted domains are filtered out by the Include above — re-deleting
+        // one throws, because domainRepository.DeleteAsync.GetByIdAsync excludes
+        // already-deleted rows.
         var reportedPorts = command.Services.Select(s => s.Port).ToHashSet();
         var systemDomainsToRemove = project.Domains?
             .Where(d => SystemServices.Contains(d.ServiceName) && !reportedPorts.Contains(d.Port))
