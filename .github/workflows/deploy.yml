@@ -70,6 +70,9 @@ jobs:
                   port: ${{ secrets.DEPLOY_PORT || 22 }}
                   script: |
                       cd ${{ secrets.DEPLOY_PATH }}
+                      # Backup files we need to preserve across checkout
+                      sudo cp backend/.env /tmp/backend.env.bak 2>/dev/null || true
+                      sudo cp frontend/.env /tmp/frontend.env.bak 2>/dev/null || true
                       sudo git fetch --tags --force
                       sudo git fetch origin
                       sudo git submodule deinit --all -f || true
@@ -77,4 +80,7 @@ jobs:
                       sudo git clean -ffdx
                       sudo git checkout --detach ${{ github.ref_name }}
                       sudo git submodule update --init --recursive
+                      # Restore preserved files
+                      sudo cp /tmp/backend.env.bak backend/.env 2>/dev/null || true
+                      sudo cp /tmp/frontend.env.bak frontend/.env 2>/dev/null || true
                       npm run serve -- -d
