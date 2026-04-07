@@ -1,10 +1,24 @@
-import { defineConfig, type Plugin } from 'vite'
+import { defineConfig, loadEnv, type Plugin } from 'vite'
 import react from '@vitejs/plugin-react'
 import { TanStackRouterVite } from '@tanstack/router-plugin/vite'
 import { getVirtualRouteConfig } from './virtual-route-config'
 import path from "path"
 import fs from "fs"
 import { execSync } from "child_process"
+
+const REQUIRED_ENV_VARS = ["VITE_BACKEND_URL"] as const
+
+function validateEnv(mode: string) {
+  const env = loadEnv(mode, process.cwd(), "")
+  const missing = REQUIRED_ENV_VARS.filter((name) => !env[name])
+  if (missing.length > 0) {
+    throw new Error(
+      `Missing required environment variable(s): ${missing.join(", ")}. ` +
+      `Ensure frontend/.env exists and defines these before building. ` +
+      `See frontend/.env.example for the expected values.`
+    )
+  }
+}
 
 function getAppVersion(): string {
   try {
@@ -46,20 +60,23 @@ function sitemapPlugin(): Plugin {
 }
 
 // https://vitejs.dev/config/
-export default defineConfig({
-  plugins: [TanStackRouterVite({
-    virtualRouteConfig: getVirtualRouteConfig(),
-    routeFileIgnorePrefix: "!",
-  }), react(), sitemapPlugin()],
-  define: {
-    __APP_VERSION__: JSON.stringify(getAppVersion()),
-  },
-  resolve: {
-    alias: {
-      "@": path.resolve(__dirname, "./src"),
+export default defineConfig(({ mode }) => {
+  validateEnv(mode)
+  return {
+    plugins: [TanStackRouterVite({
+      virtualRouteConfig: getVirtualRouteConfig(),
+      routeFileIgnorePrefix: "!",
+    }), react(), sitemapPlugin()],
+    define: {
+      __APP_VERSION__: JSON.stringify(getAppVersion()),
     },
-  },
-  server:{
-    allowedHosts: true
+    resolve: {
+      alias: {
+        "@": path.resolve(__dirname, "./src"),
+      },
+    },
+    server: {
+      allowedHosts: true
+    }
   }
 })

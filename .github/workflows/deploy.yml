@@ -70,17 +70,28 @@ jobs:
                   port: ${{ secrets.DEPLOY_PORT || 22 }}
                   script: |
                       cd ${{ secrets.DEPLOY_PATH }}
-                      # Backup files we need to preserve across checkout
-                      sudo cp backend/.env /tmp/backend.env.bak 2>/dev/null || true
-                      sudo cp frontend/.env /tmp/frontend.env.bak 2>/dev/null || true
+                      # Fail loudly if required env files are missing — never fall back to empty
+                      if [ ! -s backend/.env ]; then
+                          echo "ERROR: backend/.env is missing or empty on the server."
+                          echo "This file is required for the build and must be set up manually on first deploy."
+                          exit 1
+                      fi
+                      if [ ! -s frontend/.env ]; then
+                          echo "ERROR: frontend/.env is missing or empty on the server."
+                          echo "This file is required for the Vite build and must be set up manually on first deploy."
+                          exit 1
+                      fi
                       sudo git fetch --tags --force
                       sudo git fetch origin
                       sudo git submodule deinit --all -f || true
                       sudo git reset --hard HEAD
-                      sudo git clean -ffdx
+                      # -fd removes untracked tracked-by-git files; NO -x so gitignored files (.env) survive
+                      sudo git clean -ffd
                       sudo git checkout --detach ${{ github.ref_name }}
                       sudo git submodule update --init --recursive
-                      # Restore preserved files (or create empty placeholders so the build works)
-                      sudo cp /tmp/backend.env.bak backend/.env 2>/dev/null || sudo touch backend/.env
-                      sudo cp /tmp/frontend.env.bak frontend/.env 2>/dev/null || sudo touch frontend/.env
+                      # Verify .env files survived the checkout (they should, since they're gitignored and we used -fd not -fdx)
+                      if [ ! -s backend/.env ] || [ ! -s frontend/.env ]; then
+                          echo "ERROR: .env files were lost during checkout — this should not happen."
+                          exit 1
+                      fi
                       npm run serve -- -d

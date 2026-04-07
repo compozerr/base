@@ -15,7 +15,7 @@ export const queryClient = new QueryClient({
     },
 });
 
-export const apiBaseUrl = import.meta.env.VITE_BACKEND_URL;
+export const apiBaseUrl: string = import.meta.env.VITE_BACKEND_URL;
 
 export const api = createAPIClient({
     requestFn: (schema: OperationSchema, requestInfo: RequestFnInfo, options?: RequestFnOptions) => {
