@@ -1,0 +1,10 @@
+name: Test Trigger
+on:
+  issues:
+    types: [opened]
+jobs:
+  hello:
+    if: contains(github.event.issue.title, "[TestTrigger]")
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "hello world"
