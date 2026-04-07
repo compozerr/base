@@ -564,7 +564,18 @@ function EnvironmentVariablesSection({ projectId, branch }: { projectId: string;
     const environmentFiles = config?.environmentFiles ?? []
 
     const [variables, setVariables] = useState<EnvironmentVar[]>([])
-    const [selectedSystemType, setSelectedSystemType] = useState<SystemType>(defaultSystemType)
+    // The user's tab choice. Null until they click a tab — before that we derive
+    // the active type from the project type config. This matters because the
+    // config loads async: if we naively seeded useState with defaultSystemType,
+    // we'd get the fallback 'Frontend' (since config is undefined on first
+    // render) and never recover when the real config arrives — leaving projects
+    // like DockerCompose (AllowedSystemTypes: ["General"]) stuck filtering on
+    // Frontend and showing none of the user's General-scoped variables.
+    const [userSelectedSystemType, setUserSelectedSystemType] = useState<SystemType | null>(null)
+    const selectedSystemType: SystemType = (userSelectedSystemType && availableSystemTypes.includes(userSelectedSystemType))
+        ? userSelectedSystemType
+        : defaultSystemType
+    const setSelectedSystemType = setUserSelectedSystemType
     const [newEnvKey, setNewEnvKey] = useState('')
     const [newEnvValue, setNewEnvValue] = useState('')
     const [isSaving, setIsSaving] = useState(false)
