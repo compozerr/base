@@ -45,6 +45,8 @@ public sealed class MockHostingApi(IProjectRepository projectRepository) : IHost
             {
                 VmId = index++,
                 Name = p.Id.Value.ToString(),
+                ProjectId = p.Id.Value.ToString(),
+                EnvironmentName = null,
                 Status = status,
                 CpuUsage = status == "running" ? (decimal)random.NextDouble() : 0.0m,
                 CpuCount = 2,

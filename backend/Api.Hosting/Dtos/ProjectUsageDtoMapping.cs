@@ -9,7 +9,7 @@ public static class ProjectUsageDtoMapping
     {
         return new ProjectUsage
         {
-            ProjectId = ProjectId.Parse(dto.Name),
+            ProjectId = ProjectId.Parse(dto.ProjectId),
             VmId = dto.VmId,
             Name = dto.Name,
             Status = ParseStatus(dto.Status),

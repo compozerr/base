@@ -6,10 +6,16 @@ public sealed record ProjectUsageDto
 {
     [JsonPropertyName("vmid")]
     public int VmId { get; set; }
-    
+
     [JsonPropertyName("name")]
     public string Name { get; set; } = string.Empty;
-    
+
+    [JsonPropertyName("projectId")]
+    public string ProjectId { get; set; } = string.Empty;
+
+    [JsonPropertyName("environmentName")]
+    public string? EnvironmentName { get; set; }
+
     [JsonPropertyName("status")]
     public string Status { get; set; } = string.Empty;
     
