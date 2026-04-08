@@ -1,3 +1,4 @@
+// Backend API entrypoint
 using Api.Endpoints.Organizations;
 using Core.Extensions;
 using Core.Feature;
