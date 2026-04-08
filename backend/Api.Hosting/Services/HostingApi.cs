@@ -75,14 +75,28 @@ public sealed class HostingApi(
             string accessToken;
             if (deployment.Project?.GithubInstallationId is { } installationId)
             {
-                var installationClient = await githubService
-                    .GetInstallationClientByInstallationIdAsync(installationId.ToString());
+                GetInstallationClientByInstallationIdResponse? installationClient = null;
+                try
+                {
+                    installationClient = await githubService
+                        .GetInstallationClientByInstallationIdAsync(installationId.ToString());
+
+                    if (installationClient is null)
+                    {
+                        Log.Warning(
+                            "Failed to get installation client for installation {InstallationId}, falling back to OAuth token",
+                            installationId);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Log.Warning(ex,
+                        "Exception getting installation client for installation {InstallationId}, falling back to OAuth token",
+                        installationId);
+                }
 
                 if (installationClient is null)
                 {
-                    Log.Warning(
-                        "Failed to get installation client for installation {InstallationId}, falling back to OAuth token",
-                        installationId);
                     accessToken = await GetValidatedOAuthTokenAsync(deployment.UserId);
                 }
                 else
