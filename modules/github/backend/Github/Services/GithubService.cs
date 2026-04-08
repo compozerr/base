@@ -60,6 +60,7 @@ public interface IGithubService
         CancellationToken cancellationToken = default);
 
     Task<bool> HasAccessToRepositoryAsync(string repoUrl, UserId userId);
+    Task<bool> InstallationCanAccessRepoAsync(IGitHubClient installationClient, Uri repoUri);
     Task<bool> ValidateTokenAsync(string accessToken);
 }
 
@@ -465,6 +466,21 @@ public sealed class GithubService(
         }
 
         return false;
+    }
+
+    public async Task<bool> InstallationCanAccessRepoAsync(IGitHubClient installationClient, Uri repoUri)
+    {
+        var (owner, repoName) = GitHubRepoUrl.Parse(repoUri);
+
+        try
+        {
+            await installationClient.Repository.Get(owner, repoName);
+            return true;
+        }
+        catch (NotFoundException)
+        {
+            return false;
+        }
     }
 
     public async Task<bool> ValidateTokenAsync(string accessToken)

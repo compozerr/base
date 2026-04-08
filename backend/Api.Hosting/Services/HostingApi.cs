@@ -71,48 +71,6 @@ public sealed class HostingApi(
 
         try
         {
-            // Get access token - prefer installation token (auto-refreshes, more reliable)
-            string accessToken;
-            if (deployment.Project?.GithubInstallationId is { } installationId)
-            {
-                GetInstallationClientByInstallationIdResponse? installationClient = null;
-                try
-                {
-                    installationClient = await githubService
-                        .GetInstallationClientByInstallationIdAsync(installationId.ToString());
-
-                    if (installationClient is null)
-                    {
-                        Log.Warning(
-                            "Failed to get installation client for installation {InstallationId}, falling back to OAuth token",
-                            installationId);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Log.Warning(ex,
-                        "Exception getting installation client for installation {InstallationId}, falling back to OAuth token",
-                        installationId);
-                }
-
-                if (installationClient is null)
-                {
-                    accessToken = await GetValidatedOAuthTokenAsync(deployment.UserId);
-                }
-                else
-                {
-                    accessToken = installationClient.InstallationToken;
-                    Log.Information(
-                        "Using GitHub App installation token for deployment (installation: {InstallationId})",
-                        installationId);
-                }
-            }
-            else
-            {
-                // Fallback to OAuth token for projects without installation ID
-                accessToken = await GetValidatedOAuthTokenAsync(deployment.UserId);
-            }
-
             if (deployment?.Project?.RepoUri is null)
             {
                 Log.ForContext("BaseDomain", HttpClient.BaseDomain)
@@ -120,6 +78,45 @@ public sealed class HostingApi(
                     .Error("Deployment failed: RepoUri is null");
 
                 throw new Exception("RepoUri is null");
+            }
+
+            // Get access token - prefer installation token (auto-refreshes, more reliable).
+            // Self-correcting: only use the installation token if it actually has access to
+            // the repo. The stored installation id can drift away from the repo's real owner
+            // (repo transferred, user switched installations, etc.) — in that case we fall
+            // through to the user's OAuth token, which is the path that used to work before
+            // we introduced installation-token preference.
+            string accessToken;
+            if (deployment.Project.GithubInstallationId is { } installationId)
+            {
+                var installationClient = await githubService
+                    .GetInstallationClientByInstallationIdAsync(installationId.ToString());
+
+                var installationTokenWorks =
+                    installationClient is not null &&
+                    await githubService.InstallationCanAccessRepoAsync(
+                        installationClient.InstallationClient,
+                        deployment.Project.RepoUri);
+
+                if (installationTokenWorks)
+                {
+                    accessToken = installationClient!.InstallationToken;
+                    Log.Information(
+                        "Using GitHub App installation token for deployment (installation: {InstallationId})",
+                        installationId);
+                }
+                else
+                {
+                    Log.Warning(
+                        "Stored installation {InstallationId} cannot access {RepoUri}, falling back to OAuth token",
+                        installationId, deployment.Project.RepoUri);
+                    accessToken = await GetValidatedOAuthTokenAsync(deployment.UserId);
+                }
+            }
+            else
+            {
+                // Fallback to OAuth token for projects without installation ID
+                accessToken = await GetValidatedOAuthTokenAsync(deployment.UserId);
             }
 
             var repoName = RepoUri.Parse(deployment.Project.RepoUri).RepoName;

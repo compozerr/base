@@ -111,6 +111,11 @@ public sealed class MockGithubService : IGithubService
         return Task.FromResult(true);
     }
 
+    public Task<bool> InstallationCanAccessRepoAsync(IGitHubClient installationClient, Uri repoUri)
+    {
+        return Task.FromResult(true);
+    }
+
     public Task<bool> ValidateTokenAsync(string accessToken)
     {
         return Task.FromResult(true);
