@@ -36,6 +36,17 @@ jobs:
       - name: Create local fix branch
         run: git checkout -b "auto-fix/issue-${{ github.event.issue.number }}"
 
+      - name: Diagnostic — check secret availability
+        env:
+          TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+        run: |
+          if [ -z "$TOKEN" ]; then
+            echo "::error::CLAUDE_CODE_OAUTH_TOKEN is EMPTY in web context"
+            exit 1
+          else
+            echo "Token length: ${#TOKEN}"
+          fi
+
       - name: Run fix agent
         id: fix
         uses: anthropics/claude-code-action@v1
