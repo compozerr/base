@@ -9,5 +9,5 @@ jobs:
       issues: write
       id-token: write
       actions: read
-    uses: compozerr/.github/.github/workflows/auto-issue-fix.yml@test
+    uses: compozerr/.github/.github/workflows/auto-issue-fix.yml@f3a67828cc68030549a8c4e69008abe02f90288e
     secrets: inherit
