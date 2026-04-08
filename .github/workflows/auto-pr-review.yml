@@ -13,7 +13,7 @@ jobs:
       issues: write
       id-token: write
       actions: read
-    uses: compozerr/.github/.github/workflows/auto-pr-review.yml@test
+    uses: compozerr/.github/.github/workflows/auto-pr-review.yml@main
     with:
       language: dotnet
       pre_test_setup: touch backend/.env
