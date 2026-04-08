@@ -4,85 +4,14 @@ on:
   issues:
     types: [opened]
 
-# NOTE: This workflow is inlined (not calling compozerr/.github reusable
-# workflow) because web has a cross-repo workflow_call issue that doesn't
-# affect cli or hosting. Keep this file in sync with
-# compozerr/.github/.github/workflows/auto-issue-fix.yml when that file
-# changes. See docs/superpowers/specs/2026-04-07-auto-issue-fix-design.md.
-
 jobs:
   fix:
     if: github.event.issue.user.login == 'tomilodk' && startsWith(github.event.issue.title, '[Auto]')
-    runs-on: ubuntu-latest
     permissions:
       contents: write
       pull-requests: write
       issues: write
       id-token: write
       actions: read
-    steps:
-      - name: Checkout main
-        uses: actions/checkout@v4
-        with:
-          ref: main
-          fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Configure git identity
-        run: |
-          git config user.name "claude[bot]"
-          git config user.email "claude[bot]@users.noreply.github.com"
-
-      - name: Create local fix branch
-        run: git checkout -b "auto-fix/issue-${{ github.event.issue.number }}"
-
-      - name: Run fix agent
-        id: fix
-        uses: anthropics/claude-code-action@v1
-        with:
-          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          prompt: |
-            REPO: ${{ github.repository }}
-            ISSUE: #${{ github.event.issue.number }}
-            TITLE: ${{ github.event.issue.title }}
-            BRANCH: auto-fix/issue-${{ github.event.issue.number }}
-
-            You are an autonomous fix agent. Read the issue body via
-            `gh issue view ${{ github.event.issue.number }}`, understand
-            what's being asked, and try to implement a focused fix.
-
-            RULES:
-            - Read CLAUDE.md in the repo for conventions and follow them.
-            - Do NOT touch files under .github/, scripts/deploy*, or any *.env* file.
-            - Do NOT add documentation or refactor unrelated code.
-            - Smallest sensible diff that resolves the issue.
-
-            WHEN DONE (success path):
-            1. `git add` only the files you changed
-            2. `git commit -m "fix: <short summary> (#${{ github.event.issue.number }})"`
-            3. `git push -u origin auto-fix/issue-${{ github.event.issue.number }}`
-            4. `gh pr create --base main --head auto-fix/issue-${{ github.event.issue.number }} \
-                 --title "[Auto-fix] ${{ github.event.issue.title }}" \
-                 --body $'Fixes #${{ github.event.issue.number }}\n\n<short explanation>' \
-                 --label auto-fix`
-            5. `gh issue comment ${{ github.event.issue.number }} --body "Working on this in PR #<pr-number>. Review and merge will run automatically."`
-
-            The PR will be reviewed and merged (or commented on) by a separate
-            workflow that triggers automatically when the PR opens. You don't
-            need to run tests or merge — just create the PR.
-
-            WHEN YOU CANNOT PRODUCE A SENSIBLE FIX:
-            - Do NOT push anything.
-            - `gh issue comment ${{ github.event.issue.number }} --body "I tried but couldn't auto-fix this. Needs human attention."`
-            - Write the literal string GAVE_UP to /tmp/fix-result.txt
-            - exit
-          claude_args: '--allowedTools "Edit,Write,Read,Glob,Grep,Bash(git add:*),Bash(git commit:*),Bash(git push:*),Bash(git status:*),Bash(git diff:*),Bash(gh issue view:*),Bash(gh issue comment:*),Bash(gh pr create:*),Bash(gh label create:*)"'
-
-      - name: Check for give-up
-        id: gaveup
-        run: |
-          if [ -f /tmp/fix-result.txt ] && grep -q "GAVE_UP" /tmp/fix-result.txt; then
-            echo "Fix agent gave up — exiting cleanly"
-          else
-            echo "Fix agent completed — review workflow will pick up the PR"
-          fi
+    uses: compozerr/.github/.github/workflows/auto-issue-fix.yml@test
+    secrets: inherit

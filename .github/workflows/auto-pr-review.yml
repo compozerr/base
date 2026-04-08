@@ -4,154 +4,18 @@ on:
   pull_request:
     types: [opened, synchronize]
 
-# NOTE: Inlined (not calling compozerr/.github reusable workflow) due to a
-# cross-repo workflow_call issue specific to web. Keep in sync with
-# compozerr/.github/.github/workflows/auto-pr-review.yml.
-
 jobs:
   review:
     if: startsWith(github.head_ref, 'auto-fix/')
-    runs-on: ubuntu-latest
     permissions:
       contents: write
       pull-requests: write
       issues: write
       id-token: write
       actions: read
-    steps:
-      - name: Checkout PR head
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ github.head_ref }}
-          fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Configure git identity
-        run: |
-          git config user.name "claude[bot]"
-          git config user.email "claude[bot]@users.noreply.github.com"
-
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: "9.0.200"
-
-      - name: Extract issue number from PR body
-        id: issue
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          BODY=$(gh pr view ${{ github.event.pull_request.number }} --json body --jq '.body')
-          ISSUE=$(echo "$BODY" | grep -oE 'Fixes #[0-9]+' | head -1 | grep -oE '[0-9]+' || true)
-          if [ -z "$ISSUE" ]; then
-            echo "::error::Could not find 'Fixes #N' in PR body"
-            exit 1
-          fi
-          echo "issue_number=$ISSUE" >> "$GITHUB_OUTPUT"
-          echo "Linked to issue #$ISSUE"
-
-      - name: Pre-test setup
-        run: touch backend/.env
-
-      - name: Run tests
-        id: test
-        continue-on-error: true
-        env:
-          GITHUB__GITHUBAPP__APP_ID: ${{ secrets.GH_APP_ID }}
-          GITHUB__GITHUBAPP__PRIVATE_KEY_CERTIFICATE_BASE64: ${{ secrets.GH_APP_PRIVATE_KEY_BASE64 }}
-          INTEGRATION_TEST_INSTALLATION_ID: ${{ secrets.GH_APP_INSTALLATION_ID }}
-        run: |
-          set -o pipefail
-          dotnet test backend/Base.sln 2>&1 | tee /tmp/test-output.txt
-
-      - name: Record test result
-        id: testresult
-        run: |
-          if [ "${{ steps.test.outcome }}" = "success" ]; then
-            echo "tests_passed=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "tests_passed=false" >> "$GITHUB_OUTPUT"
-          fi
-
-      - name: Run review agent
-        id: review
-        continue-on-error: true
-        uses: anthropics/claude-code-action@v1
-        with:
-          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-          show_full_output: true
-          allowed_bots: "*"
-          prompt: |
-            REPO: ${{ github.repository }}
-            PR: #${{ github.event.pull_request.number }}
-            TESTS_PASSED: ${{ steps.testresult.outputs.tests_passed }}
-
-            You are reviewing an auto-generated fix PR. The bias is toward
-            APPROVING (CLEAN). Most auto-fixes are small and trivial — they
-            should pass review and merge automatically without human attention.
-
-            STEP 1 — Read the diff:
-              gh pr diff ${{ github.event.pull_request.number }}
-
-            STEP 2 — Decide CLEAN or CRITICAL.
-
-            CLEAN (default): The diff is fine to merge. Examples:
-            - Documentation changes (README, CHANGELOG, comments)
-            - Adding a TODO comment
-            - Renaming a variable for clarity
-            - Adding a single new file with safe content
-            - Small refactors that don't change behavior
-            - Anything that doesn't match the CRITICAL list below
-
-            CRITICAL: Only flag as critical if the diff contains ANY of:
-            - Hardcoded API keys, secrets, passwords, tokens, or credentials
-            - SQL injection (string concatenation in queries)
-            - Command injection (untrusted input in shell exec)
-            - Removal of authentication/authorization checks
-            - Removal of input validation that protects against XSS / SSRF / path traversal
-            - Code that would crash the app on startup or for all users
-            - Deletion of critical files or large amounts of code with no replacement
-
-            STEP 3 — Take action:
-
-            If CLEAN:
-              - Write the literal string `CLEAN` to /tmp/review-result.txt
-              - Do NOT post any comment on the PR
-              - Exit
-
-            If CRITICAL:
-              - First post ONE summary comment on the PR explaining the issues:
-                  gh pr comment ${{ github.event.pull_request.number }} --body "Critical issues found:\n\n- file:line — what's wrong\n  Suggested fix:\n  \`\`\`\n  fixed code\n  \`\`\`"
-              - Then write the literal string `CRITICAL` to /tmp/review-result.txt
-              - Exit
-
-            DO NOT merge the PR. DO NOT close the PR. DO NOT use Edit or Write
-            on any repo files. The only file you should Write to is
-            /tmp/review-result.txt.
-
-            REMEMBER: Most fixes are CLEAN. Bias toward CLEAN. A README change,
-            a comment addition, or a CHANGELOG entry is ALWAYS CLEAN.
-          claude_args: '--allowedTools "Read,Glob,Grep,Bash(gh pr view:*),Bash(gh pr diff:*),Bash(gh pr comment:*),Bash(git diff:*),Write"'
-
-      - name: Decide outcome
-        if: always()
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          TESTS_PASSED='${{ steps.testresult.outputs.tests_passed }}'
-          VERDICT=$(cat /tmp/review-result.txt 2>/dev/null || echo "CRITICAL")
-          PR_NUMBER='${{ github.event.pull_request.number }}'
-          ISSUE_NUMBER='${{ steps.issue.outputs.issue_number }}'
-
-          echo "tests=$TESTS_PASSED verdict=$VERDICT pr=$PR_NUMBER issue=$ISSUE_NUMBER"
-
-          if [[ "$TESTS_PASSED" == "true" && "$VERDICT" == "CLEAN" ]]; then
-            gh pr merge "$PR_NUMBER" --squash --delete-branch
-            gh issue comment "$ISSUE_NUMBER" --body "Auto-merged in #$PR_NUMBER"
-            gh issue close "$ISSUE_NUMBER"
-          elif [[ "$TESTS_PASSED" == "true" && "$VERDICT" == "CRITICAL" ]]; then
-            gh issue comment "$ISSUE_NUMBER" --body "PR #$PR_NUMBER ready — review agent flagged critical issues, see PR comment."
-          else
-            gh pr ready "$PR_NUMBER" --undo || true
-            gh issue comment "$ISSUE_NUMBER" --body "Auto-fix attempt has failing tests — PR #$PR_NUMBER converted to draft."
-          fi
+    uses: compozerr/.github/.github/workflows/auto-pr-review.yml@test
+    with:
+      language: dotnet
+      pre_test_setup: touch backend/.env
+      test_command: dotnet test backend/Base.sln
+    secrets: inherit
