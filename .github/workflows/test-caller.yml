@@ -1,0 +1,6 @@
+name: Local Caller
+on:
+  workflow_dispatch:
+jobs:
+  call:
+    uses: ./.github/workflows/test-reusable.yml
