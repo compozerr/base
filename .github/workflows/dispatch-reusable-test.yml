@@ -1,0 +1,13 @@
+name: Dispatch Reusable Test
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+      id-token: write
+      actions: read
+    uses: compozerr/.github/.github/workflows/auto-issue-fix.yml@test
+    secrets: inherit
