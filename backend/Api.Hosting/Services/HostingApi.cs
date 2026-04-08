@@ -138,6 +138,10 @@ public sealed class HostingApi(
                     serverTier = ServerTiers.GetById(
                         deployment.Environment?.ServerTierId
                         ?? deployment.Project.ServerTierId),
+                    // environmentId is what the hosting manager forwards to its
+                    // service-reporting pipeline. Without it, the manager falls back
+                    // to the non-env endpoint and reports services as production.
+                    environmentId = deployment.EnvironmentId?.Value.ToString(),
                     environmentName = deployment.Environment?.Name,
                     environmentType = deployment.Environment?.Type.ToString().ToLower(),
                     subdomain = deployment.Environment?.Subdomain
