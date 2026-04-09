@@ -12,7 +12,6 @@ import { useState } from 'react'
 
 import { api } from '@/api-client'
 import LoadingButton from '@/components/loading-button'
-import { orgFetch } from '@/lib/org-storage'
 import { useToast } from '@/hooks/use-toast'
 import { cn } from '@/lib/utils'
 import { Github, AlertTriangle, Building2, Trash2, ArrowRightLeft, User, ExternalLink, GitBranch } from 'lucide-react'
@@ -24,8 +23,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
-import { apiBaseUrl } from '@/api-client'
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 
 export const Route = createFileRoute(
   '/_auth/_dashboard/projects/$projectId/settings/general',
@@ -115,52 +112,29 @@ function GeneralSettingsTab() {
   )
 }
 
-interface Org {
-  id: string
-  name: string
-  slug: string
-  isPersonal: boolean
-}
-
 function TransferProjectSection({ projectId, projectName }: { projectId: string; projectName?: string }) {
   const [transferDialogOpen, setTransferDialogOpen] = useState(false)
   const [selectedOrgId, setSelectedOrgId] = useState<string | null>(null)
   const { toast } = useToast()
-  const queryClient = useQueryClient()
 
-  const { data: organizations } = useQuery<Org[]>({
-    queryKey: ['organizations'],
-    queryFn: async () => {
-      const res = await orgFetch(`${apiBaseUrl}/v1/organizations`)
-      if (!res.ok) return []
-      return res.json()
-    },
+  const { data: organizations } = api.v1.getOrganizations.useQuery(undefined, {
     enabled: transferDialogOpen,
   })
 
-  const transferMutation = useMutation({
-    mutationFn: async (targetOrgId: string) => {
-      const res = await orgFetch(`${apiBaseUrl}/v1/organizations/${targetOrgId}/transfer-project`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ projectId }),
-      })
-      if (!res.ok) {
-        const err = await res.json().catch(() => null)
-        throw new Error(err?.detail || 'Failed to transfer project')
-      }
-      return res.json()
+  const transferMutation = api.v1.postOrganizationsOrganizationIdTransferProject.useMutation(
+    undefined as void,
+    {
+      onSuccess: () => {
+        toast({ title: 'Project transferred', description: `${projectName} has been moved.`, variant: 'success' })
+        api.v1.getOrganizations.invalidateQueries()
+        setTransferDialogOpen(false)
+        setSelectedOrgId(null)
+      },
+      onError: (error) => {
+        toast({ title: 'Error', description: error instanceof Error ? error.message : String(error), variant: 'destructive' })
+      },
     },
-    onSuccess: () => {
-      toast({ title: 'Project transferred', description: `${projectName} has been moved.`, variant: 'success' })
-      queryClient.invalidateQueries({ queryKey: ['organizations'] })
-      setTransferDialogOpen(false)
-      setSelectedOrgId(null)
-    },
-    onError: (error: Error) => {
-      toast({ title: 'Error', description: error.message, variant: 'destructive' })
-    },
-  })
+  )
 
   return (
     <>
@@ -234,7 +208,7 @@ function TransferProjectSection({ projectId, projectName }: { projectId: string;
               Cancel
             </Button>
             <Button
-              onClick={() => selectedOrgId && transferMutation.mutate(selectedOrgId)}
+              onClick={() => selectedOrgId && transferMutation.mutate({ path: { organizationId: selectedOrgId }, body: { projectId } })}
               disabled={!selectedOrgId || transferMutation.isPending}
             >
               {transferMutation.isPending ? 'Transferring...' : 'Transfer Project'}

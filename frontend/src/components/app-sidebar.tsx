@@ -1,5 +1,5 @@
-import { api, apiBaseUrl } from "@/api-client"
-import { getCurrentOrgId, setCurrentOrgId as persistOrgId, orgFetch } from "@/lib/org-storage"
+import { api } from "@/api-client"
+import { getCurrentOrgId, setCurrentOrgId as persistOrgId } from "@/lib/org-storage"
 import { CompozerrLogo } from "@/components/compozerr-logo"
 import { useAuth } from "@/hooks/use-dynamic-auth"
 import { getLink } from "@/links"
@@ -7,7 +7,6 @@ import { Link, useNavigate, useRouter, useRouterState } from "@tanstack/react-ro
 import { AnimatePresence, motion } from "framer-motion"
 import { Building2, Check, ChevronDown, ChevronsUpDown, FileText, FolderGit2, Home, LogOut, Package, Settings, User } from "lucide-react"
 import { useEffect, useState } from "react"
-import { useQuery } from "@tanstack/react-query"
 import {
   Sidebar,
   SidebarContent,
@@ -22,14 +21,6 @@ import {
   SidebarSeparator,
 } from "./ui/sidebar"
 
-interface Organization {
-  id: string
-  name: string
-  slug: string
-  isPersonal: boolean
-  avatarUrl?: string | null
-}
-
 export function AppSidebar() {
   const navigate = useNavigate()
   const router = useRouter()
@@ -40,15 +31,7 @@ export function AppSidebar() {
 
   const { logout, user } = useAuth()
 
-  const { data: organizations } = useQuery<Organization[]>({
-    queryKey: ["organizations"],
-    queryFn: async () => {
-      const res = await orgFetch(`${apiBaseUrl}/v1/organizations`)
-      if (!res.ok) return []
-      return res.json()
-    },
-    staleTime: 60_000,
-  })
+  const { data: organizations } = api.v1.getOrganizations.useQuery(undefined, { staleTime: 60_000 })
 
   const [currentOrgId, setCurrentOrgId] = useState<string | null>(() =>
     getCurrentOrgId()
@@ -67,7 +50,7 @@ export function AppSidebar() {
 
   const currentOrg = organizations?.find((o) => o.id === currentOrgId)
 
-  const switchOrg = (org: Organization) => {
+  const switchOrg = (org: NonNullable<typeof organizations>[number]) => {
     setCurrentOrgId(org.id)
     persistOrgId(org.id)
     setOrgSwitcherOpen(false)

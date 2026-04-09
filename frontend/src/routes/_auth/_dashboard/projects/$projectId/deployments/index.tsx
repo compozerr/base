@@ -1,4 +1,4 @@
-import { api, apiBaseUrl } from "@/api-client"
+import { api } from "@/api-client"
 import InfiniteScrollContainer from "@/components/infinite-scroll-container"
 import LoadingButton from "@/components/loading-button"
 import { Badge } from "@/components/ui/badge"
@@ -19,7 +19,6 @@ import {
     RefreshCw,
     RocketIcon,
 } from "lucide-react"
-import { useMutation } from "@tanstack/react-query"
 import { useMemo, useState } from "react"
 
 export const Route = createFileRoute(
@@ -133,19 +132,9 @@ function RouteComponent() {
         refetch();
     }
 
-    const { mutateAsync: cancelDeploymentAsync } = useMutation({
-        mutationFn: async (deploymentId: string) => {
-            const res = await fetch(
-                `${apiBaseUrl}/v1/projects/${encodeURIComponent(projectId)}/deployments/${encodeURIComponent(deploymentId)}/cancel`,
-                { method: 'POST', credentials: 'include' },
-            );
-            if (!res.ok) {
-                const text = await res.text();
-                throw new Error(text || 'Failed to cancel deployment');
-            }
-            return res.json();
-        },
-    });
+    const { mutateAsync: cancelDeploymentAsync } = api.v1.postProjectsProjectIdDeploymentsDeploymentIdCancel.useMutation(
+        undefined as void,
+    );
 
     return (
         <div className="space-y-6">
@@ -212,7 +201,7 @@ function RouteComponent() {
                                 projectId={projectId}
                                 router={router}
                                 onCancel={async (deploymentId: string) => {
-                                    await cancelDeploymentAsync(deploymentId);
+                                    await cancelDeploymentAsync({ path: { projectId, deploymentId } });
                                     refetch();
                                 }}
                             />

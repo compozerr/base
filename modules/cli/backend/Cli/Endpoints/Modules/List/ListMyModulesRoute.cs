@@ -1,5 +1,4 @@
 using Api.Data;
-using Api.Data.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
@@ -15,14 +14,17 @@ public static class ListMyModulesRoute
 
     public static RouteHandlerBuilder AddListMyModulesRoute(this IEndpointRouteBuilder app)
     {
-        return app.MapGet(Route, async (ApiDbContext db) =>
-        {
-            var modules = await db.Modules
-                .OrderBy(m => m.Name)
-                .Select(m => new MyModuleDto(m.Name, m.RepoUri.ToString()))
-                .ToListAsync();
+        return app.MapGet(Route, ExecuteAsync)
+            .Produces<MyModuleDto[]>();
+    }
 
-            return Results.Ok(modules);
-        });
+    private static async Task<MyModuleDto[]> ExecuteAsync(ApiDbContext db)
+    {
+        var modules = await db.Modules
+            .OrderBy(m => m.Name)
+            .Select(m => new MyModuleDto(m.Name, m.RepoUri.ToString()))
+            .ToListAsync();
+
+        return modules.ToArray();
     }
 }

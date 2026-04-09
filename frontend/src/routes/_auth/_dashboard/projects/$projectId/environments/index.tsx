@@ -1,5 +1,5 @@
 import { createFileRoute, getRouteApi, Link } from '@tanstack/react-router'
-import { api, apiBaseUrl } from '@/api-client'
+import { api } from '@/api-client'
 import { Badge } from '@/components/ui/badge'
 import LoadingButton from '@/components/loading-button'
 import { Button } from '@/components/ui/button'
@@ -25,7 +25,6 @@ import { useTimeAgo } from '@/hooks/useTimeAgo'
 import { useModal } from '@/hooks/use-modal'
 import { useToast } from '@/hooks/use-toast'
 import { cn } from '@/lib/utils'
-import { useMutation, useQuery } from '@tanstack/react-query'
 import { motion } from 'framer-motion'
 import {
     Clock,
@@ -261,29 +260,19 @@ function EnvironmentCard({
             path: { projectId, environmentId: env.id },
         })
 
-    const { mutateAsync: deployAsync, isPending: isDeploying } = useMutation({
-        mutationFn: async () => {
-            const url = new URL(
-                `${apiBaseUrl}/v1/projects/${encodeURIComponent(projectId)}/deployments/deploy-from-latest-commit`,
-            )
-            url.searchParams.set('environmentId', env.id)
-            const res = await fetch(url, {
-                method: 'POST',
-                credentials: 'include',
-            })
-            if (!res.ok) {
-                const text = await res.text()
-                throw new Error(text || 'Failed to deploy')
-            }
-        },
-        onSuccess: () => {
-            toast({
-                title: 'Deployment started',
-                description: `Deploying latest commit to "${env.name ?? env.id}".`,
-            })
-            onChanged()
-        },
-    })
+    const { mutateAsync: deployAsync, isPending: isDeploying } =
+        api.v1.postProjectsProjectIdDeploymentsDeployFromLatestCommit.useMutation(
+            { path: { projectId }, query: { environmentId: env.id } },
+            {
+                onSuccess: () => {
+                    toast({
+                        title: 'Deployment started',
+                        description: `Deploying latest commit to "${env.name ?? env.id}".`,
+                    })
+                    onChanged()
+                },
+            },
+        )
 
     const handleDelete = async () => {
         const name = env.name ?? env.id
@@ -519,19 +508,10 @@ function CreateEnvironmentDialog({
     const [selectedTier, setSelectedTier] = useState('T0')
     const { toast } = useToast()
 
-    const { data: branchesData } = useQuery({
-        queryKey: ['branches', projectId],
-        queryFn: async () => {
-            const res = await fetch(
-                `${apiBaseUrl}/v1/projects/${encodeURIComponent(projectId)}/environments/branches`,
-                { credentials: 'include' },
-            )
-            if (!res.ok) return { branches: [] as string[] }
-            return res.json() as Promise<{ branches: string[] }>
-        },
-        enabled: open,
-        staleTime: 60_000,
-    })
+    const { data: branchesData } = api.v1.getProjectsProjectIdEnvironmentsBranches.useQuery(
+        { path: { projectId } },
+        { enabled: open, staleTime: 60_000 },
+    )
     const branches = branchesData?.branches ?? []
 
     const handleBranchSelect = (value: string) => {

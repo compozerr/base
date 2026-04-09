@@ -4207,6 +4207,229 @@ export interface V1Service {
             body: PostCliModulesForkModulesBody;
         };
     };
+    getCliModulesMine: {
+        /**/
+        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: QueryFnOptionsByQueryKey<GetCliModulesMineSchema, GetCliModulesMineParameters, TMeta, TSignal> | (QueryFnOptionsByParameters<GetCliModulesMineParameters, TMeta, TSignal> | void), client?: (schema: GetCliModulesMineSchema, options: {
+            parameters: GetCliModulesMineParameters;
+            signal?: TSignal;
+            meta?: TMeta;
+        }) => Promise<RequestFnResponse<GetCliModulesMineData, GetCliModulesMineError>>): Promise<RequestFnResponse<GetCliModulesMineData, GetCliModulesMineError>>;
+        /**/
+        getQueryKey(parameters: DeepReadonly<GetCliModulesMineParameters> | void): ServiceOperationQueryKey<GetCliModulesMineSchema, GetCliModulesMineParameters>;
+        /**
+         * Performs asynchronous data fetching, manages loading states and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
+         * @example Query without parameters
+         * ```ts
+         * const { data, isLoading } = qraft.v1Service.getCliModulesMine.useQuery()
+         * ```
+         */
+        useQuery<TData = GetCliModulesMineData>(parameters: ServiceOperationQueryKey<GetCliModulesMineSchema, GetCliModulesMineParameters> | (DeepReadonly<GetCliModulesMineParameters> | void), options?: Omit<UndefinedInitialDataOptions<GetCliModulesMineData, GetCliModulesMineError, TData, ServiceOperationQueryKey<GetCliModulesMineSchema, GetCliModulesMineParameters>>, "queryKey">): UseQueryResult<TData, OperationError<GetCliModulesMineError>>;
+        /**
+         * Performs asynchronous data fetching, manages loading states and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
+         * @example Query without parameters
+         * ```ts
+         * const { data, isLoading } = qraft.v1Service.getCliModulesMine.useQuery()
+         * ```
+         */
+        useQuery<TData = GetCliModulesMineData>(parameters: ServiceOperationQueryKey<GetCliModulesMineSchema, GetCliModulesMineParameters> | (DeepReadonly<GetCliModulesMineParameters> | void), options: Omit<DefinedInitialDataOptions<GetCliModulesMineData, GetCliModulesMineError, TData, ServiceOperationQueryKey<GetCliModulesMineSchema, GetCliModulesMineParameters>>, "queryKey">): DefinedUseQueryResult<TData, OperationError<GetCliModulesMineError>>;
+        /**/
+        getInfiniteQueryKey(parameters: DeepReadonly<GetCliModulesMineParameters> | void): ServiceOperationInfiniteQueryKey<GetCliModulesMineSchema, GetCliModulesMineParameters>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useInfiniteQuery|`useInfiniteQuery(...)` documentation}
+         *
+         * @example Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getCliModulesMine.useInfiniteQuery({}, {
+         *     initialPageParam: {},
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useInfiniteQuery<TPageParam extends GetCliModulesMineParameters, TQueryFnData = GetCliModulesMineData, TData = OperationInfiniteData<TQueryFnData, GetCliModulesMineParameters>>(parameters: ServiceOperationInfiniteQueryKey<GetCliModulesMineSchema, GetCliModulesMineParameters> | (DeepReadonly<GetCliModulesMineParameters> | void), options: Omit<UndefinedInitialDataInfiniteOptions<TQueryFnData, GetCliModulesMineError, TData, ServiceOperationInfiniteQueryKey<GetCliModulesMineSchema, GetCliModulesMineParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<TQueryFnData, PartialParameters<DeepReadonly<TPageParam>>>): UseInfiniteQueryResult<TData, OperationError<GetCliModulesMineError>>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useInfiniteQuery|`useInfiniteQuery(...)` documentation}
+         *
+         * @example Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getCliModulesMine.useInfiniteQuery({}, {
+         *     initialPageParam: {},
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useInfiniteQuery<TPageParam extends GetCliModulesMineParameters, TQueryFnData = GetCliModulesMineData, TData = OperationInfiniteData<TQueryFnData, GetCliModulesMineParameters>>(parameters: ServiceOperationInfiniteQueryKey<GetCliModulesMineSchema, GetCliModulesMineParameters> | (DeepReadonly<GetCliModulesMineParameters> | void), options: Omit<DefinedInitialDataInfiniteOptions<TQueryFnData, GetCliModulesMineError, TData, ServiceOperationInfiniteQueryKey<GetCliModulesMineSchema, GetCliModulesMineParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<GetCliModulesMineData, PartialParameters<DeepReadonly<TPageParam>>>): DefinedUseInfiniteQueryResult<TData, OperationError<GetCliModulesMineError>>;
+        /**
+         * Monitors the number of queries currently fetching, matching the provided filters.
+         * Useful for creating loading indicators or performing actions based on active requests.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsFetching|`useIsFetching(...)` documentation}
+         * @example Checks the total number of queries fetching from the specified service method,
+         * both normal and infinite. If no parameters are provided, no filtering is applied.
+         * ```ts
+         * const getCliModulesMineTotal = qraft.v1Service.getCliModulesMine.useIsFetching()
+         * ```
+         */
+        useIsFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetCliModulesMineSchema, GetCliModulesMineData, TInfinite, GetCliModulesMineParameters, GetCliModulesMineError> | QueryFiltersByQueryKey<GetCliModulesMineSchema, GetCliModulesMineData, TInfinite, GetCliModulesMineParameters, GetCliModulesMineError>): number;
+        /**
+         * Allows you to execute multiple asynchronous data fetching operations concurrently. This is especially useful for managing complex data dependencies in parallel.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
+         * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
+         * ```ts
+         * const getCliModulesMineResults = qraft.v1Service.getCliModulesMine.useQueries({
+         *     queries: [
+         *         {},
+         *         {}
+         *     ]
+         * });
+         * getCliModulesMineResults.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
+         * ```
+         * @example Combined results. Only the data will be returned.
+         * ```ts
+         * const getCliModulesMineCombinedResults = qraft.v1Service.getCliModulesMine.useQueries({
+         *     combine: results => results.map(result => result.data),
+         *     queries: [
+         *         {},
+         *         {}
+         *     ]
+         * });
+         * getCliModulesMineCombinedResults.forEach(data => console.log({ data }));
+         * ```
+         */
+        useQueries<T extends Array<UseQueryOptionsForUseQueries<GetCliModulesMineSchema, GetCliModulesMineParameters, GetCliModulesMineData, GetCliModulesMineError>>, TCombinedResult = Array<UseQueryResult<GetCliModulesMineData, GetCliModulesMineError>>>(options: {
+            queries: T;
+            combine?: (results: Array<UseQueryResult<GetCliModulesMineData, GetCliModulesMineError>>) => TCombinedResult;
+        }): TCombinedResult;
+        /**
+         * Performs asynchronous data fetching with Suspense support.
+         * Similar to useQuery but integrates with React Suspense for loading states.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
+         * @example Suspense Query without parameters
+         * ```ts
+         * const data = qraft.v1Service.getCliModulesMine.useSuspenseQuery()
+         * ```
+         */
+        useSuspenseQuery<TData = GetCliModulesMineData>(parameters: ServiceOperationQueryKey<GetCliModulesMineSchema, GetCliModulesMineParameters> | (DeepReadonly<GetCliModulesMineParameters> | void), options?: Omit<UseSuspenseQueryOptions<GetCliModulesMineData, GetCliModulesMineError, TData, ServiceOperationQueryKey<GetCliModulesMineSchema, GetCliModulesMineParameters>>, "queryKey">): UseSuspenseQueryResult<TData, OperationError<GetCliModulesMineError>>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         * It functions similarly to `useInfiniteQuery`, but with added support for React Suspense.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseInfiniteQuery|`useSuspenseInfiniteQuery(...)` documentation}
+         *
+         * @example Suspense Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getCliModulesMine.useSuspenseInfiniteQuery({}, {
+         *     initialPageParam: {},
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useSuspenseInfiniteQuery<TPageParam extends GetCliModulesMineParameters, TData = GetCliModulesMineData>(parameters: ServiceOperationInfiniteQueryKey<GetCliModulesMineSchema, GetCliModulesMineParameters> | (DeepReadonly<GetCliModulesMineParameters> | void), options: Omit<UseSuspenseInfiniteQueryOptions<GetCliModulesMineData, GetCliModulesMineError, OperationInfiniteData<TData, GetCliModulesMineParameters>, ServiceOperationInfiniteQueryKey<GetCliModulesMineSchema, GetCliModulesMineParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<GetCliModulesMineData, PartialParameters<DeepReadonly<TPageParam>>>): UseSuspenseInfiniteQueryResult<OperationInfiniteData<TData, GetCliModulesMineParameters>, OperationError<GetCliModulesMineError>>;
+        /**
+         * Allows you to execute multiple asynchronous data fetching operations concurrently with Suspense support.
+         * Similar to useQueries but integrates with React Suspense for loading states.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
+         * @example Basic usage with Suspense
+         * ```ts
+         * const getCliModulesMineData = qraft.v1Service.getCliModulesMine.useSuspenseQueries({
+         *     queries: [
+         *         {},
+         *         {}
+         *     ]
+         * });
+         * getCliModulesMineResults.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
+         * ```
+         * @example With data transformation using combine
+         * ```ts
+         * const getCliModulesMineCombinedData = qraft.v1Service.getCliModulesMine.useSuspenseQueries({
+         *     combine: results => results.map(result => result.data),
+         *     queries: [
+         *         {},
+         *         {}
+         *     ]
+         * });
+         * getCliModulesMineCombinedData.forEach(data => console.log({ data }));
+         * ```
+         */
+        useSuspenseQueries<T extends Array<UseQueryOptionsForUseSuspenseQuery<GetCliModulesMineSchema, GetCliModulesMineParameters, GetCliModulesMineData, GetCliModulesMineError>>, TCombinedResult = Array<UseSuspenseQueryResult<GetCliModulesMineData, GetCliModulesMineError>>>(options: {
+            queries: T;
+            combine?: (results: Array<WithOptional<UseSuspenseQueryResult<GetCliModulesMineData, GetCliModulesMineError>, "data">>) => TCombinedResult;
+        }): TCombinedResult;
+        /**/
+        fetchQuery(options: ServiceOperationFetchQueryOptions<GetCliModulesMineSchema, GetCliModulesMineData, GetCliModulesMineParameters, GetCliModulesMineError> | void): Promise<GetCliModulesMineData>;
+        /**/
+        prefetchQuery(options: ServiceOperationFetchQueryOptions<GetCliModulesMineSchema, GetCliModulesMineData, GetCliModulesMineParameters, GetCliModulesMineError> | void): Promise<void>;
+        /**/
+        ensureQueryData(options: ServiceOperationEnsureQueryDataOptions<GetCliModulesMineSchema, GetCliModulesMineData, GetCliModulesMineParameters, GetCliModulesMineError> | void): Promise<GetCliModulesMineData>;
+        /**/
+        fetchInfiniteQuery<TPageParam extends GetCliModulesMineParameters>(options: ServiceOperationFetchInfiniteQueryOptions<GetCliModulesMineSchema, GetCliModulesMineData, GetCliModulesMineParameters, DeepReadonly<TPageParam>, GetCliModulesMineError> | void): Promise<OperationInfiniteData<GetCliModulesMineData, GetCliModulesMineParameters>>;
+        /**/
+        prefetchInfiniteQuery<TPageParam extends GetCliModulesMineParameters>(options: ServiceOperationFetchInfiniteQueryOptions<GetCliModulesMineSchema, GetCliModulesMineData, GetCliModulesMineParameters, DeepReadonly<TPageParam>, GetCliModulesMineError> | void): Promise<void>;
+        /**/
+        ensureInfiniteQueryData<TPageParam extends GetCliModulesMineParameters>(options: ServiceOperationEnsureInfiniteQueryDataOptions<GetCliModulesMineSchema, GetCliModulesMineData, GetCliModulesMineParameters, DeepReadonly<TPageParam>, GetCliModulesMineError> | void): Promise<OperationInfiniteData<GetCliModulesMineData, GetCliModulesMineParameters>>;
+        /**/
+        getQueryData(parameters: ServiceOperationQueryKey<GetCliModulesMineSchema, GetCliModulesMineParameters> | (DeepReadonly<GetCliModulesMineParameters> | void)): GetCliModulesMineData | undefined;
+        /**/
+        getInfiniteQueryData(parameters: ServiceOperationInfiniteQueryKey<GetCliModulesMineSchema, GetCliModulesMineParameters> | (DeepReadonly<GetCliModulesMineParameters> | void)): OperationInfiniteData<GetCliModulesMineData, GetCliModulesMineParameters> | undefined;
+        /**/
+        getQueriesData<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetCliModulesMineSchema, GetCliModulesMineData, TInfinite, GetCliModulesMineParameters, GetCliModulesMineError> | QueryFiltersByQueryKey<GetCliModulesMineSchema, GetCliModulesMineData, TInfinite, GetCliModulesMineParameters, GetCliModulesMineError>): TInfinite extends true ? Array<[
+            queryKey: ServiceOperationInfiniteQueryKey<GetCliModulesMineSchema, GetCliModulesMineParameters>,
+            data: NoInfer<OperationInfiniteData<GetCliModulesMineData, GetCliModulesMineParameters>> | undefined
+        ]> : Array<[
+            queryKey: ServiceOperationQueryKey<GetCliModulesMineSchema, GetCliModulesMineParameters>,
+            data: GetCliModulesMineData | undefined
+        ]>;
+        /**/
+        getQueryState(parameters: ServiceOperationQueryKey<GetCliModulesMineSchema, GetCliModulesMineParameters> | (DeepReadonly<GetCliModulesMineParameters> | void)): QueryState<GetCliModulesMineData, GetCliModulesMineError> | undefined;
+        /**/
+        getInfiniteQueryState(parameters: DeepReadonly<GetCliModulesMineParameters> | ServiceOperationInfiniteQueryKey<GetCliModulesMineSchema, GetCliModulesMineParameters> | void): QueryState<OperationInfiniteData<GetCliModulesMineData, GetCliModulesMineParameters>, GetCliModulesMineError> | undefined;
+        /**/
+        setQueryData(parameters: (DeepReadonly<GetCliModulesMineParameters> | undefined) | ServiceOperationQueryKey<GetCliModulesMineSchema, GetCliModulesMineParameters>, updater: Updater<NoInfer<GetCliModulesMineData> | undefined, NoInfer<DeepReadonly<GetCliModulesMineData>> | undefined>, options?: SetDataOptions): GetCliModulesMineData | undefined;
+        /**/
+        setInfiniteQueryData(parameters: (DeepReadonly<GetCliModulesMineParameters> | undefined) | ServiceOperationInfiniteQueryKey<GetCliModulesMineSchema, GetCliModulesMineParameters>, updater: Updater<NoInfer<OperationInfiniteData<GetCliModulesMineData, GetCliModulesMineParameters>> | undefined, NoInfer<DeepReadonly<OperationInfiniteData<GetCliModulesMineData, GetCliModulesMineParameters>>> | undefined>, options?: SetDataOptions): OperationInfiniteData<GetCliModulesMineData, GetCliModulesMineParameters> | undefined;
+        /**/
+        setQueriesData<TInfinite extends boolean = false>(filters: QueryFiltersByParameters<GetCliModulesMineSchema, GetCliModulesMineData, TInfinite, GetCliModulesMineParameters, GetCliModulesMineError> | QueryFiltersByQueryKey<GetCliModulesMineSchema, GetCliModulesMineData, TInfinite, GetCliModulesMineParameters, GetCliModulesMineError>, updater: Updater<NoInfer<GetCliModulesMineData> | undefined, NoInfer<GetCliModulesMineData> | undefined>, options?: SetDataOptions): Array<GetCliModulesMineData | undefined>;
+        /**/
+        invalidateQueries<TInfinite extends boolean = false>(filters?: InvalidateQueryFilters<GetCliModulesMineSchema, GetCliModulesMineData, TInfinite, GetCliModulesMineParameters, GetCliModulesMineError>, options?: InvalidateOptions): Promise<void>;
+        /**/
+        refetchQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetCliModulesMineSchema, GetCliModulesMineData, TInfinite, GetCliModulesMineParameters, GetCliModulesMineError> | QueryFiltersByQueryKey<GetCliModulesMineSchema, GetCliModulesMineData, TInfinite, GetCliModulesMineParameters, GetCliModulesMineError>, options?: RefetchOptions): Promise<void>;
+        /**/
+        cancelQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetCliModulesMineSchema, GetCliModulesMineData, TInfinite, GetCliModulesMineParameters, GetCliModulesMineError> | QueryFiltersByQueryKey<GetCliModulesMineSchema, GetCliModulesMineData, TInfinite, GetCliModulesMineParameters, GetCliModulesMineError>, options?: CancelOptions): Promise<void>;
+        /**/
+        removeQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetCliModulesMineSchema, GetCliModulesMineData, TInfinite, GetCliModulesMineParameters, GetCliModulesMineError> | QueryFiltersByQueryKey<GetCliModulesMineSchema, GetCliModulesMineData, TInfinite, GetCliModulesMineParameters, GetCliModulesMineError>): void;
+        /**/
+        resetQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetCliModulesMineSchema, GetCliModulesMineData, TInfinite, GetCliModulesMineParameters, GetCliModulesMineError> | QueryFiltersByQueryKey<GetCliModulesMineSchema, GetCliModulesMineData, TInfinite, GetCliModulesMineParameters, GetCliModulesMineError>, options?: ResetOptions): Promise<void>;
+        /**/
+        isFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetCliModulesMineSchema, GetCliModulesMineData, TInfinite, GetCliModulesMineParameters, GetCliModulesMineError> | QueryFiltersByQueryKey<GetCliModulesMineSchema, GetCliModulesMineData, TInfinite, GetCliModulesMineParameters, GetCliModulesMineError>): number;
+        schema: GetCliModulesMineSchema;
+        types: {
+            parameters: GetCliModulesMineParameters;
+            data: GetCliModulesMineData;
+            error: GetCliModulesMineError;
+        };
+    };
     postCliModulesRelease: {
         /**/
         <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: ServiceOperationMutationFnOptions<PostCliModulesReleaseBody, PostCliModulesReleaseParameters, TMeta, TSignal>, client?: (schema: PostCliModulesReleaseSchema, options: ServiceOperationMutationFnOptions<PostCliModulesReleaseBody, PostCliModulesReleaseParameters, TMeta, TSignal>) => Promise<RequestFnResponse<PostCliModulesReleaseData, PostCliModulesReleaseError>>): Promise<RequestFnResponse<PostCliModulesReleaseData, PostCliModulesReleaseError>>;
@@ -12191,442 +12414,6 @@ export interface V1Service {
             data: DeleteProjectsProjectIdData;
             error: DeleteProjectsProjectIdError;
             body: DeleteProjectsProjectIdBody;
-        };
-    };
-    getProjectsProjectIdRepoStatus: {
-        /**/
-        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: QueryFnOptionsByQueryKey<GetProjectsProjectIdRepoStatusSchema, GetProjectsProjectIdRepoStatusParameters, TMeta, TSignal> | (QueryFnOptionsByParameters<GetProjectsProjectIdRepoStatusParameters, TMeta, TSignal>), client?: (schema: GetProjectsProjectIdRepoStatusSchema, options: {
-            parameters: GetProjectsProjectIdRepoStatusParameters;
-            signal?: TSignal;
-            meta?: TMeta;
-        }) => Promise<RequestFnResponse<GetProjectsProjectIdRepoStatusData, GetProjectsProjectIdRepoStatusError>>): Promise<RequestFnResponse<GetProjectsProjectIdRepoStatusData, GetProjectsProjectIdRepoStatusError>>;
-        /**/
-        getQueryKey(parameters: DeepReadonly<GetProjectsProjectIdRepoStatusParameters>): ServiceOperationQueryKey<GetProjectsProjectIdRepoStatusSchema, GetProjectsProjectIdRepoStatusParameters>;
-        /**
-         * Performs asynchronous data fetching, manages loading states and error handling.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
-         * @example Query with parameters
-         * ```ts
-         * const { data, isLoading } = qraft.v1Service.getProjectsProjectIdRepoStatus.useQuery({
-         *     path: {
-         *         projectId: projectId
-         *     }
-         * })
-         * ```
-         */
-        useQuery<TData = GetProjectsProjectIdRepoStatusData>(parameters: ServiceOperationQueryKey<GetProjectsProjectIdRepoStatusSchema, GetProjectsProjectIdRepoStatusParameters> | (DeepReadonly<GetProjectsProjectIdRepoStatusParameters>), options?: Omit<UndefinedInitialDataOptions<GetProjectsProjectIdRepoStatusData, GetProjectsProjectIdRepoStatusError, TData, ServiceOperationQueryKey<GetProjectsProjectIdRepoStatusSchema, GetProjectsProjectIdRepoStatusParameters>>, "queryKey">): UseQueryResult<TData, OperationError<GetProjectsProjectIdRepoStatusError>>;
-        /**
-         * Performs asynchronous data fetching, manages loading states and error handling.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
-         * @example Query with parameters
-         * ```ts
-         * const { data, isLoading } = qraft.v1Service.getProjectsProjectIdRepoStatus.useQuery({
-         *     path: {
-         *         projectId: projectId
-         *     }
-         * })
-         * ```
-         */
-        useQuery<TData = GetProjectsProjectIdRepoStatusData>(parameters: ServiceOperationQueryKey<GetProjectsProjectIdRepoStatusSchema, GetProjectsProjectIdRepoStatusParameters> | (DeepReadonly<GetProjectsProjectIdRepoStatusParameters>), options: Omit<DefinedInitialDataOptions<GetProjectsProjectIdRepoStatusData, GetProjectsProjectIdRepoStatusError, TData, ServiceOperationQueryKey<GetProjectsProjectIdRepoStatusSchema, GetProjectsProjectIdRepoStatusParameters>>, "queryKey">): DefinedUseQueryResult<TData, OperationError<GetProjectsProjectIdRepoStatusError>>;
-        /**/
-        getInfiniteQueryKey(parameters: DeepReadonly<GetProjectsProjectIdRepoStatusParameters>): ServiceOperationInfiniteQueryKey<GetProjectsProjectIdRepoStatusSchema, GetProjectsProjectIdRepoStatusParameters>;
-        /**
-         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
-         * Manages paginated data and provides utilities for fetching additional pages.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useInfiniteQuery|`useInfiniteQuery(...)` documentation}
-         *
-         * @example Infinite Query
-         * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdRepoStatus.useInfiniteQuery({
-         *     path: {
-         *         projectId: projectId
-         *     }
-         * }, {
-         *     initialPageParam: {},
-         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
-         * })
-         *
-         * console.log(data);
-         * fetchNextPage(); // Fetch the next page
-         * ```
-         */
-        useInfiniteQuery<TPageParam extends GetProjectsProjectIdRepoStatusParameters, TQueryFnData = GetProjectsProjectIdRepoStatusData, TData = OperationInfiniteData<TQueryFnData, GetProjectsProjectIdRepoStatusParameters>>(parameters: ServiceOperationInfiniteQueryKey<GetProjectsProjectIdRepoStatusSchema, GetProjectsProjectIdRepoStatusParameters> | (DeepReadonly<GetProjectsProjectIdRepoStatusParameters>), options: Omit<UndefinedInitialDataInfiniteOptions<TQueryFnData, GetProjectsProjectIdRepoStatusError, TData, ServiceOperationInfiniteQueryKey<GetProjectsProjectIdRepoStatusSchema, GetProjectsProjectIdRepoStatusParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<TQueryFnData, PartialParameters<DeepReadonly<TPageParam>>>): UseInfiniteQueryResult<TData, OperationError<GetProjectsProjectIdRepoStatusError>>;
-        /**
-         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
-         * Manages paginated data and provides utilities for fetching additional pages.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useInfiniteQuery|`useInfiniteQuery(...)` documentation}
-         *
-         * @example Infinite Query
-         * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdRepoStatus.useInfiniteQuery({
-         *     path: {
-         *         projectId: projectId
-         *     }
-         * }, {
-         *     initialPageParam: {},
-         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
-         * })
-         *
-         * console.log(data);
-         * fetchNextPage(); // Fetch the next page
-         * ```
-         */
-        useInfiniteQuery<TPageParam extends GetProjectsProjectIdRepoStatusParameters, TQueryFnData = GetProjectsProjectIdRepoStatusData, TData = OperationInfiniteData<TQueryFnData, GetProjectsProjectIdRepoStatusParameters>>(parameters: ServiceOperationInfiniteQueryKey<GetProjectsProjectIdRepoStatusSchema, GetProjectsProjectIdRepoStatusParameters> | (DeepReadonly<GetProjectsProjectIdRepoStatusParameters>), options: Omit<DefinedInitialDataInfiniteOptions<TQueryFnData, GetProjectsProjectIdRepoStatusError, TData, ServiceOperationInfiniteQueryKey<GetProjectsProjectIdRepoStatusSchema, GetProjectsProjectIdRepoStatusParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<GetProjectsProjectIdRepoStatusData, PartialParameters<DeepReadonly<TPageParam>>>): DefinedUseInfiniteQueryResult<TData, OperationError<GetProjectsProjectIdRepoStatusError>>;
-        /**
-         * Monitors the number of queries currently fetching, matching the provided filters.
-         * Useful for creating loading indicators or performing actions based on active requests.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsFetching|`useIsFetching(...)` documentation}
-         * @example Checks the total number of queries fetching from the specified service method,
-         * both normal and infinite. If no parameters are provided, no filtering is applied.
-         * ```ts
-         * const getProjectsProjectIdRepoStatusTotal = qraft.v1Service.getProjectsProjectIdRepoStatus.useIsFetching()
-         * ```
-         * @example Checks the number of normal queries fetching with the specified parameters.
-         * ```ts
-         * const getProjectsProjectIdRepoStatusByParametersTotal = qraft.v1Service.getProjectsProjectIdRepoStatus.useIsFetching({
-         *     infinite: false,
-         *     parameters: {
-         *         path: {
-         *             projectId: projectId
-         *         }
-         *     }
-         * })
-         * ```
-         */
-        useIsFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetProjectsProjectIdRepoStatusSchema, GetProjectsProjectIdRepoStatusData, TInfinite, GetProjectsProjectIdRepoStatusParameters, GetProjectsProjectIdRepoStatusError> | QueryFiltersByQueryKey<GetProjectsProjectIdRepoStatusSchema, GetProjectsProjectIdRepoStatusData, TInfinite, GetProjectsProjectIdRepoStatusParameters, GetProjectsProjectIdRepoStatusError>): number;
-        /**
-         * Allows you to execute multiple asynchronous data fetching operations concurrently. This is especially useful for managing complex data dependencies in parallel.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
-         * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
-         * ```ts
-         * const getProjectsProjectIdRepoStatusResults = qraft.v1Service.getProjectsProjectIdRepoStatus.useQueries({
-         *     queries: [
-         *         {
-         *             path: {
-         *                 projectId: projectId1
-         *             }
-         *         },
-         *         {
-         *             path: {
-         *                 projectId: projectId2
-         *             }
-         *         }
-         *     ]
-         * });
-         * getProjectsProjectIdRepoStatusResults.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
-         * ```
-         * @example Combined results. Only the data will be returned.
-         * ```ts
-         * const getProjectsProjectIdRepoStatusCombinedResults = qraft.v1Service.getProjectsProjectIdRepoStatus.useQueries({
-         *     combine: results => results.map(result => result.data),
-         *     queries: [
-         *         {
-         *             path: {
-         *                 projectId: projectId1
-         *             }
-         *         },
-         *         {
-         *             path: {
-         *                 projectId: projectId2
-         *             }
-         *         }
-         *     ]
-         * });
-         * getProjectsProjectIdRepoStatusCombinedResults.forEach(data => console.log({ data }));
-         * ```
-         */
-        useQueries<T extends Array<UseQueryOptionsForUseQueries<GetProjectsProjectIdRepoStatusSchema, GetProjectsProjectIdRepoStatusParameters, GetProjectsProjectIdRepoStatusData, GetProjectsProjectIdRepoStatusError>>, TCombinedResult = Array<UseQueryResult<GetProjectsProjectIdRepoStatusData, GetProjectsProjectIdRepoStatusError>>>(options: {
-            queries: T;
-            combine?: (results: Array<UseQueryResult<GetProjectsProjectIdRepoStatusData, GetProjectsProjectIdRepoStatusError>>) => TCombinedResult;
-        }): TCombinedResult;
-        /**
-         * Performs asynchronous data fetching with Suspense support.
-         * Similar to useQuery but integrates with React Suspense for loading states.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
-         * @example Suspense Query with parameters
-         * ```ts
-         * const data = qraft.v1Service.getProjectsProjectIdRepoStatus.useSuspenseQuery({
-         *     path: {
-         *         projectId: projectId
-         *     }
-         * })
-         * ```
-         */
-        useSuspenseQuery<TData = GetProjectsProjectIdRepoStatusData>(parameters: ServiceOperationQueryKey<GetProjectsProjectIdRepoStatusSchema, GetProjectsProjectIdRepoStatusParameters> | (DeepReadonly<GetProjectsProjectIdRepoStatusParameters>), options?: Omit<UseSuspenseQueryOptions<GetProjectsProjectIdRepoStatusData, GetProjectsProjectIdRepoStatusError, TData, ServiceOperationQueryKey<GetProjectsProjectIdRepoStatusSchema, GetProjectsProjectIdRepoStatusParameters>>, "queryKey">): UseSuspenseQueryResult<TData, OperationError<GetProjectsProjectIdRepoStatusError>>;
-        /**
-         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
-         * Manages paginated data and provides utilities for fetching additional pages.
-         * It functions similarly to `useInfiniteQuery`, but with added support for React Suspense.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseInfiniteQuery|`useSuspenseInfiniteQuery(...)` documentation}
-         *
-         * @example Suspense Infinite Query
-         * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdRepoStatus.useSuspenseInfiniteQuery({
-         *     path: {
-         *         projectId: projectId
-         *     }
-         * }, {
-         *     initialPageParam: {},
-         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
-         * })
-         *
-         * console.log(data);
-         * fetchNextPage(); // Fetch the next page
-         * ```
-         */
-        useSuspenseInfiniteQuery<TPageParam extends GetProjectsProjectIdRepoStatusParameters, TData = GetProjectsProjectIdRepoStatusData>(parameters: ServiceOperationInfiniteQueryKey<GetProjectsProjectIdRepoStatusSchema, GetProjectsProjectIdRepoStatusParameters> | (DeepReadonly<GetProjectsProjectIdRepoStatusParameters>), options: Omit<UseSuspenseInfiniteQueryOptions<GetProjectsProjectIdRepoStatusData, GetProjectsProjectIdRepoStatusError, OperationInfiniteData<TData, GetProjectsProjectIdRepoStatusParameters>, ServiceOperationInfiniteQueryKey<GetProjectsProjectIdRepoStatusSchema, GetProjectsProjectIdRepoStatusParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<GetProjectsProjectIdRepoStatusData, PartialParameters<DeepReadonly<TPageParam>>>): UseSuspenseInfiniteQueryResult<OperationInfiniteData<TData, GetProjectsProjectIdRepoStatusParameters>, OperationError<GetProjectsProjectIdRepoStatusError>>;
-        /**
-         * Allows you to execute multiple asynchronous data fetching operations concurrently with Suspense support.
-         * Similar to useQueries but integrates with React Suspense for loading states.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
-         * @example Basic usage with Suspense
-         * ```ts
-         * const getProjectsProjectIdRepoStatusData = qraft.v1Service.getProjectsProjectIdRepoStatus.useSuspenseQueries({
-         *     queries: [
-         *         {
-         *             path: {
-         *                 projectId: projectId1
-         *             }
-         *         },
-         *         {
-         *             path: {
-         *                 projectId: projectId2
-         *             }
-         *         }
-         *     ]
-         * });
-         * getProjectsProjectIdRepoStatusResults.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
-         * ```
-         * @example With data transformation using combine
-         * ```ts
-         * const getProjectsProjectIdRepoStatusCombinedData = qraft.v1Service.getProjectsProjectIdRepoStatus.useSuspenseQueries({
-         *     combine: results => results.map(result => result.data),
-         *     queries: [
-         *         {
-         *             path: {
-         *                 projectId: projectId1
-         *             }
-         *         },
-         *         {
-         *             path: {
-         *                 projectId: projectId2
-         *             }
-         *         }
-         *     ]
-         * });
-         * getProjectsProjectIdRepoStatusCombinedData.forEach(data => console.log({ data }));
-         * ```
-         */
-        useSuspenseQueries<T extends Array<UseQueryOptionsForUseSuspenseQuery<GetProjectsProjectIdRepoStatusSchema, GetProjectsProjectIdRepoStatusParameters, GetProjectsProjectIdRepoStatusData, GetProjectsProjectIdRepoStatusError>>, TCombinedResult = Array<UseSuspenseQueryResult<GetProjectsProjectIdRepoStatusData, GetProjectsProjectIdRepoStatusError>>>(options: {
-            queries: T;
-            combine?: (results: Array<WithOptional<UseSuspenseQueryResult<GetProjectsProjectIdRepoStatusData, GetProjectsProjectIdRepoStatusError>, "data">>) => TCombinedResult;
-        }): TCombinedResult;
-        /**/
-        fetchQuery(options: ServiceOperationFetchQueryOptions<GetProjectsProjectIdRepoStatusSchema, GetProjectsProjectIdRepoStatusData, GetProjectsProjectIdRepoStatusParameters, GetProjectsProjectIdRepoStatusError>): Promise<GetProjectsProjectIdRepoStatusData>;
-        /**/
-        prefetchQuery(options: ServiceOperationFetchQueryOptions<GetProjectsProjectIdRepoStatusSchema, GetProjectsProjectIdRepoStatusData, GetProjectsProjectIdRepoStatusParameters, GetProjectsProjectIdRepoStatusError>): Promise<void>;
-        /**/
-        ensureQueryData(options: ServiceOperationEnsureQueryDataOptions<GetProjectsProjectIdRepoStatusSchema, GetProjectsProjectIdRepoStatusData, GetProjectsProjectIdRepoStatusParameters, GetProjectsProjectIdRepoStatusError>): Promise<GetProjectsProjectIdRepoStatusData>;
-        /**/
-        fetchInfiniteQuery<TPageParam extends GetProjectsProjectIdRepoStatusParameters>(options: ServiceOperationFetchInfiniteQueryOptions<GetProjectsProjectIdRepoStatusSchema, GetProjectsProjectIdRepoStatusData, GetProjectsProjectIdRepoStatusParameters, DeepReadonly<TPageParam>, GetProjectsProjectIdRepoStatusError>): Promise<OperationInfiniteData<GetProjectsProjectIdRepoStatusData, GetProjectsProjectIdRepoStatusParameters>>;
-        /**/
-        prefetchInfiniteQuery<TPageParam extends GetProjectsProjectIdRepoStatusParameters>(options: ServiceOperationFetchInfiniteQueryOptions<GetProjectsProjectIdRepoStatusSchema, GetProjectsProjectIdRepoStatusData, GetProjectsProjectIdRepoStatusParameters, DeepReadonly<TPageParam>, GetProjectsProjectIdRepoStatusError>): Promise<void>;
-        /**/
-        ensureInfiniteQueryData<TPageParam extends GetProjectsProjectIdRepoStatusParameters>(options: ServiceOperationEnsureInfiniteQueryDataOptions<GetProjectsProjectIdRepoStatusSchema, GetProjectsProjectIdRepoStatusData, GetProjectsProjectIdRepoStatusParameters, DeepReadonly<TPageParam>, GetProjectsProjectIdRepoStatusError>): Promise<OperationInfiniteData<GetProjectsProjectIdRepoStatusData, GetProjectsProjectIdRepoStatusParameters>>;
-        /**/
-        getQueryData(parameters: ServiceOperationQueryKey<GetProjectsProjectIdRepoStatusSchema, GetProjectsProjectIdRepoStatusParameters> | (DeepReadonly<GetProjectsProjectIdRepoStatusParameters>)): GetProjectsProjectIdRepoStatusData | undefined;
-        /**/
-        getInfiniteQueryData(parameters: ServiceOperationInfiniteQueryKey<GetProjectsProjectIdRepoStatusSchema, GetProjectsProjectIdRepoStatusParameters> | (DeepReadonly<GetProjectsProjectIdRepoStatusParameters>)): OperationInfiniteData<GetProjectsProjectIdRepoStatusData, GetProjectsProjectIdRepoStatusParameters> | undefined;
-        /**/
-        getQueriesData<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetProjectsProjectIdRepoStatusSchema, GetProjectsProjectIdRepoStatusData, TInfinite, GetProjectsProjectIdRepoStatusParameters, GetProjectsProjectIdRepoStatusError> | QueryFiltersByQueryKey<GetProjectsProjectIdRepoStatusSchema, GetProjectsProjectIdRepoStatusData, TInfinite, GetProjectsProjectIdRepoStatusParameters, GetProjectsProjectIdRepoStatusError>): TInfinite extends true ? Array<[
-            queryKey: ServiceOperationInfiniteQueryKey<GetProjectsProjectIdRepoStatusSchema, GetProjectsProjectIdRepoStatusParameters>,
-            data: NoInfer<OperationInfiniteData<GetProjectsProjectIdRepoStatusData, GetProjectsProjectIdRepoStatusParameters>> | undefined
-        ]> : Array<[
-            queryKey: ServiceOperationQueryKey<GetProjectsProjectIdRepoStatusSchema, GetProjectsProjectIdRepoStatusParameters>,
-            data: GetProjectsProjectIdRepoStatusData | undefined
-        ]>;
-        /**/
-        getQueryState(parameters: ServiceOperationQueryKey<GetProjectsProjectIdRepoStatusSchema, GetProjectsProjectIdRepoStatusParameters> | (DeepReadonly<GetProjectsProjectIdRepoStatusParameters>)): QueryState<GetProjectsProjectIdRepoStatusData, GetProjectsProjectIdRepoStatusError> | undefined;
-        /**/
-        getInfiniteQueryState(parameters: DeepReadonly<GetProjectsProjectIdRepoStatusParameters> | ServiceOperationInfiniteQueryKey<GetProjectsProjectIdRepoStatusSchema, GetProjectsProjectIdRepoStatusParameters>): QueryState<OperationInfiniteData<GetProjectsProjectIdRepoStatusData, GetProjectsProjectIdRepoStatusParameters>, GetProjectsProjectIdRepoStatusError> | undefined;
-        /**/
-        setQueryData(parameters: (DeepReadonly<GetProjectsProjectIdRepoStatusParameters>) | ServiceOperationQueryKey<GetProjectsProjectIdRepoStatusSchema, GetProjectsProjectIdRepoStatusParameters>, updater: Updater<NoInfer<GetProjectsProjectIdRepoStatusData> | undefined, NoInfer<DeepReadonly<GetProjectsProjectIdRepoStatusData>> | undefined>, options?: SetDataOptions): GetProjectsProjectIdRepoStatusData | undefined;
-        /**/
-        setInfiniteQueryData(parameters: (DeepReadonly<GetProjectsProjectIdRepoStatusParameters>) | ServiceOperationInfiniteQueryKey<GetProjectsProjectIdRepoStatusSchema, GetProjectsProjectIdRepoStatusParameters>, updater: Updater<NoInfer<OperationInfiniteData<GetProjectsProjectIdRepoStatusData, GetProjectsProjectIdRepoStatusParameters>> | undefined, NoInfer<DeepReadonly<OperationInfiniteData<GetProjectsProjectIdRepoStatusData, GetProjectsProjectIdRepoStatusParameters>>> | undefined>, options?: SetDataOptions): OperationInfiniteData<GetProjectsProjectIdRepoStatusData, GetProjectsProjectIdRepoStatusParameters> | undefined;
-        /**/
-        setQueriesData<TInfinite extends boolean = false>(filters: QueryFiltersByParameters<GetProjectsProjectIdRepoStatusSchema, GetProjectsProjectIdRepoStatusData, TInfinite, GetProjectsProjectIdRepoStatusParameters, GetProjectsProjectIdRepoStatusError> | QueryFiltersByQueryKey<GetProjectsProjectIdRepoStatusSchema, GetProjectsProjectIdRepoStatusData, TInfinite, GetProjectsProjectIdRepoStatusParameters, GetProjectsProjectIdRepoStatusError>, updater: Updater<NoInfer<GetProjectsProjectIdRepoStatusData> | undefined, NoInfer<GetProjectsProjectIdRepoStatusData> | undefined>, options?: SetDataOptions): Array<GetProjectsProjectIdRepoStatusData | undefined>;
-        /**/
-        invalidateQueries<TInfinite extends boolean = false>(filters?: InvalidateQueryFilters<GetProjectsProjectIdRepoStatusSchema, GetProjectsProjectIdRepoStatusData, TInfinite, GetProjectsProjectIdRepoStatusParameters, GetProjectsProjectIdRepoStatusError>, options?: InvalidateOptions): Promise<void>;
-        /**/
-        refetchQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetProjectsProjectIdRepoStatusSchema, GetProjectsProjectIdRepoStatusData, TInfinite, GetProjectsProjectIdRepoStatusParameters, GetProjectsProjectIdRepoStatusError> | QueryFiltersByQueryKey<GetProjectsProjectIdRepoStatusSchema, GetProjectsProjectIdRepoStatusData, TInfinite, GetProjectsProjectIdRepoStatusParameters, GetProjectsProjectIdRepoStatusError>, options?: RefetchOptions): Promise<void>;
-        /**/
-        cancelQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetProjectsProjectIdRepoStatusSchema, GetProjectsProjectIdRepoStatusData, TInfinite, GetProjectsProjectIdRepoStatusParameters, GetProjectsProjectIdRepoStatusError> | QueryFiltersByQueryKey<GetProjectsProjectIdRepoStatusSchema, GetProjectsProjectIdRepoStatusData, TInfinite, GetProjectsProjectIdRepoStatusParameters, GetProjectsProjectIdRepoStatusError>, options?: CancelOptions): Promise<void>;
-        /**/
-        removeQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetProjectsProjectIdRepoStatusSchema, GetProjectsProjectIdRepoStatusData, TInfinite, GetProjectsProjectIdRepoStatusParameters, GetProjectsProjectIdRepoStatusError> | QueryFiltersByQueryKey<GetProjectsProjectIdRepoStatusSchema, GetProjectsProjectIdRepoStatusData, TInfinite, GetProjectsProjectIdRepoStatusParameters, GetProjectsProjectIdRepoStatusError>): void;
-        /**/
-        resetQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetProjectsProjectIdRepoStatusSchema, GetProjectsProjectIdRepoStatusData, TInfinite, GetProjectsProjectIdRepoStatusParameters, GetProjectsProjectIdRepoStatusError> | QueryFiltersByQueryKey<GetProjectsProjectIdRepoStatusSchema, GetProjectsProjectIdRepoStatusData, TInfinite, GetProjectsProjectIdRepoStatusParameters, GetProjectsProjectIdRepoStatusError>, options?: ResetOptions): Promise<void>;
-        /**/
-        isFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetProjectsProjectIdRepoStatusSchema, GetProjectsProjectIdRepoStatusData, TInfinite, GetProjectsProjectIdRepoStatusParameters, GetProjectsProjectIdRepoStatusError> | QueryFiltersByQueryKey<GetProjectsProjectIdRepoStatusSchema, GetProjectsProjectIdRepoStatusData, TInfinite, GetProjectsProjectIdRepoStatusParameters, GetProjectsProjectIdRepoStatusError>): number;
-        schema: GetProjectsProjectIdRepoStatusSchema;
-        types: {
-            parameters: GetProjectsProjectIdRepoStatusParameters;
-            data: GetProjectsProjectIdRepoStatusData;
-            error: GetProjectsProjectIdRepoStatusError;
-        };
-    };
-    putProjectsProjectIdRepoUrl: {
-        /**/
-        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: ServiceOperationMutationFnOptions<PutProjectsProjectIdRepoUrlBody, PutProjectsProjectIdRepoUrlParameters, TMeta, TSignal>, client?: (schema: PutProjectsProjectIdRepoUrlSchema, options: ServiceOperationMutationFnOptions<PutProjectsProjectIdRepoUrlBody, PutProjectsProjectIdRepoUrlParameters, TMeta, TSignal>) => Promise<RequestFnResponse<PutProjectsProjectIdRepoUrlData, PutProjectsProjectIdRepoUrlError>>): Promise<RequestFnResponse<PutProjectsProjectIdRepoUrlData, PutProjectsProjectIdRepoUrlError>>;
-        /**/
-        getMutationKey(parameters: DeepReadonly<PutProjectsProjectIdRepoUrlParameters> | void): ServiceOperationMutationKey<PutProjectsProjectIdRepoUrlSchema, PutProjectsProjectIdRepoUrlParameters>;
-        /**
-         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
-         * Handles loading state, optimistic updates, and error handling.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
-         * @example Mutation with predefined parameters, e.g., for updating
-         * ```ts
-         * const { mutate, isPending } = qraft.v1Service.putProjectsProjectIdRepoUrl.useMutation({
-         *     path: {
-         *         projectId: projectId
-         *     }
-         * })
-         * mutate(body);
-         * ```
-         * @example Mutation without predefined parameters, e.g., for creating
-         * ```ts
-         * const { mutate, isPending } = qraft.v1Service.putProjectsProjectIdRepoUrl.useMutation()
-         * mutate({
-         *     body: bodyPayload,
-         *     path: {
-         *         projectId: projectId
-         *     }
-         * });
-         * ```
-         */
-        useMutation<TVariables extends PutProjectsProjectIdRepoUrlBody, TContext = unknown>(parameters: DeepReadonly<PutProjectsProjectIdRepoUrlParameters>, options?: ServiceOperationUseMutationOptions<PutProjectsProjectIdRepoUrlSchema, PutProjectsProjectIdRepoUrlData, PutProjectsProjectIdRepoUrlParameters, TVariables, OperationError<PutProjectsProjectIdRepoUrlError>, TContext>): UseMutationResult<PutProjectsProjectIdRepoUrlData, OperationError<PutProjectsProjectIdRepoUrlError>, TVariables, TContext>;
-        /**
-         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
-         * Handles loading state, optimistic updates, and error handling.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
-         * @example Mutation with predefined parameters, e.g., for updating
-         * ```ts
-         * const { mutate, isPending } = qraft.v1Service.putProjectsProjectIdRepoUrl.useMutation({
-         *     path: {
-         *         projectId: projectId
-         *     }
-         * })
-         * mutate(body);
-         * ```
-         * @example Mutation without predefined parameters, e.g., for creating
-         * ```ts
-         * const { mutate, isPending } = qraft.v1Service.putProjectsProjectIdRepoUrl.useMutation()
-         * mutate({
-         *     body: bodyPayload,
-         *     path: {
-         *         projectId: projectId
-         *     }
-         * });
-         * ```
-         */
-        useMutation<TVariables extends MutationVariables<PutProjectsProjectIdRepoUrlBody, PutProjectsProjectIdRepoUrlParameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<PutProjectsProjectIdRepoUrlSchema, PutProjectsProjectIdRepoUrlData, PutProjectsProjectIdRepoUrlParameters, TVariables, OperationError<PutProjectsProjectIdRepoUrlError>, TContext>): UseMutationResult<PutProjectsProjectIdRepoUrlData, OperationError<PutProjectsProjectIdRepoUrlError>, TVariables, TContext>;
-        /**
-         * Returns the count of currently in-progress mutations.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
-         * @example Check how many mutations are currently in progress for the specified service method.
-         * ```ts
-         * const putProjectsProjectIdRepoUrlTotal = qraft.v1Service.putProjectsProjectIdRepoUrl.useIsMutating()
-         * ```
-         * @example Check how many mutations are currently in progress with the specified parameters.
-         * ```ts
-         * const putProjectsProjectIdRepoUrlTotal = qraft.v1Service.putProjectsProjectIdRepoUrl.useIsMutating({
-         *     parameters: {
-         *         path: {
-         *             projectId: projectId
-         *         }
-         *     }
-         * })
-         * ```
-         */
-        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<PutProjectsProjectIdRepoUrlBody, PutProjectsProjectIdRepoUrlData, PutProjectsProjectIdRepoUrlParameters, OperationError<PutProjectsProjectIdRepoUrlError>, TContext> | MutationFiltersByMutationKey<PutProjectsProjectIdRepoUrlSchema, PutProjectsProjectIdRepoUrlBody, PutProjectsProjectIdRepoUrlData, PutProjectsProjectIdRepoUrlParameters, OperationError<PutProjectsProjectIdRepoUrlError>, TContext>): number;
-        /**
-         * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
-         * @example Get all variables of all running mutations.
-         * ```ts
-         * const putProjectsProjectIdRepoUrlPendingMutationVariables = qraft.v1Service.putProjectsProjectIdRepoUrl.useMutationState({
-         *     filters: {
-         *         status: "pending"
-         *     },
-         *     select: mutation => mutation.state.variables
-         * })
-         * ```
-         * @example Get all data for specific mutations via the `parameters`.
-         * ```ts
-         * const putProjectsProjectIdRepoUrlMutationData = qraft.v1Service.putProjectsProjectIdRepoUrl.useMutationState({
-         *     filters: {
-         *         parameters: {
-         *             path: {
-         *                 projectId: projectId
-         *             }
-         *         }
-         *     },
-         *     select: mutation => mutation.state.data
-         * })
-         * ```
-         */
-        useMutationState<TContext = unknown, TResult = MutationState<PutProjectsProjectIdRepoUrlData, OperationError<PutProjectsProjectIdRepoUrlError>, MutationVariables<PutProjectsProjectIdRepoUrlBody, PutProjectsProjectIdRepoUrlParameters>, TContext>>(options?: {
-            filters?: MutationFiltersByParameters<PutProjectsProjectIdRepoUrlBody, PutProjectsProjectIdRepoUrlData, PutProjectsProjectIdRepoUrlParameters, OperationError<PutProjectsProjectIdRepoUrlError>, TContext> | MutationFiltersByMutationKey<PutProjectsProjectIdRepoUrlSchema, PutProjectsProjectIdRepoUrlBody, PutProjectsProjectIdRepoUrlData, PutProjectsProjectIdRepoUrlParameters, OperationError<PutProjectsProjectIdRepoUrlError>, TContext>;
-            select?: (mutation: Mutation<PutProjectsProjectIdRepoUrlData, OperationError<PutProjectsProjectIdRepoUrlError>, MutationVariables<PutProjectsProjectIdRepoUrlBody, PutProjectsProjectIdRepoUrlParameters>, TContext>) => TResult;
-        }): Array<TResult>;
-        /**/
-        isMutating<TContext>(filters?: MutationFiltersByParameters<PutProjectsProjectIdRepoUrlBody, PutProjectsProjectIdRepoUrlData, PutProjectsProjectIdRepoUrlParameters, OperationError<PutProjectsProjectIdRepoUrlError>, TContext> | MutationFiltersByMutationKey<PutProjectsProjectIdRepoUrlSchema, PutProjectsProjectIdRepoUrlBody, PutProjectsProjectIdRepoUrlData, PutProjectsProjectIdRepoUrlParameters, OperationError<PutProjectsProjectIdRepoUrlError>, TContext>): number;
-        /**
-         * Returns a `MutationCache` object that provides access to mutation cache operations
-         * for the specific endpoint.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/query-client/getMutationCache|`getMutationCache(...)` documentation}
-         *
-         * @example Find a mutation with specific parameters
-         * ```ts
-         * const mutationCache = qraft.v1Service.putProjectsProjectIdRepoUrl.getMutationCache();
-         * const mutation = mutationCache.find({
-         *     parameters: {
-         *         path: {
-         *             projectId: projectId
-         *         }
-         *     }
-         * });
-         * ```
-         *
-         * @example Find all mutations for the endpoint
-         * ```ts
-         * const mutationCache = qraft.v1Service.putProjectsProjectIdRepoUrl.getMutationCache();
-         * const mutations = mutationCache.findAll();
-         * ```
-         */
-        getMutationCache(): Omit<MutationCache, "find" | "findAll"> & {
-            find<TContext = unknown>(filters: MutationFiltersByParameters<PutProjectsProjectIdRepoUrlBody, PutProjectsProjectIdRepoUrlData, PutProjectsProjectIdRepoUrlParameters, OperationError<PutProjectsProjectIdRepoUrlError>, TContext> | MutationFiltersByMutationKey<PutProjectsProjectIdRepoUrlSchema, PutProjectsProjectIdRepoUrlBody, PutProjectsProjectIdRepoUrlData, PutProjectsProjectIdRepoUrlParameters, OperationError<PutProjectsProjectIdRepoUrlError>, TContext>): Mutation<PutProjectsProjectIdRepoUrlData, PutProjectsProjectIdRepoUrlError, MutationVariables<PutProjectsProjectIdRepoUrlBody, PutProjectsProjectIdRepoUrlParameters>, TContext> | undefined;
-            findAll<TContext = unknown>(filters?: MutationFiltersByParameters<PutProjectsProjectIdRepoUrlBody, PutProjectsProjectIdRepoUrlData, PutProjectsProjectIdRepoUrlParameters, OperationError<PutProjectsProjectIdRepoUrlError>, TContext> | MutationFiltersByMutationKey<PutProjectsProjectIdRepoUrlSchema, PutProjectsProjectIdRepoUrlBody, PutProjectsProjectIdRepoUrlData, PutProjectsProjectIdRepoUrlParameters, OperationError<PutProjectsProjectIdRepoUrlError>, TContext>): Array<Mutation<PutProjectsProjectIdRepoUrlData, PutProjectsProjectIdRepoUrlError, MutationVariables<PutProjectsProjectIdRepoUrlBody, PutProjectsProjectIdRepoUrlParameters>, TContext>>;
-        };
-        schema: PutProjectsProjectIdRepoUrlSchema;
-        types: {
-            parameters: PutProjectsProjectIdRepoUrlParameters;
-            data: PutProjectsProjectIdRepoUrlData;
-            error: PutProjectsProjectIdRepoUrlError;
-            body: PutProjectsProjectIdRepoUrlBody;
         };
     };
     getProjectsProjectIdStart: {
@@ -21130,6 +20917,159 @@ export interface V1Service {
             body: DeleteProjectsProjectIdServicesServiceNameExposeTcpBody;
         };
     };
+    patchProjectsProjectIdServicesServiceNameProtocol: {
+        /**/
+        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: ServiceOperationMutationFnOptions<PatchProjectsProjectIdServicesServiceNameProtocolBody, PatchProjectsProjectIdServicesServiceNameProtocolParameters, TMeta, TSignal>, client?: (schema: PatchProjectsProjectIdServicesServiceNameProtocolSchema, options: ServiceOperationMutationFnOptions<PatchProjectsProjectIdServicesServiceNameProtocolBody, PatchProjectsProjectIdServicesServiceNameProtocolParameters, TMeta, TSignal>) => Promise<RequestFnResponse<PatchProjectsProjectIdServicesServiceNameProtocolData, PatchProjectsProjectIdServicesServiceNameProtocolError>>): Promise<RequestFnResponse<PatchProjectsProjectIdServicesServiceNameProtocolData, PatchProjectsProjectIdServicesServiceNameProtocolError>>;
+        /**/
+        getMutationKey(parameters: DeepReadonly<PatchProjectsProjectIdServicesServiceNameProtocolParameters> | void): ServiceOperationMutationKey<PatchProjectsProjectIdServicesServiceNameProtocolSchema, PatchProjectsProjectIdServicesServiceNameProtocolParameters>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.patchProjectsProjectIdServicesServiceNameProtocol.useMutation({
+         *     path: {
+         *         projectId: projectId,
+         *         serviceName: serviceName
+         *     }
+         * })
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.patchProjectsProjectIdServicesServiceNameProtocol.useMutation()
+         * mutate({
+         *     body: bodyPayload,
+         *     path: {
+         *         projectId: projectId,
+         *         serviceName: serviceName
+         *     }
+         * });
+         * ```
+         */
+        useMutation<TVariables extends PatchProjectsProjectIdServicesServiceNameProtocolBody, TContext = unknown>(parameters: DeepReadonly<PatchProjectsProjectIdServicesServiceNameProtocolParameters>, options?: ServiceOperationUseMutationOptions<PatchProjectsProjectIdServicesServiceNameProtocolSchema, PatchProjectsProjectIdServicesServiceNameProtocolData, PatchProjectsProjectIdServicesServiceNameProtocolParameters, TVariables, OperationError<PatchProjectsProjectIdServicesServiceNameProtocolError>, TContext>): UseMutationResult<PatchProjectsProjectIdServicesServiceNameProtocolData, OperationError<PatchProjectsProjectIdServicesServiceNameProtocolError>, TVariables, TContext>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.patchProjectsProjectIdServicesServiceNameProtocol.useMutation({
+         *     path: {
+         *         projectId: projectId,
+         *         serviceName: serviceName
+         *     }
+         * })
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.patchProjectsProjectIdServicesServiceNameProtocol.useMutation()
+         * mutate({
+         *     body: bodyPayload,
+         *     path: {
+         *         projectId: projectId,
+         *         serviceName: serviceName
+         *     }
+         * });
+         * ```
+         */
+        useMutation<TVariables extends MutationVariables<PatchProjectsProjectIdServicesServiceNameProtocolBody, PatchProjectsProjectIdServicesServiceNameProtocolParameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<PatchProjectsProjectIdServicesServiceNameProtocolSchema, PatchProjectsProjectIdServicesServiceNameProtocolData, PatchProjectsProjectIdServicesServiceNameProtocolParameters, TVariables, OperationError<PatchProjectsProjectIdServicesServiceNameProtocolError>, TContext>): UseMutationResult<PatchProjectsProjectIdServicesServiceNameProtocolData, OperationError<PatchProjectsProjectIdServicesServiceNameProtocolError>, TVariables, TContext>;
+        /**
+         * Returns the count of currently in-progress mutations.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
+         * @example Check how many mutations are currently in progress for the specified service method.
+         * ```ts
+         * const patchProjectsProjectIdServicesServiceNameProtocolTotal = qraft.v1Service.patchProjectsProjectIdServicesServiceNameProtocol.useIsMutating()
+         * ```
+         * @example Check how many mutations are currently in progress with the specified parameters.
+         * ```ts
+         * const patchProjectsProjectIdServicesServiceNameProtocolTotal = qraft.v1Service.patchProjectsProjectIdServicesServiceNameProtocol.useIsMutating({
+         *     parameters: {
+         *         path: {
+         *             projectId: projectId,
+         *             serviceName: serviceName
+         *         }
+         *     }
+         * })
+         * ```
+         */
+        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<PatchProjectsProjectIdServicesServiceNameProtocolBody, PatchProjectsProjectIdServicesServiceNameProtocolData, PatchProjectsProjectIdServicesServiceNameProtocolParameters, OperationError<PatchProjectsProjectIdServicesServiceNameProtocolError>, TContext> | MutationFiltersByMutationKey<PatchProjectsProjectIdServicesServiceNameProtocolSchema, PatchProjectsProjectIdServicesServiceNameProtocolBody, PatchProjectsProjectIdServicesServiceNameProtocolData, PatchProjectsProjectIdServicesServiceNameProtocolParameters, OperationError<PatchProjectsProjectIdServicesServiceNameProtocolError>, TContext>): number;
+        /**
+         * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
+         * @example Get all variables of all running mutations.
+         * ```ts
+         * const patchProjectsProjectIdServicesServiceNameProtocolPendingMutationVariables = qraft.v1Service.patchProjectsProjectIdServicesServiceNameProtocol.useMutationState({
+         *     filters: {
+         *         status: "pending"
+         *     },
+         *     select: mutation => mutation.state.variables
+         * })
+         * ```
+         * @example Get all data for specific mutations via the `parameters`.
+         * ```ts
+         * const patchProjectsProjectIdServicesServiceNameProtocolMutationData = qraft.v1Service.patchProjectsProjectIdServicesServiceNameProtocol.useMutationState({
+         *     filters: {
+         *         parameters: {
+         *             path: {
+         *                 projectId: projectId,
+         *                 serviceName: serviceName
+         *             }
+         *         }
+         *     },
+         *     select: mutation => mutation.state.data
+         * })
+         * ```
+         */
+        useMutationState<TContext = unknown, TResult = MutationState<PatchProjectsProjectIdServicesServiceNameProtocolData, OperationError<PatchProjectsProjectIdServicesServiceNameProtocolError>, MutationVariables<PatchProjectsProjectIdServicesServiceNameProtocolBody, PatchProjectsProjectIdServicesServiceNameProtocolParameters>, TContext>>(options?: {
+            filters?: MutationFiltersByParameters<PatchProjectsProjectIdServicesServiceNameProtocolBody, PatchProjectsProjectIdServicesServiceNameProtocolData, PatchProjectsProjectIdServicesServiceNameProtocolParameters, OperationError<PatchProjectsProjectIdServicesServiceNameProtocolError>, TContext> | MutationFiltersByMutationKey<PatchProjectsProjectIdServicesServiceNameProtocolSchema, PatchProjectsProjectIdServicesServiceNameProtocolBody, PatchProjectsProjectIdServicesServiceNameProtocolData, PatchProjectsProjectIdServicesServiceNameProtocolParameters, OperationError<PatchProjectsProjectIdServicesServiceNameProtocolError>, TContext>;
+            select?: (mutation: Mutation<PatchProjectsProjectIdServicesServiceNameProtocolData, OperationError<PatchProjectsProjectIdServicesServiceNameProtocolError>, MutationVariables<PatchProjectsProjectIdServicesServiceNameProtocolBody, PatchProjectsProjectIdServicesServiceNameProtocolParameters>, TContext>) => TResult;
+        }): Array<TResult>;
+        /**/
+        isMutating<TContext>(filters?: MutationFiltersByParameters<PatchProjectsProjectIdServicesServiceNameProtocolBody, PatchProjectsProjectIdServicesServiceNameProtocolData, PatchProjectsProjectIdServicesServiceNameProtocolParameters, OperationError<PatchProjectsProjectIdServicesServiceNameProtocolError>, TContext> | MutationFiltersByMutationKey<PatchProjectsProjectIdServicesServiceNameProtocolSchema, PatchProjectsProjectIdServicesServiceNameProtocolBody, PatchProjectsProjectIdServicesServiceNameProtocolData, PatchProjectsProjectIdServicesServiceNameProtocolParameters, OperationError<PatchProjectsProjectIdServicesServiceNameProtocolError>, TContext>): number;
+        /**
+         * Returns a `MutationCache` object that provides access to mutation cache operations
+         * for the specific endpoint.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/query-client/getMutationCache|`getMutationCache(...)` documentation}
+         *
+         * @example Find a mutation with specific parameters
+         * ```ts
+         * const mutationCache = qraft.v1Service.patchProjectsProjectIdServicesServiceNameProtocol.getMutationCache();
+         * const mutation = mutationCache.find({
+         *     parameters: {
+         *         path: {
+         *             projectId: projectId,
+         *             serviceName: serviceName
+         *         }
+         *     }
+         * });
+         * ```
+         *
+         * @example Find all mutations for the endpoint
+         * ```ts
+         * const mutationCache = qraft.v1Service.patchProjectsProjectIdServicesServiceNameProtocol.getMutationCache();
+         * const mutations = mutationCache.findAll();
+         * ```
+         */
+        getMutationCache(): Omit<MutationCache, "find" | "findAll"> & {
+            find<TContext = unknown>(filters: MutationFiltersByParameters<PatchProjectsProjectIdServicesServiceNameProtocolBody, PatchProjectsProjectIdServicesServiceNameProtocolData, PatchProjectsProjectIdServicesServiceNameProtocolParameters, OperationError<PatchProjectsProjectIdServicesServiceNameProtocolError>, TContext> | MutationFiltersByMutationKey<PatchProjectsProjectIdServicesServiceNameProtocolSchema, PatchProjectsProjectIdServicesServiceNameProtocolBody, PatchProjectsProjectIdServicesServiceNameProtocolData, PatchProjectsProjectIdServicesServiceNameProtocolParameters, OperationError<PatchProjectsProjectIdServicesServiceNameProtocolError>, TContext>): Mutation<PatchProjectsProjectIdServicesServiceNameProtocolData, PatchProjectsProjectIdServicesServiceNameProtocolError, MutationVariables<PatchProjectsProjectIdServicesServiceNameProtocolBody, PatchProjectsProjectIdServicesServiceNameProtocolParameters>, TContext> | undefined;
+            findAll<TContext = unknown>(filters?: MutationFiltersByParameters<PatchProjectsProjectIdServicesServiceNameProtocolBody, PatchProjectsProjectIdServicesServiceNameProtocolData, PatchProjectsProjectIdServicesServiceNameProtocolParameters, OperationError<PatchProjectsProjectIdServicesServiceNameProtocolError>, TContext> | MutationFiltersByMutationKey<PatchProjectsProjectIdServicesServiceNameProtocolSchema, PatchProjectsProjectIdServicesServiceNameProtocolBody, PatchProjectsProjectIdServicesServiceNameProtocolData, PatchProjectsProjectIdServicesServiceNameProtocolParameters, OperationError<PatchProjectsProjectIdServicesServiceNameProtocolError>, TContext>): Array<Mutation<PatchProjectsProjectIdServicesServiceNameProtocolData, PatchProjectsProjectIdServicesServiceNameProtocolError, MutationVariables<PatchProjectsProjectIdServicesServiceNameProtocolBody, PatchProjectsProjectIdServicesServiceNameProtocolParameters>, TContext>>;
+        };
+        schema: PatchProjectsProjectIdServicesServiceNameProtocolSchema;
+        types: {
+            parameters: PatchProjectsProjectIdServicesServiceNameProtocolParameters;
+            data: PatchProjectsProjectIdServicesServiceNameProtocolData;
+            error: PatchProjectsProjectIdServicesServiceNameProtocolError;
+            body: PatchProjectsProjectIdServicesServiceNameProtocolBody;
+        };
+    };
     postServers: {
         /**/
         <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: ServiceOperationMutationFnOptions<PostServersBody, PostServersParameters, TMeta, TSignal>, client?: (schema: PostServersSchema, options: ServiceOperationMutationFnOptions<PostServersBody, PostServersParameters, TMeta, TSignal>) => Promise<RequestFnResponse<PostServersData, PostServersError>>): Promise<RequestFnResponse<PostServersData, PostServersError>>;
@@ -23893,6 +23833,15 @@ export const postCliModulesForkModules = {
     schema: PostCliModulesForkModulesSchema;
     [QraftServiceOperationsToken]: V1Service["postCliModulesForkModules"];
 };
+export const getCliModulesMine = {
+    schema: {
+        method: "get",
+        url: "/v1/cli/modules/mine"
+    }
+} as {
+    schema: GetCliModulesMineSchema;
+    [QraftServiceOperationsToken]: V1Service["getCliModulesMine"];
+};
 export const postCliModulesRelease = {
     schema: {
         method: "post",
@@ -24267,25 +24216,6 @@ export const deleteProjectsProjectId = {
     schema: DeleteProjectsProjectIdSchema;
     [QraftServiceOperationsToken]: V1Service["deleteProjectsProjectId"];
 };
-export const getProjectsProjectIdRepoStatus = {
-    schema: {
-        method: "get",
-        url: "/v1/projects/{projectId}/repo-status"
-    }
-} as {
-    schema: GetProjectsProjectIdRepoStatusSchema;
-    [QraftServiceOperationsToken]: V1Service["getProjectsProjectIdRepoStatus"];
-};
-export const putProjectsProjectIdRepoUrl = {
-    schema: {
-        method: "put",
-        url: "/v1/projects/{projectId}/repo-url",
-        mediaType: ["application/json"]
-    }
-} as {
-    schema: PutProjectsProjectIdRepoUrlSchema;
-    [QraftServiceOperationsToken]: V1Service["putProjectsProjectIdRepoUrl"];
-};
 export const getProjectsProjectIdStart = {
     schema: {
         method: "get",
@@ -24618,6 +24548,16 @@ export const deleteProjectsProjectIdServicesServiceNameExposeTcp = {
     schema: DeleteProjectsProjectIdServicesServiceNameExposeTcpSchema;
     [QraftServiceOperationsToken]: V1Service["deleteProjectsProjectIdServicesServiceNameExposeTcp"];
 };
+export const patchProjectsProjectIdServicesServiceNameProtocol = {
+    schema: {
+        method: "patch",
+        url: "/v1/projects/{projectId}/services/{serviceName}/protocol",
+        mediaType: ["application/json"]
+    }
+} as {
+    schema: PatchProjectsProjectIdServicesServiceNameProtocolSchema;
+    [QraftServiceOperationsToken]: V1Service["patchProjectsProjectIdServicesServiceNameProtocol"];
+};
 export const postServers = {
     schema: {
         method: "post",
@@ -24783,6 +24723,7 @@ export const v1Service = {
     getCliLocations,
     postCliModulesAdd,
     postCliModulesForkModules,
+    getCliModulesMine,
     postCliModulesRelease,
     getCliModulesSearch,
     getCliModulesInfoOrganizationModuleName,
@@ -24823,8 +24764,6 @@ export const v1Service = {
     getOrganizationsGithubUserSearch,
     getProjectsProjectId,
     deleteProjectsProjectId,
-    getProjectsProjectIdRepoStatus,
-    putProjectsProjectIdRepoUrl,
     getProjectsProjectIdStart,
     getProjectsProjectIdStop,
     postProjectsProjectIdExec,
@@ -24861,6 +24800,7 @@ export const v1Service = {
     getProjectsProjectIdServices,
     postProjectsProjectIdServicesServiceNameExposeTcp,
     deleteProjectsProjectIdServicesServiceNameExposeTcp,
+    patchProjectsProjectIdServicesServiceNameProtocol,
     postServers,
     putServers,
     getServersTiers,
@@ -25122,6 +25062,13 @@ type PostCliModulesForkModulesParameters = {
 type PostCliModulesForkModulesData = paths["/v1/cli/modules/fork-modules"]["post"]["responses"]["200"]["content"]["application/json"];
 type PostCliModulesForkModulesError = unknown;
 type PostCliModulesForkModulesBody = paths["/v1/cli/modules/fork-modules"]["post"]["requestBody"]["content"]["application/json"];
+type GetCliModulesMineSchema = {
+    method: "get";
+    url: "/v1/cli/modules/mine";
+};
+type GetCliModulesMineParameters = undefined;
+type GetCliModulesMineData = paths["/v1/cli/modules/mine"]["get"]["responses"]["200"]["content"]["application/json"];
+type GetCliModulesMineError = unknown;
 type PostCliModulesReleaseSchema = {
     method: "post";
     url: "/v1/cli/modules/release";
@@ -25485,24 +25432,6 @@ type DeleteProjectsProjectIdParameters = paths["/v1/projects/{projectId}"]["dele
 type DeleteProjectsProjectIdData = paths["/v1/projects/{projectId}"]["delete"]["responses"]["200"]["content"]["application/json"];
 type DeleteProjectsProjectIdError = unknown;
 type DeleteProjectsProjectIdBody = undefined;
-type GetProjectsProjectIdRepoStatusSchema = {
-    method: "get";
-    url: "/v1/projects/{projectId}/repo-status";
-};
-type GetProjectsProjectIdRepoStatusParameters = paths["/v1/projects/{projectId}/repo-status"]["get"]["parameters"];
-type GetProjectsProjectIdRepoStatusData = paths["/v1/projects/{projectId}/repo-status"]["get"]["responses"]["200"]["content"]["application/json"];
-type GetProjectsProjectIdRepoStatusError = null;
-type PutProjectsProjectIdRepoUrlSchema = {
-    method: "put";
-    url: "/v1/projects/{projectId}/repo-url";
-    mediaType: [
-        "application/json"
-    ];
-};
-type PutProjectsProjectIdRepoUrlParameters = paths["/v1/projects/{projectId}/repo-url"]["put"]["parameters"];
-type PutProjectsProjectIdRepoUrlData = paths["/v1/projects/{projectId}/repo-url"]["put"]["responses"]["200"]["content"]["application/json"];
-type PutProjectsProjectIdRepoUrlError = paths["/v1/projects/{projectId}/repo-url"]["put"]["responses"]["400"]["content"]["application/json"] | null;
-type PutProjectsProjectIdRepoUrlBody = paths["/v1/projects/{projectId}/repo-url"]["put"]["requestBody"]["content"]["application/json"];
 type GetProjectsProjectIdStartSchema = {
     method: "get";
     url: "/v1/projects/{projectId}/start";
@@ -25796,6 +25725,17 @@ type DeleteProjectsProjectIdServicesServiceNameExposeTcpParameters = paths["/v1/
 type DeleteProjectsProjectIdServicesServiceNameExposeTcpData = paths["/v1/projects/{projectId}/services/{serviceName}/expose-tcp"]["delete"]["responses"]["200"]["content"]["application/json"];
 type DeleteProjectsProjectIdServicesServiceNameExposeTcpError = unknown;
 type DeleteProjectsProjectIdServicesServiceNameExposeTcpBody = undefined;
+type PatchProjectsProjectIdServicesServiceNameProtocolSchema = {
+    method: "patch";
+    url: "/v1/projects/{projectId}/services/{serviceName}/protocol";
+    mediaType: [
+        "application/json"
+    ];
+};
+type PatchProjectsProjectIdServicesServiceNameProtocolParameters = paths["/v1/projects/{projectId}/services/{serviceName}/protocol"]["patch"]["parameters"];
+type PatchProjectsProjectIdServicesServiceNameProtocolData = paths["/v1/projects/{projectId}/services/{serviceName}/protocol"]["patch"]["responses"]["200"]["content"]["application/json"];
+type PatchProjectsProjectIdServicesServiceNameProtocolError = unknown;
+type PatchProjectsProjectIdServicesServiceNameProtocolBody = paths["/v1/projects/{projectId}/services/{serviceName}/protocol"]["patch"]["requestBody"]["content"]["application/json"];
 type PostServersSchema = {
     method: "post";
     url: "/v1/servers";

@@ -839,6 +839,41 @@ export type paths = {
         patch?: never;
         trace?: never;
     };
+    "/v1/cli/modules/mine": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Cli.Endpoints.Modules.List.MyModuleDto"][];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/cli/modules/release": {
         parameters: {
             query?: never;
@@ -2251,107 +2286,6 @@ export type paths = {
         patch?: never;
         trace?: never;
     };
-    "/v1/projects/{projectId}/repo-status": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    projectId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["Api.Endpoints.Projects.Project.RepoStatus.RepoStatusResponse"];
-                    };
-                };
-                /** @description Not Found */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/projects/{projectId}/repo-url": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    projectId: string;
-                };
-                cookie?: never;
-            };
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["Api.Endpoints.Projects.Project.UpdateRepoUrl.UpdateRepoUrlRequest"];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["Api.Endpoints.Projects.Project.UpdateRepoUrl.UpdateRepoUrlResponse"];
-                    };
-                };
-                /** @description Bad Request */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": string;
-                    };
-                };
-                /** @description Not Found */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/v1/projects/{projectId}/start": {
         parameters: {
             query?: never;
@@ -3681,6 +3615,48 @@ export type paths = {
         patch?: never;
         trace?: never;
     };
+    "/v1/projects/{projectId}/services/{serviceName}/protocol": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    projectId: string;
+                    serviceName: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["Api.Endpoints.Projects.Services.ChangeProtocol.ChangeProtocolRequest"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Api.Endpoints.Projects.Services.ChangeProtocol.ChangeProtocolResponse"];
+                    };
+                };
+            };
+        };
+        trace?: never;
+    };
     "/v1/servers": {
         parameters: {
             query?: never;
@@ -4469,33 +4445,18 @@ export type components = {
             /** Format: uuid */
             activeDeploymentId: string | null;
         };
-        /**
-         * Format: int32
-         * @enum {integer}
-         */
-        "Api.Endpoints.Projects.Project.RepoStatus.RepoStatus": 0 | 1 | 2 | 3 | 4 | 5;
-        "Api.Endpoints.Projects.Project.RepoStatus.RepoStatusResponse": {
-            status: components["schemas"]["Api.Endpoints.Projects.Project.RepoStatus.RepoStatus"];
-            currentName: string | null;
-            newName: string | null;
-            newUrl: string | null;
-            isPrivate: boolean | null;
-            isArchived: boolean | null;
-            defaultBranch: string | null;
-            message: string | null;
-        };
-        "Api.Endpoints.Projects.Project.UpdateRepoUrl.UpdateRepoUrlRequest": {
-            repoUrl: string | null;
-        };
-        "Api.Endpoints.Projects.Project.UpdateRepoUrl.UpdateRepoUrlResponse": {
-            repoName: string | null;
-        };
         "Api.Endpoints.Projects.ProjectEnvironment.ChangeAutoDeploy.ChangeAutoDeployRequest": {
             autoDeploy: boolean;
         };
         "Api.Endpoints.Projects.ProjectEnvironment.ChangeAutoDeploy.ChangeAutoDeployResponse": Record<string, never>;
         "Api.Endpoints.Projects.ProjectEnvironment.UpsertProjectEnvironmentVariablesRequest": {
             variables: components["schemas"]["Api.Data.ProjectEnvironmentVariableDto"][] | null;
+        };
+        "Api.Endpoints.Projects.Services.ChangeProtocol.ChangeProtocolRequest": {
+            protocol: components["schemas"]["Api.Data.Protocol"];
+        };
+        "Api.Endpoints.Projects.Services.ChangeProtocol.ChangeProtocolResponse": {
+            protocol: components["schemas"]["Api.Data.Protocol"];
         };
         "Api.Endpoints.Projects.Services.ExposeTcp.ExposeTcpResponse": {
             /** Format: int32 */
@@ -4741,6 +4702,10 @@ export type components = {
             releaseNotes: string | null;
             /** Format: date-time */
             createdAt: string;
+        };
+        "Cli.Endpoints.Modules.List.MyModuleDto": {
+            name: string | null;
+            repoUrl: string | null;
         };
         "Cli.Endpoints.Modules.Release.ReleaseModuleCommand": {
             organization: string | null;

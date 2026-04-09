@@ -1,3 +1,4 @@
+using Api.Endpoints.Projects.Services.ChangeProtocol;
 using Api.Endpoints.Projects.Services.ExposeTcp;
 using Api.Endpoints.Projects.Services.Get;
 using Api.Endpoints.Projects.Services.UnexposeTcp;
@@ -15,6 +16,7 @@ public static class ServicesGroup
         group.AddGetProjectServicesRoute();
         group.AddExposeTcpRoute();
         group.AddUnexposeTcpRoute();
+        group.AddChangeProtocolRoute();
 
         return group;
     }

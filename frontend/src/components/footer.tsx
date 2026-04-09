@@ -1,18 +1,11 @@
 import { Link } from "@tanstack/react-router"
-import { useEffect, useState } from "react"
-import { apiBaseUrl } from "@/api-client"
+import { api } from "@/api-client"
 import { CompozerrLogo } from "./compozerr-logo"
 
 export default function Footer() {
   const frontendVersion = __APP_VERSION__
-  const [backendVersion, setBackendVersion] = useState<string | null>(null)
-
-  useEffect(() => {
-    fetch(`${apiBaseUrl}/v1/version`)
-      .then(res => res.json())
-      .then(data => setBackendVersion(data.version))
-      .catch(() => {})
-  }, [])
+  const { data: versionData } = api.v1.getV1Version.useQuery(undefined, { staleTime: Infinity })
+  const backendVersion = (versionData as { version?: string } | undefined)?.version ?? null
 
   return (
     <footer className="border-t border-white/[0.06]">

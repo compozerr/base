@@ -1,5 +1,5 @@
 import { createFileRoute, getRouteApi, Link } from '@tanstack/react-router'
-import { api, apiBaseUrl } from '@/api-client'
+import { api } from '@/api-client'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
@@ -18,7 +18,6 @@ import { useToast } from '@/hooks/use-toast'
 import { useModal } from '@/hooks/use-modal'
 import { useTimeAgo } from '@/hooks/useTimeAgo'
 import { cn } from '@/lib/utils'
-import { useMutation, useQuery } from '@tanstack/react-query'
 import {
     ArrowLeft,
     Check,
@@ -133,20 +132,16 @@ function EnvironmentDetailPage() {
     const previewUrl = env?.url ? `https://${env.url}` : null
 
     // --- Deploy ---
-    const { mutateAsync: deployAsync, isPending: isDeploying } = useMutation({
-        mutationFn: async () => {
-            const url = new URL(
-                `${apiBaseUrl}/v1/projects/${encodeURIComponent(projectId)}/deployments/deploy-from-latest-commit`,
-            )
-            url.searchParams.set('environmentId', environmentId)
-            const res = await fetch(url, { method: 'POST', credentials: 'include' })
-            if (!res.ok) throw new Error((await res.text()) || 'Failed to deploy')
-        },
-        onSuccess: () => {
-            toast({ title: 'Deployment started', description: `Deploying latest commit.` })
-            refetchEnvs()
-        },
-    })
+    const { mutateAsync: deployAsync, isPending: isDeploying } =
+        api.v1.postProjectsProjectIdDeploymentsDeployFromLatestCommit.useMutation(
+            { path: { projectId }, query: { environmentId } },
+            {
+                onSuccess: () => {
+                    toast({ title: 'Deployment started', description: `Deploying latest commit.` })
+                    refetchEnvs()
+                },
+            },
+        )
 
     // --- Delete ---
     const { mutateAsync: deleteEnv, isPending: isDeleting } =
@@ -276,20 +271,12 @@ function EnvironmentDetailPage() {
 // ============================================================
 
 function RecentDeploymentsSection({ projectId, environmentId }: { projectId: string; environmentId: string }) {
-    const { data, isLoading } = useQuery({
-        queryKey: ['environment-deployments', projectId, environmentId],
-        queryFn: async () => {
-            const res = await fetch(
-                `${apiBaseUrl}/v1/projects/${encodeURIComponent(projectId)}/environments/${encodeURIComponent(environmentId)}/deployments?pageSize=5`,
-                { credentials: 'include' },
-            )
-            if (!res.ok) return { items: [], totalCount: 0 }
-            return res.json() as Promise<{ items: DeploymentItem[]; totalCount: number }>
-        },
-        refetchInterval: 15_000,
-    })
+    const { data, isLoading } = api.v1.getProjectsProjectIdEnvironmentsEnvironmentIdDeployments.useQuery(
+        { path: { projectId, environmentId }, query: { pageSize: 5 } },
+        { refetchInterval: 15_000 },
+    )
 
-    const deployments = data?.items ?? []
+    const deployments = (data?.items ?? []) as DeploymentItem[]
 
     return (
         <Card className="rounded-xl border-zinc-800 bg-zinc-900/50">
@@ -394,20 +381,15 @@ function ServerTierSection({
         if (env.serverTierId) setSelectedTier(env.serverTierId)
     }, [env.serverTierId])
 
+    const { mutateAsync: changeTier } = api.v1.putProjectsProjectIdEnvironmentsEnvironmentIdTier.useMutation(
+        { path: { projectId, environmentId } },
+    )
+
     const handleSave = async () => {
         if (!selectedTier) return
         setSaving(true)
         try {
-            const res = await fetch(
-                `${apiBaseUrl}/v1/projects/${encodeURIComponent(projectId)}/environments/${encodeURIComponent(environmentId)}/tier`,
-                {
-                    method: 'PUT',
-                    credentials: 'include',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ tier: selectedTier }),
-                },
-            )
-            if (!res.ok) throw new Error((await res.text()) || 'Failed to change tier')
+            await changeTier({ tier: selectedTier })
             toast({ title: 'Tier changed', description: `Server tier changed to ${selectedTier}. A new deployment has started.` })
             onChanged()
         } catch (err) {
@@ -494,19 +476,14 @@ function AutoDeploySection({
         setAutoDeploy(env.autoDeploy ?? false)
     }, [env.autoDeploy])
 
+    const { mutateAsync: updateAutoDeploy } = api.v1.putProjectsProjectIdEnvironmentsEnvironmentIdAutoDeploy.useMutation(
+        { path: { projectId, environmentId } },
+    )
+
     const handleChange = async (checked: boolean) => {
         setAutoDeploy(checked)
         try {
-            const res = await fetch(
-                `${apiBaseUrl}/v1/projects/${encodeURIComponent(projectId)}/environments/${encodeURIComponent(environmentId)}/auto-deploy`,
-                {
-                    method: 'PUT',
-                    credentials: 'include',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ autoDeploy: checked }),
-                },
-            )
-            if (!res.ok) throw new Error((await res.text()) || 'Failed to update auto-deploy')
+            await updateAutoDeploy({ autoDeploy: checked })
             toast({ title: 'Auto Deploy changed', description: `Auto Deploy is now ${checked ? 'enabled' : 'disabled'}.` })
         } catch (err) {
             setAutoDeploy(!checked) // revert
@@ -828,38 +805,29 @@ function ServicesSection({ projectId, environmentId }: { projectId: string; envi
     const [unexposingService, setUnexposingService] = useState<string | null>(null)
     const [changingProtocol, setChangingProtocol] = useState<string | null>(null)
 
-    const exposeMutation = useMutation({
-        mutationFn: async (name: string) => {
-            const res = await fetch(`${apiBaseUrl}/v1/projects/${encodeURIComponent(projectId)}/services/${encodeURIComponent(name)}/expose-tcp`, { method: 'POST', credentials: 'include' })
-            if (!res.ok) throw new Error(await res.text())
-            return res.json()
+    const exposeMutation = api.v1.postProjectsProjectIdServicesServiceNameExposeTcp.useMutation(
+        undefined as void,
+        {
+            onSuccess: () => { invalidate(); invalidateServices() },
+            onSettled: () => setExposingService(null),
         },
-        onMutate: (name) => setExposingService(name),
-        onSuccess: () => { invalidate(); invalidateServices() },
-        onSettled: () => setExposingService(null),
-    })
+    )
 
-    const unexposeMutation = useMutation({
-        mutationFn: async (name: string) => {
-            const res = await fetch(`${apiBaseUrl}/v1/projects/${encodeURIComponent(projectId)}/services/${encodeURIComponent(name)}/expose-tcp`, { method: 'DELETE', credentials: 'include' })
-            if (!res.ok) throw new Error(await res.text())
+    const unexposeMutation = api.v1.deleteProjectsProjectIdServicesServiceNameExposeTcp.useMutation(
+        undefined as void,
+        {
+            onSuccess: () => { invalidate(); invalidateServices() },
+            onSettled: () => setUnexposingService(null),
         },
-        onMutate: (name) => setUnexposingService(name),
-        onSuccess: () => { invalidate(); invalidateServices() },
-        onSettled: () => setUnexposingService(null),
-    })
+    )
 
-    const protocolMutation = useMutation({
-        mutationFn: async ({ name, protocol }: { name: string; protocol: 'Http' | 'Tcp' }) => {
-            const res = await fetch(`${apiBaseUrl}/v1/projects/${encodeURIComponent(projectId)}/services/${encodeURIComponent(name)}/protocol`, {
-                method: 'PATCH', credentials: 'include', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ protocol }),
-            })
-            if (!res.ok) throw new Error(await res.text())
+    const protocolMutation = api.v1.patchProjectsProjectIdServicesServiceNameProtocol.useMutation(
+        undefined as void,
+        {
+            onSuccess: () => { invalidate(); invalidateServices() },
+            onSettled: () => setChangingProtocol(null),
         },
-        onMutate: ({ name }) => setChangingProtocol(name),
-        onSuccess: () => { invalidate(); invalidateServices() },
-        onSettled: () => setChangingProtocol(null),
-    })
+    )
 
     return (
         <Card className="rounded-xl border-zinc-800 bg-zinc-900/50">
@@ -917,16 +885,16 @@ function ServicesSection({ projectId, environmentId }: { projectId: string; envi
                                                             </Button>
                                                         </DropdownMenuTrigger>
                                                         <DropdownMenuContent align="end">
-                                                            <DropdownMenuItem onClick={() => protocolMutation.mutate({ name: s.name!, protocol: 'Http' })} disabled={s.protocol === 'Http'}>
+                                                            <DropdownMenuItem onClick={() => { setChangingProtocol(s.name!); protocolMutation.mutate({ path: { projectId, serviceName: s.name! }, body: { protocol: 'Http' } }) }} disabled={s.protocol === 'Http'}>
                                                                 <Globe className="mr-2 h-4 w-4" />HTTP{s.protocol === 'Http' && <Check className="ml-auto h-4 w-4" />}
                                                             </DropdownMenuItem>
-                                                            <DropdownMenuItem onClick={() => protocolMutation.mutate({ name: s.name!, protocol: 'Tcp' })} disabled={s.protocol === 'Tcp'}>
+                                                            <DropdownMenuItem onClick={() => { setChangingProtocol(s.name!); protocolMutation.mutate({ path: { projectId, serviceName: s.name! }, body: { protocol: 'Tcp' } }) }} disabled={s.protocol === 'Tcp'}>
                                                                 <Network className="mr-2 h-4 w-4" />TCP{s.protocol === 'Tcp' && <Check className="ml-auto h-4 w-4" />}
                                                             </DropdownMenuItem>
                                                         </DropdownMenuContent>
                                                     </DropdownMenu>
                                                     {isTcp && !isExposed && (
-                                                        <LoadingButton isLoading={exposingService === s.name} variant="outline" size="sm" className="h-7 px-3 text-xs" onClick={() => exposeMutation.mutate(s.name!)}>
+                                                        <LoadingButton isLoading={exposingService === s.name} variant="outline" size="sm" className="h-7 px-3 text-xs" onClick={() => { setExposingService(s.name!); exposeMutation.mutate({ path: { projectId, serviceName: s.name! } }) }}>
                                                             Expose
                                                         </LoadingButton>
                                                     )}
@@ -935,7 +903,7 @@ function ServicesSection({ projectId, environmentId }: { projectId: string; envi
                                                             <TooltipProvider><Tooltip><TooltipTrigger asChild>
                                                                 <CopyButton value={connStr!} className="h-7 w-7 p-0"><span className="sr-only">Copy</span></CopyButton>
                                                             </TooltipTrigger><TooltipContent><p className="font-mono text-xs max-w-xs break-all">{connStr}</p></TooltipContent></Tooltip></TooltipProvider>
-                                                            <LoadingButton isLoading={unexposingService === s.name} variant="ghost" size="sm" className="h-7 px-2 text-xs text-muted-foreground hover:text-red-500" onClick={() => unexposeMutation.mutate(s.name!)}>
+                                                            <LoadingButton isLoading={unexposingService === s.name} variant="ghost" size="sm" className="h-7 px-2 text-xs text-muted-foreground hover:text-red-500" onClick={() => { setUnexposingService(s.name!); unexposeMutation.mutate({ path: { projectId, serviceName: s.name! } }) }}>
                                                                 <EyeOff className="h-3 w-3 mr-1" />Unexpose
                                                             </LoadingButton>
                                                         </div>

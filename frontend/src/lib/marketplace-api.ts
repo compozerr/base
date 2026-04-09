@@ -1,6 +1,4 @@
-import { apiBaseUrl } from '@/api-client'
-
-const BASE_URL = apiBaseUrl || ''
+import { api } from '@/api-client'
 
 export interface SearchModuleItem {
   name: string
@@ -46,20 +44,17 @@ export async function searchModules(params: {
   limit?: number
   offset?: number
 }): Promise<SearchModulesResponse> {
-  const searchParams = new URLSearchParams()
-  if (params.query) searchParams.set('query', params.query)
-  if (params.tags) params.tags.forEach((t) => searchParams.append('tags', t))
-  if (params.limit) searchParams.set('limit', String(params.limit))
-  if (params.offset) searchParams.set('offset', String(params.offset))
-
-  const res = await fetch(
-    `${BASE_URL}/v1/cli/modules/search?${searchParams}`,
-    { credentials: 'include' },
-  )
-  if (!res.ok) {
-    throw new Error(`Search failed: ${res.status}`)
-  }
-  return res.json()
+  const data = await api.v1.getCliModulesSearch.fetchQuery({
+    parameters: {
+      query: {
+        Query: params.query,
+        Tags: params.tags,
+        Limit: params.limit ?? 20,
+        Offset: params.offset ?? 0,
+      },
+    },
+  })
+  return data as unknown as SearchModulesResponse
 }
 
 export interface MyModuleDto {
@@ -68,25 +63,18 @@ export interface MyModuleDto {
 }
 
 export async function getMyModules(): Promise<MyModuleDto[]> {
-  const res = await fetch(`${BASE_URL}/v1/cli/modules/mine`, {
-    credentials: 'include',
-  })
-  if (!res.ok) {
-    throw new Error(`Failed to fetch modules: ${res.status}`)
-  }
-  return res.json()
+  const data = await api.v1.getCliModulesMine.fetchQuery()
+  return data as unknown as MyModuleDto[]
 }
 
 export async function getModuleInfo(
   org: string,
   name: string,
 ): Promise<ModuleInfoResponse> {
-  const res = await fetch(
-    `${BASE_URL}/v1/cli/modules/info/${encodeURIComponent(org)}/${encodeURIComponent(name)}`,
-    { credentials: 'include' },
-  )
-  if (!res.ok) {
-    throw new Error(`Module info failed: ${res.status}`)
-  }
-  return res.json()
+  const data = await api.v1.getCliModulesInfoOrganizationModuleName.fetchQuery({
+    parameters: {
+      path: { organization: org, moduleName: name },
+    },
+  })
+  return data as unknown as ModuleInfoResponse
 }
