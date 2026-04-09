@@ -13,8 +13,8 @@ public static class DomainExtensions
 
         if (primary is not null) return primary;
 
-        return domains.OrderBy(x => x.Type == DomainType.External)
-                     .ThenBy(x => x.ServiceName == "Frontend")
+        return domains.OrderByDescending(x => x.Type == DomainType.External)
+                     .ThenByDescending(x => x.ServiceName.Equals("Frontend", StringComparison.OrdinalIgnoreCase))
                      .FirstOrDefault();
     }
 

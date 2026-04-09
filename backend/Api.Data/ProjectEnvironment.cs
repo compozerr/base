@@ -36,14 +36,18 @@ public class ProjectEnvironment : BaseEntityWithId<ProjectEnvironmentId>
     public virtual ICollection<Deployment>? Deployments { get; set; }
 
     /// <summary>
-    /// Returns the environment's URL from the domain entity (which has the
-    /// correct service-name prefix for preview environments).
+    /// Returns the environment's URL. For preview environments, returns the
+    /// environment-specific internal domain. For production, returns the
+    /// project's primary domain (external custom domain or internal frontend).
     /// </summary>
     public string? GetUrl()
     {
-        var domain = Project?.Domains?
-            .FirstOrDefault(d => d.ProjectEnvironmentId == Id && d.Type == DomainType.Internal);
-        if (domain != null) return domain.GetValue;
+        if (Type != EnvironmentType.Production)
+        {
+            var envDomain = Project?.Domains?
+                .FirstOrDefault(d => d.ProjectEnvironmentId == Id && d.Type == DomainType.Internal);
+            if (envDomain != null) return envDomain.GetValue;
+        }
 
         return Project?.Domains?.GetPrimary()?.GetValue;
     }
