@@ -27,7 +27,15 @@ public sealed class ProjectRepository(
 {
     public Task<Project?> GetProjectByIdWithDomainsAsync(ProjectId projectId)
         => Query()
-            .Include(x => x.Domains)
+            // Filter soft-deleted domains out of the Include. Otherwise this method
+            // pulls every Domain row for the project (including tombstoned ones) into
+            // the scoped DbContext's change tracker. Any other handler that runs in
+            // the same scope and touches project.Domains via a filtered Include then
+            // sees those tombstones show up in its navigation collection via EF Core
+            // relationship fix-up. That's how the service-reporting pipeline was
+            // crashing on soft-deleted cross-env domains even though the outer query
+            // had its own filter. See docs/plans/2026-04-08-services-reporting-bugs-handoff.md.
+            .Include(x => x.Domains!.Where(d => d.DeletedAtUtc == null))
             .Include(x => x.Server)
             .SingleOrDefaultAsync(x => x.Id == projectId);
 

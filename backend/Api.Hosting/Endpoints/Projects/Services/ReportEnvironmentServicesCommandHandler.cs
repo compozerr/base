@@ -4,6 +4,7 @@ using Core.Extensions;
 using Core.MediatR;
 using Database.Extensions;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 namespace Api.Hosting.Endpoints.Projects.Services;
 
@@ -112,16 +113,51 @@ public sealed class ReportEnvironmentServicesCommandHandler(
         }
 
         // Remove system domains in the reporting env that have no corresponding
-        // open port. Soft-deleted domains are already filtered out by the Include.
+        // open port. The outer GetSingleAsync above uses a filtered Include, but
+        // EF Core relationship fix-up can re-attach domains that were loaded into
+        // the same scoped DbContext by *other* queries — in particular, the
+        // ProjectServiceUpsertedEvent handler dispatched from the AddAsync/
+        // UpdateAsync SaveChanges above calls GetProjectByIdWithDomainsAsync,
+        // which loads every non-deleted domain for the project across all envs.
+        // Re-apply the soft-delete and env-scope filters here explicitly as
+        // defense-in-depth: without this, a fixed-up cross-env or soft-deleted
+        // row can end up in systemDomainsToRemove and crash DeleteAsync with
+        // "Domain with id ... not found".
         var reportedPorts = command.Services.Select(s => s.Port).ToHashSet();
         var systemDomainsToRemove = project.Domains?
-            .Where(d => SystemServices.Contains(d.ServiceName) && !reportedPorts.Contains(d.Port))
+            .Where(d => d.DeletedAtUtc == null
+                     && d.ProjectEnvironmentId == command.EnvironmentId
+                     && SystemServices.Contains(d.ServiceName)
+                     && !reportedPorts.Contains(d.Port))
             .ToList();
 
         if (systemDomainsToRemove != null && systemDomainsToRemove.Count > 0)
         {
             await systemDomainsToRemove.Select(x => x.Id)
                                        .ApplyAsync(domainRepository.DeleteAsync, cancellationToken);
+        }
+
+        // Bug 9: Clean up stale IsSystem=true services in the reporting env whose
+        // name is no longer in the report. This matters when a project's type
+        // changes (e.g. from Compozerr → DockerCompose) and the old type's
+        // default system services linger forever otherwise. Only IsSystem rows
+        // are deleted — user-created services are intentionally left alone
+        // because port detection is best-effort and a missing report doesn't
+        // always mean "gone".
+        var reportedServiceNames = command.Services.Select(s => s.Name).ToHashSet();
+        var staleSystemServices = existingServices.Values
+            .Where(s => s.IsSystem && !reportedServiceNames.Contains(s.Name))
+            .ToList();
+
+        if (staleSystemServices.Count > 0)
+        {
+            Log.ForContext("projectId", command.ProjectId)
+                .ForContext("environmentId", command.EnvironmentId)
+                .ForContext("staleServiceNames", staleSystemServices.Select(s => s.Name).ToArray())
+                .Information("Removing {Count} stale IsSystem services from env-scoped report", staleSystemServices.Count);
+
+            await staleSystemServices.Select(s => s.Id)
+                                     .ApplyAsync(projectServiceRepository.DeleteAsync, cancellationToken);
         }
 
         return new ReportServicesResponse();
