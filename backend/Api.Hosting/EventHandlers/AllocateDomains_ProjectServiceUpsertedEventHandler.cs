@@ -31,15 +31,24 @@ public sealed class AllocateDomains_ProjectServiceUpsertedEventHandler(
 
         project.Domains ??= [];
 
-        // Filter existing domains for this environment
-        var existingDomain = project.Domains.FirstOrDefault(d =>
-            d.ServiceName == domainEvent.Entity.Name
-            && d.Port == domainEvent.Entity.Port
-            && d.ProjectEnvironmentId == domainEvent.Entity.ProjectEnvironmentId);
+        var existingDomain = project.Domains
+            .OfType<InternalDomain>()
+            .FirstOrDefault(d =>
+                d.ServiceName == domainEvent.Entity.Name
+                && d.Port == domainEvent.Entity.Port
+                && d.ProjectEnvironmentId == domainEvent.Entity.ProjectEnvironmentId);
 
         var newDomain = BuildInternalDomain(project, domainEvent.Entity, environment);
 
-        if (existingDomain == null || !existingDomain.GetValue.Contains(newDomain.Subdomain))
+        if (existingDomain != null)
+        {
+            if (existingDomain.Subdomain != newDomain.Subdomain)
+            {
+                existingDomain.Subdomain = newDomain.Subdomain;
+                existingDomain.QueueDomainEvent<DomainChangeEvent>();
+            }
+        }
+        else
         {
             newDomain.QueueDomainEvent<DomainChangeEvent>();
             project.Domains.Add(newDomain);
@@ -52,7 +61,7 @@ public sealed class AllocateDomains_ProjectServiceUpsertedEventHandler(
 
         if (environment?.Type == EnvironmentType.Preview && environment.Subdomain is not null)
         {
-            // Preview: prefix with service name
+            // Always prefix with service name — matches hosting convention
             subdomain = $"{service.Name.ToLower()}-{environment.Subdomain}.preview";
         }
         else
