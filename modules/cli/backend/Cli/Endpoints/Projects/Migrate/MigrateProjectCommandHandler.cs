@@ -8,6 +8,7 @@ using Core.Services;
 using Database.Extensions;
 using Github.Services;
 using MediatR;
+using Organizations.Services;
 
 namespace Cli.Endpoints.Projects.Migrate;
 
@@ -17,13 +18,15 @@ public sealed class MigrateProjectCommandHandler(
     ILocationRepository locationRepository,
     IGithubService githubService,
     IFrontendLocation frontendLocation,
-    IMediator mediator) : ICommandHandler<MigrateProjectCommand, MigrateProjectResponse>
+    IMediator mediator,
+    IOrganizationContextAccessor organizationContextAccessor) : ICommandHandler<MigrateProjectCommand, MigrateProjectResponse>
 {
     public async Task<MigrateProjectResponse> Handle(
         MigrateProjectCommand command,
         CancellationToken cancellationToken = default)
     {
         var userId = currentUserAccessor.CurrentUserId!;
+        var organizationId = await organizationContextAccessor.GetCurrentOrganizationIdAsync();
 
         var hasAccess = await githubService.HasAccessToRepositoryAsync(command.RepoUrl, userId);
         if (!hasAccess)
@@ -58,7 +61,8 @@ public sealed class MigrateProjectCommandHandler(
             LocationId = location.Id,
             ServerTierId = ServerTiers.GetById(new ServerTierId(command.Tier)).Id,
             State = ProjectState.Stopped,
-            Type = projectType
+            Type = projectType,
+            OrganizationId = organizationId
         };
 
         newProject.QueueDomainEvent<ProjectCreatedEvent>();

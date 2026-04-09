@@ -5,17 +5,20 @@ using Auth.Services;
 using Cli.Abstractions;
 using Core.MediatR;
 using Database.Extensions;
+using Organizations.Services;
 
 namespace Cli.Endpoints.Projects;
 
 public sealed record CreateProjectCommandHandler(
     IProjectRepository ProjectRepository,
     ICurrentUserAccessor CurrentUserAccessor,
-    ILocationRepository LocationRepository) : ICommandHandler<CreateProjectCommand, CreateProjectResponse>
+    ILocationRepository LocationRepository,
+    IOrganizationContextAccessor OrganizationContextAccessor) : ICommandHandler<CreateProjectCommand, CreateProjectResponse>
 {
     public async Task<CreateProjectResponse> Handle(CreateProjectCommand command, CancellationToken cancellationToken = default)
     {
         var userId = CurrentUserAccessor.CurrentUserId!;
+        var organizationId = await OrganizationContextAccessor.GetCurrentOrganizationIdAsync();
 
         var location = await LocationRepository.GetLocationByIso(command.LocationIso);
 
@@ -30,7 +33,8 @@ public sealed record CreateProjectCommandHandler(
             LocationId = location.Id,
             ServerTierId = ServerTiers.GetById(new ServerTierId(command.Tier)).Id,
             State = ProjectState.Stopped,
-            Type = ProjectType.Compozerr
+            Type = ProjectType.Compozerr,
+            OrganizationId = organizationId
         };
 
         newProject.QueueDomainEvent<ProjectCreatedEvent>();
