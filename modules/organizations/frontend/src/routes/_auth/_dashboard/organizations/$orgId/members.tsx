@@ -41,9 +41,7 @@ import {
 } from '@/components/ui/alert-dialog'
 import { useToast } from '@/hooks/use-toast'
 import { motion } from 'framer-motion'
-import { apiBaseUrl } from '@/api-client'
-import { orgFetch } from '@/lib/org-storage'
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { api } from '@/api-client'
 import { useRegisterActions } from '@/lib/command-palette/action-registry'
 import * as React from 'react'
 
@@ -59,7 +57,8 @@ interface Member {
 
 interface Invitation {
   id: string
-  email: string
+  email?: string | null
+  githubUsername?: string | null
   role: 'Admin' | 'Member'
   status: string
   expiresAtUtc: string
@@ -82,7 +81,6 @@ function MembersPage() {
   const navigate = useNavigate()
   const { toast } = useToast()
   const { user: currentUser } = useAuth()
-  const queryClient = useQueryClient()
   const [inviteDialogOpen, setInviteDialogOpen] = React.useState(false)
   const [searchQuery, setSearchQuery] = React.useState('')
   const [debouncedQuery, setDebouncedQuery] = React.useState('')
@@ -108,76 +106,47 @@ function MembersPage() {
     return () => clearTimeout(timer)
   }, [searchQuery])
 
-  const { data: searchResults, isFetching: isSearching } = useQuery<{ users: GithubUser[] }>({
-    queryKey: ['github-user-search', debouncedQuery],
-    queryFn: async () => {
-      if (!res.ok) return { users: [] }
-      return res.json()
-    },
-    enabled: debouncedQuery.length >= 2 && !selectedUser,
-  })
+  const { data: searchResults, isFetching: isSearching } = api.v1.getOrganizationsGithubUserSearch.useQuery(
+    { query: { q: debouncedQuery } },
+    { enabled: debouncedQuery.length >= 2 && !selectedUser },
+  ) as { data: { users: GithubUser[] } | undefined, isFetching: boolean }
 
-  const { data: members, isLoading: membersLoading } = useQuery<Member[]>({
-    queryKey: ['organization-members', orgId],
-    queryFn: async () => {
-      if (!res.ok) throw new Error('Failed to fetch members')
-      return res.json()
-    },
-  })
+  const { data: members, isLoading: membersLoading } = api.v1.getOrganizationsOrganizationIdMembers.useQuery(
+    { path: { organizationId: orgId } },
+  ) as { data: Member[] | undefined, isLoading: boolean }
 
-  const { data: invitations } = useQuery<Invitation[]>({
-    queryKey: ['organization-invitations', orgId],
-    queryFn: async () => {
-      if (!res.ok) return []
-      return res.json()
-    },
-  })
+  const { data: invitations } = api.v1.getOrganizationsOrganizationIdInvitations.useQuery(
+    { path: { organizationId: orgId } },
+  ) as { data: Invitation[] | undefined }
 
-  const inviteMutation = useMutation({
-    mutationFn: async ({ email, role }: { email: string; role: string }) => {
-      const res = await orgFetch(`${apiBaseUrl}/v1/organizations/${orgId}/invitations`, {
-        method: 'POST',
-        credentials: 'include',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, role: role === 'Admin' ? 0 : 1 }),
-      })
-      if (!res.ok) {
-        const err = await res.json().catch(() => null)
-        throw new Error(err?.detail || 'Failed to send invitation')
-      }
-      return res.json()
+  const inviteMutation = api.v1.postOrganizationsOrganizationIdInvitations.useMutation(
+    { path: { organizationId: orgId } },
+    {
+      onSuccess: () => {
+        const label = selectedUser?.login || selectedUser?.email || inviteEmail
+        toast({ title: 'Invitation sent', description: `Invitation sent to ${label}`, variant: 'success' })
+        api.v1.getOrganizationsOrganizationIdInvitations.invalidateQueries({ parameters: { path: { organizationId: orgId } } })
+        handleCloseInviteDialog()
+      },
+      onError: (error) => {
+        toast({ title: 'Error', description: String(error), variant: 'destructive' })
+      },
     },
-    onSuccess: () => {
-      const email = selectedUser?.email || inviteEmail
-      toast({ title: 'Invitation sent', description: `Invitation sent to ${email}`, variant: 'success' })
-      queryClient.invalidateQueries({ queryKey: ['organization-invitations', orgId] })
-      handleCloseInviteDialog()
-    },
-    onError: (error: Error) => {
-      toast({ title: 'Error', description: error.message, variant: 'destructive' })
-    },
-  })
+  )
 
-  const removeMemberMutation = useMutation({
-    mutationFn: async (memberId: string) => {
-      const res = await orgFetch(`${apiBaseUrl}/v1/organizations/${orgId}/members/${memberId}`, {
-        method: 'DELETE',
-        credentials: 'include',
-      })
-      if (!res.ok) {
-        const err = await res.json().catch(() => null)
-        throw new Error(err?.detail || 'Failed to remove member')
-      }
+  const removeMemberMutation = api.v1.deleteOrganizationsOrganizationIdMembersMemberId.useMutation(
+    undefined as void,
+    {
+      onSuccess: () => {
+        toast({ title: 'Member removed', variant: 'success' })
+        api.v1.getOrganizationsOrganizationIdMembers.invalidateQueries({ parameters: { path: { organizationId: orgId } } })
+        setRemoveMemberId(null)
+      },
+      onError: (error) => {
+        toast({ title: 'Error', description: String(error), variant: 'destructive' })
+      },
     },
-    onSuccess: () => {
-      toast({ title: 'Member removed', variant: 'success' })
-      queryClient.invalidateQueries({ queryKey: ['organization-members', orgId] })
-      setRemoveMemberId(null)
-    },
-    onError: (error: Error) => {
-      toast({ title: 'Error', description: error.message, variant: 'destructive' })
-    },
-  })
+  )
 
   const handleCloseInviteDialog = () => {
     setInviteDialogOpen(false)
@@ -189,12 +158,19 @@ function MembersPage() {
   }
 
   const handleInvite = () => {
-    const email = selectedUser?.email || inviteEmail
-    if (!email?.trim()) {
-      toast({ title: 'Email required', description: 'Please enter an email address or select a GitHub user with a public email.', variant: 'destructive' })
+    const email = selectedUser?.email || inviteEmail || undefined
+    const githubUsername = selectedUser?.login || undefined
+
+    if (!email && !githubUsername) {
+      toast({ title: 'Recipient required', description: 'Select a GitHub user or enter an email address.', variant: 'destructive' })
       return
     }
-    inviteMutation.mutate({ email: email.trim(), role: inviteRole })
+
+    inviteMutation.mutate({
+      email: email?.trim() ?? null,
+      githubUsername: githubUsername ?? null,
+      role: inviteRole === 'Admin' ? 0 : 1,
+    })
   }
 
   const handleSelectUser = (user: GithubUser) => {
@@ -320,7 +296,7 @@ function MembersPage() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Email</TableHead>
+                  <TableHead>Invited</TableHead>
                   <TableHead>Role</TableHead>
                   <TableHead>Expires</TableHead>
                 </TableRow>
@@ -328,7 +304,19 @@ function MembersPage() {
               <TableBody>
                 {invitations.map((inv) => (
                   <TableRow key={inv.id}>
-                    <TableCell className="font-mono text-sm">{inv.email}</TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-2">
+                        {inv.githubUsername && (
+                          <div className="flex items-center gap-1.5">
+                            <Github className="h-3.5 w-3.5 text-muted-foreground" />
+                            <span className="text-sm font-medium">{inv.githubUsername}</span>
+                          </div>
+                        )}
+                        {inv.email && (
+                          <span className="font-mono text-sm text-muted-foreground">{inv.email}</span>
+                        )}
+                      </div>
+                    </TableCell>
                     <TableCell>
                       <Badge variant="outline">{inv.role}</Badge>
                     </TableCell>
@@ -424,6 +412,9 @@ function MembersPage() {
                     {selectedUser.name && (
                       <p className="text-xs text-muted-foreground">{selectedUser.name}</p>
                     )}
+                    {!selectedUser.email && (
+                      <p className="text-xs text-muted-foreground">Will be auto-accepted when they log in via GitHub</p>
+                    )}
                   </div>
                   <Button
                     variant="ghost"
@@ -441,20 +432,20 @@ function MembersPage() {
               )}
             </div>
 
-            {/* Email - shown if user selected but has no public email, or if typing raw email */}
+            {/* Email - shown if user selected but has no public email, allow optional email entry */}
             {(selectedUser && !selectedUser.email) && (
               <div className="space-y-2">
                 <label className="text-sm font-medium">
-                  Email address
+                  Email address (optional)
                 </label>
                 <Input
                   type="email"
                   value={inviteEmail}
                   onChange={(e) => setInviteEmail(e.target.value)}
-                  placeholder={`Enter ${selectedUser.login}'s email address`}
+                  placeholder={`Enter ${selectedUser.login}'s email to also send a notification`}
                 />
                 <p className="text-xs text-muted-foreground">
-                  This user doesn't have a public email on GitHub. Enter their email to send the invitation.
+                  If provided, they'll receive an invitation email. Otherwise, the invitation is accepted automatically when they log in.
                 </p>
               </div>
             )}
@@ -491,12 +482,16 @@ function MembersPage() {
                 // If user typed an email directly (contains @), use that
                 if (!selectedUser && searchQuery.includes('@')) {
                   setInviteEmail(searchQuery)
-                  inviteMutation.mutate({ email: searchQuery.trim(), role: inviteRole })
+                  inviteMutation.mutate({
+                    email: searchQuery.trim(),
+                    githubUsername: null,
+                    role: inviteRole === 'Admin' ? 0 : 1,
+                  })
                 } else {
                   handleInvite()
                 }
               }}
-              disabled={inviteMutation.isPending || (!selectedUser?.email && !inviteEmail.trim() && !searchQuery.includes('@'))}
+              disabled={inviteMutation.isPending || (!selectedUser && !inviteEmail.trim() && !searchQuery.includes('@'))}
             >
               {inviteMutation.isPending ? 'Sending...' : 'Send Invitation'}
             </Button>
@@ -516,7 +511,7 @@ function MembersPage() {
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
             <AlertDialogAction
-              onClick={() => removeMemberId && removeMemberMutation.mutate(removeMemberId)}
+              onClick={() => removeMemberId && removeMemberMutation.mutate({ path: { organizationId: orgId, memberId: removeMemberId } })}
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
             >
               Remove Member

@@ -19,9 +19,17 @@ public sealed class InviteUserCommandHandler(
         if (!await authService.IsAdminAsync(command.OrganizationId, userId, cancellationToken))
             throw new UnauthorizedAccessException("Only admins can invite members.");
 
-        // Check for existing pending invitation
-        if (await invitationRepository.HasPendingInvitationAsync(command.OrganizationId, command.Email, cancellationToken))
+        if (string.IsNullOrWhiteSpace(command.Email) && string.IsNullOrWhiteSpace(command.GithubUsername))
+            throw new ArgumentException("Either email or GitHub username must be provided.");
+
+        // Check for existing pending invitation by email or GitHub username
+        if (!string.IsNullOrWhiteSpace(command.Email) &&
+            await invitationRepository.HasPendingInvitationAsync(command.OrganizationId, command.Email, cancellationToken))
             throw new InvalidOperationException("A pending invitation already exists for this email.");
+
+        if (!string.IsNullOrWhiteSpace(command.GithubUsername) &&
+            await invitationRepository.HasPendingInvitationByGithubUsernameAsync(command.OrganizationId, command.GithubUsername, cancellationToken))
+            throw new InvalidOperationException("A pending invitation already exists for this GitHub user.");
 
         var token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(32))
             .Replace("+", "-").Replace("/", "_").TrimEnd('=');
@@ -29,7 +37,8 @@ public sealed class InviteUserCommandHandler(
         var invitation = new OrganizationInvitation
         {
             OrganizationId = command.OrganizationId,
-            Email = command.Email,
+            Email = command.Email?.Trim(),
+            GithubUsername = command.GithubUsername?.Trim(),
             Role = command.Role,
             InvitedByUserId = userId,
             Status = InvitationStatus.Pending,

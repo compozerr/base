@@ -15,10 +15,8 @@ import {
 } from '@/components/ui/dialog'
 import { useToast } from '@/hooks/use-toast'
 import { motion } from 'framer-motion'
-import { apiBaseUrl } from '@/api-client'
-import { orgFetch } from '@/lib/org-storage'
+import { api } from '@/api-client'
 import { useAuth } from '@/hooks/use-dynamic-auth'
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { useRegisterActions } from '@/lib/command-palette/action-registry'
 import * as React from 'react'
 
@@ -39,47 +37,33 @@ function OrganizationsPage() {
   const navigate = useNavigate()
   const { user } = useAuth()
   const { toast } = useToast()
-  const queryClient = useQueryClient()
   const [createDialogOpen, setCreateDialogOpen] = React.useState(false)
   const [orgName, setOrgName] = React.useState('')
   const [orgSlug, setOrgSlug] = React.useState('')
   const [slugManuallyEdited, setSlugManuallyEdited] = React.useState(false)
 
-  const { data: organizations, isLoading } = useQuery<Organization[]>({
-    queryKey: ['organizations'],
-    queryFn: async () => {
-      if (!res.ok) throw new Error('Failed to fetch organizations')
-      return res.json()
-    },
-  })
+  const { data: organizations, isLoading } = api.v1.getOrganizations.useQuery() as {
+    data: Organization[] | undefined
+    isLoading: boolean
+  }
 
-  const createOrgMutation = useMutation({
-    mutationFn: async ({ name, slug }: { name: string; slug: string }) => {
-      const res = await orgFetch(`${apiBaseUrl}/v1/organizations`, {
-        method: 'POST',
-        credentials: 'include',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, slug }),
-      })
-      if (!res.ok) {
-        const err = await res.json().catch(() => null)
-        throw new Error(err?.detail || err?.errors?.Slug?.[0] || 'Failed to create organization')
-      }
-      return res.json()
+  const createOrgMutation = api.v1.postOrganizations.useMutation(
+    {},
+    {
+      onSuccess: (data) => {
+        toast({ title: 'Organization created', description: `${orgName} is ready to go.`, variant: 'success' })
+        api.v1.getOrganizations.invalidateQueries({})
+        setCreateDialogOpen(false)
+        setOrgName('')
+        setOrgSlug('')
+        setSlugManuallyEdited(false)
+        navigate({ to: '/organizations/$orgId', params: { orgId: data.id } })
+      },
+      onError: (error) => {
+        toast({ title: 'Error', description: String(error), variant: 'destructive' })
+      },
     },
-    onSuccess: (data) => {
-      toast({ title: 'Organization created', description: `${orgName} is ready to go.`, variant: 'success' })
-      queryClient.invalidateQueries({ queryKey: ['organizations'] })
-      setCreateDialogOpen(false)
-      setOrgName('')
-      setOrgSlug('')
-      setSlugManuallyEdited(false)
-      navigate({ to: '/organizations/$orgId', params: { orgId: data.id } })
-    },
-    onError: (error: Error) => {
-      toast({ title: 'Error', description: error.message, variant: 'destructive' })
-    },
-  })
+  )
 
   useRegisterActions([
     {

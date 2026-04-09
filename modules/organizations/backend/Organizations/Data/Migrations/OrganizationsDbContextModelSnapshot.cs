@@ -81,12 +81,15 @@ namespace Organizations.Data.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)");
 
                     b.Property<DateTime>("ExpiresAtUtc")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("GithubUsername")
+                        .HasMaxLength(39)
+                        .HasColumnType("character varying(39)");
 
                     b.Property<Guid>("InvitedByUserId")
                         .HasColumnType("uuid");
@@ -114,6 +117,8 @@ namespace Organizations.Data.Migrations
                         .IsUnique();
 
                     b.HasIndex("OrganizationId", "Email", "Status");
+
+                    b.HasIndex("OrganizationId", "GithubUsername", "Status");
 
                     b.ToTable("OrganizationInvitations", "organizations");
                 });

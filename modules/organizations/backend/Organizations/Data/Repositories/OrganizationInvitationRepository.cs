@@ -10,6 +10,8 @@ public interface IOrganizationInvitationRepository : IGenericRepository<Organiza
     Task<OrganizationInvitation?> GetByTokenAsync(string token, CancellationToken cancellationToken = default);
     Task<List<OrganizationInvitation>> GetPendingForOrganizationAsync(OrganizationId orgId, CancellationToken cancellationToken = default);
     Task<bool> HasPendingInvitationAsync(OrganizationId orgId, string email, CancellationToken cancellationToken = default);
+    Task<bool> HasPendingInvitationByGithubUsernameAsync(OrganizationId orgId, string githubUsername, CancellationToken cancellationToken = default);
+    Task<List<OrganizationInvitation>> GetPendingByGithubUsernameAsync(string githubUsername, CancellationToken cancellationToken = default);
 }
 
 public sealed class OrganizationInvitationRepository(
@@ -28,4 +30,13 @@ public sealed class OrganizationInvitationRepository(
 
     public Task<bool> HasPendingInvitationAsync(OrganizationId orgId, string email, CancellationToken cancellationToken = default)
         => Query().AnyAsync(x => x.OrganizationId == orgId && x.Email == email && x.Status == InvitationStatus.Pending, cancellationToken);
+
+    public Task<bool> HasPendingInvitationByGithubUsernameAsync(OrganizationId orgId, string githubUsername, CancellationToken cancellationToken = default)
+        => Query().AnyAsync(x => x.OrganizationId == orgId && x.GithubUsername == githubUsername && x.Status == InvitationStatus.Pending, cancellationToken);
+
+    public Task<List<OrganizationInvitation>> GetPendingByGithubUsernameAsync(string githubUsername, CancellationToken cancellationToken = default)
+        => Query()
+            .Include(x => x.Organization)
+            .Where(x => x.GithubUsername == githubUsername && x.Status == InvitationStatus.Pending && x.ExpiresAtUtc > DateTime.UtcNow)
+            .ToListAsync(cancellationToken);
 }

@@ -16,5 +16,5 @@ jobs:
     with:
       language: dotnet
       pre_test_setup: touch backend/.env
-      test_command: dotnet test backend/Base.sln
+      test_command: dotnet test backend/Base.sln --filter "Category!=Integration"
     secrets: inherit

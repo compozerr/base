@@ -4,9 +4,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Skeleton } from '@/components/ui/skeleton'
 import { motion } from 'framer-motion'
-import { apiBaseUrl } from '@/api-client'
-import { orgFetch } from '@/lib/org-storage'
-import { useQuery } from '@tanstack/react-query'
+import { api } from '@/api-client'
 
 interface OrganizationDetail {
   id: string
@@ -25,13 +23,9 @@ function OrganizationDetailPage() {
   const { orgId } = Route.useParams()
   const navigate = useNavigate()
 
-  const { data: org, isLoading } = useQuery<OrganizationDetail>({
-    queryKey: ['organization', orgId],
-    queryFn: async () => {
-      if (!res.ok) throw new Error('Failed to fetch organization')
-      return res.json()
-    },
-  })
+  const { data: org, isLoading } = api.v1.getOrganizationsOrganizationId.useQuery(
+    { path: { organizationId: orgId } },
+  ) as { data: OrganizationDetail | undefined, isLoading: boolean }
 
   return (
     <motion.div

@@ -231,7 +231,21 @@ Type-safe API client generated from backend OpenAPI spec:
   // Mutations
   const { mutate } = api.v1.postLogin.useMutation();
   ```
-- **Regeneration**: Run when backend OpenAPI spec changes
+- **Regeneration**: When backend endpoints or request/response types change, regenerate the API client:
+  1. Start the backend with `compozerr dev` (or `dotnet run` locally pointing at localhost DB)
+  2. Run `cd frontend && npx openapi-qraft --plugin tanstack-query-react --plugin openapi-typescript http://localhost:1235/swagger/v1/swagger.json --clean -o src/generated --export-type --properties-required-by-default --default-non-nullable`
+  3. Use port `1235` when running via Docker (`compozerr dev`), or `5000` if running `dotnet run` locally
+- **IMPORTANT**: Always use the generated `api` client for API calls — never use raw `fetch()`, `useQuery()`, `useMutation()`, or `orgFetch()`. The client handles org ID headers, credentials, error handling, and TanStack Query caching automatically.
+
+**4. Email Templates: React Email**
+
+Email templates are React Email components (`.tsx`) that auto-generate both the HTML and C# backing classes. See `modules/mail/README.md` for the full workflow.
+
+- **Source of truth**: `frontend/src/email-templates/*.tsx` — React Email components with `% PlaceholderName %` placeholders
+- **Auto-generated**: `backend/Api/Emails/*.html` and `backend/Api/Emails/*.cs` — never edit these directly
+- **Generate**: `cd modules/mail/frontend && npm run generate`
+- **Preview**: `cd modules/mail/frontend && npm run dev` (port 1239)
+- **IMPORTANT**: Never hand-write the `.html` or `.cs` files. Always create/edit the `.tsx` component and run the generate command.
 
 **4. Command Palette Actions**
 

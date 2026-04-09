@@ -7,7 +7,7 @@ using Organizations.Models;
 
 namespace Organizations.Endpoints.Invitations.InviteUser;
 
-public record InviteUserRequest(string Email, OrganizationRole Role);
+public record InviteUserRequest(string? Email, string? GithubUsername, OrganizationRole Role);
 
 public static class InviteUserRoute
 {
@@ -18,7 +18,7 @@ public static class InviteUserRoute
             InviteUserRequest request,
             IMediator mediator) =>
         {
-            var result = await mediator.Send(new InviteUserCommand(organizationId, request.Email, request.Role));
+            var result = await mediator.Send(new InviteUserCommand(organizationId, request.Email, request.GithubUsername, request.Role));
             return TypedResults.Created($"/invitations/{result.InvitationId}", result);
         });
     }

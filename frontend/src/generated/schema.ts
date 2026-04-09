@@ -4896,6 +4896,7 @@ export type components = {
         };
         "Organizations.Endpoints.Invitations.InviteUser.InviteUserRequest": {
             email: string | null;
+            githubUsername: string | null;
             role: components["schemas"]["Organizations.Models.OrganizationRole"];
         };
         "Organizations.Endpoints.Invitations.InviteUser.InviteUserResponse": {

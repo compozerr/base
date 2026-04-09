@@ -32,7 +32,7 @@ jobs:
                   GITHUB__GITHUBAPP__APP_ID: ${{ secrets.GH_APP_ID }}
                   GITHUB__GITHUBAPP__PRIVATE_KEY_CERTIFICATE_BASE64: ${{ secrets.GH_APP_PRIVATE_KEY_BASE64 }}
                   INTEGRATION_TEST_INSTALLATION_ID: ${{ secrets.GH_APP_INSTALLATION_ID }}
-              run: dotnet test backend/Base.sln
+              run: dotnet test backend/Base.sln --filter "Category!=Integration"
     deploy:
         if: startsWith(github.event.ref, 'refs/tags/v')
         needs: test

@@ -70,6 +70,13 @@ public class UserAuthenticatedCommandHandler(
 
         await mediator.Send(createUserLoginCommand, cancellationToken);
 
+        // Publish login notification for cross-module handling (e.g., auto-accept invitations)
+        var githubUsername = principal.Identity?.Name;
+        if (!string.IsNullOrEmpty(githubUsername))
+        {
+            await mediator.Publish(new global::Auth.Abstractions.UserLoggedInNotification(userId, githubUsername), cancellationToken);
+        }
+
         return userId;
     }
 }
