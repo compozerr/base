@@ -1,21 +1,24 @@
 {
-    "type": "project",
-    "name": "web",
-    "id": "0198a99a-d92f-70ff-b90d-201bc173963a",
-    "modules": {
-        "database": "compozerr-test2/database@latest",
-        "auth": "compozerr-test2/auth@latest",
-        "cli": "compozerr-test2/cli@latest",
-        "github": "compozerr-test2/github@latest",
-        "stripe": "compozerr-test2/stripe@latest",
-        "jobs": "compozerr-test2/jobs@latest",
-        "mail": "compozerr-lib/mail@latest",
-        "mail-resend": "compozerr-lib/mail-resend@latest",
-        "config": "compozerr-lib/config@latest",
-        "openTelemetry": "local",
-        "storage": "compozerr-test2/storage@latest",
-        "terminal": "local",
-        "docs": "local",
-        "organizations": "local"
-    }
+  "type": "project",
+  "name": "web",
+  "modules": {
+    "database": "compozerr-test2/database@latest",
+    "auth": "compozerr-test2/auth@latest",
+    "cli": "compozerr-test2/cli@latest",
+    "github": "compozerr-test2/github@latest",
+    "stripe": "compozerr-test2/stripe@latest",
+    "jobs": "compozerr-test2/jobs@latest",
+    "mail": "compozerr-lib/mail@latest",
+    "mail-resend": "compozerr-lib/mail-resend@latest",
+    "config": "compozerr-lib/config@latest",
+    "openTelemetry": "local",
+    "storage": "compozerr-test2/storage@latest",
+    "terminal": "local",
+    "docs": "local",
+    "organizations": "local"
+  },
+  "id": "dd39ea9d-d4c6-4292-b760-4a783ed35b60",
+  "start": "npm run serve -- -d",
+  "templateType": "compozerr-standard",
+  "templateFile": "package.json"
 }
