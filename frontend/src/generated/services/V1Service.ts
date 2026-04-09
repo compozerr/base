@@ -18164,6 +18164,374 @@ export interface V1Service {
             error: GetProjectsProjectIdEnvironmentsEnvironmentIdServicesError;
         };
     };
+    getProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogs: {
+        /**/
+        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: QueryFnOptionsByQueryKey<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters, TMeta, TSignal> | (QueryFnOptionsByParameters<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters, TMeta, TSignal>), client?: (schema: GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsSchema, options: {
+            parameters: GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters;
+            signal?: TSignal;
+            meta?: TMeta;
+        }) => Promise<RequestFnResponse<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsData, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsError>>): Promise<RequestFnResponse<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsData, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsError>>;
+        /**/
+        getQueryKey(parameters: DeepReadonly<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters>): ServiceOperationQueryKey<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters>;
+        /**
+         * Performs asynchronous data fetching, manages loading states and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
+         * @example Query with parameters
+         * ```ts
+         * const { data, isLoading } = qraft.v1Service.getProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogs.useQuery({
+         *     path: {
+         *         projectId: projectId,
+         *         environmentId: environmentId,
+         *         serviceName: serviceName
+         *     },
+         *     query: {
+         *         tail: tail
+         *     }
+         * })
+         * ```
+         */
+        useQuery<TData = GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsData>(parameters: ServiceOperationQueryKey<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters> | (DeepReadonly<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters>), options?: Omit<UndefinedInitialDataOptions<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsData, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsError, TData, ServiceOperationQueryKey<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters>>, "queryKey">): UseQueryResult<TData, OperationError<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsError>>;
+        /**
+         * Performs asynchronous data fetching, manages loading states and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
+         * @example Query with parameters
+         * ```ts
+         * const { data, isLoading } = qraft.v1Service.getProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogs.useQuery({
+         *     path: {
+         *         projectId: projectId,
+         *         environmentId: environmentId,
+         *         serviceName: serviceName
+         *     },
+         *     query: {
+         *         tail: tail
+         *     }
+         * })
+         * ```
+         */
+        useQuery<TData = GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsData>(parameters: ServiceOperationQueryKey<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters> | (DeepReadonly<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters>), options: Omit<DefinedInitialDataOptions<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsData, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsError, TData, ServiceOperationQueryKey<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters>>, "queryKey">): DefinedUseQueryResult<TData, OperationError<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsError>>;
+        /**/
+        getInfiniteQueryKey(parameters: DeepReadonly<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters>): ServiceOperationInfiniteQueryKey<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useInfiniteQuery|`useInfiniteQuery(...)` documentation}
+         *
+         * @example Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogs.useInfiniteQuery({
+         *     path: {
+         *         projectId: projectId,
+         *         environmentId: environmentId,
+         *         serviceName: serviceName
+         *     }
+         * }, {
+         *     initialPageParam: {
+         *         query: {
+         *             tail: initialTail
+         *         }
+         *     },
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useInfiniteQuery<TPageParam extends GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters, TQueryFnData = GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsData, TData = OperationInfiniteData<TQueryFnData, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters>>(parameters: ServiceOperationInfiniteQueryKey<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters> | (DeepReadonly<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters>), options: Omit<UndefinedInitialDataInfiniteOptions<TQueryFnData, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsError, TData, ServiceOperationInfiniteQueryKey<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<TQueryFnData, PartialParameters<DeepReadonly<TPageParam>>>): UseInfiniteQueryResult<TData, OperationError<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsError>>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useInfiniteQuery|`useInfiniteQuery(...)` documentation}
+         *
+         * @example Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogs.useInfiniteQuery({
+         *     path: {
+         *         projectId: projectId,
+         *         environmentId: environmentId,
+         *         serviceName: serviceName
+         *     }
+         * }, {
+         *     initialPageParam: {
+         *         query: {
+         *             tail: initialTail
+         *         }
+         *     },
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useInfiniteQuery<TPageParam extends GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters, TQueryFnData = GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsData, TData = OperationInfiniteData<TQueryFnData, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters>>(parameters: ServiceOperationInfiniteQueryKey<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters> | (DeepReadonly<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters>), options: Omit<DefinedInitialDataInfiniteOptions<TQueryFnData, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsError, TData, ServiceOperationInfiniteQueryKey<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsData, PartialParameters<DeepReadonly<TPageParam>>>): DefinedUseInfiniteQueryResult<TData, OperationError<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsError>>;
+        /**
+         * Monitors the number of queries currently fetching, matching the provided filters.
+         * Useful for creating loading indicators or performing actions based on active requests.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsFetching|`useIsFetching(...)` documentation}
+         * @example Checks the total number of queries fetching from the specified service method,
+         * both normal and infinite. If no parameters are provided, no filtering is applied.
+         * ```ts
+         * const getProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsTotal = qraft.v1Service.getProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogs.useIsFetching()
+         * ```
+         * @example Checks the number of normal queries fetching with the specified parameters.
+         * ```ts
+         * const getProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsByParametersTotal = qraft.v1Service.getProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogs.useIsFetching({
+         *     infinite: false,
+         *     parameters: {
+         *         path: {
+         *             projectId: projectId,
+         *             environmentId: environmentId,
+         *             serviceName: serviceName
+         *         },
+         *         query: {
+         *             tail: tail
+         *         }
+         *     }
+         * })
+         * ```
+         */
+        useIsFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsData, TInfinite, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsError> | QueryFiltersByQueryKey<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsData, TInfinite, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsError>): number;
+        /**
+         * Allows you to execute multiple asynchronous data fetching operations concurrently. This is especially useful for managing complex data dependencies in parallel.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
+         * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
+         * ```ts
+         * const getProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsResults = qraft.v1Service.getProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogs.useQueries({
+         *     queries: [
+         *         {
+         *             path: {
+         *                 projectId: projectId1,
+         *                 environmentId: environmentId1,
+         *                 serviceName: serviceName1
+         *             },
+         *             query: {
+         *                 tail: tail1
+         *             }
+         *         },
+         *         {
+         *             path: {
+         *                 projectId: projectId2,
+         *                 environmentId: environmentId2,
+         *                 serviceName: serviceName2
+         *             },
+         *             query: {
+         *                 tail: tail2
+         *             }
+         *         }
+         *     ]
+         * });
+         * getProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsResults.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
+         * ```
+         * @example Combined results. Only the data will be returned.
+         * ```ts
+         * const getProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsCombinedResults = qraft.v1Service.getProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogs.useQueries({
+         *     combine: results => results.map(result => result.data),
+         *     queries: [
+         *         {
+         *             path: {
+         *                 projectId: projectId1,
+         *                 environmentId: environmentId1,
+         *                 serviceName: serviceName1
+         *             },
+         *             query: {
+         *                 tail: tail1
+         *             }
+         *         },
+         *         {
+         *             path: {
+         *                 projectId: projectId2,
+         *                 environmentId: environmentId2,
+         *                 serviceName: serviceName2
+         *             },
+         *             query: {
+         *                 tail: tail2
+         *             }
+         *         }
+         *     ]
+         * });
+         * getProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsCombinedResults.forEach(data => console.log({ data }));
+         * ```
+         */
+        useQueries<T extends Array<UseQueryOptionsForUseQueries<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsData, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsError>>, TCombinedResult = Array<UseQueryResult<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsData, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsError>>>(options: {
+            queries: T;
+            combine?: (results: Array<UseQueryResult<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsData, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsError>>) => TCombinedResult;
+        }): TCombinedResult;
+        /**
+         * Performs asynchronous data fetching with Suspense support.
+         * Similar to useQuery but integrates with React Suspense for loading states.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
+         * @example Suspense Query with parameters
+         * ```ts
+         * const data = qraft.v1Service.getProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogs.useSuspenseQuery({
+         *     path: {
+         *         projectId: projectId,
+         *         environmentId: environmentId,
+         *         serviceName: serviceName
+         *     },
+         *     query: {
+         *         tail: tail
+         *     }
+         * })
+         * ```
+         */
+        useSuspenseQuery<TData = GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsData>(parameters: ServiceOperationQueryKey<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters> | (DeepReadonly<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters>), options?: Omit<UseSuspenseQueryOptions<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsData, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsError, TData, ServiceOperationQueryKey<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters>>, "queryKey">): UseSuspenseQueryResult<TData, OperationError<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsError>>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         * It functions similarly to `useInfiniteQuery`, but with added support for React Suspense.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseInfiniteQuery|`useSuspenseInfiniteQuery(...)` documentation}
+         *
+         * @example Suspense Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogs.useSuspenseInfiniteQuery({
+         *     path: {
+         *         projectId: projectId,
+         *         environmentId: environmentId,
+         *         serviceName: serviceName
+         *     }
+         * }, {
+         *     initialPageParam: {
+         *         query: {
+         *             tail: initialTail
+         *         }
+         *     },
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useSuspenseInfiniteQuery<TPageParam extends GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters, TData = GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsData>(parameters: ServiceOperationInfiniteQueryKey<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters> | (DeepReadonly<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters>), options: Omit<UseSuspenseInfiniteQueryOptions<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsData, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsError, OperationInfiniteData<TData, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters>, ServiceOperationInfiniteQueryKey<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsData, PartialParameters<DeepReadonly<TPageParam>>>): UseSuspenseInfiniteQueryResult<OperationInfiniteData<TData, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters>, OperationError<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsError>>;
+        /**
+         * Allows you to execute multiple asynchronous data fetching operations concurrently with Suspense support.
+         * Similar to useQueries but integrates with React Suspense for loading states.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
+         * @example Basic usage with Suspense
+         * ```ts
+         * const getProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsData = qraft.v1Service.getProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogs.useSuspenseQueries({
+         *     queries: [
+         *         {
+         *             path: {
+         *                 projectId: projectId1,
+         *                 environmentId: environmentId1,
+         *                 serviceName: serviceName1
+         *             },
+         *             query: {
+         *                 tail: tail1
+         *             }
+         *         },
+         *         {
+         *             path: {
+         *                 projectId: projectId2,
+         *                 environmentId: environmentId2,
+         *                 serviceName: serviceName2
+         *             },
+         *             query: {
+         *                 tail: tail2
+         *             }
+         *         }
+         *     ]
+         * });
+         * getProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsResults.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
+         * ```
+         * @example With data transformation using combine
+         * ```ts
+         * const getProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsCombinedData = qraft.v1Service.getProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogs.useSuspenseQueries({
+         *     combine: results => results.map(result => result.data),
+         *     queries: [
+         *         {
+         *             path: {
+         *                 projectId: projectId1,
+         *                 environmentId: environmentId1,
+         *                 serviceName: serviceName1
+         *             },
+         *             query: {
+         *                 tail: tail1
+         *             }
+         *         },
+         *         {
+         *             path: {
+         *                 projectId: projectId2,
+         *                 environmentId: environmentId2,
+         *                 serviceName: serviceName2
+         *             },
+         *             query: {
+         *                 tail: tail2
+         *             }
+         *         }
+         *     ]
+         * });
+         * getProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsCombinedData.forEach(data => console.log({ data }));
+         * ```
+         */
+        useSuspenseQueries<T extends Array<UseQueryOptionsForUseSuspenseQuery<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsData, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsError>>, TCombinedResult = Array<UseSuspenseQueryResult<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsData, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsError>>>(options: {
+            queries: T;
+            combine?: (results: Array<WithOptional<UseSuspenseQueryResult<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsData, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsError>, "data">>) => TCombinedResult;
+        }): TCombinedResult;
+        /**/
+        fetchQuery(options: ServiceOperationFetchQueryOptions<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsData, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsError>): Promise<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsData>;
+        /**/
+        prefetchQuery(options: ServiceOperationFetchQueryOptions<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsData, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsError>): Promise<void>;
+        /**/
+        ensureQueryData(options: ServiceOperationEnsureQueryDataOptions<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsData, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsError>): Promise<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsData>;
+        /**/
+        fetchInfiniteQuery<TPageParam extends GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters>(options: ServiceOperationFetchInfiniteQueryOptions<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsData, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters, DeepReadonly<TPageParam>, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsError>): Promise<OperationInfiniteData<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsData, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters>>;
+        /**/
+        prefetchInfiniteQuery<TPageParam extends GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters>(options: ServiceOperationFetchInfiniteQueryOptions<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsData, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters, DeepReadonly<TPageParam>, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsError>): Promise<void>;
+        /**/
+        ensureInfiniteQueryData<TPageParam extends GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters>(options: ServiceOperationEnsureInfiniteQueryDataOptions<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsData, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters, DeepReadonly<TPageParam>, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsError>): Promise<OperationInfiniteData<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsData, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters>>;
+        /**/
+        getQueryData(parameters: ServiceOperationQueryKey<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters> | (DeepReadonly<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters>)): GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsData | undefined;
+        /**/
+        getInfiniteQueryData(parameters: ServiceOperationInfiniteQueryKey<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters> | (DeepReadonly<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters>)): OperationInfiniteData<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsData, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters> | undefined;
+        /**/
+        getQueriesData<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsData, TInfinite, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsError> | QueryFiltersByQueryKey<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsData, TInfinite, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsError>): TInfinite extends true ? Array<[
+            queryKey: ServiceOperationInfiniteQueryKey<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters>,
+            data: NoInfer<OperationInfiniteData<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsData, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters>> | undefined
+        ]> : Array<[
+            queryKey: ServiceOperationQueryKey<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters>,
+            data: GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsData | undefined
+        ]>;
+        /**/
+        getQueryState(parameters: ServiceOperationQueryKey<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters> | (DeepReadonly<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters>)): QueryState<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsData, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsError> | undefined;
+        /**/
+        getInfiniteQueryState(parameters: DeepReadonly<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters> | ServiceOperationInfiniteQueryKey<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters>): QueryState<OperationInfiniteData<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsData, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters>, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsError> | undefined;
+        /**/
+        setQueryData(parameters: (DeepReadonly<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters>) | ServiceOperationQueryKey<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters>, updater: Updater<NoInfer<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsData> | undefined, NoInfer<DeepReadonly<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsData>> | undefined>, options?: SetDataOptions): GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsData | undefined;
+        /**/
+        setInfiniteQueryData(parameters: (DeepReadonly<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters>) | ServiceOperationInfiniteQueryKey<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters>, updater: Updater<NoInfer<OperationInfiniteData<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsData, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters>> | undefined, NoInfer<DeepReadonly<OperationInfiniteData<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsData, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters>>> | undefined>, options?: SetDataOptions): OperationInfiniteData<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsData, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters> | undefined;
+        /**/
+        setQueriesData<TInfinite extends boolean = false>(filters: QueryFiltersByParameters<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsData, TInfinite, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsError> | QueryFiltersByQueryKey<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsData, TInfinite, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsError>, updater: Updater<NoInfer<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsData> | undefined, NoInfer<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsData> | undefined>, options?: SetDataOptions): Array<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsData | undefined>;
+        /**/
+        invalidateQueries<TInfinite extends boolean = false>(filters?: InvalidateQueryFilters<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsData, TInfinite, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsError>, options?: InvalidateOptions): Promise<void>;
+        /**/
+        refetchQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsData, TInfinite, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsError> | QueryFiltersByQueryKey<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsData, TInfinite, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsError>, options?: RefetchOptions): Promise<void>;
+        /**/
+        cancelQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsData, TInfinite, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsError> | QueryFiltersByQueryKey<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsData, TInfinite, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsError>, options?: CancelOptions): Promise<void>;
+        /**/
+        removeQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsData, TInfinite, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsError> | QueryFiltersByQueryKey<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsData, TInfinite, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsError>): void;
+        /**/
+        resetQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsData, TInfinite, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsError> | QueryFiltersByQueryKey<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsData, TInfinite, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsError>, options?: ResetOptions): Promise<void>;
+        /**/
+        isFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsData, TInfinite, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsError> | QueryFiltersByQueryKey<GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsData, TInfinite, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters, GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsError>): number;
+        schema: GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsSchema;
+        types: {
+            parameters: GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters;
+            data: GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsData;
+            error: GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsError;
+        };
+    };
     getProjectsProjectIdEnvironmentsEnvironmentIdDomains: {
         /**/
         <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: QueryFnOptionsByQueryKey<GetProjectsProjectIdEnvironmentsEnvironmentIdDomainsSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdDomainsParameters, TMeta, TSignal> | (QueryFnOptionsByParameters<GetProjectsProjectIdEnvironmentsEnvironmentIdDomainsParameters, TMeta, TSignal>), client?: (schema: GetProjectsProjectIdEnvironmentsEnvironmentIdDomainsSchema, options: {
@@ -24438,6 +24806,15 @@ export const getProjectsProjectIdEnvironmentsEnvironmentIdServices = {
     schema: GetProjectsProjectIdEnvironmentsEnvironmentIdServicesSchema;
     [QraftServiceOperationsToken]: V1Service["getProjectsProjectIdEnvironmentsEnvironmentIdServices"];
 };
+export const getProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogs = {
+    schema: {
+        method: "get",
+        url: "/v1/projects/{projectId}/environments/{environmentId}/services/{serviceName}/logs"
+    }
+} as {
+    schema: GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsSchema;
+    [QraftServiceOperationsToken]: V1Service["getProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogs"];
+};
 export const getProjectsProjectIdEnvironmentsEnvironmentIdDomains = {
     schema: {
         method: "get",
@@ -24788,6 +25165,7 @@ export const v1Service = {
     putProjectsProjectIdEnvironmentsEnvironmentIdAutoDeploy,
     getProjectsProjectIdEnvironmentsEnvironmentIdDeployments,
     getProjectsProjectIdEnvironmentsEnvironmentIdServices,
+    getProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogs,
     getProjectsProjectIdEnvironmentsEnvironmentIdDomains,
     getProjectsProjectIdDomains,
     postProjectsProjectIdDomains,
@@ -25629,6 +26007,13 @@ type GetProjectsProjectIdEnvironmentsEnvironmentIdServicesSchema = {
 type GetProjectsProjectIdEnvironmentsEnvironmentIdServicesParameters = paths["/v1/projects/{projectId}/environments/{environmentId}/services"]["get"]["parameters"];
 type GetProjectsProjectIdEnvironmentsEnvironmentIdServicesData = paths["/v1/projects/{projectId}/environments/{environmentId}/services"]["get"]["responses"]["200"]["content"]["application/json"];
 type GetProjectsProjectIdEnvironmentsEnvironmentIdServicesError = unknown;
+type GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsSchema = {
+    method: "get";
+    url: "/v1/projects/{projectId}/environments/{environmentId}/services/{serviceName}/logs";
+};
+type GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsParameters = paths["/v1/projects/{projectId}/environments/{environmentId}/services/{serviceName}/logs"]["get"]["parameters"];
+type GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsData = paths["/v1/projects/{projectId}/environments/{environmentId}/services/{serviceName}/logs"]["get"]["responses"]["200"]["content"]["application/json"];
+type GetProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsError = unknown;
 type GetProjectsProjectIdEnvironmentsEnvironmentIdDomainsSchema = {
     method: "get";
     url: "/v1/projects/{projectId}/environments/{environmentId}/domains";

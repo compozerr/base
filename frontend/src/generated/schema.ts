@@ -3185,6 +3185,47 @@ export type paths = {
         patch?: never;
         trace?: never;
     };
+    "/v1/projects/{projectId}/environments/{environmentId}/services/{serviceName}/logs": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    tail?: number;
+                };
+                header?: never;
+                path: {
+                    projectId: string;
+                    environmentId: string;
+                    serviceName: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Api.Endpoints.Projects.Environments.Services.GetServiceLogs.GetServiceLogsResponse"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/projects/{projectId}/environments/{environmentId}/domains": {
         parameters: {
             query?: never;
@@ -4408,6 +4449,11 @@ export type components = {
         };
         "Api.Endpoints.Projects.Environments.Promote.PromoteEnvironmentResponse": {
             statusUrl: string | null;
+        };
+        "Api.Endpoints.Projects.Environments.Services.GetServiceLogs.GetServiceLogsResponse": {
+            logs: string | null;
+            /** Format: int32 */
+            exitCode: number;
         };
         "Api.Endpoints.Projects.GetProjectsResponse": {
             /** Format: int32 */

@@ -231,10 +231,12 @@ Type-safe API client generated from backend OpenAPI spec:
   // Mutations
   const { mutate } = api.v1.postLogin.useMutation();
   ```
-- **Regeneration**: When backend endpoints or request/response types change, regenerate the API client:
+- **Regeneration**: When backend endpoints or request/response types change, you MUST regenerate the API client yourself before committing — do not leave this as a manual step for the user:
   1. Start the backend with `compozerr dev` (or `dotnet run` locally pointing at localhost DB)
-  2. Run `cd frontend && npx openapi-qraft --plugin tanstack-query-react --plugin openapi-typescript http://localhost:1235/swagger/v1/swagger.json --clean -o src/generated --export-type --properties-required-by-default --default-non-nullable`
-  3. Use port `1235` when running via Docker (`compozerr dev`), or `5000` if running `dotnet run` locally
+  2. Wait for the swagger endpoint to be available (poll `http://localhost:1235/swagger/v1/swagger.json`)
+  3. Run `cd frontend && npx openapi-qraft --plugin tanstack-query-react --plugin openapi-typescript http://localhost:1235/swagger/v1/swagger.json --clean -o src/generated --export-type --properties-required-by-default --default-non-nullable`
+  4. Use port `1235` when running via Docker (`compozerr dev`), or `5000` if running `dotnet run` locally
+  5. Update frontend code to use the newly generated types, then commit everything together
 - **IMPORTANT**: Always use the generated `api` client for API calls — never use raw `fetch()`, `useQuery()`, `useMutation()`, or `orgFetch()`. The client handles org ID headers, credentials, error handling, and TanStack Query caching automatically.
 
 **4. Email Templates: React Email**
@@ -361,6 +363,19 @@ useRegisterActions([
 2. API client types in `frontend/src/generated/` - regenerate when backend changes
 3. Vite dev server has HMR enabled
 4. Import module components from `@repo/<module-name>/...`
+
+### Adding or Changing Backend Endpoints
+
+When you add or modify backend endpoints, you MUST regenerate the frontend API client and use the generated types in your frontend code — all in the same commit. The workflow is:
+
+1. Write the backend endpoint code
+2. Run `compozerr dev` to start the backend (handles Docker, DB, etc.)
+3. Wait for swagger to be available at `http://localhost:1235/swagger/v1/swagger.json`
+4. Run the openapi-qraft regeneration command (see Frontend Architecture > API Client section)
+5. Write/update frontend code using the generated `api.v1.*` client
+6. Commit backend + generated client + frontend together
+
+Never leave API client regeneration as a TODO or manual step for the user.
 
 ### Adding Dependencies
 

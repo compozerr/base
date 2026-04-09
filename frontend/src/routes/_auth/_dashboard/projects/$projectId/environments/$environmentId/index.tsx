@@ -40,6 +40,9 @@ import {
     Database,
     EyeOff,
     ChevronDown,
+    ScrollText,
+    RefreshCw,
+    Loader2,
 } from 'lucide-react'
 import { Fragment, useEffect, useMemo, useRef, useState } from 'react'
 import { SystemType } from '../../../../../../../lib/system-type'
@@ -60,6 +63,12 @@ import {
     TooltipTrigger,
 } from '@/components/ui/tooltip'
 import { components } from '@/generated'
+import {
+    Sheet,
+    SheetContent,
+    SheetHeader,
+    SheetTitle,
+} from '@/components/ui/sheet'
 import { useAppForm } from '@/components/form/use-app-form'
 import { z } from 'zod'
 
@@ -781,6 +790,65 @@ function getServiceTypeLabel(port: string): string {
     }
 }
 
+function ServiceLogsSheet({ projectId, environmentId, serviceName, open, onOpenChange }: {
+    projectId: string
+    environmentId: string
+    serviceName: string | null
+    open: boolean
+    onOpenChange: (open: boolean) => void
+}) {
+    const [tail, setTail] = useState(200)
+    const { data, isLoading, error, refetch } = api.v1.getProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogs.useQuery(
+        { path: { projectId, environmentId, serviceName: serviceName! }, query: { tail } },
+        { enabled: open && !!serviceName },
+    )
+
+    return (
+        <Sheet open={open} onOpenChange={onOpenChange}>
+            <SheetContent className="sm:max-w-2xl w-full flex flex-col gap-0 p-0">
+                <SheetHeader className="px-6 py-4 border-b border-zinc-800 shrink-0">
+                    <div className="flex items-center justify-between">
+                        <SheetTitle className="flex items-center gap-2 text-base">
+                            <ScrollText className="w-4 h-4" />
+                            {serviceName}
+                        </SheetTitle>
+                        <div className="flex items-center gap-2">
+                            <select
+                                value={tail}
+                                onChange={(e) => setTail(Number(e.target.value))}
+                                className="h-7 rounded-md border border-zinc-700 bg-zinc-800 px-2 text-xs text-muted-foreground"
+                            >
+                                <option value={50}>50 lines</option>
+                                <option value={100}>100 lines</option>
+                                <option value={200}>200 lines</option>
+                                <option value={500}>500 lines</option>
+                            </select>
+                            <Button variant="ghost" size="sm" className="h-7 px-2" onClick={() => refetch()} disabled={isLoading}>
+                                <RefreshCw className={cn("h-3.5 w-3.5", isLoading && "animate-spin")} />
+                            </Button>
+                        </div>
+                    </div>
+                </SheetHeader>
+                <div className="flex-1 overflow-auto min-h-0">
+                    {isLoading && !data ? (
+                        <div className="flex items-center justify-center h-full py-20">
+                            <Loader2 className="w-5 h-5 animate-spin text-muted-foreground" />
+                        </div>
+                    ) : error ? (
+                        <div className="p-6">
+                            <p className="text-sm text-red-400">Failed to fetch logs</p>
+                        </div>
+                    ) : (
+                        <pre className="p-4 text-xs font-mono leading-relaxed text-zinc-300 whitespace-pre-wrap break-all">
+                            {data?.logs || 'No logs available.'}
+                        </pre>
+                    )}
+                </div>
+            </SheetContent>
+        </Sheet>
+    )
+}
+
 function ServicesSection({ projectId, environmentId }: { projectId: string; environmentId: string }) {
     const { data: domainsData } = api.v1.getProjectsProjectIdEnvironmentsEnvironmentIdDomains.useQuery({ path: { projectId, environmentId } })
     const { data: servicesData } = api.v1.getProjectsProjectIdEnvironmentsEnvironmentIdServices.useQuery({ path: { projectId, environmentId } })
@@ -799,6 +867,9 @@ function ServicesSection({ projectId, environmentId }: { projectId: string; envi
     const invalidateServices = () => {
         api.v1.getProjectsProjectIdEnvironmentsEnvironmentIdServices.invalidateQueries({ parameters: { path: { projectId, environmentId } } })
     }
+
+    // Logs sheet
+    const [logsService, setLogsService] = useState<string | null>(null)
 
     // TCP mutations
     const [exposingService, setExposingService] = useState<string | null>(null)
@@ -878,6 +949,11 @@ function ServicesSection({ projectId, environmentId }: { projectId: string; envi
                                                     </div>
                                                 </div>
                                                 <div className="flex items-center gap-1.5 shrink-0">
+                                                    <TooltipProvider><Tooltip><TooltipTrigger asChild>
+                                                        <Button variant="ghost" size="icon" className="h-7 w-7 text-muted-foreground hover:text-foreground" onClick={() => setLogsService(s.name!)}>
+                                                            <ScrollText className="h-3.5 w-3.5" />
+                                                        </Button>
+                                                    </TooltipTrigger><TooltipContent>View logs</TooltipContent></Tooltip></TooltipProvider>
                                                     <DropdownMenu>
                                                         <DropdownMenuTrigger asChild>
                                                             <Button variant="ghost" size="sm" className="h-7 px-2 text-xs text-muted-foreground" disabled={changingProtocol === s.name}>
@@ -923,6 +999,13 @@ function ServicesSection({ projectId, environmentId }: { projectId: string; envi
                     </div>
                 )}
             </CardContent>
+            <ServiceLogsSheet
+                projectId={projectId}
+                environmentId={environmentId}
+                serviceName={logsService}
+                open={!!logsService}
+                onOpenChange={(open) => { if (!open) setLogsService(null) }}
+            />
         </Card>
     )
 }

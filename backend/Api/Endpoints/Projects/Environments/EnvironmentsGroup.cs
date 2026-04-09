@@ -8,6 +8,7 @@ using Api.Endpoints.Projects.Environments.Get;
 using Api.Endpoints.Projects.Environments.GetBranches;
 using Api.Endpoints.Projects.Environments.Promote;
 using Api.Endpoints.Projects.Environments.Services;
+using Api.Endpoints.Projects.Environments.Services.GetServiceLogs;
 
 namespace Api.Endpoints.Projects.Environments;
 
@@ -28,6 +29,7 @@ public static class EnvironmentsGroup
         group.AddChangeEnvironmentAutoDeployRoute();
         group.AddGetEnvironmentDeploymentsRoute();
         group.AddGetEnvironmentServicesRoute();
+        group.AddGetServiceLogsRoute();
         group.AddGetEnvironmentDomainsRoute();
 
         return group;
