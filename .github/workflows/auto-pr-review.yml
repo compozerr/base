@@ -6,7 +6,6 @@ on:
 
 jobs:
   review:
-    if: startsWith(github.head_ref, 'auto-fix/')
     permissions:
       contents: write
       pull-requests: write
