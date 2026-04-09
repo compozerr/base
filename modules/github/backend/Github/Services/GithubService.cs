@@ -6,6 +6,7 @@ using Github.Endpoints.SetDefaultInstallationId;
 using Github.Repositories;
 using Github.Utils;
 using Octokit;
+using Organizations.Data.Repositories;
 using Serilog;
 
 namespace Github.Services;
@@ -72,7 +73,8 @@ public interface IGithubService
 public sealed class GithubService(
     IGithubJsonWebTokenService jwtService,
     IUserRepository userRepository,
-    IGithubUserSettingsRepository githubUserSettingsRepository) : IGithubService
+    IGithubOrganizationSettingsRepository githubOrganizationSettingsRepository,
+    IOrganizationRepository organizationRepository) : IGithubService
 {
     private readonly Dictionary<string, (string, DateTimeOffset)> _installationTokensCache = [];
 
@@ -233,7 +235,10 @@ public sealed class GithubService(
 
     public async Task<GetInstallationClientByUserDefaultResponse> GetInstallationClientByUserDefaultAsync(UserId userId, DefaultInstallationIdSelectionType type)
     {
-        var userSettings = await githubUserSettingsRepository.GetOrDefaultByUserIdAsync(userId);
+        var personalOrg = await organizationRepository.GetPersonalOrgForUserAsync(userId);
+        var userSettings = personalOrg is not null
+            ? await githubOrganizationSettingsRepository.GetOrDefaultByOrganizationIdAsync(personalOrg.Id)
+            : null;
 
         string? installationId = "";
 

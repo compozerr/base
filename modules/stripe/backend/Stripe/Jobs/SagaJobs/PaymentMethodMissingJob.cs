@@ -1,5 +1,3 @@
-using Auth.Abstractions;
-using Auth.Repositories;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Stripe.Abstractions;
@@ -13,8 +11,7 @@ namespace Stripe.Jobs.SagaJobs;
 public class PaymentMethodMissingJob(
     IPaymentMethodMissingSagaRepository repository,
     ILogger<PaymentMethodMissingJob> logger,
-    IStripeCustomerRepository stripeCustomerRepository,
-    IUserRepository userRepository,
+    IStripeOrgResolver stripeOrgResolver,
     IPublisher publisher,
     IStripeCustomerValidationService stripeCustomerValidationService) : BaseSagaJob<
         PaymentMethodMissingJob,
@@ -49,25 +46,12 @@ public class PaymentMethodMissingJob(
     {
         Logger.LogInformation("Executing payment method missing warning attempt {AttemptNumber} for saga {SagaId}", attemptNumber, saga.Id);
 
-        var userId = await stripeCustomerRepository.GetInternalIdByStripeCustomerIdAsync(
-            saga.CustomerId,
-            cancellationToken);
-
-        if (!UserId.TryParse(userId, out var parsedUserId) || userId == null)
+        var resolved = await stripeOrgResolver.ResolveOrgAndOwnerByStripeCustomerIdAsync(saga.CustomerId, cancellationToken);
+        if (resolved is null)
         {
             Logger.LogError(
-                "No internal user id found for Stripe Customer ID: {CustomerId} in saga {SagaId}",
+                "Cannot resolve organization for Stripe Customer ID: {CustomerId} in saga {SagaId}",
                 saga.CustomerId,
-                saga.Id);
-            return;
-        }
-
-        var user = await userRepository.GetByIdAsync(parsedUserId, cancellationToken);
-        if (user == null)
-        {
-            Logger.LogError(
-                "User with ID: {UserId} not found for saga {SagaId}",
-                parsedUserId,
                 saga.Id);
             return;
         }

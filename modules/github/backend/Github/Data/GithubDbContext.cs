@@ -10,7 +10,7 @@ public class GithubDbContext(
     DbContextOptions<GithubDbContext> options,
     IMediator mediator) : BaseDbContext<GithubDbContext>("github", options, mediator)
 {
-    public DbSet<GithubUserSettings> GithubUserSettings { get; set; } = null!;
+    public DbSet<GithubOrganizationSettings> GithubOrganizationSettings { get; set; } = null!;
     public DbSet<PushWebhookEvent> PushWebhookEvents { get; set; } = null!;
     public DbSet<PullRequestWebhookEvent> PullRequestWebhookEvents { get; set; } = null!;
     public DbSet<ModuleSyncEvent> ModuleSyncEvents { get; set; } = null!;

@@ -24,7 +24,7 @@ namespace Github.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Github.Models.GithubUserSettings", b =>
+            modelBuilder.Entity("Github.Models.GithubOrganizationSettings", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");
@@ -35,6 +35,9 @@ namespace Github.Migrations
                     b.Property<DateTime?>("DeletedAtUtc")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<Guid>("OrganizationId")
+                        .HasColumnType("uuid");
+
                     b.Property<string>("SelectedModulesInstallationId")
                         .HasColumnType("text");
 
@@ -44,12 +47,9 @@ namespace Github.Migrations
                     b.Property<DateTime?>("UpdatedAtUtc")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
-
                     b.HasKey("Id");
 
-                    b.ToTable("GithubUserSettings", "github");
+                    b.ToTable("GithubOrganizationSettings", "github");
                 });
 
             modelBuilder.Entity("Github.Models.ModuleSyncEvent", b =>

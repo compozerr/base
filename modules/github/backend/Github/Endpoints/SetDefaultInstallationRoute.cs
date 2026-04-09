@@ -5,6 +5,7 @@ using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Organizations.Services;
 
 namespace Github.Endpoints;
 
@@ -19,10 +20,12 @@ public static class SetDefaultInstallationRoute
         return app.MapPost(Route, async Task<Results<Ok, NotFound>> (
             SetDefaultInstallationRequest request,
             ICurrentUserAccessor currentUserAccessor,
+            IOrganizationContextAccessor organizationContextAccessor,
             IGithubService githubService,
             IMediator mediator) =>
         {
             var userId = currentUserAccessor.CurrentUserId!;
+            var orgId = await organizationContextAccessor.GetCurrentOrganizationIdAsync();
 
             var installations = await githubService.GetInstallationsForUserAsync(userId);
 
@@ -34,7 +37,7 @@ public static class SetDefaultInstallationRoute
 
             await mediator.Send(
                 new SetDefaultInstallationIdCommand(
-                    userId,
+                    orgId,
                     request.InstallationId,
                     request.Type));
 

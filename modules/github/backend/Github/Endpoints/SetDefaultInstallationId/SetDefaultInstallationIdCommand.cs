@@ -1,5 +1,5 @@
-using Auth.Abstractions;
 using Core.MediatR;
+using Organizations.Abstractions;
 
 namespace Github.Endpoints.SetDefaultInstallationId;
 
@@ -9,7 +9,8 @@ public enum DefaultInstallationIdSelectionType
     Modules = 2
 }
 
-public record SetDefaultInstallationIdCommand(
-    UserId UserId,
+public sealed record SetDefaultInstallationIdCommand(
+    OrganizationId OrganizationId,
     string InstallationId,
-    DefaultInstallationIdSelectionType DefaultInstallationIdSelectionType) : ICommand;
+    DefaultInstallationIdSelectionType DefaultInstallationIdSelectionType
+) : ICommand<string>;

@@ -1,16 +1,13 @@
 using Api.EventHandlers.Stripe.PaymentFailedActions.Core;
-using Auth.Abstractions;
-using Auth.Repositories;
 using Core.Abstractions;
 using Core.Extensions;
-using Stripe.Data.Repositories;
 using Stripe.Events;
+using Stripe.Services;
 
 namespace Api.EventHandlers.Stripe;
 
 public class PaymentFailedEventHandler(
-    IUserRepository userRepository,
-    IStripeCustomerRepository stripeCustomerRepository,
+    IStripeOrgResolver stripeOrgResolver,
     IServiceProvider serviceProvider) : IEventHandler<PaymentFailedEvent>
 {
     private readonly Serilog.ILogger _logger = Log.Logger.ForContext<PaymentFailedEventHandler>();
@@ -25,35 +22,18 @@ public class PaymentFailedEventHandler(
             notification.AmountDue,
             notification.AttemptCount);
 
-        var userId = await stripeCustomerRepository.GetInternalIdByStripeCustomerIdAsync(
-            notification.CustomerId,
-            cancellationToken);
-
-        if (!UserId.TryParse(userId, out var parsedUserId) || userId == null)
+        var resolved = await stripeOrgResolver.ResolveOrgAndOwnerByStripeCustomerIdAsync(notification.CustomerId, cancellationToken);
+        if (resolved is null)
         {
             _logger.ForContext(nameof(notification), notification, true)
-                   .Error("No internal user id found for Stripe Customer ID: {CustomerId}. Cannot send failed payment notification for Invoice: {InvoiceId}",
-                notification.CustomerId,
-                notification.InvoiceId);
-            return;
-        }
-
-        var user = await userRepository.GetByIdAsync(
-            parsedUserId,
-            cancellationToken);
-
-        if (user == null)
-        {
-            _logger.ForContext(nameof(notification), notification, true)
-                   .Error("User with ID: {UserId} not found. Cannot send failed payment notification for Invoice: {InvoiceId}",
-                parsedUserId,
+                   .Error("Cannot send failed payment notification for Invoice: {InvoiceId}",
                 notification.InvoiceId);
             return;
         }
 
         var actionFactory = new PaymentFailedActionFactory(
             notification,
-            user,
+            resolved.Owner,
             serviceProvider);
 
         var actions = actionFactory.CreateActions();

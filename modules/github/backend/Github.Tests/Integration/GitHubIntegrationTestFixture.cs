@@ -6,6 +6,8 @@ using Database.Data;
 using Github.Data;
 using Github.Repositories;
 using Github.Services;
+using Auth.Data;
+using Organizations.Data;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -78,8 +80,10 @@ public class GitHubIntegrationTestFixture : IAsyncLifetime
         // Register assemblies so BaseDbContext can configure strongly-typed ID converters
         var assemblyCallback = new AssembliesFeatureConfigureCallback();
         var featureCallback = (IFeatureConfigureCallback)assemblyCallback;
-        featureCallback.Configure(typeof(GithubDbContext));  // Github assembly
-        featureCallback.Configure(typeof(ApiDbContext));      // Api.Data assembly
+        featureCallback.Configure(typeof(GithubDbContext));           // Github assembly
+        featureCallback.Configure(typeof(ApiDbContext));              // Api.Data assembly
+        featureCallback.Configure(typeof(AuthDbContext));             // Auth assembly
+        featureCallback.Configure(typeof(OrganizationsDbContext));    // Organizations assembly
 
         var services = new ServiceCollection();
 
@@ -99,6 +103,18 @@ public class GitHubIntegrationTestFixture : IAsyncLifetime
         {
             options.UseNpgsql(dataSource, b =>
                 b.MigrationsAssembly(typeof(ApiDbContext).Assembly.FullName));
+        });
+
+        services.AddDbContext<AuthDbContext>(options =>
+        {
+            options.UseNpgsql(dataSource, b =>
+                b.MigrationsAssembly(typeof(AuthDbContext).Assembly.FullName));
+        });
+
+        services.AddDbContext<OrganizationsDbContext>(options =>
+        {
+            options.UseNpgsql(dataSource, b =>
+                b.MigrationsAssembly(typeof(OrganizationsDbContext).Assembly.FullName));
         });
 
         // Mock MediatR (no-op)
@@ -121,13 +137,22 @@ public class GitHubIntegrationTestFixture : IAsyncLifetime
         // IServiceScopeFactory is automatically registered by the DI container
         var sp = services.BuildServiceProvider();
 
-        // Run migrations
+        // Run migrations in dependency order:
+        // auth → api → organizations → github
+        // (organizations seed migration references auth.Users and api.Projects)
+        // (github migration references organizations.Organizations)
         using var scope = sp.CreateScope();
-        var githubDb = scope.ServiceProvider.GetRequiredService<GithubDbContext>();
-        githubDb.Database.Migrate();
+        var authDb = scope.ServiceProvider.GetRequiredService<AuthDbContext>();
+        authDb.Database.Migrate();
 
         var apiDb = scope.ServiceProvider.GetRequiredService<ApiDbContext>();
         apiDb.Database.Migrate();
+
+        var orgsDb = scope.ServiceProvider.GetRequiredService<OrganizationsDbContext>();
+        orgsDb.Database.Migrate();
+
+        var githubDb = scope.ServiceProvider.GetRequiredService<GithubDbContext>();
+        githubDb.Database.Migrate();
 
         return sp;
     }

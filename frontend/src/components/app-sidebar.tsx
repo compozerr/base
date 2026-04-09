@@ -5,7 +5,7 @@ import { useAuth } from "@/hooks/use-dynamic-auth"
 import { getLink } from "@/links"
 import { Link, useNavigate, useRouter, useRouterState } from "@tanstack/react-router"
 import { AnimatePresence, motion } from "framer-motion"
-import { Building2, Check, ChevronDown, ChevronsUpDown, FileText, FolderGit2, Home, LogOut, Package, Settings, User } from "lucide-react"
+import { Building2, Check, ChevronDown, ChevronsUpDown, FileText, FolderGit2, Home, LogOut, Package, Settings, User, Users } from "lucide-react"
 import { useEffect, useState } from "react"
 import {
   Sidebar,
@@ -193,6 +193,23 @@ export function AppSidebar() {
                 >
                   <Package className="h-4 w-4" />
                   <span>Modules</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  onClick={() =>
+                    navigate({ viewTransition: true, to: "/members" })
+                  }
+                  isActive={isActive("/members")}
+                  tooltip="Members"
+                  className={
+                    isActive("/members")
+                      ? "relative text-white before:absolute before:left-0 before:top-1/2 before:h-5 before:-translate-y-1/2 before:w-[2px] before:rounded-r before:bg-[hsl(var(--nav-accent))]"
+                      : "text-white/60 hover:text-white"
+                  }
+                >
+                  <Users className="h-4 w-4" />
+                  <span>Members</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>

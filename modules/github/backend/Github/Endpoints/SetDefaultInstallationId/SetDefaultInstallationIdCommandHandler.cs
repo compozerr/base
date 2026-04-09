@@ -4,11 +4,11 @@ using Github.Repositories;
 namespace Github.Endpoints.SetDefaultInstallationId;
 
 public class SetDefaultInstallationIdCommandHandler(
-    IGithubUserSettingsRepository githubUserSettingsRepository) : ICommandHandler<SetDefaultInstallationIdCommand>
+    IGithubOrganizationSettingsRepository githubOrganizationSettingsRepository) : ICommandHandler<SetDefaultInstallationIdCommand, string>
 {
-    public Task Handle(SetDefaultInstallationIdCommand command, CancellationToken cancellationToken = default)
-        => githubUserSettingsRepository.SetSelectedOrganizationForUserAsync(
-            command.UserId,
+    public Task<string> Handle(SetDefaultInstallationIdCommand command, CancellationToken cancellationToken = default)
+        => githubOrganizationSettingsRepository.SetSelectedOrganizationForOrgAsync(
+            command.OrganizationId,
             command.InstallationId,
             command.DefaultInstallationIdSelectionType);
 }

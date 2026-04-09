@@ -6,7 +6,9 @@ using Core.Extensions;
 using Core.MediatR;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Organizations.Abstractions;
 using Stripe.Endpoints.Subscriptions.CancelSubscription;
+using Stripe.Endpoints.Subscriptions.GetUserSubscriptions;
 using Stripe.Services;
 
 namespace Api.Endpoints.Projects.Project.Delete;
@@ -42,7 +44,7 @@ public sealed class DeleteProjectCommandHandler(
 
         await CancelSubscriptionAsync(
             project.Id,
-            project.UserId,
+            project.OrganizationId,
             command.SkipOwnerCheck,
             cancellationToken);
 
@@ -51,22 +53,33 @@ public sealed class DeleteProjectCommandHandler(
 
     private async Task CancelSubscriptionAsync(
         ProjectId projectId,
-        UserId userId,
+        OrganizationId? organizationId,
         bool skipOwnerCheck = false,
         CancellationToken cancellationToken = default)
     {
         var loggerWithContext = Log.ForContext("ProjectId", projectId);
         loggerWithContext.Information("Cancelling subscription for project {ProjectId}.", projectId);
 
-        var subscriptions = skipOwnerCheck
-            ? await subscriptionService.GetSubscriptionsForUserAsync(
-                userId.Value.ToString(),
-                cancellationToken)
-            : await subscriptionService.GetSubscriptionsForUserAsync(cancellationToken);
+        List<SubscriptionDto> subscriptions;
+        if (skipOwnerCheck && organizationId is not null)
+        {
+            subscriptions = await subscriptionService.GetSubscriptionsForOrganizationAsync(
+                organizationId, cancellationToken);
+        }
+        else
+        {
+            if (skipOwnerCheck && organizationId is null)
+            {
+                loggerWithContext.Warning(
+                    "SkipOwnerCheck is set but project {ProjectId} has no OrganizationId; falling back to current-user subscription lookup.",
+                    projectId);
+            }
+            subscriptions = await subscriptionService.GetSubscriptionsForUserAsync(cancellationToken);
+        }
 
         if (subscriptions is null || !subscriptions.Any())
         {
-            loggerWithContext.Error("No subscriptions found for user. Cannot cancel subscription for project {ProjectId}.", projectId);
+            loggerWithContext.Error("No subscriptions found for project's organization. Cannot cancel subscription for project {ProjectId}.", projectId);
             return; // No subscriptions to cancel
         }
 

@@ -4,6 +4,7 @@ using Github.Repositories;
 using Github.Services;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
+using Organizations.Services;
 using Serilog;
 
 namespace Github.Endpoints;
@@ -27,11 +28,13 @@ public static class GetInstallationsRoute
 
     public static async Task<GetInstallationsResponse> ExecuteAsync(
         ICurrentUserAccessor currentUserAccessor,
+        IOrganizationContextAccessor organizationContextAccessor,
         IGithubService githubService,
-        IGithubUserSettingsRepository githubUserSettingsRepository,
+        IGithubOrganizationSettingsRepository githubOrganizationSettingsRepository,
         IMediator mediator)
     {
         var userId = currentUserAccessor.CurrentUserId!;
+        var orgId = await organizationContextAccessor.GetCurrentOrganizationIdAsync();
 
         var organizationsForUser = await githubService.GetInstallationsForUserAsync(userId);
 
@@ -39,7 +42,7 @@ public static class GetInstallationsRoute
             .Select(i => new InstallationDto(i.InstallationId, i.Name, i.AccountType.ToString()))
             .ToList();
 
-        var githubUserSettings = await githubUserSettingsRepository.GetOrDefaultByUserIdAsync(userId);
+        var githubUserSettings = await githubOrganizationSettingsRepository.GetOrDefaultByOrganizationIdAsync(orgId);
         if (githubUserSettings is null)
         {
             return new GetInstallationsResponse(
@@ -75,7 +78,7 @@ public static class GetInstallationsRoute
 
             await mediator.Send(
                 new SetDefaultInstallationIdCommand(
-                    userId,
+                    orgId,
                     selectedProjectsInstallationId,
                     DefaultInstallationIdSelectionType.Projects));
         }
@@ -92,7 +95,7 @@ public static class GetInstallationsRoute
 
             await mediator.Send(
                 new SetDefaultInstallationIdCommand(
-                    userId,
+                    orgId,
                     selectedModulesInstallationId,
                     DefaultInstallationIdSelectionType.Modules));
         }

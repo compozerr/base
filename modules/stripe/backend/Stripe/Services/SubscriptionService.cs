@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Auth.Abstractions;
 using Stripe.Events;
+using Organizations.Abstractions;
 
 namespace Stripe.Services;
 
@@ -19,8 +20,8 @@ public interface ISubscriptionsService
         string subscriptionId,
         CancellationToken cancellationToken = default);
         
-    Task<List<SubscriptionDto>> GetSubscriptionsForUserAsync(
-        string userId,
+    Task<List<SubscriptionDto>> GetSubscriptionsForOrganizationAsync(
+        OrganizationId organizationId,
         CancellationToken cancellationToken = default);
 
     Task<SubscriptionDto> UpdateSubscriptionTierAsync(
@@ -62,11 +63,11 @@ public sealed class SubscriptionsService(
         return await GetSubscriptionsForStripeCustomerId(stripeCustomerId, cancellationToken);
     }
 
-    public async Task<List<SubscriptionDto>> GetSubscriptionsForUserAsync(
-        string userId,
+    public async Task<List<SubscriptionDto>> GetSubscriptionsForOrganizationAsync(
+        OrganizationId organizationId,
         CancellationToken cancellationToken = default)
     {
-        var stripeCustomerId = await currentStripeCustomerIdAccessor.GetOrCreateStripeCustomerId(userId);
+        var stripeCustomerId = await currentStripeCustomerIdAccessor.GetOrCreateStripeCustomerIdForOrganization(organizationId);
         return await GetSubscriptionsForStripeCustomerId(stripeCustomerId, cancellationToken);
     }
 

@@ -1,4 +1,3 @@
-using Auth.Abstractions;
 using Organizations.Abstractions;
 
 namespace Stripe.Services;
@@ -6,15 +5,14 @@ namespace Stripe.Services;
 public interface ICurrentStripeCustomerIdAccessor
 {
     /// <summary>
-    /// Gets the stripe customer ID associated with the current request.
-    /// Falls back to user-based lookup if no organization context is available.
+    /// Gets the Stripe customer ID for the current organization (from X-Organization-Id header).
+    /// Creates a new Stripe customer for the org if one doesn't exist.
     /// </summary>
-    /// <returns>The customer ID as a string.</returns>
     Task<string> GetOrCreateStripeCustomerId();
-    Task<string> GetOrCreateStripeCustomerId(string internalId);
 
     /// <summary>
-    /// Gets or creates a Stripe customer for an organization.
+    /// Gets or creates a Stripe customer for a specific organization.
+    /// Use this in background/webhook handlers where there is no HTTP context.
     /// </summary>
     Task<string> GetOrCreateStripeCustomerIdForOrganization(OrganizationId orgId);
 }

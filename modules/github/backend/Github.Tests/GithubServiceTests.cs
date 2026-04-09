@@ -1,6 +1,7 @@
 using Github.Services;
 using Moq;
 using Octokit;
+using Organizations.Data.Repositories;
 
 namespace Github.Tests;
 

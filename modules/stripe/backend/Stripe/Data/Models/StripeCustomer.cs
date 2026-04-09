@@ -7,7 +7,7 @@ namespace Stripe.Data.Models;
 public class StripeCustomer : BaseEntityWithId<StripeCustomerId>
 {
     /// <summary>
-    /// The internal ID of the user in the database.
+    /// The internal ID — organization ID (as string) that this Stripe customer belongs to.
     /// </summary>
     public required string InternalId { get; set; }
 

@@ -19,12 +19,22 @@ public sealed class TerminateAllProjects_PaymentMethodMissingAction(
         using var scope = ServiceProvider.CreateScope();
         var subscriptionsService = scope.ServiceProvider.GetRequiredService<ISubscriptionsService>();
         var sender = scope.ServiceProvider.GetRequiredService<ISender>();
+        var stripeOrgResolver = scope.ServiceProvider.GetRequiredService<IStripeOrgResolver>();
 
-        var subscriptions = await subscriptionsService.GetSubscriptionsForUserAsync(User.Id.Value.ToString(), cancellationToken);
+        var resolved = await stripeOrgResolver.ResolveOrgAndOwnerByStripeCustomerIdAsync(Event.CustomerId, cancellationToken);
+        if (resolved is null)
+        {
+            _logger.Warning("Cannot resolve organization for Stripe Customer ID: {CustomerId}. Cannot terminate projects.", Event.CustomerId);
+            return;
+        }
+
+        var org = resolved.Organization;
+
+        var subscriptions = await subscriptionsService.GetSubscriptionsForOrganizationAsync(org.Id, cancellationToken);
 
         if (subscriptions is null || !subscriptions.Any())
         {
-            _logger.Warning("No subscriptions found for user {UserId}. No projects to terminate for customer: {CustomerId}", User.Id, Event.CustomerId);
+            _logger.Warning("No subscriptions found for organization {OrgId}. No projects to terminate for customer: {CustomerId}", org.Id, Event.CustomerId);
             return; // No subscriptions to cancel
         }
 

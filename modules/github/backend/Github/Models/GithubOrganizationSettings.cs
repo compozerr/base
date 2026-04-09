@@ -1,12 +1,12 @@
-using Auth.Abstractions;
 using Database.Models;
 using Github.Abstractions;
+using Organizations.Abstractions;
 
 namespace Github.Models;
 
-public sealed class GithubUserSettings : BaseEntityWithId<GithubUserSettingsId>
+public sealed class GithubOrganizationSettings : BaseEntityWithId<GithubOrganizationSettingsId>
 {
-    public required UserId UserId { get; set; }
+    public required OrganizationId OrganizationId { get; set; }
     public required string? SelectedProjectsInstallationId { get; set; }
     public required string? SelectedModulesInstallationId { get; set; }
 }

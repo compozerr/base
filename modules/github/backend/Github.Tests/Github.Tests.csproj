@@ -28,6 +28,7 @@
     <ProjectReference Include="../../../database/backend/Database/Database.csproj" />
     <ProjectReference Include="../../../auth/backend/Auth.Abstractions/Auth.Abstractions.csproj" />
     <ProjectReference Include="../../../auth/backend/Auth/Auth.csproj" />
+    <ProjectReference Include="../../../organizations/backend/Organizations/Organizations.csproj" />
   </ItemGroup>
 
   <ItemGroup>

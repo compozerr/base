@@ -1,16 +1,13 @@
 using Api.EventHandlers.Stripe.PaymentMethodMissingActions.Core;
-using Auth.Abstractions;
-using Auth.Repositories;
 using Core.Abstractions;
 using Core.Extensions;
-using Stripe.Data.Repositories;
 using Stripe.Events;
+using Stripe.Services;
 
 namespace Api.EventHandlers.Stripe;
 
 public class PaymentMethodMissingEventHandler(
-    IUserRepository userRepository,
-    IStripeCustomerRepository stripeCustomerRepository,
+    IStripeOrgResolver stripeOrgResolver,
     IServiceProvider serviceProvider) : IEventHandler<PaymentMethodMissingEvent>
 {
     private readonly Serilog.ILogger _logger = Log.Logger.ForContext<PaymentMethodMissingEventHandler>();
@@ -23,33 +20,18 @@ public class PaymentMethodMissingEventHandler(
             notification.CustomerId,
             notification.AttemptCount);
 
-        var userId = await stripeCustomerRepository.GetInternalIdByStripeCustomerIdAsync(
-            notification.CustomerId,
-            cancellationToken);
-
-        if (!UserId.TryParse(userId, out var parsedUserId) || userId == null)
+        var resolved = await stripeOrgResolver.ResolveOrgAndOwnerByStripeCustomerIdAsync(notification.CustomerId, cancellationToken);
+        if (resolved is null)
         {
             _logger.ForContext(nameof(notification), notification, true)
-                   .Error("No internal user id found for Stripe Customer ID: {CustomerId}. Cannot send payment method missing notification",
+                   .Error("Cannot send payment method missing notification for Customer: {CustomerId}",
                 notification.CustomerId);
-            return;
-        }
-
-        var user = await userRepository.GetByIdAsync(
-            parsedUserId,
-            cancellationToken);
-
-        if (user == null)
-        {
-            _logger.ForContext(nameof(notification), notification, true)
-                   .Error("User with ID: {UserId} not found. Cannot send payment method missing notification",
-                parsedUserId);
             return;
         }
 
         var actionFactory = new PaymentMethodMissingActionFactory(
             notification,
-            user,
+            resolved.Owner,
             serviceProvider);
 
         var actions = actionFactory.CreateActions();

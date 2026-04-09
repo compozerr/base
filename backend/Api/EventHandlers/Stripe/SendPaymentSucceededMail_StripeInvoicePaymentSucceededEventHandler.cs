@@ -1,19 +1,16 @@
-using Auth.Abstractions;
-using Auth.Repositories;
 using Core.Abstractions;
 using Core.Services;
 using Mail;
 using Mail.Services;
-using Stripe.Data.Repositories;
 using Stripe.Events;
 using Stripe.Helpers;
+using Stripe.Services;
 
 namespace Api.EventHandlers.Stripe;
 
 public class SendPaymentSucceededMail_StripeInvoicePaymentSucceededEventHandler(
     IMailService mailService,
-    IUserRepository userRepository,
-    IStripeCustomerRepository stripeCustomerRepository,
+    IStripeOrgResolver stripeOrgResolver,
     IFrontendLocation frontendLocation) : IEventHandler<StripeInvoicePaymentSucceededEvent>
 {
     private readonly Serilog.ILogger _logger = Log.Logger.ForContext<SendPaymentSucceededMail_StripeInvoicePaymentSucceededEventHandler>();
@@ -22,32 +19,17 @@ public class SendPaymentSucceededMail_StripeInvoicePaymentSucceededEventHandler(
         StripeInvoicePaymentSucceededEvent notification,
         CancellationToken cancellationToken)
     {
-        var userId = await stripeCustomerRepository.GetInternalIdByStripeCustomerIdAsync(
-            notification.CustomerId,
-            cancellationToken);
-
-        if (!UserId.TryParse(userId, out var parsedUserId) || userId == null)
+        var resolved = await stripeOrgResolver.ResolveOrgAndOwnerByStripeCustomerIdAsync(notification.CustomerId, cancellationToken);
+        if (resolved is null)
         {
             _logger.ForContext(nameof(notification), notification, true)
-                   .Error("No internal user id found for Stripe Customer ID: {CustomerId}. Cannot send failed payment notification for Invoice: {InvoiceId}",
-                notification.CustomerId,
-                notification.InvoiceId);
+                   .Error("Cannot send payment succeeded notification for Invoice: {InvoiceId}, Customer: {CustomerId}",
+                notification.InvoiceId,
+                notification.CustomerId);
             return;
         }
 
-        var user = await userRepository.GetByIdAsync(
-            parsedUserId,
-            cancellationToken);
-
-        if (user == null)
-        {
-            _logger.ForContext(nameof(notification), notification, true)
-                   .Error("User with ID: {UserId} not found. Cannot send failed payment notification for Invoice: {InvoiceId}",
-                parsedUserId,
-                notification.InvoiceId);
-            return;
-        }
-
+        var user = resolved.Owner;
         var currencySymbol = CurrencyHelper.GetSymbol(notification.Currency);
 
         try

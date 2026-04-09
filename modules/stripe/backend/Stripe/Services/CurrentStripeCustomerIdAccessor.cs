@@ -1,13 +1,12 @@
 
 using System.Collections.Concurrent;
-using System.Security.Claims;
 using Auth.Abstractions;
 using Auth.Models;
 using Auth.Repositories;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Organizations.Abstractions;
 using Organizations.Data.Repositories;
+using Organizations.Models;
 using Organizations.Services;
 using Stripe.Data.Repositories;
 using Stripe.Options;
@@ -15,7 +14,6 @@ using Stripe.Options;
 namespace Stripe.Services;
 
 public sealed class CurrentStripeCustomerIdAccessor(
-    IHttpContextAccessor httpContextAccessor,
     IStripeCustomerRepository stripeCustomerRepository,
     IUserRepository userRepository,
     IOrganizationContextAccessor organizationContextAccessor,
@@ -25,64 +23,53 @@ public sealed class CurrentStripeCustomerIdAccessor(
     private readonly StripeClient stripeClient = new(
         options.Value.ApiKey);
 
-    private static readonly ConcurrentDictionary<string, SemaphoreSlim> UserLocks = new();
+    private static readonly ConcurrentDictionary<string, SemaphoreSlim> OrgLocks = new();
 
-    private static SemaphoreSlim GetUserLock(string userId)
+    private static SemaphoreSlim GetOrgLock(string orgId)
     {
-        return UserLocks.GetOrAdd(userId, _ => new SemaphoreSlim(1, 1));
+        return OrgLocks.GetOrAdd(orgId, _ => new SemaphoreSlim(1, 1));
     }
 
-
-    public Task<string> GetOrCreateStripeCustomerId()
+    public async Task<string> GetOrCreateStripeCustomerId()
     {
-        var userId = GetUserIdFromContext();
-        return GetOrCreateStripeCustomerId(userId);
+        var orgId = await organizationContextAccessor.GetCurrentOrganizationIdAsync();
+        return await GetOrCreateStripeCustomerIdForOrganization(orgId);
     }
 
-    public async Task<string> GetOrCreateStripeCustomerId(string userId)
+    public async Task<string> GetOrCreateStripeCustomerIdForOrganization(OrganizationId orgId)
     {
-        var userLock = GetUserLock(userId);
+        var orgIdString = orgId.Value.ToString();
+        var orgLock = GetOrgLock(orgIdString);
 
-        await userLock.WaitAsync();
+        await orgLock.WaitAsync();
         try
         {
-            var existingCustomerId = await stripeCustomerRepository.GetStripeCustomerIdByInternalIdAsync(userId);
+            var existingCustomerId = await stripeCustomerRepository.GetStripeCustomerIdByInternalIdAsync(orgIdString);
             if (existingCustomerId != null)
             {
-                return await EnsureCustomerExistsAsync(existingCustomerId, userId);
+                return await EnsureCustomerExistsAsync(existingCustomerId, orgId);
             }
 
-            var newCustomerId = await CreateCustomerAsync(userId);
-            return newCustomerId;
+            // Create new Stripe customer for the organization
+            var org = await organizationRepository.GetByIdAsync(orgId);
+            var ownerUser = org is not null ? await GetOwnerUserAsync(org.OwnerUserId.Value.ToString()) : null;
+
+            var customerService = new CustomerService(stripeClient);
+            var createOptions = BuildCustomerCreateOptions(org, orgIdString, ownerUser);
+            var customer = await customerService.CreateAsync(createOptions);
+            await stripeCustomerRepository.SetStripeCustomerIdAsync(orgIdString, customer.Id);
+            return customer.Id;
         }
         finally
         {
-            userLock.Release();
+            orgLock.Release();
         }
     }
 
-    private Task SetStripeCustomerIdAsync(string customerId)
-    {
-        var userId = GetUserIdFromContext();
-
-        return stripeCustomerRepository.SetStripeCustomerIdAsync(userId, customerId);
-    }
-
-    private string GetUserIdFromContext()
-    {
-        return httpContextAccessor.HttpContext
-                                  ?.User
-                                  ?.FindFirst(ClaimTypes.NameIdentifier)
-                                  ?.Value ?? throw new InvalidOperationException("User is not authenticated.");
-    }
-
     /// <summary>
-    /// Ensures that a customer exists in Stripe with the given ID and has an email
+    /// Ensures that a customer exists in Stripe with the given ID and has an email.
     /// </summary>
-    /// <param name="stripeCustomerId">The user ID to check</param>
-    /// <param name="cancellationToken">Cancellation token</param>
-    /// <returns>The Stripe customer ID (may be different from userId if created)</returns>
-    private async Task<string> EnsureCustomerExistsAsync(string stripeCustomerId, string internalId, CancellationToken cancellationToken = default)
+    private async Task<string> EnsureCustomerExistsAsync(string stripeCustomerId, OrganizationId orgId, CancellationToken cancellationToken = default)
     {
         var customerService = new CustomerService(stripeClient);
 
@@ -92,118 +79,77 @@ public sealed class CurrentStripeCustomerIdAccessor(
             var customer = await customerService.GetAsync(stripeCustomerId, cancellationToken: cancellationToken);
             if (customer.Deleted ?? false)
             {
-                return await CreateCustomerAsync(internalId, cancellationToken);
+                return await RecreateCustomerAsync(orgId, cancellationToken);
             }
 
             // Ensure customer has an email (required for send_invoice collection method)
             if (string.IsNullOrEmpty(customer.Email))
             {
-                await EnsureCustomerHasEmailAsync(stripeCustomerId, internalId, cancellationToken);
+                await EnsureCustomerHasEmailAsync(stripeCustomerId, orgId, cancellationToken);
             }
 
             return stripeCustomerId; // Customer exists, return the same ID
         }
         catch (StripeException ex) when (ex.Message.Contains("no such customer", StringComparison.InvariantCultureIgnoreCase))
         {
-            return await CreateCustomerAsync(internalId, cancellationToken);
+            return await RecreateCustomerAsync(orgId, cancellationToken);
         }
     }
 
-    private async Task EnsureCustomerHasEmailAsync(string stripeCustomerId, string internalId, CancellationToken cancellationToken = default)
+    private async Task EnsureCustomerHasEmailAsync(string stripeCustomerId, OrganizationId orgId, CancellationToken cancellationToken = default)
     {
-        var user = await GetUserAsync(internalId, cancellationToken);
-        if (user == null || string.IsNullOrEmpty(user.Email))
-        {
-            return; // Cannot update without user email
-        }
+        var org = await organizationRepository.GetByIdAsync(orgId, cancellationToken);
+        if (org is null) return;
+
+        var owner = await userRepository.GetByIdAsync(org.OwnerUserId, cancellationToken);
+        if (owner is null || string.IsNullOrEmpty(owner.Email))
+            return;
 
         var customerService = new CustomerService(stripeClient);
         var updateOptions = new CustomerUpdateOptions
         {
-            Email = user.Email,
-            Name = user.Name
+            Email = owner.Email,
+            Name = org.Name
         };
 
         await customerService.UpdateAsync(stripeCustomerId, updateOptions, cancellationToken: cancellationToken);
     }
 
-    private async Task<string> CreateCustomerAsync(string internalId, CancellationToken cancellationToken = default)
+    private async Task<string> RecreateCustomerAsync(OrganizationId orgId, CancellationToken cancellationToken = default)
     {
-        // Get user details to include email
-        var user = await GetUserAsync(internalId, cancellationToken);
+        var orgIdString = orgId.Value.ToString();
+        var org = await organizationRepository.GetByIdAsync(orgId, cancellationToken);
+        var ownerUser = org is not null ? await GetOwnerUserAsync(org.OwnerUserId.Value.ToString(), cancellationToken) : null;
 
         var customerService = new CustomerService(stripeClient);
-        var options = new CustomerCreateOptions
-        {
-            Description = $"Customer for user {internalId}",
-            Name = user?.Name ?? $"User {internalId}",
-            Email = user?.Email, // Include email for send_invoice collection method
-            Metadata = new Dictionary<string, string>
-            {
-                { "InternalId", internalId }
-            }
-        };
-
-        var customer = await customerService.CreateAsync(options, cancellationToken: cancellationToken);
-
-        var customerId = customer.Id;
-
-        await SetStripeCustomerIdAsync(customerId);
-
-        return customerId;
+        var createOptions = BuildCustomerCreateOptions(org, orgIdString, ownerUser);
+        var customer = await customerService.CreateAsync(createOptions, cancellationToken: cancellationToken);
+        await stripeCustomerRepository.SetStripeCustomerIdAsync(orgIdString, customer.Id);
+        return customer.Id;
     }
 
-    private async Task<User?> GetUserAsync(string internalId, CancellationToken cancellationToken = default)
+    private static CustomerCreateOptions BuildCustomerCreateOptions(Organization? org, string orgIdString, User? ownerUser)
     {
-        if (!UserId.TryParse(internalId, out var userId))
+        return new CustomerCreateOptions
+        {
+            Description = $"Organization: {org?.Name ?? orgIdString}",
+            Name = org?.Name ?? $"Organization {orgIdString}",
+            Email = ownerUser?.Email,
+            Metadata = new Dictionary<string, string>
+            {
+                { "InternalId", orgIdString },
+                { "Type", "organization" }
+            }
+        };
+    }
+
+    private async Task<User?> GetOwnerUserAsync(string userIdString, CancellationToken cancellationToken = default)
+    {
+        if (!UserId.TryParse(userIdString, out var userId))
         {
             return null;
         }
 
         return await userRepository.GetByIdAsync(userId, cancellationToken);
-    }
-
-    public async Task<string> GetOrCreateStripeCustomerIdForOrganization(OrganizationId orgId)
-    {
-        var orgIdString = orgId.Value.ToString();
-        var orgLock = GetUserLock(orgIdString);
-
-        await orgLock.WaitAsync();
-        try
-        {
-            // Try to find existing Stripe customer for this org
-            var existingCustomerId = await stripeCustomerRepository.GetStripeCustomerIdByInternalIdAsync(orgIdString);
-            if (existingCustomerId != null)
-            {
-                return existingCustomerId;
-            }
-
-            // Create new Stripe customer for the organization
-            var org = await organizationRepository.GetByIdAsync(orgId);
-            var ownerUser = org is not null ? await GetUserAsync(org.OwnerUserId.Value.ToString()) : null;
-
-            var customerService = new CustomerService(stripeClient);
-            var createOptions = new CustomerCreateOptions
-            {
-                Description = $"Organization: {org?.Name ?? orgIdString}",
-                Name = org?.Name ?? $"Organization {orgIdString}",
-                Email = ownerUser?.Email,
-                Metadata = new Dictionary<string, string>
-                {
-                    { "InternalId", orgIdString },
-                    { "Type", "organization" }
-                }
-            };
-
-            var customer = await customerService.CreateAsync(createOptions);
-
-            await stripeCustomerRepository.SetStripeCustomerIdAsync(orgIdString, customer.Id);
-
-            return customer.Id;
-        }
-        finally
-        {
-            orgLock.Release();
-        }
     }
 }
