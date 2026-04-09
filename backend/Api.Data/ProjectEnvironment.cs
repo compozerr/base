@@ -36,14 +36,14 @@ public class ProjectEnvironment : BaseEntityWithId<ProjectEnvironmentId>
     public virtual ICollection<Deployment>? Deployments { get; set; }
 
     /// <summary>
-    /// Returns the environment's URL. Preview environments use the preview subdomain
-    /// (e.g., "dev-myproject.preview.sites.fra1.compozerr.com"), production environments
-    /// use the project's primary domain.
+    /// Returns the environment's URL from the domain entity (which has the
+    /// correct service-name prefix for preview environments).
     /// </summary>
     public string? GetUrl()
     {
-        if (Type == EnvironmentType.Preview && Subdomain is not null)
-            return $"{Subdomain}.preview.sites.{Project?.Server?.HostName}.compozerr.com";
+        var domain = Project?.Domains?
+            .FirstOrDefault(d => d.ProjectEnvironmentId == Id && d.Type == DomainType.Internal);
+        if (domain != null) return domain.GetValue;
 
         return Project?.Domains?.GetPrimary()?.GetValue;
     }
