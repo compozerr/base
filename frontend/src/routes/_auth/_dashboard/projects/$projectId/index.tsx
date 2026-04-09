@@ -1,12 +1,13 @@
 import { Badge } from '@/components/ui/badge'
 import { Formatter } from '@/lib/formatter'
 import { getProjectStateFromNumber as getProjectStateFromStateString, ProjectState } from '@/lib/project-state'
-import { createFileRoute, getRouteApi, Link } from '@tanstack/react-router'
+import { createFileRoute, getRouteApi, Link, useNavigate } from '@tanstack/react-router'
 import { Cpu, ExternalLink, Globe, HardDrive, HelpCircle, MemoryStick, Settings, Star, Github } from 'lucide-react'
 import { UsageGraph } from '@/components/usage-graph'
 import StartStopProjectButton from '@/components/project/project-startstop-button'
 import { api } from '@/api-client'
 import { useMemo } from 'react'
+import { useRegisterActions } from '@/lib/command-palette/action-registry'
 import { Skeleton } from '@/components/ui/skeleton'
 import { onN8nIntent } from '@/hooks/use-n8n-intent-ephemeral-storage.hook'
 import { useModal } from '@/hooks/use-modal'
@@ -27,6 +28,25 @@ function RouteComponent() {
     })
 
     const modal = useModal();
+    const navigate = useNavigate();
+
+    useRegisterActions([
+        {
+            id: 'visit-project-domain',
+            name: `Visit ${project?.primaryDomain ?? 'project domain'}`,
+            icon: Globe,
+            group: 'action',
+            enabled: !!project?.primaryDomain,
+            perform: () => { window.open(`https://${project?.primaryDomain}`, '_blank') },
+        },
+        {
+            id: 'go-to-project-settings',
+            name: 'Go to project settings',
+            icon: Settings,
+            group: 'navigation',
+            perform: () => navigate({ to: '/projects/$projectId/settings', params: { projectId } }),
+        },
+    ], [project?.primaryDomain, projectId]);
 
     const getStateColor = (state: ProjectState) => {
         switch (state) {

@@ -1,3 +1,4 @@
+import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { RouterProvider, createRouter } from '@tanstack/react-router'
 import { routeTree } from './routeTree.gen'
@@ -9,6 +10,9 @@ import { Toaster } from './components/ui/toaster';
 import { ModalProvider } from './hooks/use-modal';
 import { LoadingAnimation } from './components/loading-animation';
 import { HelmetProvider } from 'react-helmet-async'
+import { ActionRegistryProvider } from './lib/command-palette/action-registry'
+import { CommandPalette } from './components/command-palette'
+import { useGlobalActions } from './lib/command-palette/global-actions'
 
 const router = createRouter({
   routeTree,
@@ -25,6 +29,12 @@ declare module '@tanstack/react-router' {
     router: typeof router
   }
 }
+
+function GlobalActionsRegistrar({ children }: { children: React.ReactNode }) {
+  useGlobalActions(router.navigate)
+  return <>{children}</>
+}
+
 const App = () => {
   const { authComponents, isLoading, error } = useDynamicAuth();
 
@@ -52,7 +62,12 @@ const App = () => {
       <HelmetProvider>
         <QueryClientProvider client={queryClient}>
           <ModalProvider>
-            <InnerApp />
+            <ActionRegistryProvider>
+              <GlobalActionsRegistrar>
+                <InnerApp />
+                <CommandPalette navigate={router.navigate} />
+              </GlobalActionsRegistrar>
+            </ActionRegistryProvider>
             <Toaster />
           </ModalProvider>
         </QueryClientProvider>

@@ -39,6 +39,7 @@ import {
     Trash2,
     Zap,
 } from 'lucide-react'
+import { useRegisterActions } from '@/lib/command-palette/action-registry'
 import { useState } from 'react'
 
 export const Route = createFileRoute(
@@ -77,10 +78,29 @@ function RouteComponent() {
         0,
     )
 
+    const [createDialogOpen, setCreateDialogOpen] = useState(false)
+
     const invalidate = () =>
         api.v1.getProjectsProjectIdEnvironments.invalidateQueries({
             parameters: { path: { projectId } },
         })
+
+    useRegisterActions([
+        {
+            id: "create-new-environment",
+            name: "Create new environment",
+            icon: Plus,
+            group: "action",
+            perform: () => setCreateDialogOpen(true),
+        },
+        {
+            id: "refresh-environments",
+            name: "Refresh environments",
+            icon: RefreshCw,
+            group: "action",
+            perform: handleRefresh,
+        },
+    ], [])
 
     return (
         <div className="space-y-8">
@@ -121,6 +141,8 @@ function RouteComponent() {
                     projectId={projectId}
                     usedBranches={environments.flatMap((e) => e.branches ?? [])}
                     onCreated={invalidate}
+                    open={createDialogOpen}
+                    onOpenChange={setCreateDialogOpen}
                 />
             </div>
 
@@ -495,12 +517,16 @@ function CreateEnvironmentDialog({
     projectId,
     usedBranches,
     onCreated,
+    open,
+    onOpenChange,
 }: {
     projectId: string
     usedBranches: string[]
     onCreated: () => void
+    open: boolean
+    onOpenChange: (open: boolean) => void
 }) {
-    const [open, setOpen] = useState(false)
+    const setOpen = onOpenChange
     const [name, setName] = useState('')
     const [nameManuallyEdited, setNameManuallyEdited] = useState(false)
     const [branch, setBranch] = useState('')
@@ -576,7 +602,7 @@ function CreateEnvironmentDialog({
         <Dialog
             open={open}
             onOpenChange={(v) => {
-                setOpen(v)
+                onOpenChange(v)
                 if (!v) resetForm()
             }}
         >

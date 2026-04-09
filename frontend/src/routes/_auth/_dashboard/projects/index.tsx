@@ -14,6 +14,7 @@ import { motion } from 'framer-motion'
 import { MoreVertical, Plus, Search, Workflow, Filter, FolderGit2, Activity, Server, Terminal, ExternalLink } from 'lucide-react'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { z } from 'zod'
+import { useRegisterActions } from '@/lib/command-palette/action-registry'
 
 const searchParamsSchema = z.object({
     'cli-auth': z.string().optional(),
@@ -169,6 +170,44 @@ function RouteComponent() {
         observer.observe(sentinel);
         return () => observer.disconnect();
     }, [fetchNextPage]);
+
+    useRegisterActions([
+        {
+            id: 'filter-running-projects',
+            name: 'Filter: Running projects',
+            icon: Activity,
+            group: 'action',
+            perform: () => handleFilterChange('running'),
+        },
+        {
+            id: 'filter-stopped-projects',
+            name: 'Filter: Stopped projects',
+            icon: Server,
+            group: 'action',
+            perform: () => handleFilterChange('stopped'),
+        },
+        {
+            id: 'filter-all-projects',
+            name: 'Filter: Show all projects',
+            icon: FolderGit2,
+            group: 'action',
+            perform: () => handleFilterChange('all'),
+        },
+        {
+            id: 'create-n8n-project',
+            name: 'Create n8n project',
+            icon: Workflow,
+            group: 'action',
+            perform: () => router.navigate({ to: '/n8n' }),
+        },
+        {
+            id: 'add-new-service',
+            name: 'Add new service',
+            icon: Plus,
+            group: 'action',
+            perform: () => { window.open(getLink('addNewService'), '_blank') },
+        },
+    ], []);
 
     return (
         <div className="mx-auto">

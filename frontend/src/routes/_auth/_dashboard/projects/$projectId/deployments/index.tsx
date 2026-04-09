@@ -19,6 +19,7 @@ import {
     RefreshCw,
     RocketIcon,
 } from "lucide-react"
+import { useRegisterActions } from "@/lib/command-palette/action-registry"
 import { useMemo, useState } from "react"
 
 export const Route = createFileRoute(
@@ -135,6 +136,24 @@ function RouteComponent() {
     const { mutateAsync: cancelDeploymentAsync } = api.v1.postProjectsProjectIdDeploymentsDeploymentIdCancel.useMutation(
         undefined as void,
     );
+
+    useRegisterActions([
+        {
+            id: "deploy-from-latest-commit",
+            name: "Deploy from latest commit",
+            icon: RocketIcon,
+            group: "action",
+            perform: handleDeployFromLatestCommitAsync,
+            enabled: !isDeployFromLatestCommitPending,
+        },
+        {
+            id: "refresh-deployments",
+            name: "Refresh deployments",
+            icon: RefreshCw,
+            group: "action",
+            perform: handleClick,
+        },
+    ], []);
 
     return (
         <div className="space-y-6">

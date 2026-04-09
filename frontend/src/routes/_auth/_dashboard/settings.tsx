@@ -60,6 +60,7 @@ import PaymentMethods from '@repo/stripe/payment-methods'
 import InvoicesList from '@repo/stripe/invoices-list'
 import { useEphemeralQueryParams } from '@/hooks/use-ephemeral-storage.hook'
 import { z } from 'zod'
+import { useRegisterActions } from '@/lib/command-palette/action-registry'
 
 type InstallGuideParams = Record<string, string | boolean | undefined> & {
   'install-guide-show'?: boolean;
@@ -172,7 +173,7 @@ function ApiTokensSection() {
 
     return (
         <>
-            <Card>
+            <Card id="api-tokens">
                 <CardHeader>
                     <div className="flex items-center justify-between">
                         <div>
@@ -462,9 +463,22 @@ function RouteComponent() {
 
   React.useEffect(() => {
     if(!addPaymentMethod) return;
-    
+
     navigate({ to: Route.to })
   }, [addPaymentMethod])
+
+  useRegisterActions([
+    {
+      id: "create-api-token",
+      name: "Create API token",
+      icon: Key,
+      group: "action" as const,
+      keywords: ["token", "api", "key", "auth"],
+      perform: () => {
+        document.getElementById("api-tokens")?.scrollIntoView({ behavior: "smooth" });
+      },
+    },
+  ], []);
 
   return (
     <>

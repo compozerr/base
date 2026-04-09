@@ -19,6 +19,7 @@ import { apiBaseUrl } from '@/api-client'
 import { orgFetch } from '@/lib/org-storage'
 import { useAuth } from '@/hooks/use-dynamic-auth'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { useRegisterActions } from '@/lib/command-palette/action-registry'
 import * as React from 'react'
 
 interface Organization {
@@ -79,6 +80,17 @@ function OrganizationsPage() {
       toast({ title: 'Error', description: error.message, variant: 'destructive' })
     },
   })
+
+  useRegisterActions([
+    {
+      id: "create-organization",
+      name: "Create new organization",
+      icon: Plus,
+      group: "action" as const,
+      keywords: ["org", "team", "new"],
+      perform: () => setCreateDialogOpen(true),
+    },
+  ], []);
 
   const handleNameChange = (name: string) => {
     setOrgName(name)

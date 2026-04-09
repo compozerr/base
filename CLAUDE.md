@@ -233,6 +233,32 @@ Type-safe API client generated from backend OpenAPI spec:
   ```
 - **Regeneration**: Run when backend OpenAPI spec changes
 
+**4. Command Palette Actions**
+
+The app has a global `⌘K` command palette. When adding new pages or interactive features, register contextual actions so they're discoverable via keyboard:
+
+```typescript
+import { useRegisterActions } from "@/lib/command-palette/action-registry"
+import { Rocket } from "lucide-react"
+
+// Inside your route component:
+useRegisterActions([
+  {
+    id: 'deploy-latest',           // unique across the app
+    name: 'Deploy latest commit',  // what the user sees
+    icon: Rocket,                  // optional Lucide icon
+    group: 'action',               // 'action' | 'navigation' | 'project' | 'organization'
+    keywords: ['deploy', 'ship'],  // extra fuzzy search terms
+    perform: () => deployMutation.mutate(),
+  },
+], [deployMutation])  // deps array — re-registers when deps change
+```
+
+- `group: 'action'` — contextual actions for the current page (deploy, filter, create)
+- `group: 'navigation'` — links to other pages (global actions registered in `global-actions.ts`)
+- Actions auto-register on mount and auto-deregister on unmount
+- Set `enabled: false` or `enabled: () => someCondition` to conditionally hide actions
+
 ### Configuration
 
 **Environment Variables**:

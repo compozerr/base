@@ -23,6 +23,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
+import { useRegisterActions } from '@/lib/command-palette/action-registry'
 
 export const Route = createFileRoute(
   '/_auth/_dashboard/projects/$projectId/settings/general',
@@ -51,6 +52,28 @@ function GeneralSettingsTab() {
   const backendUrl = import.meta.env.VITE_BACKEND_URL || '';
   const currentPath = window.location.pathname;
   const reconnectUrl = `${backendUrl}/v1/auth/login?returnUrl=${encodeURIComponent(currentPath)}`;
+
+  useRegisterActions([
+    {
+      id: "delete-project",
+      name: "Delete project",
+      icon: Trash2,
+      group: "action" as const,
+      keywords: ["remove", "destroy", "danger"],
+      priority: 90,
+      perform: () => setWantsDeletion(true),
+    },
+    {
+      id: "transfer-project",
+      name: "Transfer project",
+      icon: ArrowRightLeft,
+      group: "action" as const,
+      keywords: ["move", "organization"],
+      perform: () => {
+        document.getElementById("transfer-project")?.scrollIntoView({ behavior: "smooth" });
+      },
+    },
+  ], []);
 
   return (
     <div className="space-y-6">
@@ -138,7 +161,7 @@ function TransferProjectSection({ projectId, projectName }: { projectId: string;
 
   return (
     <>
-      <Card className="rounded-xl border-zinc-800 bg-zinc-900/50">
+      <Card id="transfer-project" className="rounded-xl border-zinc-800 bg-zinc-900/50">
         <CardHeader className="pb-4">
           <CardTitle className="text-lg flex items-center gap-2">
             <ArrowRightLeft className="h-5 w-5" />

@@ -44,6 +44,7 @@ import { motion } from 'framer-motion'
 import { apiBaseUrl } from '@/api-client'
 import { orgFetch } from '@/lib/org-storage'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { useRegisterActions } from '@/lib/command-palette/action-registry'
 import * as React from 'react'
 
 interface Member {
@@ -89,6 +90,17 @@ function MembersPage() {
   const [inviteEmail, setInviteEmail] = React.useState('')
   const [inviteRole, setInviteRole] = React.useState('Member')
   const [removeMemberId, setRemoveMemberId] = React.useState<string | null>(null)
+
+  useRegisterActions([
+    {
+      id: "invite-member",
+      name: "Invite member",
+      icon: Plus,
+      group: "action" as const,
+      keywords: ["add", "team", "user", "invitation"],
+      perform: () => setInviteDialogOpen(true),
+    },
+  ], []);
 
   // Debounce search
   React.useEffect(() => {
