@@ -25,6 +25,7 @@ import { Route as AuthDashboardRouteImport } from './routes/_auth/_dashboard'
 import { Route as ModulesOrgDotnameRouteImport } from './routes/modules/$org.$name'
 import { Route as AuthDashboardSettingsRouteImport } from './routes/_auth/_dashboard/settings'
 import { Route as AuthDashboardMyModulesRouteImport } from './routes/_auth/_dashboard/my-modules'
+import { Route as AuthDashboardMembersRouteImport } from './routes/_auth/_dashboard/members'
 import { Route as AuthDashboardIntroFlowRouteImport } from './routes/_auth/_dashboard/intro-flow'
 import { Route as AuthDashboardProjectsIndexRouteImport } from './routes/_auth/_dashboard/projects/index'
 import { Route as AuthDashboardOrganizationsIndexRouteImport } from './../../modules/organizations/frontend/src/routes/_auth/_dashboard/organizations/index'
@@ -117,6 +118,11 @@ const AuthDashboardSettingsRoute = AuthDashboardSettingsRouteImport.update({
 const AuthDashboardMyModulesRoute = AuthDashboardMyModulesRouteImport.update({
   id: '/my-modules',
   path: '/my-modules',
+  getParentRoute: () => AuthDashboardRoute,
+} as any)
+const AuthDashboardMembersRoute = AuthDashboardMembersRouteImport.update({
+  id: '/members',
+  path: '/members',
   getParentRoute: () => AuthDashboardRoute,
 } as any)
 const AuthDashboardIntroFlowRoute = AuthDashboardIntroFlowRouteImport.update({
@@ -224,6 +230,7 @@ export interface FileRoutesByFullPath {
   '/modules': typeof ModulesIndexRoute
   '/stripe': typeof StripeIndexRoute
   '/intro-flow': typeof AuthDashboardIntroFlowRoute
+  '/members': typeof AuthDashboardMembersRoute
   '/my-modules': typeof AuthDashboardMyModulesRoute
   '/settings': typeof AuthDashboardSettingsRoute
   '/modules/$org/$name': typeof ModulesOrgDotnameRoute
@@ -255,6 +262,7 @@ export interface FileRoutesByTo {
   '/modules': typeof ModulesIndexRoute
   '/stripe': typeof StripeIndexRoute
   '/intro-flow': typeof AuthDashboardIntroFlowRoute
+  '/members': typeof AuthDashboardMembersRoute
   '/my-modules': typeof AuthDashboardMyModulesRoute
   '/settings': typeof AuthDashboardSettingsRoute
   '/modules/$org/$name': typeof ModulesOrgDotnameRoute
@@ -287,6 +295,7 @@ export interface FileRoutesById {
   '/modules/': typeof ModulesIndexRoute
   '/stripe/': typeof StripeIndexRoute
   '/_auth/_dashboard/intro-flow': typeof AuthDashboardIntroFlowRoute
+  '/_auth/_dashboard/members': typeof AuthDashboardMembersRoute
   '/_auth/_dashboard/my-modules': typeof AuthDashboardMyModulesRoute
   '/_auth/_dashboard/settings': typeof AuthDashboardSettingsRoute
   '/modules/$org/$name': typeof ModulesOrgDotnameRoute
@@ -320,6 +329,7 @@ export interface FileRouteTypes {
     | '/modules'
     | '/stripe'
     | '/intro-flow'
+    | '/members'
     | '/my-modules'
     | '/settings'
     | '/modules/$org/$name'
@@ -351,6 +361,7 @@ export interface FileRouteTypes {
     | '/modules'
     | '/stripe'
     | '/intro-flow'
+    | '/members'
     | '/my-modules'
     | '/settings'
     | '/modules/$org/$name'
@@ -382,6 +393,7 @@ export interface FileRouteTypes {
     | '/modules/'
     | '/stripe/'
     | '/_auth/_dashboard/intro-flow'
+    | '/_auth/_dashboard/members'
     | '/_auth/_dashboard/my-modules'
     | '/_auth/_dashboard/settings'
     | '/modules/$org/$name'
@@ -528,6 +540,13 @@ declare module '@tanstack/react-router' {
       path: '/my-modules'
       fullPath: '/my-modules'
       preLoaderRoute: typeof AuthDashboardMyModulesRouteImport
+      parentRoute: typeof AuthDashboardRoute
+    }
+    '/_auth/_dashboard/members': {
+      id: '/_auth/_dashboard/members'
+      path: '/members'
+      fullPath: '/members'
+      preLoaderRoute: typeof AuthDashboardMembersRouteImport
       parentRoute: typeof AuthDashboardRoute
     }
     '/_auth/_dashboard/intro-flow': {
@@ -691,6 +710,7 @@ const AuthDashboardProjectsProjectIdRouteRouteWithChildren =
 
 interface AuthDashboardRouteChildren {
   AuthDashboardIntroFlowRoute: typeof AuthDashboardIntroFlowRoute
+  AuthDashboardMembersRoute: typeof AuthDashboardMembersRoute
   AuthDashboardMyModulesRoute: typeof AuthDashboardMyModulesRoute
   AuthDashboardSettingsRoute: typeof AuthDashboardSettingsRoute
   AuthDashboardProjectsProjectIdRouteRoute: typeof AuthDashboardProjectsProjectIdRouteRouteWithChildren
@@ -702,6 +722,7 @@ interface AuthDashboardRouteChildren {
 
 const AuthDashboardRouteChildren: AuthDashboardRouteChildren = {
   AuthDashboardIntroFlowRoute: AuthDashboardIntroFlowRoute,
+  AuthDashboardMembersRoute: AuthDashboardMembersRoute,
   AuthDashboardMyModulesRoute: AuthDashboardMyModulesRoute,
   AuthDashboardSettingsRoute: AuthDashboardSettingsRoute,
   AuthDashboardProjectsProjectIdRouteRoute:
