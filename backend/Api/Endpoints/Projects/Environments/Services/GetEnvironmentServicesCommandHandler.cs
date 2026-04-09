@@ -22,7 +22,9 @@ public sealed class GetEnvironmentServicesCommandHandler(ApiDbContext context)
             .ToDictionaryAsync(a => a.ServiceName, a => a.AllocatedPort, cancellationToken);
 
         var services = await context.ProjectServices
-            .Where(s => s.ProjectId == command.ProjectId && s.ProjectEnvironmentId == command.EnvironmentId)
+            .Where(s => s.ProjectId == command.ProjectId
+                         && s.ProjectEnvironmentId == command.EnvironmentId
+                         && s.DeletedAtUtc == null)
             .OrderByDescending(s => s.IsSystem)
             .ThenBy(s => s.Name)
             .Select(s => new { s.Name, s.Port, s.Protocol, s.IsSystem })

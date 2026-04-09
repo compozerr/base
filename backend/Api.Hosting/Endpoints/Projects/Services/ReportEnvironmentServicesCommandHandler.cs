@@ -112,29 +112,34 @@ public sealed class ReportEnvironmentServicesCommandHandler(
             }
         }
 
-        // Remove system domains in the reporting env that have no corresponding
-        // open port. The outer GetSingleAsync above uses a filtered Include, but
-        // EF Core relationship fix-up can re-attach domains that were loaded into
-        // the same scoped DbContext by *other* queries — in particular, the
-        // ProjectServiceUpsertedEvent handler dispatched from the AddAsync/
-        // UpdateAsync SaveChanges above calls GetProjectByIdWithDomainsAsync,
-        // which loads every non-deleted domain for the project across all envs.
-        // Re-apply the soft-delete and env-scope filters here explicitly as
-        // defense-in-depth: without this, a fixed-up cross-env or soft-deleted
-        // row can end up in systemDomainsToRemove and crash DeleteAsync with
-        // "Domain with id ... not found".
-        var reportedPorts = command.Services.Select(s => s.Port).ToHashSet();
-        var systemDomainsToRemove = project.Domains?
+        // Soft-delete internal domains in the reporting env whose service is no
+        // longer in the report. This replaces the old SystemServices-only check
+        // that missed custom service names like "Web" or "App", leaving orphaned
+        // internal domains that caused routing conflicts in Traefik.
+        //
+        // Only InternalDomain records are touched — ExternalDomain (custom domains
+        // like blog.mappso.com) are never auto-deleted; they're user-managed.
+        //
+        // Defense-in-depth: re-apply soft-delete and env-scope filters explicitly
+        // because EF Core relationship fix-up can re-attach domains from other
+        // queries in the same scoped DbContext (see earlier comment).
+        var reportedServiceNames = command.Services.Select(s => s.Name).ToHashSet();
+        var staleInternalDomains = project.Domains?
+            .OfType<InternalDomain>()
             .Where(d => d.DeletedAtUtc == null
                      && d.ProjectEnvironmentId == command.EnvironmentId
-                     && SystemServices.Contains(d.ServiceName)
-                     && !reportedPorts.Contains(d.Port))
+                     && !reportedServiceNames.Contains(d.ServiceName))
             .ToList();
 
-        if (systemDomainsToRemove != null && systemDomainsToRemove.Count > 0)
+        if (staleInternalDomains != null && staleInternalDomains.Count > 0)
         {
-            await systemDomainsToRemove.Select(x => x.Id)
-                                       .ApplyAsync(domainRepository.DeleteAsync, cancellationToken);
+            Log.ForContext("projectId", command.ProjectId)
+               .ForContext("environmentId", command.EnvironmentId)
+               .ForContext("staleDomainServices", staleInternalDomains.Select(d => $"{d.ServiceName}:{d.Port}").ToArray())
+               .Information("Removing {Count} stale internal domains from env-scoped report", staleInternalDomains.Count);
+
+            await staleInternalDomains.Select(x => x.Id)
+                                      .ApplyAsync(domainRepository.DeleteAsync, cancellationToken);
         }
 
         // Bug 9: Clean up stale IsSystem=true services in the reporting env whose
@@ -144,7 +149,6 @@ public sealed class ReportEnvironmentServicesCommandHandler(
         // are deleted — user-created services are intentionally left alone
         // because port detection is best-effort and a missing report doesn't
         // always mean "gone".
-        var reportedServiceNames = command.Services.Select(s => s.Name).ToHashSet();
         var staleSystemServices = existingServices.Values
             .Where(s => s.IsSystem && !reportedServiceNames.Contains(s.Name))
             .ToList();

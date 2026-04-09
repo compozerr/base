@@ -119,33 +119,32 @@ public sealed class ReportServicesCommandHandler(
             }
         }
 
-        // Remove system domains in prod env that have no corresponding open port.
-        // Defense-in-depth: the outer filtered Include scopes the load, but EF Core
-        // relationship fix-up can re-attach soft-deleted or cross-env domains that
-        // were loaded elsewhere in the same scoped DbContext (e.g. the
-        // ProjectServiceUpsertedEvent handler's GetProjectByIdWithDomainsAsync
-        // call). Re-applying the filters in memory here keeps DeleteAsync from
-        // crashing on a fixed-up row. See ReportEnvironmentServicesCommandHandler
-        // for the matching fix on the env-scoped endpoint.
-        var reportedPorts = command.Services.Select(s => s.Port).ToHashSet();
-        var systemDomainsToRemove = project.Domains?
+        // Soft-delete internal domains in prod env whose service is no longer in
+        // the report. See ReportEnvironmentServicesCommandHandler for full
+        // rationale — this is the legacy endpoint equivalent.
+        var reportedServiceNames = command.Services.Select(s => s.Name).ToHashSet();
+        var staleInternalDomains = project.Domains?
+            .OfType<InternalDomain>()
             .Where(d => d.DeletedAtUtc == null
                      && d.ProjectEnvironmentId == productionEnvId
-                     && SystemServices.Contains(d.ServiceName)
-                     && !reportedPorts.Contains(d.Port))
+                     && !reportedServiceNames.Contains(d.ServiceName))
             .ToList();
 
-        if (systemDomainsToRemove != null && systemDomainsToRemove.Count > 0)
+        if (staleInternalDomains != null && staleInternalDomains.Count > 0)
         {
-            await systemDomainsToRemove.Select(x => x.Id)
-                                       .ApplyAsync(domainRepository.DeleteAsync, cancellationToken);
+            Log.ForContext("projectId", command.ProjectId)
+               .ForContext("productionEnvId", productionEnvId)
+               .ForContext("staleDomainServices", staleInternalDomains.Select(d => $"{d.ServiceName}:{d.Port}").ToArray())
+               .Information("Removing {Count} stale internal domains from legacy prod-env report", staleInternalDomains.Count);
+
+            await staleInternalDomains.Select(x => x.Id)
+                                      .ApplyAsync(domainRepository.DeleteAsync, cancellationToken);
         }
 
         // Bug 9: Clean up stale IsSystem=true services in prod env whose name is
         // no longer in the report. Matches the env-scoped handler — see its
         // comment for the full rationale. The legacy endpoint only scopes to
         // the prod env, so this cleanup is likewise scoped.
-        var reportedServiceNames = command.Services.Select(s => s.Name).ToHashSet();
         var staleSystemServices = existingServices.Values
             .Where(s => s.IsSystem && !reportedServiceNames.Contains(s.Name))
             .ToList();
