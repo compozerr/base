@@ -10,7 +10,22 @@ namespace Stripe.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            // Pre-flight: verify all StripeCustomer InternalIds that look like user IDs
+            // Clean up orphaned StripeCustomer records where the InternalId points to
+            // a user ID that no longer exists in the Users table and has no personal org.
+            // These are stale records from deleted users.
+            migrationBuilder.Sql(@"
+        DELETE FROM stripe.""StripeCustomers"" sc
+        WHERE NOT EXISTS (
+            SELECT 1 FROM organizations.""Organizations"" o2
+            WHERE o2.""Id""::text = sc.""InternalId""
+        )
+        AND NOT EXISTS (
+            SELECT 1 FROM auth.""Users"" u
+            WHERE u.""Id""::text = sc.""InternalId""
+        );
+    ");
+
+            // Pre-flight: verify all remaining StripeCustomer InternalIds that look like user IDs
             // have a corresponding personal org
             migrationBuilder.Sql(@"
         DO $$
