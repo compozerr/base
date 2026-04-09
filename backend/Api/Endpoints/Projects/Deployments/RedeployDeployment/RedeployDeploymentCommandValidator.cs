@@ -25,10 +25,14 @@ public sealed class RedeployDeploymentCommandValidator : AbstractValidator<Redep
 			await using var scope = scopeFactory.CreateAsyncScope();
 			var deploymentRepository = scope.ServiceProvider.GetRequiredService<IDeploymentRepository>();
 
-			var projectId = (await deploymentRepository.GetByIdAsync(deploymentId, cancellationToken))?.ProjectId;
-			var deploymentsInProgress = await deploymentRepository.GetFilteredAsync(x => x.ProjectId == projectId && (x.Status == DeploymentStatus.Deploying || x.Status == DeploymentStatus.Queued), cancellationToken);
+			var deployment = await deploymentRepository.GetByIdAsync(deploymentId, cancellationToken);
+			var deploymentsInProgress = await deploymentRepository.GetFilteredAsync(
+				x => x.ProjectId == deployment!.ProjectId
+				     && x.EnvironmentId == deployment.EnvironmentId
+				     && (x.Status == DeploymentStatus.Deploying || x.Status == DeploymentStatus.Queued),
+				cancellationToken);
 
 			return deploymentsInProgress.Count == 0;
-		}).WithMessage("You already have a deployment in progress");
+		}).WithMessage("You already have a deployment in progress for this environment");
 	}
 }

@@ -30,33 +30,43 @@ public sealed class DeploymentTriggerCommandHandler(
 			return new();
 		}
 
-		if (deployments.Any(x => x.Status == Data.DeploymentStatus.Deploying))
+		// Group by environment so each environment's queue is processed independently
+		var deploymentsByEnvironment = deployments.GroupBy(d => d.EnvironmentId);
+
+		foreach (var environmentGroup in deploymentsByEnvironment)
 		{
-			Log.ForContext(nameof(command), command, true)
-			   .Information("Another deployment is already deploying");
-			return new();
+			var envDeployments = environmentGroup.ToList();
+
+			if (envDeployments.Any(x => x.Status == Data.DeploymentStatus.Deploying))
+			{
+				Log.ForContext(nameof(command), command, true)
+				   .ForContext("EnvironmentId", environmentGroup.Key)
+				   .Information("Another deployment is already deploying for this environment");
+				continue;
+			}
+
+			var queuedForEnv = envDeployments.Where(x => x.Status == Data.DeploymentStatus.Queued).ToList();
+
+			if (queuedForEnv.Count > 1)
+			{
+				Log.ForContext(nameof(command), command, true)
+				   .ForContext("EnvironmentId", environmentGroup.Key)
+				   .Information("Multiple queued deployments found for environment, only the latest will be processed and all other will be cancelled");
+
+				var deploymentsThatNeedCancellation = queuedForEnv.Skip(1);
+				deploymentsThatNeedCancellation.Apply(d => d.Status = Data.DeploymentStatus.Cancelled);
+
+				await deploymentRepository.UpdateRangeAsync(deploymentsThatNeedCancellation, cancellationToken);
+			}
+
+			var latestQueuedDeployment = queuedForEnv.First();
+
+			DeployProjectJob.Enqueue(latestQueuedDeployment.Id);
+
+			await HandleFirstDeploymentAsync(
+				latestQueuedDeployment.Id,
+				cancellationToken);
 		}
-
-		var allQueuedDeployments = deployments.Where(x => x.Status == Data.DeploymentStatus.Queued).ToList();
-
-		if (allQueuedDeployments.Count > 1)
-		{
-			Log.ForContext(nameof(command), command, true)
-			   .Information("Multiple queued deployments found, only the latest will be processed and all other will be cancelled");
-
-			var deploymentsThatNeedCancellation = deployments.Where(x => x.Status == Data.DeploymentStatus.Queued).Skip(1);
-			deploymentsThatNeedCancellation.Apply(d => d.Status = Data.DeploymentStatus.Cancelled);
-
-			await deploymentRepository.UpdateRangeAsync(deploymentsThatNeedCancellation, cancellationToken);
-		}
-
-		var latestQueuedDeployment = allQueuedDeployments.First();
-
-		DeployProjectJob.Enqueue(latestQueuedDeployment.Id);
-
-		await HandleFirstDeploymentAsync(
-			latestQueuedDeployment.Id,
-			cancellationToken);
 
 		return new();
 	}
