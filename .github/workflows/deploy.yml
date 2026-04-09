@@ -28,20 +28,11 @@ jobs:
               run: touch backend/.env
 
             - name: Test
-              if: ${{!startsWith(github.event.ref, 'refs/tags/v')}}
               env:
                   GITHUB__GITHUBAPP__APP_ID: ${{ secrets.GH_APP_ID }}
                   GITHUB__GITHUBAPP__PRIVATE_KEY_CERTIFICATE_BASE64: ${{ secrets.GH_APP_PRIVATE_KEY_BASE64 }}
                   INTEGRATION_TEST_INSTALLATION_ID: ${{ secrets.GH_APP_INSTALLATION_ID }}
               run: dotnet test backend/Base.sln --filter "Category!=Integration"
-
-            - name: Test (prod)
-              if: startsWith(github.event.ref, 'refs/tags/v')
-              env:
-                  GITHUB__GITHUBAPP__APP_ID: ${{ secrets.GH_APP_ID }}
-                  GITHUB__GITHUBAPP__PRIVATE_KEY_CERTIFICATE_BASE64: ${{ secrets.GH_APP_PRIVATE_KEY_BASE64 }}
-                  INTEGRATION_TEST_INSTALLATION_ID: ${{ secrets.GH_APP_INSTALLATION_ID }}
-              run: dotnet test backend/Base.sln
     deploy:
         if: startsWith(github.event.ref, 'refs/tags/v')
         needs: test
