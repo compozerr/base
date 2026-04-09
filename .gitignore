@@ -19,4 +19,5 @@ flyio.generated.json
 settings.local.json
 .worktrees
 .superpowers/
-docs/superpowers/
+docs/superpowers/.worktrees/
+.worktrees/
