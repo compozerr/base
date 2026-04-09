@@ -408,6 +408,25 @@ Modules live in `modules/` as regular git-tracked directories (converted from su
 - `scripts/migrate-submodules-to-subtrees.sh` — converts submodules to subtrees
 - `scripts/test-subtree-migration.sh` — validates the migration
 
+## Production Infrastructure Access
+
+### SSH Hosts
+
+- **Backend + DB**: `ssh debian@145.239.0.233 -p 2222` (also `ssh debian@compozerr.com -p 2222`)
+  - Backend container: `docker exec main-backend-1 ...`
+  - Postgres: `docker exec main-db-1 psql -U postgres -d myapp -c '...'`
+  - Backend logs: `docker logs main-backend-1 --since 5m`
+- **Hosting manager (fra1)**: `ssh debian@fra1.compozerr.com`
+  - Traefik dynamic config: `/opt/traefik/traefik/config/dynamic.yml`
+  - Manager logs: `sudo journalctl -u manager --since '5 minutes ago' --no-pager`
+- **Project VMs**: `compozerr ssh -e <env>` from within the project directory (e.g. `/Users/milo/milodev/gits/blog`)
+
+### Related Local Repos
+
+- **Blog (mappso-blog)**: `/Users/milo/milodev/gits/blog` — project ID `4744a6b5-a168-4d86-a323-f42022257cb1`
+- **Hosting**: `/Users/milo/milodev/gits/hosting` — auto-deploys on push to main with `manager/**` changes
+- **CLI**: `/Users/milo/milodev/gits/cli`
+
 ## Key Architectural Decisions
 
 1. **Feature-based modularity**: Modules are auto-discovered via reflection
