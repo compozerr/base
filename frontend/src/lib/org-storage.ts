@@ -6,6 +6,7 @@ export function getCurrentOrgId(): string | null {
 
 export function setCurrentOrgId(orgId: string): void {
   localStorage.setItem(ORG_STORAGE_KEY, orgId)
+  window.dispatchEvent(new CustomEvent("org-changed", { detail: orgId }))
 }
 
 /** Fetch wrapper that includes credentials and X-Organization-Id header */

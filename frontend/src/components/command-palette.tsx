@@ -12,7 +12,6 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-  CommandLoading,
 } from "@/components/ui/command"
 import { useActions } from "@/lib/command-palette/action-registry"
 import type { Action, ActionGroup } from "@/lib/command-palette/types"
@@ -128,12 +127,11 @@ export function CommandPalette({ navigate }: { navigate: NavigateFn }) {
         perform: () => {
           if (org.id !== currentOrgId) {
             setCurrentOrgId(org.id)
-            api.v1.getProjects.invalidateQueries({})
+            api.v1.getProjects.invalidateQueries()
           }
-          navigate({ to: "/organizations/$orgId", params: { orgId: org.id } })
         },
       }))
-  }, [organizations, search, navigate])
+  }, [organizations, search])
 
   // Build project actions from search results
   const projectActions: Action[] = useMemo(() => {
@@ -197,10 +195,10 @@ export function CommandPalette({ navigate }: { navigate: NavigateFn }) {
         placeholder="Search or type a command..."
         value={search}
         onValueChange={setSearch}
+        loading={isSearchingProjects}
       />
       <CommandList>
         <CommandEmpty>No results found.</CommandEmpty>
-        {isSearchingProjects && <CommandLoading>Searching projects...</CommandLoading>}
         {GROUP_ORDER.map((groupKey) => {
           const actions = groupedActions.get(groupKey)
           if (!actions || actions.length === 0) return null

@@ -37,6 +37,16 @@ export function AppSidebar() {
     getCurrentOrgId()
   )
 
+  // Sync org state when changed externally (e.g. command palette)
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const orgId = (e as CustomEvent<string>).detail
+      setCurrentOrgId(orgId)
+    }
+    window.addEventListener("org-changed", handler)
+    return () => window.removeEventListener("org-changed", handler)
+  }, [])
+
   // Auto-select personal org if none selected
   useEffect(() => {
     if (!organizations || organizations.length === 0) return
