@@ -27,7 +27,8 @@ public sealed class RedeployLatestDeploymentCommandHandler(
 				latestDeploymentForProject.CommitAuthor,
 				latestDeploymentForProject.CommitBranch,
 				latestDeploymentForProject.CommitEmail,
-				OverrideAuthorization: true);
+				OverrideAuthorization: true,
+				EnvironmentId: latestDeploymentForProject.EnvironmentId);
 
 		await sender.Send(
 			deployProjectCommand,

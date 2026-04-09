@@ -64,7 +64,8 @@ public class DeploymentTimeoutJob(
                     deployment.CommitAuthor,
                     deployment.CommitBranch,
                     deployment.CommitEmail,
-                    OverrideAuthorization: true));
+                    OverrideAuthorization: true,
+                    EnvironmentId: deployment.EnvironmentId));
             }
         }
     }

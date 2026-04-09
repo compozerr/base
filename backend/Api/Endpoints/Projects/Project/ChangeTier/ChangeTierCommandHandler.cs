@@ -65,7 +65,8 @@ public sealed class ChangeTierCommandHandler(
 			deployment.CommitMessage,
 			deployment.CommitAuthor,
 			deployment.CommitBranch,
-			deployment.CommitEmail);
+			deployment.CommitEmail,
+			EnvironmentId: deployment.EnvironmentId);
 
 		await mediator.Send(
 		    newDeploymentCommand,
