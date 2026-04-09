@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="../Mail/Mail.csproj" />
+    <ProjectReference Include="../../../../modules/mail-resend/backend/MailResend/MailResend.csproj" />
   </ItemGroup>
 
   <ItemGroup>
