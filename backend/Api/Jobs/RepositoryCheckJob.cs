@@ -98,22 +98,22 @@ public class RepositoryCheckJob(
     {
         // Prefer installation token — more reliable for automated background checks
         // and doesn't depend on the owner's OAuth token still being valid.
-        if (project.GithubInstallationId is { } installationId)
+        try
         {
-            try
-            {
-                var installationResponse = await githubService
-                    .GetInstallationClientByInstallationIdAsync(installationId.ToString());
+            var installationResponse = await githubService
+                .GetInstallationClientForRepoAsync(project.RepoUri);
 
-                if (installationResponse is not null)
-                    return installationResponse.InstallationClient;
-            }
-            catch (Exception ex)
-            {
-                Log.ForContext("projectId", project.Id)
-                   .ForContext("installationId", installationId)
-                   .Debug(ex, "Failed to get installation client, falling back to user client");
-            }
+            return installationResponse.InstallationClient;
+        }
+        catch (InstallationNotFoundForRepoException)
+        {
+            // No installation has access — fall through to OAuth.
+        }
+        catch (Exception ex)
+        {
+            Log.ForContext("projectId", project.Id)
+               .ForContext("repoUri", project.RepoUri.ToString())
+               .Debug(ex, "Failed to resolve installation for repo, falling back to user client");
         }
 
         // Fall back to the project owner's user client.

@@ -111,9 +111,11 @@ public sealed class MockGithubService : IGithubService
         return Task.FromResult(true);
     }
 
-    public Task<bool> InstallationCanAccessRepoAsync(IGitHubClient installationClient, Uri repoUri)
+    public Task<GetInstallationClientForRepoResponse> GetInstallationClientForRepoAsync(Uri repoUri)
     {
-        return Task.FromResult(true);
+        var client = new GitHubClient(new ProductHeaderValue("compozerr-dev"));
+        var response = new GetInstallationClientForRepoResponse(client, "dev-install-1", "dev-token");
+        return Task.FromResult(response);
     }
 
     public Task<bool> ValidateTokenAsync(string accessToken)

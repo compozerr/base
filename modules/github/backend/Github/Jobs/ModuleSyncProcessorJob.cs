@@ -51,14 +51,14 @@ public sealed class ModuleSyncProcessorJob(
                 return;
             }
 
-            // Get project to access GithubInstallationId
+            // Get project details
             await using var scope = serviceScopeFactory.CreateAsyncScope();
             var projectRepository = scope.ServiceProvider.GetRequiredService<IProjectRepository>();
             var project = await projectRepository.GetByIdAsync(projectId);
 
-            if (project?.GithubInstallationId is null)
+            if (project is null)
             {
-                Log.Information("ModuleSyncProcessorJob: Project {ProjectId} has no GitHub installation ID, skipping", projectId);
+                Log.Information("ModuleSyncProcessorJob: Project {ProjectId} not found, skipping", projectId);
                 return;
             }
 
@@ -85,14 +85,18 @@ public sealed class ModuleSyncProcessorJob(
                 return;
             }
 
-            // Get installation client
-            var installationResponse = await githubService.GetInstallationClientByInstallationIdAsync(
-                project.GithubInstallationId.Value.ToString());
-
-            if (installationResponse is null)
+            // Resolve the installation that owns the project repo — we deliberately
+            // do NOT trust any stored installation id, since it can go stale.
+            GetInstallationClientForRepoResponse installationResponse;
+            try
             {
-                Log.Error("ModuleSyncProcessorJob: Failed to get installation client for installation {InstallationId}",
-                    project.GithubInstallationId);
+                installationResponse = await githubService.GetInstallationClientForRepoAsync(project.RepoUri);
+            }
+            catch (InstallationNotFoundForRepoException ex)
+            {
+                Log.Information(ex,
+                    "ModuleSyncProcessorJob: No GitHub App installation has access to {RepoUri}, skipping",
+                    project.RepoUri);
                 return;
             }
 
@@ -121,7 +125,7 @@ public sealed class ModuleSyncProcessorJob(
                 await SyncModuleAsync(
                     pushEvent, projectId, changeSet,
                     client, repoOwner, repoName, afterSha, commitMessage,
-                    moduleRepository, project.GithubInstallationId.Value);
+                    moduleRepository);
             }
         }
         catch (Exception ex)
@@ -139,8 +143,7 @@ public sealed class ModuleSyncProcessorJob(
         string repoName,
         string afterSha,
         string commitMessage,
-        IModuleRepository moduleRepository,
-        long installationId)
+        IModuleRepository moduleRepository)
     {
         // Look up module in database
         var modules = await moduleRepository.GetFilteredAsync(m => m.Name == changeSet.ModuleName);
@@ -182,15 +185,21 @@ public sealed class ModuleSyncProcessorJob(
             // Parse module source repo
             var (moduleOwner, moduleRepoName) = GitHubRepoUrl.Parse(module.RepoUri);
 
-            // Get installation client for module repo (try same installation first)
-            var moduleClientResponse = await githubService.GetInstallationClientByInstallationIdAsync(
-                installationId.ToString());
-
-            if (moduleClientResponse is null)
+            // Resolve the installation that owns the module repo. The module
+            // may live in a different GitHub account than the project, so we
+            // can't reuse the project installation — look it up fresh from
+            // the module's own repo URL.
+            GetInstallationClientForRepoResponse moduleClientResponse;
+            try
+            {
+                moduleClientResponse = await githubService.GetInstallationClientForRepoAsync(module.RepoUri);
+            }
+            catch (InstallationNotFoundForRepoException ex)
             {
                 throw new InvalidOperationException(
-                    $"Failed to get installation client for module repo. " +
-                    $"Ensure the GitHub App is installed on the organization that owns {module.RepoUri}");
+                    $"Failed to resolve GitHub App installation for module repo. " +
+                    $"Ensure the GitHub App is installed on the account that owns {module.RepoUri}",
+                    ex);
             }
 
             var targetCommitSha = await moduleSyncService.SyncModuleToSourceRepoAsync(

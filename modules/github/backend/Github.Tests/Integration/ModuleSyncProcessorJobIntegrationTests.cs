@@ -90,8 +90,8 @@ public class ModuleSyncProcessorJobIntegrationTests : IAsyncLifetime
         // Create mock IGithubService that returns real client
         var mockGithubService = new Mock<IGithubService>();
         mockGithubService
-            .Setup(s => s.GetInstallationClientByInstallationIdAsync(It.IsAny<string>()))
-            .ReturnsAsync(new GetInstallationClientByInstallationIdResponse(client, "test-token"));
+            .Setup(s => s.GetInstallationClientForRepoAsync(It.IsAny<Uri>()))
+            .ReturnsAsync(new GetInstallationClientForRepoResponse(client, "test-install", "test-token"));
 
         // Build and execute the job
         var moduleSyncService = scope.ServiceProvider.GetRequiredService<IModuleSyncService>();
@@ -177,8 +177,8 @@ public class ModuleSyncProcessorJobIntegrationTests : IAsyncLifetime
 
         var mockGithubService = new Mock<IGithubService>();
         mockGithubService
-            .Setup(s => s.GetInstallationClientByInstallationIdAsync(It.IsAny<string>()))
-            .ReturnsAsync(new GetInstallationClientByInstallationIdResponse(client, "test-token"));
+            .Setup(s => s.GetInstallationClientForRepoAsync(It.IsAny<Uri>()))
+            .ReturnsAsync(new GetInstallationClientForRepoResponse(client, "test-install", "test-token"));
 
         var moduleSyncService = scope.ServiceProvider.GetRequiredService<IModuleSyncService>();
         var moduleSyncEventRepo = scope.ServiceProvider.GetRequiredService<IModuleSyncEventRepository>();
@@ -250,8 +250,8 @@ public class ModuleSyncProcessorJobIntegrationTests : IAsyncLifetime
 
         var mockGithubService = new Mock<IGithubService>();
         mockGithubService
-            .Setup(s => s.GetInstallationClientByInstallationIdAsync(It.IsAny<string>()))
-            .ReturnsAsync(new GetInstallationClientByInstallationIdResponse(client, "test-token"));
+            .Setup(s => s.GetInstallationClientForRepoAsync(It.IsAny<Uri>()))
+            .ReturnsAsync(new GetInstallationClientForRepoResponse(client, "test-install", "test-token"));
 
         var moduleSyncService = scope.ServiceProvider.GetRequiredService<IModuleSyncService>();
         var moduleSyncEventRepo = scope.ServiceProvider.GetRequiredService<IModuleSyncEventRepository>();
@@ -462,8 +462,8 @@ public class ModuleSyncProcessorJobIntegrationTests : IAsyncLifetime
 
         var mockGithubService = new Mock<IGithubService>();
         mockGithubService
-            .Setup(s => s.GetInstallationClientByInstallationIdAsync(It.IsAny<string>()))
-            .ReturnsAsync(new GetInstallationClientByInstallationIdResponse(client, "test-token"));
+            .Setup(s => s.GetInstallationClientForRepoAsync(It.IsAny<Uri>()))
+            .ReturnsAsync(new GetInstallationClientForRepoResponse(client, "test-install", "test-token"));
 
         var moduleSyncService = scope.ServiceProvider.GetRequiredService<IModuleSyncService>();
         var moduleSyncEventRepo = scope.ServiceProvider.GetRequiredService<IModuleSyncEventRepository>();

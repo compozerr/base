@@ -27,14 +27,15 @@ public static class GetBranchesRoute
 
         var (owner, repo) = GitHubRepoUrl.Parse(project.RepoUri);
 
-        if (project.GithubInstallationId is not { } installationId)
+        GetInstallationClientForRepoResponse clientResponse;
+        try
+        {
+            clientResponse = await githubService.GetInstallationClientForRepoAsync(project.RepoUri);
+        }
+        catch (InstallationNotFoundForRepoException)
+        {
             return new GetBranchesResponse([]);
-
-        var clientResponse = await githubService.GetInstallationClientByInstallationIdAsync(
-            installationId.ToString());
-
-        if (clientResponse is null)
-            return new GetBranchesResponse([]);
+        }
 
         var branches = await clientResponse.InstallationClient.Repository.Branch.GetAll(owner, repo);
 

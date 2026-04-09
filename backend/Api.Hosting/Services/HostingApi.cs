@@ -80,42 +80,29 @@ public sealed class HostingApi(
                 throw new Exception("RepoUri is null");
             }
 
-            // Get access token - prefer installation token (auto-refreshes, more reliable).
-            // Self-correcting: only use the installation token if it actually has access to
-            // the repo. The stored installation id can drift away from the repo's real owner
-            // (repo transferred, user switched installations, etc.) — in that case we fall
-            // through to the user's OAuth token, which is the path that used to work before
-            // we introduced installation-token preference.
+            // Resolve the installation that currently owns this repo. We do NOT
+            // trust deployment.Project.GithubInstallationId — repos can be
+            // transferred between accounts and the user can install/uninstall the
+            // app, so we resolve fresh from the repo's current owner via the
+            // GitHub App JWT.
             string accessToken;
-            if (deployment.Project.GithubInstallationId is { } installationId)
+            try
             {
                 var installationClient = await githubService
-                    .GetInstallationClientByInstallationIdAsync(installationId.ToString());
-
-                var installationTokenWorks =
-                    installationClient is not null &&
-                    await githubService.InstallationCanAccessRepoAsync(
-                        installationClient.InstallationClient,
-                        deployment.Project.RepoUri);
-
-                if (installationTokenWorks)
-                {
-                    accessToken = installationClient!.InstallationToken;
-                    Log.Information(
-                        "Using GitHub App installation token for deployment (installation: {InstallationId})",
-                        installationId);
-                }
-                else
-                {
-                    Log.Warning(
-                        "Stored installation {InstallationId} cannot access {RepoUri}, falling back to OAuth token",
-                        installationId, deployment.Project.RepoUri);
-                    accessToken = await GetValidatedOAuthTokenAsync(deployment.UserId);
-                }
+                    .GetInstallationClientForRepoAsync(deployment.Project.RepoUri);
+                accessToken = installationClient.InstallationToken;
+                Log.Information(
+                    "Using GitHub App installation token for deployment (installation: {InstallationId})",
+                    installationClient.InstallationId);
             }
-            else
+            catch (InstallationNotFoundForRepoException notFoundEx)
             {
-                // Fallback to OAuth token for projects without installation ID
+                // No installation can see this repo — fall back to the project
+                // owner's OAuth token. This covers users who haven't installed the
+                // GitHub App on the repo's account yet.
+                Log.Warning(notFoundEx,
+                    "No GitHub App installation has access to {RepoUri}, falling back to OAuth token",
+                    deployment.Project.RepoUri);
                 accessToken = await GetValidatedOAuthTokenAsync(deployment.UserId);
             }
 

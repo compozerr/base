@@ -19,6 +19,9 @@ public sealed record CreateProjectCommandHandler(
 
         var location = await LocationRepository.GetLocationByIso(command.LocationIso);
 
+        // Note: GithubInstallationId is intentionally NOT persisted. The deploy/
+        // clone paths resolve the installation dynamically from the repo URL via
+        // GetInstallationClientForRepoAsync, so a stamped id would only go stale.
         var newProject = new Project
         {
             Name = command.RepoName,
@@ -27,8 +30,7 @@ public sealed record CreateProjectCommandHandler(
             LocationId = location.Id,
             ServerTierId = ServerTiers.GetById(new ServerTierId(command.Tier)).Id,
             State = ProjectState.Stopped,
-            Type = ProjectType.Compozerr,
-            GithubInstallationId = command.GithubInstallationId
+            Type = ProjectType.Compozerr
         };
 
         newProject.QueueDomainEvent<ProjectCreatedEvent>();

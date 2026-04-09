@@ -49,24 +49,27 @@ public sealed class AddGithubCollaborator_InvitationAcceptedEventHandler(
 
         if (string.IsNullOrEmpty(githubUsername)) return;
 
-        // Get all projects in this organization that have a GitHub installation
+        // Get all projects in this organization that have a GitHub repo
         var projects = await projectRepository.GetFilteredAsync(
-            p => p.OrganizationId == domainEvent.OrganizationId && p.GithubInstallationId != null,
+            p => p.OrganizationId == domainEvent.OrganizationId,
             cancellationToken);
 
         foreach (var project in projects)
         {
             try
             {
-                if (project.GithubInstallationId is null) continue;
-
-                var installationClient = await githubService.GetInstallationClientByInstallationIdAsync(
-                    project.GithubInstallationId.Value.ToString());
-
-                if (installationClient is null) continue;
-
                 if (!GitHubRepoUrl.TryParse(project.RepoUri.ToString(), out var owner, out var repoName))
                     continue;
+
+                GetInstallationClientForRepoResponse installationClient;
+                try
+                {
+                    installationClient = await githubService.GetInstallationClientForRepoAsync(project.RepoUri);
+                }
+                catch (InstallationNotFoundForRepoException)
+                {
+                    continue;
+                }
 
                 await installationClient.InstallationClient.Repository.Collaborator.Add(
                     owner,

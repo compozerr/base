@@ -22,6 +22,11 @@ public record GetInstallationClientByInstallationIdResponse(
     IGitHubClient InstallationClient,
     string InstallationToken);
 
+public record GetInstallationClientForRepoResponse(
+    IGitHubClient InstallationClient,
+    string InstallationId,
+    string InstallationToken);
+
 public interface IGithubService
 {
     IGitHubClient GetClient();
@@ -60,7 +65,7 @@ public interface IGithubService
         CancellationToken cancellationToken = default);
 
     Task<bool> HasAccessToRepositoryAsync(string repoUrl, UserId userId);
-    Task<bool> InstallationCanAccessRepoAsync(IGitHubClient installationClient, Uri repoUri);
+    Task<GetInstallationClientForRepoResponse> GetInstallationClientForRepoAsync(Uri repoUri);
     Task<bool> ValidateTokenAsync(string accessToken);
 }
 
@@ -468,19 +473,19 @@ public sealed class GithubService(
         return false;
     }
 
-    public async Task<bool> InstallationCanAccessRepoAsync(IGitHubClient installationClient, Uri repoUri)
+    public async Task<GetInstallationClientForRepoResponse> GetInstallationClientForRepoAsync(Uri repoUri)
     {
-        var (owner, repoName) = GitHubRepoUrl.Parse(repoUri);
+        var appJwtClient = GetClient();
+        var installationId = await RepoInstallationLookup.LookupInstallationIdAsync(appJwtClient, repoUri);
 
-        try
-        {
-            await installationClient.Repository.Get(owner, repoName);
-            return true;
-        }
-        catch (NotFoundException)
-        {
-            return false;
-        }
+        var clientResponse = await GetInstallationClientByInstallationIdAsync(installationId.ToString())
+            ?? throw new InvalidOperationException(
+                $"Failed to mint installation token for installation {installationId} (repo: {repoUri})");
+
+        return new GetInstallationClientForRepoResponse(
+            clientResponse.InstallationClient,
+            installationId.ToString(),
+            clientResponse.InstallationToken);
     }
 
     public async Task<bool> ValidateTokenAsync(string accessToken)

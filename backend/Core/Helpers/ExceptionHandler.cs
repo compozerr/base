@@ -92,6 +92,20 @@ public static class ExceptionHandlerExtensions
                         Log.Warning(ex, "GitHub token invalid: {Message}", ex.Message);
                         break;
 
+                    case var ex when ex.GetType().Name == "InstallationNotFoundForRepoException":
+                        context.Response.StatusCode = StatusCodes.Status422UnprocessableEntity;
+                        problemDetails = new ApiProblemDetails
+                        {
+                            Type = "urn:compozerr:github-installation-missing",
+                            Title = "GitHub App Not Installed On Repository",
+                            Status = StatusCodes.Status422UnprocessableEntity,
+                            Detail = ex.Message,
+                            TraceId = traceId,
+                            Instance = instance
+                        };
+                        Log.Warning(ex, "GitHub App not installed on repo: {Message}", ex.Message);
+                        break;
+
                     default:
                         // For all other exceptions, return a 500 Internal Server Error
                         context.Response.StatusCode = StatusCodes.Status500InternalServerError;

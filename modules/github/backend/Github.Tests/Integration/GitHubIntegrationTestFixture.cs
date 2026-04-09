@@ -136,16 +136,33 @@ public class GitHubIntegrationTestFixture : IAsyncLifetime
     {
         if (!IsConfigured || GitHubClient is null) return;
 
+        // Best-effort reset — branch protection or concurrent test runs can
+        // cause force-updates to fail. Swallow errors so cleanup failures
+        // don't cascade and mask the actual test results.
         if (ProjectBaselineSha is not null)
         {
-            await GitHubTestHelper.ResetMainBranchAsync(
-                GitHubClient, ProjectRepoOwner, ProjectRepoName, ProjectBaselineSha);
+            try
+            {
+                await GitHubTestHelper.ResetMainBranchAsync(
+                    GitHubClient, ProjectRepoOwner, ProjectRepoName, ProjectBaselineSha);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[Cleanup] Failed to reset {ProjectRepoOwner}/{ProjectRepoName}: {ex.Message}");
+            }
         }
 
         if (ModuleBaselineSha is not null)
         {
-            await GitHubTestHelper.ResetMainBranchAsync(
-                GitHubClient, ModuleRepoOwner, ModuleRepoName, ModuleBaselineSha);
+            try
+            {
+                await GitHubTestHelper.ResetMainBranchAsync(
+                    GitHubClient, ModuleRepoOwner, ModuleRepoName, ModuleBaselineSha);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[Cleanup] Failed to reset {ModuleRepoOwner}/{ModuleRepoName}: {ex.Message}");
+            }
         }
     }
 

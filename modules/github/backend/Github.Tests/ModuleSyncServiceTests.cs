@@ -239,12 +239,5 @@ public class ModuleSyncServiceTests
     }
 
     private static void SetBackingField(object instance, Type type, string propertyName, object value)
-    {
-        var field = type.GetFields(
-                System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
-            .FirstOrDefault(f => f.Name.Contains(propertyName, StringComparison.OrdinalIgnoreCase)
-                              || f.Name.Contains($"<{propertyName}>"));
-
-        field?.SetValue(instance, value);
-    }
+        => OctokitTestHelpers.SetBackingField(instance, type, propertyName, value);
 }

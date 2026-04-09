@@ -40,8 +40,8 @@ public sealed class DeployFromLatestCommitCommandHandler(
 			environmentId = productionEnv?.Id;
 		}
 
-		var latestCommit = branch is not null && project.GithubInstallationId is { } installationId
-			? await GetLatestCommitFromBranchAsync(project, branch, installationId)
+		var latestCommit = branch is not null
+			? await GetLatestCommitFromBranchAsync(project, branch)
 			: await githubService.GetLatestCommitAsync(project.RepoUri, project.UserId, cancellationToken)
 			  ?? throw new InvalidOperationException("No commits found in the repository.");
 
@@ -62,12 +62,10 @@ public sealed class DeployFromLatestCommitCommandHandler(
 	}
 
 	private async Task<Octokit.GitHubCommit> GetLatestCommitFromBranchAsync(
-		Data.Project project, string branch, long installationId)
+		Data.Project project, string branch)
 	{
 		var (owner, repo) = GitHubRepoUrl.Parse(project.RepoUri);
-		var clientResponse = await githubService.GetInstallationClientByInstallationIdAsync(
-			installationId.ToString())
-			?? throw new InvalidOperationException("Failed to get GitHub installation client.");
+		var clientResponse = await githubService.GetInstallationClientForRepoAsync(project.RepoUri);
 
 		var commits = await clientResponse.InstallationClient.Repository.Commit.GetAll(
 			owner, repo, new Octokit.CommitRequest { Sha = branch },

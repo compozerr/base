@@ -1,61 +1,78 @@
-using Auth.Repositories;
-using Github.Repositories;
 using Github.Services;
 using Moq;
 using Octokit;
 
 namespace Github.Tests;
 
-public class GithubServiceTests
+public class RepoInstallationLookupTests
 {
-    private static GithubService CreateSut() =>
-        new(
-            Mock.Of<IGithubJsonWebTokenService>(),
-            Mock.Of<IUserRepository>(),
-            Mock.Of<IGithubUserSettingsRepository>());
+    [Fact]
+    public async Task GetInstallationClientForRepoAsync_ResolvesInstallation_ReturnsClient()
+    {
+        // Arrange — mock the app-level client's GetRepositoryInstallationForCurrent
+        var mockAppClient = new Mock<IGitHubClient>();
+        var mockGitHubAppsClient = new Mock<IGitHubAppsClient>();
+
+        // GetRepositoryInstallationForCurrent returns an Installation object.
+        // Octokit's Installation has no public ctor, so we use reflection.
+        var installation = CreateInstallation(id: 58714671, login: "tomilodk");
+
+        mockGitHubAppsClient
+            .Setup(a => a.GetRepositoryInstallationForCurrent("tomilodk", "fusee"))
+            .ReturnsAsync(installation);
+
+        mockAppClient.Setup(c => c.GitHubApps).Returns(mockGitHubAppsClient.Object);
+
+        var repoUri = new Uri("https://github.com/tomilodk/fusee.git");
+
+        // Act
+        var installationId = await RepoInstallationLookup.LookupInstallationIdAsync(
+            mockAppClient.Object, repoUri);
+
+        // Assert
+        Assert.Equal(58714671, installationId);
+    }
 
     [Fact]
-    public async Task InstallationCanAccessRepoAsync_WhenRepositoryGetSucceeds_ReturnsTrue()
+    public async Task GetInstallationClientForRepoAsync_NoInstallation_ThrowsInstallationNotFound()
     {
         // Arrange
-        var mockClient = new Mock<IGitHubClient>();
-        mockClient
-            .Setup(c => c.Repository.Get("tomilodk", "prebuild-tickets"))
-            .ReturnsAsync((Repository)null!);
+        var mockAppClient = new Mock<IGitHubClient>();
+        var mockGitHubAppsClient = new Mock<IGitHubAppsClient>();
 
-        var sut = CreateSut();
+        mockGitHubAppsClient
+            .Setup(a => a.GetRepositoryInstallationForCurrent("mappso", "mappso-blog"))
+            .ThrowsAsync(new NotFoundException("Not Found", System.Net.HttpStatusCode.NotFound));
 
-        // Act
-        var result = await sut.InstallationCanAccessRepoAsync(
-            mockClient.Object,
-            new Uri("https://github.com/tomilodk/prebuild-tickets.git"));
+        mockAppClient.Setup(c => c.GitHubApps).Returns(mockGitHubAppsClient.Object);
 
-        // Assert
-        Assert.True(result);
-        mockClient.Verify(c => c.Repository.Get("tomilodk", "prebuild-tickets"), Times.Once);
+        var repoUri = new Uri("https://github.com/mappso/mappso-blog.git");
+
+        // Act & Assert
+        var ex = await Assert.ThrowsAsync<InstallationNotFoundForRepoException>(
+            () => RepoInstallationLookup.LookupInstallationIdAsync(mockAppClient.Object, repoUri));
+
+        Assert.Contains("mappso/mappso-blog", ex.RepoUri);
     }
 
-    [Fact]
-    public async Task InstallationCanAccessRepoAsync_WhenRepositoryGetThrowsNotFound_ReturnsFalse()
+    // Helper — Octokit's Installation has no public constructor
+    private static Installation CreateInstallation(long id, string login)
     {
-        // Arrange — this is the real-world scenario from prod: stored installation
-        // id belongs to an org that has no access to the user's repo, so GitHub
-        // returns 404 for the repo lookup.
-        var mockClient = new Mock<IGitHubClient>();
-        mockClient
-            .Setup(c => c.Repository.Get("tomilodk", "prebuild-tickets"))
-            .ThrowsAsync(new NotFoundException(
-                "Not Found",
-                System.Net.HttpStatusCode.NotFound));
+        var type = typeof(Installation);
+        var instance = System.Runtime.Serialization.FormatterServices.GetUninitializedObject(type);
 
-        var sut = CreateSut();
+        // Id lives on the base class InstallationId, not on Installation itself
+        SetBackingField(instance, type.BaseType!, "Id", id);
 
-        // Act
-        var result = await sut.InstallationCanAccessRepoAsync(
-            mockClient.Object,
-            new Uri("https://github.com/tomilodk/prebuild-tickets.git"));
+        // Installation.Account is of type Account (abstract) — use User (concrete subclass)
+        var accountType = typeof(User);
+        var account = System.Runtime.Serialization.FormatterServices.GetUninitializedObject(accountType);
+        SetBackingField(account, accountType, "Login", login);
+        SetBackingField(instance, type, "Account", account);
 
-        // Assert
-        Assert.False(result);
+        return (Installation)instance;
     }
+
+    private static void SetBackingField(object instance, Type type, string propertyName, object value)
+        => OctokitTestHelpers.SetBackingField(instance, type, propertyName, value);
 }
