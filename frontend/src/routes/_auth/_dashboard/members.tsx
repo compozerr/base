@@ -1,5 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { Plus, Shield, User, UserMinus } from 'lucide-react'
+import { Plus, Shield, User, UserMinus, Search, Github } from 'lucide-react'
 import { useAuth } from '@/hooks/use-dynamic-auth'
 import { Button } from '@/components/ui/button'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'
@@ -42,7 +42,15 @@ import {
 import { useToast } from '@/hooks/use-toast'
 import { api } from '@/api-client'
 import { getCurrentOrgId } from '@/lib/org-storage'
+import { useRegisterActions } from '@/lib/command-palette/action-registry'
 import * as React from 'react'
+
+interface GithubUser {
+  login: string
+  avatarUrl: string
+  name?: string
+  email?: string
+}
 
 export const Route = createFileRoute('/_auth/_dashboard/members')({
   component: MembersPage,
@@ -53,9 +61,34 @@ function MembersPage() {
   const { toast } = useToast()
   const { user: currentUser } = useAuth()
   const [inviteDialogOpen, setInviteDialogOpen] = React.useState(false)
+  const [searchQuery, setSearchQuery] = React.useState('')
+  const [debouncedQuery, setDebouncedQuery] = React.useState('')
+  const [selectedUser, setSelectedUser] = React.useState<GithubUser | null>(null)
   const [inviteEmail, setInviteEmail] = React.useState('')
   const [inviteRole, setInviteRole] = React.useState('Member')
   const [removeMemberId, setRemoveMemberId] = React.useState<string | null>(null)
+
+  useRegisterActions([
+    {
+      id: 'invite-member',
+      name: 'Invite member',
+      icon: Plus,
+      group: 'action' as const,
+      keywords: ['add', 'team', 'user', 'invitation'],
+      perform: () => setInviteDialogOpen(true),
+    },
+  ], [])
+
+  // Debounce search
+  React.useEffect(() => {
+    const timer = setTimeout(() => setDebouncedQuery(searchQuery), 300)
+    return () => clearTimeout(timer)
+  }, [searchQuery])
+
+  const { data: searchResults, isFetching: isSearching } = api.v1.getOrganizationsGithubUserSearch.useQuery(
+    { query: { q: debouncedQuery } },
+    { enabled: debouncedQuery.length >= 2 && !selectedUser },
+  ) as { data: { users: GithubUser[] } | undefined, isFetching: boolean }
 
   const { data: membersData, isLoading: membersLoading } = api.v1.getOrganizationsOrganizationIdMembers.useQuery(
     { path: { organizationId: orgId! } },
@@ -71,7 +104,8 @@ function MembersPage() {
     { path: { organizationId: orgId! } },
     {
       onSuccess: () => {
-        toast({ title: 'Invitation sent', description: `Invitation sent to ${inviteEmail}`, variant: 'success' })
+        const label = selectedUser?.login || selectedUser?.email || inviteEmail
+        toast({ title: 'Invitation sent', description: `Invitation sent to ${label}`, variant: 'success' })
         void api.v1.getOrganizationsOrganizationIdInvitations.invalidateQueries(
           { parameters: { path: { organizationId: orgId! } } },
         )
@@ -97,16 +131,35 @@ function MembersPage() {
 
   const handleCloseInviteDialog = () => {
     setInviteDialogOpen(false)
+    setSearchQuery('')
+    setDebouncedQuery('')
+    setSelectedUser(null)
     setInviteEmail('')
     setInviteRole('Member')
   }
 
   const handleInvite = () => {
-    if (!inviteEmail?.trim()) {
-      toast({ title: 'Email required', description: 'Please enter an email address.', variant: 'destructive' })
+    const email = selectedUser?.email || inviteEmail || undefined
+    const githubUsername = selectedUser?.login || undefined
+
+    if (!email && !githubUsername) {
+      toast({ title: 'Recipient required', description: 'Select a GitHub user or enter an email address.', variant: 'destructive' })
       return
     }
-    inviteMutation.mutate({ email: inviteEmail.trim(), role: inviteRole === 'Admin' ? 0 : 1 })
+
+    inviteMutation.mutate({
+      email: email?.trim() ?? null,
+      githubUsername: githubUsername ?? null,
+      role: inviteRole === 'Admin' ? 0 : 1,
+    })
+  }
+
+  const handleSelectUser = (user: GithubUser) => {
+    setSelectedUser(user)
+    setSearchQuery(user.login)
+    if (user.email) {
+      setInviteEmail(user.email)
+    }
   }
 
   const formatDate = (dateStr: string) => new Date(dateStr).toLocaleDateString()
@@ -118,8 +171,8 @@ function MembersPage() {
   }> | undefined
 
   const invitations = invitationsData as unknown as Array<{
-    id: string; email: string; role: 'Admin' | 'Member';
-    status: string; expiresAtUtc: string; createdAtUtc: string;
+    id: string; email?: string | null; githubUsername?: string | null;
+    role: 'Admin' | 'Member'; status: string; expiresAtUtc: string; createdAtUtc: string;
   }> | undefined
 
   if (!orgId) {
@@ -234,7 +287,7 @@ function MembersPage() {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Email</TableHead>
+                    <TableHead>Invited</TableHead>
                     <TableHead>Role</TableHead>
                     <TableHead>Expires</TableHead>
                   </TableRow>
@@ -242,7 +295,19 @@ function MembersPage() {
                 <TableBody>
                   {invitations.map((inv) => (
                     <TableRow key={inv.id}>
-                      <TableCell className="font-mono text-sm">{inv.email}</TableCell>
+                      <TableCell>
+                        <div className="flex items-center gap-2">
+                          {inv.githubUsername && (
+                            <div className="flex items-center gap-1.5">
+                              <Github className="h-3.5 w-3.5 text-muted-foreground" />
+                              <span className="text-sm font-medium">{inv.githubUsername}</span>
+                            </div>
+                          )}
+                          {inv.email && (
+                            <span className="font-mono text-sm text-muted-foreground">{inv.email}</span>
+                          )}
+                        </div>
+                      </TableCell>
                       <TableCell>
                         <Badge variant="outline">{inv.role}</Badge>
                       </TableCell>
@@ -258,34 +323,142 @@ function MembersPage() {
         )}
       </div>
 
-      {/* Invite Dialog */}
+      {/* Invite Dialog with GitHub User Search */}
       <Dialog open={inviteDialogOpen} onOpenChange={(open) => { if (!open) handleCloseInviteDialog() }}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
             <DialogTitle>Invite a Member</DialogTitle>
             <DialogDescription>
-              Enter an email address to send an invitation.
+              Search by GitHub username or enter an email address directly.
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4">
+            {/* GitHub User Search */}
             <div className="space-y-2">
-              <label className="text-sm font-medium">Email address</label>
-              <Input
-                type="email"
-                value={inviteEmail}
-                onChange={(e) => setInviteEmail(e.target.value)}
-                placeholder="colleague@example.com"
-                onKeyDown={(e) => e.key === 'Enter' && handleInvite()}
-              />
+              <label className="text-sm font-medium">
+                GitHub username or email
+              </label>
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input
+                  value={searchQuery}
+                  onChange={(e) => {
+                    setSearchQuery(e.target.value)
+                    setSelectedUser(null)
+                  }}
+                  placeholder="Search GitHub username or enter email..."
+                  className="pl-9"
+                  onKeyDown={(e) => e.key === 'Enter' && handleInvite()}
+                />
+              </div>
+
+              {/* Search Results Dropdown */}
+              {!selectedUser && debouncedQuery.length >= 2 && (
+                <div className="rounded-md border bg-card overflow-hidden">
+                  {isSearching ? (
+                    <div className="p-3 space-y-2">
+                      <Skeleton className="h-8 w-full" />
+                      <Skeleton className="h-8 w-full" />
+                    </div>
+                  ) : searchResults?.users && searchResults.users.length > 0 ? (
+                    <div className="max-h-48 overflow-y-auto">
+                      {searchResults.users.map((user) => (
+                        <button
+                          key={user.login}
+                          onClick={() => handleSelectUser(user)}
+                          className="flex w-full items-center gap-3 px-3 py-2 text-left transition-colors hover:bg-muted/50"
+                        >
+                          <img
+                            src={user.avatarUrl}
+                            alt=""
+                            className="h-7 w-7 rounded-full ring-1 ring-white/10"
+                          />
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm font-medium truncate">{user.login}</p>
+                            {user.name && (
+                              <p className="text-xs text-muted-foreground truncate">{user.name}</p>
+                            )}
+                          </div>
+                          <Github className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
+                        </button>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="p-3 text-sm text-muted-foreground">
+                      No GitHub users found. You can enter an email address directly.
+                    </p>
+                  )}
+                </div>
+              )}
+
+              {/* Selected User */}
+              {selectedUser && (
+                <div className="flex items-center gap-3 rounded-md border bg-muted/30 px-3 py-2">
+                  <img
+                    src={selectedUser.avatarUrl}
+                    alt=""
+                    className="h-8 w-8 rounded-full ring-1 ring-white/10"
+                  />
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium">{selectedUser.login}</p>
+                    {selectedUser.name && (
+                      <p className="text-xs text-muted-foreground">{selectedUser.name}</p>
+                    )}
+                    {!selectedUser.email && (
+                      <p className="text-xs text-muted-foreground">Will be auto-accepted when they log in via GitHub</p>
+                    )}
+                  </div>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="h-7 text-xs"
+                    onClick={() => {
+                      setSelectedUser(null)
+                      setSearchQuery('')
+                      setInviteEmail('')
+                    }}
+                  >
+                    Change
+                  </Button>
+                </div>
+              )}
             </div>
 
+            {/* Email - shown if user selected but has no public email */}
+            {(selectedUser && !selectedUser.email) && (
+              <div className="space-y-2">
+                <label className="text-sm font-medium">
+                  Email address (optional)
+                </label>
+                <Input
+                  type="email"
+                  value={inviteEmail}
+                  onChange={(e) => setInviteEmail(e.target.value)}
+                  placeholder={`Enter ${selectedUser.login}'s email to also send a notification`}
+                />
+                <p className="text-xs text-muted-foreground">
+                  If provided, they'll receive an invitation email. Otherwise, the invitation is accepted automatically when they log in.
+                </p>
+              </div>
+            )}
+
+            {/* If no GitHub user selected and query looks like email, show email field */}
+            {!selectedUser && searchQuery.includes('@') && (
+              <div className="flex items-center gap-2 rounded-md border bg-muted/30 px-3 py-2">
+                <p className="text-sm text-muted-foreground">
+                  Inviting by email: <strong className="text-foreground">{searchQuery}</strong>
+                </p>
+              </div>
+            )}
+
+            {/* Role Selection */}
             <div className="space-y-2">
               <label className="text-sm font-medium">Role</label>
               <Select value={inviteRole} onValueChange={setInviteRole}>
                 <SelectTrigger><SelectValue /></SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="Member">Member - can view and deploy projects</SelectItem>
-                  <SelectItem value="Admin">Admin - full access including billing and members</SelectItem>
+                  <SelectItem value="Member">Member — can view and deploy projects</SelectItem>
+                  <SelectItem value="Admin">Admin — full access including billing and members</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -293,8 +466,19 @@ function MembersPage() {
           <DialogFooter>
             <Button variant="outline" onClick={handleCloseInviteDialog}>Cancel</Button>
             <Button
-              onClick={handleInvite}
-              disabled={inviteMutation.isPending || !inviteEmail.trim()}
+              onClick={() => {
+                if (!selectedUser && searchQuery.includes('@')) {
+                  setInviteEmail(searchQuery)
+                  inviteMutation.mutate({
+                    email: searchQuery.trim(),
+                    githubUsername: null,
+                    role: inviteRole === 'Admin' ? 0 : 1,
+                  })
+                } else {
+                  handleInvite()
+                }
+              }}
+              disabled={inviteMutation.isPending || (!selectedUser && !inviteEmail.trim() && !searchQuery.includes('@'))}
             >
               {inviteMutation.isPending ? 'Sending...' : 'Send Invitation'}
             </Button>
