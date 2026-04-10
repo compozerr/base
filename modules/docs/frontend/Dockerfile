@@ -3,8 +3,8 @@ FROM node:22 AS builder
 WORKDIR /app
 COPY . .
 
-# Install dependencies
-RUN npm i 
+# Install dependencies (npm ci uses lockfile for reproducible builds)
+RUN npm ci
 
 # Build the frontend
 RUN npm run build
