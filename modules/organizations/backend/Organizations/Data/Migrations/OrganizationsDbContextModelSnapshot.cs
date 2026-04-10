@@ -94,6 +94,9 @@ namespace Organizations.Data.Migrations
                     b.Property<Guid>("InvitedByUserId")
                         .HasColumnType("uuid");
 
+                    b.Property<DateTime?>("LastEmailSentAtUtc")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<Guid>("OrganizationId")
                         .HasColumnType("uuid");
 

@@ -1,5 +1,5 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
-import { Plus, Shield, User, ChevronLeft, UserMinus, Search, Github } from 'lucide-react'
+import { Plus, Shield, User, ChevronLeft, UserMinus, Search, Github, Send } from 'lucide-react'
 import { useAuth } from '@/hooks/use-dynamic-auth'
 import { Button } from '@/components/ui/button'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card'
@@ -63,6 +63,35 @@ interface Invitation {
   status: string
   expiresAtUtc: string
   createdAtUtc: string
+  lastEmailSentAtUtc?: string | null
+}
+
+const RESEND_COOLDOWN_MS = 30 * 60 * 1000 // 30 minutes
+
+function useResendCooldown(lastEmailSentAtUtc: string | null | undefined) {
+  const [remainingMs, setRemainingMs] = React.useState(() => {
+    if (!lastEmailSentAtUtc) return 0
+    const elapsed = Date.now() - new Date(lastEmailSentAtUtc).getTime()
+    return Math.max(0, RESEND_COOLDOWN_MS - elapsed)
+  })
+
+  React.useEffect(() => {
+    if (!lastEmailSentAtUtc) { setRemainingMs(0); return }
+    const update = () => {
+      const elapsed = Date.now() - new Date(lastEmailSentAtUtc).getTime()
+      const remaining = Math.max(0, RESEND_COOLDOWN_MS - elapsed)
+      setRemainingMs(remaining)
+      return remaining
+    }
+    update()
+    const id = setInterval(() => { if (update() <= 0) clearInterval(id) }, 1000)
+    return () => clearInterval(id)
+  }, [lastEmailSentAtUtc])
+
+  const inCooldown = remainingMs > 0
+  const remainingMin = Math.ceil(remainingMs / 60_000)
+
+  return { inCooldown, remainingMin }
 }
 
 interface GithubUser {
@@ -70,6 +99,52 @@ interface GithubUser {
   avatarUrl: string
   name?: string
   email?: string
+}
+
+function InvitationRow({ inv, orgId, onResend, isResending }: { inv: Invitation, orgId: string, onResend: () => void, isResending: boolean }) {
+  const { inCooldown, remainingMin } = useResendCooldown(inv.lastEmailSentAtUtc)
+  const hasEmail = !!inv.email
+  const disabled = inCooldown || isResending || !hasEmail
+
+  const formatDate = (dateStr: string) => new Date(dateStr).toLocaleDateString()
+
+  return (
+    <TableRow>
+      <TableCell>
+        <div className="flex items-center gap-2">
+          {inv.githubUsername && (
+            <div className="flex items-center gap-1.5">
+              <Github className="h-3.5 w-3.5 text-muted-foreground" />
+              <span className="text-sm font-medium">{inv.githubUsername}</span>
+            </div>
+          )}
+          {inv.email && (
+            <span className="font-mono text-sm text-muted-foreground">{inv.email}</span>
+          )}
+        </div>
+      </TableCell>
+      <TableCell>
+        <Badge variant="outline">{inv.role}</Badge>
+      </TableCell>
+      <TableCell className="text-muted-foreground text-sm">
+        {formatDate(inv.expiresAtUtc)}
+      </TableCell>
+      <TableCell>
+        {hasEmail && (
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-8 gap-1.5 text-xs"
+            disabled={disabled}
+            onClick={onResend}
+          >
+            <Send className="h-3.5 w-3.5" />
+            {isResending ? 'Sending...' : inCooldown ? `Resend in ${remainingMin}m` : 'Resend'}
+          </Button>
+        )}
+      </TableCell>
+    </TableRow>
+  )
 }
 
 export const Route = createFileRoute('/_auth/_dashboard/organizations/$orgId/members')({
@@ -127,6 +202,19 @@ function MembersPage() {
         toast({ title: 'Invitation sent', description: `Invitation sent to ${label}`, variant: 'success' })
         api.v1.getOrganizationsOrganizationIdInvitations.invalidateQueries({ parameters: { path: { organizationId: orgId } } })
         handleCloseInviteDialog()
+      },
+      onError: (error) => {
+        toast({ title: 'Error', description: String(error), variant: 'destructive' })
+      },
+    },
+  )
+
+  const resendMutation = api.v1.postOrganizationsOrganizationIdInvitationsInvitationIdResend.useMutation(
+    undefined as void,
+    {
+      onSuccess: () => {
+        toast({ title: 'Invitation resent', variant: 'success' })
+        api.v1.getOrganizationsOrganizationIdInvitations.invalidateQueries({ parameters: { path: { organizationId: orgId } } })
       },
       onError: (error) => {
         toast({ title: 'Error', description: String(error), variant: 'destructive' })
@@ -299,31 +387,18 @@ function MembersPage() {
                   <TableHead>Invited</TableHead>
                   <TableHead>Role</TableHead>
                   <TableHead>Expires</TableHead>
+                  <TableHead className="w-[120px]"></TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {invitations.map((inv) => (
-                  <TableRow key={inv.id}>
-                    <TableCell>
-                      <div className="flex items-center gap-2">
-                        {inv.githubUsername && (
-                          <div className="flex items-center gap-1.5">
-                            <Github className="h-3.5 w-3.5 text-muted-foreground" />
-                            <span className="text-sm font-medium">{inv.githubUsername}</span>
-                          </div>
-                        )}
-                        {inv.email && (
-                          <span className="font-mono text-sm text-muted-foreground">{inv.email}</span>
-                        )}
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <Badge variant="outline">{inv.role}</Badge>
-                    </TableCell>
-                    <TableCell className="text-muted-foreground text-sm">
-                      {formatDate(inv.expiresAtUtc)}
-                    </TableCell>
-                  </TableRow>
+                  <InvitationRow
+                    key={inv.id}
+                    inv={inv}
+                    orgId={orgId}
+                    onResend={() => resendMutation.mutate({ path: { organizationId: orgId, invitationId: inv.id } })}
+                    isResending={resendMutation.isPending}
+                  />
                 ))}
               </TableBody>
             </Table>

@@ -14,6 +14,7 @@ public class OrganizationInvitation : BaseEntityWithId<OrganizationInvitationId>
     public required InvitationStatus Status { get; set; }
     public required string Token { get; set; }
     public required DateTime ExpiresAtUtc { get; set; }
+    public DateTime? LastEmailSentAtUtc { get; set; }
 
     public virtual Organization? Organization { get; set; }
 }

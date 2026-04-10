@@ -11532,6 +11532,159 @@ export interface V1Service {
             body: DeleteOrganizationsOrganizationIdInvitationsInvitationIdBody;
         };
     };
+    postOrganizationsOrganizationIdInvitationsInvitationIdResend: {
+        /**/
+        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: ServiceOperationMutationFnOptions<PostOrganizationsOrganizationIdInvitationsInvitationIdResendBody, PostOrganizationsOrganizationIdInvitationsInvitationIdResendParameters, TMeta, TSignal>, client?: (schema: PostOrganizationsOrganizationIdInvitationsInvitationIdResendSchema, options: ServiceOperationMutationFnOptions<PostOrganizationsOrganizationIdInvitationsInvitationIdResendBody, PostOrganizationsOrganizationIdInvitationsInvitationIdResendParameters, TMeta, TSignal>) => Promise<RequestFnResponse<PostOrganizationsOrganizationIdInvitationsInvitationIdResendData, PostOrganizationsOrganizationIdInvitationsInvitationIdResendError>>): Promise<RequestFnResponse<PostOrganizationsOrganizationIdInvitationsInvitationIdResendData, PostOrganizationsOrganizationIdInvitationsInvitationIdResendError>>;
+        /**/
+        getMutationKey(parameters: DeepReadonly<PostOrganizationsOrganizationIdInvitationsInvitationIdResendParameters> | void): ServiceOperationMutationKey<PostOrganizationsOrganizationIdInvitationsInvitationIdResendSchema, PostOrganizationsOrganizationIdInvitationsInvitationIdResendParameters>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.postOrganizationsOrganizationIdInvitationsInvitationIdResend.useMutation({
+         *     path: {
+         *         organizationId: organizationId,
+         *         invitationId: invitationId
+         *     }
+         * })
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.postOrganizationsOrganizationIdInvitationsInvitationIdResend.useMutation()
+         * mutate({
+         *     body: bodyPayload,
+         *     path: {
+         *         organizationId: organizationId,
+         *         invitationId: invitationId
+         *     }
+         * });
+         * ```
+         */
+        useMutation<TVariables extends PostOrganizationsOrganizationIdInvitationsInvitationIdResendBody, TContext = unknown>(parameters: DeepReadonly<PostOrganizationsOrganizationIdInvitationsInvitationIdResendParameters>, options?: ServiceOperationUseMutationOptions<PostOrganizationsOrganizationIdInvitationsInvitationIdResendSchema, PostOrganizationsOrganizationIdInvitationsInvitationIdResendData, PostOrganizationsOrganizationIdInvitationsInvitationIdResendParameters, TVariables, OperationError<PostOrganizationsOrganizationIdInvitationsInvitationIdResendError>, TContext>): UseMutationResult<PostOrganizationsOrganizationIdInvitationsInvitationIdResendData, OperationError<PostOrganizationsOrganizationIdInvitationsInvitationIdResendError>, TVariables | void, TContext>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.postOrganizationsOrganizationIdInvitationsInvitationIdResend.useMutation({
+         *     path: {
+         *         organizationId: organizationId,
+         *         invitationId: invitationId
+         *     }
+         * })
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.postOrganizationsOrganizationIdInvitationsInvitationIdResend.useMutation()
+         * mutate({
+         *     body: bodyPayload,
+         *     path: {
+         *         organizationId: organizationId,
+         *         invitationId: invitationId
+         *     }
+         * });
+         * ```
+         */
+        useMutation<TVariables extends MutationVariables<PostOrganizationsOrganizationIdInvitationsInvitationIdResendBody, PostOrganizationsOrganizationIdInvitationsInvitationIdResendParameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<PostOrganizationsOrganizationIdInvitationsInvitationIdResendSchema, PostOrganizationsOrganizationIdInvitationsInvitationIdResendData, PostOrganizationsOrganizationIdInvitationsInvitationIdResendParameters, TVariables, OperationError<PostOrganizationsOrganizationIdInvitationsInvitationIdResendError>, TContext>): UseMutationResult<PostOrganizationsOrganizationIdInvitationsInvitationIdResendData, OperationError<PostOrganizationsOrganizationIdInvitationsInvitationIdResendError>, TVariables, TContext>;
+        /**
+         * Returns the count of currently in-progress mutations.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
+         * @example Check how many mutations are currently in progress for the specified service method.
+         * ```ts
+         * const postOrganizationsOrganizationIdInvitationsInvitationIdResendTotal = qraft.v1Service.postOrganizationsOrganizationIdInvitationsInvitationIdResend.useIsMutating()
+         * ```
+         * @example Check how many mutations are currently in progress with the specified parameters.
+         * ```ts
+         * const postOrganizationsOrganizationIdInvitationsInvitationIdResendTotal = qraft.v1Service.postOrganizationsOrganizationIdInvitationsInvitationIdResend.useIsMutating({
+         *     parameters: {
+         *         path: {
+         *             organizationId: organizationId,
+         *             invitationId: invitationId
+         *         }
+         *     }
+         * })
+         * ```
+         */
+        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<PostOrganizationsOrganizationIdInvitationsInvitationIdResendBody, PostOrganizationsOrganizationIdInvitationsInvitationIdResendData, PostOrganizationsOrganizationIdInvitationsInvitationIdResendParameters, OperationError<PostOrganizationsOrganizationIdInvitationsInvitationIdResendError>, TContext> | MutationFiltersByMutationKey<PostOrganizationsOrganizationIdInvitationsInvitationIdResendSchema, PostOrganizationsOrganizationIdInvitationsInvitationIdResendBody, PostOrganizationsOrganizationIdInvitationsInvitationIdResendData, PostOrganizationsOrganizationIdInvitationsInvitationIdResendParameters, OperationError<PostOrganizationsOrganizationIdInvitationsInvitationIdResendError>, TContext>): number;
+        /**
+         * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
+         * @example Get all variables of all running mutations.
+         * ```ts
+         * const postOrganizationsOrganizationIdInvitationsInvitationIdResendPendingMutationVariables = qraft.v1Service.postOrganizationsOrganizationIdInvitationsInvitationIdResend.useMutationState({
+         *     filters: {
+         *         status: "pending"
+         *     },
+         *     select: mutation => mutation.state.variables
+         * })
+         * ```
+         * @example Get all data for specific mutations via the `parameters`.
+         * ```ts
+         * const postOrganizationsOrganizationIdInvitationsInvitationIdResendMutationData = qraft.v1Service.postOrganizationsOrganizationIdInvitationsInvitationIdResend.useMutationState({
+         *     filters: {
+         *         parameters: {
+         *             path: {
+         *                 organizationId: organizationId,
+         *                 invitationId: invitationId
+         *             }
+         *         }
+         *     },
+         *     select: mutation => mutation.state.data
+         * })
+         * ```
+         */
+        useMutationState<TContext = unknown, TResult = MutationState<PostOrganizationsOrganizationIdInvitationsInvitationIdResendData, OperationError<PostOrganizationsOrganizationIdInvitationsInvitationIdResendError>, MutationVariables<PostOrganizationsOrganizationIdInvitationsInvitationIdResendBody, PostOrganizationsOrganizationIdInvitationsInvitationIdResendParameters>, TContext>>(options?: {
+            filters?: MutationFiltersByParameters<PostOrganizationsOrganizationIdInvitationsInvitationIdResendBody, PostOrganizationsOrganizationIdInvitationsInvitationIdResendData, PostOrganizationsOrganizationIdInvitationsInvitationIdResendParameters, OperationError<PostOrganizationsOrganizationIdInvitationsInvitationIdResendError>, TContext> | MutationFiltersByMutationKey<PostOrganizationsOrganizationIdInvitationsInvitationIdResendSchema, PostOrganizationsOrganizationIdInvitationsInvitationIdResendBody, PostOrganizationsOrganizationIdInvitationsInvitationIdResendData, PostOrganizationsOrganizationIdInvitationsInvitationIdResendParameters, OperationError<PostOrganizationsOrganizationIdInvitationsInvitationIdResendError>, TContext>;
+            select?: (mutation: Mutation<PostOrganizationsOrganizationIdInvitationsInvitationIdResendData, OperationError<PostOrganizationsOrganizationIdInvitationsInvitationIdResendError>, MutationVariables<PostOrganizationsOrganizationIdInvitationsInvitationIdResendBody, PostOrganizationsOrganizationIdInvitationsInvitationIdResendParameters>, TContext>) => TResult;
+        }): Array<TResult>;
+        /**/
+        isMutating<TContext>(filters?: MutationFiltersByParameters<PostOrganizationsOrganizationIdInvitationsInvitationIdResendBody, PostOrganizationsOrganizationIdInvitationsInvitationIdResendData, PostOrganizationsOrganizationIdInvitationsInvitationIdResendParameters, OperationError<PostOrganizationsOrganizationIdInvitationsInvitationIdResendError>, TContext> | MutationFiltersByMutationKey<PostOrganizationsOrganizationIdInvitationsInvitationIdResendSchema, PostOrganizationsOrganizationIdInvitationsInvitationIdResendBody, PostOrganizationsOrganizationIdInvitationsInvitationIdResendData, PostOrganizationsOrganizationIdInvitationsInvitationIdResendParameters, OperationError<PostOrganizationsOrganizationIdInvitationsInvitationIdResendError>, TContext>): number;
+        /**
+         * Returns a `MutationCache` object that provides access to mutation cache operations
+         * for the specific endpoint.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/query-client/getMutationCache|`getMutationCache(...)` documentation}
+         *
+         * @example Find a mutation with specific parameters
+         * ```ts
+         * const mutationCache = qraft.v1Service.postOrganizationsOrganizationIdInvitationsInvitationIdResend.getMutationCache();
+         * const mutation = mutationCache.find({
+         *     parameters: {
+         *         path: {
+         *             organizationId: organizationId,
+         *             invitationId: invitationId
+         *         }
+         *     }
+         * });
+         * ```
+         *
+         * @example Find all mutations for the endpoint
+         * ```ts
+         * const mutationCache = qraft.v1Service.postOrganizationsOrganizationIdInvitationsInvitationIdResend.getMutationCache();
+         * const mutations = mutationCache.findAll();
+         * ```
+         */
+        getMutationCache(): Omit<MutationCache, "find" | "findAll"> & {
+            find<TContext = unknown>(filters: MutationFiltersByParameters<PostOrganizationsOrganizationIdInvitationsInvitationIdResendBody, PostOrganizationsOrganizationIdInvitationsInvitationIdResendData, PostOrganizationsOrganizationIdInvitationsInvitationIdResendParameters, OperationError<PostOrganizationsOrganizationIdInvitationsInvitationIdResendError>, TContext> | MutationFiltersByMutationKey<PostOrganizationsOrganizationIdInvitationsInvitationIdResendSchema, PostOrganizationsOrganizationIdInvitationsInvitationIdResendBody, PostOrganizationsOrganizationIdInvitationsInvitationIdResendData, PostOrganizationsOrganizationIdInvitationsInvitationIdResendParameters, OperationError<PostOrganizationsOrganizationIdInvitationsInvitationIdResendError>, TContext>): Mutation<PostOrganizationsOrganizationIdInvitationsInvitationIdResendData, PostOrganizationsOrganizationIdInvitationsInvitationIdResendError, MutationVariables<PostOrganizationsOrganizationIdInvitationsInvitationIdResendBody, PostOrganizationsOrganizationIdInvitationsInvitationIdResendParameters>, TContext> | undefined;
+            findAll<TContext = unknown>(filters?: MutationFiltersByParameters<PostOrganizationsOrganizationIdInvitationsInvitationIdResendBody, PostOrganizationsOrganizationIdInvitationsInvitationIdResendData, PostOrganizationsOrganizationIdInvitationsInvitationIdResendParameters, OperationError<PostOrganizationsOrganizationIdInvitationsInvitationIdResendError>, TContext> | MutationFiltersByMutationKey<PostOrganizationsOrganizationIdInvitationsInvitationIdResendSchema, PostOrganizationsOrganizationIdInvitationsInvitationIdResendBody, PostOrganizationsOrganizationIdInvitationsInvitationIdResendData, PostOrganizationsOrganizationIdInvitationsInvitationIdResendParameters, OperationError<PostOrganizationsOrganizationIdInvitationsInvitationIdResendError>, TContext>): Array<Mutation<PostOrganizationsOrganizationIdInvitationsInvitationIdResendData, PostOrganizationsOrganizationIdInvitationsInvitationIdResendError, MutationVariables<PostOrganizationsOrganizationIdInvitationsInvitationIdResendBody, PostOrganizationsOrganizationIdInvitationsInvitationIdResendParameters>, TContext>>;
+        };
+        schema: PostOrganizationsOrganizationIdInvitationsInvitationIdResendSchema;
+        types: {
+            parameters: PostOrganizationsOrganizationIdInvitationsInvitationIdResendParameters;
+            data: PostOrganizationsOrganizationIdInvitationsInvitationIdResendData;
+            error: PostOrganizationsOrganizationIdInvitationsInvitationIdResendError;
+            body: PostOrganizationsOrganizationIdInvitationsInvitationIdResendBody;
+        };
+    };
     postOrganizationsOrganizationIdTransferProject: {
         /**/
         <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: ServiceOperationMutationFnOptions<PostOrganizationsOrganizationIdTransferProjectBody, PostOrganizationsOrganizationIdTransferProjectParameters, TMeta, TSignal>, client?: (schema: PostOrganizationsOrganizationIdTransferProjectSchema, options: ServiceOperationMutationFnOptions<PostOrganizationsOrganizationIdTransferProjectBody, PostOrganizationsOrganizationIdTransferProjectParameters, TMeta, TSignal>) => Promise<RequestFnResponse<PostOrganizationsOrganizationIdTransferProjectData, PostOrganizationsOrganizationIdTransferProjectError>>): Promise<RequestFnResponse<PostOrganizationsOrganizationIdTransferProjectData, PostOrganizationsOrganizationIdTransferProjectError>>;
@@ -24547,6 +24700,15 @@ export const deleteOrganizationsOrganizationIdInvitationsInvitationId = {
     schema: DeleteOrganizationsOrganizationIdInvitationsInvitationIdSchema;
     [QraftServiceOperationsToken]: V1Service["deleteOrganizationsOrganizationIdInvitationsInvitationId"];
 };
+export const postOrganizationsOrganizationIdInvitationsInvitationIdResend = {
+    schema: {
+        method: "post",
+        url: "/v1/organizations/{organizationId}/invitations/{invitationId}/resend"
+    }
+} as {
+    schema: PostOrganizationsOrganizationIdInvitationsInvitationIdResendSchema;
+    [QraftServiceOperationsToken]: V1Service["postOrganizationsOrganizationIdInvitationsInvitationIdResend"];
+};
 export const postOrganizationsOrganizationIdTransferProject = {
     schema: {
         method: "post",
@@ -25137,6 +25299,7 @@ export const v1Service = {
     postOrganizationsOrganizationIdInvitations,
     getOrganizationsOrganizationIdInvitations,
     deleteOrganizationsOrganizationIdInvitationsInvitationId,
+    postOrganizationsOrganizationIdInvitationsInvitationIdResend,
     postOrganizationsOrganizationIdTransferProject,
     getOrganizationsGithubUserSearch,
     getProjectsProjectId,
@@ -25777,6 +25940,14 @@ type DeleteOrganizationsOrganizationIdInvitationsInvitationIdParameters = paths[
 type DeleteOrganizationsOrganizationIdInvitationsInvitationIdData = null;
 type DeleteOrganizationsOrganizationIdInvitationsInvitationIdError = unknown;
 type DeleteOrganizationsOrganizationIdInvitationsInvitationIdBody = undefined;
+type PostOrganizationsOrganizationIdInvitationsInvitationIdResendSchema = {
+    method: "post";
+    url: "/v1/organizations/{organizationId}/invitations/{invitationId}/resend";
+};
+type PostOrganizationsOrganizationIdInvitationsInvitationIdResendParameters = paths["/v1/organizations/{organizationId}/invitations/{invitationId}/resend"]["post"]["parameters"];
+type PostOrganizationsOrganizationIdInvitationsInvitationIdResendData = null;
+type PostOrganizationsOrganizationIdInvitationsInvitationIdResendError = unknown;
+type PostOrganizationsOrganizationIdInvitationsInvitationIdResendBody = undefined;
 type PostOrganizationsOrganizationIdTransferProjectSchema = {
     method: "post";
     url: "/v1/organizations/{organizationId}/transfer-project";

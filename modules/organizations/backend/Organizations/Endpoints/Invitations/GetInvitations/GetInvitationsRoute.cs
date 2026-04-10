@@ -9,7 +9,7 @@ using Organizations.Services;
 
 namespace Organizations.Endpoints.Invitations.GetInvitations;
 
-public record InvitationResponse(Guid Id, string? Email, string? GithubUsername, OrganizationRole Role, InvitationStatus Status, DateTime ExpiresAtUtc, DateTime CreatedAtUtc);
+public record InvitationResponse(Guid Id, string? Email, string? GithubUsername, OrganizationRole Role, InvitationStatus Status, DateTime ExpiresAtUtc, DateTime CreatedAtUtc, DateTime? LastEmailSentAtUtc);
 
 public static class GetInvitationsRoute
 {
@@ -28,7 +28,7 @@ public static class GetInvitationsRoute
             var invitations = await invitationRepository.GetPendingForOrganizationAsync(organizationId);
 
             return Results.Ok(invitations.Select(i => new InvitationResponse(
-                i.Id.Value, i.Email, i.GithubUsername, i.Role, i.Status, i.ExpiresAtUtc, i.CreatedAtUtc)).ToList());
+                i.Id.Value, i.Email, i.GithubUsername, i.Role, i.Status, i.ExpiresAtUtc, i.CreatedAtUtc, i.LastEmailSentAtUtc)).ToList());
         });
     }
 }

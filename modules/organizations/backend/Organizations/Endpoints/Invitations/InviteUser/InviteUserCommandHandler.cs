@@ -43,7 +43,8 @@ public sealed class InviteUserCommandHandler(
             InvitedByUserId = userId,
             Status = InvitationStatus.Pending,
             Token = token,
-            ExpiresAtUtc = DateTime.UtcNow.AddDays(7)
+            ExpiresAtUtc = DateTime.UtcNow.AddDays(7),
+            LastEmailSentAtUtc = string.IsNullOrWhiteSpace(command.Email) ? null : DateTime.UtcNow
         };
 
         invitation.QueueDomainEvent(new InvitationSentEvent(invitation.Id));
