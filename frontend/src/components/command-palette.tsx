@@ -16,12 +16,11 @@ import {
 import { useActions } from "@/lib/command-palette/action-registry"
 import type { Action, ActionGroup } from "@/lib/command-palette/types"
 import { apiBaseUrl } from "@/api-client"
-import { api } from "@/api-client"
 import {
   getCurrentOrgId,
-  setCurrentOrgId,
   orgFetch,
 } from "@/lib/org-storage"
+import { switchOrg } from "@/lib/switch-org"
 
 type NavigateFn = (opts: { to: string; params?: Record<string, string> }) => void
 
@@ -126,8 +125,7 @@ export function CommandPalette({ navigate }: { navigate: NavigateFn }) {
         group: "organization" as const,
         perform: () => {
           if (org.id !== currentOrgId) {
-            setCurrentOrgId(org.id)
-            api.v1.getProjects.invalidateQueries()
+            switchOrg(org.id)
           }
         },
       }))
@@ -147,8 +145,7 @@ export function CommandPalette({ navigate }: { navigate: NavigateFn }) {
       group: "project" as const,
       perform: () => {
         if (project.organizationId && project.organizationId !== currentOrgId) {
-          setCurrentOrgId(project.organizationId)
-          api.v1.getProjects.invalidateQueries({})
+          switchOrg(project.organizationId)
         }
         navigate({
           to: "/projects/$projectId",
@@ -176,6 +173,11 @@ export function CommandPalette({ navigate }: { navigate: NavigateFn }) {
     return groups
   }, [allActions])
 
+  // Track whether a project search is pending (including debounce gap)
+  const isSearchPending = open && search.length > 0 && (
+    search !== debouncedSearch || isSearchingProjects
+  )
+
   const handleSelect = useCallback(
     (actionId: string) => {
       const action = allActions.find((a) => a.id === actionId)
@@ -195,10 +197,10 @@ export function CommandPalette({ navigate }: { navigate: NavigateFn }) {
         placeholder="Search or type a command..."
         value={search}
         onValueChange={setSearch}
-        loading={isSearchingProjects}
+        loading={isSearchPending}
       />
       <CommandList>
-        <CommandEmpty>No results found.</CommandEmpty>
+        {!isSearchPending && <CommandEmpty>No results found.</CommandEmpty>}
         {GROUP_ORDER.map((groupKey) => {
           const actions = groupedActions.get(groupKey)
           if (!actions || actions.length === 0) return null

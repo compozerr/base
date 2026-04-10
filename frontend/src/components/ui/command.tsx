@@ -40,7 +40,10 @@ const CommandInput = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof CommandPrimitive.Input> & { loading?: boolean }
 >(({ className, loading, ...props }, ref) => (
   <div className="flex items-center border-b px-3" cmdk-input-wrapper="">
-    <Search className="mr-2 h-4 w-4 shrink-0 opacity-50" />
+    {loading
+      ? <Loader2 className="mr-2 h-4 w-4 shrink-0 animate-spin opacity-50" />
+      : <Search className="mr-2 h-4 w-4 shrink-0 opacity-50" />
+    }
     <CommandPrimitive.Input
       ref={ref}
       className={cn(
@@ -49,7 +52,6 @@ const CommandInput = React.forwardRef<
       )}
       {...props}
     />
-    {loading && <Loader2 className="ml-2 h-4 w-4 shrink-0 animate-spin opacity-50" />}
   </div>
 ))
 

@@ -1,5 +1,6 @@
 import { api } from "@/api-client"
-import { getCurrentOrgId, setCurrentOrgId as persistOrgId } from "@/lib/org-storage"
+import { getCurrentOrgId } from "@/lib/org-storage"
+import { switchOrg } from "@/lib/switch-org"
 import { CompozerrLogo } from "@/components/compozerr-logo"
 import { useAuth } from "@/hooks/use-dynamic-auth"
 import { getLink } from "@/links"
@@ -53,18 +54,15 @@ export function AppSidebar() {
     if (currentOrgId && organizations.find((o) => o.id === currentOrgId)) return
     const personal = organizations.find((o) => o.isPersonal) ?? organizations[0]
     if (personal) {
-      setCurrentOrgId(personal.id)
-      persistOrgId(personal.id)
+      switchOrg(personal.id)
     }
   }, [organizations, currentOrgId])
 
   const currentOrg = organizations?.find((o) => o.id === currentOrgId)
 
-  const switchOrg = (org: NonNullable<typeof organizations>[number]) => {
-    setCurrentOrgId(org.id)
-    persistOrgId(org.id)
+  const handleSwitchOrg = (org: NonNullable<typeof organizations>[number]) => {
+    switchOrg(org.id)
     setOrgSwitcherOpen(false)
-    api.v1.getProjects.invalidateQueries()
   }
 
   const { data: projectsData } = api.v1.getProjects.useQuery({
@@ -129,7 +127,7 @@ export function AppSidebar() {
                   {organizations?.map((org) => (
                     <button
                       key={org.id}
-                      onClick={() => switchOrg(org)}
+                      onClick={() => handleSwitchOrg(org)}
                       className="flex w-full items-center gap-2 rounded-sm px-2 py-1.5 text-sm text-white/70 transition-colors hover:bg-white/[0.06] hover:text-white"
                     >
                       {org.isPersonal ? (
