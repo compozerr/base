@@ -7,7 +7,7 @@ namespace Api.Hosting.EventHandlers;
 public sealed class NotifyHighUsage_ServerUsageUpdatedEventHandler
     : EntityDomainEventHandlerBase<ServerUsageUpdatedEvent>
 {
-    private const decimal HighUsageThreshold = 0.8m;
+    private const decimal HighUsageThreshold = 0.85m;
 
     protected override Task HandleAfterSaveAsync(ServerUsageUpdatedEvent domainEvent, CancellationToken cancellationToken)
     {
@@ -33,7 +33,7 @@ public sealed class NotifyHighUsage_ServerUsageUpdatedEventHandler
 
         if (highUsageMetrics.Count > 0)
         {
-            Log.Logger.Error(
+            Log.Logger.Fatal(
                 "High server usage detected on server {ServerId} ({ServerHostName}): {HighUsageMetrics}",
                 server.Id,
                 server.HostName,
