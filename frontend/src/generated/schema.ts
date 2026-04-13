@@ -4162,22 +4162,6 @@ export type paths = {
         patch?: never;
         trace?: never;
     };
-    "/v1/stripe/payment-methods/clone-from-personal": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post: operations["PostStripePaymentMethodsCloneFromPersonal"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/v1/stripe/payment-methods/personal-has-payment-method": {
         parameters: {
             query?: never;
@@ -5043,9 +5027,6 @@ export type components = {
         "Stripe.Endpoints.PaymentMethods.AttachPaymentMethod.AttachPaymentMethodResponse": {
             paymentMethod: components["schemas"]["Stripe.Services.PaymentMethodDto"];
         };
-        "Stripe.Endpoints.PaymentMethods.CloneFromPersonal.CloneFromPersonalResponse": {
-            paymentMethod: components["schemas"]["Stripe.Services.PaymentMethodDto"];
-        };
         "Stripe.Endpoints.PaymentMethods.CreateSetupIntent.CreateSetupIntentResponse": {
             clientSecret: string | null;
         };
@@ -5141,26 +5122,6 @@ export type components = {
 };
 export type $defs = Record<string, never>;
 export interface operations {
-    PostStripePaymentMethodsCloneFromPersonal: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["Stripe.Endpoints.PaymentMethods.CloneFromPersonal.CloneFromPersonalResponse"];
-                };
-            };
-        };
-    };
     GetStripePaymentMethodsPersonalHasPaymentMethod: {
         parameters: {
             query?: never;

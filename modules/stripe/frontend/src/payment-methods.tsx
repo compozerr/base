@@ -39,30 +39,6 @@ export const PaymentMethods: React.FC<PaymentMethodsProps> = ({ openAddPaymentMe
     const { mutateAsync: removePaymentMethod } = api.v1.deleteStripePaymentMethods.useMutation();
 
     const { data: personalPmData } = api.v1.getStripePaymentMethodsPersonalHasPaymentMethod.useQuery();
-    const { mutateAsync: cloneFromPersonal } = api.v1.postStripePaymentMethodsCloneFromPersonal.useMutation();
-    const [isCloning, setIsCloning] = useState(false);
-
-    const handleCloneFromPersonal = async () => {
-        setIsCloning(true);
-        try {
-            await cloneFromPersonal({});
-            toast({
-                title: "Payment method copied",
-                description: "Your card has been copied from your personal account.",
-                variant: "success",
-            });
-            await refetch();
-            api.v1.getStripePaymentMethodsPersonalHasPaymentMethod.invalidateQueries();
-        } catch (err) {
-            toast({
-                title: "Error copying payment method",
-                description: err instanceof Error ? err.message : "An unknown error occurred",
-                variant: "destructive",
-            });
-        } finally {
-            setIsCloning(false);
-        }
-    };
 
     const [deleteIsLoading, setDeleteIsLoading] = useState(false);
     const [clientSecret, setClientSecret] = useState<string | null>(null);
@@ -674,25 +650,20 @@ export const PaymentMethods: React.FC<PaymentMethodsProps> = ({ openAddPaymentMe
                                 </p>
                             </div>
 
-                            {personalPmData?.hasPaymentMethod && (
-                                <LoadingButton
-                                    isLoading={isCloning}
-                                    onClick={handleCloneFromPersonal}
-                                    className="px-6 py-3 text-base transition-all duration-300"
-                                    variant="outline"
+                            <div className="flex flex-col items-center gap-3">
+                                <Button
+                                    onClick={handleOpenDialog}
+                                    className="bg-white text-black hover:bg-zinc-200 font-medium px-6 py-3 text-base transition-all duration-300 hover:scale-105"
                                 >
-                                    <CreditCard className="h-4 w-4 mr-2" />
-                                    Copy card ending in {personalPmData.last4 ?? '****'} from personal account
-                                </LoadingButton>
-                            )}
-
-                            <Button
-                                onClick={handleOpenDialog}
-                                className="bg-white text-black hover:bg-zinc-200 font-medium px-6 py-3 text-base transition-all duration-300 hover:scale-105"
-                            >
-                                <Plus className="h-4 w-4 mr-2" />
-                                Add Payment Method
-                            </Button>
+                                    <Plus className="h-4 w-4 mr-2" />
+                                    Add Payment Method
+                                </Button>
+                                {personalPmData?.hasPaymentMethod && (
+                                    <p className="text-zinc-500 text-sm">
+                                        Your personal account has a card ending in {personalPmData.last4 ?? '****'}
+                                    </p>
+                                )}
+                            </div>
                         </div>
                     </div>
                 </div>

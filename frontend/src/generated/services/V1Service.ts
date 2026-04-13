@@ -23562,126 +23562,6 @@ export interface V1Service {
             body: PostStripePaymentMethodsSetupIntentBody;
         };
     };
-    postStripePaymentMethodsCloneFromPersonal: {
-        /**/
-        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: ServiceOperationMutationFnOptions<PostStripePaymentMethodsCloneFromPersonalBody, PostStripePaymentMethodsCloneFromPersonalParameters, TMeta, TSignal>, client?: (schema: PostStripePaymentMethodsCloneFromPersonalSchema, options: ServiceOperationMutationFnOptions<PostStripePaymentMethodsCloneFromPersonalBody, PostStripePaymentMethodsCloneFromPersonalParameters, TMeta, TSignal>) => Promise<RequestFnResponse<PostStripePaymentMethodsCloneFromPersonalData, PostStripePaymentMethodsCloneFromPersonalError>>): Promise<RequestFnResponse<PostStripePaymentMethodsCloneFromPersonalData, PostStripePaymentMethodsCloneFromPersonalError>>;
-        /**/
-        getMutationKey(parameters: DeepReadonly<PostStripePaymentMethodsCloneFromPersonalParameters> | void): ServiceOperationMutationKey<PostStripePaymentMethodsCloneFromPersonalSchema, PostStripePaymentMethodsCloneFromPersonalParameters>;
-        /**
-         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
-         * Handles loading state, optimistic updates, and error handling.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
-         * @example Mutation with predefined parameters, e.g., for updating
-         * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postStripePaymentMethodsCloneFromPersonal.useMutation({})
-         * mutate(body);
-         * ```
-         * @example Mutation without predefined parameters, e.g., for creating
-         * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postStripePaymentMethodsCloneFromPersonal.useMutation()
-         * mutate({
-         *     body: bodyPayload
-         * });
-         * ```
-         */
-        useMutation<TVariables extends PostStripePaymentMethodsCloneFromPersonalBody, TContext = unknown>(parameters: DeepReadonly<PostStripePaymentMethodsCloneFromPersonalParameters>, options?: ServiceOperationUseMutationOptions<PostStripePaymentMethodsCloneFromPersonalSchema, PostStripePaymentMethodsCloneFromPersonalData, PostStripePaymentMethodsCloneFromPersonalParameters, TVariables, OperationError<PostStripePaymentMethodsCloneFromPersonalError>, TContext>): UseMutationResult<PostStripePaymentMethodsCloneFromPersonalData, OperationError<PostStripePaymentMethodsCloneFromPersonalError>, TVariables | void, TContext>;
-        /**
-         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
-         * Handles loading state, optimistic updates, and error handling.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
-         * @example Mutation with predefined parameters, e.g., for updating
-         * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postStripePaymentMethodsCloneFromPersonal.useMutation({})
-         * mutate(body);
-         * ```
-         * @example Mutation without predefined parameters, e.g., for creating
-         * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postStripePaymentMethodsCloneFromPersonal.useMutation()
-         * mutate({
-         *     body: bodyPayload
-         * });
-         * ```
-         */
-        useMutation<TVariables extends MutationVariables<PostStripePaymentMethodsCloneFromPersonalBody, PostStripePaymentMethodsCloneFromPersonalParameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<PostStripePaymentMethodsCloneFromPersonalSchema, PostStripePaymentMethodsCloneFromPersonalData, PostStripePaymentMethodsCloneFromPersonalParameters, TVariables, OperationError<PostStripePaymentMethodsCloneFromPersonalError>, TContext>): UseMutationResult<PostStripePaymentMethodsCloneFromPersonalData, OperationError<PostStripePaymentMethodsCloneFromPersonalError>, TVariables, TContext>;
-        /**
-         * Returns the count of currently in-progress mutations.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
-         * @example Check how many mutations are currently in progress for the specified service method.
-         * ```ts
-         * const postStripePaymentMethodsCloneFromPersonalTotal = qraft.v1Service.postStripePaymentMethodsCloneFromPersonal.useIsMutating()
-         * ```
-         * @example Check how many mutations are currently in progress with the specified parameters.
-         * ```ts
-         * const postStripePaymentMethodsCloneFromPersonalTotal = qraft.v1Service.postStripePaymentMethodsCloneFromPersonal.useIsMutating({
-         *     parameters: {}
-         * })
-         * ```
-         */
-        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<PostStripePaymentMethodsCloneFromPersonalBody, PostStripePaymentMethodsCloneFromPersonalData, PostStripePaymentMethodsCloneFromPersonalParameters, OperationError<PostStripePaymentMethodsCloneFromPersonalError>, TContext> | MutationFiltersByMutationKey<PostStripePaymentMethodsCloneFromPersonalSchema, PostStripePaymentMethodsCloneFromPersonalBody, PostStripePaymentMethodsCloneFromPersonalData, PostStripePaymentMethodsCloneFromPersonalParameters, OperationError<PostStripePaymentMethodsCloneFromPersonalError>, TContext>): number;
-        /**
-         * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
-         * @example Get all variables of all running mutations.
-         * ```ts
-         * const postStripePaymentMethodsCloneFromPersonalPendingMutationVariables = qraft.v1Service.postStripePaymentMethodsCloneFromPersonal.useMutationState({
-         *     filters: {
-         *         status: "pending"
-         *     },
-         *     select: mutation => mutation.state.variables
-         * })
-         * ```
-         * @example Get all data for specific mutations via the `parameters`.
-         * ```ts
-         * const postStripePaymentMethodsCloneFromPersonalMutationData = qraft.v1Service.postStripePaymentMethodsCloneFromPersonal.useMutationState({
-         *     filters: {
-         *         parameters: {}
-         *     },
-         *     select: mutation => mutation.state.data
-         * })
-         * ```
-         */
-        useMutationState<TContext = unknown, TResult = MutationState<PostStripePaymentMethodsCloneFromPersonalData, OperationError<PostStripePaymentMethodsCloneFromPersonalError>, MutationVariables<PostStripePaymentMethodsCloneFromPersonalBody, PostStripePaymentMethodsCloneFromPersonalParameters>, TContext>>(options?: {
-            filters?: MutationFiltersByParameters<PostStripePaymentMethodsCloneFromPersonalBody, PostStripePaymentMethodsCloneFromPersonalData, PostStripePaymentMethodsCloneFromPersonalParameters, OperationError<PostStripePaymentMethodsCloneFromPersonalError>, TContext> | MutationFiltersByMutationKey<PostStripePaymentMethodsCloneFromPersonalSchema, PostStripePaymentMethodsCloneFromPersonalBody, PostStripePaymentMethodsCloneFromPersonalData, PostStripePaymentMethodsCloneFromPersonalParameters, OperationError<PostStripePaymentMethodsCloneFromPersonalError>, TContext>;
-            select?: (mutation: Mutation<PostStripePaymentMethodsCloneFromPersonalData, OperationError<PostStripePaymentMethodsCloneFromPersonalError>, MutationVariables<PostStripePaymentMethodsCloneFromPersonalBody, PostStripePaymentMethodsCloneFromPersonalParameters>, TContext>) => TResult;
-        }): Array<TResult>;
-        /**/
-        isMutating<TContext>(filters?: MutationFiltersByParameters<PostStripePaymentMethodsCloneFromPersonalBody, PostStripePaymentMethodsCloneFromPersonalData, PostStripePaymentMethodsCloneFromPersonalParameters, OperationError<PostStripePaymentMethodsCloneFromPersonalError>, TContext> | MutationFiltersByMutationKey<PostStripePaymentMethodsCloneFromPersonalSchema, PostStripePaymentMethodsCloneFromPersonalBody, PostStripePaymentMethodsCloneFromPersonalData, PostStripePaymentMethodsCloneFromPersonalParameters, OperationError<PostStripePaymentMethodsCloneFromPersonalError>, TContext>): number;
-        /**
-         * Returns a `MutationCache` object that provides access to mutation cache operations
-         * for the specific endpoint.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/query-client/getMutationCache|`getMutationCache(...)` documentation}
-         *
-         * @example Find a mutation with specific parameters
-         * ```ts
-         * const mutationCache = qraft.v1Service.postStripePaymentMethodsCloneFromPersonal.getMutationCache();
-         * const mutation = mutationCache.find({
-         *     parameters: {}
-         * });
-         * ```
-         *
-         * @example Find all mutations for the endpoint
-         * ```ts
-         * const mutationCache = qraft.v1Service.postStripePaymentMethodsCloneFromPersonal.getMutationCache();
-         * const mutations = mutationCache.findAll();
-         * ```
-         */
-        getMutationCache(): Omit<MutationCache, "find" | "findAll"> & {
-            find<TContext = unknown>(filters: MutationFiltersByParameters<PostStripePaymentMethodsCloneFromPersonalBody, PostStripePaymentMethodsCloneFromPersonalData, PostStripePaymentMethodsCloneFromPersonalParameters, OperationError<PostStripePaymentMethodsCloneFromPersonalError>, TContext> | MutationFiltersByMutationKey<PostStripePaymentMethodsCloneFromPersonalSchema, PostStripePaymentMethodsCloneFromPersonalBody, PostStripePaymentMethodsCloneFromPersonalData, PostStripePaymentMethodsCloneFromPersonalParameters, OperationError<PostStripePaymentMethodsCloneFromPersonalError>, TContext>): Mutation<PostStripePaymentMethodsCloneFromPersonalData, PostStripePaymentMethodsCloneFromPersonalError, MutationVariables<PostStripePaymentMethodsCloneFromPersonalBody, PostStripePaymentMethodsCloneFromPersonalParameters>, TContext> | undefined;
-            findAll<TContext = unknown>(filters?: MutationFiltersByParameters<PostStripePaymentMethodsCloneFromPersonalBody, PostStripePaymentMethodsCloneFromPersonalData, PostStripePaymentMethodsCloneFromPersonalParameters, OperationError<PostStripePaymentMethodsCloneFromPersonalError>, TContext> | MutationFiltersByMutationKey<PostStripePaymentMethodsCloneFromPersonalSchema, PostStripePaymentMethodsCloneFromPersonalBody, PostStripePaymentMethodsCloneFromPersonalData, PostStripePaymentMethodsCloneFromPersonalParameters, OperationError<PostStripePaymentMethodsCloneFromPersonalError>, TContext>): Array<Mutation<PostStripePaymentMethodsCloneFromPersonalData, PostStripePaymentMethodsCloneFromPersonalError, MutationVariables<PostStripePaymentMethodsCloneFromPersonalBody, PostStripePaymentMethodsCloneFromPersonalParameters>, TContext>>;
-        };
-        schema: PostStripePaymentMethodsCloneFromPersonalSchema;
-        types: {
-            parameters: PostStripePaymentMethodsCloneFromPersonalParameters;
-            data: PostStripePaymentMethodsCloneFromPersonalData;
-            error: PostStripePaymentMethodsCloneFromPersonalError;
-            body: PostStripePaymentMethodsCloneFromPersonalBody;
-        };
-    };
     getStripePaymentMethodsPersonalHasPaymentMethod: {
         /**/
         <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: QueryFnOptionsByQueryKey<GetStripePaymentMethodsPersonalHasPaymentMethodSchema, GetStripePaymentMethodsPersonalHasPaymentMethodParameters, TMeta, TSignal> | (QueryFnOptionsByParameters<GetStripePaymentMethodsPersonalHasPaymentMethodParameters, TMeta, TSignal> | void), client?: (schema: GetStripePaymentMethodsPersonalHasPaymentMethodSchema, options: {
@@ -25553,15 +25433,6 @@ export const postStripePaymentMethodsSetupIntent = {
     schema: PostStripePaymentMethodsSetupIntentSchema;
     [QraftServiceOperationsToken]: V1Service["postStripePaymentMethodsSetupIntent"];
 };
-export const postStripePaymentMethodsCloneFromPersonal = {
-    schema: {
-        method: "post",
-        url: "/v1/stripe/payment-methods/clone-from-personal"
-    }
-} as {
-    schema: PostStripePaymentMethodsCloneFromPersonalSchema;
-    [QraftServiceOperationsToken]: V1Service["postStripePaymentMethodsCloneFromPersonal"];
-};
 export const getStripePaymentMethodsPersonalHasPaymentMethod = {
     schema: {
         method: "get",
@@ -25715,7 +25586,6 @@ export const v1Service = {
     postStripePaymentMethodsDefault,
     deleteStripePaymentMethods,
     postStripePaymentMethodsSetupIntent,
-    postStripePaymentMethodsCloneFromPersonal,
     getStripePaymentMethodsPersonalHasPaymentMethod,
     postStripeWebhooks,
     getStripeInvoices,
@@ -26786,18 +26656,6 @@ type PostStripePaymentMethodsSetupIntentParameters = {
 type PostStripePaymentMethodsSetupIntentData = paths["/v1/stripe/payment-methods/setup-intent"]["post"]["responses"]["200"]["content"]["application/json"];
 type PostStripePaymentMethodsSetupIntentError = unknown;
 type PostStripePaymentMethodsSetupIntentBody = undefined;
-type PostStripePaymentMethodsCloneFromPersonalSchema = {
-    method: "post";
-    url: "/v1/stripe/payment-methods/clone-from-personal";
-};
-type PostStripePaymentMethodsCloneFromPersonalParameters = {
-    query?: never;
-    header?: never;
-    path?: never;
-};
-type PostStripePaymentMethodsCloneFromPersonalData = paths["/v1/stripe/payment-methods/clone-from-personal"]["post"]["responses"]["200"]["content"]["application/json"];
-type PostStripePaymentMethodsCloneFromPersonalError = unknown;
-type PostStripePaymentMethodsCloneFromPersonalBody = undefined;
 type GetStripePaymentMethodsPersonalHasPaymentMethodSchema = {
     method: "get";
     url: "/v1/stripe/payment-methods/personal-has-payment-method";
