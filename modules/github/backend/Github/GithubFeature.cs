@@ -15,6 +15,9 @@ namespace Github;
 
 public class GithubFeature : IFeature
 {
+    // Github migrations depend on Organizations tables (AddOrganizationIdToSettings)
+    public int Order => 200;
+
     void IFeature.ConfigureServices(IServiceCollection services, IConfiguration configuration)
     {
         var dataSourceBuilder = new NpgsqlDataSourceBuilder(configuration.GetConnectionString("DefaultConnection"));

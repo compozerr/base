@@ -16,7 +16,7 @@ public static class Features
         {
             if (_allFeatures is null)
             {
-                _allFeatures = [.. GetFeaturesFromDlls().Where(f => f.IsEnabled)];
+                _allFeatures = [.. GetFeaturesFromDlls().Where(f => f.IsEnabled).OrderBy(f => f.Order)];
             }
             return _allFeatures;
         }

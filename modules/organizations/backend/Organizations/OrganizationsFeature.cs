@@ -11,6 +11,9 @@ namespace Organizations;
 
 public class OrganizationsFeature : IFeature
 {
+    // Organizations migrations depend on Auth tables (Users)
+    public int Order => 100;
+
     void IFeature.ConfigureServices(IServiceCollection services, IConfiguration configuration)
     {
         services.AddDbContext<OrganizationsDbContext>(options =>

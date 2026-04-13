@@ -15,6 +15,9 @@ namespace Stripe;
 
 public class StripeFeature : IFeature
 {
+    // Stripe migrations depend on Auth and Organizations tables
+    public int Order => 200;
+
     void IFeature.ConfigureServices(IServiceCollection services, IConfiguration configuration)
     {
         services.AddDbContext<StripeDbContext>(options =>
