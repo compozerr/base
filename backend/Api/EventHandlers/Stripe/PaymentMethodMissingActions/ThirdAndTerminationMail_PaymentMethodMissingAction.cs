@@ -3,6 +3,7 @@ using Auth.Models;
 using Core.Services;
 using Mail;
 using Mail.Services;
+using Organizations.Models;
 using Stripe.Events;
 
 namespace Api.EventHandlers.Stripe.PaymentMethodMissingActions;
@@ -10,8 +11,9 @@ namespace Api.EventHandlers.Stripe.PaymentMethodMissingActions;
 public sealed class ThirdAndTerminationMail_PaymentMethodMissingAction(
     PaymentMethodMissingEvent @event,
     User user,
+    Organization organization,
     IServiceProvider serviceProvider
-) : BasePaymentMethodMissingAction(@event, user, serviceProvider)
+) : BasePaymentMethodMissingAction(@event, user, organization, serviceProvider)
 {
     private readonly Serilog.ILogger _logger = Log.Logger.ForContext<ThirdAndTerminationMail_PaymentMethodMissingAction>();
     public override async Task ExecuteAsync(CancellationToken cancellationToken = default)
@@ -29,7 +31,7 @@ public sealed class ThirdAndTerminationMail_PaymentMethodMissingAction(
                 new Emails.AllProjectsHaveBeenTerminatedTemplate()
                 {
                     CompanyName = "compozerr hosting",
-                    Reason = "Due to missing payment method, we have regrettably terminated all projects associated with this account.",
+                    Reason = $"Due to missing payment method, we have regrettably terminated all projects associated with {GetOrgDisplayLabel()}.",
                     CustomerName = User.Name,
                     DashboardLink = frontendLocation.GetFromPath("/projects").ToString(),
                     ContactLink = frontendLocation.GetFromPath("/contact").ToString(),

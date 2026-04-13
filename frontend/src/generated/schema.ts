@@ -4162,6 +4162,38 @@ export type paths = {
         patch?: never;
         trace?: never;
     };
+    "/v1/stripe/payment-methods/clone-from-personal": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["PostStripePaymentMethodsCloneFromPersonal"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/stripe/payment-methods/personal-has-payment-method": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["GetStripePaymentMethodsPersonalHasPaymentMethod"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/stripe/webhooks": {
         parameters: {
             query?: never;
@@ -5011,8 +5043,16 @@ export type components = {
         "Stripe.Endpoints.PaymentMethods.AttachPaymentMethod.AttachPaymentMethodResponse": {
             paymentMethod: components["schemas"]["Stripe.Services.PaymentMethodDto"];
         };
+        "Stripe.Endpoints.PaymentMethods.CloneFromPersonal.CloneFromPersonalResponse": {
+            paymentMethod: components["schemas"]["Stripe.Services.PaymentMethodDto"];
+        };
         "Stripe.Endpoints.PaymentMethods.CreateSetupIntent.CreateSetupIntentResponse": {
             clientSecret: string | null;
+        };
+        "Stripe.Endpoints.PaymentMethods.GetPersonalOrgHasPaymentMethod.GetPersonalOrgHasPaymentMethodResponse": {
+            hasPaymentMethod: boolean;
+            last4: string | null;
+            brand: string | null;
         };
         "Stripe.Endpoints.PaymentMethods.GetUserPaymentMethods.GetUserPaymentMethodsResponse": {
             paymentMethods: components["schemas"]["Stripe.Services.PaymentMethodDto"][] | null;
@@ -5100,4 +5140,45 @@ export type components = {
     pathItems: never;
 };
 export type $defs = Record<string, never>;
-export type operations = Record<string, never>;
+export interface operations {
+    PostStripePaymentMethodsCloneFromPersonal: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Stripe.Endpoints.PaymentMethods.CloneFromPersonal.CloneFromPersonalResponse"];
+                };
+            };
+        };
+    };
+    GetStripePaymentMethodsPersonalHasPaymentMethod: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Stripe.Endpoints.PaymentMethods.GetPersonalOrgHasPaymentMethod.GetPersonalOrgHasPaymentMethodResponse"];
+                };
+            };
+        };
+    };
+}

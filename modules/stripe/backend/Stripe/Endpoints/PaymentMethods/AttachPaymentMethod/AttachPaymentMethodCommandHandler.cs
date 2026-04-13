@@ -3,6 +3,7 @@ using Core.Extensions;
 using Core.MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Memory;
+using Organizations.Services;
 using Stripe.Services;
 
 namespace Stripe.Endpoints.PaymentMethods.AttachPaymentMethod;
@@ -10,7 +11,8 @@ namespace Stripe.Endpoints.PaymentMethods.AttachPaymentMethod;
 public class AttachPaymentMethodCommandHandler(
     IPaymentMethodsService paymentMethodsService,
     IMemoryCache memoryCache,
-    IHttpContextAccessor accessor) : ICommandHandler<AttachPaymentMethodCommand, AttachPaymentMethodResponse>
+    IHttpContextAccessor accessor,
+    IOrganizationContextAccessor organizationContextAccessor) : ICommandHandler<AttachPaymentMethodCommand, AttachPaymentMethodResponse>
 {
     public async Task<AttachPaymentMethodResponse> Handle(
         AttachPaymentMethodCommand request,
@@ -21,6 +23,8 @@ public class AttachPaymentMethodCommandHandler(
         {
             throw new UnauthorizedAccessException("User is not authenticated.");
         }
+
+        var orgId = await organizationContextAccessor.GetCurrentOrganizationIdAsync();
 
         var userPaymentMethods = await paymentMethodsService.GetUserPaymentMethodsAsync(cancellationToken);
 
@@ -46,7 +50,7 @@ public class AttachPaymentMethodCommandHandler(
                                 .ApplyAsync(
                                     (p) => paymentMethodsService.RemovePaymentMethodAsync(p.Id, cancellationToken));
 
-        memoryCache.Remove($"UserPaymentMethods-{userId}");
+        memoryCache.Remove($"PaymentMethods-{orgId.Value}");
         return new AttachPaymentMethodResponse(paymentMethod!);
     }
 }

@@ -3,6 +3,7 @@ using Auth.Models;
 using Core.Services;
 using Mail;
 using Mail.Services;
+using Organizations.Models;
 using Stripe.Events;
 
 namespace Api.EventHandlers.Stripe.PaymentMethodMissingActions;
@@ -10,8 +11,9 @@ namespace Api.EventHandlers.Stripe.PaymentMethodMissingActions;
 public sealed class SecondWarningMail_PaymentMethodMissingAction(
     PaymentMethodMissingEvent @event,
     User user,
+    Organization organization,
     IServiceProvider serviceProvider
-) : BasePaymentMethodMissingAction(@event, user, serviceProvider)
+) : BasePaymentMethodMissingAction(@event, user, organization, serviceProvider)
 {
     private readonly Serilog.ILogger _logger = Log.Logger.ForContext<SecondWarningMail_PaymentMethodMissingAction>();
     public override async Task ExecuteAsync(CancellationToken cancellationToken = default)
@@ -30,9 +32,9 @@ public sealed class SecondWarningMail_PaymentMethodMissingAction(
                 new Emails.MissingPaymentMethodTemplate()
                 {
                     CompanyName = "compozerr hosting",
-                    Description = $"This is a second reminder to add a valid payment method to your account. Your projects will be terminated in {remainingDays} day{(remainingDays != 1 ? "s" : "")} if no payment method is added.",
+                    Description = $"This is a second reminder to add a valid payment method to {GetOrgDisplayLabel()}. Projects under this organization will be terminated in {remainingDays} day{(remainingDays != 1 ? "s" : "")} if no payment method is added.",
                     CustomerName = User.Name,
-                    AddPaymentMethodUrl = frontendLocation.GetFromPath("settings?addPaymentMethod=true").ToString(),
+                    AddPaymentMethodUrl = frontendLocation.GetFromPath(GetSettingsPath($"addPaymentMethod=true&orgId={Organization.Id.Value}")).ToString(),
                     DashboardLink = frontendLocation.GetFromPath("/projects").ToString(),
                     ContactLink = frontendLocation.GetFromPath("/contact").ToString(),
                     CompanyAddress = "Vilh. Bergsøes Vej 11, 8210 Aarhus V, Denmark"

@@ -23562,6 +23562,349 @@ export interface V1Service {
             body: PostStripePaymentMethodsSetupIntentBody;
         };
     };
+    postStripePaymentMethodsCloneFromPersonal: {
+        /**/
+        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: ServiceOperationMutationFnOptions<PostStripePaymentMethodsCloneFromPersonalBody, PostStripePaymentMethodsCloneFromPersonalParameters, TMeta, TSignal>, client?: (schema: PostStripePaymentMethodsCloneFromPersonalSchema, options: ServiceOperationMutationFnOptions<PostStripePaymentMethodsCloneFromPersonalBody, PostStripePaymentMethodsCloneFromPersonalParameters, TMeta, TSignal>) => Promise<RequestFnResponse<PostStripePaymentMethodsCloneFromPersonalData, PostStripePaymentMethodsCloneFromPersonalError>>): Promise<RequestFnResponse<PostStripePaymentMethodsCloneFromPersonalData, PostStripePaymentMethodsCloneFromPersonalError>>;
+        /**/
+        getMutationKey(parameters: DeepReadonly<PostStripePaymentMethodsCloneFromPersonalParameters> | void): ServiceOperationMutationKey<PostStripePaymentMethodsCloneFromPersonalSchema, PostStripePaymentMethodsCloneFromPersonalParameters>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.postStripePaymentMethodsCloneFromPersonal.useMutation({})
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.postStripePaymentMethodsCloneFromPersonal.useMutation()
+         * mutate({
+         *     body: bodyPayload
+         * });
+         * ```
+         */
+        useMutation<TVariables extends PostStripePaymentMethodsCloneFromPersonalBody, TContext = unknown>(parameters: DeepReadonly<PostStripePaymentMethodsCloneFromPersonalParameters>, options?: ServiceOperationUseMutationOptions<PostStripePaymentMethodsCloneFromPersonalSchema, PostStripePaymentMethodsCloneFromPersonalData, PostStripePaymentMethodsCloneFromPersonalParameters, TVariables, OperationError<PostStripePaymentMethodsCloneFromPersonalError>, TContext>): UseMutationResult<PostStripePaymentMethodsCloneFromPersonalData, OperationError<PostStripePaymentMethodsCloneFromPersonalError>, TVariables | void, TContext>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.postStripePaymentMethodsCloneFromPersonal.useMutation({})
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1Service.postStripePaymentMethodsCloneFromPersonal.useMutation()
+         * mutate({
+         *     body: bodyPayload
+         * });
+         * ```
+         */
+        useMutation<TVariables extends MutationVariables<PostStripePaymentMethodsCloneFromPersonalBody, PostStripePaymentMethodsCloneFromPersonalParameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<PostStripePaymentMethodsCloneFromPersonalSchema, PostStripePaymentMethodsCloneFromPersonalData, PostStripePaymentMethodsCloneFromPersonalParameters, TVariables, OperationError<PostStripePaymentMethodsCloneFromPersonalError>, TContext>): UseMutationResult<PostStripePaymentMethodsCloneFromPersonalData, OperationError<PostStripePaymentMethodsCloneFromPersonalError>, TVariables, TContext>;
+        /**
+         * Returns the count of currently in-progress mutations.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
+         * @example Check how many mutations are currently in progress for the specified service method.
+         * ```ts
+         * const postStripePaymentMethodsCloneFromPersonalTotal = qraft.v1Service.postStripePaymentMethodsCloneFromPersonal.useIsMutating()
+         * ```
+         * @example Check how many mutations are currently in progress with the specified parameters.
+         * ```ts
+         * const postStripePaymentMethodsCloneFromPersonalTotal = qraft.v1Service.postStripePaymentMethodsCloneFromPersonal.useIsMutating({
+         *     parameters: {}
+         * })
+         * ```
+         */
+        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<PostStripePaymentMethodsCloneFromPersonalBody, PostStripePaymentMethodsCloneFromPersonalData, PostStripePaymentMethodsCloneFromPersonalParameters, OperationError<PostStripePaymentMethodsCloneFromPersonalError>, TContext> | MutationFiltersByMutationKey<PostStripePaymentMethodsCloneFromPersonalSchema, PostStripePaymentMethodsCloneFromPersonalBody, PostStripePaymentMethodsCloneFromPersonalData, PostStripePaymentMethodsCloneFromPersonalParameters, OperationError<PostStripePaymentMethodsCloneFromPersonalError>, TContext>): number;
+        /**
+         * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
+         * @example Get all variables of all running mutations.
+         * ```ts
+         * const postStripePaymentMethodsCloneFromPersonalPendingMutationVariables = qraft.v1Service.postStripePaymentMethodsCloneFromPersonal.useMutationState({
+         *     filters: {
+         *         status: "pending"
+         *     },
+         *     select: mutation => mutation.state.variables
+         * })
+         * ```
+         * @example Get all data for specific mutations via the `parameters`.
+         * ```ts
+         * const postStripePaymentMethodsCloneFromPersonalMutationData = qraft.v1Service.postStripePaymentMethodsCloneFromPersonal.useMutationState({
+         *     filters: {
+         *         parameters: {}
+         *     },
+         *     select: mutation => mutation.state.data
+         * })
+         * ```
+         */
+        useMutationState<TContext = unknown, TResult = MutationState<PostStripePaymentMethodsCloneFromPersonalData, OperationError<PostStripePaymentMethodsCloneFromPersonalError>, MutationVariables<PostStripePaymentMethodsCloneFromPersonalBody, PostStripePaymentMethodsCloneFromPersonalParameters>, TContext>>(options?: {
+            filters?: MutationFiltersByParameters<PostStripePaymentMethodsCloneFromPersonalBody, PostStripePaymentMethodsCloneFromPersonalData, PostStripePaymentMethodsCloneFromPersonalParameters, OperationError<PostStripePaymentMethodsCloneFromPersonalError>, TContext> | MutationFiltersByMutationKey<PostStripePaymentMethodsCloneFromPersonalSchema, PostStripePaymentMethodsCloneFromPersonalBody, PostStripePaymentMethodsCloneFromPersonalData, PostStripePaymentMethodsCloneFromPersonalParameters, OperationError<PostStripePaymentMethodsCloneFromPersonalError>, TContext>;
+            select?: (mutation: Mutation<PostStripePaymentMethodsCloneFromPersonalData, OperationError<PostStripePaymentMethodsCloneFromPersonalError>, MutationVariables<PostStripePaymentMethodsCloneFromPersonalBody, PostStripePaymentMethodsCloneFromPersonalParameters>, TContext>) => TResult;
+        }): Array<TResult>;
+        /**/
+        isMutating<TContext>(filters?: MutationFiltersByParameters<PostStripePaymentMethodsCloneFromPersonalBody, PostStripePaymentMethodsCloneFromPersonalData, PostStripePaymentMethodsCloneFromPersonalParameters, OperationError<PostStripePaymentMethodsCloneFromPersonalError>, TContext> | MutationFiltersByMutationKey<PostStripePaymentMethodsCloneFromPersonalSchema, PostStripePaymentMethodsCloneFromPersonalBody, PostStripePaymentMethodsCloneFromPersonalData, PostStripePaymentMethodsCloneFromPersonalParameters, OperationError<PostStripePaymentMethodsCloneFromPersonalError>, TContext>): number;
+        /**
+         * Returns a `MutationCache` object that provides access to mutation cache operations
+         * for the specific endpoint.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/query-client/getMutationCache|`getMutationCache(...)` documentation}
+         *
+         * @example Find a mutation with specific parameters
+         * ```ts
+         * const mutationCache = qraft.v1Service.postStripePaymentMethodsCloneFromPersonal.getMutationCache();
+         * const mutation = mutationCache.find({
+         *     parameters: {}
+         * });
+         * ```
+         *
+         * @example Find all mutations for the endpoint
+         * ```ts
+         * const mutationCache = qraft.v1Service.postStripePaymentMethodsCloneFromPersonal.getMutationCache();
+         * const mutations = mutationCache.findAll();
+         * ```
+         */
+        getMutationCache(): Omit<MutationCache, "find" | "findAll"> & {
+            find<TContext = unknown>(filters: MutationFiltersByParameters<PostStripePaymentMethodsCloneFromPersonalBody, PostStripePaymentMethodsCloneFromPersonalData, PostStripePaymentMethodsCloneFromPersonalParameters, OperationError<PostStripePaymentMethodsCloneFromPersonalError>, TContext> | MutationFiltersByMutationKey<PostStripePaymentMethodsCloneFromPersonalSchema, PostStripePaymentMethodsCloneFromPersonalBody, PostStripePaymentMethodsCloneFromPersonalData, PostStripePaymentMethodsCloneFromPersonalParameters, OperationError<PostStripePaymentMethodsCloneFromPersonalError>, TContext>): Mutation<PostStripePaymentMethodsCloneFromPersonalData, PostStripePaymentMethodsCloneFromPersonalError, MutationVariables<PostStripePaymentMethodsCloneFromPersonalBody, PostStripePaymentMethodsCloneFromPersonalParameters>, TContext> | undefined;
+            findAll<TContext = unknown>(filters?: MutationFiltersByParameters<PostStripePaymentMethodsCloneFromPersonalBody, PostStripePaymentMethodsCloneFromPersonalData, PostStripePaymentMethodsCloneFromPersonalParameters, OperationError<PostStripePaymentMethodsCloneFromPersonalError>, TContext> | MutationFiltersByMutationKey<PostStripePaymentMethodsCloneFromPersonalSchema, PostStripePaymentMethodsCloneFromPersonalBody, PostStripePaymentMethodsCloneFromPersonalData, PostStripePaymentMethodsCloneFromPersonalParameters, OperationError<PostStripePaymentMethodsCloneFromPersonalError>, TContext>): Array<Mutation<PostStripePaymentMethodsCloneFromPersonalData, PostStripePaymentMethodsCloneFromPersonalError, MutationVariables<PostStripePaymentMethodsCloneFromPersonalBody, PostStripePaymentMethodsCloneFromPersonalParameters>, TContext>>;
+        };
+        schema: PostStripePaymentMethodsCloneFromPersonalSchema;
+        types: {
+            parameters: PostStripePaymentMethodsCloneFromPersonalParameters;
+            data: PostStripePaymentMethodsCloneFromPersonalData;
+            error: PostStripePaymentMethodsCloneFromPersonalError;
+            body: PostStripePaymentMethodsCloneFromPersonalBody;
+        };
+    };
+    getStripePaymentMethodsPersonalHasPaymentMethod: {
+        /**/
+        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: QueryFnOptionsByQueryKey<GetStripePaymentMethodsPersonalHasPaymentMethodSchema, GetStripePaymentMethodsPersonalHasPaymentMethodParameters, TMeta, TSignal> | (QueryFnOptionsByParameters<GetStripePaymentMethodsPersonalHasPaymentMethodParameters, TMeta, TSignal> | void), client?: (schema: GetStripePaymentMethodsPersonalHasPaymentMethodSchema, options: {
+            parameters: GetStripePaymentMethodsPersonalHasPaymentMethodParameters;
+            signal?: TSignal;
+            meta?: TMeta;
+        }) => Promise<RequestFnResponse<GetStripePaymentMethodsPersonalHasPaymentMethodData, GetStripePaymentMethodsPersonalHasPaymentMethodError>>): Promise<RequestFnResponse<GetStripePaymentMethodsPersonalHasPaymentMethodData, GetStripePaymentMethodsPersonalHasPaymentMethodError>>;
+        /**/
+        getQueryKey(parameters: DeepReadonly<GetStripePaymentMethodsPersonalHasPaymentMethodParameters> | void): ServiceOperationQueryKey<GetStripePaymentMethodsPersonalHasPaymentMethodSchema, GetStripePaymentMethodsPersonalHasPaymentMethodParameters>;
+        /**
+         * Performs asynchronous data fetching, manages loading states and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
+         * @example Query without parameters
+         * ```ts
+         * const { data, isLoading } = qraft.v1Service.getStripePaymentMethodsPersonalHasPaymentMethod.useQuery()
+         * ```
+         */
+        useQuery<TData = GetStripePaymentMethodsPersonalHasPaymentMethodData>(parameters: ServiceOperationQueryKey<GetStripePaymentMethodsPersonalHasPaymentMethodSchema, GetStripePaymentMethodsPersonalHasPaymentMethodParameters> | (DeepReadonly<GetStripePaymentMethodsPersonalHasPaymentMethodParameters> | void), options?: Omit<UndefinedInitialDataOptions<GetStripePaymentMethodsPersonalHasPaymentMethodData, GetStripePaymentMethodsPersonalHasPaymentMethodError, TData, ServiceOperationQueryKey<GetStripePaymentMethodsPersonalHasPaymentMethodSchema, GetStripePaymentMethodsPersonalHasPaymentMethodParameters>>, "queryKey">): UseQueryResult<TData, OperationError<GetStripePaymentMethodsPersonalHasPaymentMethodError>>;
+        /**
+         * Performs asynchronous data fetching, manages loading states and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
+         * @example Query without parameters
+         * ```ts
+         * const { data, isLoading } = qraft.v1Service.getStripePaymentMethodsPersonalHasPaymentMethod.useQuery()
+         * ```
+         */
+        useQuery<TData = GetStripePaymentMethodsPersonalHasPaymentMethodData>(parameters: ServiceOperationQueryKey<GetStripePaymentMethodsPersonalHasPaymentMethodSchema, GetStripePaymentMethodsPersonalHasPaymentMethodParameters> | (DeepReadonly<GetStripePaymentMethodsPersonalHasPaymentMethodParameters> | void), options: Omit<DefinedInitialDataOptions<GetStripePaymentMethodsPersonalHasPaymentMethodData, GetStripePaymentMethodsPersonalHasPaymentMethodError, TData, ServiceOperationQueryKey<GetStripePaymentMethodsPersonalHasPaymentMethodSchema, GetStripePaymentMethodsPersonalHasPaymentMethodParameters>>, "queryKey">): DefinedUseQueryResult<TData, OperationError<GetStripePaymentMethodsPersonalHasPaymentMethodError>>;
+        /**/
+        getInfiniteQueryKey(parameters: DeepReadonly<GetStripePaymentMethodsPersonalHasPaymentMethodParameters> | void): ServiceOperationInfiniteQueryKey<GetStripePaymentMethodsPersonalHasPaymentMethodSchema, GetStripePaymentMethodsPersonalHasPaymentMethodParameters>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useInfiniteQuery|`useInfiniteQuery(...)` documentation}
+         *
+         * @example Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getStripePaymentMethodsPersonalHasPaymentMethod.useInfiniteQuery({}, {
+         *     initialPageParam: {},
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useInfiniteQuery<TPageParam extends GetStripePaymentMethodsPersonalHasPaymentMethodParameters, TQueryFnData = GetStripePaymentMethodsPersonalHasPaymentMethodData, TData = OperationInfiniteData<TQueryFnData, GetStripePaymentMethodsPersonalHasPaymentMethodParameters>>(parameters: ServiceOperationInfiniteQueryKey<GetStripePaymentMethodsPersonalHasPaymentMethodSchema, GetStripePaymentMethodsPersonalHasPaymentMethodParameters> | (DeepReadonly<GetStripePaymentMethodsPersonalHasPaymentMethodParameters> | void), options: Omit<UndefinedInitialDataInfiniteOptions<TQueryFnData, GetStripePaymentMethodsPersonalHasPaymentMethodError, TData, ServiceOperationInfiniteQueryKey<GetStripePaymentMethodsPersonalHasPaymentMethodSchema, GetStripePaymentMethodsPersonalHasPaymentMethodParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<TQueryFnData, PartialParameters<DeepReadonly<TPageParam>>>): UseInfiniteQueryResult<TData, OperationError<GetStripePaymentMethodsPersonalHasPaymentMethodError>>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useInfiniteQuery|`useInfiniteQuery(...)` documentation}
+         *
+         * @example Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getStripePaymentMethodsPersonalHasPaymentMethod.useInfiniteQuery({}, {
+         *     initialPageParam: {},
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useInfiniteQuery<TPageParam extends GetStripePaymentMethodsPersonalHasPaymentMethodParameters, TQueryFnData = GetStripePaymentMethodsPersonalHasPaymentMethodData, TData = OperationInfiniteData<TQueryFnData, GetStripePaymentMethodsPersonalHasPaymentMethodParameters>>(parameters: ServiceOperationInfiniteQueryKey<GetStripePaymentMethodsPersonalHasPaymentMethodSchema, GetStripePaymentMethodsPersonalHasPaymentMethodParameters> | (DeepReadonly<GetStripePaymentMethodsPersonalHasPaymentMethodParameters> | void), options: Omit<DefinedInitialDataInfiniteOptions<TQueryFnData, GetStripePaymentMethodsPersonalHasPaymentMethodError, TData, ServiceOperationInfiniteQueryKey<GetStripePaymentMethodsPersonalHasPaymentMethodSchema, GetStripePaymentMethodsPersonalHasPaymentMethodParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<GetStripePaymentMethodsPersonalHasPaymentMethodData, PartialParameters<DeepReadonly<TPageParam>>>): DefinedUseInfiniteQueryResult<TData, OperationError<GetStripePaymentMethodsPersonalHasPaymentMethodError>>;
+        /**
+         * Monitors the number of queries currently fetching, matching the provided filters.
+         * Useful for creating loading indicators or performing actions based on active requests.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsFetching|`useIsFetching(...)` documentation}
+         * @example Checks the total number of queries fetching from the specified service method,
+         * both normal and infinite. If no parameters are provided, no filtering is applied.
+         * ```ts
+         * const getStripePaymentMethodsPersonalHasPaymentMethodTotal = qraft.v1Service.getStripePaymentMethodsPersonalHasPaymentMethod.useIsFetching()
+         * ```
+         */
+        useIsFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetStripePaymentMethodsPersonalHasPaymentMethodSchema, GetStripePaymentMethodsPersonalHasPaymentMethodData, TInfinite, GetStripePaymentMethodsPersonalHasPaymentMethodParameters, GetStripePaymentMethodsPersonalHasPaymentMethodError> | QueryFiltersByQueryKey<GetStripePaymentMethodsPersonalHasPaymentMethodSchema, GetStripePaymentMethodsPersonalHasPaymentMethodData, TInfinite, GetStripePaymentMethodsPersonalHasPaymentMethodParameters, GetStripePaymentMethodsPersonalHasPaymentMethodError>): number;
+        /**
+         * Allows you to execute multiple asynchronous data fetching operations concurrently. This is especially useful for managing complex data dependencies in parallel.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
+         * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
+         * ```ts
+         * const getStripePaymentMethodsPersonalHasPaymentMethodResults = qraft.v1Service.getStripePaymentMethodsPersonalHasPaymentMethod.useQueries({
+         *     queries: [
+         *         {},
+         *         {}
+         *     ]
+         * });
+         * getStripePaymentMethodsPersonalHasPaymentMethodResults.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
+         * ```
+         * @example Combined results. Only the data will be returned.
+         * ```ts
+         * const getStripePaymentMethodsPersonalHasPaymentMethodCombinedResults = qraft.v1Service.getStripePaymentMethodsPersonalHasPaymentMethod.useQueries({
+         *     combine: results => results.map(result => result.data),
+         *     queries: [
+         *         {},
+         *         {}
+         *     ]
+         * });
+         * getStripePaymentMethodsPersonalHasPaymentMethodCombinedResults.forEach(data => console.log({ data }));
+         * ```
+         */
+        useQueries<T extends Array<UseQueryOptionsForUseQueries<GetStripePaymentMethodsPersonalHasPaymentMethodSchema, GetStripePaymentMethodsPersonalHasPaymentMethodParameters, GetStripePaymentMethodsPersonalHasPaymentMethodData, GetStripePaymentMethodsPersonalHasPaymentMethodError>>, TCombinedResult = Array<UseQueryResult<GetStripePaymentMethodsPersonalHasPaymentMethodData, GetStripePaymentMethodsPersonalHasPaymentMethodError>>>(options: {
+            queries: T;
+            combine?: (results: Array<UseQueryResult<GetStripePaymentMethodsPersonalHasPaymentMethodData, GetStripePaymentMethodsPersonalHasPaymentMethodError>>) => TCombinedResult;
+        }): TCombinedResult;
+        /**
+         * Performs asynchronous data fetching with Suspense support.
+         * Similar to useQuery but integrates with React Suspense for loading states.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
+         * @example Suspense Query without parameters
+         * ```ts
+         * const data = qraft.v1Service.getStripePaymentMethodsPersonalHasPaymentMethod.useSuspenseQuery()
+         * ```
+         */
+        useSuspenseQuery<TData = GetStripePaymentMethodsPersonalHasPaymentMethodData>(parameters: ServiceOperationQueryKey<GetStripePaymentMethodsPersonalHasPaymentMethodSchema, GetStripePaymentMethodsPersonalHasPaymentMethodParameters> | (DeepReadonly<GetStripePaymentMethodsPersonalHasPaymentMethodParameters> | void), options?: Omit<UseSuspenseQueryOptions<GetStripePaymentMethodsPersonalHasPaymentMethodData, GetStripePaymentMethodsPersonalHasPaymentMethodError, TData, ServiceOperationQueryKey<GetStripePaymentMethodsPersonalHasPaymentMethodSchema, GetStripePaymentMethodsPersonalHasPaymentMethodParameters>>, "queryKey">): UseSuspenseQueryResult<TData, OperationError<GetStripePaymentMethodsPersonalHasPaymentMethodError>>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         * It functions similarly to `useInfiniteQuery`, but with added support for React Suspense.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseInfiniteQuery|`useSuspenseInfiniteQuery(...)` documentation}
+         *
+         * @example Suspense Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getStripePaymentMethodsPersonalHasPaymentMethod.useSuspenseInfiniteQuery({}, {
+         *     initialPageParam: {},
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useSuspenseInfiniteQuery<TPageParam extends GetStripePaymentMethodsPersonalHasPaymentMethodParameters, TData = GetStripePaymentMethodsPersonalHasPaymentMethodData>(parameters: ServiceOperationInfiniteQueryKey<GetStripePaymentMethodsPersonalHasPaymentMethodSchema, GetStripePaymentMethodsPersonalHasPaymentMethodParameters> | (DeepReadonly<GetStripePaymentMethodsPersonalHasPaymentMethodParameters> | void), options: Omit<UseSuspenseInfiniteQueryOptions<GetStripePaymentMethodsPersonalHasPaymentMethodData, GetStripePaymentMethodsPersonalHasPaymentMethodError, OperationInfiniteData<TData, GetStripePaymentMethodsPersonalHasPaymentMethodParameters>, ServiceOperationInfiniteQueryKey<GetStripePaymentMethodsPersonalHasPaymentMethodSchema, GetStripePaymentMethodsPersonalHasPaymentMethodParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<GetStripePaymentMethodsPersonalHasPaymentMethodData, PartialParameters<DeepReadonly<TPageParam>>>): UseSuspenseInfiniteQueryResult<OperationInfiniteData<TData, GetStripePaymentMethodsPersonalHasPaymentMethodParameters>, OperationError<GetStripePaymentMethodsPersonalHasPaymentMethodError>>;
+        /**
+         * Allows you to execute multiple asynchronous data fetching operations concurrently with Suspense support.
+         * Similar to useQueries but integrates with React Suspense for loading states.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
+         * @example Basic usage with Suspense
+         * ```ts
+         * const getStripePaymentMethodsPersonalHasPaymentMethodData = qraft.v1Service.getStripePaymentMethodsPersonalHasPaymentMethod.useSuspenseQueries({
+         *     queries: [
+         *         {},
+         *         {}
+         *     ]
+         * });
+         * getStripePaymentMethodsPersonalHasPaymentMethodResults.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
+         * ```
+         * @example With data transformation using combine
+         * ```ts
+         * const getStripePaymentMethodsPersonalHasPaymentMethodCombinedData = qraft.v1Service.getStripePaymentMethodsPersonalHasPaymentMethod.useSuspenseQueries({
+         *     combine: results => results.map(result => result.data),
+         *     queries: [
+         *         {},
+         *         {}
+         *     ]
+         * });
+         * getStripePaymentMethodsPersonalHasPaymentMethodCombinedData.forEach(data => console.log({ data }));
+         * ```
+         */
+        useSuspenseQueries<T extends Array<UseQueryOptionsForUseSuspenseQuery<GetStripePaymentMethodsPersonalHasPaymentMethodSchema, GetStripePaymentMethodsPersonalHasPaymentMethodParameters, GetStripePaymentMethodsPersonalHasPaymentMethodData, GetStripePaymentMethodsPersonalHasPaymentMethodError>>, TCombinedResult = Array<UseSuspenseQueryResult<GetStripePaymentMethodsPersonalHasPaymentMethodData, GetStripePaymentMethodsPersonalHasPaymentMethodError>>>(options: {
+            queries: T;
+            combine?: (results: Array<WithOptional<UseSuspenseQueryResult<GetStripePaymentMethodsPersonalHasPaymentMethodData, GetStripePaymentMethodsPersonalHasPaymentMethodError>, "data">>) => TCombinedResult;
+        }): TCombinedResult;
+        /**/
+        fetchQuery(options: ServiceOperationFetchQueryOptions<GetStripePaymentMethodsPersonalHasPaymentMethodSchema, GetStripePaymentMethodsPersonalHasPaymentMethodData, GetStripePaymentMethodsPersonalHasPaymentMethodParameters, GetStripePaymentMethodsPersonalHasPaymentMethodError> | void): Promise<GetStripePaymentMethodsPersonalHasPaymentMethodData>;
+        /**/
+        prefetchQuery(options: ServiceOperationFetchQueryOptions<GetStripePaymentMethodsPersonalHasPaymentMethodSchema, GetStripePaymentMethodsPersonalHasPaymentMethodData, GetStripePaymentMethodsPersonalHasPaymentMethodParameters, GetStripePaymentMethodsPersonalHasPaymentMethodError> | void): Promise<void>;
+        /**/
+        ensureQueryData(options: ServiceOperationEnsureQueryDataOptions<GetStripePaymentMethodsPersonalHasPaymentMethodSchema, GetStripePaymentMethodsPersonalHasPaymentMethodData, GetStripePaymentMethodsPersonalHasPaymentMethodParameters, GetStripePaymentMethodsPersonalHasPaymentMethodError> | void): Promise<GetStripePaymentMethodsPersonalHasPaymentMethodData>;
+        /**/
+        fetchInfiniteQuery<TPageParam extends GetStripePaymentMethodsPersonalHasPaymentMethodParameters>(options: ServiceOperationFetchInfiniteQueryOptions<GetStripePaymentMethodsPersonalHasPaymentMethodSchema, GetStripePaymentMethodsPersonalHasPaymentMethodData, GetStripePaymentMethodsPersonalHasPaymentMethodParameters, DeepReadonly<TPageParam>, GetStripePaymentMethodsPersonalHasPaymentMethodError> | void): Promise<OperationInfiniteData<GetStripePaymentMethodsPersonalHasPaymentMethodData, GetStripePaymentMethodsPersonalHasPaymentMethodParameters>>;
+        /**/
+        prefetchInfiniteQuery<TPageParam extends GetStripePaymentMethodsPersonalHasPaymentMethodParameters>(options: ServiceOperationFetchInfiniteQueryOptions<GetStripePaymentMethodsPersonalHasPaymentMethodSchema, GetStripePaymentMethodsPersonalHasPaymentMethodData, GetStripePaymentMethodsPersonalHasPaymentMethodParameters, DeepReadonly<TPageParam>, GetStripePaymentMethodsPersonalHasPaymentMethodError> | void): Promise<void>;
+        /**/
+        ensureInfiniteQueryData<TPageParam extends GetStripePaymentMethodsPersonalHasPaymentMethodParameters>(options: ServiceOperationEnsureInfiniteQueryDataOptions<GetStripePaymentMethodsPersonalHasPaymentMethodSchema, GetStripePaymentMethodsPersonalHasPaymentMethodData, GetStripePaymentMethodsPersonalHasPaymentMethodParameters, DeepReadonly<TPageParam>, GetStripePaymentMethodsPersonalHasPaymentMethodError> | void): Promise<OperationInfiniteData<GetStripePaymentMethodsPersonalHasPaymentMethodData, GetStripePaymentMethodsPersonalHasPaymentMethodParameters>>;
+        /**/
+        getQueryData(parameters: ServiceOperationQueryKey<GetStripePaymentMethodsPersonalHasPaymentMethodSchema, GetStripePaymentMethodsPersonalHasPaymentMethodParameters> | (DeepReadonly<GetStripePaymentMethodsPersonalHasPaymentMethodParameters> | void)): GetStripePaymentMethodsPersonalHasPaymentMethodData | undefined;
+        /**/
+        getInfiniteQueryData(parameters: ServiceOperationInfiniteQueryKey<GetStripePaymentMethodsPersonalHasPaymentMethodSchema, GetStripePaymentMethodsPersonalHasPaymentMethodParameters> | (DeepReadonly<GetStripePaymentMethodsPersonalHasPaymentMethodParameters> | void)): OperationInfiniteData<GetStripePaymentMethodsPersonalHasPaymentMethodData, GetStripePaymentMethodsPersonalHasPaymentMethodParameters> | undefined;
+        /**/
+        getQueriesData<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetStripePaymentMethodsPersonalHasPaymentMethodSchema, GetStripePaymentMethodsPersonalHasPaymentMethodData, TInfinite, GetStripePaymentMethodsPersonalHasPaymentMethodParameters, GetStripePaymentMethodsPersonalHasPaymentMethodError> | QueryFiltersByQueryKey<GetStripePaymentMethodsPersonalHasPaymentMethodSchema, GetStripePaymentMethodsPersonalHasPaymentMethodData, TInfinite, GetStripePaymentMethodsPersonalHasPaymentMethodParameters, GetStripePaymentMethodsPersonalHasPaymentMethodError>): TInfinite extends true ? Array<[
+            queryKey: ServiceOperationInfiniteQueryKey<GetStripePaymentMethodsPersonalHasPaymentMethodSchema, GetStripePaymentMethodsPersonalHasPaymentMethodParameters>,
+            data: NoInfer<OperationInfiniteData<GetStripePaymentMethodsPersonalHasPaymentMethodData, GetStripePaymentMethodsPersonalHasPaymentMethodParameters>> | undefined
+        ]> : Array<[
+            queryKey: ServiceOperationQueryKey<GetStripePaymentMethodsPersonalHasPaymentMethodSchema, GetStripePaymentMethodsPersonalHasPaymentMethodParameters>,
+            data: GetStripePaymentMethodsPersonalHasPaymentMethodData | undefined
+        ]>;
+        /**/
+        getQueryState(parameters: ServiceOperationQueryKey<GetStripePaymentMethodsPersonalHasPaymentMethodSchema, GetStripePaymentMethodsPersonalHasPaymentMethodParameters> | (DeepReadonly<GetStripePaymentMethodsPersonalHasPaymentMethodParameters> | void)): QueryState<GetStripePaymentMethodsPersonalHasPaymentMethodData, GetStripePaymentMethodsPersonalHasPaymentMethodError> | undefined;
+        /**/
+        getInfiniteQueryState(parameters: DeepReadonly<GetStripePaymentMethodsPersonalHasPaymentMethodParameters> | ServiceOperationInfiniteQueryKey<GetStripePaymentMethodsPersonalHasPaymentMethodSchema, GetStripePaymentMethodsPersonalHasPaymentMethodParameters> | void): QueryState<OperationInfiniteData<GetStripePaymentMethodsPersonalHasPaymentMethodData, GetStripePaymentMethodsPersonalHasPaymentMethodParameters>, GetStripePaymentMethodsPersonalHasPaymentMethodError> | undefined;
+        /**/
+        setQueryData(parameters: (DeepReadonly<GetStripePaymentMethodsPersonalHasPaymentMethodParameters> | undefined) | ServiceOperationQueryKey<GetStripePaymentMethodsPersonalHasPaymentMethodSchema, GetStripePaymentMethodsPersonalHasPaymentMethodParameters>, updater: Updater<NoInfer<GetStripePaymentMethodsPersonalHasPaymentMethodData> | undefined, NoInfer<DeepReadonly<GetStripePaymentMethodsPersonalHasPaymentMethodData>> | undefined>, options?: SetDataOptions): GetStripePaymentMethodsPersonalHasPaymentMethodData | undefined;
+        /**/
+        setInfiniteQueryData(parameters: (DeepReadonly<GetStripePaymentMethodsPersonalHasPaymentMethodParameters> | undefined) | ServiceOperationInfiniteQueryKey<GetStripePaymentMethodsPersonalHasPaymentMethodSchema, GetStripePaymentMethodsPersonalHasPaymentMethodParameters>, updater: Updater<NoInfer<OperationInfiniteData<GetStripePaymentMethodsPersonalHasPaymentMethodData, GetStripePaymentMethodsPersonalHasPaymentMethodParameters>> | undefined, NoInfer<DeepReadonly<OperationInfiniteData<GetStripePaymentMethodsPersonalHasPaymentMethodData, GetStripePaymentMethodsPersonalHasPaymentMethodParameters>>> | undefined>, options?: SetDataOptions): OperationInfiniteData<GetStripePaymentMethodsPersonalHasPaymentMethodData, GetStripePaymentMethodsPersonalHasPaymentMethodParameters> | undefined;
+        /**/
+        setQueriesData<TInfinite extends boolean = false>(filters: QueryFiltersByParameters<GetStripePaymentMethodsPersonalHasPaymentMethodSchema, GetStripePaymentMethodsPersonalHasPaymentMethodData, TInfinite, GetStripePaymentMethodsPersonalHasPaymentMethodParameters, GetStripePaymentMethodsPersonalHasPaymentMethodError> | QueryFiltersByQueryKey<GetStripePaymentMethodsPersonalHasPaymentMethodSchema, GetStripePaymentMethodsPersonalHasPaymentMethodData, TInfinite, GetStripePaymentMethodsPersonalHasPaymentMethodParameters, GetStripePaymentMethodsPersonalHasPaymentMethodError>, updater: Updater<NoInfer<GetStripePaymentMethodsPersonalHasPaymentMethodData> | undefined, NoInfer<GetStripePaymentMethodsPersonalHasPaymentMethodData> | undefined>, options?: SetDataOptions): Array<GetStripePaymentMethodsPersonalHasPaymentMethodData | undefined>;
+        /**/
+        invalidateQueries<TInfinite extends boolean = false>(filters?: InvalidateQueryFilters<GetStripePaymentMethodsPersonalHasPaymentMethodSchema, GetStripePaymentMethodsPersonalHasPaymentMethodData, TInfinite, GetStripePaymentMethodsPersonalHasPaymentMethodParameters, GetStripePaymentMethodsPersonalHasPaymentMethodError>, options?: InvalidateOptions): Promise<void>;
+        /**/
+        refetchQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetStripePaymentMethodsPersonalHasPaymentMethodSchema, GetStripePaymentMethodsPersonalHasPaymentMethodData, TInfinite, GetStripePaymentMethodsPersonalHasPaymentMethodParameters, GetStripePaymentMethodsPersonalHasPaymentMethodError> | QueryFiltersByQueryKey<GetStripePaymentMethodsPersonalHasPaymentMethodSchema, GetStripePaymentMethodsPersonalHasPaymentMethodData, TInfinite, GetStripePaymentMethodsPersonalHasPaymentMethodParameters, GetStripePaymentMethodsPersonalHasPaymentMethodError>, options?: RefetchOptions): Promise<void>;
+        /**/
+        cancelQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetStripePaymentMethodsPersonalHasPaymentMethodSchema, GetStripePaymentMethodsPersonalHasPaymentMethodData, TInfinite, GetStripePaymentMethodsPersonalHasPaymentMethodParameters, GetStripePaymentMethodsPersonalHasPaymentMethodError> | QueryFiltersByQueryKey<GetStripePaymentMethodsPersonalHasPaymentMethodSchema, GetStripePaymentMethodsPersonalHasPaymentMethodData, TInfinite, GetStripePaymentMethodsPersonalHasPaymentMethodParameters, GetStripePaymentMethodsPersonalHasPaymentMethodError>, options?: CancelOptions): Promise<void>;
+        /**/
+        removeQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetStripePaymentMethodsPersonalHasPaymentMethodSchema, GetStripePaymentMethodsPersonalHasPaymentMethodData, TInfinite, GetStripePaymentMethodsPersonalHasPaymentMethodParameters, GetStripePaymentMethodsPersonalHasPaymentMethodError> | QueryFiltersByQueryKey<GetStripePaymentMethodsPersonalHasPaymentMethodSchema, GetStripePaymentMethodsPersonalHasPaymentMethodData, TInfinite, GetStripePaymentMethodsPersonalHasPaymentMethodParameters, GetStripePaymentMethodsPersonalHasPaymentMethodError>): void;
+        /**/
+        resetQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetStripePaymentMethodsPersonalHasPaymentMethodSchema, GetStripePaymentMethodsPersonalHasPaymentMethodData, TInfinite, GetStripePaymentMethodsPersonalHasPaymentMethodParameters, GetStripePaymentMethodsPersonalHasPaymentMethodError> | QueryFiltersByQueryKey<GetStripePaymentMethodsPersonalHasPaymentMethodSchema, GetStripePaymentMethodsPersonalHasPaymentMethodData, TInfinite, GetStripePaymentMethodsPersonalHasPaymentMethodParameters, GetStripePaymentMethodsPersonalHasPaymentMethodError>, options?: ResetOptions): Promise<void>;
+        /**/
+        isFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetStripePaymentMethodsPersonalHasPaymentMethodSchema, GetStripePaymentMethodsPersonalHasPaymentMethodData, TInfinite, GetStripePaymentMethodsPersonalHasPaymentMethodParameters, GetStripePaymentMethodsPersonalHasPaymentMethodError> | QueryFiltersByQueryKey<GetStripePaymentMethodsPersonalHasPaymentMethodSchema, GetStripePaymentMethodsPersonalHasPaymentMethodData, TInfinite, GetStripePaymentMethodsPersonalHasPaymentMethodParameters, GetStripePaymentMethodsPersonalHasPaymentMethodError>): number;
+        schema: GetStripePaymentMethodsPersonalHasPaymentMethodSchema;
+        types: {
+            parameters: GetStripePaymentMethodsPersonalHasPaymentMethodParameters;
+            data: GetStripePaymentMethodsPersonalHasPaymentMethodData;
+            error: GetStripePaymentMethodsPersonalHasPaymentMethodError;
+        };
+    };
     postStripeWebhooks: {
         /**/
         <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: ServiceOperationMutationFnOptions<PostStripeWebhooksBody, PostStripeWebhooksParameters, TMeta, TSignal>, client?: (schema: PostStripeWebhooksSchema, options: ServiceOperationMutationFnOptions<PostStripeWebhooksBody, PostStripeWebhooksParameters, TMeta, TSignal>) => Promise<RequestFnResponse<PostStripeWebhooksData, PostStripeWebhooksError>>): Promise<RequestFnResponse<PostStripeWebhooksData, PostStripeWebhooksError>>;
@@ -25210,6 +25553,24 @@ export const postStripePaymentMethodsSetupIntent = {
     schema: PostStripePaymentMethodsSetupIntentSchema;
     [QraftServiceOperationsToken]: V1Service["postStripePaymentMethodsSetupIntent"];
 };
+export const postStripePaymentMethodsCloneFromPersonal = {
+    schema: {
+        method: "post",
+        url: "/v1/stripe/payment-methods/clone-from-personal"
+    }
+} as {
+    schema: PostStripePaymentMethodsCloneFromPersonalSchema;
+    [QraftServiceOperationsToken]: V1Service["postStripePaymentMethodsCloneFromPersonal"];
+};
+export const getStripePaymentMethodsPersonalHasPaymentMethod = {
+    schema: {
+        method: "get",
+        url: "/v1/stripe/payment-methods/personal-has-payment-method"
+    }
+} as {
+    schema: GetStripePaymentMethodsPersonalHasPaymentMethodSchema;
+    [QraftServiceOperationsToken]: V1Service["getStripePaymentMethodsPersonalHasPaymentMethod"];
+};
 export const postStripeWebhooks = {
     schema: {
         method: "post",
@@ -25354,6 +25715,8 @@ export const v1Service = {
     postStripePaymentMethodsDefault,
     deleteStripePaymentMethods,
     postStripePaymentMethodsSetupIntent,
+    postStripePaymentMethodsCloneFromPersonal,
+    getStripePaymentMethodsPersonalHasPaymentMethod,
     postStripeWebhooks,
     getStripeInvoices,
     getUsers
@@ -26423,6 +26786,25 @@ type PostStripePaymentMethodsSetupIntentParameters = {
 type PostStripePaymentMethodsSetupIntentData = paths["/v1/stripe/payment-methods/setup-intent"]["post"]["responses"]["200"]["content"]["application/json"];
 type PostStripePaymentMethodsSetupIntentError = unknown;
 type PostStripePaymentMethodsSetupIntentBody = undefined;
+type PostStripePaymentMethodsCloneFromPersonalSchema = {
+    method: "post";
+    url: "/v1/stripe/payment-methods/clone-from-personal";
+};
+type PostStripePaymentMethodsCloneFromPersonalParameters = {
+    query?: never;
+    header?: never;
+    path?: never;
+};
+type PostStripePaymentMethodsCloneFromPersonalData = paths["/v1/stripe/payment-methods/clone-from-personal"]["post"]["responses"]["200"]["content"]["application/json"];
+type PostStripePaymentMethodsCloneFromPersonalError = unknown;
+type PostStripePaymentMethodsCloneFromPersonalBody = undefined;
+type GetStripePaymentMethodsPersonalHasPaymentMethodSchema = {
+    method: "get";
+    url: "/v1/stripe/payment-methods/personal-has-payment-method";
+};
+type GetStripePaymentMethodsPersonalHasPaymentMethodParameters = undefined;
+type GetStripePaymentMethodsPersonalHasPaymentMethodData = paths["/v1/stripe/payment-methods/personal-has-payment-method"]["get"]["responses"]["200"]["content"]["application/json"];
+type GetStripePaymentMethodsPersonalHasPaymentMethodError = unknown;
 type PostStripeWebhooksSchema = {
     method: "post";
     url: "/v1/stripe/webhooks";

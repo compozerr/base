@@ -2,6 +2,7 @@ using Api.Endpoints.Projects.Project.Delete;
 using Api.EventHandlers.Stripe.PaymentMethodMissingActions.Core;
 using Auth.Models;
 using MediatR;
+using Organizations.Models;
 using Stripe.Events;
 using Stripe.Services;
 
@@ -10,8 +11,9 @@ namespace Api.EventHandlers.Stripe.PaymentMethodMissingActions;
 public sealed class TerminateAllProjects_PaymentMethodMissingAction(
     PaymentMethodMissingEvent @event,
     User user,
+    Organization organization,
     IServiceProvider serviceProvider
-) : BasePaymentMethodMissingAction(@event, user, serviceProvider)
+) : BasePaymentMethodMissingAction(@event, user, organization, serviceProvider)
 {
     private readonly Serilog.ILogger _logger = Log.Logger.ForContext<TerminateAllProjects_PaymentMethodMissingAction>();
     public override async Task ExecuteAsync(CancellationToken cancellationToken = default)

@@ -3,6 +3,7 @@ using Auth.Models;
 using Core.Services;
 using Mail;
 using Mail.Services;
+using Organizations.Models;
 using Stripe.Events;
 
 namespace Api.EventHandlers.Stripe.PaymentMethodMissingActions;
@@ -10,8 +11,9 @@ namespace Api.EventHandlers.Stripe.PaymentMethodMissingActions;
 public sealed class OnboardingMail_PaymentMethodMissingAction(
     PaymentMethodMissingEvent @event,
     User user,
+    Organization organization,
     IServiceProvider serviceProvider
-) : BasePaymentMethodMissingAction(@event, user, serviceProvider)
+) : BasePaymentMethodMissingAction(@event, user, organization, serviceProvider)
 {
     private readonly Serilog.ILogger _logger = Log.Logger.ForContext<OnboardingMail_PaymentMethodMissingAction>();
     public override async Task ExecuteAsync(CancellationToken cancellationToken = default)
@@ -30,7 +32,7 @@ public sealed class OnboardingMail_PaymentMethodMissingAction(
                 {
                     CustomerName = User.Name,
                     DaysUntilTermination = Saga.DaysUntilTermination.ToString(),
-                    AddPaymentMethodUrl = frontendLocation.GetFromPath("settings?addPaymentMethod=true").ToString(),
+                    AddPaymentMethodUrl = frontendLocation.GetFromPath(GetSettingsPath($"addPaymentMethod=true&orgId={Organization.Id.Value}")).ToString(),
                     DashboardUrl = frontendLocation.GetFromPath("/projects").ToString(),
                     ContactLink = frontendLocation.GetFromPath("/contact").ToString(),
                     CompanyAddress = "Vilh. Bergsøes Vej 11, 8210 Aarhus V, Denmark"

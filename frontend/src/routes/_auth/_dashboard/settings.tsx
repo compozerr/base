@@ -61,6 +61,7 @@ import InvoicesList from '@repo/stripe/invoices-list'
 import { useEphemeralQueryParams } from '@/hooks/use-ephemeral-storage.hook'
 import { z } from 'zod'
 import { useRegisterActions } from '@/lib/command-palette/action-registry'
+import { switchOrg } from '@/lib/switch-org'
 
 type InstallGuideParams = Record<string, string | boolean | undefined> & {
   'install-guide-show'?: boolean;
@@ -80,6 +81,7 @@ const INSTALL_GUIDE_REASONS: Record<string, { title: string; description: string
 
 const optionalSearchParamsSchema = z.object({
   addPaymentMethod: z.boolean().optional(),
+  orgId: z.string().optional(),
 })
 
 export const Route = createFileRoute('/_auth/_dashboard/settings')({
@@ -458,8 +460,15 @@ function RouteComponent() {
     [defaultOrganizationMutation],
   )
 
-  const { addPaymentMethod } = Route.useSearch();
+  const { addPaymentMethod, orgId } = Route.useSearch();
   const navigate = Route.useNavigate();
+
+  React.useEffect(() => {
+    if (!orgId) return;
+
+    switchOrg(orgId)
+    navigate({ to: Route.to, search: { addPaymentMethod } })
+  }, [orgId, addPaymentMethod, navigate])
 
   React.useEffect(() => {
     if(!addPaymentMethod) return;

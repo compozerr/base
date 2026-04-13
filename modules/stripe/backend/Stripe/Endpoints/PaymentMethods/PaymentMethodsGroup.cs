@@ -5,6 +5,8 @@ using Stripe.Endpoints.PaymentMethods.AttachPaymentMethod;
 using Stripe.Endpoints.PaymentMethods.SetDefaultPaymentMethod;
 using Stripe.Endpoints.PaymentMethods.RemovePaymentMethod;
 using Stripe.Endpoints.PaymentMethods.CreateSetupIntent;
+using Stripe.Endpoints.PaymentMethods.CloneFromPersonal;
+using Stripe.Endpoints.PaymentMethods.GetPersonalOrgHasPaymentMethod;
 
 namespace Stripe.Endpoints.PaymentMethods;
 
@@ -21,7 +23,9 @@ public static class PaymentMethodsGroup
         group.AddSetDefaultPaymentMethodRoute();
         group.AddRemovePaymentMethodRoute();
         group.AddCreateSetupIntentRoute();
-        
+        group.AddCloneFromPersonalRoute();
+        group.AddGetPersonalOrgHasPaymentMethodRoute();
+
         return group;
     }
 }

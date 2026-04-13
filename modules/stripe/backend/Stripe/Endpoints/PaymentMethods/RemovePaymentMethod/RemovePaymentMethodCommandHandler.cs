@@ -2,6 +2,7 @@ using System.Security.Claims;
 using Core.MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Memory;
+using Organizations.Services;
 using Stripe.Services;
 
 namespace Stripe.Endpoints.PaymentMethods.RemovePaymentMethod;
@@ -9,7 +10,8 @@ namespace Stripe.Endpoints.PaymentMethods.RemovePaymentMethod;
 public class RemovePaymentMethodCommandHandler(
     IPaymentMethodsService paymentMethodsService,
     IMemoryCache memoryCache,
-    IHttpContextAccessor accessor) : ICommandHandler<RemovePaymentMethodCommand, RemovePaymentMethodResponse>
+    IHttpContextAccessor accessor,
+    IOrganizationContextAccessor organizationContextAccessor) : ICommandHandler<RemovePaymentMethodCommand, RemovePaymentMethodResponse>
 {
     public async Task<RemovePaymentMethodResponse> Handle(
         RemovePaymentMethodCommand request,
@@ -25,7 +27,8 @@ public class RemovePaymentMethodCommandHandler(
             request.PaymentMethodId,
             cancellationToken);
 
-        memoryCache.Remove($"UserPaymentMethods-{userId}");
+        var orgId = await organizationContextAccessor.GetCurrentOrganizationIdAsync();
+        memoryCache.Remove($"PaymentMethods-{orgId.Value}");
 
         return new RemovePaymentMethodResponse(result);
     }

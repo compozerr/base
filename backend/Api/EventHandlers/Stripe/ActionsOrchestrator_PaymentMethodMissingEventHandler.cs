@@ -32,6 +32,7 @@ public class PaymentMethodMissingEventHandler(
         var actionFactory = new PaymentMethodMissingActionFactory(
             notification,
             resolved.Owner,
+            resolved.Organization,
             serviceProvider);
 
         var actions = actionFactory.CreateActions();

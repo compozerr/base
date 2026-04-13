@@ -2,6 +2,7 @@ using System.Security.Claims;
 using Core.MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Memory;
+using Organizations.Services;
 using Stripe.Services;
 
 namespace Stripe.Endpoints.PaymentMethods.GetUserPaymentMethods;
@@ -9,7 +10,8 @@ namespace Stripe.Endpoints.PaymentMethods.GetUserPaymentMethods;
 public class GetUserPaymentMethodsCommandHandler(
     IPaymentMethodsService paymentMethodsService,
     IMemoryCache memoryCache,
-    IHttpContextAccessor accessor) : ICommandHandler<GetUserPaymentMethodsCommand, GetUserPaymentMethodsResponse>
+    IHttpContextAccessor accessor,
+    IOrganizationContextAccessor organizationContextAccessor) : ICommandHandler<GetUserPaymentMethodsCommand, GetUserPaymentMethodsResponse>
 {
     public async Task<GetUserPaymentMethodsResponse> Handle(
         GetUserPaymentMethodsCommand request,
@@ -21,7 +23,9 @@ public class GetUserPaymentMethodsCommandHandler(
             throw new UnauthorizedAccessException("User is not authenticated.");
         }
 
-        var paymentMethods = await memoryCache.GetOrCreateAsync($"UserPaymentMethods-{userId}", async entry =>
+        var orgId = await organizationContextAccessor.GetCurrentOrganizationIdAsync();
+
+        var paymentMethods = await memoryCache.GetOrCreateAsync($"PaymentMethods-{orgId.Value}", async entry =>
         {
             entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5);
 
