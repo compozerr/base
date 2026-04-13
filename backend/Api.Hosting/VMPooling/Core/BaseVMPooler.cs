@@ -56,7 +56,14 @@ public abstract class BaseVMPooler(
 
     public virtual async Task MakeSureInstanceIsAliveAsync(VMPoolItem item, CancellationToken cancellationToken)
     {
-        var project = await projectRepository.GetByIdAsync(item.ProjectId) ?? throw new InvalidOperationException($"Project with ID {item.ProjectId} not found for VMPoolItem {item.Id}");
+        var project = await projectRepository.GetByIdAsync(item.ProjectId);
+        if (project is null)
+        {
+            Log.ForContext<BaseVMPooler>()
+               .Warning("VMPoolItem {VMPoolItemId} references non-existent project {ProjectId}. Deleting orphaned pool item.", item.Id, item.ProjectId);
+            await vMPoolItemRepository.DeleteAsync(item.Id, cancellationToken);
+            return;
+        }
 
         var hostingApi = await hostingApiFactory.GetHostingApiAsync(project.ServerId!);
 
