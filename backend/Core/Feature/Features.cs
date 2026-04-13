@@ -84,11 +84,15 @@ public static class Features
 
     public static WebApplication UseFeatures(this WebApplication app)
     {
+        // Phase 1: each module runs its own schema migrations + app config
         AllFeatures.Apply(f =>
         {
             Log.Logger.Verbose("Configuring feature {Feature}", f.GetType().Name);
             f.ConfigureApp(app);
         });
+
+        // Phase 2: cross-schema data backfills run after all schemas exist
+        AllFeatures.Apply(f => f.AfterAllMigrations(app));
 
         AllFeatures.Apply(f => _callbacks.Apply(c => c.Configure(f.GetType(), app)));
 

@@ -27,25 +27,8 @@ namespace Github.Migrations
                 type: "uuid",
                 nullable: true);
 
-            migrationBuilder.Sql(@"
-                UPDATE github.""GithubUserSettings"" gs
-                SET ""OrganizationId"" = o.""Id""
-                FROM organizations.""Organizations"" o
-                WHERE o.""OwnerUserId"" = gs.""UserId""
-                  AND o.""IsPersonal"" = true;
-            ");
-
-            migrationBuilder.Sql(@"
-                DO $$
-                BEGIN
-                    IF EXISTS (
-                        SELECT 1 FROM github.""GithubUserSettings""
-                        WHERE ""OrganizationId"" IS NULL
-                    ) THEN
-                        RAISE EXCEPTION 'Migration validation failed: some GithubUserSettings rows have NULL OrganizationId after backfill. These users may not have personal organizations.';
-                    END IF;
-                END $$;
-            ");
+            // Data backfill moved to GithubFeature.AfterAllMigrations to avoid
+            // cross-schema dependency on organizations tables during migration.
         }
 
         /// <inheritdoc />
