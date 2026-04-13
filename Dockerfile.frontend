@@ -31,7 +31,4 @@ WORKDIR /app
 EXPOSE 5173
 
 # Use serve with SPA mode (-s flag) to handle client-side routing
-# serve.json (copied from frontend/public/ by Vite) sets Cache-Control headers:
-#   - index.html: no-cache (browser always checks for fresh version on deploy)
-#   - assets/*:   immutable (Vite hashes filenames, safe to cache forever)
-CMD ["serve", "-s", "frontend/dist", "-l", "5173", "-c", "frontend/dist/serve.json"]
+CMD ["serve", "-s", "frontend/dist", "-l", "5173"]

@@ -49,10 +49,7 @@ if (!Deno.args.includes("--no-build")) {
 
 const commandFlags = `-f ${dockerComposeFiles.join(" -f ")}`
 
-// --force-recreate ensures containers are always recreated from the rebuilt images.
-// Without this, `docker-compose up -d` can keep running stale containers.
-const forceRecreate = Deno.args.includes("-d") ? " --force-recreate" : "";
-const upCommand = `${moduleComposeContextsEnvironmentVars} docker-compose ${commandFlags} up${forceRecreate}${Deno.args.includes("-d") ? " -d" : ""}`;
+const upCommand = `${moduleComposeContextsEnvironmentVars} docker-compose ${commandFlags} up${Deno.args.includes("-d") ? " -d" : ""}`;
 
 console.log({ upCommand })
 
