@@ -226,28 +226,28 @@ export interface FileRoutesByFullPath {
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/terms-of-service': typeof TermsOfServiceRoute
   '/logout': typeof AuthLogoutRoute
-  '/invoices': typeof InvoicesIndexRoute
-  '/modules': typeof ModulesIndexRoute
-  '/stripe': typeof StripeIndexRoute
+  '/invoices/': typeof InvoicesIndexRoute
+  '/modules/': typeof ModulesIndexRoute
+  '/stripe/': typeof StripeIndexRoute
   '/intro-flow': typeof AuthDashboardIntroFlowRoute
   '/members': typeof AuthDashboardMembersRoute
   '/my-modules': typeof AuthDashboardMyModulesRoute
   '/settings': typeof AuthDashboardSettingsRoute
   '/modules/$org/$name': typeof ModulesOrgDotnameRoute
   '/projects/$projectId': typeof AuthDashboardProjectsProjectIdRouteRouteWithChildren
-  '/organizations': typeof AuthDashboardOrganizationsIndexRoute
-  '/projects': typeof AuthDashboardProjectsIndexRoute
+  '/organizations/': typeof AuthDashboardOrganizationsIndexRoute
+  '/projects/': typeof AuthDashboardProjectsIndexRoute
   '/projects/$projectId/settings': typeof AuthDashboardProjectsProjectIdSettingsRouteRouteWithChildren
   '/organizations/$orgId/members': typeof AuthDashboardOrganizationsOrgIdMembersRoute
-  '/organizations/$orgId': typeof AuthDashboardOrganizationsOrgIdIndexRoute
+  '/organizations/$orgId/': typeof AuthDashboardOrganizationsOrgIdIndexRoute
   '/projects/$projectId/': typeof AuthDashboardProjectsProjectIdIndexRoute
   '/projects/$projectId/settings/domains': typeof AuthDashboardProjectsProjectIdSettingsDomainsRoute
   '/projects/$projectId/settings/general': typeof AuthDashboardProjectsProjectIdSettingsGeneralRoute
-  '/projects/$projectId/deployments': typeof AuthDashboardProjectsProjectIdDeploymentsIndexRoute
-  '/projects/$projectId/environments': typeof AuthDashboardProjectsProjectIdEnvironmentsIndexRoute
+  '/projects/$projectId/deployments/': typeof AuthDashboardProjectsProjectIdDeploymentsIndexRoute
+  '/projects/$projectId/environments/': typeof AuthDashboardProjectsProjectIdEnvironmentsIndexRoute
   '/projects/$projectId/settings/': typeof AuthDashboardProjectsProjectIdSettingsIndexRoute
-  '/projects/$projectId/deployments/$deploymentId': typeof AuthDashboardProjectsProjectIdDeploymentsDeploymentIdIndexRoute
-  '/projects/$projectId/environments/$environmentId': typeof AuthDashboardProjectsProjectIdEnvironmentsEnvironmentIdIndexRoute
+  '/projects/$projectId/deployments/$deploymentId/': typeof AuthDashboardProjectsProjectIdDeploymentsDeploymentIdIndexRoute
+  '/projects/$projectId/environments/$environmentId/': typeof AuthDashboardProjectsProjectIdEnvironmentsEnvironmentIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -325,28 +325,28 @@ export interface FileRouteTypes {
     | '/privacy-policy'
     | '/terms-of-service'
     | '/logout'
-    | '/invoices'
-    | '/modules'
-    | '/stripe'
+    | '/invoices/'
+    | '/modules/'
+    | '/stripe/'
     | '/intro-flow'
     | '/members'
     | '/my-modules'
     | '/settings'
     | '/modules/$org/$name'
     | '/projects/$projectId'
-    | '/organizations'
-    | '/projects'
+    | '/organizations/'
+    | '/projects/'
     | '/projects/$projectId/settings'
     | '/organizations/$orgId/members'
-    | '/organizations/$orgId'
+    | '/organizations/$orgId/'
     | '/projects/$projectId/'
     | '/projects/$projectId/settings/domains'
     | '/projects/$projectId/settings/general'
-    | '/projects/$projectId/deployments'
-    | '/projects/$projectId/environments'
+    | '/projects/$projectId/deployments/'
+    | '/projects/$projectId/environments/'
     | '/projects/$projectId/settings/'
-    | '/projects/$projectId/deployments/$deploymentId'
-    | '/projects/$projectId/environments/$environmentId'
+    | '/projects/$projectId/deployments/$deploymentId/'
+    | '/projects/$projectId/environments/$environmentId/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -475,7 +475,7 @@ declare module '@tanstack/react-router' {
     '/_auth': {
       id: '/_auth'
       path: ''
-      fullPath: ''
+      fullPath: '/'
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
@@ -489,21 +489,21 @@ declare module '@tanstack/react-router' {
     '/stripe/': {
       id: '/stripe/'
       path: '/stripe'
-      fullPath: '/stripe'
+      fullPath: '/stripe/'
       preLoaderRoute: typeof StripeIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/modules/': {
       id: '/modules/'
       path: '/modules'
-      fullPath: '/modules'
+      fullPath: '/modules/'
       preLoaderRoute: typeof ModulesIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/invoices/': {
       id: '/invoices/'
       path: '/invoices'
-      fullPath: '/invoices'
+      fullPath: '/invoices/'
       preLoaderRoute: typeof InvoicesIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
@@ -517,7 +517,7 @@ declare module '@tanstack/react-router' {
     '/_auth/_dashboard': {
       id: '/_auth/_dashboard'
       path: ''
-      fullPath: ''
+      fullPath: '/'
       preLoaderRoute: typeof AuthDashboardRouteImport
       parentRoute: typeof AuthRoute
     }
@@ -559,14 +559,14 @@ declare module '@tanstack/react-router' {
     '/_auth/_dashboard/projects/': {
       id: '/_auth/_dashboard/projects/'
       path: '/projects'
-      fullPath: '/projects'
+      fullPath: '/projects/'
       preLoaderRoute: typeof AuthDashboardProjectsIndexRouteImport
       parentRoute: typeof AuthDashboardRoute
     }
     '/_auth/_dashboard/organizations/': {
       id: '/_auth/_dashboard/organizations/'
       path: '/organizations'
-      fullPath: '/organizations'
+      fullPath: '/organizations/'
       preLoaderRoute: typeof AuthDashboardOrganizationsIndexRouteImport
       parentRoute: typeof AuthDashboardRoute
     }
@@ -587,7 +587,7 @@ declare module '@tanstack/react-router' {
     '/_auth/_dashboard/organizations/$orgId/': {
       id: '/_auth/_dashboard/organizations/$orgId/'
       path: '/organizations/$orgId'
-      fullPath: '/organizations/$orgId'
+      fullPath: '/organizations/$orgId/'
       preLoaderRoute: typeof AuthDashboardOrganizationsOrgIdIndexRouteImport
       parentRoute: typeof AuthDashboardRoute
     }
@@ -615,14 +615,14 @@ declare module '@tanstack/react-router' {
     '/_auth/_dashboard/projects/$projectId/environments/': {
       id: '/_auth/_dashboard/projects/$projectId/environments/'
       path: '/environments'
-      fullPath: '/projects/$projectId/environments'
+      fullPath: '/projects/$projectId/environments/'
       preLoaderRoute: typeof AuthDashboardProjectsProjectIdEnvironmentsIndexRouteImport
       parentRoute: typeof AuthDashboardProjectsProjectIdRouteRoute
     }
     '/_auth/_dashboard/projects/$projectId/deployments/': {
       id: '/_auth/_dashboard/projects/$projectId/deployments/'
       path: '/deployments'
-      fullPath: '/projects/$projectId/deployments'
+      fullPath: '/projects/$projectId/deployments/'
       preLoaderRoute: typeof AuthDashboardProjectsProjectIdDeploymentsIndexRouteImport
       parentRoute: typeof AuthDashboardProjectsProjectIdRouteRoute
     }
@@ -643,14 +643,14 @@ declare module '@tanstack/react-router' {
     '/_auth/_dashboard/projects/$projectId/environments/$environmentId/': {
       id: '/_auth/_dashboard/projects/$projectId/environments/$environmentId/'
       path: '/environments/$environmentId'
-      fullPath: '/projects/$projectId/environments/$environmentId'
+      fullPath: '/projects/$projectId/environments/$environmentId/'
       preLoaderRoute: typeof AuthDashboardProjectsProjectIdEnvironmentsEnvironmentIdIndexRouteImport
       parentRoute: typeof AuthDashboardProjectsProjectIdRouteRoute
     }
     '/_auth/_dashboard/projects/$projectId/deployments/$deploymentId/': {
       id: '/_auth/_dashboard/projects/$projectId/deployments/$deploymentId/'
       path: '/deployments/$deploymentId'
-      fullPath: '/projects/$projectId/deployments/$deploymentId'
+      fullPath: '/projects/$projectId/deployments/$deploymentId/'
       preLoaderRoute: typeof AuthDashboardProjectsProjectIdDeploymentsDeploymentIdIndexRouteImport
       parentRoute: typeof AuthDashboardProjectsProjectIdRouteRoute
     }

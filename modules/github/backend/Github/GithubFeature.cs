@@ -64,20 +64,4 @@ public class GithubFeature : IFeature
 
         context.Database.Migrate();
     }
-
-    void IFeature.AfterAllMigrations(WebApplication app)
-    {
-        using var scope = app.Services.CreateScope();
-        var context = scope.ServiceProvider.GetRequiredService<GithubDbContext>();
-
-        // Backfill OrganizationId from user's personal org
-        context.Database.ExecuteSqlRaw(@"
-            UPDATE github.""GithubUserSettings"" gs
-            SET ""OrganizationId"" = o.""Id""
-            FROM organizations.""Organizations"" o
-            WHERE o.""OwnerUserId"" = gs.""UserId""
-              AND o.""IsPersonal"" = true
-              AND gs.""OrganizationId"" IS NULL;
-        ");
-    }
 }

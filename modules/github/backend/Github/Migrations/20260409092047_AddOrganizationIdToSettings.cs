@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -27,8 +27,26 @@ namespace Github.Migrations
                 type: "uuid",
                 nullable: true);
 
-            // Data backfill moved to GithubFeature.AfterAllMigrations to avoid
-            // cross-schema dependency on organizations tables during migration.
+            // Backfill OrganizationId from user's personal org.
+            // Wrapped in IF EXISTS check because organizations schema may not exist yet
+            // on fresh databases (feature migration order is non-deterministic).
+            // On fresh DBs this is a no-op (empty table). On existing DBs this migration
+            // was already applied with the original backfill.
+            migrationBuilder.Sql(@"
+                DO $$
+                BEGIN
+                    IF EXISTS (
+                        SELECT 1 FROM information_schema.tables
+                        WHERE table_schema = 'organizations' AND table_name = 'Organizations'
+                    ) THEN
+                        UPDATE github.""GithubUserSettings"" gs
+                        SET ""OrganizationId"" = o.""Id""
+                        FROM organizations.""Organizations"" o
+                        WHERE o.""OwnerUserId"" = gs.""UserId""
+                          AND o.""IsPersonal"" = true;
+                    END IF;
+                END $$;
+            ");
         }
 
         /// <inheritdoc />
