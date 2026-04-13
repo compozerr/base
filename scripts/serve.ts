@@ -39,7 +39,11 @@ if (!Deno.args.includes("--no-build")) {
     const buildCommand = `${moduleComposeContextsEnvironmentVars} docker-compose ${`-f ${dockerComposeFiles.join(" -f ")}`} build --no-cache`;
     console.log({ buildCommand });
     const buildProcess = new Command(buildCommand);
-    await buildProcess.spawn();
+    const buildSuccess = await buildProcess.spawn();
+    if (!buildSuccess) {
+        console.error("❌ Build failed — aborting deploy to avoid running stale containers.");
+        Deno.exit(1);
+    }
     console.log("✅ Build completed");
 }
 

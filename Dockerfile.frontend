@@ -14,7 +14,7 @@ RUN curl -s "https://storage.googleapis.com/compozerr.firebasestorage.app/instal
 
 # Build the frontend with version embedded
 ENV VITE_APP_VERSION=$APP_VERSION
-RUN turbo build
+RUN turbo build --filter=frontend
 
 # Stage 2: Production stage
 FROM node:22-alpine
