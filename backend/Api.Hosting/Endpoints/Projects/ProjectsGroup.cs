@@ -1,3 +1,4 @@
+using Api.Hosting.Endpoints.Projects.Config;
 using Api.Hosting.Endpoints.Projects.GetAll;
 using Api.Hosting.Endpoints.Projects.ProjectDomains;
 using Api.Hosting.Endpoints.Projects.ProjectEnvironment;
@@ -21,6 +22,7 @@ public static class ProjectsGroup
         group.AddProjectDomainsGroup();
         group.AddProjectEnvironmentGroup();
         group.AddProjectStateRoute();
+        group.AddReportProjectConfigRoute();
         group.AddReportServicesRoute();
         group.AddReportEnvironmentServicesRoute();
         group.AddGetTcpAllocationsRoute();
