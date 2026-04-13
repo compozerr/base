@@ -7,7 +7,7 @@ WORKDIR /app
 COPY . .
 
 # Install dependencies
-RUN npm i
+RUN npm ci
 
 # Fetch the latest install.sh from remote storage before building
 RUN curl -s "https://storage.googleapis.com/compozerr.firebasestorage.app/install.sh?cachebust=$(date +%s)" -o frontend/public/install.sh
