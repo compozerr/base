@@ -57,6 +57,6 @@ public sealed class VMPoolRepository(
             .Include(vmp => vmp.VMPoolItems)
             .Where(vmp => vmp.Id == vmPoolId)
             .Where(x => x.VMPoolItems != null)
-            .SelectMany(vmp => vmp.VMPoolItems!.Where(vmpi => vmpi.DelegatedAt == null))
+            .SelectMany(vmp => vmp.VMPoolItems!.Where(vmpi => vmpi.DelegatedAt == null && vmpi.DeletedAtUtc == null))
             .AsQueryable();
 }
