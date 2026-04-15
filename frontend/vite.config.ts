@@ -1,4 +1,5 @@
 import { defineConfig, loadEnv, type Plugin } from 'vite'
+import { devtools } from '@tanstack/devtools-vite'
 import react from '@vitejs/plugin-react'
 import { TanStackRouterVite } from '@tanstack/router-plugin/vite'
 import { getVirtualRouteConfig } from './virtual-route-config'
@@ -63,7 +64,7 @@ function sitemapPlugin(): Plugin {
 export default defineConfig(({ mode }) => {
   validateEnv(mode)
   return {
-    plugins: [TanStackRouterVite({
+    plugins: [devtools(), TanStackRouterVite({
       virtualRouteConfig: getVirtualRouteConfig(),
       routeFileIgnorePrefix: "!",
     }), react(), sitemapPlugin()],

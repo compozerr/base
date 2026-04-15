@@ -1,11 +1,8 @@
 
 import { ThemeProvider } from '@/components/theme-provider'
-import { Outlet, createRootRouteWithContext, useRouterState } from '@tanstack/react-router'
-import { TanStackRouterDevtools } from '@tanstack/router-devtools'
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { Outlet, createRootRouteWithContext } from '@tanstack/react-router'
 import type { AuthContextType } from '../auth-mock'
 import React from 'react'
-import { LoaderIcon } from 'lucide-react'
 
 interface RouterContext {
   auth: AuthContextType
@@ -14,32 +11,79 @@ export const Route = createRootRouteWithContext<RouterContext>()({
   component: RootComponent,
 })
 
-const ReactQueryDevtoolsProduction = React.lazy(() =>
-  import('@tanstack/react-query-devtools/build/modern/production.js').then(
-    (d) => ({
-      default: d.ReactQueryDevtools,
-    }),
-  ),
-)
+function DevTools() {
+  if (import.meta.env.DEV) {
+    return <DevToolsDev />
+  }
+  return <DevToolsProd />
+}
+
+const DevToolsDev = React.lazy(async () => {
+  const [{ TanStackDevtools }, { TanStackRouterDevtoolsPanel }, queryMod, compozerrMod] =
+    await Promise.all([
+      import('@tanstack/react-devtools'),
+      import('@tanstack/router-devtools'),
+      import('@tanstack/react-query-devtools/build/modern/production.js'),
+      import('@/components/compozerr-devtools-panel'),
+    ])
+
+  function DevToolsDevInner() {
+    return (
+      <TanStackDevtools
+        plugins={[
+          { name: 'TanStack Query', render: <queryMod.ReactQueryDevtoolsPanel />, defaultOpen: true },
+          { name: 'TanStack Router', render: <TanStackRouterDevtoolsPanel /> },
+          { name: 'Compozerr', render: <compozerrMod.CompozerrDevtoolsPanel /> },
+        ]}
+      />
+    )
+  }
+  return { default: DevToolsDevInner }
+})
+
+function DevToolsProd() {
+  const [showDevtools, setShowDevtools] = React.useState(false)
+  React.useEffect(() => {
+    // @ts-expect-error — global toggle for production devtools
+    window.toggleDevtools = () => setShowDevtools((old) => !old)
+  }, [])
+
+  if (!showDevtools) return null
+
+  return (
+    <React.Suspense fallback={null}>
+      <LazyProdDevtools />
+    </React.Suspense>
+  )
+}
+
+const LazyProdDevtools = React.lazy(async () => {
+  const [{ TanStackDevtools }, { TanStackRouterDevtoolsPanel }, queryMod] = await Promise.all([
+    import('@tanstack/react-devtools'),
+    import('@tanstack/router-devtools'),
+    import('@tanstack/react-query-devtools/build/modern/production.js'),
+  ])
+
+  function ProdDevtools() {
+    return (
+      <TanStackDevtools
+        plugins={[
+          { name: 'TanStack Query', render: <queryMod.ReactQueryDevtoolsPanel />, defaultOpen: true },
+          { name: 'TanStack Router', render: <TanStackRouterDevtoolsPanel /> },
+        ]}
+      />
+    )
+  }
+  return { default: ProdDevtools }
+})
 
 function InnerRootComponent() {
-  const [showDevtools, setShowDevtools] = React.useState(false);
-  React.useEffect(() => {
-    // @ts-expect-error
-    window.toggleDevtools = () => setShowDevtools((old) => !old)
-  }, []);
   return (
     <>
       <Outlet />
-      <ReactQueryDevtools initialIsOpen />
-      {showDevtools && (
-        <>
-          <TanStackRouterDevtools position="bottom-left" />
-          <React.Suspense fallback={null}>
-            <ReactQueryDevtoolsProduction />
-          </React.Suspense>
-        </>
-      )}
+      <React.Suspense fallback={null}>
+        <DevTools />
+      </React.Suspense>
     </>
   )
 }
