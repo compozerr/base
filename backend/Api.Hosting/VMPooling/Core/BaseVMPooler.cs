@@ -61,7 +61,8 @@ public abstract class BaseVMPooler(
         {
             Log.ForContext<BaseVMPooler>()
                .Warning("VMPoolItem {VMPoolItemId} references non-existent project {ProjectId}. Deleting orphaned pool item.", item.Id, item.ProjectId);
-            await vMPoolItemRepository.DeleteAsync(item.Id, cancellationToken);
+            item.DeletedAtUtc = DateTime.UtcNow;
+            await vMPoolItemRepository.UpdateAsync(item, cancellationToken);
             return;
         }
 
