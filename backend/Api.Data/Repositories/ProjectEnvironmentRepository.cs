@@ -8,6 +8,8 @@ public interface IProjectEnvironmentRepository : IGenericRepository<ProjectEnvir
     public Task<ProjectEnvironment?> GetProjectEnvironmentByBranchAsync(ProjectId projectId, string branch);
     public Task<ProjectId> UpsertProjectEnvironmentAsync(ProjectId projectId, string branch, ProjectEnvironmentVariableDto[] pairs);
     public Task<List<ProjectEnvironment>> GetByProjectIdWithLatestDeploymentAsync(ProjectId projectId, CancellationToken cancellationToken = default);
+    public Task<ProjectEnvironment?> GetProductionEnvironmentAsync(ProjectId projectId);
+    public Task<ProjectEnvironment?> GetProjectEnvironmentByNameAsync(ProjectId projectId, string name);
 }
 
 public sealed class ProjectEnvironmentRepository(
@@ -27,6 +29,16 @@ public sealed class ProjectEnvironmentRepository(
             .OrderBy(e => e.Type)
             .ThenByDescending(e => e.CreatedAtUtc)
             .ToListAsync(cancellationToken);
+
+    public Task<ProjectEnvironment?> GetProductionEnvironmentAsync(ProjectId projectId)
+        => Query()
+            .Include(x => x.ProjectEnvironmentVariables)
+            .FirstOrDefaultAsync(x => x.ProjectId == projectId && x.Type == EnvironmentType.Production);
+
+    public Task<ProjectEnvironment?> GetProjectEnvironmentByNameAsync(ProjectId projectId, string name)
+        => Query()
+            .Include(x => x.ProjectEnvironmentVariables)
+            .FirstOrDefaultAsync(x => x.ProjectId == projectId && x.Name == name);
 
     public async Task<ProjectId> UpsertProjectEnvironmentAsync(ProjectId projectId, string branch, ProjectEnvironmentVariableDto[] pairs)
     {

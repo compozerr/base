@@ -4,6 +4,7 @@ using Auth.Abstractions;
 using Auth.Services;
 using Core.Feature;
 using Microsoft.EntityFrameworkCore;
+using Organizations.Services;
 using Serilog;
 
 namespace Api.Features.DevSeed;
@@ -27,17 +28,19 @@ public class DevSeedFeature : IFeature
 
         var devGroup = app.MapGroup("/v1/dev").RequireAuthorization();
 
-        devGroup.MapPost("/seed", async (ApiDbContext apiDb, ICurrentUserAccessor currentUserAccessor) =>
+        devGroup.MapPost("/seed", async (ApiDbContext apiDb, ICurrentUserAccessor currentUserAccessor, IOrganizationContextAccessor orgContextAccessor) =>
         {
             var userId = currentUserAccessor.CurrentUserId;
             if (userId is null)
                 return Results.Unauthorized();
 
+            var orgId = await orgContextAccessor.GetCurrentOrganizationIdOrDefaultAsync();
+
             var userHasProjects = await apiDb.Projects.AnyAsync(p => p.UserId == userId);
             if (userHasProjects)
                 return Results.Ok(new { message = "Already seeded", seeded = false });
 
-            var result = await DevSeeder.SeedForUser(apiDb, userId);
+            var result = await DevSeeder.SeedForUser(apiDb, userId, orgId);
             return Results.Ok(result);
         });
 

@@ -1472,6 +1472,47 @@ export type paths = {
         patch?: never;
         trace?: never;
     };
+    "/v1/hosting/projects/{projectId}/config": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    projectId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["Api.Hosting.Endpoints.Projects.Config.ReportProjectConfigRequest"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Api.Hosting.Endpoints.Projects.Config.ReportProjectConfigResponse"];
+                    };
+                };
+            };
+        };
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/hosting/projects/{projectId}/services": {
         parameters: {
             query?: never;
@@ -3142,6 +3183,46 @@ export type paths = {
         patch?: never;
         trace?: never;
     };
+    "/v1/projects/{projectId}/environments/{environmentId}/branches": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    projectId: string;
+                    environmentId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["Api.Endpoints.Projects.Environments.UpdateBranches.UpdateEnvironmentBranchesRequest"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/projects/{projectId}/environments/{environmentId}/deployments": {
         parameters: {
             query?: never;
@@ -4479,6 +4560,7 @@ export type components = {
             type: string | null;
             branches: string[] | null;
             autoDeploy: boolean;
+            effectiveAutoDeploy: boolean;
             /** Format: int32 */
             pullRequestNumber: number | null;
             subdomain: string | null;
@@ -4506,6 +4588,9 @@ export type components = {
             logs: string | null;
             /** Format: int32 */
             exitCode: number;
+        };
+        "Api.Endpoints.Projects.Environments.UpdateBranches.UpdateEnvironmentBranchesRequest": {
+            branches: string[] | null;
         };
         "Api.Endpoints.Projects.GetProjectsResponse": {
             /** Format: int32 */
@@ -4642,6 +4727,10 @@ export type components = {
             level: components["schemas"]["Api.Abstractions.LogLevel"];
         };
         "Api.Hosting.Endpoints.Deployments.Logs.Add.AddLogResponse": Record<string, never>;
+        "Api.Hosting.Endpoints.Projects.Config.ReportProjectConfigRequest": {
+            name: string | null;
+        };
+        "Api.Hosting.Endpoints.Projects.Config.ReportProjectConfigResponse": Record<string, never>;
         "Api.Hosting.Endpoints.Projects.GetAll.ProjectDto": {
             projectId: components["schemas"]["Api.Abstractions.ProjectId"];
         };
@@ -4870,6 +4959,7 @@ export type components = {
             commitEmail: string | null;
             /** Format: uuid */
             environmentId: string | null;
+            environmentName: string | null;
         };
         "Cli.Endpoints.Projects.GetProjectByRepoUrlRequest": {
             repoUrl: string | null;

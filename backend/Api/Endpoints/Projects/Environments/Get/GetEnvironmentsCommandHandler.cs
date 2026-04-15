@@ -38,6 +38,7 @@ public sealed class GetEnvironmentsCommandHandler(
                 e.Type.ToString(),
                 e.Branches,
                 e.AutoDeploy,
+                e.EffectiveAutoDeploy,
                 e.PullRequestNumber,
                 e.Subdomain,
                 e.GetUrl(),

@@ -23,6 +23,24 @@ public sealed record DeployProjectCommandHandler(
 
         var environmentId = command.EnvironmentId;
 
+        if (environmentId is null && command.EnvironmentName is not null)
+        {
+            var envByName = await ProjectEnvironmentRepository.GetProjectEnvironmentByNameAsync(
+                command.ProjectId, command.EnvironmentName);
+
+            if (envByName is null)
+            {
+                throw new InvalidOperationException(
+                    $"No environment named '{command.EnvironmentName}' found on project {command.ProjectId}.");
+            }
+
+            environmentId = envByName.Id;
+
+            Log.Information(
+                "Resolved EnvironmentId {EnvironmentId} from name '{EnvironmentName}' for project {ProjectId}",
+                environmentId, command.EnvironmentName, command.ProjectId);
+        }
+
         if (environmentId is null)
         {
             var environment = await ProjectEnvironmentRepository.GetProjectEnvironmentByBranchAsync(
@@ -30,8 +48,13 @@ public sealed record DeployProjectCommandHandler(
 
             if (environment is null)
             {
+                environment = await ProjectEnvironmentRepository.GetProductionEnvironmentAsync(command.ProjectId);
+            }
+
+            if (environment is null)
+            {
                 throw new InvalidOperationException(
-                    $"No environment found for branch '{command.CommitBranch}' on project {command.ProjectId}. " +
+                    $"No environment found for branch '{command.CommitBranch}' and no production environment exists on project {command.ProjectId}. " +
                     "Cannot deploy without a target environment.");
             }
 

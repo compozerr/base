@@ -9,6 +9,7 @@ using Api.Endpoints.Projects.Environments.GetBranches;
 using Api.Endpoints.Projects.Environments.Promote;
 using Api.Endpoints.Projects.Environments.Services;
 using Api.Endpoints.Projects.Environments.Services.GetServiceLogs;
+using Api.Endpoints.Projects.Environments.UpdateBranches;
 
 namespace Api.Endpoints.Projects.Environments;
 
@@ -27,6 +28,7 @@ public static class EnvironmentsGroup
         group.AddPromoteEnvironmentRoute();
         group.AddChangeEnvironmentTierRoute();
         group.AddChangeEnvironmentAutoDeployRoute();
+        group.AddUpdateEnvironmentBranchesRoute();
         group.AddGetEnvironmentDeploymentsRoute();
         group.AddGetEnvironmentServicesRoute();
         group.AddGetServiceLogsRoute();

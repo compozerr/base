@@ -32,6 +32,6 @@ public static class CreateEnvironmentRoute
 
 public sealed record CreateEnvironmentRequest(
     string Name,
-    string Branch,
+    string? Branch,
     string Tier,
     EnvironmentType Type = EnvironmentType.Preview);

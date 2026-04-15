@@ -10,4 +10,5 @@ public sealed record DeployProjectCommand(
     string CommitBranch,
     string CommitEmail,
     bool OverrideAuthorization = false,
-    ProjectEnvironmentId? EnvironmentId = null) : ICommand<DeployProjectResponse>;
+    ProjectEnvironmentId? EnvironmentId = null,
+    string? EnvironmentName = null) : ICommand<DeployProjectResponse>;

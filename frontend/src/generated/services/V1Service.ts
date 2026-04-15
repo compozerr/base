@@ -19,12 +19,12 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postDevSeed.useMutation({})
+         * const { mutate, isPending } = qraft.v1.postDevSeed.useMutation({})
          * mutate(body);
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postDevSeed.useMutation()
+         * const { mutate, isPending } = qraft.v1.postDevSeed.useMutation()
          * mutate({
          *     body: bodyPayload
          * });
@@ -38,12 +38,12 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postDevSeed.useMutation({})
+         * const { mutate, isPending } = qraft.v1.postDevSeed.useMutation({})
          * mutate(body);
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postDevSeed.useMutation()
+         * const { mutate, isPending } = qraft.v1.postDevSeed.useMutation()
          * mutate({
          *     body: bodyPayload
          * });
@@ -56,11 +56,11 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const postDevSeedTotal = qraft.v1Service.postDevSeed.useIsMutating()
+         * const postDevSeedTotal = qraft.v1.postDevSeed.useIsMutating()
          * ```
          * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const postDevSeedTotal = qraft.v1Service.postDevSeed.useIsMutating({
+         * const postDevSeedTotal = qraft.v1.postDevSeed.useIsMutating({
          *     parameters: {}
          * })
          * ```
@@ -72,7 +72,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
-         * const postDevSeedPendingMutationVariables = qraft.v1Service.postDevSeed.useMutationState({
+         * const postDevSeedPendingMutationVariables = qraft.v1.postDevSeed.useMutationState({
          *     filters: {
          *         status: "pending"
          *     },
@@ -81,7 +81,7 @@ export interface V1Service {
          * ```
          * @example Get all data for specific mutations via the `parameters`.
          * ```ts
-         * const postDevSeedMutationData = qraft.v1Service.postDevSeed.useMutationState({
+         * const postDevSeedMutationData = qraft.v1.postDevSeed.useMutationState({
          *     filters: {
          *         parameters: {}
          *     },
@@ -103,7 +103,7 @@ export interface V1Service {
          *
          * @example Find a mutation with specific parameters
          * ```ts
-         * const mutationCache = qraft.v1Service.postDevSeed.getMutationCache();
+         * const mutationCache = qraft.v1.postDevSeed.getMutationCache();
          * const mutation = mutationCache.find({
          *     parameters: {}
          * });
@@ -111,7 +111,7 @@ export interface V1Service {
          *
          * @example Find all mutations for the endpoint
          * ```ts
-         * const mutationCache = qraft.v1Service.postDevSeed.getMutationCache();
+         * const mutationCache = qraft.v1.postDevSeed.getMutationCache();
          * const mutations = mutationCache.findAll();
          * ```
          */
@@ -139,12 +139,12 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.deleteDevSeed.useMutation({})
+         * const { mutate, isPending } = qraft.v1.deleteDevSeed.useMutation({})
          * mutate(body);
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.deleteDevSeed.useMutation()
+         * const { mutate, isPending } = qraft.v1.deleteDevSeed.useMutation()
          * mutate({
          *     body: bodyPayload
          * });
@@ -158,12 +158,12 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.deleteDevSeed.useMutation({})
+         * const { mutate, isPending } = qraft.v1.deleteDevSeed.useMutation({})
          * mutate(body);
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.deleteDevSeed.useMutation()
+         * const { mutate, isPending } = qraft.v1.deleteDevSeed.useMutation()
          * mutate({
          *     body: bodyPayload
          * });
@@ -176,11 +176,11 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const deleteDevSeedTotal = qraft.v1Service.deleteDevSeed.useIsMutating()
+         * const deleteDevSeedTotal = qraft.v1.deleteDevSeed.useIsMutating()
          * ```
          * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const deleteDevSeedTotal = qraft.v1Service.deleteDevSeed.useIsMutating({
+         * const deleteDevSeedTotal = qraft.v1.deleteDevSeed.useIsMutating({
          *     parameters: {}
          * })
          * ```
@@ -192,7 +192,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
-         * const deleteDevSeedPendingMutationVariables = qraft.v1Service.deleteDevSeed.useMutationState({
+         * const deleteDevSeedPendingMutationVariables = qraft.v1.deleteDevSeed.useMutationState({
          *     filters: {
          *         status: "pending"
          *     },
@@ -201,7 +201,7 @@ export interface V1Service {
          * ```
          * @example Get all data for specific mutations via the `parameters`.
          * ```ts
-         * const deleteDevSeedMutationData = qraft.v1Service.deleteDevSeed.useMutationState({
+         * const deleteDevSeedMutationData = qraft.v1.deleteDevSeed.useMutationState({
          *     filters: {
          *         parameters: {}
          *     },
@@ -223,7 +223,7 @@ export interface V1Service {
          *
          * @example Find a mutation with specific parameters
          * ```ts
-         * const mutationCache = qraft.v1Service.deleteDevSeed.getMutationCache();
+         * const mutationCache = qraft.v1.deleteDevSeed.getMutationCache();
          * const mutation = mutationCache.find({
          *     parameters: {}
          * });
@@ -231,7 +231,7 @@ export interface V1Service {
          *
          * @example Find all mutations for the endpoint
          * ```ts
-         * const mutationCache = qraft.v1Service.deleteDevSeed.getMutationCache();
+         * const mutationCache = qraft.v1.deleteDevSeed.getMutationCache();
          * const mutations = mutationCache.findAll();
          * ```
          */
@@ -259,12 +259,12 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postApiTokens.useMutation({})
+         * const { mutate, isPending } = qraft.v1.postApiTokens.useMutation({})
          * mutate(body);
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postApiTokens.useMutation()
+         * const { mutate, isPending } = qraft.v1.postApiTokens.useMutation()
          * mutate({
          *     body: bodyPayload
          * });
@@ -278,12 +278,12 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postApiTokens.useMutation({})
+         * const { mutate, isPending } = qraft.v1.postApiTokens.useMutation({})
          * mutate(body);
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postApiTokens.useMutation()
+         * const { mutate, isPending } = qraft.v1.postApiTokens.useMutation()
          * mutate({
          *     body: bodyPayload
          * });
@@ -296,11 +296,11 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const postApiTokensTotal = qraft.v1Service.postApiTokens.useIsMutating()
+         * const postApiTokensTotal = qraft.v1.postApiTokens.useIsMutating()
          * ```
          * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const postApiTokensTotal = qraft.v1Service.postApiTokens.useIsMutating({
+         * const postApiTokensTotal = qraft.v1.postApiTokens.useIsMutating({
          *     parameters: {}
          * })
          * ```
@@ -312,7 +312,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
-         * const postApiTokensPendingMutationVariables = qraft.v1Service.postApiTokens.useMutationState({
+         * const postApiTokensPendingMutationVariables = qraft.v1.postApiTokens.useMutationState({
          *     filters: {
          *         status: "pending"
          *     },
@@ -321,7 +321,7 @@ export interface V1Service {
          * ```
          * @example Get all data for specific mutations via the `parameters`.
          * ```ts
-         * const postApiTokensMutationData = qraft.v1Service.postApiTokens.useMutationState({
+         * const postApiTokensMutationData = qraft.v1.postApiTokens.useMutationState({
          *     filters: {
          *         parameters: {}
          *     },
@@ -343,7 +343,7 @@ export interface V1Service {
          *
          * @example Find a mutation with specific parameters
          * ```ts
-         * const mutationCache = qraft.v1Service.postApiTokens.getMutationCache();
+         * const mutationCache = qraft.v1.postApiTokens.getMutationCache();
          * const mutation = mutationCache.find({
          *     parameters: {}
          * });
@@ -351,7 +351,7 @@ export interface V1Service {
          *
          * @example Find all mutations for the endpoint
          * ```ts
-         * const mutationCache = qraft.v1Service.postApiTokens.getMutationCache();
+         * const mutationCache = qraft.v1.postApiTokens.getMutationCache();
          * const mutations = mutationCache.findAll();
          * ```
          */
@@ -382,7 +382,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query without parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getApiTokens.useQuery()
+         * const { data, isLoading } = qraft.v1.getApiTokens.useQuery()
          * ```
          */
         useQuery<TData = GetApiTokensData>(parameters: ServiceOperationQueryKey<GetApiTokensSchema, GetApiTokensParameters> | (DeepReadonly<GetApiTokensParameters> | void), options?: Omit<UndefinedInitialDataOptions<GetApiTokensData, GetApiTokensError, TData, ServiceOperationQueryKey<GetApiTokensSchema, GetApiTokensParameters>>, "queryKey">): UseQueryResult<TData, OperationError<GetApiTokensError>>;
@@ -392,7 +392,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query without parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getApiTokens.useQuery()
+         * const { data, isLoading } = qraft.v1.getApiTokens.useQuery()
          * ```
          */
         useQuery<TData = GetApiTokensData>(parameters: ServiceOperationQueryKey<GetApiTokensSchema, GetApiTokensParameters> | (DeepReadonly<GetApiTokensParameters> | void), options: Omit<DefinedInitialDataOptions<GetApiTokensData, GetApiTokensError, TData, ServiceOperationQueryKey<GetApiTokensSchema, GetApiTokensParameters>>, "queryKey">): DefinedUseQueryResult<TData, OperationError<GetApiTokensError>>;
@@ -406,7 +406,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getApiTokens.useInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getApiTokens.useInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -424,7 +424,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getApiTokens.useInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getApiTokens.useInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -442,7 +442,7 @@ export interface V1Service {
          * @example Checks the total number of queries fetching from the specified service method,
          * both normal and infinite. If no parameters are provided, no filtering is applied.
          * ```ts
-         * const getApiTokensTotal = qraft.v1Service.getApiTokens.useIsFetching()
+         * const getApiTokensTotal = qraft.v1.getApiTokens.useIsFetching()
          * ```
          */
         useIsFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetApiTokensSchema, GetApiTokensData, TInfinite, GetApiTokensParameters, GetApiTokensError> | QueryFiltersByQueryKey<GetApiTokensSchema, GetApiTokensData, TInfinite, GetApiTokensParameters, GetApiTokensError>): number;
@@ -452,7 +452,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
          * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
          * ```ts
-         * const getApiTokensResults = qraft.v1Service.getApiTokens.useQueries({
+         * const getApiTokensResults = qraft.v1.getApiTokens.useQueries({
          *     queries: [
          *         {},
          *         {}
@@ -462,7 +462,7 @@ export interface V1Service {
          * ```
          * @example Combined results. Only the data will be returned.
          * ```ts
-         * const getApiTokensCombinedResults = qraft.v1Service.getApiTokens.useQueries({
+         * const getApiTokensCombinedResults = qraft.v1.getApiTokens.useQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {},
@@ -483,7 +483,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
          * @example Suspense Query without parameters
          * ```ts
-         * const data = qraft.v1Service.getApiTokens.useSuspenseQuery()
+         * const data = qraft.v1.getApiTokens.useSuspenseQuery()
          * ```
          */
         useSuspenseQuery<TData = GetApiTokensData>(parameters: ServiceOperationQueryKey<GetApiTokensSchema, GetApiTokensParameters> | (DeepReadonly<GetApiTokensParameters> | void), options?: Omit<UseSuspenseQueryOptions<GetApiTokensData, GetApiTokensError, TData, ServiceOperationQueryKey<GetApiTokensSchema, GetApiTokensParameters>>, "queryKey">): UseSuspenseQueryResult<TData, OperationError<GetApiTokensError>>;
@@ -496,7 +496,7 @@ export interface V1Service {
          *
          * @example Suspense Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getApiTokens.useSuspenseInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getApiTokens.useSuspenseInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -513,7 +513,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
          * @example Basic usage with Suspense
          * ```ts
-         * const getApiTokensData = qraft.v1Service.getApiTokens.useSuspenseQueries({
+         * const getApiTokensData = qraft.v1.getApiTokens.useSuspenseQueries({
          *     queries: [
          *         {},
          *         {}
@@ -523,7 +523,7 @@ export interface V1Service {
          * ```
          * @example With data transformation using combine
          * ```ts
-         * const getApiTokensCombinedData = qraft.v1Service.getApiTokens.useSuspenseQueries({
+         * const getApiTokensCombinedData = qraft.v1.getApiTokens.useSuspenseQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {},
@@ -602,7 +602,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.deleteApiTokensId.useMutation({
+         * const { mutate, isPending } = qraft.v1.deleteApiTokensId.useMutation({
          *     path: {
          *         id: id
          *     }
@@ -611,7 +611,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.deleteApiTokensId.useMutation()
+         * const { mutate, isPending } = qraft.v1.deleteApiTokensId.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -628,7 +628,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.deleteApiTokensId.useMutation({
+         * const { mutate, isPending } = qraft.v1.deleteApiTokensId.useMutation({
          *     path: {
          *         id: id
          *     }
@@ -637,7 +637,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.deleteApiTokensId.useMutation()
+         * const { mutate, isPending } = qraft.v1.deleteApiTokensId.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -653,11 +653,11 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const deleteApiTokensIdTotal = qraft.v1Service.deleteApiTokensId.useIsMutating()
+         * const deleteApiTokensIdTotal = qraft.v1.deleteApiTokensId.useIsMutating()
          * ```
          * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const deleteApiTokensIdTotal = qraft.v1Service.deleteApiTokensId.useIsMutating({
+         * const deleteApiTokensIdTotal = qraft.v1.deleteApiTokensId.useIsMutating({
          *     parameters: {
          *         path: {
          *             id: id
@@ -673,7 +673,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
-         * const deleteApiTokensIdPendingMutationVariables = qraft.v1Service.deleteApiTokensId.useMutationState({
+         * const deleteApiTokensIdPendingMutationVariables = qraft.v1.deleteApiTokensId.useMutationState({
          *     filters: {
          *         status: "pending"
          *     },
@@ -682,7 +682,7 @@ export interface V1Service {
          * ```
          * @example Get all data for specific mutations via the `parameters`.
          * ```ts
-         * const deleteApiTokensIdMutationData = qraft.v1Service.deleteApiTokensId.useMutationState({
+         * const deleteApiTokensIdMutationData = qraft.v1.deleteApiTokensId.useMutationState({
          *     filters: {
          *         parameters: {
          *             path: {
@@ -708,7 +708,7 @@ export interface V1Service {
          *
          * @example Find a mutation with specific parameters
          * ```ts
-         * const mutationCache = qraft.v1Service.deleteApiTokensId.getMutationCache();
+         * const mutationCache = qraft.v1.deleteApiTokensId.getMutationCache();
          * const mutation = mutationCache.find({
          *     parameters: {
          *         path: {
@@ -720,7 +720,7 @@ export interface V1Service {
          *
          * @example Find all mutations for the endpoint
          * ```ts
-         * const mutationCache = qraft.v1Service.deleteApiTokensId.getMutationCache();
+         * const mutationCache = qraft.v1.deleteApiTokensId.getMutationCache();
          * const mutations = mutationCache.findAll();
          * ```
          */
@@ -751,7 +751,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query without parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getAuthLogin.useQuery()
+         * const { data, isLoading } = qraft.v1.getAuthLogin.useQuery()
          * ```
          */
         useQuery<TData = GetAuthLoginData>(parameters: ServiceOperationQueryKey<GetAuthLoginSchema, GetAuthLoginParameters> | (DeepReadonly<GetAuthLoginParameters> | void), options?: Omit<UndefinedInitialDataOptions<GetAuthLoginData, GetAuthLoginError, TData, ServiceOperationQueryKey<GetAuthLoginSchema, GetAuthLoginParameters>>, "queryKey">): UseQueryResult<TData, OperationError<GetAuthLoginError>>;
@@ -761,7 +761,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query without parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getAuthLogin.useQuery()
+         * const { data, isLoading } = qraft.v1.getAuthLogin.useQuery()
          * ```
          */
         useQuery<TData = GetAuthLoginData>(parameters: ServiceOperationQueryKey<GetAuthLoginSchema, GetAuthLoginParameters> | (DeepReadonly<GetAuthLoginParameters> | void), options: Omit<DefinedInitialDataOptions<GetAuthLoginData, GetAuthLoginError, TData, ServiceOperationQueryKey<GetAuthLoginSchema, GetAuthLoginParameters>>, "queryKey">): DefinedUseQueryResult<TData, OperationError<GetAuthLoginError>>;
@@ -775,7 +775,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getAuthLogin.useInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getAuthLogin.useInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -793,7 +793,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getAuthLogin.useInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getAuthLogin.useInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -811,7 +811,7 @@ export interface V1Service {
          * @example Checks the total number of queries fetching from the specified service method,
          * both normal and infinite. If no parameters are provided, no filtering is applied.
          * ```ts
-         * const getAuthLoginTotal = qraft.v1Service.getAuthLogin.useIsFetching()
+         * const getAuthLoginTotal = qraft.v1.getAuthLogin.useIsFetching()
          * ```
          */
         useIsFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetAuthLoginSchema, GetAuthLoginData, TInfinite, GetAuthLoginParameters, GetAuthLoginError> | QueryFiltersByQueryKey<GetAuthLoginSchema, GetAuthLoginData, TInfinite, GetAuthLoginParameters, GetAuthLoginError>): number;
@@ -821,7 +821,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
          * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
          * ```ts
-         * const getAuthLoginResults = qraft.v1Service.getAuthLogin.useQueries({
+         * const getAuthLoginResults = qraft.v1.getAuthLogin.useQueries({
          *     queries: [
          *         {},
          *         {}
@@ -831,7 +831,7 @@ export interface V1Service {
          * ```
          * @example Combined results. Only the data will be returned.
          * ```ts
-         * const getAuthLoginCombinedResults = qraft.v1Service.getAuthLogin.useQueries({
+         * const getAuthLoginCombinedResults = qraft.v1.getAuthLogin.useQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {},
@@ -852,7 +852,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
          * @example Suspense Query without parameters
          * ```ts
-         * const data = qraft.v1Service.getAuthLogin.useSuspenseQuery()
+         * const data = qraft.v1.getAuthLogin.useSuspenseQuery()
          * ```
          */
         useSuspenseQuery<TData = GetAuthLoginData>(parameters: ServiceOperationQueryKey<GetAuthLoginSchema, GetAuthLoginParameters> | (DeepReadonly<GetAuthLoginParameters> | void), options?: Omit<UseSuspenseQueryOptions<GetAuthLoginData, GetAuthLoginError, TData, ServiceOperationQueryKey<GetAuthLoginSchema, GetAuthLoginParameters>>, "queryKey">): UseSuspenseQueryResult<TData, OperationError<GetAuthLoginError>>;
@@ -865,7 +865,7 @@ export interface V1Service {
          *
          * @example Suspense Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getAuthLogin.useSuspenseInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getAuthLogin.useSuspenseInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -882,7 +882,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
          * @example Basic usage with Suspense
          * ```ts
-         * const getAuthLoginData = qraft.v1Service.getAuthLogin.useSuspenseQueries({
+         * const getAuthLoginData = qraft.v1.getAuthLogin.useSuspenseQueries({
          *     queries: [
          *         {},
          *         {}
@@ -892,7 +892,7 @@ export interface V1Service {
          * ```
          * @example With data transformation using combine
          * ```ts
-         * const getAuthLoginCombinedData = qraft.v1Service.getAuthLogin.useSuspenseQueries({
+         * const getAuthLoginCombinedData = qraft.v1.getAuthLogin.useSuspenseQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {},
@@ -974,7 +974,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query without parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getAuthCloseWindowMessage.useQuery()
+         * const { data, isLoading } = qraft.v1.getAuthCloseWindowMessage.useQuery()
          * ```
          */
         useQuery<TData = GetAuthCloseWindowMessageData>(parameters: ServiceOperationQueryKey<GetAuthCloseWindowMessageSchema, GetAuthCloseWindowMessageParameters> | (DeepReadonly<GetAuthCloseWindowMessageParameters> | void), options?: Omit<UndefinedInitialDataOptions<GetAuthCloseWindowMessageData, GetAuthCloseWindowMessageError, TData, ServiceOperationQueryKey<GetAuthCloseWindowMessageSchema, GetAuthCloseWindowMessageParameters>>, "queryKey">): UseQueryResult<TData, OperationError<GetAuthCloseWindowMessageError>>;
@@ -984,7 +984,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query without parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getAuthCloseWindowMessage.useQuery()
+         * const { data, isLoading } = qraft.v1.getAuthCloseWindowMessage.useQuery()
          * ```
          */
         useQuery<TData = GetAuthCloseWindowMessageData>(parameters: ServiceOperationQueryKey<GetAuthCloseWindowMessageSchema, GetAuthCloseWindowMessageParameters> | (DeepReadonly<GetAuthCloseWindowMessageParameters> | void), options: Omit<DefinedInitialDataOptions<GetAuthCloseWindowMessageData, GetAuthCloseWindowMessageError, TData, ServiceOperationQueryKey<GetAuthCloseWindowMessageSchema, GetAuthCloseWindowMessageParameters>>, "queryKey">): DefinedUseQueryResult<TData, OperationError<GetAuthCloseWindowMessageError>>;
@@ -998,7 +998,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getAuthCloseWindowMessage.useInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getAuthCloseWindowMessage.useInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -1016,7 +1016,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getAuthCloseWindowMessage.useInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getAuthCloseWindowMessage.useInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -1034,7 +1034,7 @@ export interface V1Service {
          * @example Checks the total number of queries fetching from the specified service method,
          * both normal and infinite. If no parameters are provided, no filtering is applied.
          * ```ts
-         * const getAuthCloseWindowMessageTotal = qraft.v1Service.getAuthCloseWindowMessage.useIsFetching()
+         * const getAuthCloseWindowMessageTotal = qraft.v1.getAuthCloseWindowMessage.useIsFetching()
          * ```
          */
         useIsFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetAuthCloseWindowMessageSchema, GetAuthCloseWindowMessageData, TInfinite, GetAuthCloseWindowMessageParameters, GetAuthCloseWindowMessageError> | QueryFiltersByQueryKey<GetAuthCloseWindowMessageSchema, GetAuthCloseWindowMessageData, TInfinite, GetAuthCloseWindowMessageParameters, GetAuthCloseWindowMessageError>): number;
@@ -1044,7 +1044,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
          * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
          * ```ts
-         * const getAuthCloseWindowMessageResults = qraft.v1Service.getAuthCloseWindowMessage.useQueries({
+         * const getAuthCloseWindowMessageResults = qraft.v1.getAuthCloseWindowMessage.useQueries({
          *     queries: [
          *         {},
          *         {}
@@ -1054,7 +1054,7 @@ export interface V1Service {
          * ```
          * @example Combined results. Only the data will be returned.
          * ```ts
-         * const getAuthCloseWindowMessageCombinedResults = qraft.v1Service.getAuthCloseWindowMessage.useQueries({
+         * const getAuthCloseWindowMessageCombinedResults = qraft.v1.getAuthCloseWindowMessage.useQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {},
@@ -1075,7 +1075,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
          * @example Suspense Query without parameters
          * ```ts
-         * const data = qraft.v1Service.getAuthCloseWindowMessage.useSuspenseQuery()
+         * const data = qraft.v1.getAuthCloseWindowMessage.useSuspenseQuery()
          * ```
          */
         useSuspenseQuery<TData = GetAuthCloseWindowMessageData>(parameters: ServiceOperationQueryKey<GetAuthCloseWindowMessageSchema, GetAuthCloseWindowMessageParameters> | (DeepReadonly<GetAuthCloseWindowMessageParameters> | void), options?: Omit<UseSuspenseQueryOptions<GetAuthCloseWindowMessageData, GetAuthCloseWindowMessageError, TData, ServiceOperationQueryKey<GetAuthCloseWindowMessageSchema, GetAuthCloseWindowMessageParameters>>, "queryKey">): UseSuspenseQueryResult<TData, OperationError<GetAuthCloseWindowMessageError>>;
@@ -1088,7 +1088,7 @@ export interface V1Service {
          *
          * @example Suspense Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getAuthCloseWindowMessage.useSuspenseInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getAuthCloseWindowMessage.useSuspenseInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -1105,7 +1105,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
          * @example Basic usage with Suspense
          * ```ts
-         * const getAuthCloseWindowMessageData = qraft.v1Service.getAuthCloseWindowMessage.useSuspenseQueries({
+         * const getAuthCloseWindowMessageData = qraft.v1.getAuthCloseWindowMessage.useSuspenseQueries({
          *     queries: [
          *         {},
          *         {}
@@ -1115,7 +1115,7 @@ export interface V1Service {
          * ```
          * @example With data transformation using combine
          * ```ts
-         * const getAuthCloseWindowMessageCombinedData = qraft.v1Service.getAuthCloseWindowMessage.useSuspenseQueries({
+         * const getAuthCloseWindowMessageCombinedData = qraft.v1.getAuthCloseWindowMessage.useSuspenseQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {},
@@ -1197,7 +1197,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query without parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getAuthLogout.useQuery()
+         * const { data, isLoading } = qraft.v1.getAuthLogout.useQuery()
          * ```
          */
         useQuery<TData = GetAuthLogoutData>(parameters: ServiceOperationQueryKey<GetAuthLogoutSchema, GetAuthLogoutParameters> | (DeepReadonly<GetAuthLogoutParameters> | void), options?: Omit<UndefinedInitialDataOptions<GetAuthLogoutData, GetAuthLogoutError, TData, ServiceOperationQueryKey<GetAuthLogoutSchema, GetAuthLogoutParameters>>, "queryKey">): UseQueryResult<TData, OperationError<GetAuthLogoutError>>;
@@ -1207,7 +1207,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query without parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getAuthLogout.useQuery()
+         * const { data, isLoading } = qraft.v1.getAuthLogout.useQuery()
          * ```
          */
         useQuery<TData = GetAuthLogoutData>(parameters: ServiceOperationQueryKey<GetAuthLogoutSchema, GetAuthLogoutParameters> | (DeepReadonly<GetAuthLogoutParameters> | void), options: Omit<DefinedInitialDataOptions<GetAuthLogoutData, GetAuthLogoutError, TData, ServiceOperationQueryKey<GetAuthLogoutSchema, GetAuthLogoutParameters>>, "queryKey">): DefinedUseQueryResult<TData, OperationError<GetAuthLogoutError>>;
@@ -1221,7 +1221,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getAuthLogout.useInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getAuthLogout.useInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -1239,7 +1239,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getAuthLogout.useInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getAuthLogout.useInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -1257,7 +1257,7 @@ export interface V1Service {
          * @example Checks the total number of queries fetching from the specified service method,
          * both normal and infinite. If no parameters are provided, no filtering is applied.
          * ```ts
-         * const getAuthLogoutTotal = qraft.v1Service.getAuthLogout.useIsFetching()
+         * const getAuthLogoutTotal = qraft.v1.getAuthLogout.useIsFetching()
          * ```
          */
         useIsFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetAuthLogoutSchema, GetAuthLogoutData, TInfinite, GetAuthLogoutParameters, GetAuthLogoutError> | QueryFiltersByQueryKey<GetAuthLogoutSchema, GetAuthLogoutData, TInfinite, GetAuthLogoutParameters, GetAuthLogoutError>): number;
@@ -1267,7 +1267,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
          * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
          * ```ts
-         * const getAuthLogoutResults = qraft.v1Service.getAuthLogout.useQueries({
+         * const getAuthLogoutResults = qraft.v1.getAuthLogout.useQueries({
          *     queries: [
          *         {},
          *         {}
@@ -1277,7 +1277,7 @@ export interface V1Service {
          * ```
          * @example Combined results. Only the data will be returned.
          * ```ts
-         * const getAuthLogoutCombinedResults = qraft.v1Service.getAuthLogout.useQueries({
+         * const getAuthLogoutCombinedResults = qraft.v1.getAuthLogout.useQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {},
@@ -1298,7 +1298,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
          * @example Suspense Query without parameters
          * ```ts
-         * const data = qraft.v1Service.getAuthLogout.useSuspenseQuery()
+         * const data = qraft.v1.getAuthLogout.useSuspenseQuery()
          * ```
          */
         useSuspenseQuery<TData = GetAuthLogoutData>(parameters: ServiceOperationQueryKey<GetAuthLogoutSchema, GetAuthLogoutParameters> | (DeepReadonly<GetAuthLogoutParameters> | void), options?: Omit<UseSuspenseQueryOptions<GetAuthLogoutData, GetAuthLogoutError, TData, ServiceOperationQueryKey<GetAuthLogoutSchema, GetAuthLogoutParameters>>, "queryKey">): UseSuspenseQueryResult<TData, OperationError<GetAuthLogoutError>>;
@@ -1311,7 +1311,7 @@ export interface V1Service {
          *
          * @example Suspense Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getAuthLogout.useSuspenseInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getAuthLogout.useSuspenseInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -1328,7 +1328,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
          * @example Basic usage with Suspense
          * ```ts
-         * const getAuthLogoutData = qraft.v1Service.getAuthLogout.useSuspenseQueries({
+         * const getAuthLogoutData = qraft.v1.getAuthLogout.useSuspenseQueries({
          *     queries: [
          *         {},
          *         {}
@@ -1338,7 +1338,7 @@ export interface V1Service {
          * ```
          * @example With data transformation using combine
          * ```ts
-         * const getAuthLogoutCombinedData = qraft.v1Service.getAuthLogout.useSuspenseQueries({
+         * const getAuthLogoutCombinedData = qraft.v1.getAuthLogout.useSuspenseQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {},
@@ -1420,7 +1420,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query without parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getAuthWhoami.useQuery()
+         * const { data, isLoading } = qraft.v1.getAuthWhoami.useQuery()
          * ```
          */
         useQuery<TData = GetAuthWhoamiData>(parameters: ServiceOperationQueryKey<GetAuthWhoamiSchema, GetAuthWhoamiParameters> | (DeepReadonly<GetAuthWhoamiParameters> | void), options?: Omit<UndefinedInitialDataOptions<GetAuthWhoamiData, GetAuthWhoamiError, TData, ServiceOperationQueryKey<GetAuthWhoamiSchema, GetAuthWhoamiParameters>>, "queryKey">): UseQueryResult<TData, OperationError<GetAuthWhoamiError>>;
@@ -1430,7 +1430,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query without parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getAuthWhoami.useQuery()
+         * const { data, isLoading } = qraft.v1.getAuthWhoami.useQuery()
          * ```
          */
         useQuery<TData = GetAuthWhoamiData>(parameters: ServiceOperationQueryKey<GetAuthWhoamiSchema, GetAuthWhoamiParameters> | (DeepReadonly<GetAuthWhoamiParameters> | void), options: Omit<DefinedInitialDataOptions<GetAuthWhoamiData, GetAuthWhoamiError, TData, ServiceOperationQueryKey<GetAuthWhoamiSchema, GetAuthWhoamiParameters>>, "queryKey">): DefinedUseQueryResult<TData, OperationError<GetAuthWhoamiError>>;
@@ -1444,7 +1444,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getAuthWhoami.useInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getAuthWhoami.useInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -1462,7 +1462,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getAuthWhoami.useInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getAuthWhoami.useInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -1480,7 +1480,7 @@ export interface V1Service {
          * @example Checks the total number of queries fetching from the specified service method,
          * both normal and infinite. If no parameters are provided, no filtering is applied.
          * ```ts
-         * const getAuthWhoamiTotal = qraft.v1Service.getAuthWhoami.useIsFetching()
+         * const getAuthWhoamiTotal = qraft.v1.getAuthWhoami.useIsFetching()
          * ```
          */
         useIsFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetAuthWhoamiSchema, GetAuthWhoamiData, TInfinite, GetAuthWhoamiParameters, GetAuthWhoamiError> | QueryFiltersByQueryKey<GetAuthWhoamiSchema, GetAuthWhoamiData, TInfinite, GetAuthWhoamiParameters, GetAuthWhoamiError>): number;
@@ -1490,7 +1490,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
          * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
          * ```ts
-         * const getAuthWhoamiResults = qraft.v1Service.getAuthWhoami.useQueries({
+         * const getAuthWhoamiResults = qraft.v1.getAuthWhoami.useQueries({
          *     queries: [
          *         {},
          *         {}
@@ -1500,7 +1500,7 @@ export interface V1Service {
          * ```
          * @example Combined results. Only the data will be returned.
          * ```ts
-         * const getAuthWhoamiCombinedResults = qraft.v1Service.getAuthWhoami.useQueries({
+         * const getAuthWhoamiCombinedResults = qraft.v1.getAuthWhoami.useQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {},
@@ -1521,7 +1521,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
          * @example Suspense Query without parameters
          * ```ts
-         * const data = qraft.v1Service.getAuthWhoami.useSuspenseQuery()
+         * const data = qraft.v1.getAuthWhoami.useSuspenseQuery()
          * ```
          */
         useSuspenseQuery<TData = GetAuthWhoamiData>(parameters: ServiceOperationQueryKey<GetAuthWhoamiSchema, GetAuthWhoamiParameters> | (DeepReadonly<GetAuthWhoamiParameters> | void), options?: Omit<UseSuspenseQueryOptions<GetAuthWhoamiData, GetAuthWhoamiError, TData, ServiceOperationQueryKey<GetAuthWhoamiSchema, GetAuthWhoamiParameters>>, "queryKey">): UseSuspenseQueryResult<TData, OperationError<GetAuthWhoamiError>>;
@@ -1534,7 +1534,7 @@ export interface V1Service {
          *
          * @example Suspense Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getAuthWhoami.useSuspenseInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getAuthWhoami.useSuspenseInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -1551,7 +1551,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
          * @example Basic usage with Suspense
          * ```ts
-         * const getAuthWhoamiData = qraft.v1Service.getAuthWhoami.useSuspenseQueries({
+         * const getAuthWhoamiData = qraft.v1.getAuthWhoami.useSuspenseQueries({
          *     queries: [
          *         {},
          *         {}
@@ -1561,7 +1561,7 @@ export interface V1Service {
          * ```
          * @example With data transformation using combine
          * ```ts
-         * const getAuthWhoamiCombinedData = qraft.v1Service.getAuthWhoami.useSuspenseQueries({
+         * const getAuthWhoamiCombinedData = qraft.v1.getAuthWhoami.useSuspenseQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {},
@@ -1643,7 +1643,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query without parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getAuthMe.useQuery()
+         * const { data, isLoading } = qraft.v1.getAuthMe.useQuery()
          * ```
          */
         useQuery<TData = GetAuthMeData>(parameters: ServiceOperationQueryKey<GetAuthMeSchema, GetAuthMeParameters> | (DeepReadonly<GetAuthMeParameters> | void), options?: Omit<UndefinedInitialDataOptions<GetAuthMeData, GetAuthMeError, TData, ServiceOperationQueryKey<GetAuthMeSchema, GetAuthMeParameters>>, "queryKey">): UseQueryResult<TData, OperationError<GetAuthMeError>>;
@@ -1653,7 +1653,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query without parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getAuthMe.useQuery()
+         * const { data, isLoading } = qraft.v1.getAuthMe.useQuery()
          * ```
          */
         useQuery<TData = GetAuthMeData>(parameters: ServiceOperationQueryKey<GetAuthMeSchema, GetAuthMeParameters> | (DeepReadonly<GetAuthMeParameters> | void), options: Omit<DefinedInitialDataOptions<GetAuthMeData, GetAuthMeError, TData, ServiceOperationQueryKey<GetAuthMeSchema, GetAuthMeParameters>>, "queryKey">): DefinedUseQueryResult<TData, OperationError<GetAuthMeError>>;
@@ -1667,7 +1667,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getAuthMe.useInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getAuthMe.useInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -1685,7 +1685,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getAuthMe.useInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getAuthMe.useInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -1703,7 +1703,7 @@ export interface V1Service {
          * @example Checks the total number of queries fetching from the specified service method,
          * both normal and infinite. If no parameters are provided, no filtering is applied.
          * ```ts
-         * const getAuthMeTotal = qraft.v1Service.getAuthMe.useIsFetching()
+         * const getAuthMeTotal = qraft.v1.getAuthMe.useIsFetching()
          * ```
          */
         useIsFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetAuthMeSchema, GetAuthMeData, TInfinite, GetAuthMeParameters, GetAuthMeError> | QueryFiltersByQueryKey<GetAuthMeSchema, GetAuthMeData, TInfinite, GetAuthMeParameters, GetAuthMeError>): number;
@@ -1713,7 +1713,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
          * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
          * ```ts
-         * const getAuthMeResults = qraft.v1Service.getAuthMe.useQueries({
+         * const getAuthMeResults = qraft.v1.getAuthMe.useQueries({
          *     queries: [
          *         {},
          *         {}
@@ -1723,7 +1723,7 @@ export interface V1Service {
          * ```
          * @example Combined results. Only the data will be returned.
          * ```ts
-         * const getAuthMeCombinedResults = qraft.v1Service.getAuthMe.useQueries({
+         * const getAuthMeCombinedResults = qraft.v1.getAuthMe.useQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {},
@@ -1744,7 +1744,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
          * @example Suspense Query without parameters
          * ```ts
-         * const data = qraft.v1Service.getAuthMe.useSuspenseQuery()
+         * const data = qraft.v1.getAuthMe.useSuspenseQuery()
          * ```
          */
         useSuspenseQuery<TData = GetAuthMeData>(parameters: ServiceOperationQueryKey<GetAuthMeSchema, GetAuthMeParameters> | (DeepReadonly<GetAuthMeParameters> | void), options?: Omit<UseSuspenseQueryOptions<GetAuthMeData, GetAuthMeError, TData, ServiceOperationQueryKey<GetAuthMeSchema, GetAuthMeParameters>>, "queryKey">): UseSuspenseQueryResult<TData, OperationError<GetAuthMeError>>;
@@ -1757,7 +1757,7 @@ export interface V1Service {
          *
          * @example Suspense Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getAuthMe.useSuspenseInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getAuthMe.useSuspenseInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -1774,7 +1774,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
          * @example Basic usage with Suspense
          * ```ts
-         * const getAuthMeData = qraft.v1Service.getAuthMe.useSuspenseQueries({
+         * const getAuthMeData = qraft.v1.getAuthMe.useSuspenseQueries({
          *     queries: [
          *         {},
          *         {}
@@ -1784,7 +1784,7 @@ export interface V1Service {
          * ```
          * @example With data transformation using combine
          * ```ts
-         * const getAuthMeCombinedData = qraft.v1Service.getAuthMe.useSuspenseQueries({
+         * const getAuthMeCombinedData = qraft.v1.getAuthMe.useSuspenseQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {},
@@ -1863,7 +1863,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postCliDockerPush.useMutation({
+         * const { mutate, isPending } = qraft.v1.postCliDockerPush.useMutation({
          *     header: {
          *         "x-api-key": xApiKey,
          *         "x-app-name": xAppName,
@@ -1874,7 +1874,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postCliDockerPush.useMutation()
+         * const { mutate, isPending } = qraft.v1.postCliDockerPush.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     header: {
@@ -1893,7 +1893,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postCliDockerPush.useMutation({
+         * const { mutate, isPending } = qraft.v1.postCliDockerPush.useMutation({
          *     header: {
          *         "x-api-key": xApiKey,
          *         "x-app-name": xAppName,
@@ -1904,7 +1904,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postCliDockerPush.useMutation()
+         * const { mutate, isPending } = qraft.v1.postCliDockerPush.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     header: {
@@ -1922,11 +1922,11 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const postCliDockerPushTotal = qraft.v1Service.postCliDockerPush.useIsMutating()
+         * const postCliDockerPushTotal = qraft.v1.postCliDockerPush.useIsMutating()
          * ```
          * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const postCliDockerPushTotal = qraft.v1Service.postCliDockerPush.useIsMutating({
+         * const postCliDockerPushTotal = qraft.v1.postCliDockerPush.useIsMutating({
          *     parameters: {
          *         header: {
          *             "x-api-key": xApiKey,
@@ -1944,7 +1944,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
-         * const postCliDockerPushPendingMutationVariables = qraft.v1Service.postCliDockerPush.useMutationState({
+         * const postCliDockerPushPendingMutationVariables = qraft.v1.postCliDockerPush.useMutationState({
          *     filters: {
          *         status: "pending"
          *     },
@@ -1953,7 +1953,7 @@ export interface V1Service {
          * ```
          * @example Get all data for specific mutations via the `parameters`.
          * ```ts
-         * const postCliDockerPushMutationData = qraft.v1Service.postCliDockerPush.useMutationState({
+         * const postCliDockerPushMutationData = qraft.v1.postCliDockerPush.useMutationState({
          *     filters: {
          *         parameters: {
          *             header: {
@@ -1981,7 +1981,7 @@ export interface V1Service {
          *
          * @example Find a mutation with specific parameters
          * ```ts
-         * const mutationCache = qraft.v1Service.postCliDockerPush.getMutationCache();
+         * const mutationCache = qraft.v1.postCliDockerPush.getMutationCache();
          * const mutation = mutationCache.find({
          *     parameters: {
          *         header: {
@@ -1995,7 +1995,7 @@ export interface V1Service {
          *
          * @example Find all mutations for the endpoint
          * ```ts
-         * const mutationCache = qraft.v1Service.postCliDockerPush.getMutationCache();
+         * const mutationCache = qraft.v1.postCliDockerPush.getMutationCache();
          * const mutations = mutationCache.findAll();
          * ```
          */
@@ -2026,7 +2026,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query without parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getCliGithubStatus.useQuery()
+         * const { data, isLoading } = qraft.v1.getCliGithubStatus.useQuery()
          * ```
          */
         useQuery<TData = GetCliGithubStatusData>(parameters: ServiceOperationQueryKey<GetCliGithubStatusSchema, GetCliGithubStatusParameters> | (DeepReadonly<GetCliGithubStatusParameters> | void), options?: Omit<UndefinedInitialDataOptions<GetCliGithubStatusData, GetCliGithubStatusError, TData, ServiceOperationQueryKey<GetCliGithubStatusSchema, GetCliGithubStatusParameters>>, "queryKey">): UseQueryResult<TData, OperationError<GetCliGithubStatusError>>;
@@ -2036,7 +2036,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query without parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getCliGithubStatus.useQuery()
+         * const { data, isLoading } = qraft.v1.getCliGithubStatus.useQuery()
          * ```
          */
         useQuery<TData = GetCliGithubStatusData>(parameters: ServiceOperationQueryKey<GetCliGithubStatusSchema, GetCliGithubStatusParameters> | (DeepReadonly<GetCliGithubStatusParameters> | void), options: Omit<DefinedInitialDataOptions<GetCliGithubStatusData, GetCliGithubStatusError, TData, ServiceOperationQueryKey<GetCliGithubStatusSchema, GetCliGithubStatusParameters>>, "queryKey">): DefinedUseQueryResult<TData, OperationError<GetCliGithubStatusError>>;
@@ -2050,7 +2050,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getCliGithubStatus.useInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getCliGithubStatus.useInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -2068,7 +2068,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getCliGithubStatus.useInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getCliGithubStatus.useInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -2086,7 +2086,7 @@ export interface V1Service {
          * @example Checks the total number of queries fetching from the specified service method,
          * both normal and infinite. If no parameters are provided, no filtering is applied.
          * ```ts
-         * const getCliGithubStatusTotal = qraft.v1Service.getCliGithubStatus.useIsFetching()
+         * const getCliGithubStatusTotal = qraft.v1.getCliGithubStatus.useIsFetching()
          * ```
          */
         useIsFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetCliGithubStatusSchema, GetCliGithubStatusData, TInfinite, GetCliGithubStatusParameters, GetCliGithubStatusError> | QueryFiltersByQueryKey<GetCliGithubStatusSchema, GetCliGithubStatusData, TInfinite, GetCliGithubStatusParameters, GetCliGithubStatusError>): number;
@@ -2096,7 +2096,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
          * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
          * ```ts
-         * const getCliGithubStatusResults = qraft.v1Service.getCliGithubStatus.useQueries({
+         * const getCliGithubStatusResults = qraft.v1.getCliGithubStatus.useQueries({
          *     queries: [
          *         {},
          *         {}
@@ -2106,7 +2106,7 @@ export interface V1Service {
          * ```
          * @example Combined results. Only the data will be returned.
          * ```ts
-         * const getCliGithubStatusCombinedResults = qraft.v1Service.getCliGithubStatus.useQueries({
+         * const getCliGithubStatusCombinedResults = qraft.v1.getCliGithubStatus.useQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {},
@@ -2127,7 +2127,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
          * @example Suspense Query without parameters
          * ```ts
-         * const data = qraft.v1Service.getCliGithubStatus.useSuspenseQuery()
+         * const data = qraft.v1.getCliGithubStatus.useSuspenseQuery()
          * ```
          */
         useSuspenseQuery<TData = GetCliGithubStatusData>(parameters: ServiceOperationQueryKey<GetCliGithubStatusSchema, GetCliGithubStatusParameters> | (DeepReadonly<GetCliGithubStatusParameters> | void), options?: Omit<UseSuspenseQueryOptions<GetCliGithubStatusData, GetCliGithubStatusError, TData, ServiceOperationQueryKey<GetCliGithubStatusSchema, GetCliGithubStatusParameters>>, "queryKey">): UseSuspenseQueryResult<TData, OperationError<GetCliGithubStatusError>>;
@@ -2140,7 +2140,7 @@ export interface V1Service {
          *
          * @example Suspense Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getCliGithubStatus.useSuspenseInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getCliGithubStatus.useSuspenseInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -2157,7 +2157,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
          * @example Basic usage with Suspense
          * ```ts
-         * const getCliGithubStatusData = qraft.v1Service.getCliGithubStatus.useSuspenseQueries({
+         * const getCliGithubStatusData = qraft.v1.getCliGithubStatus.useSuspenseQueries({
          *     queries: [
          *         {},
          *         {}
@@ -2167,7 +2167,7 @@ export interface V1Service {
          * ```
          * @example With data transformation using combine
          * ```ts
-         * const getCliGithubStatusCombinedData = qraft.v1Service.getCliGithubStatus.useSuspenseQueries({
+         * const getCliGithubStatusCombinedData = qraft.v1.getCliGithubStatus.useSuspenseQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {},
@@ -2249,7 +2249,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query with parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getCliRepos.useQuery({
+         * const { data, isLoading } = qraft.v1.getCliRepos.useQuery({
          *     query: {
          *         type: type
          *     }
@@ -2263,7 +2263,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query with parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getCliRepos.useQuery({
+         * const { data, isLoading } = qraft.v1.getCliRepos.useQuery({
          *     query: {
          *         type: type
          *     }
@@ -2281,7 +2281,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getCliRepos.useInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getCliRepos.useInfiniteQuery({
          *     query: {
          *         type: type
          *     }
@@ -2307,7 +2307,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getCliRepos.useInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getCliRepos.useInfiniteQuery({
          *     query: {
          *         type: type
          *     }
@@ -2333,11 +2333,11 @@ export interface V1Service {
          * @example Checks the total number of queries fetching from the specified service method,
          * both normal and infinite. If no parameters are provided, no filtering is applied.
          * ```ts
-         * const getCliReposTotal = qraft.v1Service.getCliRepos.useIsFetching()
+         * const getCliReposTotal = qraft.v1.getCliRepos.useIsFetching()
          * ```
          * @example Checks the number of normal queries fetching with the specified parameters.
          * ```ts
-         * const getCliReposByParametersTotal = qraft.v1Service.getCliRepos.useIsFetching({
+         * const getCliReposByParametersTotal = qraft.v1.getCliRepos.useIsFetching({
          *     infinite: false,
          *     parameters: {
          *         query: {
@@ -2354,7 +2354,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
          * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
          * ```ts
-         * const getCliReposResults = qraft.v1Service.getCliRepos.useQueries({
+         * const getCliReposResults = qraft.v1.getCliRepos.useQueries({
          *     queries: [
          *         {
          *             query: {
@@ -2372,7 +2372,7 @@ export interface V1Service {
          * ```
          * @example Combined results. Only the data will be returned.
          * ```ts
-         * const getCliReposCombinedResults = qraft.v1Service.getCliRepos.useQueries({
+         * const getCliReposCombinedResults = qraft.v1.getCliRepos.useQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {
@@ -2401,7 +2401,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
          * @example Suspense Query with parameters
          * ```ts
-         * const data = qraft.v1Service.getCliRepos.useSuspenseQuery({
+         * const data = qraft.v1.getCliRepos.useSuspenseQuery({
          *     query: {
          *         type: type
          *     }
@@ -2418,7 +2418,7 @@ export interface V1Service {
          *
          * @example Suspense Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getCliRepos.useSuspenseInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getCliRepos.useSuspenseInfiniteQuery({
          *     query: {
          *         type: type
          *     }
@@ -2443,7 +2443,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
          * @example Basic usage with Suspense
          * ```ts
-         * const getCliReposData = qraft.v1Service.getCliRepos.useSuspenseQueries({
+         * const getCliReposData = qraft.v1.getCliRepos.useSuspenseQueries({
          *     queries: [
          *         {
          *             query: {
@@ -2461,7 +2461,7 @@ export interface V1Service {
          * ```
          * @example With data transformation using combine
          * ```ts
-         * const getCliReposCombinedData = qraft.v1Service.getCliRepos.useSuspenseQueries({
+         * const getCliReposCombinedData = qraft.v1.getCliRepos.useSuspenseQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {
@@ -2548,12 +2548,12 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postCliRepos.useMutation({})
+         * const { mutate, isPending } = qraft.v1.postCliRepos.useMutation({})
          * mutate(body);
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postCliRepos.useMutation()
+         * const { mutate, isPending } = qraft.v1.postCliRepos.useMutation()
          * mutate({
          *     body: bodyPayload
          * });
@@ -2567,12 +2567,12 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postCliRepos.useMutation({})
+         * const { mutate, isPending } = qraft.v1.postCliRepos.useMutation({})
          * mutate(body);
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postCliRepos.useMutation()
+         * const { mutate, isPending } = qraft.v1.postCliRepos.useMutation()
          * mutate({
          *     body: bodyPayload
          * });
@@ -2585,11 +2585,11 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const postCliReposTotal = qraft.v1Service.postCliRepos.useIsMutating()
+         * const postCliReposTotal = qraft.v1.postCliRepos.useIsMutating()
          * ```
          * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const postCliReposTotal = qraft.v1Service.postCliRepos.useIsMutating({
+         * const postCliReposTotal = qraft.v1.postCliRepos.useIsMutating({
          *     parameters: {}
          * })
          * ```
@@ -2601,7 +2601,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
-         * const postCliReposPendingMutationVariables = qraft.v1Service.postCliRepos.useMutationState({
+         * const postCliReposPendingMutationVariables = qraft.v1.postCliRepos.useMutationState({
          *     filters: {
          *         status: "pending"
          *     },
@@ -2610,7 +2610,7 @@ export interface V1Service {
          * ```
          * @example Get all data for specific mutations via the `parameters`.
          * ```ts
-         * const postCliReposMutationData = qraft.v1Service.postCliRepos.useMutationState({
+         * const postCliReposMutationData = qraft.v1.postCliRepos.useMutationState({
          *     filters: {
          *         parameters: {}
          *     },
@@ -2632,7 +2632,7 @@ export interface V1Service {
          *
          * @example Find a mutation with specific parameters
          * ```ts
-         * const mutationCache = qraft.v1Service.postCliRepos.getMutationCache();
+         * const mutationCache = qraft.v1.postCliRepos.getMutationCache();
          * const mutation = mutationCache.find({
          *     parameters: {}
          * });
@@ -2640,7 +2640,7 @@ export interface V1Service {
          *
          * @example Find all mutations for the endpoint
          * ```ts
-         * const mutationCache = qraft.v1Service.postCliRepos.getMutationCache();
+         * const mutationCache = qraft.v1.postCliRepos.getMutationCache();
          * const mutations = mutationCache.findAll();
          * ```
          */
@@ -2668,7 +2668,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postCliProjectsProjectIdDeployments.useMutation({
+         * const { mutate, isPending } = qraft.v1.postCliProjectsProjectIdDeployments.useMutation({
          *     path: {
          *         projectId: projectId
          *     }
@@ -2677,7 +2677,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postCliProjectsProjectIdDeployments.useMutation()
+         * const { mutate, isPending } = qraft.v1.postCliProjectsProjectIdDeployments.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -2694,7 +2694,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postCliProjectsProjectIdDeployments.useMutation({
+         * const { mutate, isPending } = qraft.v1.postCliProjectsProjectIdDeployments.useMutation({
          *     path: {
          *         projectId: projectId
          *     }
@@ -2703,7 +2703,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postCliProjectsProjectIdDeployments.useMutation()
+         * const { mutate, isPending } = qraft.v1.postCliProjectsProjectIdDeployments.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -2719,11 +2719,11 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const postCliProjectsProjectIdDeploymentsTotal = qraft.v1Service.postCliProjectsProjectIdDeployments.useIsMutating()
+         * const postCliProjectsProjectIdDeploymentsTotal = qraft.v1.postCliProjectsProjectIdDeployments.useIsMutating()
          * ```
          * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const postCliProjectsProjectIdDeploymentsTotal = qraft.v1Service.postCliProjectsProjectIdDeployments.useIsMutating({
+         * const postCliProjectsProjectIdDeploymentsTotal = qraft.v1.postCliProjectsProjectIdDeployments.useIsMutating({
          *     parameters: {
          *         path: {
          *             projectId: projectId
@@ -2739,7 +2739,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
-         * const postCliProjectsProjectIdDeploymentsPendingMutationVariables = qraft.v1Service.postCliProjectsProjectIdDeployments.useMutationState({
+         * const postCliProjectsProjectIdDeploymentsPendingMutationVariables = qraft.v1.postCliProjectsProjectIdDeployments.useMutationState({
          *     filters: {
          *         status: "pending"
          *     },
@@ -2748,7 +2748,7 @@ export interface V1Service {
          * ```
          * @example Get all data for specific mutations via the `parameters`.
          * ```ts
-         * const postCliProjectsProjectIdDeploymentsMutationData = qraft.v1Service.postCliProjectsProjectIdDeployments.useMutationState({
+         * const postCliProjectsProjectIdDeploymentsMutationData = qraft.v1.postCliProjectsProjectIdDeployments.useMutationState({
          *     filters: {
          *         parameters: {
          *             path: {
@@ -2774,7 +2774,7 @@ export interface V1Service {
          *
          * @example Find a mutation with specific parameters
          * ```ts
-         * const mutationCache = qraft.v1Service.postCliProjectsProjectIdDeployments.getMutationCache();
+         * const mutationCache = qraft.v1.postCliProjectsProjectIdDeployments.getMutationCache();
          * const mutation = mutationCache.find({
          *     parameters: {
          *         path: {
@@ -2786,7 +2786,7 @@ export interface V1Service {
          *
          * @example Find all mutations for the endpoint
          * ```ts
-         * const mutationCache = qraft.v1Service.postCliProjectsProjectIdDeployments.getMutationCache();
+         * const mutationCache = qraft.v1.postCliProjectsProjectIdDeployments.getMutationCache();
          * const mutations = mutationCache.findAll();
          * ```
          */
@@ -2814,12 +2814,12 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postCliProjects.useMutation({})
+         * const { mutate, isPending } = qraft.v1.postCliProjects.useMutation({})
          * mutate(body);
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postCliProjects.useMutation()
+         * const { mutate, isPending } = qraft.v1.postCliProjects.useMutation()
          * mutate({
          *     body: bodyPayload
          * });
@@ -2833,12 +2833,12 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postCliProjects.useMutation({})
+         * const { mutate, isPending } = qraft.v1.postCliProjects.useMutation({})
          * mutate(body);
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postCliProjects.useMutation()
+         * const { mutate, isPending } = qraft.v1.postCliProjects.useMutation()
          * mutate({
          *     body: bodyPayload
          * });
@@ -2851,11 +2851,11 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const postCliProjectsTotal = qraft.v1Service.postCliProjects.useIsMutating()
+         * const postCliProjectsTotal = qraft.v1.postCliProjects.useIsMutating()
          * ```
          * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const postCliProjectsTotal = qraft.v1Service.postCliProjects.useIsMutating({
+         * const postCliProjectsTotal = qraft.v1.postCliProjects.useIsMutating({
          *     parameters: {}
          * })
          * ```
@@ -2867,7 +2867,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
-         * const postCliProjectsPendingMutationVariables = qraft.v1Service.postCliProjects.useMutationState({
+         * const postCliProjectsPendingMutationVariables = qraft.v1.postCliProjects.useMutationState({
          *     filters: {
          *         status: "pending"
          *     },
@@ -2876,7 +2876,7 @@ export interface V1Service {
          * ```
          * @example Get all data for specific mutations via the `parameters`.
          * ```ts
-         * const postCliProjectsMutationData = qraft.v1Service.postCliProjects.useMutationState({
+         * const postCliProjectsMutationData = qraft.v1.postCliProjects.useMutationState({
          *     filters: {
          *         parameters: {}
          *     },
@@ -2898,7 +2898,7 @@ export interface V1Service {
          *
          * @example Find a mutation with specific parameters
          * ```ts
-         * const mutationCache = qraft.v1Service.postCliProjects.getMutationCache();
+         * const mutationCache = qraft.v1.postCliProjects.getMutationCache();
          * const mutation = mutationCache.find({
          *     parameters: {}
          * });
@@ -2906,7 +2906,7 @@ export interface V1Service {
          *
          * @example Find all mutations for the endpoint
          * ```ts
-         * const mutationCache = qraft.v1Service.postCliProjects.getMutationCache();
+         * const mutationCache = qraft.v1.postCliProjects.getMutationCache();
          * const mutations = mutationCache.findAll();
          * ```
          */
@@ -2937,7 +2937,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query with parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getCliProjectsProjectId.useQuery({
+         * const { data, isLoading } = qraft.v1.getCliProjectsProjectId.useQuery({
          *     path: {
          *         projectId: projectId
          *     }
@@ -2951,7 +2951,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query with parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getCliProjectsProjectId.useQuery({
+         * const { data, isLoading } = qraft.v1.getCliProjectsProjectId.useQuery({
          *     path: {
          *         projectId: projectId
          *     }
@@ -2969,7 +2969,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getCliProjectsProjectId.useInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getCliProjectsProjectId.useInfiniteQuery({
          *     path: {
          *         projectId: projectId
          *     }
@@ -2991,7 +2991,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getCliProjectsProjectId.useInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getCliProjectsProjectId.useInfiniteQuery({
          *     path: {
          *         projectId: projectId
          *     }
@@ -3013,11 +3013,11 @@ export interface V1Service {
          * @example Checks the total number of queries fetching from the specified service method,
          * both normal and infinite. If no parameters are provided, no filtering is applied.
          * ```ts
-         * const getCliProjectsProjectIdTotal = qraft.v1Service.getCliProjectsProjectId.useIsFetching()
+         * const getCliProjectsProjectIdTotal = qraft.v1.getCliProjectsProjectId.useIsFetching()
          * ```
          * @example Checks the number of normal queries fetching with the specified parameters.
          * ```ts
-         * const getCliProjectsProjectIdByParametersTotal = qraft.v1Service.getCliProjectsProjectId.useIsFetching({
+         * const getCliProjectsProjectIdByParametersTotal = qraft.v1.getCliProjectsProjectId.useIsFetching({
          *     infinite: false,
          *     parameters: {
          *         path: {
@@ -3034,7 +3034,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
          * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
          * ```ts
-         * const getCliProjectsProjectIdResults = qraft.v1Service.getCliProjectsProjectId.useQueries({
+         * const getCliProjectsProjectIdResults = qraft.v1.getCliProjectsProjectId.useQueries({
          *     queries: [
          *         {
          *             path: {
@@ -3052,7 +3052,7 @@ export interface V1Service {
          * ```
          * @example Combined results. Only the data will be returned.
          * ```ts
-         * const getCliProjectsProjectIdCombinedResults = qraft.v1Service.getCliProjectsProjectId.useQueries({
+         * const getCliProjectsProjectIdCombinedResults = qraft.v1.getCliProjectsProjectId.useQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {
@@ -3081,7 +3081,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
          * @example Suspense Query with parameters
          * ```ts
-         * const data = qraft.v1Service.getCliProjectsProjectId.useSuspenseQuery({
+         * const data = qraft.v1.getCliProjectsProjectId.useSuspenseQuery({
          *     path: {
          *         projectId: projectId
          *     }
@@ -3098,7 +3098,7 @@ export interface V1Service {
          *
          * @example Suspense Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getCliProjectsProjectId.useSuspenseInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getCliProjectsProjectId.useSuspenseInfiniteQuery({
          *     path: {
          *         projectId: projectId
          *     }
@@ -3119,7 +3119,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
          * @example Basic usage with Suspense
          * ```ts
-         * const getCliProjectsProjectIdData = qraft.v1Service.getCliProjectsProjectId.useSuspenseQueries({
+         * const getCliProjectsProjectIdData = qraft.v1.getCliProjectsProjectId.useSuspenseQueries({
          *     queries: [
          *         {
          *             path: {
@@ -3137,7 +3137,7 @@ export interface V1Service {
          * ```
          * @example With data transformation using combine
          * ```ts
-         * const getCliProjectsProjectIdCombinedData = qraft.v1Service.getCliProjectsProjectId.useSuspenseQueries({
+         * const getCliProjectsProjectIdCombinedData = qraft.v1.getCliProjectsProjectId.useSuspenseQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {
@@ -3224,12 +3224,12 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postCliProjectsGetProjectByRepoUrl.useMutation({})
+         * const { mutate, isPending } = qraft.v1.postCliProjectsGetProjectByRepoUrl.useMutation({})
          * mutate(body);
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postCliProjectsGetProjectByRepoUrl.useMutation()
+         * const { mutate, isPending } = qraft.v1.postCliProjectsGetProjectByRepoUrl.useMutation()
          * mutate({
          *     body: bodyPayload
          * });
@@ -3243,12 +3243,12 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postCliProjectsGetProjectByRepoUrl.useMutation({})
+         * const { mutate, isPending } = qraft.v1.postCliProjectsGetProjectByRepoUrl.useMutation({})
          * mutate(body);
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postCliProjectsGetProjectByRepoUrl.useMutation()
+         * const { mutate, isPending } = qraft.v1.postCliProjectsGetProjectByRepoUrl.useMutation()
          * mutate({
          *     body: bodyPayload
          * });
@@ -3261,11 +3261,11 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const postCliProjectsGetProjectByRepoUrlTotal = qraft.v1Service.postCliProjectsGetProjectByRepoUrl.useIsMutating()
+         * const postCliProjectsGetProjectByRepoUrlTotal = qraft.v1.postCliProjectsGetProjectByRepoUrl.useIsMutating()
          * ```
          * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const postCliProjectsGetProjectByRepoUrlTotal = qraft.v1Service.postCliProjectsGetProjectByRepoUrl.useIsMutating({
+         * const postCliProjectsGetProjectByRepoUrlTotal = qraft.v1.postCliProjectsGetProjectByRepoUrl.useIsMutating({
          *     parameters: {}
          * })
          * ```
@@ -3277,7 +3277,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
-         * const postCliProjectsGetProjectByRepoUrlPendingMutationVariables = qraft.v1Service.postCliProjectsGetProjectByRepoUrl.useMutationState({
+         * const postCliProjectsGetProjectByRepoUrlPendingMutationVariables = qraft.v1.postCliProjectsGetProjectByRepoUrl.useMutationState({
          *     filters: {
          *         status: "pending"
          *     },
@@ -3286,7 +3286,7 @@ export interface V1Service {
          * ```
          * @example Get all data for specific mutations via the `parameters`.
          * ```ts
-         * const postCliProjectsGetProjectByRepoUrlMutationData = qraft.v1Service.postCliProjectsGetProjectByRepoUrl.useMutationState({
+         * const postCliProjectsGetProjectByRepoUrlMutationData = qraft.v1.postCliProjectsGetProjectByRepoUrl.useMutationState({
          *     filters: {
          *         parameters: {}
          *     },
@@ -3308,7 +3308,7 @@ export interface V1Service {
          *
          * @example Find a mutation with specific parameters
          * ```ts
-         * const mutationCache = qraft.v1Service.postCliProjectsGetProjectByRepoUrl.getMutationCache();
+         * const mutationCache = qraft.v1.postCliProjectsGetProjectByRepoUrl.getMutationCache();
          * const mutation = mutationCache.find({
          *     parameters: {}
          * });
@@ -3316,7 +3316,7 @@ export interface V1Service {
          *
          * @example Find all mutations for the endpoint
          * ```ts
-         * const mutationCache = qraft.v1Service.postCliProjectsGetProjectByRepoUrl.getMutationCache();
+         * const mutationCache = qraft.v1.postCliProjectsGetProjectByRepoUrl.getMutationCache();
          * const mutations = mutationCache.findAll();
          * ```
          */
@@ -3344,7 +3344,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postCliProjectsProjectIdRestore.useMutation({
+         * const { mutate, isPending } = qraft.v1.postCliProjectsProjectIdRestore.useMutation({
          *     path: {
          *         projectId: projectId
          *     }
@@ -3353,7 +3353,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postCliProjectsProjectIdRestore.useMutation()
+         * const { mutate, isPending } = qraft.v1.postCliProjectsProjectIdRestore.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -3370,7 +3370,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postCliProjectsProjectIdRestore.useMutation({
+         * const { mutate, isPending } = qraft.v1.postCliProjectsProjectIdRestore.useMutation({
          *     path: {
          *         projectId: projectId
          *     }
@@ -3379,7 +3379,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postCliProjectsProjectIdRestore.useMutation()
+         * const { mutate, isPending } = qraft.v1.postCliProjectsProjectIdRestore.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -3395,11 +3395,11 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const postCliProjectsProjectIdRestoreTotal = qraft.v1Service.postCliProjectsProjectIdRestore.useIsMutating()
+         * const postCliProjectsProjectIdRestoreTotal = qraft.v1.postCliProjectsProjectIdRestore.useIsMutating()
          * ```
          * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const postCliProjectsProjectIdRestoreTotal = qraft.v1Service.postCliProjectsProjectIdRestore.useIsMutating({
+         * const postCliProjectsProjectIdRestoreTotal = qraft.v1.postCliProjectsProjectIdRestore.useIsMutating({
          *     parameters: {
          *         path: {
          *             projectId: projectId
@@ -3415,7 +3415,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
-         * const postCliProjectsProjectIdRestorePendingMutationVariables = qraft.v1Service.postCliProjectsProjectIdRestore.useMutationState({
+         * const postCliProjectsProjectIdRestorePendingMutationVariables = qraft.v1.postCliProjectsProjectIdRestore.useMutationState({
          *     filters: {
          *         status: "pending"
          *     },
@@ -3424,7 +3424,7 @@ export interface V1Service {
          * ```
          * @example Get all data for specific mutations via the `parameters`.
          * ```ts
-         * const postCliProjectsProjectIdRestoreMutationData = qraft.v1Service.postCliProjectsProjectIdRestore.useMutationState({
+         * const postCliProjectsProjectIdRestoreMutationData = qraft.v1.postCliProjectsProjectIdRestore.useMutationState({
          *     filters: {
          *         parameters: {
          *             path: {
@@ -3450,7 +3450,7 @@ export interface V1Service {
          *
          * @example Find a mutation with specific parameters
          * ```ts
-         * const mutationCache = qraft.v1Service.postCliProjectsProjectIdRestore.getMutationCache();
+         * const mutationCache = qraft.v1.postCliProjectsProjectIdRestore.getMutationCache();
          * const mutation = mutationCache.find({
          *     parameters: {
          *         path: {
@@ -3462,7 +3462,7 @@ export interface V1Service {
          *
          * @example Find all mutations for the endpoint
          * ```ts
-         * const mutationCache = qraft.v1Service.postCliProjectsProjectIdRestore.getMutationCache();
+         * const mutationCache = qraft.v1.postCliProjectsProjectIdRestore.getMutationCache();
          * const mutations = mutationCache.findAll();
          * ```
          */
@@ -3490,12 +3490,12 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postCliProjectsMigrate.useMutation({})
+         * const { mutate, isPending } = qraft.v1.postCliProjectsMigrate.useMutation({})
          * mutate(body);
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postCliProjectsMigrate.useMutation()
+         * const { mutate, isPending } = qraft.v1.postCliProjectsMigrate.useMutation()
          * mutate({
          *     body: bodyPayload
          * });
@@ -3509,12 +3509,12 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postCliProjectsMigrate.useMutation({})
+         * const { mutate, isPending } = qraft.v1.postCliProjectsMigrate.useMutation({})
          * mutate(body);
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postCliProjectsMigrate.useMutation()
+         * const { mutate, isPending } = qraft.v1.postCliProjectsMigrate.useMutation()
          * mutate({
          *     body: bodyPayload
          * });
@@ -3527,11 +3527,11 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const postCliProjectsMigrateTotal = qraft.v1Service.postCliProjectsMigrate.useIsMutating()
+         * const postCliProjectsMigrateTotal = qraft.v1.postCliProjectsMigrate.useIsMutating()
          * ```
          * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const postCliProjectsMigrateTotal = qraft.v1Service.postCliProjectsMigrate.useIsMutating({
+         * const postCliProjectsMigrateTotal = qraft.v1.postCliProjectsMigrate.useIsMutating({
          *     parameters: {}
          * })
          * ```
@@ -3543,7 +3543,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
-         * const postCliProjectsMigratePendingMutationVariables = qraft.v1Service.postCliProjectsMigrate.useMutationState({
+         * const postCliProjectsMigratePendingMutationVariables = qraft.v1.postCliProjectsMigrate.useMutationState({
          *     filters: {
          *         status: "pending"
          *     },
@@ -3552,7 +3552,7 @@ export interface V1Service {
          * ```
          * @example Get all data for specific mutations via the `parameters`.
          * ```ts
-         * const postCliProjectsMigrateMutationData = qraft.v1Service.postCliProjectsMigrate.useMutationState({
+         * const postCliProjectsMigrateMutationData = qraft.v1.postCliProjectsMigrate.useMutationState({
          *     filters: {
          *         parameters: {}
          *     },
@@ -3574,7 +3574,7 @@ export interface V1Service {
          *
          * @example Find a mutation with specific parameters
          * ```ts
-         * const mutationCache = qraft.v1Service.postCliProjectsMigrate.getMutationCache();
+         * const mutationCache = qraft.v1.postCliProjectsMigrate.getMutationCache();
          * const mutation = mutationCache.find({
          *     parameters: {}
          * });
@@ -3582,7 +3582,7 @@ export interface V1Service {
          *
          * @example Find all mutations for the endpoint
          * ```ts
-         * const mutationCache = qraft.v1Service.postCliProjectsMigrate.getMutationCache();
+         * const mutationCache = qraft.v1.postCliProjectsMigrate.getMutationCache();
          * const mutations = mutationCache.findAll();
          * ```
          */
@@ -3610,7 +3610,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.patchCliProjectsProjectIdTemplate.useMutation({
+         * const { mutate, isPending } = qraft.v1.patchCliProjectsProjectIdTemplate.useMutation({
          *     path: {
          *         projectId: projectId
          *     }
@@ -3619,7 +3619,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.patchCliProjectsProjectIdTemplate.useMutation()
+         * const { mutate, isPending } = qraft.v1.patchCliProjectsProjectIdTemplate.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -3636,7 +3636,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.patchCliProjectsProjectIdTemplate.useMutation({
+         * const { mutate, isPending } = qraft.v1.patchCliProjectsProjectIdTemplate.useMutation({
          *     path: {
          *         projectId: projectId
          *     }
@@ -3645,7 +3645,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.patchCliProjectsProjectIdTemplate.useMutation()
+         * const { mutate, isPending } = qraft.v1.patchCliProjectsProjectIdTemplate.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -3661,11 +3661,11 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const patchCliProjectsProjectIdTemplateTotal = qraft.v1Service.patchCliProjectsProjectIdTemplate.useIsMutating()
+         * const patchCliProjectsProjectIdTemplateTotal = qraft.v1.patchCliProjectsProjectIdTemplate.useIsMutating()
          * ```
          * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const patchCliProjectsProjectIdTemplateTotal = qraft.v1Service.patchCliProjectsProjectIdTemplate.useIsMutating({
+         * const patchCliProjectsProjectIdTemplateTotal = qraft.v1.patchCliProjectsProjectIdTemplate.useIsMutating({
          *     parameters: {
          *         path: {
          *             projectId: projectId
@@ -3681,7 +3681,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
-         * const patchCliProjectsProjectIdTemplatePendingMutationVariables = qraft.v1Service.patchCliProjectsProjectIdTemplate.useMutationState({
+         * const patchCliProjectsProjectIdTemplatePendingMutationVariables = qraft.v1.patchCliProjectsProjectIdTemplate.useMutationState({
          *     filters: {
          *         status: "pending"
          *     },
@@ -3690,7 +3690,7 @@ export interface V1Service {
          * ```
          * @example Get all data for specific mutations via the `parameters`.
          * ```ts
-         * const patchCliProjectsProjectIdTemplateMutationData = qraft.v1Service.patchCliProjectsProjectIdTemplate.useMutationState({
+         * const patchCliProjectsProjectIdTemplateMutationData = qraft.v1.patchCliProjectsProjectIdTemplate.useMutationState({
          *     filters: {
          *         parameters: {
          *             path: {
@@ -3716,7 +3716,7 @@ export interface V1Service {
          *
          * @example Find a mutation with specific parameters
          * ```ts
-         * const mutationCache = qraft.v1Service.patchCliProjectsProjectIdTemplate.getMutationCache();
+         * const mutationCache = qraft.v1.patchCliProjectsProjectIdTemplate.getMutationCache();
          * const mutation = mutationCache.find({
          *     parameters: {
          *         path: {
@@ -3728,7 +3728,7 @@ export interface V1Service {
          *
          * @example Find all mutations for the endpoint
          * ```ts
-         * const mutationCache = qraft.v1Service.patchCliProjectsProjectIdTemplate.getMutationCache();
+         * const mutationCache = qraft.v1.patchCliProjectsProjectIdTemplate.getMutationCache();
          * const mutations = mutationCache.findAll();
          * ```
          */
@@ -3759,7 +3759,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query without parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getCliLocations.useQuery()
+         * const { data, isLoading } = qraft.v1.getCliLocations.useQuery()
          * ```
          */
         useQuery<TData = GetCliLocationsData>(parameters: ServiceOperationQueryKey<GetCliLocationsSchema, GetCliLocationsParameters> | (DeepReadonly<GetCliLocationsParameters> | void), options?: Omit<UndefinedInitialDataOptions<GetCliLocationsData, GetCliLocationsError, TData, ServiceOperationQueryKey<GetCliLocationsSchema, GetCliLocationsParameters>>, "queryKey">): UseQueryResult<TData, OperationError<GetCliLocationsError>>;
@@ -3769,7 +3769,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query without parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getCliLocations.useQuery()
+         * const { data, isLoading } = qraft.v1.getCliLocations.useQuery()
          * ```
          */
         useQuery<TData = GetCliLocationsData>(parameters: ServiceOperationQueryKey<GetCliLocationsSchema, GetCliLocationsParameters> | (DeepReadonly<GetCliLocationsParameters> | void), options: Omit<DefinedInitialDataOptions<GetCliLocationsData, GetCliLocationsError, TData, ServiceOperationQueryKey<GetCliLocationsSchema, GetCliLocationsParameters>>, "queryKey">): DefinedUseQueryResult<TData, OperationError<GetCliLocationsError>>;
@@ -3783,7 +3783,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getCliLocations.useInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getCliLocations.useInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -3801,7 +3801,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getCliLocations.useInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getCliLocations.useInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -3819,7 +3819,7 @@ export interface V1Service {
          * @example Checks the total number of queries fetching from the specified service method,
          * both normal and infinite. If no parameters are provided, no filtering is applied.
          * ```ts
-         * const getCliLocationsTotal = qraft.v1Service.getCliLocations.useIsFetching()
+         * const getCliLocationsTotal = qraft.v1.getCliLocations.useIsFetching()
          * ```
          */
         useIsFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetCliLocationsSchema, GetCliLocationsData, TInfinite, GetCliLocationsParameters, GetCliLocationsError> | QueryFiltersByQueryKey<GetCliLocationsSchema, GetCliLocationsData, TInfinite, GetCliLocationsParameters, GetCliLocationsError>): number;
@@ -3829,7 +3829,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
          * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
          * ```ts
-         * const getCliLocationsResults = qraft.v1Service.getCliLocations.useQueries({
+         * const getCliLocationsResults = qraft.v1.getCliLocations.useQueries({
          *     queries: [
          *         {},
          *         {}
@@ -3839,7 +3839,7 @@ export interface V1Service {
          * ```
          * @example Combined results. Only the data will be returned.
          * ```ts
-         * const getCliLocationsCombinedResults = qraft.v1Service.getCliLocations.useQueries({
+         * const getCliLocationsCombinedResults = qraft.v1.getCliLocations.useQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {},
@@ -3860,7 +3860,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
          * @example Suspense Query without parameters
          * ```ts
-         * const data = qraft.v1Service.getCliLocations.useSuspenseQuery()
+         * const data = qraft.v1.getCliLocations.useSuspenseQuery()
          * ```
          */
         useSuspenseQuery<TData = GetCliLocationsData>(parameters: ServiceOperationQueryKey<GetCliLocationsSchema, GetCliLocationsParameters> | (DeepReadonly<GetCliLocationsParameters> | void), options?: Omit<UseSuspenseQueryOptions<GetCliLocationsData, GetCliLocationsError, TData, ServiceOperationQueryKey<GetCliLocationsSchema, GetCliLocationsParameters>>, "queryKey">): UseSuspenseQueryResult<TData, OperationError<GetCliLocationsError>>;
@@ -3873,7 +3873,7 @@ export interface V1Service {
          *
          * @example Suspense Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getCliLocations.useSuspenseInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getCliLocations.useSuspenseInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -3890,7 +3890,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
          * @example Basic usage with Suspense
          * ```ts
-         * const getCliLocationsData = qraft.v1Service.getCliLocations.useSuspenseQueries({
+         * const getCliLocationsData = qraft.v1.getCliLocations.useSuspenseQueries({
          *     queries: [
          *         {},
          *         {}
@@ -3900,7 +3900,7 @@ export interface V1Service {
          * ```
          * @example With data transformation using combine
          * ```ts
-         * const getCliLocationsCombinedData = qraft.v1Service.getCliLocations.useSuspenseQueries({
+         * const getCliLocationsCombinedData = qraft.v1.getCliLocations.useSuspenseQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {},
@@ -3979,12 +3979,12 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postCliModulesAdd.useMutation({})
+         * const { mutate, isPending } = qraft.v1.postCliModulesAdd.useMutation({})
          * mutate(body);
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postCliModulesAdd.useMutation()
+         * const { mutate, isPending } = qraft.v1.postCliModulesAdd.useMutation()
          * mutate({
          *     body: bodyPayload
          * });
@@ -3998,12 +3998,12 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postCliModulesAdd.useMutation({})
+         * const { mutate, isPending } = qraft.v1.postCliModulesAdd.useMutation({})
          * mutate(body);
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postCliModulesAdd.useMutation()
+         * const { mutate, isPending } = qraft.v1.postCliModulesAdd.useMutation()
          * mutate({
          *     body: bodyPayload
          * });
@@ -4016,11 +4016,11 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const postCliModulesAddTotal = qraft.v1Service.postCliModulesAdd.useIsMutating()
+         * const postCliModulesAddTotal = qraft.v1.postCliModulesAdd.useIsMutating()
          * ```
          * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const postCliModulesAddTotal = qraft.v1Service.postCliModulesAdd.useIsMutating({
+         * const postCliModulesAddTotal = qraft.v1.postCliModulesAdd.useIsMutating({
          *     parameters: {}
          * })
          * ```
@@ -4032,7 +4032,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
-         * const postCliModulesAddPendingMutationVariables = qraft.v1Service.postCliModulesAdd.useMutationState({
+         * const postCliModulesAddPendingMutationVariables = qraft.v1.postCliModulesAdd.useMutationState({
          *     filters: {
          *         status: "pending"
          *     },
@@ -4041,7 +4041,7 @@ export interface V1Service {
          * ```
          * @example Get all data for specific mutations via the `parameters`.
          * ```ts
-         * const postCliModulesAddMutationData = qraft.v1Service.postCliModulesAdd.useMutationState({
+         * const postCliModulesAddMutationData = qraft.v1.postCliModulesAdd.useMutationState({
          *     filters: {
          *         parameters: {}
          *     },
@@ -4063,7 +4063,7 @@ export interface V1Service {
          *
          * @example Find a mutation with specific parameters
          * ```ts
-         * const mutationCache = qraft.v1Service.postCliModulesAdd.getMutationCache();
+         * const mutationCache = qraft.v1.postCliModulesAdd.getMutationCache();
          * const mutation = mutationCache.find({
          *     parameters: {}
          * });
@@ -4071,7 +4071,7 @@ export interface V1Service {
          *
          * @example Find all mutations for the endpoint
          * ```ts
-         * const mutationCache = qraft.v1Service.postCliModulesAdd.getMutationCache();
+         * const mutationCache = qraft.v1.postCliModulesAdd.getMutationCache();
          * const mutations = mutationCache.findAll();
          * ```
          */
@@ -4099,12 +4099,12 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postCliModulesForkModules.useMutation({})
+         * const { mutate, isPending } = qraft.v1.postCliModulesForkModules.useMutation({})
          * mutate(body);
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postCliModulesForkModules.useMutation()
+         * const { mutate, isPending } = qraft.v1.postCliModulesForkModules.useMutation()
          * mutate({
          *     body: bodyPayload
          * });
@@ -4118,12 +4118,12 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postCliModulesForkModules.useMutation({})
+         * const { mutate, isPending } = qraft.v1.postCliModulesForkModules.useMutation({})
          * mutate(body);
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postCliModulesForkModules.useMutation()
+         * const { mutate, isPending } = qraft.v1.postCliModulesForkModules.useMutation()
          * mutate({
          *     body: bodyPayload
          * });
@@ -4136,11 +4136,11 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const postCliModulesForkModulesTotal = qraft.v1Service.postCliModulesForkModules.useIsMutating()
+         * const postCliModulesForkModulesTotal = qraft.v1.postCliModulesForkModules.useIsMutating()
          * ```
          * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const postCliModulesForkModulesTotal = qraft.v1Service.postCliModulesForkModules.useIsMutating({
+         * const postCliModulesForkModulesTotal = qraft.v1.postCliModulesForkModules.useIsMutating({
          *     parameters: {}
          * })
          * ```
@@ -4152,7 +4152,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
-         * const postCliModulesForkModulesPendingMutationVariables = qraft.v1Service.postCliModulesForkModules.useMutationState({
+         * const postCliModulesForkModulesPendingMutationVariables = qraft.v1.postCliModulesForkModules.useMutationState({
          *     filters: {
          *         status: "pending"
          *     },
@@ -4161,7 +4161,7 @@ export interface V1Service {
          * ```
          * @example Get all data for specific mutations via the `parameters`.
          * ```ts
-         * const postCliModulesForkModulesMutationData = qraft.v1Service.postCliModulesForkModules.useMutationState({
+         * const postCliModulesForkModulesMutationData = qraft.v1.postCliModulesForkModules.useMutationState({
          *     filters: {
          *         parameters: {}
          *     },
@@ -4183,7 +4183,7 @@ export interface V1Service {
          *
          * @example Find a mutation with specific parameters
          * ```ts
-         * const mutationCache = qraft.v1Service.postCliModulesForkModules.getMutationCache();
+         * const mutationCache = qraft.v1.postCliModulesForkModules.getMutationCache();
          * const mutation = mutationCache.find({
          *     parameters: {}
          * });
@@ -4191,7 +4191,7 @@ export interface V1Service {
          *
          * @example Find all mutations for the endpoint
          * ```ts
-         * const mutationCache = qraft.v1Service.postCliModulesForkModules.getMutationCache();
+         * const mutationCache = qraft.v1.postCliModulesForkModules.getMutationCache();
          * const mutations = mutationCache.findAll();
          * ```
          */
@@ -4222,7 +4222,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query without parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getCliModulesMine.useQuery()
+         * const { data, isLoading } = qraft.v1.getCliModulesMine.useQuery()
          * ```
          */
         useQuery<TData = GetCliModulesMineData>(parameters: ServiceOperationQueryKey<GetCliModulesMineSchema, GetCliModulesMineParameters> | (DeepReadonly<GetCliModulesMineParameters> | void), options?: Omit<UndefinedInitialDataOptions<GetCliModulesMineData, GetCliModulesMineError, TData, ServiceOperationQueryKey<GetCliModulesMineSchema, GetCliModulesMineParameters>>, "queryKey">): UseQueryResult<TData, OperationError<GetCliModulesMineError>>;
@@ -4232,7 +4232,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query without parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getCliModulesMine.useQuery()
+         * const { data, isLoading } = qraft.v1.getCliModulesMine.useQuery()
          * ```
          */
         useQuery<TData = GetCliModulesMineData>(parameters: ServiceOperationQueryKey<GetCliModulesMineSchema, GetCliModulesMineParameters> | (DeepReadonly<GetCliModulesMineParameters> | void), options: Omit<DefinedInitialDataOptions<GetCliModulesMineData, GetCliModulesMineError, TData, ServiceOperationQueryKey<GetCliModulesMineSchema, GetCliModulesMineParameters>>, "queryKey">): DefinedUseQueryResult<TData, OperationError<GetCliModulesMineError>>;
@@ -4246,7 +4246,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getCliModulesMine.useInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getCliModulesMine.useInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -4264,7 +4264,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getCliModulesMine.useInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getCliModulesMine.useInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -4282,7 +4282,7 @@ export interface V1Service {
          * @example Checks the total number of queries fetching from the specified service method,
          * both normal and infinite. If no parameters are provided, no filtering is applied.
          * ```ts
-         * const getCliModulesMineTotal = qraft.v1Service.getCliModulesMine.useIsFetching()
+         * const getCliModulesMineTotal = qraft.v1.getCliModulesMine.useIsFetching()
          * ```
          */
         useIsFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetCliModulesMineSchema, GetCliModulesMineData, TInfinite, GetCliModulesMineParameters, GetCliModulesMineError> | QueryFiltersByQueryKey<GetCliModulesMineSchema, GetCliModulesMineData, TInfinite, GetCliModulesMineParameters, GetCliModulesMineError>): number;
@@ -4292,7 +4292,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
          * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
          * ```ts
-         * const getCliModulesMineResults = qraft.v1Service.getCliModulesMine.useQueries({
+         * const getCliModulesMineResults = qraft.v1.getCliModulesMine.useQueries({
          *     queries: [
          *         {},
          *         {}
@@ -4302,7 +4302,7 @@ export interface V1Service {
          * ```
          * @example Combined results. Only the data will be returned.
          * ```ts
-         * const getCliModulesMineCombinedResults = qraft.v1Service.getCliModulesMine.useQueries({
+         * const getCliModulesMineCombinedResults = qraft.v1.getCliModulesMine.useQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {},
@@ -4323,7 +4323,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
          * @example Suspense Query without parameters
          * ```ts
-         * const data = qraft.v1Service.getCliModulesMine.useSuspenseQuery()
+         * const data = qraft.v1.getCliModulesMine.useSuspenseQuery()
          * ```
          */
         useSuspenseQuery<TData = GetCliModulesMineData>(parameters: ServiceOperationQueryKey<GetCliModulesMineSchema, GetCliModulesMineParameters> | (DeepReadonly<GetCliModulesMineParameters> | void), options?: Omit<UseSuspenseQueryOptions<GetCliModulesMineData, GetCliModulesMineError, TData, ServiceOperationQueryKey<GetCliModulesMineSchema, GetCliModulesMineParameters>>, "queryKey">): UseSuspenseQueryResult<TData, OperationError<GetCliModulesMineError>>;
@@ -4336,7 +4336,7 @@ export interface V1Service {
          *
          * @example Suspense Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getCliModulesMine.useSuspenseInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getCliModulesMine.useSuspenseInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -4353,7 +4353,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
          * @example Basic usage with Suspense
          * ```ts
-         * const getCliModulesMineData = qraft.v1Service.getCliModulesMine.useSuspenseQueries({
+         * const getCliModulesMineData = qraft.v1.getCliModulesMine.useSuspenseQueries({
          *     queries: [
          *         {},
          *         {}
@@ -4363,7 +4363,7 @@ export interface V1Service {
          * ```
          * @example With data transformation using combine
          * ```ts
-         * const getCliModulesMineCombinedData = qraft.v1Service.getCliModulesMine.useSuspenseQueries({
+         * const getCliModulesMineCombinedData = qraft.v1.getCliModulesMine.useSuspenseQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {},
@@ -4442,12 +4442,12 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postCliModulesRelease.useMutation({})
+         * const { mutate, isPending } = qraft.v1.postCliModulesRelease.useMutation({})
          * mutate(body);
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postCliModulesRelease.useMutation()
+         * const { mutate, isPending } = qraft.v1.postCliModulesRelease.useMutation()
          * mutate({
          *     body: bodyPayload
          * });
@@ -4461,12 +4461,12 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postCliModulesRelease.useMutation({})
+         * const { mutate, isPending } = qraft.v1.postCliModulesRelease.useMutation({})
          * mutate(body);
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postCliModulesRelease.useMutation()
+         * const { mutate, isPending } = qraft.v1.postCliModulesRelease.useMutation()
          * mutate({
          *     body: bodyPayload
          * });
@@ -4479,11 +4479,11 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const postCliModulesReleaseTotal = qraft.v1Service.postCliModulesRelease.useIsMutating()
+         * const postCliModulesReleaseTotal = qraft.v1.postCliModulesRelease.useIsMutating()
          * ```
          * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const postCliModulesReleaseTotal = qraft.v1Service.postCliModulesRelease.useIsMutating({
+         * const postCliModulesReleaseTotal = qraft.v1.postCliModulesRelease.useIsMutating({
          *     parameters: {}
          * })
          * ```
@@ -4495,7 +4495,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
-         * const postCliModulesReleasePendingMutationVariables = qraft.v1Service.postCliModulesRelease.useMutationState({
+         * const postCliModulesReleasePendingMutationVariables = qraft.v1.postCliModulesRelease.useMutationState({
          *     filters: {
          *         status: "pending"
          *     },
@@ -4504,7 +4504,7 @@ export interface V1Service {
          * ```
          * @example Get all data for specific mutations via the `parameters`.
          * ```ts
-         * const postCliModulesReleaseMutationData = qraft.v1Service.postCliModulesRelease.useMutationState({
+         * const postCliModulesReleaseMutationData = qraft.v1.postCliModulesRelease.useMutationState({
          *     filters: {
          *         parameters: {}
          *     },
@@ -4526,7 +4526,7 @@ export interface V1Service {
          *
          * @example Find a mutation with specific parameters
          * ```ts
-         * const mutationCache = qraft.v1Service.postCliModulesRelease.getMutationCache();
+         * const mutationCache = qraft.v1.postCliModulesRelease.getMutationCache();
          * const mutation = mutationCache.find({
          *     parameters: {}
          * });
@@ -4534,7 +4534,7 @@ export interface V1Service {
          *
          * @example Find all mutations for the endpoint
          * ```ts
-         * const mutationCache = qraft.v1Service.postCliModulesRelease.getMutationCache();
+         * const mutationCache = qraft.v1.postCliModulesRelease.getMutationCache();
          * const mutations = mutationCache.findAll();
          * ```
          */
@@ -4565,11 +4565,11 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query without parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getCliModulesSearch.useQuery()
+         * const { data, isLoading } = qraft.v1.getCliModulesSearch.useQuery()
          * ```
          * @example Query with parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getCliModulesSearch.useQuery({
+         * const { data, isLoading } = qraft.v1.getCliModulesSearch.useQuery({
          *     query: {
          *         Query: query
          *     }
@@ -4583,11 +4583,11 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query without parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getCliModulesSearch.useQuery()
+         * const { data, isLoading } = qraft.v1.getCliModulesSearch.useQuery()
          * ```
          * @example Query with parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getCliModulesSearch.useQuery({
+         * const { data, isLoading } = qraft.v1.getCliModulesSearch.useQuery({
          *     query: {
          *         Query: query
          *     }
@@ -4605,7 +4605,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getCliModulesSearch.useInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getCliModulesSearch.useInfiniteQuery({}, {
          *     initialPageParam: {
          *         query: {
          *             Query: initialQuery
@@ -4627,7 +4627,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getCliModulesSearch.useInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getCliModulesSearch.useInfiniteQuery({}, {
          *     initialPageParam: {
          *         query: {
          *             Query: initialQuery
@@ -4649,11 +4649,11 @@ export interface V1Service {
          * @example Checks the total number of queries fetching from the specified service method,
          * both normal and infinite. If no parameters are provided, no filtering is applied.
          * ```ts
-         * const getCliModulesSearchTotal = qraft.v1Service.getCliModulesSearch.useIsFetching()
+         * const getCliModulesSearchTotal = qraft.v1.getCliModulesSearch.useIsFetching()
          * ```
          * @example Checks the number of normal queries fetching with the specified parameters.
          * ```ts
-         * const getCliModulesSearchByParametersTotal = qraft.v1Service.getCliModulesSearch.useIsFetching({
+         * const getCliModulesSearchByParametersTotal = qraft.v1.getCliModulesSearch.useIsFetching({
          *     infinite: false,
          *     parameters: {
          *         query: {
@@ -4670,7 +4670,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
          * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
          * ```ts
-         * const getCliModulesSearchResults = qraft.v1Service.getCliModulesSearch.useQueries({
+         * const getCliModulesSearchResults = qraft.v1.getCliModulesSearch.useQueries({
          *     queries: [
          *         {
          *             query: {
@@ -4688,7 +4688,7 @@ export interface V1Service {
          * ```
          * @example Combined results. Only the data will be returned.
          * ```ts
-         * const getCliModulesSearchCombinedResults = qraft.v1Service.getCliModulesSearch.useQueries({
+         * const getCliModulesSearchCombinedResults = qraft.v1.getCliModulesSearch.useQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {
@@ -4717,11 +4717,11 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
          * @example Suspense Query without parameters
          * ```ts
-         * const data = qraft.v1Service.getCliModulesSearch.useSuspenseQuery()
+         * const data = qraft.v1.getCliModulesSearch.useSuspenseQuery()
          * ```
          * @example Suspense Query with parameters
          * ```ts
-         * const data = qraft.v1Service.getCliModulesSearch.useSuspenseQuery({
+         * const data = qraft.v1.getCliModulesSearch.useSuspenseQuery({
          *     query: {
          *         Query: query
          *     }
@@ -4738,7 +4738,7 @@ export interface V1Service {
          *
          * @example Suspense Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getCliModulesSearch.useSuspenseInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getCliModulesSearch.useSuspenseInfiniteQuery({}, {
          *     initialPageParam: {
          *         query: {
          *             Query: initialQuery
@@ -4759,7 +4759,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
          * @example Basic usage with Suspense
          * ```ts
-         * const getCliModulesSearchData = qraft.v1Service.getCliModulesSearch.useSuspenseQueries({
+         * const getCliModulesSearchData = qraft.v1.getCliModulesSearch.useSuspenseQueries({
          *     queries: [
          *         {
          *             query: {
@@ -4777,7 +4777,7 @@ export interface V1Service {
          * ```
          * @example With data transformation using combine
          * ```ts
-         * const getCliModulesSearchCombinedData = qraft.v1Service.getCliModulesSearch.useSuspenseQueries({
+         * const getCliModulesSearchCombinedData = qraft.v1.getCliModulesSearch.useSuspenseQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {
@@ -4867,7 +4867,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query with parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getCliModulesInfoOrganizationModuleName.useQuery({
+         * const { data, isLoading } = qraft.v1.getCliModulesInfoOrganizationModuleName.useQuery({
          *     path: {
          *         organization: organization,
          *         moduleName: moduleName
@@ -4882,7 +4882,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query with parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getCliModulesInfoOrganizationModuleName.useQuery({
+         * const { data, isLoading } = qraft.v1.getCliModulesInfoOrganizationModuleName.useQuery({
          *     path: {
          *         organization: organization,
          *         moduleName: moduleName
@@ -4901,7 +4901,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getCliModulesInfoOrganizationModuleName.useInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getCliModulesInfoOrganizationModuleName.useInfiniteQuery({
          *     path: {
          *         organization: organization,
          *         moduleName: moduleName
@@ -4924,7 +4924,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getCliModulesInfoOrganizationModuleName.useInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getCliModulesInfoOrganizationModuleName.useInfiniteQuery({
          *     path: {
          *         organization: organization,
          *         moduleName: moduleName
@@ -4947,11 +4947,11 @@ export interface V1Service {
          * @example Checks the total number of queries fetching from the specified service method,
          * both normal and infinite. If no parameters are provided, no filtering is applied.
          * ```ts
-         * const getCliModulesInfoOrganizationModuleNameTotal = qraft.v1Service.getCliModulesInfoOrganizationModuleName.useIsFetching()
+         * const getCliModulesInfoOrganizationModuleNameTotal = qraft.v1.getCliModulesInfoOrganizationModuleName.useIsFetching()
          * ```
          * @example Checks the number of normal queries fetching with the specified parameters.
          * ```ts
-         * const getCliModulesInfoOrganizationModuleNameByParametersTotal = qraft.v1Service.getCliModulesInfoOrganizationModuleName.useIsFetching({
+         * const getCliModulesInfoOrganizationModuleNameByParametersTotal = qraft.v1.getCliModulesInfoOrganizationModuleName.useIsFetching({
          *     infinite: false,
          *     parameters: {
          *         path: {
@@ -4969,7 +4969,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
          * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
          * ```ts
-         * const getCliModulesInfoOrganizationModuleNameResults = qraft.v1Service.getCliModulesInfoOrganizationModuleName.useQueries({
+         * const getCliModulesInfoOrganizationModuleNameResults = qraft.v1.getCliModulesInfoOrganizationModuleName.useQueries({
          *     queries: [
          *         {
          *             path: {
@@ -4989,7 +4989,7 @@ export interface V1Service {
          * ```
          * @example Combined results. Only the data will be returned.
          * ```ts
-         * const getCliModulesInfoOrganizationModuleNameCombinedResults = qraft.v1Service.getCliModulesInfoOrganizationModuleName.useQueries({
+         * const getCliModulesInfoOrganizationModuleNameCombinedResults = qraft.v1.getCliModulesInfoOrganizationModuleName.useQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {
@@ -5020,7 +5020,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
          * @example Suspense Query with parameters
          * ```ts
-         * const data = qraft.v1Service.getCliModulesInfoOrganizationModuleName.useSuspenseQuery({
+         * const data = qraft.v1.getCliModulesInfoOrganizationModuleName.useSuspenseQuery({
          *     path: {
          *         organization: organization,
          *         moduleName: moduleName
@@ -5038,7 +5038,7 @@ export interface V1Service {
          *
          * @example Suspense Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getCliModulesInfoOrganizationModuleName.useSuspenseInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getCliModulesInfoOrganizationModuleName.useSuspenseInfiniteQuery({
          *     path: {
          *         organization: organization,
          *         moduleName: moduleName
@@ -5060,7 +5060,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
          * @example Basic usage with Suspense
          * ```ts
-         * const getCliModulesInfoOrganizationModuleNameData = qraft.v1Service.getCliModulesInfoOrganizationModuleName.useSuspenseQueries({
+         * const getCliModulesInfoOrganizationModuleNameData = qraft.v1.getCliModulesInfoOrganizationModuleName.useSuspenseQueries({
          *     queries: [
          *         {
          *             path: {
@@ -5080,7 +5080,7 @@ export interface V1Service {
          * ```
          * @example With data transformation using combine
          * ```ts
-         * const getCliModulesInfoOrganizationModuleNameCombinedData = qraft.v1Service.getCliModulesInfoOrganizationModuleName.useSuspenseQueries({
+         * const getCliModulesInfoOrganizationModuleNameCombinedData = qraft.v1.getCliModulesInfoOrganizationModuleName.useSuspenseQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {
@@ -5172,7 +5172,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query with parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getCliModulesSyncStatus.useQuery({
+         * const { data, isLoading } = qraft.v1.getCliModulesSyncStatus.useQuery({
          *     query: {
          *         projectId: projectId
          *     }
@@ -5186,7 +5186,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query with parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getCliModulesSyncStatus.useQuery({
+         * const { data, isLoading } = qraft.v1.getCliModulesSyncStatus.useQuery({
          *     query: {
          *         projectId: projectId
          *     }
@@ -5204,7 +5204,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getCliModulesSyncStatus.useInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getCliModulesSyncStatus.useInfiniteQuery({
          *     query: {
          *         projectId: projectId
          *     }
@@ -5230,7 +5230,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getCliModulesSyncStatus.useInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getCliModulesSyncStatus.useInfiniteQuery({
          *     query: {
          *         projectId: projectId
          *     }
@@ -5256,11 +5256,11 @@ export interface V1Service {
          * @example Checks the total number of queries fetching from the specified service method,
          * both normal and infinite. If no parameters are provided, no filtering is applied.
          * ```ts
-         * const getCliModulesSyncStatusTotal = qraft.v1Service.getCliModulesSyncStatus.useIsFetching()
+         * const getCliModulesSyncStatusTotal = qraft.v1.getCliModulesSyncStatus.useIsFetching()
          * ```
          * @example Checks the number of normal queries fetching with the specified parameters.
          * ```ts
-         * const getCliModulesSyncStatusByParametersTotal = qraft.v1Service.getCliModulesSyncStatus.useIsFetching({
+         * const getCliModulesSyncStatusByParametersTotal = qraft.v1.getCliModulesSyncStatus.useIsFetching({
          *     infinite: false,
          *     parameters: {
          *         query: {
@@ -5277,7 +5277,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
          * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
          * ```ts
-         * const getCliModulesSyncStatusResults = qraft.v1Service.getCliModulesSyncStatus.useQueries({
+         * const getCliModulesSyncStatusResults = qraft.v1.getCliModulesSyncStatus.useQueries({
          *     queries: [
          *         {
          *             query: {
@@ -5295,7 +5295,7 @@ export interface V1Service {
          * ```
          * @example Combined results. Only the data will be returned.
          * ```ts
-         * const getCliModulesSyncStatusCombinedResults = qraft.v1Service.getCliModulesSyncStatus.useQueries({
+         * const getCliModulesSyncStatusCombinedResults = qraft.v1.getCliModulesSyncStatus.useQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {
@@ -5324,7 +5324,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
          * @example Suspense Query with parameters
          * ```ts
-         * const data = qraft.v1Service.getCliModulesSyncStatus.useSuspenseQuery({
+         * const data = qraft.v1.getCliModulesSyncStatus.useSuspenseQuery({
          *     query: {
          *         projectId: projectId
          *     }
@@ -5341,7 +5341,7 @@ export interface V1Service {
          *
          * @example Suspense Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getCliModulesSyncStatus.useSuspenseInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getCliModulesSyncStatus.useSuspenseInfiniteQuery({
          *     query: {
          *         projectId: projectId
          *     }
@@ -5366,7 +5366,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
          * @example Basic usage with Suspense
          * ```ts
-         * const getCliModulesSyncStatusData = qraft.v1Service.getCliModulesSyncStatus.useSuspenseQueries({
+         * const getCliModulesSyncStatusData = qraft.v1.getCliModulesSyncStatus.useSuspenseQueries({
          *     queries: [
          *         {
          *             query: {
@@ -5384,7 +5384,7 @@ export interface V1Service {
          * ```
          * @example With data transformation using combine
          * ```ts
-         * const getCliModulesSyncStatusCombinedData = qraft.v1Service.getCliModulesSyncStatus.useSuspenseQueries({
+         * const getCliModulesSyncStatusCombinedData = qraft.v1.getCliModulesSyncStatus.useSuspenseQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {
@@ -5471,7 +5471,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postCliModulesOrganizationModuleNameTrackInstall.useMutation({
+         * const { mutate, isPending } = qraft.v1.postCliModulesOrganizationModuleNameTrackInstall.useMutation({
          *     path: {
          *         organization: organization,
          *         moduleName: moduleName
@@ -5481,7 +5481,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postCliModulesOrganizationModuleNameTrackInstall.useMutation()
+         * const { mutate, isPending } = qraft.v1.postCliModulesOrganizationModuleNameTrackInstall.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -5499,7 +5499,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postCliModulesOrganizationModuleNameTrackInstall.useMutation({
+         * const { mutate, isPending } = qraft.v1.postCliModulesOrganizationModuleNameTrackInstall.useMutation({
          *     path: {
          *         organization: organization,
          *         moduleName: moduleName
@@ -5509,7 +5509,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postCliModulesOrganizationModuleNameTrackInstall.useMutation()
+         * const { mutate, isPending } = qraft.v1.postCliModulesOrganizationModuleNameTrackInstall.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -5526,11 +5526,11 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const postCliModulesOrganizationModuleNameTrackInstallTotal = qraft.v1Service.postCliModulesOrganizationModuleNameTrackInstall.useIsMutating()
+         * const postCliModulesOrganizationModuleNameTrackInstallTotal = qraft.v1.postCliModulesOrganizationModuleNameTrackInstall.useIsMutating()
          * ```
          * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const postCliModulesOrganizationModuleNameTrackInstallTotal = qraft.v1Service.postCliModulesOrganizationModuleNameTrackInstall.useIsMutating({
+         * const postCliModulesOrganizationModuleNameTrackInstallTotal = qraft.v1.postCliModulesOrganizationModuleNameTrackInstall.useIsMutating({
          *     parameters: {
          *         path: {
          *             organization: organization,
@@ -5547,7 +5547,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
-         * const postCliModulesOrganizationModuleNameTrackInstallPendingMutationVariables = qraft.v1Service.postCliModulesOrganizationModuleNameTrackInstall.useMutationState({
+         * const postCliModulesOrganizationModuleNameTrackInstallPendingMutationVariables = qraft.v1.postCliModulesOrganizationModuleNameTrackInstall.useMutationState({
          *     filters: {
          *         status: "pending"
          *     },
@@ -5556,7 +5556,7 @@ export interface V1Service {
          * ```
          * @example Get all data for specific mutations via the `parameters`.
          * ```ts
-         * const postCliModulesOrganizationModuleNameTrackInstallMutationData = qraft.v1Service.postCliModulesOrganizationModuleNameTrackInstall.useMutationState({
+         * const postCliModulesOrganizationModuleNameTrackInstallMutationData = qraft.v1.postCliModulesOrganizationModuleNameTrackInstall.useMutationState({
          *     filters: {
          *         parameters: {
          *             path: {
@@ -5583,7 +5583,7 @@ export interface V1Service {
          *
          * @example Find a mutation with specific parameters
          * ```ts
-         * const mutationCache = qraft.v1Service.postCliModulesOrganizationModuleNameTrackInstall.getMutationCache();
+         * const mutationCache = qraft.v1.postCliModulesOrganizationModuleNameTrackInstall.getMutationCache();
          * const mutation = mutationCache.find({
          *     parameters: {
          *         path: {
@@ -5596,7 +5596,7 @@ export interface V1Service {
          *
          * @example Find all mutations for the endpoint
          * ```ts
-         * const mutationCache = qraft.v1Service.postCliModulesOrganizationModuleNameTrackInstall.getMutationCache();
+         * const mutationCache = qraft.v1.postCliModulesOrganizationModuleNameTrackInstall.getMutationCache();
          * const mutations = mutationCache.findAll();
          * ```
          */
@@ -5627,7 +5627,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query without parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getGithubGetInstallAppUrl.useQuery()
+         * const { data, isLoading } = qraft.v1.getGithubGetInstallAppUrl.useQuery()
          * ```
          */
         useQuery<TData = GetGithubGetInstallAppUrlData>(parameters: ServiceOperationQueryKey<GetGithubGetInstallAppUrlSchema, GetGithubGetInstallAppUrlParameters> | (DeepReadonly<GetGithubGetInstallAppUrlParameters> | void), options?: Omit<UndefinedInitialDataOptions<GetGithubGetInstallAppUrlData, GetGithubGetInstallAppUrlError, TData, ServiceOperationQueryKey<GetGithubGetInstallAppUrlSchema, GetGithubGetInstallAppUrlParameters>>, "queryKey">): UseQueryResult<TData, OperationError<GetGithubGetInstallAppUrlError>>;
@@ -5637,7 +5637,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query without parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getGithubGetInstallAppUrl.useQuery()
+         * const { data, isLoading } = qraft.v1.getGithubGetInstallAppUrl.useQuery()
          * ```
          */
         useQuery<TData = GetGithubGetInstallAppUrlData>(parameters: ServiceOperationQueryKey<GetGithubGetInstallAppUrlSchema, GetGithubGetInstallAppUrlParameters> | (DeepReadonly<GetGithubGetInstallAppUrlParameters> | void), options: Omit<DefinedInitialDataOptions<GetGithubGetInstallAppUrlData, GetGithubGetInstallAppUrlError, TData, ServiceOperationQueryKey<GetGithubGetInstallAppUrlSchema, GetGithubGetInstallAppUrlParameters>>, "queryKey">): DefinedUseQueryResult<TData, OperationError<GetGithubGetInstallAppUrlError>>;
@@ -5651,7 +5651,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getGithubGetInstallAppUrl.useInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getGithubGetInstallAppUrl.useInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -5669,7 +5669,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getGithubGetInstallAppUrl.useInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getGithubGetInstallAppUrl.useInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -5687,7 +5687,7 @@ export interface V1Service {
          * @example Checks the total number of queries fetching from the specified service method,
          * both normal and infinite. If no parameters are provided, no filtering is applied.
          * ```ts
-         * const getGithubGetInstallAppUrlTotal = qraft.v1Service.getGithubGetInstallAppUrl.useIsFetching()
+         * const getGithubGetInstallAppUrlTotal = qraft.v1.getGithubGetInstallAppUrl.useIsFetching()
          * ```
          */
         useIsFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetGithubGetInstallAppUrlSchema, GetGithubGetInstallAppUrlData, TInfinite, GetGithubGetInstallAppUrlParameters, GetGithubGetInstallAppUrlError> | QueryFiltersByQueryKey<GetGithubGetInstallAppUrlSchema, GetGithubGetInstallAppUrlData, TInfinite, GetGithubGetInstallAppUrlParameters, GetGithubGetInstallAppUrlError>): number;
@@ -5697,7 +5697,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
          * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
          * ```ts
-         * const getGithubGetInstallAppUrlResults = qraft.v1Service.getGithubGetInstallAppUrl.useQueries({
+         * const getGithubGetInstallAppUrlResults = qraft.v1.getGithubGetInstallAppUrl.useQueries({
          *     queries: [
          *         {},
          *         {}
@@ -5707,7 +5707,7 @@ export interface V1Service {
          * ```
          * @example Combined results. Only the data will be returned.
          * ```ts
-         * const getGithubGetInstallAppUrlCombinedResults = qraft.v1Service.getGithubGetInstallAppUrl.useQueries({
+         * const getGithubGetInstallAppUrlCombinedResults = qraft.v1.getGithubGetInstallAppUrl.useQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {},
@@ -5728,7 +5728,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
          * @example Suspense Query without parameters
          * ```ts
-         * const data = qraft.v1Service.getGithubGetInstallAppUrl.useSuspenseQuery()
+         * const data = qraft.v1.getGithubGetInstallAppUrl.useSuspenseQuery()
          * ```
          */
         useSuspenseQuery<TData = GetGithubGetInstallAppUrlData>(parameters: ServiceOperationQueryKey<GetGithubGetInstallAppUrlSchema, GetGithubGetInstallAppUrlParameters> | (DeepReadonly<GetGithubGetInstallAppUrlParameters> | void), options?: Omit<UseSuspenseQueryOptions<GetGithubGetInstallAppUrlData, GetGithubGetInstallAppUrlError, TData, ServiceOperationQueryKey<GetGithubGetInstallAppUrlSchema, GetGithubGetInstallAppUrlParameters>>, "queryKey">): UseSuspenseQueryResult<TData, OperationError<GetGithubGetInstallAppUrlError>>;
@@ -5741,7 +5741,7 @@ export interface V1Service {
          *
          * @example Suspense Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getGithubGetInstallAppUrl.useSuspenseInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getGithubGetInstallAppUrl.useSuspenseInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -5758,7 +5758,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
          * @example Basic usage with Suspense
          * ```ts
-         * const getGithubGetInstallAppUrlData = qraft.v1Service.getGithubGetInstallAppUrl.useSuspenseQueries({
+         * const getGithubGetInstallAppUrlData = qraft.v1.getGithubGetInstallAppUrl.useSuspenseQueries({
          *     queries: [
          *         {},
          *         {}
@@ -5768,7 +5768,7 @@ export interface V1Service {
          * ```
          * @example With data transformation using combine
          * ```ts
-         * const getGithubGetInstallAppUrlCombinedData = qraft.v1Service.getGithubGetInstallAppUrl.useSuspenseQueries({
+         * const getGithubGetInstallAppUrlCombinedData = qraft.v1.getGithubGetInstallAppUrl.useSuspenseQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {},
@@ -5850,7 +5850,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query without parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getGithubGetInstalledOrganizations.useQuery()
+         * const { data, isLoading } = qraft.v1.getGithubGetInstalledOrganizations.useQuery()
          * ```
          */
         useQuery<TData = GetGithubGetInstalledOrganizationsData>(parameters: ServiceOperationQueryKey<GetGithubGetInstalledOrganizationsSchema, GetGithubGetInstalledOrganizationsParameters> | (DeepReadonly<GetGithubGetInstalledOrganizationsParameters> | void), options?: Omit<UndefinedInitialDataOptions<GetGithubGetInstalledOrganizationsData, GetGithubGetInstalledOrganizationsError, TData, ServiceOperationQueryKey<GetGithubGetInstalledOrganizationsSchema, GetGithubGetInstalledOrganizationsParameters>>, "queryKey">): UseQueryResult<TData, OperationError<GetGithubGetInstalledOrganizationsError>>;
@@ -5860,7 +5860,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query without parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getGithubGetInstalledOrganizations.useQuery()
+         * const { data, isLoading } = qraft.v1.getGithubGetInstalledOrganizations.useQuery()
          * ```
          */
         useQuery<TData = GetGithubGetInstalledOrganizationsData>(parameters: ServiceOperationQueryKey<GetGithubGetInstalledOrganizationsSchema, GetGithubGetInstalledOrganizationsParameters> | (DeepReadonly<GetGithubGetInstalledOrganizationsParameters> | void), options: Omit<DefinedInitialDataOptions<GetGithubGetInstalledOrganizationsData, GetGithubGetInstalledOrganizationsError, TData, ServiceOperationQueryKey<GetGithubGetInstalledOrganizationsSchema, GetGithubGetInstalledOrganizationsParameters>>, "queryKey">): DefinedUseQueryResult<TData, OperationError<GetGithubGetInstalledOrganizationsError>>;
@@ -5874,7 +5874,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getGithubGetInstalledOrganizations.useInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getGithubGetInstalledOrganizations.useInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -5892,7 +5892,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getGithubGetInstalledOrganizations.useInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getGithubGetInstalledOrganizations.useInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -5910,7 +5910,7 @@ export interface V1Service {
          * @example Checks the total number of queries fetching from the specified service method,
          * both normal and infinite. If no parameters are provided, no filtering is applied.
          * ```ts
-         * const getGithubGetInstalledOrganizationsTotal = qraft.v1Service.getGithubGetInstalledOrganizations.useIsFetching()
+         * const getGithubGetInstalledOrganizationsTotal = qraft.v1.getGithubGetInstalledOrganizations.useIsFetching()
          * ```
          */
         useIsFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetGithubGetInstalledOrganizationsSchema, GetGithubGetInstalledOrganizationsData, TInfinite, GetGithubGetInstalledOrganizationsParameters, GetGithubGetInstalledOrganizationsError> | QueryFiltersByQueryKey<GetGithubGetInstalledOrganizationsSchema, GetGithubGetInstalledOrganizationsData, TInfinite, GetGithubGetInstalledOrganizationsParameters, GetGithubGetInstalledOrganizationsError>): number;
@@ -5920,7 +5920,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
          * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
          * ```ts
-         * const getGithubGetInstalledOrganizationsResults = qraft.v1Service.getGithubGetInstalledOrganizations.useQueries({
+         * const getGithubGetInstalledOrganizationsResults = qraft.v1.getGithubGetInstalledOrganizations.useQueries({
          *     queries: [
          *         {},
          *         {}
@@ -5930,7 +5930,7 @@ export interface V1Service {
          * ```
          * @example Combined results. Only the data will be returned.
          * ```ts
-         * const getGithubGetInstalledOrganizationsCombinedResults = qraft.v1Service.getGithubGetInstalledOrganizations.useQueries({
+         * const getGithubGetInstalledOrganizationsCombinedResults = qraft.v1.getGithubGetInstalledOrganizations.useQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {},
@@ -5951,7 +5951,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
          * @example Suspense Query without parameters
          * ```ts
-         * const data = qraft.v1Service.getGithubGetInstalledOrganizations.useSuspenseQuery()
+         * const data = qraft.v1.getGithubGetInstalledOrganizations.useSuspenseQuery()
          * ```
          */
         useSuspenseQuery<TData = GetGithubGetInstalledOrganizationsData>(parameters: ServiceOperationQueryKey<GetGithubGetInstalledOrganizationsSchema, GetGithubGetInstalledOrganizationsParameters> | (DeepReadonly<GetGithubGetInstalledOrganizationsParameters> | void), options?: Omit<UseSuspenseQueryOptions<GetGithubGetInstalledOrganizationsData, GetGithubGetInstalledOrganizationsError, TData, ServiceOperationQueryKey<GetGithubGetInstalledOrganizationsSchema, GetGithubGetInstalledOrganizationsParameters>>, "queryKey">): UseSuspenseQueryResult<TData, OperationError<GetGithubGetInstalledOrganizationsError>>;
@@ -5964,7 +5964,7 @@ export interface V1Service {
          *
          * @example Suspense Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getGithubGetInstalledOrganizations.useSuspenseInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getGithubGetInstalledOrganizations.useSuspenseInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -5981,7 +5981,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
          * @example Basic usage with Suspense
          * ```ts
-         * const getGithubGetInstalledOrganizationsData = qraft.v1Service.getGithubGetInstalledOrganizations.useSuspenseQueries({
+         * const getGithubGetInstalledOrganizationsData = qraft.v1.getGithubGetInstalledOrganizations.useSuspenseQueries({
          *     queries: [
          *         {},
          *         {}
@@ -5991,7 +5991,7 @@ export interface V1Service {
          * ```
          * @example With data transformation using combine
          * ```ts
-         * const getGithubGetInstalledOrganizationsCombinedData = qraft.v1Service.getGithubGetInstalledOrganizations.useSuspenseQueries({
+         * const getGithubGetInstalledOrganizationsCombinedData = qraft.v1.getGithubGetInstalledOrganizations.useSuspenseQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {},
@@ -6070,12 +6070,12 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postGithubSetDeafultOrganization.useMutation({})
+         * const { mutate, isPending } = qraft.v1.postGithubSetDeafultOrganization.useMutation({})
          * mutate(body);
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postGithubSetDeafultOrganization.useMutation()
+         * const { mutate, isPending } = qraft.v1.postGithubSetDeafultOrganization.useMutation()
          * mutate({
          *     body: bodyPayload
          * });
@@ -6089,12 +6089,12 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postGithubSetDeafultOrganization.useMutation({})
+         * const { mutate, isPending } = qraft.v1.postGithubSetDeafultOrganization.useMutation({})
          * mutate(body);
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postGithubSetDeafultOrganization.useMutation()
+         * const { mutate, isPending } = qraft.v1.postGithubSetDeafultOrganization.useMutation()
          * mutate({
          *     body: bodyPayload
          * });
@@ -6107,11 +6107,11 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const postGithubSetDeafultOrganizationTotal = qraft.v1Service.postGithubSetDeafultOrganization.useIsMutating()
+         * const postGithubSetDeafultOrganizationTotal = qraft.v1.postGithubSetDeafultOrganization.useIsMutating()
          * ```
          * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const postGithubSetDeafultOrganizationTotal = qraft.v1Service.postGithubSetDeafultOrganization.useIsMutating({
+         * const postGithubSetDeafultOrganizationTotal = qraft.v1.postGithubSetDeafultOrganization.useIsMutating({
          *     parameters: {}
          * })
          * ```
@@ -6123,7 +6123,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
-         * const postGithubSetDeafultOrganizationPendingMutationVariables = qraft.v1Service.postGithubSetDeafultOrganization.useMutationState({
+         * const postGithubSetDeafultOrganizationPendingMutationVariables = qraft.v1.postGithubSetDeafultOrganization.useMutationState({
          *     filters: {
          *         status: "pending"
          *     },
@@ -6132,7 +6132,7 @@ export interface V1Service {
          * ```
          * @example Get all data for specific mutations via the `parameters`.
          * ```ts
-         * const postGithubSetDeafultOrganizationMutationData = qraft.v1Service.postGithubSetDeafultOrganization.useMutationState({
+         * const postGithubSetDeafultOrganizationMutationData = qraft.v1.postGithubSetDeafultOrganization.useMutationState({
          *     filters: {
          *         parameters: {}
          *     },
@@ -6154,7 +6154,7 @@ export interface V1Service {
          *
          * @example Find a mutation with specific parameters
          * ```ts
-         * const mutationCache = qraft.v1Service.postGithubSetDeafultOrganization.getMutationCache();
+         * const mutationCache = qraft.v1.postGithubSetDeafultOrganization.getMutationCache();
          * const mutation = mutationCache.find({
          *     parameters: {}
          * });
@@ -6162,7 +6162,7 @@ export interface V1Service {
          *
          * @example Find all mutations for the endpoint
          * ```ts
-         * const mutationCache = qraft.v1Service.postGithubSetDeafultOrganization.getMutationCache();
+         * const mutationCache = qraft.v1.postGithubSetDeafultOrganization.getMutationCache();
          * const mutations = mutationCache.findAll();
          * ```
          */
@@ -6193,7 +6193,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query without parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getGithubPlayground.useQuery()
+         * const { data, isLoading } = qraft.v1.getGithubPlayground.useQuery()
          * ```
          */
         useQuery<TData = GetGithubPlaygroundData>(parameters: ServiceOperationQueryKey<GetGithubPlaygroundSchema, GetGithubPlaygroundParameters> | (DeepReadonly<GetGithubPlaygroundParameters> | void), options?: Omit<UndefinedInitialDataOptions<GetGithubPlaygroundData, GetGithubPlaygroundError, TData, ServiceOperationQueryKey<GetGithubPlaygroundSchema, GetGithubPlaygroundParameters>>, "queryKey">): UseQueryResult<TData, OperationError<GetGithubPlaygroundError>>;
@@ -6203,7 +6203,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query without parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getGithubPlayground.useQuery()
+         * const { data, isLoading } = qraft.v1.getGithubPlayground.useQuery()
          * ```
          */
         useQuery<TData = GetGithubPlaygroundData>(parameters: ServiceOperationQueryKey<GetGithubPlaygroundSchema, GetGithubPlaygroundParameters> | (DeepReadonly<GetGithubPlaygroundParameters> | void), options: Omit<DefinedInitialDataOptions<GetGithubPlaygroundData, GetGithubPlaygroundError, TData, ServiceOperationQueryKey<GetGithubPlaygroundSchema, GetGithubPlaygroundParameters>>, "queryKey">): DefinedUseQueryResult<TData, OperationError<GetGithubPlaygroundError>>;
@@ -6217,7 +6217,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getGithubPlayground.useInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getGithubPlayground.useInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -6235,7 +6235,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getGithubPlayground.useInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getGithubPlayground.useInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -6253,7 +6253,7 @@ export interface V1Service {
          * @example Checks the total number of queries fetching from the specified service method,
          * both normal and infinite. If no parameters are provided, no filtering is applied.
          * ```ts
-         * const getGithubPlaygroundTotal = qraft.v1Service.getGithubPlayground.useIsFetching()
+         * const getGithubPlaygroundTotal = qraft.v1.getGithubPlayground.useIsFetching()
          * ```
          */
         useIsFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetGithubPlaygroundSchema, GetGithubPlaygroundData, TInfinite, GetGithubPlaygroundParameters, GetGithubPlaygroundError> | QueryFiltersByQueryKey<GetGithubPlaygroundSchema, GetGithubPlaygroundData, TInfinite, GetGithubPlaygroundParameters, GetGithubPlaygroundError>): number;
@@ -6263,7 +6263,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
          * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
          * ```ts
-         * const getGithubPlaygroundResults = qraft.v1Service.getGithubPlayground.useQueries({
+         * const getGithubPlaygroundResults = qraft.v1.getGithubPlayground.useQueries({
          *     queries: [
          *         {},
          *         {}
@@ -6273,7 +6273,7 @@ export interface V1Service {
          * ```
          * @example Combined results. Only the data will be returned.
          * ```ts
-         * const getGithubPlaygroundCombinedResults = qraft.v1Service.getGithubPlayground.useQueries({
+         * const getGithubPlaygroundCombinedResults = qraft.v1.getGithubPlayground.useQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {},
@@ -6294,7 +6294,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
          * @example Suspense Query without parameters
          * ```ts
-         * const data = qraft.v1Service.getGithubPlayground.useSuspenseQuery()
+         * const data = qraft.v1.getGithubPlayground.useSuspenseQuery()
          * ```
          */
         useSuspenseQuery<TData = GetGithubPlaygroundData>(parameters: ServiceOperationQueryKey<GetGithubPlaygroundSchema, GetGithubPlaygroundParameters> | (DeepReadonly<GetGithubPlaygroundParameters> | void), options?: Omit<UseSuspenseQueryOptions<GetGithubPlaygroundData, GetGithubPlaygroundError, TData, ServiceOperationQueryKey<GetGithubPlaygroundSchema, GetGithubPlaygroundParameters>>, "queryKey">): UseSuspenseQueryResult<TData, OperationError<GetGithubPlaygroundError>>;
@@ -6307,7 +6307,7 @@ export interface V1Service {
          *
          * @example Suspense Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getGithubPlayground.useSuspenseInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getGithubPlayground.useSuspenseInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -6324,7 +6324,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
          * @example Basic usage with Suspense
          * ```ts
-         * const getGithubPlaygroundData = qraft.v1Service.getGithubPlayground.useSuspenseQueries({
+         * const getGithubPlaygroundData = qraft.v1.getGithubPlayground.useSuspenseQueries({
          *     queries: [
          *         {},
          *         {}
@@ -6334,7 +6334,7 @@ export interface V1Service {
          * ```
          * @example With data transformation using combine
          * ```ts
-         * const getGithubPlaygroundCombinedData = qraft.v1Service.getGithubPlayground.useSuspenseQueries({
+         * const getGithubPlaygroundCombinedData = qraft.v1.getGithubPlayground.useSuspenseQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {},
@@ -6416,7 +6416,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query without parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.get.useQuery()
+         * const { data, isLoading } = qraft.v1.get.useQuery()
          * ```
          */
         useQuery<TData = GetData>(parameters: ServiceOperationQueryKey<GetSchema, GetParameters> | (DeepReadonly<GetParameters> | void), options?: Omit<UndefinedInitialDataOptions<GetData, GetError, TData, ServiceOperationQueryKey<GetSchema, GetParameters>>, "queryKey">): UseQueryResult<TData, OperationError<GetError>>;
@@ -6426,7 +6426,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query without parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.get.useQuery()
+         * const { data, isLoading } = qraft.v1.get.useQuery()
          * ```
          */
         useQuery<TData = GetData>(parameters: ServiceOperationQueryKey<GetSchema, GetParameters> | (DeepReadonly<GetParameters> | void), options: Omit<DefinedInitialDataOptions<GetData, GetError, TData, ServiceOperationQueryKey<GetSchema, GetParameters>>, "queryKey">): DefinedUseQueryResult<TData, OperationError<GetError>>;
@@ -6440,7 +6440,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.get.useInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.get.useInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -6458,7 +6458,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.get.useInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.get.useInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -6476,7 +6476,7 @@ export interface V1Service {
          * @example Checks the total number of queries fetching from the specified service method,
          * both normal and infinite. If no parameters are provided, no filtering is applied.
          * ```ts
-         * const getTotal = qraft.v1Service.get.useIsFetching()
+         * const getTotal = qraft.v1.get.useIsFetching()
          * ```
          */
         useIsFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetSchema, GetData, TInfinite, GetParameters, GetError> | QueryFiltersByQueryKey<GetSchema, GetData, TInfinite, GetParameters, GetError>): number;
@@ -6486,7 +6486,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
          * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
          * ```ts
-         * const getResults = qraft.v1Service.get.useQueries({
+         * const getResults = qraft.v1.get.useQueries({
          *     queries: [
          *         {},
          *         {}
@@ -6496,7 +6496,7 @@ export interface V1Service {
          * ```
          * @example Combined results. Only the data will be returned.
          * ```ts
-         * const getCombinedResults = qraft.v1Service.get.useQueries({
+         * const getCombinedResults = qraft.v1.get.useQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {},
@@ -6517,7 +6517,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
          * @example Suspense Query without parameters
          * ```ts
-         * const data = qraft.v1Service.get.useSuspenseQuery()
+         * const data = qraft.v1.get.useSuspenseQuery()
          * ```
          */
         useSuspenseQuery<TData = GetData>(parameters: ServiceOperationQueryKey<GetSchema, GetParameters> | (DeepReadonly<GetParameters> | void), options?: Omit<UseSuspenseQueryOptions<GetData, GetError, TData, ServiceOperationQueryKey<GetSchema, GetParameters>>, "queryKey">): UseSuspenseQueryResult<TData, OperationError<GetError>>;
@@ -6530,7 +6530,7 @@ export interface V1Service {
          *
          * @example Suspense Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.get.useSuspenseInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.get.useSuspenseInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -6547,7 +6547,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
          * @example Basic usage with Suspense
          * ```ts
-         * const getData = qraft.v1Service.get.useSuspenseQueries({
+         * const getData = qraft.v1.get.useSuspenseQueries({
          *     queries: [
          *         {},
          *         {}
@@ -6557,7 +6557,7 @@ export interface V1Service {
          * ```
          * @example With data transformation using combine
          * ```ts
-         * const getCombinedData = qraft.v1Service.get.useSuspenseQueries({
+         * const getCombinedData = qraft.v1.get.useSuspenseQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {},
@@ -6639,7 +6639,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query without parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getEnv.useQuery()
+         * const { data, isLoading } = qraft.v1.getEnv.useQuery()
          * ```
          */
         useQuery<TData = GetEnvData>(parameters: ServiceOperationQueryKey<GetEnvSchema, GetEnvParameters> | (DeepReadonly<GetEnvParameters> | void), options?: Omit<UndefinedInitialDataOptions<GetEnvData, GetEnvError, TData, ServiceOperationQueryKey<GetEnvSchema, GetEnvParameters>>, "queryKey">): UseQueryResult<TData, OperationError<GetEnvError>>;
@@ -6649,7 +6649,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query without parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getEnv.useQuery()
+         * const { data, isLoading } = qraft.v1.getEnv.useQuery()
          * ```
          */
         useQuery<TData = GetEnvData>(parameters: ServiceOperationQueryKey<GetEnvSchema, GetEnvParameters> | (DeepReadonly<GetEnvParameters> | void), options: Omit<DefinedInitialDataOptions<GetEnvData, GetEnvError, TData, ServiceOperationQueryKey<GetEnvSchema, GetEnvParameters>>, "queryKey">): DefinedUseQueryResult<TData, OperationError<GetEnvError>>;
@@ -6663,7 +6663,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getEnv.useInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getEnv.useInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -6681,7 +6681,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getEnv.useInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getEnv.useInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -6699,7 +6699,7 @@ export interface V1Service {
          * @example Checks the total number of queries fetching from the specified service method,
          * both normal and infinite. If no parameters are provided, no filtering is applied.
          * ```ts
-         * const getEnvTotal = qraft.v1Service.getEnv.useIsFetching()
+         * const getEnvTotal = qraft.v1.getEnv.useIsFetching()
          * ```
          */
         useIsFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetEnvSchema, GetEnvData, TInfinite, GetEnvParameters, GetEnvError> | QueryFiltersByQueryKey<GetEnvSchema, GetEnvData, TInfinite, GetEnvParameters, GetEnvError>): number;
@@ -6709,7 +6709,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
          * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
          * ```ts
-         * const getEnvResults = qraft.v1Service.getEnv.useQueries({
+         * const getEnvResults = qraft.v1.getEnv.useQueries({
          *     queries: [
          *         {},
          *         {}
@@ -6719,7 +6719,7 @@ export interface V1Service {
          * ```
          * @example Combined results. Only the data will be returned.
          * ```ts
-         * const getEnvCombinedResults = qraft.v1Service.getEnv.useQueries({
+         * const getEnvCombinedResults = qraft.v1.getEnv.useQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {},
@@ -6740,7 +6740,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
          * @example Suspense Query without parameters
          * ```ts
-         * const data = qraft.v1Service.getEnv.useSuspenseQuery()
+         * const data = qraft.v1.getEnv.useSuspenseQuery()
          * ```
          */
         useSuspenseQuery<TData = GetEnvData>(parameters: ServiceOperationQueryKey<GetEnvSchema, GetEnvParameters> | (DeepReadonly<GetEnvParameters> | void), options?: Omit<UseSuspenseQueryOptions<GetEnvData, GetEnvError, TData, ServiceOperationQueryKey<GetEnvSchema, GetEnvParameters>>, "queryKey">): UseSuspenseQueryResult<TData, OperationError<GetEnvError>>;
@@ -6753,7 +6753,7 @@ export interface V1Service {
          *
          * @example Suspense Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getEnv.useSuspenseInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getEnv.useSuspenseInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -6770,7 +6770,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
          * @example Basic usage with Suspense
          * ```ts
-         * const getEnvData = qraft.v1Service.getEnv.useSuspenseQueries({
+         * const getEnvData = qraft.v1.getEnv.useSuspenseQueries({
          *     queries: [
          *         {},
          *         {}
@@ -6780,7 +6780,7 @@ export interface V1Service {
          * ```
          * @example With data transformation using combine
          * ```ts
-         * const getEnvCombinedData = qraft.v1Service.getEnv.useSuspenseQueries({
+         * const getEnvCombinedData = qraft.v1.getEnv.useSuspenseQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {},
@@ -6862,7 +6862,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query without parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getV1Version.useQuery()
+         * const { data, isLoading } = qraft.v1.getV1Version.useQuery()
          * ```
          */
         useQuery<TData = GetV1VersionData>(parameters: ServiceOperationQueryKey<GetV1VersionSchema, GetV1VersionParameters> | (DeepReadonly<GetV1VersionParameters> | void), options?: Omit<UndefinedInitialDataOptions<GetV1VersionData, GetV1VersionError, TData, ServiceOperationQueryKey<GetV1VersionSchema, GetV1VersionParameters>>, "queryKey">): UseQueryResult<TData, OperationError<GetV1VersionError>>;
@@ -6872,7 +6872,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query without parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getV1Version.useQuery()
+         * const { data, isLoading } = qraft.v1.getV1Version.useQuery()
          * ```
          */
         useQuery<TData = GetV1VersionData>(parameters: ServiceOperationQueryKey<GetV1VersionSchema, GetV1VersionParameters> | (DeepReadonly<GetV1VersionParameters> | void), options: Omit<DefinedInitialDataOptions<GetV1VersionData, GetV1VersionError, TData, ServiceOperationQueryKey<GetV1VersionSchema, GetV1VersionParameters>>, "queryKey">): DefinedUseQueryResult<TData, OperationError<GetV1VersionError>>;
@@ -6886,7 +6886,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getV1Version.useInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getV1Version.useInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -6904,7 +6904,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getV1Version.useInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getV1Version.useInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -6922,7 +6922,7 @@ export interface V1Service {
          * @example Checks the total number of queries fetching from the specified service method,
          * both normal and infinite. If no parameters are provided, no filtering is applied.
          * ```ts
-         * const getV1VersionTotal = qraft.v1Service.getV1Version.useIsFetching()
+         * const getV1VersionTotal = qraft.v1.getV1Version.useIsFetching()
          * ```
          */
         useIsFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetV1VersionSchema, GetV1VersionData, TInfinite, GetV1VersionParameters, GetV1VersionError> | QueryFiltersByQueryKey<GetV1VersionSchema, GetV1VersionData, TInfinite, GetV1VersionParameters, GetV1VersionError>): number;
@@ -6932,7 +6932,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
          * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
          * ```ts
-         * const getV1VersionResults = qraft.v1Service.getV1Version.useQueries({
+         * const getV1VersionResults = qraft.v1.getV1Version.useQueries({
          *     queries: [
          *         {},
          *         {}
@@ -6942,7 +6942,7 @@ export interface V1Service {
          * ```
          * @example Combined results. Only the data will be returned.
          * ```ts
-         * const getV1VersionCombinedResults = qraft.v1Service.getV1Version.useQueries({
+         * const getV1VersionCombinedResults = qraft.v1.getV1Version.useQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {},
@@ -6963,7 +6963,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
          * @example Suspense Query without parameters
          * ```ts
-         * const data = qraft.v1Service.getV1Version.useSuspenseQuery()
+         * const data = qraft.v1.getV1Version.useSuspenseQuery()
          * ```
          */
         useSuspenseQuery<TData = GetV1VersionData>(parameters: ServiceOperationQueryKey<GetV1VersionSchema, GetV1VersionParameters> | (DeepReadonly<GetV1VersionParameters> | void), options?: Omit<UseSuspenseQueryOptions<GetV1VersionData, GetV1VersionError, TData, ServiceOperationQueryKey<GetV1VersionSchema, GetV1VersionParameters>>, "queryKey">): UseSuspenseQueryResult<TData, OperationError<GetV1VersionError>>;
@@ -6976,7 +6976,7 @@ export interface V1Service {
          *
          * @example Suspense Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getV1Version.useSuspenseInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getV1Version.useSuspenseInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -6993,7 +6993,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
          * @example Basic usage with Suspense
          * ```ts
-         * const getV1VersionData = qraft.v1Service.getV1Version.useSuspenseQueries({
+         * const getV1VersionData = qraft.v1.getV1Version.useSuspenseQueries({
          *     queries: [
          *         {},
          *         {}
@@ -7003,7 +7003,7 @@ export interface V1Service {
          * ```
          * @example With data transformation using combine
          * ```ts
-         * const getV1VersionCombinedData = qraft.v1Service.getV1Version.useSuspenseQueries({
+         * const getV1VersionCombinedData = qraft.v1.getV1Version.useSuspenseQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {},
@@ -7082,7 +7082,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.putHostingDeploymentsDeploymentIdStatus.useMutation({
+         * const { mutate, isPending } = qraft.v1.putHostingDeploymentsDeploymentIdStatus.useMutation({
          *     path: {
          *         deploymentId: deploymentId
          *     }
@@ -7091,7 +7091,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.putHostingDeploymentsDeploymentIdStatus.useMutation()
+         * const { mutate, isPending } = qraft.v1.putHostingDeploymentsDeploymentIdStatus.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -7108,7 +7108,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.putHostingDeploymentsDeploymentIdStatus.useMutation({
+         * const { mutate, isPending } = qraft.v1.putHostingDeploymentsDeploymentIdStatus.useMutation({
          *     path: {
          *         deploymentId: deploymentId
          *     }
@@ -7117,7 +7117,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.putHostingDeploymentsDeploymentIdStatus.useMutation()
+         * const { mutate, isPending } = qraft.v1.putHostingDeploymentsDeploymentIdStatus.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -7133,11 +7133,11 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const putHostingDeploymentsDeploymentIdStatusTotal = qraft.v1Service.putHostingDeploymentsDeploymentIdStatus.useIsMutating()
+         * const putHostingDeploymentsDeploymentIdStatusTotal = qraft.v1.putHostingDeploymentsDeploymentIdStatus.useIsMutating()
          * ```
          * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const putHostingDeploymentsDeploymentIdStatusTotal = qraft.v1Service.putHostingDeploymentsDeploymentIdStatus.useIsMutating({
+         * const putHostingDeploymentsDeploymentIdStatusTotal = qraft.v1.putHostingDeploymentsDeploymentIdStatus.useIsMutating({
          *     parameters: {
          *         path: {
          *             deploymentId: deploymentId
@@ -7153,7 +7153,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
-         * const putHostingDeploymentsDeploymentIdStatusPendingMutationVariables = qraft.v1Service.putHostingDeploymentsDeploymentIdStatus.useMutationState({
+         * const putHostingDeploymentsDeploymentIdStatusPendingMutationVariables = qraft.v1.putHostingDeploymentsDeploymentIdStatus.useMutationState({
          *     filters: {
          *         status: "pending"
          *     },
@@ -7162,7 +7162,7 @@ export interface V1Service {
          * ```
          * @example Get all data for specific mutations via the `parameters`.
          * ```ts
-         * const putHostingDeploymentsDeploymentIdStatusMutationData = qraft.v1Service.putHostingDeploymentsDeploymentIdStatus.useMutationState({
+         * const putHostingDeploymentsDeploymentIdStatusMutationData = qraft.v1.putHostingDeploymentsDeploymentIdStatus.useMutationState({
          *     filters: {
          *         parameters: {
          *             path: {
@@ -7188,7 +7188,7 @@ export interface V1Service {
          *
          * @example Find a mutation with specific parameters
          * ```ts
-         * const mutationCache = qraft.v1Service.putHostingDeploymentsDeploymentIdStatus.getMutationCache();
+         * const mutationCache = qraft.v1.putHostingDeploymentsDeploymentIdStatus.getMutationCache();
          * const mutation = mutationCache.find({
          *     parameters: {
          *         path: {
@@ -7200,7 +7200,7 @@ export interface V1Service {
          *
          * @example Find all mutations for the endpoint
          * ```ts
-         * const mutationCache = qraft.v1Service.putHostingDeploymentsDeploymentIdStatus.getMutationCache();
+         * const mutationCache = qraft.v1.putHostingDeploymentsDeploymentIdStatus.getMutationCache();
          * const mutations = mutationCache.findAll();
          * ```
          */
@@ -7228,7 +7228,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postHostingDeploymentsDeploymentIdLogs.useMutation({
+         * const { mutate, isPending } = qraft.v1.postHostingDeploymentsDeploymentIdLogs.useMutation({
          *     path: {
          *         deploymentId: deploymentId
          *     }
@@ -7237,7 +7237,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postHostingDeploymentsDeploymentIdLogs.useMutation()
+         * const { mutate, isPending } = qraft.v1.postHostingDeploymentsDeploymentIdLogs.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -7254,7 +7254,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postHostingDeploymentsDeploymentIdLogs.useMutation({
+         * const { mutate, isPending } = qraft.v1.postHostingDeploymentsDeploymentIdLogs.useMutation({
          *     path: {
          *         deploymentId: deploymentId
          *     }
@@ -7263,7 +7263,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postHostingDeploymentsDeploymentIdLogs.useMutation()
+         * const { mutate, isPending } = qraft.v1.postHostingDeploymentsDeploymentIdLogs.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -7279,11 +7279,11 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const postHostingDeploymentsDeploymentIdLogsTotal = qraft.v1Service.postHostingDeploymentsDeploymentIdLogs.useIsMutating()
+         * const postHostingDeploymentsDeploymentIdLogsTotal = qraft.v1.postHostingDeploymentsDeploymentIdLogs.useIsMutating()
          * ```
          * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const postHostingDeploymentsDeploymentIdLogsTotal = qraft.v1Service.postHostingDeploymentsDeploymentIdLogs.useIsMutating({
+         * const postHostingDeploymentsDeploymentIdLogsTotal = qraft.v1.postHostingDeploymentsDeploymentIdLogs.useIsMutating({
          *     parameters: {
          *         path: {
          *             deploymentId: deploymentId
@@ -7299,7 +7299,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
-         * const postHostingDeploymentsDeploymentIdLogsPendingMutationVariables = qraft.v1Service.postHostingDeploymentsDeploymentIdLogs.useMutationState({
+         * const postHostingDeploymentsDeploymentIdLogsPendingMutationVariables = qraft.v1.postHostingDeploymentsDeploymentIdLogs.useMutationState({
          *     filters: {
          *         status: "pending"
          *     },
@@ -7308,7 +7308,7 @@ export interface V1Service {
          * ```
          * @example Get all data for specific mutations via the `parameters`.
          * ```ts
-         * const postHostingDeploymentsDeploymentIdLogsMutationData = qraft.v1Service.postHostingDeploymentsDeploymentIdLogs.useMutationState({
+         * const postHostingDeploymentsDeploymentIdLogsMutationData = qraft.v1.postHostingDeploymentsDeploymentIdLogs.useMutationState({
          *     filters: {
          *         parameters: {
          *             path: {
@@ -7334,7 +7334,7 @@ export interface V1Service {
          *
          * @example Find a mutation with specific parameters
          * ```ts
-         * const mutationCache = qraft.v1Service.postHostingDeploymentsDeploymentIdLogs.getMutationCache();
+         * const mutationCache = qraft.v1.postHostingDeploymentsDeploymentIdLogs.getMutationCache();
          * const mutation = mutationCache.find({
          *     parameters: {
          *         path: {
@@ -7346,7 +7346,7 @@ export interface V1Service {
          *
          * @example Find all mutations for the endpoint
          * ```ts
-         * const mutationCache = qraft.v1Service.postHostingDeploymentsDeploymentIdLogs.getMutationCache();
+         * const mutationCache = qraft.v1.postHostingDeploymentsDeploymentIdLogs.getMutationCache();
          * const mutations = mutationCache.findAll();
          * ```
          */
@@ -7377,7 +7377,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query without parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getHostingProjects.useQuery()
+         * const { data, isLoading } = qraft.v1.getHostingProjects.useQuery()
          * ```
          */
         useQuery<TData = GetHostingProjectsData>(parameters: ServiceOperationQueryKey<GetHostingProjectsSchema, GetHostingProjectsParameters> | (DeepReadonly<GetHostingProjectsParameters> | void), options?: Omit<UndefinedInitialDataOptions<GetHostingProjectsData, GetHostingProjectsError, TData, ServiceOperationQueryKey<GetHostingProjectsSchema, GetHostingProjectsParameters>>, "queryKey">): UseQueryResult<TData, OperationError<GetHostingProjectsError>>;
@@ -7387,7 +7387,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query without parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getHostingProjects.useQuery()
+         * const { data, isLoading } = qraft.v1.getHostingProjects.useQuery()
          * ```
          */
         useQuery<TData = GetHostingProjectsData>(parameters: ServiceOperationQueryKey<GetHostingProjectsSchema, GetHostingProjectsParameters> | (DeepReadonly<GetHostingProjectsParameters> | void), options: Omit<DefinedInitialDataOptions<GetHostingProjectsData, GetHostingProjectsError, TData, ServiceOperationQueryKey<GetHostingProjectsSchema, GetHostingProjectsParameters>>, "queryKey">): DefinedUseQueryResult<TData, OperationError<GetHostingProjectsError>>;
@@ -7401,7 +7401,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getHostingProjects.useInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getHostingProjects.useInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -7419,7 +7419,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getHostingProjects.useInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getHostingProjects.useInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -7437,7 +7437,7 @@ export interface V1Service {
          * @example Checks the total number of queries fetching from the specified service method,
          * both normal and infinite. If no parameters are provided, no filtering is applied.
          * ```ts
-         * const getHostingProjectsTotal = qraft.v1Service.getHostingProjects.useIsFetching()
+         * const getHostingProjectsTotal = qraft.v1.getHostingProjects.useIsFetching()
          * ```
          */
         useIsFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetHostingProjectsSchema, GetHostingProjectsData, TInfinite, GetHostingProjectsParameters, GetHostingProjectsError> | QueryFiltersByQueryKey<GetHostingProjectsSchema, GetHostingProjectsData, TInfinite, GetHostingProjectsParameters, GetHostingProjectsError>): number;
@@ -7447,7 +7447,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
          * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
          * ```ts
-         * const getHostingProjectsResults = qraft.v1Service.getHostingProjects.useQueries({
+         * const getHostingProjectsResults = qraft.v1.getHostingProjects.useQueries({
          *     queries: [
          *         {},
          *         {}
@@ -7457,7 +7457,7 @@ export interface V1Service {
          * ```
          * @example Combined results. Only the data will be returned.
          * ```ts
-         * const getHostingProjectsCombinedResults = qraft.v1Service.getHostingProjects.useQueries({
+         * const getHostingProjectsCombinedResults = qraft.v1.getHostingProjects.useQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {},
@@ -7478,7 +7478,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
          * @example Suspense Query without parameters
          * ```ts
-         * const data = qraft.v1Service.getHostingProjects.useSuspenseQuery()
+         * const data = qraft.v1.getHostingProjects.useSuspenseQuery()
          * ```
          */
         useSuspenseQuery<TData = GetHostingProjectsData>(parameters: ServiceOperationQueryKey<GetHostingProjectsSchema, GetHostingProjectsParameters> | (DeepReadonly<GetHostingProjectsParameters> | void), options?: Omit<UseSuspenseQueryOptions<GetHostingProjectsData, GetHostingProjectsError, TData, ServiceOperationQueryKey<GetHostingProjectsSchema, GetHostingProjectsParameters>>, "queryKey">): UseSuspenseQueryResult<TData, OperationError<GetHostingProjectsError>>;
@@ -7491,7 +7491,7 @@ export interface V1Service {
          *
          * @example Suspense Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getHostingProjects.useSuspenseInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getHostingProjects.useSuspenseInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -7508,7 +7508,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
          * @example Basic usage with Suspense
          * ```ts
-         * const getHostingProjectsData = qraft.v1Service.getHostingProjects.useSuspenseQueries({
+         * const getHostingProjectsData = qraft.v1.getHostingProjects.useSuspenseQueries({
          *     queries: [
          *         {},
          *         {}
@@ -7518,7 +7518,7 @@ export interface V1Service {
          * ```
          * @example With data transformation using combine
          * ```ts
-         * const getHostingProjectsCombinedData = qraft.v1Service.getHostingProjects.useSuspenseQueries({
+         * const getHostingProjectsCombinedData = qraft.v1.getHostingProjects.useSuspenseQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {},
@@ -7597,7 +7597,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.putHostingProjectsProjectIdState.useMutation({
+         * const { mutate, isPending } = qraft.v1.putHostingProjectsProjectIdState.useMutation({
          *     path: {
          *         projectId: projectId
          *     }
@@ -7606,7 +7606,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.putHostingProjectsProjectIdState.useMutation()
+         * const { mutate, isPending } = qraft.v1.putHostingProjectsProjectIdState.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -7623,7 +7623,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.putHostingProjectsProjectIdState.useMutation({
+         * const { mutate, isPending } = qraft.v1.putHostingProjectsProjectIdState.useMutation({
          *     path: {
          *         projectId: projectId
          *     }
@@ -7632,7 +7632,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.putHostingProjectsProjectIdState.useMutation()
+         * const { mutate, isPending } = qraft.v1.putHostingProjectsProjectIdState.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -7648,11 +7648,11 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const putHostingProjectsProjectIdStateTotal = qraft.v1Service.putHostingProjectsProjectIdState.useIsMutating()
+         * const putHostingProjectsProjectIdStateTotal = qraft.v1.putHostingProjectsProjectIdState.useIsMutating()
          * ```
          * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const putHostingProjectsProjectIdStateTotal = qraft.v1Service.putHostingProjectsProjectIdState.useIsMutating({
+         * const putHostingProjectsProjectIdStateTotal = qraft.v1.putHostingProjectsProjectIdState.useIsMutating({
          *     parameters: {
          *         path: {
          *             projectId: projectId
@@ -7668,7 +7668,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
-         * const putHostingProjectsProjectIdStatePendingMutationVariables = qraft.v1Service.putHostingProjectsProjectIdState.useMutationState({
+         * const putHostingProjectsProjectIdStatePendingMutationVariables = qraft.v1.putHostingProjectsProjectIdState.useMutationState({
          *     filters: {
          *         status: "pending"
          *     },
@@ -7677,7 +7677,7 @@ export interface V1Service {
          * ```
          * @example Get all data for specific mutations via the `parameters`.
          * ```ts
-         * const putHostingProjectsProjectIdStateMutationData = qraft.v1Service.putHostingProjectsProjectIdState.useMutationState({
+         * const putHostingProjectsProjectIdStateMutationData = qraft.v1.putHostingProjectsProjectIdState.useMutationState({
          *     filters: {
          *         parameters: {
          *             path: {
@@ -7703,7 +7703,7 @@ export interface V1Service {
          *
          * @example Find a mutation with specific parameters
          * ```ts
-         * const mutationCache = qraft.v1Service.putHostingProjectsProjectIdState.getMutationCache();
+         * const mutationCache = qraft.v1.putHostingProjectsProjectIdState.getMutationCache();
          * const mutation = mutationCache.find({
          *     parameters: {
          *         path: {
@@ -7715,7 +7715,7 @@ export interface V1Service {
          *
          * @example Find all mutations for the endpoint
          * ```ts
-         * const mutationCache = qraft.v1Service.putHostingProjectsProjectIdState.getMutationCache();
+         * const mutationCache = qraft.v1.putHostingProjectsProjectIdState.getMutationCache();
          * const mutations = mutationCache.findAll();
          * ```
          */
@@ -7731,6 +7731,152 @@ export interface V1Service {
             body: PutHostingProjectsProjectIdStateBody;
         };
     };
+    putHostingProjectsProjectIdConfig: {
+        /**/
+        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: ServiceOperationMutationFnOptions<PutHostingProjectsProjectIdConfigBody, PutHostingProjectsProjectIdConfigParameters, TMeta, TSignal>, client?: (schema: PutHostingProjectsProjectIdConfigSchema, options: ServiceOperationMutationFnOptions<PutHostingProjectsProjectIdConfigBody, PutHostingProjectsProjectIdConfigParameters, TMeta, TSignal>) => Promise<RequestFnResponse<PutHostingProjectsProjectIdConfigData, PutHostingProjectsProjectIdConfigError>>): Promise<RequestFnResponse<PutHostingProjectsProjectIdConfigData, PutHostingProjectsProjectIdConfigError>>;
+        /**/
+        getMutationKey(parameters: DeepReadonly<PutHostingProjectsProjectIdConfigParameters> | void): ServiceOperationMutationKey<PutHostingProjectsProjectIdConfigSchema, PutHostingProjectsProjectIdConfigParameters>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1.putHostingProjectsProjectIdConfig.useMutation({
+         *     path: {
+         *         projectId: projectId
+         *     }
+         * })
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1.putHostingProjectsProjectIdConfig.useMutation()
+         * mutate({
+         *     body: bodyPayload,
+         *     path: {
+         *         projectId: projectId
+         *     }
+         * });
+         * ```
+         */
+        useMutation<TVariables extends PutHostingProjectsProjectIdConfigBody, TContext = unknown>(parameters: DeepReadonly<PutHostingProjectsProjectIdConfigParameters>, options?: ServiceOperationUseMutationOptions<PutHostingProjectsProjectIdConfigSchema, PutHostingProjectsProjectIdConfigData, PutHostingProjectsProjectIdConfigParameters, TVariables, OperationError<PutHostingProjectsProjectIdConfigError>, TContext>): UseMutationResult<PutHostingProjectsProjectIdConfigData, OperationError<PutHostingProjectsProjectIdConfigError>, TVariables, TContext>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1.putHostingProjectsProjectIdConfig.useMutation({
+         *     path: {
+         *         projectId: projectId
+         *     }
+         * })
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1.putHostingProjectsProjectIdConfig.useMutation()
+         * mutate({
+         *     body: bodyPayload,
+         *     path: {
+         *         projectId: projectId
+         *     }
+         * });
+         * ```
+         */
+        useMutation<TVariables extends MutationVariables<PutHostingProjectsProjectIdConfigBody, PutHostingProjectsProjectIdConfigParameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<PutHostingProjectsProjectIdConfigSchema, PutHostingProjectsProjectIdConfigData, PutHostingProjectsProjectIdConfigParameters, TVariables, OperationError<PutHostingProjectsProjectIdConfigError>, TContext>): UseMutationResult<PutHostingProjectsProjectIdConfigData, OperationError<PutHostingProjectsProjectIdConfigError>, TVariables, TContext>;
+        /**
+         * Returns the count of currently in-progress mutations.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
+         * @example Check how many mutations are currently in progress for the specified service method.
+         * ```ts
+         * const putHostingProjectsProjectIdConfigTotal = qraft.v1.putHostingProjectsProjectIdConfig.useIsMutating()
+         * ```
+         * @example Check how many mutations are currently in progress with the specified parameters.
+         * ```ts
+         * const putHostingProjectsProjectIdConfigTotal = qraft.v1.putHostingProjectsProjectIdConfig.useIsMutating({
+         *     parameters: {
+         *         path: {
+         *             projectId: projectId
+         *         }
+         *     }
+         * })
+         * ```
+         */
+        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<PutHostingProjectsProjectIdConfigBody, PutHostingProjectsProjectIdConfigData, PutHostingProjectsProjectIdConfigParameters, OperationError<PutHostingProjectsProjectIdConfigError>, TContext> | MutationFiltersByMutationKey<PutHostingProjectsProjectIdConfigSchema, PutHostingProjectsProjectIdConfigBody, PutHostingProjectsProjectIdConfigData, PutHostingProjectsProjectIdConfigParameters, OperationError<PutHostingProjectsProjectIdConfigError>, TContext>): number;
+        /**
+         * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
+         * @example Get all variables of all running mutations.
+         * ```ts
+         * const putHostingProjectsProjectIdConfigPendingMutationVariables = qraft.v1.putHostingProjectsProjectIdConfig.useMutationState({
+         *     filters: {
+         *         status: "pending"
+         *     },
+         *     select: mutation => mutation.state.variables
+         * })
+         * ```
+         * @example Get all data for specific mutations via the `parameters`.
+         * ```ts
+         * const putHostingProjectsProjectIdConfigMutationData = qraft.v1.putHostingProjectsProjectIdConfig.useMutationState({
+         *     filters: {
+         *         parameters: {
+         *             path: {
+         *                 projectId: projectId
+         *             }
+         *         }
+         *     },
+         *     select: mutation => mutation.state.data
+         * })
+         * ```
+         */
+        useMutationState<TContext = unknown, TResult = MutationState<PutHostingProjectsProjectIdConfigData, OperationError<PutHostingProjectsProjectIdConfigError>, MutationVariables<PutHostingProjectsProjectIdConfigBody, PutHostingProjectsProjectIdConfigParameters>, TContext>>(options?: {
+            filters?: MutationFiltersByParameters<PutHostingProjectsProjectIdConfigBody, PutHostingProjectsProjectIdConfigData, PutHostingProjectsProjectIdConfigParameters, OperationError<PutHostingProjectsProjectIdConfigError>, TContext> | MutationFiltersByMutationKey<PutHostingProjectsProjectIdConfigSchema, PutHostingProjectsProjectIdConfigBody, PutHostingProjectsProjectIdConfigData, PutHostingProjectsProjectIdConfigParameters, OperationError<PutHostingProjectsProjectIdConfigError>, TContext>;
+            select?: (mutation: Mutation<PutHostingProjectsProjectIdConfigData, OperationError<PutHostingProjectsProjectIdConfigError>, MutationVariables<PutHostingProjectsProjectIdConfigBody, PutHostingProjectsProjectIdConfigParameters>, TContext>) => TResult;
+        }): Array<TResult>;
+        /**/
+        isMutating<TContext>(filters?: MutationFiltersByParameters<PutHostingProjectsProjectIdConfigBody, PutHostingProjectsProjectIdConfigData, PutHostingProjectsProjectIdConfigParameters, OperationError<PutHostingProjectsProjectIdConfigError>, TContext> | MutationFiltersByMutationKey<PutHostingProjectsProjectIdConfigSchema, PutHostingProjectsProjectIdConfigBody, PutHostingProjectsProjectIdConfigData, PutHostingProjectsProjectIdConfigParameters, OperationError<PutHostingProjectsProjectIdConfigError>, TContext>): number;
+        /**
+         * Returns a `MutationCache` object that provides access to mutation cache operations
+         * for the specific endpoint.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/query-client/getMutationCache|`getMutationCache(...)` documentation}
+         *
+         * @example Find a mutation with specific parameters
+         * ```ts
+         * const mutationCache = qraft.v1.putHostingProjectsProjectIdConfig.getMutationCache();
+         * const mutation = mutationCache.find({
+         *     parameters: {
+         *         path: {
+         *             projectId: projectId
+         *         }
+         *     }
+         * });
+         * ```
+         *
+         * @example Find all mutations for the endpoint
+         * ```ts
+         * const mutationCache = qraft.v1.putHostingProjectsProjectIdConfig.getMutationCache();
+         * const mutations = mutationCache.findAll();
+         * ```
+         */
+        getMutationCache(): Omit<MutationCache, "find" | "findAll"> & {
+            find<TContext = unknown>(filters: MutationFiltersByParameters<PutHostingProjectsProjectIdConfigBody, PutHostingProjectsProjectIdConfigData, PutHostingProjectsProjectIdConfigParameters, OperationError<PutHostingProjectsProjectIdConfigError>, TContext> | MutationFiltersByMutationKey<PutHostingProjectsProjectIdConfigSchema, PutHostingProjectsProjectIdConfigBody, PutHostingProjectsProjectIdConfigData, PutHostingProjectsProjectIdConfigParameters, OperationError<PutHostingProjectsProjectIdConfigError>, TContext>): Mutation<PutHostingProjectsProjectIdConfigData, PutHostingProjectsProjectIdConfigError, MutationVariables<PutHostingProjectsProjectIdConfigBody, PutHostingProjectsProjectIdConfigParameters>, TContext> | undefined;
+            findAll<TContext = unknown>(filters?: MutationFiltersByParameters<PutHostingProjectsProjectIdConfigBody, PutHostingProjectsProjectIdConfigData, PutHostingProjectsProjectIdConfigParameters, OperationError<PutHostingProjectsProjectIdConfigError>, TContext> | MutationFiltersByMutationKey<PutHostingProjectsProjectIdConfigSchema, PutHostingProjectsProjectIdConfigBody, PutHostingProjectsProjectIdConfigData, PutHostingProjectsProjectIdConfigParameters, OperationError<PutHostingProjectsProjectIdConfigError>, TContext>): Array<Mutation<PutHostingProjectsProjectIdConfigData, PutHostingProjectsProjectIdConfigError, MutationVariables<PutHostingProjectsProjectIdConfigBody, PutHostingProjectsProjectIdConfigParameters>, TContext>>;
+        };
+        schema: PutHostingProjectsProjectIdConfigSchema;
+        types: {
+            parameters: PutHostingProjectsProjectIdConfigParameters;
+            data: PutHostingProjectsProjectIdConfigData;
+            error: PutHostingProjectsProjectIdConfigError;
+            body: PutHostingProjectsProjectIdConfigBody;
+        };
+    };
     postHostingProjectsProjectIdServices: {
         /**/
         <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: ServiceOperationMutationFnOptions<PostHostingProjectsProjectIdServicesBody, PostHostingProjectsProjectIdServicesParameters, TMeta, TSignal>, client?: (schema: PostHostingProjectsProjectIdServicesSchema, options: ServiceOperationMutationFnOptions<PostHostingProjectsProjectIdServicesBody, PostHostingProjectsProjectIdServicesParameters, TMeta, TSignal>) => Promise<RequestFnResponse<PostHostingProjectsProjectIdServicesData, PostHostingProjectsProjectIdServicesError>>): Promise<RequestFnResponse<PostHostingProjectsProjectIdServicesData, PostHostingProjectsProjectIdServicesError>>;
@@ -7743,7 +7889,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postHostingProjectsProjectIdServices.useMutation({
+         * const { mutate, isPending } = qraft.v1.postHostingProjectsProjectIdServices.useMutation({
          *     path: {
          *         projectId: projectId
          *     }
@@ -7752,7 +7898,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postHostingProjectsProjectIdServices.useMutation()
+         * const { mutate, isPending } = qraft.v1.postHostingProjectsProjectIdServices.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -7769,7 +7915,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postHostingProjectsProjectIdServices.useMutation({
+         * const { mutate, isPending } = qraft.v1.postHostingProjectsProjectIdServices.useMutation({
          *     path: {
          *         projectId: projectId
          *     }
@@ -7778,7 +7924,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postHostingProjectsProjectIdServices.useMutation()
+         * const { mutate, isPending } = qraft.v1.postHostingProjectsProjectIdServices.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -7794,11 +7940,11 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const postHostingProjectsProjectIdServicesTotal = qraft.v1Service.postHostingProjectsProjectIdServices.useIsMutating()
+         * const postHostingProjectsProjectIdServicesTotal = qraft.v1.postHostingProjectsProjectIdServices.useIsMutating()
          * ```
          * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const postHostingProjectsProjectIdServicesTotal = qraft.v1Service.postHostingProjectsProjectIdServices.useIsMutating({
+         * const postHostingProjectsProjectIdServicesTotal = qraft.v1.postHostingProjectsProjectIdServices.useIsMutating({
          *     parameters: {
          *         path: {
          *             projectId: projectId
@@ -7814,7 +7960,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
-         * const postHostingProjectsProjectIdServicesPendingMutationVariables = qraft.v1Service.postHostingProjectsProjectIdServices.useMutationState({
+         * const postHostingProjectsProjectIdServicesPendingMutationVariables = qraft.v1.postHostingProjectsProjectIdServices.useMutationState({
          *     filters: {
          *         status: "pending"
          *     },
@@ -7823,7 +7969,7 @@ export interface V1Service {
          * ```
          * @example Get all data for specific mutations via the `parameters`.
          * ```ts
-         * const postHostingProjectsProjectIdServicesMutationData = qraft.v1Service.postHostingProjectsProjectIdServices.useMutationState({
+         * const postHostingProjectsProjectIdServicesMutationData = qraft.v1.postHostingProjectsProjectIdServices.useMutationState({
          *     filters: {
          *         parameters: {
          *             path: {
@@ -7849,7 +7995,7 @@ export interface V1Service {
          *
          * @example Find a mutation with specific parameters
          * ```ts
-         * const mutationCache = qraft.v1Service.postHostingProjectsProjectIdServices.getMutationCache();
+         * const mutationCache = qraft.v1.postHostingProjectsProjectIdServices.getMutationCache();
          * const mutation = mutationCache.find({
          *     parameters: {
          *         path: {
@@ -7861,7 +8007,7 @@ export interface V1Service {
          *
          * @example Find all mutations for the endpoint
          * ```ts
-         * const mutationCache = qraft.v1Service.postHostingProjectsProjectIdServices.getMutationCache();
+         * const mutationCache = qraft.v1.postHostingProjectsProjectIdServices.getMutationCache();
          * const mutations = mutationCache.findAll();
          * ```
          */
@@ -7889,7 +8035,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postHostingProjectsProjectIdEnvironmentsEnvironmentIdServices.useMutation({
+         * const { mutate, isPending } = qraft.v1.postHostingProjectsProjectIdEnvironmentsEnvironmentIdServices.useMutation({
          *     path: {
          *         projectId: projectId,
          *         environmentId: environmentId
@@ -7899,7 +8045,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postHostingProjectsProjectIdEnvironmentsEnvironmentIdServices.useMutation()
+         * const { mutate, isPending } = qraft.v1.postHostingProjectsProjectIdEnvironmentsEnvironmentIdServices.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -7917,7 +8063,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postHostingProjectsProjectIdEnvironmentsEnvironmentIdServices.useMutation({
+         * const { mutate, isPending } = qraft.v1.postHostingProjectsProjectIdEnvironmentsEnvironmentIdServices.useMutation({
          *     path: {
          *         projectId: projectId,
          *         environmentId: environmentId
@@ -7927,7 +8073,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postHostingProjectsProjectIdEnvironmentsEnvironmentIdServices.useMutation()
+         * const { mutate, isPending } = qraft.v1.postHostingProjectsProjectIdEnvironmentsEnvironmentIdServices.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -7944,11 +8090,11 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const postHostingProjectsProjectIdEnvironmentsEnvironmentIdServicesTotal = qraft.v1Service.postHostingProjectsProjectIdEnvironmentsEnvironmentIdServices.useIsMutating()
+         * const postHostingProjectsProjectIdEnvironmentsEnvironmentIdServicesTotal = qraft.v1.postHostingProjectsProjectIdEnvironmentsEnvironmentIdServices.useIsMutating()
          * ```
          * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const postHostingProjectsProjectIdEnvironmentsEnvironmentIdServicesTotal = qraft.v1Service.postHostingProjectsProjectIdEnvironmentsEnvironmentIdServices.useIsMutating({
+         * const postHostingProjectsProjectIdEnvironmentsEnvironmentIdServicesTotal = qraft.v1.postHostingProjectsProjectIdEnvironmentsEnvironmentIdServices.useIsMutating({
          *     parameters: {
          *         path: {
          *             projectId: projectId,
@@ -7965,7 +8111,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
-         * const postHostingProjectsProjectIdEnvironmentsEnvironmentIdServicesPendingMutationVariables = qraft.v1Service.postHostingProjectsProjectIdEnvironmentsEnvironmentIdServices.useMutationState({
+         * const postHostingProjectsProjectIdEnvironmentsEnvironmentIdServicesPendingMutationVariables = qraft.v1.postHostingProjectsProjectIdEnvironmentsEnvironmentIdServices.useMutationState({
          *     filters: {
          *         status: "pending"
          *     },
@@ -7974,7 +8120,7 @@ export interface V1Service {
          * ```
          * @example Get all data for specific mutations via the `parameters`.
          * ```ts
-         * const postHostingProjectsProjectIdEnvironmentsEnvironmentIdServicesMutationData = qraft.v1Service.postHostingProjectsProjectIdEnvironmentsEnvironmentIdServices.useMutationState({
+         * const postHostingProjectsProjectIdEnvironmentsEnvironmentIdServicesMutationData = qraft.v1.postHostingProjectsProjectIdEnvironmentsEnvironmentIdServices.useMutationState({
          *     filters: {
          *         parameters: {
          *             path: {
@@ -8001,7 +8147,7 @@ export interface V1Service {
          *
          * @example Find a mutation with specific parameters
          * ```ts
-         * const mutationCache = qraft.v1Service.postHostingProjectsProjectIdEnvironmentsEnvironmentIdServices.getMutationCache();
+         * const mutationCache = qraft.v1.postHostingProjectsProjectIdEnvironmentsEnvironmentIdServices.getMutationCache();
          * const mutation = mutationCache.find({
          *     parameters: {
          *         path: {
@@ -8014,7 +8160,7 @@ export interface V1Service {
          *
          * @example Find all mutations for the endpoint
          * ```ts
-         * const mutationCache = qraft.v1Service.postHostingProjectsProjectIdEnvironmentsEnvironmentIdServices.getMutationCache();
+         * const mutationCache = qraft.v1.postHostingProjectsProjectIdEnvironmentsEnvironmentIdServices.getMutationCache();
          * const mutations = mutationCache.findAll();
          * ```
          */
@@ -8045,7 +8191,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query without parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getHostingProjectsTcpAllocations.useQuery()
+         * const { data, isLoading } = qraft.v1.getHostingProjectsTcpAllocations.useQuery()
          * ```
          */
         useQuery<TData = GetHostingProjectsTcpAllocationsData>(parameters: ServiceOperationQueryKey<GetHostingProjectsTcpAllocationsSchema, GetHostingProjectsTcpAllocationsParameters> | (DeepReadonly<GetHostingProjectsTcpAllocationsParameters> | void), options?: Omit<UndefinedInitialDataOptions<GetHostingProjectsTcpAllocationsData, GetHostingProjectsTcpAllocationsError, TData, ServiceOperationQueryKey<GetHostingProjectsTcpAllocationsSchema, GetHostingProjectsTcpAllocationsParameters>>, "queryKey">): UseQueryResult<TData, OperationError<GetHostingProjectsTcpAllocationsError>>;
@@ -8055,7 +8201,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query without parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getHostingProjectsTcpAllocations.useQuery()
+         * const { data, isLoading } = qraft.v1.getHostingProjectsTcpAllocations.useQuery()
          * ```
          */
         useQuery<TData = GetHostingProjectsTcpAllocationsData>(parameters: ServiceOperationQueryKey<GetHostingProjectsTcpAllocationsSchema, GetHostingProjectsTcpAllocationsParameters> | (DeepReadonly<GetHostingProjectsTcpAllocationsParameters> | void), options: Omit<DefinedInitialDataOptions<GetHostingProjectsTcpAllocationsData, GetHostingProjectsTcpAllocationsError, TData, ServiceOperationQueryKey<GetHostingProjectsTcpAllocationsSchema, GetHostingProjectsTcpAllocationsParameters>>, "queryKey">): DefinedUseQueryResult<TData, OperationError<GetHostingProjectsTcpAllocationsError>>;
@@ -8069,7 +8215,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getHostingProjectsTcpAllocations.useInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getHostingProjectsTcpAllocations.useInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -8087,7 +8233,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getHostingProjectsTcpAllocations.useInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getHostingProjectsTcpAllocations.useInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -8105,7 +8251,7 @@ export interface V1Service {
          * @example Checks the total number of queries fetching from the specified service method,
          * both normal and infinite. If no parameters are provided, no filtering is applied.
          * ```ts
-         * const getHostingProjectsTcpAllocationsTotal = qraft.v1Service.getHostingProjectsTcpAllocations.useIsFetching()
+         * const getHostingProjectsTcpAllocationsTotal = qraft.v1.getHostingProjectsTcpAllocations.useIsFetching()
          * ```
          */
         useIsFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetHostingProjectsTcpAllocationsSchema, GetHostingProjectsTcpAllocationsData, TInfinite, GetHostingProjectsTcpAllocationsParameters, GetHostingProjectsTcpAllocationsError> | QueryFiltersByQueryKey<GetHostingProjectsTcpAllocationsSchema, GetHostingProjectsTcpAllocationsData, TInfinite, GetHostingProjectsTcpAllocationsParameters, GetHostingProjectsTcpAllocationsError>): number;
@@ -8115,7 +8261,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
          * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
          * ```ts
-         * const getHostingProjectsTcpAllocationsResults = qraft.v1Service.getHostingProjectsTcpAllocations.useQueries({
+         * const getHostingProjectsTcpAllocationsResults = qraft.v1.getHostingProjectsTcpAllocations.useQueries({
          *     queries: [
          *         {},
          *         {}
@@ -8125,7 +8271,7 @@ export interface V1Service {
          * ```
          * @example Combined results. Only the data will be returned.
          * ```ts
-         * const getHostingProjectsTcpAllocationsCombinedResults = qraft.v1Service.getHostingProjectsTcpAllocations.useQueries({
+         * const getHostingProjectsTcpAllocationsCombinedResults = qraft.v1.getHostingProjectsTcpAllocations.useQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {},
@@ -8146,7 +8292,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
          * @example Suspense Query without parameters
          * ```ts
-         * const data = qraft.v1Service.getHostingProjectsTcpAllocations.useSuspenseQuery()
+         * const data = qraft.v1.getHostingProjectsTcpAllocations.useSuspenseQuery()
          * ```
          */
         useSuspenseQuery<TData = GetHostingProjectsTcpAllocationsData>(parameters: ServiceOperationQueryKey<GetHostingProjectsTcpAllocationsSchema, GetHostingProjectsTcpAllocationsParameters> | (DeepReadonly<GetHostingProjectsTcpAllocationsParameters> | void), options?: Omit<UseSuspenseQueryOptions<GetHostingProjectsTcpAllocationsData, GetHostingProjectsTcpAllocationsError, TData, ServiceOperationQueryKey<GetHostingProjectsTcpAllocationsSchema, GetHostingProjectsTcpAllocationsParameters>>, "queryKey">): UseSuspenseQueryResult<TData, OperationError<GetHostingProjectsTcpAllocationsError>>;
@@ -8159,7 +8305,7 @@ export interface V1Service {
          *
          * @example Suspense Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getHostingProjectsTcpAllocations.useSuspenseInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getHostingProjectsTcpAllocations.useSuspenseInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -8176,7 +8322,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
          * @example Basic usage with Suspense
          * ```ts
-         * const getHostingProjectsTcpAllocationsData = qraft.v1Service.getHostingProjectsTcpAllocations.useSuspenseQueries({
+         * const getHostingProjectsTcpAllocationsData = qraft.v1.getHostingProjectsTcpAllocations.useSuspenseQueries({
          *     queries: [
          *         {},
          *         {}
@@ -8186,7 +8332,7 @@ export interface V1Service {
          * ```
          * @example With data transformation using combine
          * ```ts
-         * const getHostingProjectsTcpAllocationsCombinedData = qraft.v1Service.getHostingProjectsTcpAllocations.useSuspenseQueries({
+         * const getHostingProjectsTcpAllocationsCombinedData = qraft.v1.getHostingProjectsTcpAllocations.useSuspenseQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {},
@@ -8268,7 +8414,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query with parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getHostingProjectsProjectIdDomains.useQuery({
+         * const { data, isLoading } = qraft.v1.getHostingProjectsProjectIdDomains.useQuery({
          *     path: {
          *         projectId: projectId
          *     }
@@ -8282,7 +8428,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query with parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getHostingProjectsProjectIdDomains.useQuery({
+         * const { data, isLoading } = qraft.v1.getHostingProjectsProjectIdDomains.useQuery({
          *     path: {
          *         projectId: projectId
          *     }
@@ -8300,7 +8446,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getHostingProjectsProjectIdDomains.useInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getHostingProjectsProjectIdDomains.useInfiniteQuery({
          *     path: {
          *         projectId: projectId
          *     }
@@ -8322,7 +8468,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getHostingProjectsProjectIdDomains.useInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getHostingProjectsProjectIdDomains.useInfiniteQuery({
          *     path: {
          *         projectId: projectId
          *     }
@@ -8344,11 +8490,11 @@ export interface V1Service {
          * @example Checks the total number of queries fetching from the specified service method,
          * both normal and infinite. If no parameters are provided, no filtering is applied.
          * ```ts
-         * const getHostingProjectsProjectIdDomainsTotal = qraft.v1Service.getHostingProjectsProjectIdDomains.useIsFetching()
+         * const getHostingProjectsProjectIdDomainsTotal = qraft.v1.getHostingProjectsProjectIdDomains.useIsFetching()
          * ```
          * @example Checks the number of normal queries fetching with the specified parameters.
          * ```ts
-         * const getHostingProjectsProjectIdDomainsByParametersTotal = qraft.v1Service.getHostingProjectsProjectIdDomains.useIsFetching({
+         * const getHostingProjectsProjectIdDomainsByParametersTotal = qraft.v1.getHostingProjectsProjectIdDomains.useIsFetching({
          *     infinite: false,
          *     parameters: {
          *         path: {
@@ -8365,7 +8511,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
          * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
          * ```ts
-         * const getHostingProjectsProjectIdDomainsResults = qraft.v1Service.getHostingProjectsProjectIdDomains.useQueries({
+         * const getHostingProjectsProjectIdDomainsResults = qraft.v1.getHostingProjectsProjectIdDomains.useQueries({
          *     queries: [
          *         {
          *             path: {
@@ -8383,7 +8529,7 @@ export interface V1Service {
          * ```
          * @example Combined results. Only the data will be returned.
          * ```ts
-         * const getHostingProjectsProjectIdDomainsCombinedResults = qraft.v1Service.getHostingProjectsProjectIdDomains.useQueries({
+         * const getHostingProjectsProjectIdDomainsCombinedResults = qraft.v1.getHostingProjectsProjectIdDomains.useQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {
@@ -8412,7 +8558,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
          * @example Suspense Query with parameters
          * ```ts
-         * const data = qraft.v1Service.getHostingProjectsProjectIdDomains.useSuspenseQuery({
+         * const data = qraft.v1.getHostingProjectsProjectIdDomains.useSuspenseQuery({
          *     path: {
          *         projectId: projectId
          *     }
@@ -8429,7 +8575,7 @@ export interface V1Service {
          *
          * @example Suspense Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getHostingProjectsProjectIdDomains.useSuspenseInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getHostingProjectsProjectIdDomains.useSuspenseInfiniteQuery({
          *     path: {
          *         projectId: projectId
          *     }
@@ -8450,7 +8596,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
          * @example Basic usage with Suspense
          * ```ts
-         * const getHostingProjectsProjectIdDomainsData = qraft.v1Service.getHostingProjectsProjectIdDomains.useSuspenseQueries({
+         * const getHostingProjectsProjectIdDomainsData = qraft.v1.getHostingProjectsProjectIdDomains.useSuspenseQueries({
          *     queries: [
          *         {
          *             path: {
@@ -8468,7 +8614,7 @@ export interface V1Service {
          * ```
          * @example With data transformation using combine
          * ```ts
-         * const getHostingProjectsProjectIdDomainsCombinedData = qraft.v1Service.getHostingProjectsProjectIdDomains.useSuspenseQueries({
+         * const getHostingProjectsProjectIdDomainsCombinedData = qraft.v1.getHostingProjectsProjectIdDomains.useSuspenseQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {
@@ -8558,7 +8704,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query with parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getHostingProjectsProjectIdEnvironment.useQuery({
+         * const { data, isLoading } = qraft.v1.getHostingProjectsProjectIdEnvironment.useQuery({
          *     path: {
          *         projectId: projectId
          *     },
@@ -8575,7 +8721,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query with parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getHostingProjectsProjectIdEnvironment.useQuery({
+         * const { data, isLoading } = qraft.v1.getHostingProjectsProjectIdEnvironment.useQuery({
          *     path: {
          *         projectId: projectId
          *     },
@@ -8596,7 +8742,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getHostingProjectsProjectIdEnvironment.useInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getHostingProjectsProjectIdEnvironment.useInfiniteQuery({
          *     path: {
          *         projectId: projectId
          *     },
@@ -8625,7 +8771,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getHostingProjectsProjectIdEnvironment.useInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getHostingProjectsProjectIdEnvironment.useInfiniteQuery({
          *     path: {
          *         projectId: projectId
          *     },
@@ -8654,11 +8800,11 @@ export interface V1Service {
          * @example Checks the total number of queries fetching from the specified service method,
          * both normal and infinite. If no parameters are provided, no filtering is applied.
          * ```ts
-         * const getHostingProjectsProjectIdEnvironmentTotal = qraft.v1Service.getHostingProjectsProjectIdEnvironment.useIsFetching()
+         * const getHostingProjectsProjectIdEnvironmentTotal = qraft.v1.getHostingProjectsProjectIdEnvironment.useIsFetching()
          * ```
          * @example Checks the number of normal queries fetching with the specified parameters.
          * ```ts
-         * const getHostingProjectsProjectIdEnvironmentByParametersTotal = qraft.v1Service.getHostingProjectsProjectIdEnvironment.useIsFetching({
+         * const getHostingProjectsProjectIdEnvironmentByParametersTotal = qraft.v1.getHostingProjectsProjectIdEnvironment.useIsFetching({
          *     infinite: false,
          *     parameters: {
          *         path: {
@@ -8678,7 +8824,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
          * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
          * ```ts
-         * const getHostingProjectsProjectIdEnvironmentResults = qraft.v1Service.getHostingProjectsProjectIdEnvironment.useQueries({
+         * const getHostingProjectsProjectIdEnvironmentResults = qraft.v1.getHostingProjectsProjectIdEnvironment.useQueries({
          *     queries: [
          *         {
          *             path: {
@@ -8702,7 +8848,7 @@ export interface V1Service {
          * ```
          * @example Combined results. Only the data will be returned.
          * ```ts
-         * const getHostingProjectsProjectIdEnvironmentCombinedResults = qraft.v1Service.getHostingProjectsProjectIdEnvironment.useQueries({
+         * const getHostingProjectsProjectIdEnvironmentCombinedResults = qraft.v1.getHostingProjectsProjectIdEnvironment.useQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {
@@ -8737,7 +8883,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
          * @example Suspense Query with parameters
          * ```ts
-         * const data = qraft.v1Service.getHostingProjectsProjectIdEnvironment.useSuspenseQuery({
+         * const data = qraft.v1.getHostingProjectsProjectIdEnvironment.useSuspenseQuery({
          *     path: {
          *         projectId: projectId
          *     },
@@ -8757,7 +8903,7 @@ export interface V1Service {
          *
          * @example Suspense Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getHostingProjectsProjectIdEnvironment.useSuspenseInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getHostingProjectsProjectIdEnvironment.useSuspenseInfiniteQuery({
          *     path: {
          *         projectId: projectId
          *     },
@@ -8785,7 +8931,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
          * @example Basic usage with Suspense
          * ```ts
-         * const getHostingProjectsProjectIdEnvironmentData = qraft.v1Service.getHostingProjectsProjectIdEnvironment.useSuspenseQueries({
+         * const getHostingProjectsProjectIdEnvironmentData = qraft.v1.getHostingProjectsProjectIdEnvironment.useSuspenseQueries({
          *     queries: [
          *         {
          *             path: {
@@ -8809,7 +8955,7 @@ export interface V1Service {
          * ```
          * @example With data transformation using combine
          * ```ts
-         * const getHostingProjectsProjectIdEnvironmentCombinedData = qraft.v1Service.getHostingProjectsProjectIdEnvironment.useSuspenseQueries({
+         * const getHostingProjectsProjectIdEnvironmentCombinedData = qraft.v1.getHostingProjectsProjectIdEnvironment.useSuspenseQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {
@@ -8902,7 +9048,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postInvitationsTokenAccept.useMutation({
+         * const { mutate, isPending } = qraft.v1.postInvitationsTokenAccept.useMutation({
          *     path: {
          *         token: token
          *     }
@@ -8911,7 +9057,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postInvitationsTokenAccept.useMutation()
+         * const { mutate, isPending } = qraft.v1.postInvitationsTokenAccept.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -8928,7 +9074,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postInvitationsTokenAccept.useMutation({
+         * const { mutate, isPending } = qraft.v1.postInvitationsTokenAccept.useMutation({
          *     path: {
          *         token: token
          *     }
@@ -8937,7 +9083,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postInvitationsTokenAccept.useMutation()
+         * const { mutate, isPending } = qraft.v1.postInvitationsTokenAccept.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -8953,11 +9099,11 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const postInvitationsTokenAcceptTotal = qraft.v1Service.postInvitationsTokenAccept.useIsMutating()
+         * const postInvitationsTokenAcceptTotal = qraft.v1.postInvitationsTokenAccept.useIsMutating()
          * ```
          * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const postInvitationsTokenAcceptTotal = qraft.v1Service.postInvitationsTokenAccept.useIsMutating({
+         * const postInvitationsTokenAcceptTotal = qraft.v1.postInvitationsTokenAccept.useIsMutating({
          *     parameters: {
          *         path: {
          *             token: token
@@ -8973,7 +9119,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
-         * const postInvitationsTokenAcceptPendingMutationVariables = qraft.v1Service.postInvitationsTokenAccept.useMutationState({
+         * const postInvitationsTokenAcceptPendingMutationVariables = qraft.v1.postInvitationsTokenAccept.useMutationState({
          *     filters: {
          *         status: "pending"
          *     },
@@ -8982,7 +9128,7 @@ export interface V1Service {
          * ```
          * @example Get all data for specific mutations via the `parameters`.
          * ```ts
-         * const postInvitationsTokenAcceptMutationData = qraft.v1Service.postInvitationsTokenAccept.useMutationState({
+         * const postInvitationsTokenAcceptMutationData = qraft.v1.postInvitationsTokenAccept.useMutationState({
          *     filters: {
          *         parameters: {
          *             path: {
@@ -9008,7 +9154,7 @@ export interface V1Service {
          *
          * @example Find a mutation with specific parameters
          * ```ts
-         * const mutationCache = qraft.v1Service.postInvitationsTokenAccept.getMutationCache();
+         * const mutationCache = qraft.v1.postInvitationsTokenAccept.getMutationCache();
          * const mutation = mutationCache.find({
          *     parameters: {
          *         path: {
@@ -9020,7 +9166,7 @@ export interface V1Service {
          *
          * @example Find all mutations for the endpoint
          * ```ts
-         * const mutationCache = qraft.v1Service.postInvitationsTokenAccept.getMutationCache();
+         * const mutationCache = qraft.v1.postInvitationsTokenAccept.getMutationCache();
          * const mutations = mutationCache.findAll();
          * ```
          */
@@ -9048,7 +9194,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postInvitationsTokenDecline.useMutation({
+         * const { mutate, isPending } = qraft.v1.postInvitationsTokenDecline.useMutation({
          *     path: {
          *         token: token
          *     }
@@ -9057,7 +9203,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postInvitationsTokenDecline.useMutation()
+         * const { mutate, isPending } = qraft.v1.postInvitationsTokenDecline.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -9074,7 +9220,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postInvitationsTokenDecline.useMutation({
+         * const { mutate, isPending } = qraft.v1.postInvitationsTokenDecline.useMutation({
          *     path: {
          *         token: token
          *     }
@@ -9083,7 +9229,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postInvitationsTokenDecline.useMutation()
+         * const { mutate, isPending } = qraft.v1.postInvitationsTokenDecline.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -9099,11 +9245,11 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const postInvitationsTokenDeclineTotal = qraft.v1Service.postInvitationsTokenDecline.useIsMutating()
+         * const postInvitationsTokenDeclineTotal = qraft.v1.postInvitationsTokenDecline.useIsMutating()
          * ```
          * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const postInvitationsTokenDeclineTotal = qraft.v1Service.postInvitationsTokenDecline.useIsMutating({
+         * const postInvitationsTokenDeclineTotal = qraft.v1.postInvitationsTokenDecline.useIsMutating({
          *     parameters: {
          *         path: {
          *             token: token
@@ -9119,7 +9265,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
-         * const postInvitationsTokenDeclinePendingMutationVariables = qraft.v1Service.postInvitationsTokenDecline.useMutationState({
+         * const postInvitationsTokenDeclinePendingMutationVariables = qraft.v1.postInvitationsTokenDecline.useMutationState({
          *     filters: {
          *         status: "pending"
          *     },
@@ -9128,7 +9274,7 @@ export interface V1Service {
          * ```
          * @example Get all data for specific mutations via the `parameters`.
          * ```ts
-         * const postInvitationsTokenDeclineMutationData = qraft.v1Service.postInvitationsTokenDecline.useMutationState({
+         * const postInvitationsTokenDeclineMutationData = qraft.v1.postInvitationsTokenDecline.useMutationState({
          *     filters: {
          *         parameters: {
          *             path: {
@@ -9154,7 +9300,7 @@ export interface V1Service {
          *
          * @example Find a mutation with specific parameters
          * ```ts
-         * const mutationCache = qraft.v1Service.postInvitationsTokenDecline.getMutationCache();
+         * const mutationCache = qraft.v1.postInvitationsTokenDecline.getMutationCache();
          * const mutation = mutationCache.find({
          *     parameters: {
          *         path: {
@@ -9166,7 +9312,7 @@ export interface V1Service {
          *
          * @example Find all mutations for the endpoint
          * ```ts
-         * const mutationCache = qraft.v1Service.postInvitationsTokenDecline.getMutationCache();
+         * const mutationCache = qraft.v1.postInvitationsTokenDecline.getMutationCache();
          * const mutations = mutationCache.findAll();
          * ```
          */
@@ -9194,12 +9340,12 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postMailSend.useMutation({})
+         * const { mutate, isPending } = qraft.v1.postMailSend.useMutation({})
          * mutate(body);
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postMailSend.useMutation()
+         * const { mutate, isPending } = qraft.v1.postMailSend.useMutation()
          * mutate({
          *     body: bodyPayload
          * });
@@ -9213,12 +9359,12 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postMailSend.useMutation({})
+         * const { mutate, isPending } = qraft.v1.postMailSend.useMutation({})
          * mutate(body);
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postMailSend.useMutation()
+         * const { mutate, isPending } = qraft.v1.postMailSend.useMutation()
          * mutate({
          *     body: bodyPayload
          * });
@@ -9231,11 +9377,11 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const postMailSendTotal = qraft.v1Service.postMailSend.useIsMutating()
+         * const postMailSendTotal = qraft.v1.postMailSend.useIsMutating()
          * ```
          * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const postMailSendTotal = qraft.v1Service.postMailSend.useIsMutating({
+         * const postMailSendTotal = qraft.v1.postMailSend.useIsMutating({
          *     parameters: {}
          * })
          * ```
@@ -9247,7 +9393,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
-         * const postMailSendPendingMutationVariables = qraft.v1Service.postMailSend.useMutationState({
+         * const postMailSendPendingMutationVariables = qraft.v1.postMailSend.useMutationState({
          *     filters: {
          *         status: "pending"
          *     },
@@ -9256,7 +9402,7 @@ export interface V1Service {
          * ```
          * @example Get all data for specific mutations via the `parameters`.
          * ```ts
-         * const postMailSendMutationData = qraft.v1Service.postMailSend.useMutationState({
+         * const postMailSendMutationData = qraft.v1.postMailSend.useMutationState({
          *     filters: {
          *         parameters: {}
          *     },
@@ -9278,7 +9424,7 @@ export interface V1Service {
          *
          * @example Find a mutation with specific parameters
          * ```ts
-         * const mutationCache = qraft.v1Service.postMailSend.getMutationCache();
+         * const mutationCache = qraft.v1.postMailSend.getMutationCache();
          * const mutation = mutationCache.find({
          *     parameters: {}
          * });
@@ -9286,7 +9432,7 @@ export interface V1Service {
          *
          * @example Find all mutations for the endpoint
          * ```ts
-         * const mutationCache = qraft.v1Service.postMailSend.getMutationCache();
+         * const mutationCache = qraft.v1.postMailSend.getMutationCache();
          * const mutations = mutationCache.findAll();
          * ```
          */
@@ -9314,12 +9460,12 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postN8nProjects.useMutation({})
+         * const { mutate, isPending } = qraft.v1.postN8nProjects.useMutation({})
          * mutate(body);
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postN8nProjects.useMutation()
+         * const { mutate, isPending } = qraft.v1.postN8nProjects.useMutation()
          * mutate({
          *     body: bodyPayload
          * });
@@ -9333,12 +9479,12 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postN8nProjects.useMutation({})
+         * const { mutate, isPending } = qraft.v1.postN8nProjects.useMutation({})
          * mutate(body);
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postN8nProjects.useMutation()
+         * const { mutate, isPending } = qraft.v1.postN8nProjects.useMutation()
          * mutate({
          *     body: bodyPayload
          * });
@@ -9351,11 +9497,11 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const postN8nProjectsTotal = qraft.v1Service.postN8nProjects.useIsMutating()
+         * const postN8nProjectsTotal = qraft.v1.postN8nProjects.useIsMutating()
          * ```
          * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const postN8nProjectsTotal = qraft.v1Service.postN8nProjects.useIsMutating({
+         * const postN8nProjectsTotal = qraft.v1.postN8nProjects.useIsMutating({
          *     parameters: {}
          * })
          * ```
@@ -9367,7 +9513,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
-         * const postN8nProjectsPendingMutationVariables = qraft.v1Service.postN8nProjects.useMutationState({
+         * const postN8nProjectsPendingMutationVariables = qraft.v1.postN8nProjects.useMutationState({
          *     filters: {
          *         status: "pending"
          *     },
@@ -9376,7 +9522,7 @@ export interface V1Service {
          * ```
          * @example Get all data for specific mutations via the `parameters`.
          * ```ts
-         * const postN8nProjectsMutationData = qraft.v1Service.postN8nProjects.useMutationState({
+         * const postN8nProjectsMutationData = qraft.v1.postN8nProjects.useMutationState({
          *     filters: {
          *         parameters: {}
          *     },
@@ -9398,7 +9544,7 @@ export interface V1Service {
          *
          * @example Find a mutation with specific parameters
          * ```ts
-         * const mutationCache = qraft.v1Service.postN8nProjects.getMutationCache();
+         * const mutationCache = qraft.v1.postN8nProjects.getMutationCache();
          * const mutation = mutationCache.find({
          *     parameters: {}
          * });
@@ -9406,7 +9552,7 @@ export interface V1Service {
          *
          * @example Find all mutations for the endpoint
          * ```ts
-         * const mutationCache = qraft.v1Service.postN8nProjects.getMutationCache();
+         * const mutationCache = qraft.v1.postN8nProjects.getMutationCache();
          * const mutations = mutationCache.findAll();
          * ```
          */
@@ -9434,12 +9580,12 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postOrganizations.useMutation({})
+         * const { mutate, isPending } = qraft.v1.postOrganizations.useMutation({})
          * mutate(body);
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postOrganizations.useMutation()
+         * const { mutate, isPending } = qraft.v1.postOrganizations.useMutation()
          * mutate({
          *     body: bodyPayload
          * });
@@ -9453,12 +9599,12 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postOrganizations.useMutation({})
+         * const { mutate, isPending } = qraft.v1.postOrganizations.useMutation({})
          * mutate(body);
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postOrganizations.useMutation()
+         * const { mutate, isPending } = qraft.v1.postOrganizations.useMutation()
          * mutate({
          *     body: bodyPayload
          * });
@@ -9471,11 +9617,11 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const postOrganizationsTotal = qraft.v1Service.postOrganizations.useIsMutating()
+         * const postOrganizationsTotal = qraft.v1.postOrganizations.useIsMutating()
          * ```
          * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const postOrganizationsTotal = qraft.v1Service.postOrganizations.useIsMutating({
+         * const postOrganizationsTotal = qraft.v1.postOrganizations.useIsMutating({
          *     parameters: {}
          * })
          * ```
@@ -9487,7 +9633,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
-         * const postOrganizationsPendingMutationVariables = qraft.v1Service.postOrganizations.useMutationState({
+         * const postOrganizationsPendingMutationVariables = qraft.v1.postOrganizations.useMutationState({
          *     filters: {
          *         status: "pending"
          *     },
@@ -9496,7 +9642,7 @@ export interface V1Service {
          * ```
          * @example Get all data for specific mutations via the `parameters`.
          * ```ts
-         * const postOrganizationsMutationData = qraft.v1Service.postOrganizations.useMutationState({
+         * const postOrganizationsMutationData = qraft.v1.postOrganizations.useMutationState({
          *     filters: {
          *         parameters: {}
          *     },
@@ -9518,7 +9664,7 @@ export interface V1Service {
          *
          * @example Find a mutation with specific parameters
          * ```ts
-         * const mutationCache = qraft.v1Service.postOrganizations.getMutationCache();
+         * const mutationCache = qraft.v1.postOrganizations.getMutationCache();
          * const mutation = mutationCache.find({
          *     parameters: {}
          * });
@@ -9526,7 +9672,7 @@ export interface V1Service {
          *
          * @example Find all mutations for the endpoint
          * ```ts
-         * const mutationCache = qraft.v1Service.postOrganizations.getMutationCache();
+         * const mutationCache = qraft.v1.postOrganizations.getMutationCache();
          * const mutations = mutationCache.findAll();
          * ```
          */
@@ -9557,7 +9703,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query without parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getOrganizations.useQuery()
+         * const { data, isLoading } = qraft.v1.getOrganizations.useQuery()
          * ```
          */
         useQuery<TData = GetOrganizationsData>(parameters: ServiceOperationQueryKey<GetOrganizationsSchema, GetOrganizationsParameters> | (DeepReadonly<GetOrganizationsParameters> | void), options?: Omit<UndefinedInitialDataOptions<GetOrganizationsData, GetOrganizationsError, TData, ServiceOperationQueryKey<GetOrganizationsSchema, GetOrganizationsParameters>>, "queryKey">): UseQueryResult<TData, OperationError<GetOrganizationsError>>;
@@ -9567,7 +9713,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query without parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getOrganizations.useQuery()
+         * const { data, isLoading } = qraft.v1.getOrganizations.useQuery()
          * ```
          */
         useQuery<TData = GetOrganizationsData>(parameters: ServiceOperationQueryKey<GetOrganizationsSchema, GetOrganizationsParameters> | (DeepReadonly<GetOrganizationsParameters> | void), options: Omit<DefinedInitialDataOptions<GetOrganizationsData, GetOrganizationsError, TData, ServiceOperationQueryKey<GetOrganizationsSchema, GetOrganizationsParameters>>, "queryKey">): DefinedUseQueryResult<TData, OperationError<GetOrganizationsError>>;
@@ -9581,7 +9727,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getOrganizations.useInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getOrganizations.useInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -9599,7 +9745,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getOrganizations.useInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getOrganizations.useInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -9617,7 +9763,7 @@ export interface V1Service {
          * @example Checks the total number of queries fetching from the specified service method,
          * both normal and infinite. If no parameters are provided, no filtering is applied.
          * ```ts
-         * const getOrganizationsTotal = qraft.v1Service.getOrganizations.useIsFetching()
+         * const getOrganizationsTotal = qraft.v1.getOrganizations.useIsFetching()
          * ```
          */
         useIsFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetOrganizationsSchema, GetOrganizationsData, TInfinite, GetOrganizationsParameters, GetOrganizationsError> | QueryFiltersByQueryKey<GetOrganizationsSchema, GetOrganizationsData, TInfinite, GetOrganizationsParameters, GetOrganizationsError>): number;
@@ -9627,7 +9773,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
          * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
          * ```ts
-         * const getOrganizationsResults = qraft.v1Service.getOrganizations.useQueries({
+         * const getOrganizationsResults = qraft.v1.getOrganizations.useQueries({
          *     queries: [
          *         {},
          *         {}
@@ -9637,7 +9783,7 @@ export interface V1Service {
          * ```
          * @example Combined results. Only the data will be returned.
          * ```ts
-         * const getOrganizationsCombinedResults = qraft.v1Service.getOrganizations.useQueries({
+         * const getOrganizationsCombinedResults = qraft.v1.getOrganizations.useQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {},
@@ -9658,7 +9804,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
          * @example Suspense Query without parameters
          * ```ts
-         * const data = qraft.v1Service.getOrganizations.useSuspenseQuery()
+         * const data = qraft.v1.getOrganizations.useSuspenseQuery()
          * ```
          */
         useSuspenseQuery<TData = GetOrganizationsData>(parameters: ServiceOperationQueryKey<GetOrganizationsSchema, GetOrganizationsParameters> | (DeepReadonly<GetOrganizationsParameters> | void), options?: Omit<UseSuspenseQueryOptions<GetOrganizationsData, GetOrganizationsError, TData, ServiceOperationQueryKey<GetOrganizationsSchema, GetOrganizationsParameters>>, "queryKey">): UseSuspenseQueryResult<TData, OperationError<GetOrganizationsError>>;
@@ -9671,7 +9817,7 @@ export interface V1Service {
          *
          * @example Suspense Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getOrganizations.useSuspenseInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getOrganizations.useSuspenseInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -9688,7 +9834,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
          * @example Basic usage with Suspense
          * ```ts
-         * const getOrganizationsData = qraft.v1Service.getOrganizations.useSuspenseQueries({
+         * const getOrganizationsData = qraft.v1.getOrganizations.useSuspenseQueries({
          *     queries: [
          *         {},
          *         {}
@@ -9698,7 +9844,7 @@ export interface V1Service {
          * ```
          * @example With data transformation using combine
          * ```ts
-         * const getOrganizationsCombinedData = qraft.v1Service.getOrganizations.useSuspenseQueries({
+         * const getOrganizationsCombinedData = qraft.v1.getOrganizations.useSuspenseQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {},
@@ -9780,7 +9926,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query with parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getOrganizationsOrganizationId.useQuery({
+         * const { data, isLoading } = qraft.v1.getOrganizationsOrganizationId.useQuery({
          *     path: {
          *         organizationId: organizationId
          *     }
@@ -9794,7 +9940,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query with parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getOrganizationsOrganizationId.useQuery({
+         * const { data, isLoading } = qraft.v1.getOrganizationsOrganizationId.useQuery({
          *     path: {
          *         organizationId: organizationId
          *     }
@@ -9812,7 +9958,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getOrganizationsOrganizationId.useInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getOrganizationsOrganizationId.useInfiniteQuery({
          *     path: {
          *         organizationId: organizationId
          *     }
@@ -9834,7 +9980,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getOrganizationsOrganizationId.useInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getOrganizationsOrganizationId.useInfiniteQuery({
          *     path: {
          *         organizationId: organizationId
          *     }
@@ -9856,11 +10002,11 @@ export interface V1Service {
          * @example Checks the total number of queries fetching from the specified service method,
          * both normal and infinite. If no parameters are provided, no filtering is applied.
          * ```ts
-         * const getOrganizationsOrganizationIdTotal = qraft.v1Service.getOrganizationsOrganizationId.useIsFetching()
+         * const getOrganizationsOrganizationIdTotal = qraft.v1.getOrganizationsOrganizationId.useIsFetching()
          * ```
          * @example Checks the number of normal queries fetching with the specified parameters.
          * ```ts
-         * const getOrganizationsOrganizationIdByParametersTotal = qraft.v1Service.getOrganizationsOrganizationId.useIsFetching({
+         * const getOrganizationsOrganizationIdByParametersTotal = qraft.v1.getOrganizationsOrganizationId.useIsFetching({
          *     infinite: false,
          *     parameters: {
          *         path: {
@@ -9877,7 +10023,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
          * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
          * ```ts
-         * const getOrganizationsOrganizationIdResults = qraft.v1Service.getOrganizationsOrganizationId.useQueries({
+         * const getOrganizationsOrganizationIdResults = qraft.v1.getOrganizationsOrganizationId.useQueries({
          *     queries: [
          *         {
          *             path: {
@@ -9895,7 +10041,7 @@ export interface V1Service {
          * ```
          * @example Combined results. Only the data will be returned.
          * ```ts
-         * const getOrganizationsOrganizationIdCombinedResults = qraft.v1Service.getOrganizationsOrganizationId.useQueries({
+         * const getOrganizationsOrganizationIdCombinedResults = qraft.v1.getOrganizationsOrganizationId.useQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {
@@ -9924,7 +10070,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
          * @example Suspense Query with parameters
          * ```ts
-         * const data = qraft.v1Service.getOrganizationsOrganizationId.useSuspenseQuery({
+         * const data = qraft.v1.getOrganizationsOrganizationId.useSuspenseQuery({
          *     path: {
          *         organizationId: organizationId
          *     }
@@ -9941,7 +10087,7 @@ export interface V1Service {
          *
          * @example Suspense Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getOrganizationsOrganizationId.useSuspenseInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getOrganizationsOrganizationId.useSuspenseInfiniteQuery({
          *     path: {
          *         organizationId: organizationId
          *     }
@@ -9962,7 +10108,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
          * @example Basic usage with Suspense
          * ```ts
-         * const getOrganizationsOrganizationIdData = qraft.v1Service.getOrganizationsOrganizationId.useSuspenseQueries({
+         * const getOrganizationsOrganizationIdData = qraft.v1.getOrganizationsOrganizationId.useSuspenseQueries({
          *     queries: [
          *         {
          *             path: {
@@ -9980,7 +10126,7 @@ export interface V1Service {
          * ```
          * @example With data transformation using combine
          * ```ts
-         * const getOrganizationsOrganizationIdCombinedData = qraft.v1Service.getOrganizationsOrganizationId.useSuspenseQueries({
+         * const getOrganizationsOrganizationIdCombinedData = qraft.v1.getOrganizationsOrganizationId.useSuspenseQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {
@@ -10067,7 +10213,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.putOrganizationsOrganizationId.useMutation({
+         * const { mutate, isPending } = qraft.v1.putOrganizationsOrganizationId.useMutation({
          *     path: {
          *         organizationId: organizationId
          *     }
@@ -10076,7 +10222,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.putOrganizationsOrganizationId.useMutation()
+         * const { mutate, isPending } = qraft.v1.putOrganizationsOrganizationId.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -10093,7 +10239,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.putOrganizationsOrganizationId.useMutation({
+         * const { mutate, isPending } = qraft.v1.putOrganizationsOrganizationId.useMutation({
          *     path: {
          *         organizationId: organizationId
          *     }
@@ -10102,7 +10248,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.putOrganizationsOrganizationId.useMutation()
+         * const { mutate, isPending } = qraft.v1.putOrganizationsOrganizationId.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -10118,11 +10264,11 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const putOrganizationsOrganizationIdTotal = qraft.v1Service.putOrganizationsOrganizationId.useIsMutating()
+         * const putOrganizationsOrganizationIdTotal = qraft.v1.putOrganizationsOrganizationId.useIsMutating()
          * ```
          * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const putOrganizationsOrganizationIdTotal = qraft.v1Service.putOrganizationsOrganizationId.useIsMutating({
+         * const putOrganizationsOrganizationIdTotal = qraft.v1.putOrganizationsOrganizationId.useIsMutating({
          *     parameters: {
          *         path: {
          *             organizationId: organizationId
@@ -10138,7 +10284,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
-         * const putOrganizationsOrganizationIdPendingMutationVariables = qraft.v1Service.putOrganizationsOrganizationId.useMutationState({
+         * const putOrganizationsOrganizationIdPendingMutationVariables = qraft.v1.putOrganizationsOrganizationId.useMutationState({
          *     filters: {
          *         status: "pending"
          *     },
@@ -10147,7 +10293,7 @@ export interface V1Service {
          * ```
          * @example Get all data for specific mutations via the `parameters`.
          * ```ts
-         * const putOrganizationsOrganizationIdMutationData = qraft.v1Service.putOrganizationsOrganizationId.useMutationState({
+         * const putOrganizationsOrganizationIdMutationData = qraft.v1.putOrganizationsOrganizationId.useMutationState({
          *     filters: {
          *         parameters: {
          *             path: {
@@ -10173,7 +10319,7 @@ export interface V1Service {
          *
          * @example Find a mutation with specific parameters
          * ```ts
-         * const mutationCache = qraft.v1Service.putOrganizationsOrganizationId.getMutationCache();
+         * const mutationCache = qraft.v1.putOrganizationsOrganizationId.getMutationCache();
          * const mutation = mutationCache.find({
          *     parameters: {
          *         path: {
@@ -10185,7 +10331,7 @@ export interface V1Service {
          *
          * @example Find all mutations for the endpoint
          * ```ts
-         * const mutationCache = qraft.v1Service.putOrganizationsOrganizationId.getMutationCache();
+         * const mutationCache = qraft.v1.putOrganizationsOrganizationId.getMutationCache();
          * const mutations = mutationCache.findAll();
          * ```
          */
@@ -10213,7 +10359,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.deleteOrganizationsOrganizationId.useMutation({
+         * const { mutate, isPending } = qraft.v1.deleteOrganizationsOrganizationId.useMutation({
          *     path: {
          *         organizationId: organizationId
          *     }
@@ -10222,7 +10368,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.deleteOrganizationsOrganizationId.useMutation()
+         * const { mutate, isPending } = qraft.v1.deleteOrganizationsOrganizationId.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -10239,7 +10385,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.deleteOrganizationsOrganizationId.useMutation({
+         * const { mutate, isPending } = qraft.v1.deleteOrganizationsOrganizationId.useMutation({
          *     path: {
          *         organizationId: organizationId
          *     }
@@ -10248,7 +10394,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.deleteOrganizationsOrganizationId.useMutation()
+         * const { mutate, isPending } = qraft.v1.deleteOrganizationsOrganizationId.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -10264,11 +10410,11 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const deleteOrganizationsOrganizationIdTotal = qraft.v1Service.deleteOrganizationsOrganizationId.useIsMutating()
+         * const deleteOrganizationsOrganizationIdTotal = qraft.v1.deleteOrganizationsOrganizationId.useIsMutating()
          * ```
          * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const deleteOrganizationsOrganizationIdTotal = qraft.v1Service.deleteOrganizationsOrganizationId.useIsMutating({
+         * const deleteOrganizationsOrganizationIdTotal = qraft.v1.deleteOrganizationsOrganizationId.useIsMutating({
          *     parameters: {
          *         path: {
          *             organizationId: organizationId
@@ -10284,7 +10430,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
-         * const deleteOrganizationsOrganizationIdPendingMutationVariables = qraft.v1Service.deleteOrganizationsOrganizationId.useMutationState({
+         * const deleteOrganizationsOrganizationIdPendingMutationVariables = qraft.v1.deleteOrganizationsOrganizationId.useMutationState({
          *     filters: {
          *         status: "pending"
          *     },
@@ -10293,7 +10439,7 @@ export interface V1Service {
          * ```
          * @example Get all data for specific mutations via the `parameters`.
          * ```ts
-         * const deleteOrganizationsOrganizationIdMutationData = qraft.v1Service.deleteOrganizationsOrganizationId.useMutationState({
+         * const deleteOrganizationsOrganizationIdMutationData = qraft.v1.deleteOrganizationsOrganizationId.useMutationState({
          *     filters: {
          *         parameters: {
          *             path: {
@@ -10319,7 +10465,7 @@ export interface V1Service {
          *
          * @example Find a mutation with specific parameters
          * ```ts
-         * const mutationCache = qraft.v1Service.deleteOrganizationsOrganizationId.getMutationCache();
+         * const mutationCache = qraft.v1.deleteOrganizationsOrganizationId.getMutationCache();
          * const mutation = mutationCache.find({
          *     parameters: {
          *         path: {
@@ -10331,7 +10477,7 @@ export interface V1Service {
          *
          * @example Find all mutations for the endpoint
          * ```ts
-         * const mutationCache = qraft.v1Service.deleteOrganizationsOrganizationId.getMutationCache();
+         * const mutationCache = qraft.v1.deleteOrganizationsOrganizationId.getMutationCache();
          * const mutations = mutationCache.findAll();
          * ```
          */
@@ -10362,7 +10508,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query with parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getOrganizationsOrganizationIdMembers.useQuery({
+         * const { data, isLoading } = qraft.v1.getOrganizationsOrganizationIdMembers.useQuery({
          *     path: {
          *         organizationId: organizationId
          *     }
@@ -10376,7 +10522,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query with parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getOrganizationsOrganizationIdMembers.useQuery({
+         * const { data, isLoading } = qraft.v1.getOrganizationsOrganizationIdMembers.useQuery({
          *     path: {
          *         organizationId: organizationId
          *     }
@@ -10394,7 +10540,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getOrganizationsOrganizationIdMembers.useInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getOrganizationsOrganizationIdMembers.useInfiniteQuery({
          *     path: {
          *         organizationId: organizationId
          *     }
@@ -10416,7 +10562,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getOrganizationsOrganizationIdMembers.useInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getOrganizationsOrganizationIdMembers.useInfiniteQuery({
          *     path: {
          *         organizationId: organizationId
          *     }
@@ -10438,11 +10584,11 @@ export interface V1Service {
          * @example Checks the total number of queries fetching from the specified service method,
          * both normal and infinite. If no parameters are provided, no filtering is applied.
          * ```ts
-         * const getOrganizationsOrganizationIdMembersTotal = qraft.v1Service.getOrganizationsOrganizationIdMembers.useIsFetching()
+         * const getOrganizationsOrganizationIdMembersTotal = qraft.v1.getOrganizationsOrganizationIdMembers.useIsFetching()
          * ```
          * @example Checks the number of normal queries fetching with the specified parameters.
          * ```ts
-         * const getOrganizationsOrganizationIdMembersByParametersTotal = qraft.v1Service.getOrganizationsOrganizationIdMembers.useIsFetching({
+         * const getOrganizationsOrganizationIdMembersByParametersTotal = qraft.v1.getOrganizationsOrganizationIdMembers.useIsFetching({
          *     infinite: false,
          *     parameters: {
          *         path: {
@@ -10459,7 +10605,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
          * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
          * ```ts
-         * const getOrganizationsOrganizationIdMembersResults = qraft.v1Service.getOrganizationsOrganizationIdMembers.useQueries({
+         * const getOrganizationsOrganizationIdMembersResults = qraft.v1.getOrganizationsOrganizationIdMembers.useQueries({
          *     queries: [
          *         {
          *             path: {
@@ -10477,7 +10623,7 @@ export interface V1Service {
          * ```
          * @example Combined results. Only the data will be returned.
          * ```ts
-         * const getOrganizationsOrganizationIdMembersCombinedResults = qraft.v1Service.getOrganizationsOrganizationIdMembers.useQueries({
+         * const getOrganizationsOrganizationIdMembersCombinedResults = qraft.v1.getOrganizationsOrganizationIdMembers.useQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {
@@ -10506,7 +10652,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
          * @example Suspense Query with parameters
          * ```ts
-         * const data = qraft.v1Service.getOrganizationsOrganizationIdMembers.useSuspenseQuery({
+         * const data = qraft.v1.getOrganizationsOrganizationIdMembers.useSuspenseQuery({
          *     path: {
          *         organizationId: organizationId
          *     }
@@ -10523,7 +10669,7 @@ export interface V1Service {
          *
          * @example Suspense Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getOrganizationsOrganizationIdMembers.useSuspenseInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getOrganizationsOrganizationIdMembers.useSuspenseInfiniteQuery({
          *     path: {
          *         organizationId: organizationId
          *     }
@@ -10544,7 +10690,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
          * @example Basic usage with Suspense
          * ```ts
-         * const getOrganizationsOrganizationIdMembersData = qraft.v1Service.getOrganizationsOrganizationIdMembers.useSuspenseQueries({
+         * const getOrganizationsOrganizationIdMembersData = qraft.v1.getOrganizationsOrganizationIdMembers.useSuspenseQueries({
          *     queries: [
          *         {
          *             path: {
@@ -10562,7 +10708,7 @@ export interface V1Service {
          * ```
          * @example With data transformation using combine
          * ```ts
-         * const getOrganizationsOrganizationIdMembersCombinedData = qraft.v1Service.getOrganizationsOrganizationIdMembers.useSuspenseQueries({
+         * const getOrganizationsOrganizationIdMembersCombinedData = qraft.v1.getOrganizationsOrganizationIdMembers.useSuspenseQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {
@@ -10649,7 +10795,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.putOrganizationsOrganizationIdMembersMemberId.useMutation({
+         * const { mutate, isPending } = qraft.v1.putOrganizationsOrganizationIdMembersMemberId.useMutation({
          *     path: {
          *         organizationId: organizationId,
          *         memberId: memberId
@@ -10659,7 +10805,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.putOrganizationsOrganizationIdMembersMemberId.useMutation()
+         * const { mutate, isPending } = qraft.v1.putOrganizationsOrganizationIdMembersMemberId.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -10677,7 +10823,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.putOrganizationsOrganizationIdMembersMemberId.useMutation({
+         * const { mutate, isPending } = qraft.v1.putOrganizationsOrganizationIdMembersMemberId.useMutation({
          *     path: {
          *         organizationId: organizationId,
          *         memberId: memberId
@@ -10687,7 +10833,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.putOrganizationsOrganizationIdMembersMemberId.useMutation()
+         * const { mutate, isPending } = qraft.v1.putOrganizationsOrganizationIdMembersMemberId.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -10704,11 +10850,11 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const putOrganizationsOrganizationIdMembersMemberIdTotal = qraft.v1Service.putOrganizationsOrganizationIdMembersMemberId.useIsMutating()
+         * const putOrganizationsOrganizationIdMembersMemberIdTotal = qraft.v1.putOrganizationsOrganizationIdMembersMemberId.useIsMutating()
          * ```
          * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const putOrganizationsOrganizationIdMembersMemberIdTotal = qraft.v1Service.putOrganizationsOrganizationIdMembersMemberId.useIsMutating({
+         * const putOrganizationsOrganizationIdMembersMemberIdTotal = qraft.v1.putOrganizationsOrganizationIdMembersMemberId.useIsMutating({
          *     parameters: {
          *         path: {
          *             organizationId: organizationId,
@@ -10725,7 +10871,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
-         * const putOrganizationsOrganizationIdMembersMemberIdPendingMutationVariables = qraft.v1Service.putOrganizationsOrganizationIdMembersMemberId.useMutationState({
+         * const putOrganizationsOrganizationIdMembersMemberIdPendingMutationVariables = qraft.v1.putOrganizationsOrganizationIdMembersMemberId.useMutationState({
          *     filters: {
          *         status: "pending"
          *     },
@@ -10734,7 +10880,7 @@ export interface V1Service {
          * ```
          * @example Get all data for specific mutations via the `parameters`.
          * ```ts
-         * const putOrganizationsOrganizationIdMembersMemberIdMutationData = qraft.v1Service.putOrganizationsOrganizationIdMembersMemberId.useMutationState({
+         * const putOrganizationsOrganizationIdMembersMemberIdMutationData = qraft.v1.putOrganizationsOrganizationIdMembersMemberId.useMutationState({
          *     filters: {
          *         parameters: {
          *             path: {
@@ -10761,7 +10907,7 @@ export interface V1Service {
          *
          * @example Find a mutation with specific parameters
          * ```ts
-         * const mutationCache = qraft.v1Service.putOrganizationsOrganizationIdMembersMemberId.getMutationCache();
+         * const mutationCache = qraft.v1.putOrganizationsOrganizationIdMembersMemberId.getMutationCache();
          * const mutation = mutationCache.find({
          *     parameters: {
          *         path: {
@@ -10774,7 +10920,7 @@ export interface V1Service {
          *
          * @example Find all mutations for the endpoint
          * ```ts
-         * const mutationCache = qraft.v1Service.putOrganizationsOrganizationIdMembersMemberId.getMutationCache();
+         * const mutationCache = qraft.v1.putOrganizationsOrganizationIdMembersMemberId.getMutationCache();
          * const mutations = mutationCache.findAll();
          * ```
          */
@@ -10802,7 +10948,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.deleteOrganizationsOrganizationIdMembersMemberId.useMutation({
+         * const { mutate, isPending } = qraft.v1.deleteOrganizationsOrganizationIdMembersMemberId.useMutation({
          *     path: {
          *         organizationId: organizationId,
          *         memberId: memberId
@@ -10812,7 +10958,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.deleteOrganizationsOrganizationIdMembersMemberId.useMutation()
+         * const { mutate, isPending } = qraft.v1.deleteOrganizationsOrganizationIdMembersMemberId.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -10830,7 +10976,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.deleteOrganizationsOrganizationIdMembersMemberId.useMutation({
+         * const { mutate, isPending } = qraft.v1.deleteOrganizationsOrganizationIdMembersMemberId.useMutation({
          *     path: {
          *         organizationId: organizationId,
          *         memberId: memberId
@@ -10840,7 +10986,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.deleteOrganizationsOrganizationIdMembersMemberId.useMutation()
+         * const { mutate, isPending } = qraft.v1.deleteOrganizationsOrganizationIdMembersMemberId.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -10857,11 +11003,11 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const deleteOrganizationsOrganizationIdMembersMemberIdTotal = qraft.v1Service.deleteOrganizationsOrganizationIdMembersMemberId.useIsMutating()
+         * const deleteOrganizationsOrganizationIdMembersMemberIdTotal = qraft.v1.deleteOrganizationsOrganizationIdMembersMemberId.useIsMutating()
          * ```
          * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const deleteOrganizationsOrganizationIdMembersMemberIdTotal = qraft.v1Service.deleteOrganizationsOrganizationIdMembersMemberId.useIsMutating({
+         * const deleteOrganizationsOrganizationIdMembersMemberIdTotal = qraft.v1.deleteOrganizationsOrganizationIdMembersMemberId.useIsMutating({
          *     parameters: {
          *         path: {
          *             organizationId: organizationId,
@@ -10878,7 +11024,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
-         * const deleteOrganizationsOrganizationIdMembersMemberIdPendingMutationVariables = qraft.v1Service.deleteOrganizationsOrganizationIdMembersMemberId.useMutationState({
+         * const deleteOrganizationsOrganizationIdMembersMemberIdPendingMutationVariables = qraft.v1.deleteOrganizationsOrganizationIdMembersMemberId.useMutationState({
          *     filters: {
          *         status: "pending"
          *     },
@@ -10887,7 +11033,7 @@ export interface V1Service {
          * ```
          * @example Get all data for specific mutations via the `parameters`.
          * ```ts
-         * const deleteOrganizationsOrganizationIdMembersMemberIdMutationData = qraft.v1Service.deleteOrganizationsOrganizationIdMembersMemberId.useMutationState({
+         * const deleteOrganizationsOrganizationIdMembersMemberIdMutationData = qraft.v1.deleteOrganizationsOrganizationIdMembersMemberId.useMutationState({
          *     filters: {
          *         parameters: {
          *             path: {
@@ -10914,7 +11060,7 @@ export interface V1Service {
          *
          * @example Find a mutation with specific parameters
          * ```ts
-         * const mutationCache = qraft.v1Service.deleteOrganizationsOrganizationIdMembersMemberId.getMutationCache();
+         * const mutationCache = qraft.v1.deleteOrganizationsOrganizationIdMembersMemberId.getMutationCache();
          * const mutation = mutationCache.find({
          *     parameters: {
          *         path: {
@@ -10927,7 +11073,7 @@ export interface V1Service {
          *
          * @example Find all mutations for the endpoint
          * ```ts
-         * const mutationCache = qraft.v1Service.deleteOrganizationsOrganizationIdMembersMemberId.getMutationCache();
+         * const mutationCache = qraft.v1.deleteOrganizationsOrganizationIdMembersMemberId.getMutationCache();
          * const mutations = mutationCache.findAll();
          * ```
          */
@@ -10955,7 +11101,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postOrganizationsOrganizationIdInvitations.useMutation({
+         * const { mutate, isPending } = qraft.v1.postOrganizationsOrganizationIdInvitations.useMutation({
          *     path: {
          *         organizationId: organizationId
          *     }
@@ -10964,7 +11110,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postOrganizationsOrganizationIdInvitations.useMutation()
+         * const { mutate, isPending } = qraft.v1.postOrganizationsOrganizationIdInvitations.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -10981,7 +11127,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postOrganizationsOrganizationIdInvitations.useMutation({
+         * const { mutate, isPending } = qraft.v1.postOrganizationsOrganizationIdInvitations.useMutation({
          *     path: {
          *         organizationId: organizationId
          *     }
@@ -10990,7 +11136,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postOrganizationsOrganizationIdInvitations.useMutation()
+         * const { mutate, isPending } = qraft.v1.postOrganizationsOrganizationIdInvitations.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -11006,11 +11152,11 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const postOrganizationsOrganizationIdInvitationsTotal = qraft.v1Service.postOrganizationsOrganizationIdInvitations.useIsMutating()
+         * const postOrganizationsOrganizationIdInvitationsTotal = qraft.v1.postOrganizationsOrganizationIdInvitations.useIsMutating()
          * ```
          * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const postOrganizationsOrganizationIdInvitationsTotal = qraft.v1Service.postOrganizationsOrganizationIdInvitations.useIsMutating({
+         * const postOrganizationsOrganizationIdInvitationsTotal = qraft.v1.postOrganizationsOrganizationIdInvitations.useIsMutating({
          *     parameters: {
          *         path: {
          *             organizationId: organizationId
@@ -11026,7 +11172,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
-         * const postOrganizationsOrganizationIdInvitationsPendingMutationVariables = qraft.v1Service.postOrganizationsOrganizationIdInvitations.useMutationState({
+         * const postOrganizationsOrganizationIdInvitationsPendingMutationVariables = qraft.v1.postOrganizationsOrganizationIdInvitations.useMutationState({
          *     filters: {
          *         status: "pending"
          *     },
@@ -11035,7 +11181,7 @@ export interface V1Service {
          * ```
          * @example Get all data for specific mutations via the `parameters`.
          * ```ts
-         * const postOrganizationsOrganizationIdInvitationsMutationData = qraft.v1Service.postOrganizationsOrganizationIdInvitations.useMutationState({
+         * const postOrganizationsOrganizationIdInvitationsMutationData = qraft.v1.postOrganizationsOrganizationIdInvitations.useMutationState({
          *     filters: {
          *         parameters: {
          *             path: {
@@ -11061,7 +11207,7 @@ export interface V1Service {
          *
          * @example Find a mutation with specific parameters
          * ```ts
-         * const mutationCache = qraft.v1Service.postOrganizationsOrganizationIdInvitations.getMutationCache();
+         * const mutationCache = qraft.v1.postOrganizationsOrganizationIdInvitations.getMutationCache();
          * const mutation = mutationCache.find({
          *     parameters: {
          *         path: {
@@ -11073,7 +11219,7 @@ export interface V1Service {
          *
          * @example Find all mutations for the endpoint
          * ```ts
-         * const mutationCache = qraft.v1Service.postOrganizationsOrganizationIdInvitations.getMutationCache();
+         * const mutationCache = qraft.v1.postOrganizationsOrganizationIdInvitations.getMutationCache();
          * const mutations = mutationCache.findAll();
          * ```
          */
@@ -11104,7 +11250,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query with parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getOrganizationsOrganizationIdInvitations.useQuery({
+         * const { data, isLoading } = qraft.v1.getOrganizationsOrganizationIdInvitations.useQuery({
          *     path: {
          *         organizationId: organizationId
          *     }
@@ -11118,7 +11264,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query with parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getOrganizationsOrganizationIdInvitations.useQuery({
+         * const { data, isLoading } = qraft.v1.getOrganizationsOrganizationIdInvitations.useQuery({
          *     path: {
          *         organizationId: organizationId
          *     }
@@ -11136,7 +11282,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getOrganizationsOrganizationIdInvitations.useInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getOrganizationsOrganizationIdInvitations.useInfiniteQuery({
          *     path: {
          *         organizationId: organizationId
          *     }
@@ -11158,7 +11304,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getOrganizationsOrganizationIdInvitations.useInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getOrganizationsOrganizationIdInvitations.useInfiniteQuery({
          *     path: {
          *         organizationId: organizationId
          *     }
@@ -11180,11 +11326,11 @@ export interface V1Service {
          * @example Checks the total number of queries fetching from the specified service method,
          * both normal and infinite. If no parameters are provided, no filtering is applied.
          * ```ts
-         * const getOrganizationsOrganizationIdInvitationsTotal = qraft.v1Service.getOrganizationsOrganizationIdInvitations.useIsFetching()
+         * const getOrganizationsOrganizationIdInvitationsTotal = qraft.v1.getOrganizationsOrganizationIdInvitations.useIsFetching()
          * ```
          * @example Checks the number of normal queries fetching with the specified parameters.
          * ```ts
-         * const getOrganizationsOrganizationIdInvitationsByParametersTotal = qraft.v1Service.getOrganizationsOrganizationIdInvitations.useIsFetching({
+         * const getOrganizationsOrganizationIdInvitationsByParametersTotal = qraft.v1.getOrganizationsOrganizationIdInvitations.useIsFetching({
          *     infinite: false,
          *     parameters: {
          *         path: {
@@ -11201,7 +11347,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
          * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
          * ```ts
-         * const getOrganizationsOrganizationIdInvitationsResults = qraft.v1Service.getOrganizationsOrganizationIdInvitations.useQueries({
+         * const getOrganizationsOrganizationIdInvitationsResults = qraft.v1.getOrganizationsOrganizationIdInvitations.useQueries({
          *     queries: [
          *         {
          *             path: {
@@ -11219,7 +11365,7 @@ export interface V1Service {
          * ```
          * @example Combined results. Only the data will be returned.
          * ```ts
-         * const getOrganizationsOrganizationIdInvitationsCombinedResults = qraft.v1Service.getOrganizationsOrganizationIdInvitations.useQueries({
+         * const getOrganizationsOrganizationIdInvitationsCombinedResults = qraft.v1.getOrganizationsOrganizationIdInvitations.useQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {
@@ -11248,7 +11394,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
          * @example Suspense Query with parameters
          * ```ts
-         * const data = qraft.v1Service.getOrganizationsOrganizationIdInvitations.useSuspenseQuery({
+         * const data = qraft.v1.getOrganizationsOrganizationIdInvitations.useSuspenseQuery({
          *     path: {
          *         organizationId: organizationId
          *     }
@@ -11265,7 +11411,7 @@ export interface V1Service {
          *
          * @example Suspense Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getOrganizationsOrganizationIdInvitations.useSuspenseInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getOrganizationsOrganizationIdInvitations.useSuspenseInfiniteQuery({
          *     path: {
          *         organizationId: organizationId
          *     }
@@ -11286,7 +11432,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
          * @example Basic usage with Suspense
          * ```ts
-         * const getOrganizationsOrganizationIdInvitationsData = qraft.v1Service.getOrganizationsOrganizationIdInvitations.useSuspenseQueries({
+         * const getOrganizationsOrganizationIdInvitationsData = qraft.v1.getOrganizationsOrganizationIdInvitations.useSuspenseQueries({
          *     queries: [
          *         {
          *             path: {
@@ -11304,7 +11450,7 @@ export interface V1Service {
          * ```
          * @example With data transformation using combine
          * ```ts
-         * const getOrganizationsOrganizationIdInvitationsCombinedData = qraft.v1Service.getOrganizationsOrganizationIdInvitations.useSuspenseQueries({
+         * const getOrganizationsOrganizationIdInvitationsCombinedData = qraft.v1.getOrganizationsOrganizationIdInvitations.useSuspenseQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {
@@ -11391,7 +11537,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.deleteOrganizationsOrganizationIdInvitationsInvitationId.useMutation({
+         * const { mutate, isPending } = qraft.v1.deleteOrganizationsOrganizationIdInvitationsInvitationId.useMutation({
          *     path: {
          *         organizationId: organizationId,
          *         invitationId: invitationId
@@ -11401,7 +11547,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.deleteOrganizationsOrganizationIdInvitationsInvitationId.useMutation()
+         * const { mutate, isPending } = qraft.v1.deleteOrganizationsOrganizationIdInvitationsInvitationId.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -11419,7 +11565,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.deleteOrganizationsOrganizationIdInvitationsInvitationId.useMutation({
+         * const { mutate, isPending } = qraft.v1.deleteOrganizationsOrganizationIdInvitationsInvitationId.useMutation({
          *     path: {
          *         organizationId: organizationId,
          *         invitationId: invitationId
@@ -11429,7 +11575,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.deleteOrganizationsOrganizationIdInvitationsInvitationId.useMutation()
+         * const { mutate, isPending } = qraft.v1.deleteOrganizationsOrganizationIdInvitationsInvitationId.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -11446,11 +11592,11 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const deleteOrganizationsOrganizationIdInvitationsInvitationIdTotal = qraft.v1Service.deleteOrganizationsOrganizationIdInvitationsInvitationId.useIsMutating()
+         * const deleteOrganizationsOrganizationIdInvitationsInvitationIdTotal = qraft.v1.deleteOrganizationsOrganizationIdInvitationsInvitationId.useIsMutating()
          * ```
          * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const deleteOrganizationsOrganizationIdInvitationsInvitationIdTotal = qraft.v1Service.deleteOrganizationsOrganizationIdInvitationsInvitationId.useIsMutating({
+         * const deleteOrganizationsOrganizationIdInvitationsInvitationIdTotal = qraft.v1.deleteOrganizationsOrganizationIdInvitationsInvitationId.useIsMutating({
          *     parameters: {
          *         path: {
          *             organizationId: organizationId,
@@ -11467,7 +11613,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
-         * const deleteOrganizationsOrganizationIdInvitationsInvitationIdPendingMutationVariables = qraft.v1Service.deleteOrganizationsOrganizationIdInvitationsInvitationId.useMutationState({
+         * const deleteOrganizationsOrganizationIdInvitationsInvitationIdPendingMutationVariables = qraft.v1.deleteOrganizationsOrganizationIdInvitationsInvitationId.useMutationState({
          *     filters: {
          *         status: "pending"
          *     },
@@ -11476,7 +11622,7 @@ export interface V1Service {
          * ```
          * @example Get all data for specific mutations via the `parameters`.
          * ```ts
-         * const deleteOrganizationsOrganizationIdInvitationsInvitationIdMutationData = qraft.v1Service.deleteOrganizationsOrganizationIdInvitationsInvitationId.useMutationState({
+         * const deleteOrganizationsOrganizationIdInvitationsInvitationIdMutationData = qraft.v1.deleteOrganizationsOrganizationIdInvitationsInvitationId.useMutationState({
          *     filters: {
          *         parameters: {
          *             path: {
@@ -11503,7 +11649,7 @@ export interface V1Service {
          *
          * @example Find a mutation with specific parameters
          * ```ts
-         * const mutationCache = qraft.v1Service.deleteOrganizationsOrganizationIdInvitationsInvitationId.getMutationCache();
+         * const mutationCache = qraft.v1.deleteOrganizationsOrganizationIdInvitationsInvitationId.getMutationCache();
          * const mutation = mutationCache.find({
          *     parameters: {
          *         path: {
@@ -11516,7 +11662,7 @@ export interface V1Service {
          *
          * @example Find all mutations for the endpoint
          * ```ts
-         * const mutationCache = qraft.v1Service.deleteOrganizationsOrganizationIdInvitationsInvitationId.getMutationCache();
+         * const mutationCache = qraft.v1.deleteOrganizationsOrganizationIdInvitationsInvitationId.getMutationCache();
          * const mutations = mutationCache.findAll();
          * ```
          */
@@ -11544,7 +11690,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postOrganizationsOrganizationIdInvitationsInvitationIdResend.useMutation({
+         * const { mutate, isPending } = qraft.v1.postOrganizationsOrganizationIdInvitationsInvitationIdResend.useMutation({
          *     path: {
          *         organizationId: organizationId,
          *         invitationId: invitationId
@@ -11554,7 +11700,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postOrganizationsOrganizationIdInvitationsInvitationIdResend.useMutation()
+         * const { mutate, isPending } = qraft.v1.postOrganizationsOrganizationIdInvitationsInvitationIdResend.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -11572,7 +11718,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postOrganizationsOrganizationIdInvitationsInvitationIdResend.useMutation({
+         * const { mutate, isPending } = qraft.v1.postOrganizationsOrganizationIdInvitationsInvitationIdResend.useMutation({
          *     path: {
          *         organizationId: organizationId,
          *         invitationId: invitationId
@@ -11582,7 +11728,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postOrganizationsOrganizationIdInvitationsInvitationIdResend.useMutation()
+         * const { mutate, isPending } = qraft.v1.postOrganizationsOrganizationIdInvitationsInvitationIdResend.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -11599,11 +11745,11 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const postOrganizationsOrganizationIdInvitationsInvitationIdResendTotal = qraft.v1Service.postOrganizationsOrganizationIdInvitationsInvitationIdResend.useIsMutating()
+         * const postOrganizationsOrganizationIdInvitationsInvitationIdResendTotal = qraft.v1.postOrganizationsOrganizationIdInvitationsInvitationIdResend.useIsMutating()
          * ```
          * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const postOrganizationsOrganizationIdInvitationsInvitationIdResendTotal = qraft.v1Service.postOrganizationsOrganizationIdInvitationsInvitationIdResend.useIsMutating({
+         * const postOrganizationsOrganizationIdInvitationsInvitationIdResendTotal = qraft.v1.postOrganizationsOrganizationIdInvitationsInvitationIdResend.useIsMutating({
          *     parameters: {
          *         path: {
          *             organizationId: organizationId,
@@ -11620,7 +11766,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
-         * const postOrganizationsOrganizationIdInvitationsInvitationIdResendPendingMutationVariables = qraft.v1Service.postOrganizationsOrganizationIdInvitationsInvitationIdResend.useMutationState({
+         * const postOrganizationsOrganizationIdInvitationsInvitationIdResendPendingMutationVariables = qraft.v1.postOrganizationsOrganizationIdInvitationsInvitationIdResend.useMutationState({
          *     filters: {
          *         status: "pending"
          *     },
@@ -11629,7 +11775,7 @@ export interface V1Service {
          * ```
          * @example Get all data for specific mutations via the `parameters`.
          * ```ts
-         * const postOrganizationsOrganizationIdInvitationsInvitationIdResendMutationData = qraft.v1Service.postOrganizationsOrganizationIdInvitationsInvitationIdResend.useMutationState({
+         * const postOrganizationsOrganizationIdInvitationsInvitationIdResendMutationData = qraft.v1.postOrganizationsOrganizationIdInvitationsInvitationIdResend.useMutationState({
          *     filters: {
          *         parameters: {
          *             path: {
@@ -11656,7 +11802,7 @@ export interface V1Service {
          *
          * @example Find a mutation with specific parameters
          * ```ts
-         * const mutationCache = qraft.v1Service.postOrganizationsOrganizationIdInvitationsInvitationIdResend.getMutationCache();
+         * const mutationCache = qraft.v1.postOrganizationsOrganizationIdInvitationsInvitationIdResend.getMutationCache();
          * const mutation = mutationCache.find({
          *     parameters: {
          *         path: {
@@ -11669,7 +11815,7 @@ export interface V1Service {
          *
          * @example Find all mutations for the endpoint
          * ```ts
-         * const mutationCache = qraft.v1Service.postOrganizationsOrganizationIdInvitationsInvitationIdResend.getMutationCache();
+         * const mutationCache = qraft.v1.postOrganizationsOrganizationIdInvitationsInvitationIdResend.getMutationCache();
          * const mutations = mutationCache.findAll();
          * ```
          */
@@ -11697,7 +11843,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postOrganizationsOrganizationIdTransferProject.useMutation({
+         * const { mutate, isPending } = qraft.v1.postOrganizationsOrganizationIdTransferProject.useMutation({
          *     path: {
          *         organizationId: organizationId
          *     }
@@ -11706,7 +11852,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postOrganizationsOrganizationIdTransferProject.useMutation()
+         * const { mutate, isPending } = qraft.v1.postOrganizationsOrganizationIdTransferProject.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -11723,7 +11869,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postOrganizationsOrganizationIdTransferProject.useMutation({
+         * const { mutate, isPending } = qraft.v1.postOrganizationsOrganizationIdTransferProject.useMutation({
          *     path: {
          *         organizationId: organizationId
          *     }
@@ -11732,7 +11878,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postOrganizationsOrganizationIdTransferProject.useMutation()
+         * const { mutate, isPending } = qraft.v1.postOrganizationsOrganizationIdTransferProject.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -11748,11 +11894,11 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const postOrganizationsOrganizationIdTransferProjectTotal = qraft.v1Service.postOrganizationsOrganizationIdTransferProject.useIsMutating()
+         * const postOrganizationsOrganizationIdTransferProjectTotal = qraft.v1.postOrganizationsOrganizationIdTransferProject.useIsMutating()
          * ```
          * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const postOrganizationsOrganizationIdTransferProjectTotal = qraft.v1Service.postOrganizationsOrganizationIdTransferProject.useIsMutating({
+         * const postOrganizationsOrganizationIdTransferProjectTotal = qraft.v1.postOrganizationsOrganizationIdTransferProject.useIsMutating({
          *     parameters: {
          *         path: {
          *             organizationId: organizationId
@@ -11768,7 +11914,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
-         * const postOrganizationsOrganizationIdTransferProjectPendingMutationVariables = qraft.v1Service.postOrganizationsOrganizationIdTransferProject.useMutationState({
+         * const postOrganizationsOrganizationIdTransferProjectPendingMutationVariables = qraft.v1.postOrganizationsOrganizationIdTransferProject.useMutationState({
          *     filters: {
          *         status: "pending"
          *     },
@@ -11777,7 +11923,7 @@ export interface V1Service {
          * ```
          * @example Get all data for specific mutations via the `parameters`.
          * ```ts
-         * const postOrganizationsOrganizationIdTransferProjectMutationData = qraft.v1Service.postOrganizationsOrganizationIdTransferProject.useMutationState({
+         * const postOrganizationsOrganizationIdTransferProjectMutationData = qraft.v1.postOrganizationsOrganizationIdTransferProject.useMutationState({
          *     filters: {
          *         parameters: {
          *             path: {
@@ -11803,7 +11949,7 @@ export interface V1Service {
          *
          * @example Find a mutation with specific parameters
          * ```ts
-         * const mutationCache = qraft.v1Service.postOrganizationsOrganizationIdTransferProject.getMutationCache();
+         * const mutationCache = qraft.v1.postOrganizationsOrganizationIdTransferProject.getMutationCache();
          * const mutation = mutationCache.find({
          *     parameters: {
          *         path: {
@@ -11815,7 +11961,7 @@ export interface V1Service {
          *
          * @example Find all mutations for the endpoint
          * ```ts
-         * const mutationCache = qraft.v1Service.postOrganizationsOrganizationIdTransferProject.getMutationCache();
+         * const mutationCache = qraft.v1.postOrganizationsOrganizationIdTransferProject.getMutationCache();
          * const mutations = mutationCache.findAll();
          * ```
          */
@@ -11846,7 +11992,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query with parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getOrganizationsGithubUserSearch.useQuery({
+         * const { data, isLoading } = qraft.v1.getOrganizationsGithubUserSearch.useQuery({
          *     query: {
          *         q: q
          *     }
@@ -11860,7 +12006,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query with parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getOrganizationsGithubUserSearch.useQuery({
+         * const { data, isLoading } = qraft.v1.getOrganizationsGithubUserSearch.useQuery({
          *     query: {
          *         q: q
          *     }
@@ -11878,7 +12024,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getOrganizationsGithubUserSearch.useInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getOrganizationsGithubUserSearch.useInfiniteQuery({
          *     query: {
          *         q: q
          *     }
@@ -11904,7 +12050,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getOrganizationsGithubUserSearch.useInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getOrganizationsGithubUserSearch.useInfiniteQuery({
          *     query: {
          *         q: q
          *     }
@@ -11930,11 +12076,11 @@ export interface V1Service {
          * @example Checks the total number of queries fetching from the specified service method,
          * both normal and infinite. If no parameters are provided, no filtering is applied.
          * ```ts
-         * const getOrganizationsGithubUserSearchTotal = qraft.v1Service.getOrganizationsGithubUserSearch.useIsFetching()
+         * const getOrganizationsGithubUserSearchTotal = qraft.v1.getOrganizationsGithubUserSearch.useIsFetching()
          * ```
          * @example Checks the number of normal queries fetching with the specified parameters.
          * ```ts
-         * const getOrganizationsGithubUserSearchByParametersTotal = qraft.v1Service.getOrganizationsGithubUserSearch.useIsFetching({
+         * const getOrganizationsGithubUserSearchByParametersTotal = qraft.v1.getOrganizationsGithubUserSearch.useIsFetching({
          *     infinite: false,
          *     parameters: {
          *         query: {
@@ -11951,7 +12097,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
          * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
          * ```ts
-         * const getOrganizationsGithubUserSearchResults = qraft.v1Service.getOrganizationsGithubUserSearch.useQueries({
+         * const getOrganizationsGithubUserSearchResults = qraft.v1.getOrganizationsGithubUserSearch.useQueries({
          *     queries: [
          *         {
          *             query: {
@@ -11969,7 +12115,7 @@ export interface V1Service {
          * ```
          * @example Combined results. Only the data will be returned.
          * ```ts
-         * const getOrganizationsGithubUserSearchCombinedResults = qraft.v1Service.getOrganizationsGithubUserSearch.useQueries({
+         * const getOrganizationsGithubUserSearchCombinedResults = qraft.v1.getOrganizationsGithubUserSearch.useQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {
@@ -11998,7 +12144,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
          * @example Suspense Query with parameters
          * ```ts
-         * const data = qraft.v1Service.getOrganizationsGithubUserSearch.useSuspenseQuery({
+         * const data = qraft.v1.getOrganizationsGithubUserSearch.useSuspenseQuery({
          *     query: {
          *         q: q
          *     }
@@ -12015,7 +12161,7 @@ export interface V1Service {
          *
          * @example Suspense Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getOrganizationsGithubUserSearch.useSuspenseInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getOrganizationsGithubUserSearch.useSuspenseInfiniteQuery({
          *     query: {
          *         q: q
          *     }
@@ -12040,7 +12186,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
          * @example Basic usage with Suspense
          * ```ts
-         * const getOrganizationsGithubUserSearchData = qraft.v1Service.getOrganizationsGithubUserSearch.useSuspenseQueries({
+         * const getOrganizationsGithubUserSearchData = qraft.v1.getOrganizationsGithubUserSearch.useSuspenseQueries({
          *     queries: [
          *         {
          *             query: {
@@ -12058,7 +12204,7 @@ export interface V1Service {
          * ```
          * @example With data transformation using combine
          * ```ts
-         * const getOrganizationsGithubUserSearchCombinedData = qraft.v1Service.getOrganizationsGithubUserSearch.useSuspenseQueries({
+         * const getOrganizationsGithubUserSearchCombinedData = qraft.v1.getOrganizationsGithubUserSearch.useSuspenseQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {
@@ -12148,7 +12294,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query with parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getProjectsProjectId.useQuery({
+         * const { data, isLoading } = qraft.v1.getProjectsProjectId.useQuery({
          *     path: {
          *         projectId: projectId
          *     }
@@ -12162,7 +12308,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query with parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getProjectsProjectId.useQuery({
+         * const { data, isLoading } = qraft.v1.getProjectsProjectId.useQuery({
          *     path: {
          *         projectId: projectId
          *     }
@@ -12180,7 +12326,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectId.useInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getProjectsProjectId.useInfiniteQuery({
          *     path: {
          *         projectId: projectId
          *     }
@@ -12202,7 +12348,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectId.useInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getProjectsProjectId.useInfiniteQuery({
          *     path: {
          *         projectId: projectId
          *     }
@@ -12224,11 +12370,11 @@ export interface V1Service {
          * @example Checks the total number of queries fetching from the specified service method,
          * both normal and infinite. If no parameters are provided, no filtering is applied.
          * ```ts
-         * const getProjectsProjectIdTotal = qraft.v1Service.getProjectsProjectId.useIsFetching()
+         * const getProjectsProjectIdTotal = qraft.v1.getProjectsProjectId.useIsFetching()
          * ```
          * @example Checks the number of normal queries fetching with the specified parameters.
          * ```ts
-         * const getProjectsProjectIdByParametersTotal = qraft.v1Service.getProjectsProjectId.useIsFetching({
+         * const getProjectsProjectIdByParametersTotal = qraft.v1.getProjectsProjectId.useIsFetching({
          *     infinite: false,
          *     parameters: {
          *         path: {
@@ -12245,7 +12391,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
          * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
          * ```ts
-         * const getProjectsProjectIdResults = qraft.v1Service.getProjectsProjectId.useQueries({
+         * const getProjectsProjectIdResults = qraft.v1.getProjectsProjectId.useQueries({
          *     queries: [
          *         {
          *             path: {
@@ -12263,7 +12409,7 @@ export interface V1Service {
          * ```
          * @example Combined results. Only the data will be returned.
          * ```ts
-         * const getProjectsProjectIdCombinedResults = qraft.v1Service.getProjectsProjectId.useQueries({
+         * const getProjectsProjectIdCombinedResults = qraft.v1.getProjectsProjectId.useQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {
@@ -12292,7 +12438,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
          * @example Suspense Query with parameters
          * ```ts
-         * const data = qraft.v1Service.getProjectsProjectId.useSuspenseQuery({
+         * const data = qraft.v1.getProjectsProjectId.useSuspenseQuery({
          *     path: {
          *         projectId: projectId
          *     }
@@ -12309,7 +12455,7 @@ export interface V1Service {
          *
          * @example Suspense Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectId.useSuspenseInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getProjectsProjectId.useSuspenseInfiniteQuery({
          *     path: {
          *         projectId: projectId
          *     }
@@ -12330,7 +12476,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
          * @example Basic usage with Suspense
          * ```ts
-         * const getProjectsProjectIdData = qraft.v1Service.getProjectsProjectId.useSuspenseQueries({
+         * const getProjectsProjectIdData = qraft.v1.getProjectsProjectId.useSuspenseQueries({
          *     queries: [
          *         {
          *             path: {
@@ -12348,7 +12494,7 @@ export interface V1Service {
          * ```
          * @example With data transformation using combine
          * ```ts
-         * const getProjectsProjectIdCombinedData = qraft.v1Service.getProjectsProjectId.useSuspenseQueries({
+         * const getProjectsProjectIdCombinedData = qraft.v1.getProjectsProjectId.useSuspenseQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {
@@ -12435,7 +12581,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.deleteProjectsProjectId.useMutation({
+         * const { mutate, isPending } = qraft.v1.deleteProjectsProjectId.useMutation({
          *     path: {
          *         projectId: projectId
          *     }
@@ -12444,7 +12590,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.deleteProjectsProjectId.useMutation()
+         * const { mutate, isPending } = qraft.v1.deleteProjectsProjectId.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -12461,7 +12607,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.deleteProjectsProjectId.useMutation({
+         * const { mutate, isPending } = qraft.v1.deleteProjectsProjectId.useMutation({
          *     path: {
          *         projectId: projectId
          *     }
@@ -12470,7 +12616,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.deleteProjectsProjectId.useMutation()
+         * const { mutate, isPending } = qraft.v1.deleteProjectsProjectId.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -12486,11 +12632,11 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const deleteProjectsProjectIdTotal = qraft.v1Service.deleteProjectsProjectId.useIsMutating()
+         * const deleteProjectsProjectIdTotal = qraft.v1.deleteProjectsProjectId.useIsMutating()
          * ```
          * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const deleteProjectsProjectIdTotal = qraft.v1Service.deleteProjectsProjectId.useIsMutating({
+         * const deleteProjectsProjectIdTotal = qraft.v1.deleteProjectsProjectId.useIsMutating({
          *     parameters: {
          *         path: {
          *             projectId: projectId
@@ -12506,7 +12652,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
-         * const deleteProjectsProjectIdPendingMutationVariables = qraft.v1Service.deleteProjectsProjectId.useMutationState({
+         * const deleteProjectsProjectIdPendingMutationVariables = qraft.v1.deleteProjectsProjectId.useMutationState({
          *     filters: {
          *         status: "pending"
          *     },
@@ -12515,7 +12661,7 @@ export interface V1Service {
          * ```
          * @example Get all data for specific mutations via the `parameters`.
          * ```ts
-         * const deleteProjectsProjectIdMutationData = qraft.v1Service.deleteProjectsProjectId.useMutationState({
+         * const deleteProjectsProjectIdMutationData = qraft.v1.deleteProjectsProjectId.useMutationState({
          *     filters: {
          *         parameters: {
          *             path: {
@@ -12541,7 +12687,7 @@ export interface V1Service {
          *
          * @example Find a mutation with specific parameters
          * ```ts
-         * const mutationCache = qraft.v1Service.deleteProjectsProjectId.getMutationCache();
+         * const mutationCache = qraft.v1.deleteProjectsProjectId.getMutationCache();
          * const mutation = mutationCache.find({
          *     parameters: {
          *         path: {
@@ -12553,7 +12699,7 @@ export interface V1Service {
          *
          * @example Find all mutations for the endpoint
          * ```ts
-         * const mutationCache = qraft.v1Service.deleteProjectsProjectId.getMutationCache();
+         * const mutationCache = qraft.v1.deleteProjectsProjectId.getMutationCache();
          * const mutations = mutationCache.findAll();
          * ```
          */
@@ -12584,7 +12730,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query with parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getProjectsProjectIdStart.useQuery({
+         * const { data, isLoading } = qraft.v1.getProjectsProjectIdStart.useQuery({
          *     path: {
          *         projectId: projectId
          *     },
@@ -12601,7 +12747,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query with parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getProjectsProjectIdStart.useQuery({
+         * const { data, isLoading } = qraft.v1.getProjectsProjectIdStart.useQuery({
          *     path: {
          *         projectId: projectId
          *     },
@@ -12622,7 +12768,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdStart.useInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getProjectsProjectIdStart.useInfiniteQuery({
          *     path: {
          *         projectId: projectId
          *     }
@@ -12648,7 +12794,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdStart.useInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getProjectsProjectIdStart.useInfiniteQuery({
          *     path: {
          *         projectId: projectId
          *     }
@@ -12674,11 +12820,11 @@ export interface V1Service {
          * @example Checks the total number of queries fetching from the specified service method,
          * both normal and infinite. If no parameters are provided, no filtering is applied.
          * ```ts
-         * const getProjectsProjectIdStartTotal = qraft.v1Service.getProjectsProjectIdStart.useIsFetching()
+         * const getProjectsProjectIdStartTotal = qraft.v1.getProjectsProjectIdStart.useIsFetching()
          * ```
          * @example Checks the number of normal queries fetching with the specified parameters.
          * ```ts
-         * const getProjectsProjectIdStartByParametersTotal = qraft.v1Service.getProjectsProjectIdStart.useIsFetching({
+         * const getProjectsProjectIdStartByParametersTotal = qraft.v1.getProjectsProjectIdStart.useIsFetching({
          *     infinite: false,
          *     parameters: {
          *         path: {
@@ -12698,7 +12844,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
          * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
          * ```ts
-         * const getProjectsProjectIdStartResults = qraft.v1Service.getProjectsProjectIdStart.useQueries({
+         * const getProjectsProjectIdStartResults = qraft.v1.getProjectsProjectIdStart.useQueries({
          *     queries: [
          *         {
          *             path: {
@@ -12722,7 +12868,7 @@ export interface V1Service {
          * ```
          * @example Combined results. Only the data will be returned.
          * ```ts
-         * const getProjectsProjectIdStartCombinedResults = qraft.v1Service.getProjectsProjectIdStart.useQueries({
+         * const getProjectsProjectIdStartCombinedResults = qraft.v1.getProjectsProjectIdStart.useQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {
@@ -12757,7 +12903,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
          * @example Suspense Query with parameters
          * ```ts
-         * const data = qraft.v1Service.getProjectsProjectIdStart.useSuspenseQuery({
+         * const data = qraft.v1.getProjectsProjectIdStart.useSuspenseQuery({
          *     path: {
          *         projectId: projectId
          *     },
@@ -12777,7 +12923,7 @@ export interface V1Service {
          *
          * @example Suspense Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdStart.useSuspenseInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getProjectsProjectIdStart.useSuspenseInfiniteQuery({
          *     path: {
          *         projectId: projectId
          *     }
@@ -12802,7 +12948,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
          * @example Basic usage with Suspense
          * ```ts
-         * const getProjectsProjectIdStartData = qraft.v1Service.getProjectsProjectIdStart.useSuspenseQueries({
+         * const getProjectsProjectIdStartData = qraft.v1.getProjectsProjectIdStart.useSuspenseQueries({
          *     queries: [
          *         {
          *             path: {
@@ -12826,7 +12972,7 @@ export interface V1Service {
          * ```
          * @example With data transformation using combine
          * ```ts
-         * const getProjectsProjectIdStartCombinedData = qraft.v1Service.getProjectsProjectIdStart.useSuspenseQueries({
+         * const getProjectsProjectIdStartCombinedData = qraft.v1.getProjectsProjectIdStart.useSuspenseQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {
@@ -12922,7 +13068,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query with parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getProjectsProjectIdStop.useQuery({
+         * const { data, isLoading } = qraft.v1.getProjectsProjectIdStop.useQuery({
          *     path: {
          *         projectId: projectId
          *     }
@@ -12936,7 +13082,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query with parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getProjectsProjectIdStop.useQuery({
+         * const { data, isLoading } = qraft.v1.getProjectsProjectIdStop.useQuery({
          *     path: {
          *         projectId: projectId
          *     }
@@ -12954,7 +13100,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdStop.useInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getProjectsProjectIdStop.useInfiniteQuery({
          *     path: {
          *         projectId: projectId
          *     }
@@ -12976,7 +13122,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdStop.useInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getProjectsProjectIdStop.useInfiniteQuery({
          *     path: {
          *         projectId: projectId
          *     }
@@ -12998,11 +13144,11 @@ export interface V1Service {
          * @example Checks the total number of queries fetching from the specified service method,
          * both normal and infinite. If no parameters are provided, no filtering is applied.
          * ```ts
-         * const getProjectsProjectIdStopTotal = qraft.v1Service.getProjectsProjectIdStop.useIsFetching()
+         * const getProjectsProjectIdStopTotal = qraft.v1.getProjectsProjectIdStop.useIsFetching()
          * ```
          * @example Checks the number of normal queries fetching with the specified parameters.
          * ```ts
-         * const getProjectsProjectIdStopByParametersTotal = qraft.v1Service.getProjectsProjectIdStop.useIsFetching({
+         * const getProjectsProjectIdStopByParametersTotal = qraft.v1.getProjectsProjectIdStop.useIsFetching({
          *     infinite: false,
          *     parameters: {
          *         path: {
@@ -13019,7 +13165,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
          * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
          * ```ts
-         * const getProjectsProjectIdStopResults = qraft.v1Service.getProjectsProjectIdStop.useQueries({
+         * const getProjectsProjectIdStopResults = qraft.v1.getProjectsProjectIdStop.useQueries({
          *     queries: [
          *         {
          *             path: {
@@ -13037,7 +13183,7 @@ export interface V1Service {
          * ```
          * @example Combined results. Only the data will be returned.
          * ```ts
-         * const getProjectsProjectIdStopCombinedResults = qraft.v1Service.getProjectsProjectIdStop.useQueries({
+         * const getProjectsProjectIdStopCombinedResults = qraft.v1.getProjectsProjectIdStop.useQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {
@@ -13066,7 +13212,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
          * @example Suspense Query with parameters
          * ```ts
-         * const data = qraft.v1Service.getProjectsProjectIdStop.useSuspenseQuery({
+         * const data = qraft.v1.getProjectsProjectIdStop.useSuspenseQuery({
          *     path: {
          *         projectId: projectId
          *     }
@@ -13083,7 +13229,7 @@ export interface V1Service {
          *
          * @example Suspense Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdStop.useSuspenseInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getProjectsProjectIdStop.useSuspenseInfiniteQuery({
          *     path: {
          *         projectId: projectId
          *     }
@@ -13104,7 +13250,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
          * @example Basic usage with Suspense
          * ```ts
-         * const getProjectsProjectIdStopData = qraft.v1Service.getProjectsProjectIdStop.useSuspenseQueries({
+         * const getProjectsProjectIdStopData = qraft.v1.getProjectsProjectIdStop.useSuspenseQueries({
          *     queries: [
          *         {
          *             path: {
@@ -13122,7 +13268,7 @@ export interface V1Service {
          * ```
          * @example With data transformation using combine
          * ```ts
-         * const getProjectsProjectIdStopCombinedData = qraft.v1Service.getProjectsProjectIdStop.useSuspenseQueries({
+         * const getProjectsProjectIdStopCombinedData = qraft.v1.getProjectsProjectIdStop.useSuspenseQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {
@@ -13209,7 +13355,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postProjectsProjectIdExec.useMutation({
+         * const { mutate, isPending } = qraft.v1.postProjectsProjectIdExec.useMutation({
          *     path: {
          *         projectId: projectId
          *     }
@@ -13218,7 +13364,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postProjectsProjectIdExec.useMutation()
+         * const { mutate, isPending } = qraft.v1.postProjectsProjectIdExec.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -13235,7 +13381,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postProjectsProjectIdExec.useMutation({
+         * const { mutate, isPending } = qraft.v1.postProjectsProjectIdExec.useMutation({
          *     path: {
          *         projectId: projectId
          *     }
@@ -13244,7 +13390,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postProjectsProjectIdExec.useMutation()
+         * const { mutate, isPending } = qraft.v1.postProjectsProjectIdExec.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -13260,11 +13406,11 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const postProjectsProjectIdExecTotal = qraft.v1Service.postProjectsProjectIdExec.useIsMutating()
+         * const postProjectsProjectIdExecTotal = qraft.v1.postProjectsProjectIdExec.useIsMutating()
          * ```
          * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const postProjectsProjectIdExecTotal = qraft.v1Service.postProjectsProjectIdExec.useIsMutating({
+         * const postProjectsProjectIdExecTotal = qraft.v1.postProjectsProjectIdExec.useIsMutating({
          *     parameters: {
          *         path: {
          *             projectId: projectId
@@ -13280,7 +13426,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
-         * const postProjectsProjectIdExecPendingMutationVariables = qraft.v1Service.postProjectsProjectIdExec.useMutationState({
+         * const postProjectsProjectIdExecPendingMutationVariables = qraft.v1.postProjectsProjectIdExec.useMutationState({
          *     filters: {
          *         status: "pending"
          *     },
@@ -13289,7 +13435,7 @@ export interface V1Service {
          * ```
          * @example Get all data for specific mutations via the `parameters`.
          * ```ts
-         * const postProjectsProjectIdExecMutationData = qraft.v1Service.postProjectsProjectIdExec.useMutationState({
+         * const postProjectsProjectIdExecMutationData = qraft.v1.postProjectsProjectIdExec.useMutationState({
          *     filters: {
          *         parameters: {
          *             path: {
@@ -13315,7 +13461,7 @@ export interface V1Service {
          *
          * @example Find a mutation with specific parameters
          * ```ts
-         * const mutationCache = qraft.v1Service.postProjectsProjectIdExec.getMutationCache();
+         * const mutationCache = qraft.v1.postProjectsProjectIdExec.getMutationCache();
          * const mutation = mutationCache.find({
          *     parameters: {
          *         path: {
@@ -13327,7 +13473,7 @@ export interface V1Service {
          *
          * @example Find all mutations for the endpoint
          * ```ts
-         * const mutationCache = qraft.v1Service.postProjectsProjectIdExec.getMutationCache();
+         * const mutationCache = qraft.v1.postProjectsProjectIdExec.getMutationCache();
          * const mutations = mutationCache.findAll();
          * ```
          */
@@ -13358,7 +13504,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query with parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getProjectsProjectIdDebugTerminal.useQuery({
+         * const { data, isLoading } = qraft.v1.getProjectsProjectIdDebugTerminal.useQuery({
          *     path: {
          *         projectId: projectId
          *     }
@@ -13372,7 +13518,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query with parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getProjectsProjectIdDebugTerminal.useQuery({
+         * const { data, isLoading } = qraft.v1.getProjectsProjectIdDebugTerminal.useQuery({
          *     path: {
          *         projectId: projectId
          *     }
@@ -13390,7 +13536,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdDebugTerminal.useInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getProjectsProjectIdDebugTerminal.useInfiniteQuery({
          *     path: {
          *         projectId: projectId
          *     }
@@ -13412,7 +13558,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdDebugTerminal.useInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getProjectsProjectIdDebugTerminal.useInfiniteQuery({
          *     path: {
          *         projectId: projectId
          *     }
@@ -13434,11 +13580,11 @@ export interface V1Service {
          * @example Checks the total number of queries fetching from the specified service method,
          * both normal and infinite. If no parameters are provided, no filtering is applied.
          * ```ts
-         * const getProjectsProjectIdDebugTerminalTotal = qraft.v1Service.getProjectsProjectIdDebugTerminal.useIsFetching()
+         * const getProjectsProjectIdDebugTerminalTotal = qraft.v1.getProjectsProjectIdDebugTerminal.useIsFetching()
          * ```
          * @example Checks the number of normal queries fetching with the specified parameters.
          * ```ts
-         * const getProjectsProjectIdDebugTerminalByParametersTotal = qraft.v1Service.getProjectsProjectIdDebugTerminal.useIsFetching({
+         * const getProjectsProjectIdDebugTerminalByParametersTotal = qraft.v1.getProjectsProjectIdDebugTerminal.useIsFetching({
          *     infinite: false,
          *     parameters: {
          *         path: {
@@ -13455,7 +13601,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
          * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
          * ```ts
-         * const getProjectsProjectIdDebugTerminalResults = qraft.v1Service.getProjectsProjectIdDebugTerminal.useQueries({
+         * const getProjectsProjectIdDebugTerminalResults = qraft.v1.getProjectsProjectIdDebugTerminal.useQueries({
          *     queries: [
          *         {
          *             path: {
@@ -13473,7 +13619,7 @@ export interface V1Service {
          * ```
          * @example Combined results. Only the data will be returned.
          * ```ts
-         * const getProjectsProjectIdDebugTerminalCombinedResults = qraft.v1Service.getProjectsProjectIdDebugTerminal.useQueries({
+         * const getProjectsProjectIdDebugTerminalCombinedResults = qraft.v1.getProjectsProjectIdDebugTerminal.useQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {
@@ -13502,7 +13648,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
          * @example Suspense Query with parameters
          * ```ts
-         * const data = qraft.v1Service.getProjectsProjectIdDebugTerminal.useSuspenseQuery({
+         * const data = qraft.v1.getProjectsProjectIdDebugTerminal.useSuspenseQuery({
          *     path: {
          *         projectId: projectId
          *     }
@@ -13519,7 +13665,7 @@ export interface V1Service {
          *
          * @example Suspense Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdDebugTerminal.useSuspenseInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getProjectsProjectIdDebugTerminal.useSuspenseInfiniteQuery({
          *     path: {
          *         projectId: projectId
          *     }
@@ -13540,7 +13686,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
          * @example Basic usage with Suspense
          * ```ts
-         * const getProjectsProjectIdDebugTerminalData = qraft.v1Service.getProjectsProjectIdDebugTerminal.useSuspenseQueries({
+         * const getProjectsProjectIdDebugTerminalData = qraft.v1.getProjectsProjectIdDebugTerminal.useSuspenseQueries({
          *     queries: [
          *         {
          *             path: {
@@ -13558,7 +13704,7 @@ export interface V1Service {
          * ```
          * @example With data transformation using combine
          * ```ts
-         * const getProjectsProjectIdDebugTerminalCombinedData = qraft.v1Service.getProjectsProjectIdDebugTerminal.useSuspenseQueries({
+         * const getProjectsProjectIdDebugTerminalCombinedData = qraft.v1.getProjectsProjectIdDebugTerminal.useSuspenseQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {
@@ -13648,11 +13794,11 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query without parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getProjects.useQuery()
+         * const { data, isLoading } = qraft.v1.getProjects.useQuery()
          * ```
          * @example Query with parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getProjects.useQuery({
+         * const { data, isLoading } = qraft.v1.getProjects.useQuery({
          *     query: {
          *         search: search
          *     }
@@ -13666,11 +13812,11 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query without parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getProjects.useQuery()
+         * const { data, isLoading } = qraft.v1.getProjects.useQuery()
          * ```
          * @example Query with parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getProjects.useQuery({
+         * const { data, isLoading } = qraft.v1.getProjects.useQuery({
          *     query: {
          *         search: search
          *     }
@@ -13688,7 +13834,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjects.useInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getProjects.useInfiniteQuery({}, {
          *     initialPageParam: {
          *         query: {
          *             search: initialSearch
@@ -13710,7 +13856,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjects.useInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getProjects.useInfiniteQuery({}, {
          *     initialPageParam: {
          *         query: {
          *             search: initialSearch
@@ -13732,11 +13878,11 @@ export interface V1Service {
          * @example Checks the total number of queries fetching from the specified service method,
          * both normal and infinite. If no parameters are provided, no filtering is applied.
          * ```ts
-         * const getProjectsTotal = qraft.v1Service.getProjects.useIsFetching()
+         * const getProjectsTotal = qraft.v1.getProjects.useIsFetching()
          * ```
          * @example Checks the number of normal queries fetching with the specified parameters.
          * ```ts
-         * const getProjectsByParametersTotal = qraft.v1Service.getProjects.useIsFetching({
+         * const getProjectsByParametersTotal = qraft.v1.getProjects.useIsFetching({
          *     infinite: false,
          *     parameters: {
          *         query: {
@@ -13753,7 +13899,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
          * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
          * ```ts
-         * const getProjectsResults = qraft.v1Service.getProjects.useQueries({
+         * const getProjectsResults = qraft.v1.getProjects.useQueries({
          *     queries: [
          *         {
          *             query: {
@@ -13771,7 +13917,7 @@ export interface V1Service {
          * ```
          * @example Combined results. Only the data will be returned.
          * ```ts
-         * const getProjectsCombinedResults = qraft.v1Service.getProjects.useQueries({
+         * const getProjectsCombinedResults = qraft.v1.getProjects.useQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {
@@ -13800,11 +13946,11 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
          * @example Suspense Query without parameters
          * ```ts
-         * const data = qraft.v1Service.getProjects.useSuspenseQuery()
+         * const data = qraft.v1.getProjects.useSuspenseQuery()
          * ```
          * @example Suspense Query with parameters
          * ```ts
-         * const data = qraft.v1Service.getProjects.useSuspenseQuery({
+         * const data = qraft.v1.getProjects.useSuspenseQuery({
          *     query: {
          *         search: search
          *     }
@@ -13821,7 +13967,7 @@ export interface V1Service {
          *
          * @example Suspense Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjects.useSuspenseInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getProjects.useSuspenseInfiniteQuery({}, {
          *     initialPageParam: {
          *         query: {
          *             search: initialSearch
@@ -13842,7 +13988,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
          * @example Basic usage with Suspense
          * ```ts
-         * const getProjectsData = qraft.v1Service.getProjects.useSuspenseQueries({
+         * const getProjectsData = qraft.v1.getProjects.useSuspenseQueries({
          *     queries: [
          *         {
          *             query: {
@@ -13860,7 +14006,7 @@ export interface V1Service {
          * ```
          * @example With data transformation using combine
          * ```ts
-         * const getProjectsCombinedData = qraft.v1Service.getProjects.useSuspenseQueries({
+         * const getProjectsCombinedData = qraft.v1.getProjects.useSuspenseQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {
@@ -13950,7 +14096,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query with parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getProjectsProjectIdUsageSpan.useQuery({
+         * const { data, isLoading } = qraft.v1.getProjectsProjectIdUsageSpan.useQuery({
          *     path: {
          *         projectId: projectId,
          *         usageSpan: usageSpan
@@ -13965,7 +14111,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query with parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getProjectsProjectIdUsageSpan.useQuery({
+         * const { data, isLoading } = qraft.v1.getProjectsProjectIdUsageSpan.useQuery({
          *     path: {
          *         projectId: projectId,
          *         usageSpan: usageSpan
@@ -13984,7 +14130,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdUsageSpan.useInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getProjectsProjectIdUsageSpan.useInfiniteQuery({
          *     path: {
          *         projectId: projectId,
          *         usageSpan: usageSpan
@@ -14007,7 +14153,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdUsageSpan.useInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getProjectsProjectIdUsageSpan.useInfiniteQuery({
          *     path: {
          *         projectId: projectId,
          *         usageSpan: usageSpan
@@ -14030,11 +14176,11 @@ export interface V1Service {
          * @example Checks the total number of queries fetching from the specified service method,
          * both normal and infinite. If no parameters are provided, no filtering is applied.
          * ```ts
-         * const getProjectsProjectIdUsageSpanTotal = qraft.v1Service.getProjectsProjectIdUsageSpan.useIsFetching()
+         * const getProjectsProjectIdUsageSpanTotal = qraft.v1.getProjectsProjectIdUsageSpan.useIsFetching()
          * ```
          * @example Checks the number of normal queries fetching with the specified parameters.
          * ```ts
-         * const getProjectsProjectIdUsageSpanByParametersTotal = qraft.v1Service.getProjectsProjectIdUsageSpan.useIsFetching({
+         * const getProjectsProjectIdUsageSpanByParametersTotal = qraft.v1.getProjectsProjectIdUsageSpan.useIsFetching({
          *     infinite: false,
          *     parameters: {
          *         path: {
@@ -14052,7 +14198,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
          * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
          * ```ts
-         * const getProjectsProjectIdUsageSpanResults = qraft.v1Service.getProjectsProjectIdUsageSpan.useQueries({
+         * const getProjectsProjectIdUsageSpanResults = qraft.v1.getProjectsProjectIdUsageSpan.useQueries({
          *     queries: [
          *         {
          *             path: {
@@ -14072,7 +14218,7 @@ export interface V1Service {
          * ```
          * @example Combined results. Only the data will be returned.
          * ```ts
-         * const getProjectsProjectIdUsageSpanCombinedResults = qraft.v1Service.getProjectsProjectIdUsageSpan.useQueries({
+         * const getProjectsProjectIdUsageSpanCombinedResults = qraft.v1.getProjectsProjectIdUsageSpan.useQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {
@@ -14103,7 +14249,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
          * @example Suspense Query with parameters
          * ```ts
-         * const data = qraft.v1Service.getProjectsProjectIdUsageSpan.useSuspenseQuery({
+         * const data = qraft.v1.getProjectsProjectIdUsageSpan.useSuspenseQuery({
          *     path: {
          *         projectId: projectId,
          *         usageSpan: usageSpan
@@ -14121,7 +14267,7 @@ export interface V1Service {
          *
          * @example Suspense Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdUsageSpan.useSuspenseInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getProjectsProjectIdUsageSpan.useSuspenseInfiniteQuery({
          *     path: {
          *         projectId: projectId,
          *         usageSpan: usageSpan
@@ -14143,7 +14289,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
          * @example Basic usage with Suspense
          * ```ts
-         * const getProjectsProjectIdUsageSpanData = qraft.v1Service.getProjectsProjectIdUsageSpan.useSuspenseQueries({
+         * const getProjectsProjectIdUsageSpanData = qraft.v1.getProjectsProjectIdUsageSpan.useSuspenseQueries({
          *     queries: [
          *         {
          *             path: {
@@ -14163,7 +14309,7 @@ export interface V1Service {
          * ```
          * @example With data transformation using combine
          * ```ts
-         * const getProjectsProjectIdUsageSpanCombinedData = qraft.v1Service.getProjectsProjectIdUsageSpan.useSuspenseQueries({
+         * const getProjectsProjectIdUsageSpanCombinedData = qraft.v1.getProjectsProjectIdUsageSpan.useSuspenseQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {
@@ -14255,7 +14401,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query with parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getProjectsProjectIdDeployments.useQuery({
+         * const { data, isLoading } = qraft.v1.getProjectsProjectIdDeployments.useQuery({
          *     path: {
          *         projectId: projectId
          *     },
@@ -14272,7 +14418,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query with parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getProjectsProjectIdDeployments.useQuery({
+         * const { data, isLoading } = qraft.v1.getProjectsProjectIdDeployments.useQuery({
          *     path: {
          *         projectId: projectId
          *     },
@@ -14293,7 +14439,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdDeployments.useInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getProjectsProjectIdDeployments.useInfiniteQuery({
          *     path: {
          *         projectId: projectId
          *     }
@@ -14319,7 +14465,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdDeployments.useInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getProjectsProjectIdDeployments.useInfiniteQuery({
          *     path: {
          *         projectId: projectId
          *     }
@@ -14345,11 +14491,11 @@ export interface V1Service {
          * @example Checks the total number of queries fetching from the specified service method,
          * both normal and infinite. If no parameters are provided, no filtering is applied.
          * ```ts
-         * const getProjectsProjectIdDeploymentsTotal = qraft.v1Service.getProjectsProjectIdDeployments.useIsFetching()
+         * const getProjectsProjectIdDeploymentsTotal = qraft.v1.getProjectsProjectIdDeployments.useIsFetching()
          * ```
          * @example Checks the number of normal queries fetching with the specified parameters.
          * ```ts
-         * const getProjectsProjectIdDeploymentsByParametersTotal = qraft.v1Service.getProjectsProjectIdDeployments.useIsFetching({
+         * const getProjectsProjectIdDeploymentsByParametersTotal = qraft.v1.getProjectsProjectIdDeployments.useIsFetching({
          *     infinite: false,
          *     parameters: {
          *         path: {
@@ -14369,7 +14515,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
          * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
          * ```ts
-         * const getProjectsProjectIdDeploymentsResults = qraft.v1Service.getProjectsProjectIdDeployments.useQueries({
+         * const getProjectsProjectIdDeploymentsResults = qraft.v1.getProjectsProjectIdDeployments.useQueries({
          *     queries: [
          *         {
          *             path: {
@@ -14393,7 +14539,7 @@ export interface V1Service {
          * ```
          * @example Combined results. Only the data will be returned.
          * ```ts
-         * const getProjectsProjectIdDeploymentsCombinedResults = qraft.v1Service.getProjectsProjectIdDeployments.useQueries({
+         * const getProjectsProjectIdDeploymentsCombinedResults = qraft.v1.getProjectsProjectIdDeployments.useQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {
@@ -14428,7 +14574,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
          * @example Suspense Query with parameters
          * ```ts
-         * const data = qraft.v1Service.getProjectsProjectIdDeployments.useSuspenseQuery({
+         * const data = qraft.v1.getProjectsProjectIdDeployments.useSuspenseQuery({
          *     path: {
          *         projectId: projectId
          *     },
@@ -14448,7 +14594,7 @@ export interface V1Service {
          *
          * @example Suspense Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdDeployments.useSuspenseInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getProjectsProjectIdDeployments.useSuspenseInfiniteQuery({
          *     path: {
          *         projectId: projectId
          *     }
@@ -14473,7 +14619,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
          * @example Basic usage with Suspense
          * ```ts
-         * const getProjectsProjectIdDeploymentsData = qraft.v1Service.getProjectsProjectIdDeployments.useSuspenseQueries({
+         * const getProjectsProjectIdDeploymentsData = qraft.v1.getProjectsProjectIdDeployments.useSuspenseQueries({
          *     queries: [
          *         {
          *             path: {
@@ -14497,7 +14643,7 @@ export interface V1Service {
          * ```
          * @example With data transformation using combine
          * ```ts
-         * const getProjectsProjectIdDeploymentsCombinedData = qraft.v1Service.getProjectsProjectIdDeployments.useSuspenseQueries({
+         * const getProjectsProjectIdDeploymentsCombinedData = qraft.v1.getProjectsProjectIdDeployments.useSuspenseQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {
@@ -14593,7 +14739,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query with parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getProjectsProjectIdDeploymentsDeploymentId.useQuery({
+         * const { data, isLoading } = qraft.v1.getProjectsProjectIdDeploymentsDeploymentId.useQuery({
          *     path: {
          *         projectId: projectId,
          *         deploymentId: deploymentId
@@ -14608,7 +14754,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query with parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getProjectsProjectIdDeploymentsDeploymentId.useQuery({
+         * const { data, isLoading } = qraft.v1.getProjectsProjectIdDeploymentsDeploymentId.useQuery({
          *     path: {
          *         projectId: projectId,
          *         deploymentId: deploymentId
@@ -14627,7 +14773,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdDeploymentsDeploymentId.useInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getProjectsProjectIdDeploymentsDeploymentId.useInfiniteQuery({
          *     path: {
          *         projectId: projectId,
          *         deploymentId: deploymentId
@@ -14650,7 +14796,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdDeploymentsDeploymentId.useInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getProjectsProjectIdDeploymentsDeploymentId.useInfiniteQuery({
          *     path: {
          *         projectId: projectId,
          *         deploymentId: deploymentId
@@ -14673,11 +14819,11 @@ export interface V1Service {
          * @example Checks the total number of queries fetching from the specified service method,
          * both normal and infinite. If no parameters are provided, no filtering is applied.
          * ```ts
-         * const getProjectsProjectIdDeploymentsDeploymentIdTotal = qraft.v1Service.getProjectsProjectIdDeploymentsDeploymentId.useIsFetching()
+         * const getProjectsProjectIdDeploymentsDeploymentIdTotal = qraft.v1.getProjectsProjectIdDeploymentsDeploymentId.useIsFetching()
          * ```
          * @example Checks the number of normal queries fetching with the specified parameters.
          * ```ts
-         * const getProjectsProjectIdDeploymentsDeploymentIdByParametersTotal = qraft.v1Service.getProjectsProjectIdDeploymentsDeploymentId.useIsFetching({
+         * const getProjectsProjectIdDeploymentsDeploymentIdByParametersTotal = qraft.v1.getProjectsProjectIdDeploymentsDeploymentId.useIsFetching({
          *     infinite: false,
          *     parameters: {
          *         path: {
@@ -14695,7 +14841,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
          * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
          * ```ts
-         * const getProjectsProjectIdDeploymentsDeploymentIdResults = qraft.v1Service.getProjectsProjectIdDeploymentsDeploymentId.useQueries({
+         * const getProjectsProjectIdDeploymentsDeploymentIdResults = qraft.v1.getProjectsProjectIdDeploymentsDeploymentId.useQueries({
          *     queries: [
          *         {
          *             path: {
@@ -14715,7 +14861,7 @@ export interface V1Service {
          * ```
          * @example Combined results. Only the data will be returned.
          * ```ts
-         * const getProjectsProjectIdDeploymentsDeploymentIdCombinedResults = qraft.v1Service.getProjectsProjectIdDeploymentsDeploymentId.useQueries({
+         * const getProjectsProjectIdDeploymentsDeploymentIdCombinedResults = qraft.v1.getProjectsProjectIdDeploymentsDeploymentId.useQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {
@@ -14746,7 +14892,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
          * @example Suspense Query with parameters
          * ```ts
-         * const data = qraft.v1Service.getProjectsProjectIdDeploymentsDeploymentId.useSuspenseQuery({
+         * const data = qraft.v1.getProjectsProjectIdDeploymentsDeploymentId.useSuspenseQuery({
          *     path: {
          *         projectId: projectId,
          *         deploymentId: deploymentId
@@ -14764,7 +14910,7 @@ export interface V1Service {
          *
          * @example Suspense Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdDeploymentsDeploymentId.useSuspenseInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getProjectsProjectIdDeploymentsDeploymentId.useSuspenseInfiniteQuery({
          *     path: {
          *         projectId: projectId,
          *         deploymentId: deploymentId
@@ -14786,7 +14932,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
          * @example Basic usage with Suspense
          * ```ts
-         * const getProjectsProjectIdDeploymentsDeploymentIdData = qraft.v1Service.getProjectsProjectIdDeploymentsDeploymentId.useSuspenseQueries({
+         * const getProjectsProjectIdDeploymentsDeploymentIdData = qraft.v1.getProjectsProjectIdDeploymentsDeploymentId.useSuspenseQueries({
          *     queries: [
          *         {
          *             path: {
@@ -14806,7 +14952,7 @@ export interface V1Service {
          * ```
          * @example With data transformation using combine
          * ```ts
-         * const getProjectsProjectIdDeploymentsDeploymentIdCombinedData = qraft.v1Service.getProjectsProjectIdDeploymentsDeploymentId.useSuspenseQueries({
+         * const getProjectsProjectIdDeploymentsDeploymentIdCombinedData = qraft.v1.getProjectsProjectIdDeploymentsDeploymentId.useSuspenseQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {
@@ -14898,7 +15044,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query with parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getProjectsProjectIdDeploymentsDeploymentIdLogs.useQuery({
+         * const { data, isLoading } = qraft.v1.getProjectsProjectIdDeploymentsDeploymentIdLogs.useQuery({
          *     path: {
          *         projectId: projectId,
          *         deploymentId: deploymentId
@@ -14913,7 +15059,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query with parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getProjectsProjectIdDeploymentsDeploymentIdLogs.useQuery({
+         * const { data, isLoading } = qraft.v1.getProjectsProjectIdDeploymentsDeploymentIdLogs.useQuery({
          *     path: {
          *         projectId: projectId,
          *         deploymentId: deploymentId
@@ -14932,7 +15078,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdDeploymentsDeploymentIdLogs.useInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getProjectsProjectIdDeploymentsDeploymentIdLogs.useInfiniteQuery({
          *     path: {
          *         projectId: projectId,
          *         deploymentId: deploymentId
@@ -14955,7 +15101,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdDeploymentsDeploymentIdLogs.useInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getProjectsProjectIdDeploymentsDeploymentIdLogs.useInfiniteQuery({
          *     path: {
          *         projectId: projectId,
          *         deploymentId: deploymentId
@@ -14978,11 +15124,11 @@ export interface V1Service {
          * @example Checks the total number of queries fetching from the specified service method,
          * both normal and infinite. If no parameters are provided, no filtering is applied.
          * ```ts
-         * const getProjectsProjectIdDeploymentsDeploymentIdLogsTotal = qraft.v1Service.getProjectsProjectIdDeploymentsDeploymentIdLogs.useIsFetching()
+         * const getProjectsProjectIdDeploymentsDeploymentIdLogsTotal = qraft.v1.getProjectsProjectIdDeploymentsDeploymentIdLogs.useIsFetching()
          * ```
          * @example Checks the number of normal queries fetching with the specified parameters.
          * ```ts
-         * const getProjectsProjectIdDeploymentsDeploymentIdLogsByParametersTotal = qraft.v1Service.getProjectsProjectIdDeploymentsDeploymentIdLogs.useIsFetching({
+         * const getProjectsProjectIdDeploymentsDeploymentIdLogsByParametersTotal = qraft.v1.getProjectsProjectIdDeploymentsDeploymentIdLogs.useIsFetching({
          *     infinite: false,
          *     parameters: {
          *         path: {
@@ -15000,7 +15146,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
          * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
          * ```ts
-         * const getProjectsProjectIdDeploymentsDeploymentIdLogsResults = qraft.v1Service.getProjectsProjectIdDeploymentsDeploymentIdLogs.useQueries({
+         * const getProjectsProjectIdDeploymentsDeploymentIdLogsResults = qraft.v1.getProjectsProjectIdDeploymentsDeploymentIdLogs.useQueries({
          *     queries: [
          *         {
          *             path: {
@@ -15020,7 +15166,7 @@ export interface V1Service {
          * ```
          * @example Combined results. Only the data will be returned.
          * ```ts
-         * const getProjectsProjectIdDeploymentsDeploymentIdLogsCombinedResults = qraft.v1Service.getProjectsProjectIdDeploymentsDeploymentIdLogs.useQueries({
+         * const getProjectsProjectIdDeploymentsDeploymentIdLogsCombinedResults = qraft.v1.getProjectsProjectIdDeploymentsDeploymentIdLogs.useQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {
@@ -15051,7 +15197,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
          * @example Suspense Query with parameters
          * ```ts
-         * const data = qraft.v1Service.getProjectsProjectIdDeploymentsDeploymentIdLogs.useSuspenseQuery({
+         * const data = qraft.v1.getProjectsProjectIdDeploymentsDeploymentIdLogs.useSuspenseQuery({
          *     path: {
          *         projectId: projectId,
          *         deploymentId: deploymentId
@@ -15069,7 +15215,7 @@ export interface V1Service {
          *
          * @example Suspense Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdDeploymentsDeploymentIdLogs.useSuspenseInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getProjectsProjectIdDeploymentsDeploymentIdLogs.useSuspenseInfiniteQuery({
          *     path: {
          *         projectId: projectId,
          *         deploymentId: deploymentId
@@ -15091,7 +15237,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
          * @example Basic usage with Suspense
          * ```ts
-         * const getProjectsProjectIdDeploymentsDeploymentIdLogsData = qraft.v1Service.getProjectsProjectIdDeploymentsDeploymentIdLogs.useSuspenseQueries({
+         * const getProjectsProjectIdDeploymentsDeploymentIdLogsData = qraft.v1.getProjectsProjectIdDeploymentsDeploymentIdLogs.useSuspenseQueries({
          *     queries: [
          *         {
          *             path: {
@@ -15111,7 +15257,7 @@ export interface V1Service {
          * ```
          * @example With data transformation using combine
          * ```ts
-         * const getProjectsProjectIdDeploymentsDeploymentIdLogsCombinedData = qraft.v1Service.getProjectsProjectIdDeploymentsDeploymentIdLogs.useSuspenseQueries({
+         * const getProjectsProjectIdDeploymentsDeploymentIdLogsCombinedData = qraft.v1.getProjectsProjectIdDeploymentsDeploymentIdLogs.useSuspenseQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {
@@ -15200,7 +15346,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postProjectsProjectIdDeploymentsDeploymentIdRedeploy.useMutation({
+         * const { mutate, isPending } = qraft.v1.postProjectsProjectIdDeploymentsDeploymentIdRedeploy.useMutation({
          *     path: {
          *         projectId: projectId,
          *         deploymentId: deploymentId
@@ -15210,7 +15356,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postProjectsProjectIdDeploymentsDeploymentIdRedeploy.useMutation()
+         * const { mutate, isPending } = qraft.v1.postProjectsProjectIdDeploymentsDeploymentIdRedeploy.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -15228,7 +15374,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postProjectsProjectIdDeploymentsDeploymentIdRedeploy.useMutation({
+         * const { mutate, isPending } = qraft.v1.postProjectsProjectIdDeploymentsDeploymentIdRedeploy.useMutation({
          *     path: {
          *         projectId: projectId,
          *         deploymentId: deploymentId
@@ -15238,7 +15384,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postProjectsProjectIdDeploymentsDeploymentIdRedeploy.useMutation()
+         * const { mutate, isPending } = qraft.v1.postProjectsProjectIdDeploymentsDeploymentIdRedeploy.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -15255,11 +15401,11 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const postProjectsProjectIdDeploymentsDeploymentIdRedeployTotal = qraft.v1Service.postProjectsProjectIdDeploymentsDeploymentIdRedeploy.useIsMutating()
+         * const postProjectsProjectIdDeploymentsDeploymentIdRedeployTotal = qraft.v1.postProjectsProjectIdDeploymentsDeploymentIdRedeploy.useIsMutating()
          * ```
          * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const postProjectsProjectIdDeploymentsDeploymentIdRedeployTotal = qraft.v1Service.postProjectsProjectIdDeploymentsDeploymentIdRedeploy.useIsMutating({
+         * const postProjectsProjectIdDeploymentsDeploymentIdRedeployTotal = qraft.v1.postProjectsProjectIdDeploymentsDeploymentIdRedeploy.useIsMutating({
          *     parameters: {
          *         path: {
          *             projectId: projectId,
@@ -15276,7 +15422,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
-         * const postProjectsProjectIdDeploymentsDeploymentIdRedeployPendingMutationVariables = qraft.v1Service.postProjectsProjectIdDeploymentsDeploymentIdRedeploy.useMutationState({
+         * const postProjectsProjectIdDeploymentsDeploymentIdRedeployPendingMutationVariables = qraft.v1.postProjectsProjectIdDeploymentsDeploymentIdRedeploy.useMutationState({
          *     filters: {
          *         status: "pending"
          *     },
@@ -15285,7 +15431,7 @@ export interface V1Service {
          * ```
          * @example Get all data for specific mutations via the `parameters`.
          * ```ts
-         * const postProjectsProjectIdDeploymentsDeploymentIdRedeployMutationData = qraft.v1Service.postProjectsProjectIdDeploymentsDeploymentIdRedeploy.useMutationState({
+         * const postProjectsProjectIdDeploymentsDeploymentIdRedeployMutationData = qraft.v1.postProjectsProjectIdDeploymentsDeploymentIdRedeploy.useMutationState({
          *     filters: {
          *         parameters: {
          *             path: {
@@ -15312,7 +15458,7 @@ export interface V1Service {
          *
          * @example Find a mutation with specific parameters
          * ```ts
-         * const mutationCache = qraft.v1Service.postProjectsProjectIdDeploymentsDeploymentIdRedeploy.getMutationCache();
+         * const mutationCache = qraft.v1.postProjectsProjectIdDeploymentsDeploymentIdRedeploy.getMutationCache();
          * const mutation = mutationCache.find({
          *     parameters: {
          *         path: {
@@ -15325,7 +15471,7 @@ export interface V1Service {
          *
          * @example Find all mutations for the endpoint
          * ```ts
-         * const mutationCache = qraft.v1Service.postProjectsProjectIdDeploymentsDeploymentIdRedeploy.getMutationCache();
+         * const mutationCache = qraft.v1.postProjectsProjectIdDeploymentsDeploymentIdRedeploy.getMutationCache();
          * const mutations = mutationCache.findAll();
          * ```
          */
@@ -15353,7 +15499,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postProjectsProjectIdDeploymentsDeployFromLatestCommit.useMutation({
+         * const { mutate, isPending } = qraft.v1.postProjectsProjectIdDeploymentsDeployFromLatestCommit.useMutation({
          *     path: {
          *         projectId: projectId
          *     },
@@ -15365,7 +15511,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postProjectsProjectIdDeploymentsDeployFromLatestCommit.useMutation()
+         * const { mutate, isPending } = qraft.v1.postProjectsProjectIdDeploymentsDeployFromLatestCommit.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -15385,7 +15531,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postProjectsProjectIdDeploymentsDeployFromLatestCommit.useMutation({
+         * const { mutate, isPending } = qraft.v1.postProjectsProjectIdDeploymentsDeployFromLatestCommit.useMutation({
          *     path: {
          *         projectId: projectId
          *     },
@@ -15397,7 +15543,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postProjectsProjectIdDeploymentsDeployFromLatestCommit.useMutation()
+         * const { mutate, isPending } = qraft.v1.postProjectsProjectIdDeploymentsDeployFromLatestCommit.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -15416,11 +15562,11 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const postProjectsProjectIdDeploymentsDeployFromLatestCommitTotal = qraft.v1Service.postProjectsProjectIdDeploymentsDeployFromLatestCommit.useIsMutating()
+         * const postProjectsProjectIdDeploymentsDeployFromLatestCommitTotal = qraft.v1.postProjectsProjectIdDeploymentsDeployFromLatestCommit.useIsMutating()
          * ```
          * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const postProjectsProjectIdDeploymentsDeployFromLatestCommitTotal = qraft.v1Service.postProjectsProjectIdDeploymentsDeployFromLatestCommit.useIsMutating({
+         * const postProjectsProjectIdDeploymentsDeployFromLatestCommitTotal = qraft.v1.postProjectsProjectIdDeploymentsDeployFromLatestCommit.useIsMutating({
          *     parameters: {
          *         path: {
          *             projectId: projectId
@@ -15439,7 +15585,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
-         * const postProjectsProjectIdDeploymentsDeployFromLatestCommitPendingMutationVariables = qraft.v1Service.postProjectsProjectIdDeploymentsDeployFromLatestCommit.useMutationState({
+         * const postProjectsProjectIdDeploymentsDeployFromLatestCommitPendingMutationVariables = qraft.v1.postProjectsProjectIdDeploymentsDeployFromLatestCommit.useMutationState({
          *     filters: {
          *         status: "pending"
          *     },
@@ -15448,7 +15594,7 @@ export interface V1Service {
          * ```
          * @example Get all data for specific mutations via the `parameters`.
          * ```ts
-         * const postProjectsProjectIdDeploymentsDeployFromLatestCommitMutationData = qraft.v1Service.postProjectsProjectIdDeploymentsDeployFromLatestCommit.useMutationState({
+         * const postProjectsProjectIdDeploymentsDeployFromLatestCommitMutationData = qraft.v1.postProjectsProjectIdDeploymentsDeployFromLatestCommit.useMutationState({
          *     filters: {
          *         parameters: {
          *             path: {
@@ -15477,7 +15623,7 @@ export interface V1Service {
          *
          * @example Find a mutation with specific parameters
          * ```ts
-         * const mutationCache = qraft.v1Service.postProjectsProjectIdDeploymentsDeployFromLatestCommit.getMutationCache();
+         * const mutationCache = qraft.v1.postProjectsProjectIdDeploymentsDeployFromLatestCommit.getMutationCache();
          * const mutation = mutationCache.find({
          *     parameters: {
          *         path: {
@@ -15492,7 +15638,7 @@ export interface V1Service {
          *
          * @example Find all mutations for the endpoint
          * ```ts
-         * const mutationCache = qraft.v1Service.postProjectsProjectIdDeploymentsDeployFromLatestCommit.getMutationCache();
+         * const mutationCache = qraft.v1.postProjectsProjectIdDeploymentsDeployFromLatestCommit.getMutationCache();
          * const mutations = mutationCache.findAll();
          * ```
          */
@@ -15520,7 +15666,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postProjectsProjectIdDeploymentsDeploymentIdCancel.useMutation({
+         * const { mutate, isPending } = qraft.v1.postProjectsProjectIdDeploymentsDeploymentIdCancel.useMutation({
          *     path: {
          *         projectId: projectId,
          *         deploymentId: deploymentId
@@ -15530,7 +15676,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postProjectsProjectIdDeploymentsDeploymentIdCancel.useMutation()
+         * const { mutate, isPending } = qraft.v1.postProjectsProjectIdDeploymentsDeploymentIdCancel.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -15548,7 +15694,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postProjectsProjectIdDeploymentsDeploymentIdCancel.useMutation({
+         * const { mutate, isPending } = qraft.v1.postProjectsProjectIdDeploymentsDeploymentIdCancel.useMutation({
          *     path: {
          *         projectId: projectId,
          *         deploymentId: deploymentId
@@ -15558,7 +15704,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postProjectsProjectIdDeploymentsDeploymentIdCancel.useMutation()
+         * const { mutate, isPending } = qraft.v1.postProjectsProjectIdDeploymentsDeploymentIdCancel.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -15575,11 +15721,11 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const postProjectsProjectIdDeploymentsDeploymentIdCancelTotal = qraft.v1Service.postProjectsProjectIdDeploymentsDeploymentIdCancel.useIsMutating()
+         * const postProjectsProjectIdDeploymentsDeploymentIdCancelTotal = qraft.v1.postProjectsProjectIdDeploymentsDeploymentIdCancel.useIsMutating()
          * ```
          * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const postProjectsProjectIdDeploymentsDeploymentIdCancelTotal = qraft.v1Service.postProjectsProjectIdDeploymentsDeploymentIdCancel.useIsMutating({
+         * const postProjectsProjectIdDeploymentsDeploymentIdCancelTotal = qraft.v1.postProjectsProjectIdDeploymentsDeploymentIdCancel.useIsMutating({
          *     parameters: {
          *         path: {
          *             projectId: projectId,
@@ -15596,7 +15742,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
-         * const postProjectsProjectIdDeploymentsDeploymentIdCancelPendingMutationVariables = qraft.v1Service.postProjectsProjectIdDeploymentsDeploymentIdCancel.useMutationState({
+         * const postProjectsProjectIdDeploymentsDeploymentIdCancelPendingMutationVariables = qraft.v1.postProjectsProjectIdDeploymentsDeploymentIdCancel.useMutationState({
          *     filters: {
          *         status: "pending"
          *     },
@@ -15605,7 +15751,7 @@ export interface V1Service {
          * ```
          * @example Get all data for specific mutations via the `parameters`.
          * ```ts
-         * const postProjectsProjectIdDeploymentsDeploymentIdCancelMutationData = qraft.v1Service.postProjectsProjectIdDeploymentsDeploymentIdCancel.useMutationState({
+         * const postProjectsProjectIdDeploymentsDeploymentIdCancelMutationData = qraft.v1.postProjectsProjectIdDeploymentsDeploymentIdCancel.useMutationState({
          *     filters: {
          *         parameters: {
          *             path: {
@@ -15632,7 +15778,7 @@ export interface V1Service {
          *
          * @example Find a mutation with specific parameters
          * ```ts
-         * const mutationCache = qraft.v1Service.postProjectsProjectIdDeploymentsDeploymentIdCancel.getMutationCache();
+         * const mutationCache = qraft.v1.postProjectsProjectIdDeploymentsDeploymentIdCancel.getMutationCache();
          * const mutation = mutationCache.find({
          *     parameters: {
          *         path: {
@@ -15645,7 +15791,7 @@ export interface V1Service {
          *
          * @example Find all mutations for the endpoint
          * ```ts
-         * const mutationCache = qraft.v1Service.postProjectsProjectIdDeploymentsDeploymentIdCancel.getMutationCache();
+         * const mutationCache = qraft.v1.postProjectsProjectIdDeploymentsDeploymentIdCancel.getMutationCache();
          * const mutations = mutationCache.findAll();
          * ```
          */
@@ -15676,7 +15822,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query with parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getProjectsProjectIdEnvironment.useQuery({
+         * const { data, isLoading } = qraft.v1.getProjectsProjectIdEnvironment.useQuery({
          *     path: {
          *         projectId: projectId
          *     },
@@ -15693,7 +15839,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query with parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getProjectsProjectIdEnvironment.useQuery({
+         * const { data, isLoading } = qraft.v1.getProjectsProjectIdEnvironment.useQuery({
          *     path: {
          *         projectId: projectId
          *     },
@@ -15714,7 +15860,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdEnvironment.useInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getProjectsProjectIdEnvironment.useInfiniteQuery({
          *     path: {
          *         projectId: projectId
          *     },
@@ -15743,7 +15889,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdEnvironment.useInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getProjectsProjectIdEnvironment.useInfiniteQuery({
          *     path: {
          *         projectId: projectId
          *     },
@@ -15772,11 +15918,11 @@ export interface V1Service {
          * @example Checks the total number of queries fetching from the specified service method,
          * both normal and infinite. If no parameters are provided, no filtering is applied.
          * ```ts
-         * const getProjectsProjectIdEnvironmentTotal = qraft.v1Service.getProjectsProjectIdEnvironment.useIsFetching()
+         * const getProjectsProjectIdEnvironmentTotal = qraft.v1.getProjectsProjectIdEnvironment.useIsFetching()
          * ```
          * @example Checks the number of normal queries fetching with the specified parameters.
          * ```ts
-         * const getProjectsProjectIdEnvironmentByParametersTotal = qraft.v1Service.getProjectsProjectIdEnvironment.useIsFetching({
+         * const getProjectsProjectIdEnvironmentByParametersTotal = qraft.v1.getProjectsProjectIdEnvironment.useIsFetching({
          *     infinite: false,
          *     parameters: {
          *         path: {
@@ -15796,7 +15942,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
          * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
          * ```ts
-         * const getProjectsProjectIdEnvironmentResults = qraft.v1Service.getProjectsProjectIdEnvironment.useQueries({
+         * const getProjectsProjectIdEnvironmentResults = qraft.v1.getProjectsProjectIdEnvironment.useQueries({
          *     queries: [
          *         {
          *             path: {
@@ -15820,7 +15966,7 @@ export interface V1Service {
          * ```
          * @example Combined results. Only the data will be returned.
          * ```ts
-         * const getProjectsProjectIdEnvironmentCombinedResults = qraft.v1Service.getProjectsProjectIdEnvironment.useQueries({
+         * const getProjectsProjectIdEnvironmentCombinedResults = qraft.v1.getProjectsProjectIdEnvironment.useQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {
@@ -15855,7 +16001,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
          * @example Suspense Query with parameters
          * ```ts
-         * const data = qraft.v1Service.getProjectsProjectIdEnvironment.useSuspenseQuery({
+         * const data = qraft.v1.getProjectsProjectIdEnvironment.useSuspenseQuery({
          *     path: {
          *         projectId: projectId
          *     },
@@ -15875,7 +16021,7 @@ export interface V1Service {
          *
          * @example Suspense Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdEnvironment.useSuspenseInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getProjectsProjectIdEnvironment.useSuspenseInfiniteQuery({
          *     path: {
          *         projectId: projectId
          *     },
@@ -15903,7 +16049,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
          * @example Basic usage with Suspense
          * ```ts
-         * const getProjectsProjectIdEnvironmentData = qraft.v1Service.getProjectsProjectIdEnvironment.useSuspenseQueries({
+         * const getProjectsProjectIdEnvironmentData = qraft.v1.getProjectsProjectIdEnvironment.useSuspenseQueries({
          *     queries: [
          *         {
          *             path: {
@@ -15927,7 +16073,7 @@ export interface V1Service {
          * ```
          * @example With data transformation using combine
          * ```ts
-         * const getProjectsProjectIdEnvironmentCombinedData = qraft.v1Service.getProjectsProjectIdEnvironment.useSuspenseQueries({
+         * const getProjectsProjectIdEnvironmentCombinedData = qraft.v1.getProjectsProjectIdEnvironment.useSuspenseQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {
@@ -16020,7 +16166,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.putProjectsProjectIdEnvironment.useMutation({
+         * const { mutate, isPending } = qraft.v1.putProjectsProjectIdEnvironment.useMutation({
          *     path: {
          *         projectId: projectId
          *     },
@@ -16032,7 +16178,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.putProjectsProjectIdEnvironment.useMutation()
+         * const { mutate, isPending } = qraft.v1.putProjectsProjectIdEnvironment.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -16052,7 +16198,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.putProjectsProjectIdEnvironment.useMutation({
+         * const { mutate, isPending } = qraft.v1.putProjectsProjectIdEnvironment.useMutation({
          *     path: {
          *         projectId: projectId
          *     },
@@ -16064,7 +16210,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.putProjectsProjectIdEnvironment.useMutation()
+         * const { mutate, isPending } = qraft.v1.putProjectsProjectIdEnvironment.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -16083,11 +16229,11 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const putProjectsProjectIdEnvironmentTotal = qraft.v1Service.putProjectsProjectIdEnvironment.useIsMutating()
+         * const putProjectsProjectIdEnvironmentTotal = qraft.v1.putProjectsProjectIdEnvironment.useIsMutating()
          * ```
          * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const putProjectsProjectIdEnvironmentTotal = qraft.v1Service.putProjectsProjectIdEnvironment.useIsMutating({
+         * const putProjectsProjectIdEnvironmentTotal = qraft.v1.putProjectsProjectIdEnvironment.useIsMutating({
          *     parameters: {
          *         path: {
          *             projectId: projectId
@@ -16106,7 +16252,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
-         * const putProjectsProjectIdEnvironmentPendingMutationVariables = qraft.v1Service.putProjectsProjectIdEnvironment.useMutationState({
+         * const putProjectsProjectIdEnvironmentPendingMutationVariables = qraft.v1.putProjectsProjectIdEnvironment.useMutationState({
          *     filters: {
          *         status: "pending"
          *     },
@@ -16115,7 +16261,7 @@ export interface V1Service {
          * ```
          * @example Get all data for specific mutations via the `parameters`.
          * ```ts
-         * const putProjectsProjectIdEnvironmentMutationData = qraft.v1Service.putProjectsProjectIdEnvironment.useMutationState({
+         * const putProjectsProjectIdEnvironmentMutationData = qraft.v1.putProjectsProjectIdEnvironment.useMutationState({
          *     filters: {
          *         parameters: {
          *             path: {
@@ -16144,7 +16290,7 @@ export interface V1Service {
          *
          * @example Find a mutation with specific parameters
          * ```ts
-         * const mutationCache = qraft.v1Service.putProjectsProjectIdEnvironment.getMutationCache();
+         * const mutationCache = qraft.v1.putProjectsProjectIdEnvironment.getMutationCache();
          * const mutation = mutationCache.find({
          *     parameters: {
          *         path: {
@@ -16159,7 +16305,7 @@ export interface V1Service {
          *
          * @example Find all mutations for the endpoint
          * ```ts
-         * const mutationCache = qraft.v1Service.putProjectsProjectIdEnvironment.getMutationCache();
+         * const mutationCache = qraft.v1.putProjectsProjectIdEnvironment.getMutationCache();
          * const mutations = mutationCache.findAll();
          * ```
          */
@@ -16187,7 +16333,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.putProjectsProjectIdEnvironmentChangeAutoDeploy.useMutation({
+         * const { mutate, isPending } = qraft.v1.putProjectsProjectIdEnvironmentChangeAutoDeploy.useMutation({
          *     path: {
          *         projectId: projectId
          *     }
@@ -16196,7 +16342,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.putProjectsProjectIdEnvironmentChangeAutoDeploy.useMutation()
+         * const { mutate, isPending } = qraft.v1.putProjectsProjectIdEnvironmentChangeAutoDeploy.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -16213,7 +16359,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.putProjectsProjectIdEnvironmentChangeAutoDeploy.useMutation({
+         * const { mutate, isPending } = qraft.v1.putProjectsProjectIdEnvironmentChangeAutoDeploy.useMutation({
          *     path: {
          *         projectId: projectId
          *     }
@@ -16222,7 +16368,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.putProjectsProjectIdEnvironmentChangeAutoDeploy.useMutation()
+         * const { mutate, isPending } = qraft.v1.putProjectsProjectIdEnvironmentChangeAutoDeploy.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -16238,11 +16384,11 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const putProjectsProjectIdEnvironmentChangeAutoDeployTotal = qraft.v1Service.putProjectsProjectIdEnvironmentChangeAutoDeploy.useIsMutating()
+         * const putProjectsProjectIdEnvironmentChangeAutoDeployTotal = qraft.v1.putProjectsProjectIdEnvironmentChangeAutoDeploy.useIsMutating()
          * ```
          * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const putProjectsProjectIdEnvironmentChangeAutoDeployTotal = qraft.v1Service.putProjectsProjectIdEnvironmentChangeAutoDeploy.useIsMutating({
+         * const putProjectsProjectIdEnvironmentChangeAutoDeployTotal = qraft.v1.putProjectsProjectIdEnvironmentChangeAutoDeploy.useIsMutating({
          *     parameters: {
          *         path: {
          *             projectId: projectId
@@ -16258,7 +16404,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
-         * const putProjectsProjectIdEnvironmentChangeAutoDeployPendingMutationVariables = qraft.v1Service.putProjectsProjectIdEnvironmentChangeAutoDeploy.useMutationState({
+         * const putProjectsProjectIdEnvironmentChangeAutoDeployPendingMutationVariables = qraft.v1.putProjectsProjectIdEnvironmentChangeAutoDeploy.useMutationState({
          *     filters: {
          *         status: "pending"
          *     },
@@ -16267,7 +16413,7 @@ export interface V1Service {
          * ```
          * @example Get all data for specific mutations via the `parameters`.
          * ```ts
-         * const putProjectsProjectIdEnvironmentChangeAutoDeployMutationData = qraft.v1Service.putProjectsProjectIdEnvironmentChangeAutoDeploy.useMutationState({
+         * const putProjectsProjectIdEnvironmentChangeAutoDeployMutationData = qraft.v1.putProjectsProjectIdEnvironmentChangeAutoDeploy.useMutationState({
          *     filters: {
          *         parameters: {
          *             path: {
@@ -16293,7 +16439,7 @@ export interface V1Service {
          *
          * @example Find a mutation with specific parameters
          * ```ts
-         * const mutationCache = qraft.v1Service.putProjectsProjectIdEnvironmentChangeAutoDeploy.getMutationCache();
+         * const mutationCache = qraft.v1.putProjectsProjectIdEnvironmentChangeAutoDeploy.getMutationCache();
          * const mutation = mutationCache.find({
          *     parameters: {
          *         path: {
@@ -16305,7 +16451,7 @@ export interface V1Service {
          *
          * @example Find all mutations for the endpoint
          * ```ts
-         * const mutationCache = qraft.v1Service.putProjectsProjectIdEnvironmentChangeAutoDeploy.getMutationCache();
+         * const mutationCache = qraft.v1.putProjectsProjectIdEnvironmentChangeAutoDeploy.getMutationCache();
          * const mutations = mutationCache.findAll();
          * ```
          */
@@ -16336,7 +16482,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query with parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getProjectsProjectIdEnvironments.useQuery({
+         * const { data, isLoading } = qraft.v1.getProjectsProjectIdEnvironments.useQuery({
          *     path: {
          *         projectId: projectId
          *     }
@@ -16350,7 +16496,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query with parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getProjectsProjectIdEnvironments.useQuery({
+         * const { data, isLoading } = qraft.v1.getProjectsProjectIdEnvironments.useQuery({
          *     path: {
          *         projectId: projectId
          *     }
@@ -16368,7 +16514,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdEnvironments.useInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getProjectsProjectIdEnvironments.useInfiniteQuery({
          *     path: {
          *         projectId: projectId
          *     }
@@ -16390,7 +16536,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdEnvironments.useInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getProjectsProjectIdEnvironments.useInfiniteQuery({
          *     path: {
          *         projectId: projectId
          *     }
@@ -16412,11 +16558,11 @@ export interface V1Service {
          * @example Checks the total number of queries fetching from the specified service method,
          * both normal and infinite. If no parameters are provided, no filtering is applied.
          * ```ts
-         * const getProjectsProjectIdEnvironmentsTotal = qraft.v1Service.getProjectsProjectIdEnvironments.useIsFetching()
+         * const getProjectsProjectIdEnvironmentsTotal = qraft.v1.getProjectsProjectIdEnvironments.useIsFetching()
          * ```
          * @example Checks the number of normal queries fetching with the specified parameters.
          * ```ts
-         * const getProjectsProjectIdEnvironmentsByParametersTotal = qraft.v1Service.getProjectsProjectIdEnvironments.useIsFetching({
+         * const getProjectsProjectIdEnvironmentsByParametersTotal = qraft.v1.getProjectsProjectIdEnvironments.useIsFetching({
          *     infinite: false,
          *     parameters: {
          *         path: {
@@ -16433,7 +16579,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
          * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
          * ```ts
-         * const getProjectsProjectIdEnvironmentsResults = qraft.v1Service.getProjectsProjectIdEnvironments.useQueries({
+         * const getProjectsProjectIdEnvironmentsResults = qraft.v1.getProjectsProjectIdEnvironments.useQueries({
          *     queries: [
          *         {
          *             path: {
@@ -16451,7 +16597,7 @@ export interface V1Service {
          * ```
          * @example Combined results. Only the data will be returned.
          * ```ts
-         * const getProjectsProjectIdEnvironmentsCombinedResults = qraft.v1Service.getProjectsProjectIdEnvironments.useQueries({
+         * const getProjectsProjectIdEnvironmentsCombinedResults = qraft.v1.getProjectsProjectIdEnvironments.useQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {
@@ -16480,7 +16626,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
          * @example Suspense Query with parameters
          * ```ts
-         * const data = qraft.v1Service.getProjectsProjectIdEnvironments.useSuspenseQuery({
+         * const data = qraft.v1.getProjectsProjectIdEnvironments.useSuspenseQuery({
          *     path: {
          *         projectId: projectId
          *     }
@@ -16497,7 +16643,7 @@ export interface V1Service {
          *
          * @example Suspense Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdEnvironments.useSuspenseInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getProjectsProjectIdEnvironments.useSuspenseInfiniteQuery({
          *     path: {
          *         projectId: projectId
          *     }
@@ -16518,7 +16664,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
          * @example Basic usage with Suspense
          * ```ts
-         * const getProjectsProjectIdEnvironmentsData = qraft.v1Service.getProjectsProjectIdEnvironments.useSuspenseQueries({
+         * const getProjectsProjectIdEnvironmentsData = qraft.v1.getProjectsProjectIdEnvironments.useSuspenseQueries({
          *     queries: [
          *         {
          *             path: {
@@ -16536,7 +16682,7 @@ export interface V1Service {
          * ```
          * @example With data transformation using combine
          * ```ts
-         * const getProjectsProjectIdEnvironmentsCombinedData = qraft.v1Service.getProjectsProjectIdEnvironments.useSuspenseQueries({
+         * const getProjectsProjectIdEnvironmentsCombinedData = qraft.v1.getProjectsProjectIdEnvironments.useSuspenseQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {
@@ -16623,7 +16769,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postProjectsProjectIdEnvironments.useMutation({
+         * const { mutate, isPending } = qraft.v1.postProjectsProjectIdEnvironments.useMutation({
          *     path: {
          *         projectId: projectId
          *     }
@@ -16632,7 +16778,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postProjectsProjectIdEnvironments.useMutation()
+         * const { mutate, isPending } = qraft.v1.postProjectsProjectIdEnvironments.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -16649,7 +16795,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postProjectsProjectIdEnvironments.useMutation({
+         * const { mutate, isPending } = qraft.v1.postProjectsProjectIdEnvironments.useMutation({
          *     path: {
          *         projectId: projectId
          *     }
@@ -16658,7 +16804,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postProjectsProjectIdEnvironments.useMutation()
+         * const { mutate, isPending } = qraft.v1.postProjectsProjectIdEnvironments.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -16674,11 +16820,11 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const postProjectsProjectIdEnvironmentsTotal = qraft.v1Service.postProjectsProjectIdEnvironments.useIsMutating()
+         * const postProjectsProjectIdEnvironmentsTotal = qraft.v1.postProjectsProjectIdEnvironments.useIsMutating()
          * ```
          * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const postProjectsProjectIdEnvironmentsTotal = qraft.v1Service.postProjectsProjectIdEnvironments.useIsMutating({
+         * const postProjectsProjectIdEnvironmentsTotal = qraft.v1.postProjectsProjectIdEnvironments.useIsMutating({
          *     parameters: {
          *         path: {
          *             projectId: projectId
@@ -16694,7 +16840,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
-         * const postProjectsProjectIdEnvironmentsPendingMutationVariables = qraft.v1Service.postProjectsProjectIdEnvironments.useMutationState({
+         * const postProjectsProjectIdEnvironmentsPendingMutationVariables = qraft.v1.postProjectsProjectIdEnvironments.useMutationState({
          *     filters: {
          *         status: "pending"
          *     },
@@ -16703,7 +16849,7 @@ export interface V1Service {
          * ```
          * @example Get all data for specific mutations via the `parameters`.
          * ```ts
-         * const postProjectsProjectIdEnvironmentsMutationData = qraft.v1Service.postProjectsProjectIdEnvironments.useMutationState({
+         * const postProjectsProjectIdEnvironmentsMutationData = qraft.v1.postProjectsProjectIdEnvironments.useMutationState({
          *     filters: {
          *         parameters: {
          *             path: {
@@ -16729,7 +16875,7 @@ export interface V1Service {
          *
          * @example Find a mutation with specific parameters
          * ```ts
-         * const mutationCache = qraft.v1Service.postProjectsProjectIdEnvironments.getMutationCache();
+         * const mutationCache = qraft.v1.postProjectsProjectIdEnvironments.getMutationCache();
          * const mutation = mutationCache.find({
          *     parameters: {
          *         path: {
@@ -16741,7 +16887,7 @@ export interface V1Service {
          *
          * @example Find all mutations for the endpoint
          * ```ts
-         * const mutationCache = qraft.v1Service.postProjectsProjectIdEnvironments.getMutationCache();
+         * const mutationCache = qraft.v1.postProjectsProjectIdEnvironments.getMutationCache();
          * const mutations = mutationCache.findAll();
          * ```
          */
@@ -16772,7 +16918,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query with parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getProjectsProjectIdEnvironmentsBranches.useQuery({
+         * const { data, isLoading } = qraft.v1.getProjectsProjectIdEnvironmentsBranches.useQuery({
          *     path: {
          *         projectId: projectId
          *     }
@@ -16786,7 +16932,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query with parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getProjectsProjectIdEnvironmentsBranches.useQuery({
+         * const { data, isLoading } = qraft.v1.getProjectsProjectIdEnvironmentsBranches.useQuery({
          *     path: {
          *         projectId: projectId
          *     }
@@ -16804,7 +16950,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdEnvironmentsBranches.useInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getProjectsProjectIdEnvironmentsBranches.useInfiniteQuery({
          *     path: {
          *         projectId: projectId
          *     }
@@ -16826,7 +16972,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdEnvironmentsBranches.useInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getProjectsProjectIdEnvironmentsBranches.useInfiniteQuery({
          *     path: {
          *         projectId: projectId
          *     }
@@ -16848,11 +16994,11 @@ export interface V1Service {
          * @example Checks the total number of queries fetching from the specified service method,
          * both normal and infinite. If no parameters are provided, no filtering is applied.
          * ```ts
-         * const getProjectsProjectIdEnvironmentsBranchesTotal = qraft.v1Service.getProjectsProjectIdEnvironmentsBranches.useIsFetching()
+         * const getProjectsProjectIdEnvironmentsBranchesTotal = qraft.v1.getProjectsProjectIdEnvironmentsBranches.useIsFetching()
          * ```
          * @example Checks the number of normal queries fetching with the specified parameters.
          * ```ts
-         * const getProjectsProjectIdEnvironmentsBranchesByParametersTotal = qraft.v1Service.getProjectsProjectIdEnvironmentsBranches.useIsFetching({
+         * const getProjectsProjectIdEnvironmentsBranchesByParametersTotal = qraft.v1.getProjectsProjectIdEnvironmentsBranches.useIsFetching({
          *     infinite: false,
          *     parameters: {
          *         path: {
@@ -16869,7 +17015,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
          * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
          * ```ts
-         * const getProjectsProjectIdEnvironmentsBranchesResults = qraft.v1Service.getProjectsProjectIdEnvironmentsBranches.useQueries({
+         * const getProjectsProjectIdEnvironmentsBranchesResults = qraft.v1.getProjectsProjectIdEnvironmentsBranches.useQueries({
          *     queries: [
          *         {
          *             path: {
@@ -16887,7 +17033,7 @@ export interface V1Service {
          * ```
          * @example Combined results. Only the data will be returned.
          * ```ts
-         * const getProjectsProjectIdEnvironmentsBranchesCombinedResults = qraft.v1Service.getProjectsProjectIdEnvironmentsBranches.useQueries({
+         * const getProjectsProjectIdEnvironmentsBranchesCombinedResults = qraft.v1.getProjectsProjectIdEnvironmentsBranches.useQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {
@@ -16916,7 +17062,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
          * @example Suspense Query with parameters
          * ```ts
-         * const data = qraft.v1Service.getProjectsProjectIdEnvironmentsBranches.useSuspenseQuery({
+         * const data = qraft.v1.getProjectsProjectIdEnvironmentsBranches.useSuspenseQuery({
          *     path: {
          *         projectId: projectId
          *     }
@@ -16933,7 +17079,7 @@ export interface V1Service {
          *
          * @example Suspense Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdEnvironmentsBranches.useSuspenseInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getProjectsProjectIdEnvironmentsBranches.useSuspenseInfiniteQuery({
          *     path: {
          *         projectId: projectId
          *     }
@@ -16954,7 +17100,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
          * @example Basic usage with Suspense
          * ```ts
-         * const getProjectsProjectIdEnvironmentsBranchesData = qraft.v1Service.getProjectsProjectIdEnvironmentsBranches.useSuspenseQueries({
+         * const getProjectsProjectIdEnvironmentsBranchesData = qraft.v1.getProjectsProjectIdEnvironmentsBranches.useSuspenseQueries({
          *     queries: [
          *         {
          *             path: {
@@ -16972,7 +17118,7 @@ export interface V1Service {
          * ```
          * @example With data transformation using combine
          * ```ts
-         * const getProjectsProjectIdEnvironmentsBranchesCombinedData = qraft.v1Service.getProjectsProjectIdEnvironmentsBranches.useSuspenseQueries({
+         * const getProjectsProjectIdEnvironmentsBranchesCombinedData = qraft.v1.getProjectsProjectIdEnvironmentsBranches.useSuspenseQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {
@@ -17059,7 +17205,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.deleteProjectsProjectIdEnvironmentsEnvironmentId.useMutation({
+         * const { mutate, isPending } = qraft.v1.deleteProjectsProjectIdEnvironmentsEnvironmentId.useMutation({
          *     path: {
          *         projectId: projectId,
          *         environmentId: environmentId
@@ -17069,7 +17215,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.deleteProjectsProjectIdEnvironmentsEnvironmentId.useMutation()
+         * const { mutate, isPending } = qraft.v1.deleteProjectsProjectIdEnvironmentsEnvironmentId.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -17087,7 +17233,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.deleteProjectsProjectIdEnvironmentsEnvironmentId.useMutation({
+         * const { mutate, isPending } = qraft.v1.deleteProjectsProjectIdEnvironmentsEnvironmentId.useMutation({
          *     path: {
          *         projectId: projectId,
          *         environmentId: environmentId
@@ -17097,7 +17243,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.deleteProjectsProjectIdEnvironmentsEnvironmentId.useMutation()
+         * const { mutate, isPending } = qraft.v1.deleteProjectsProjectIdEnvironmentsEnvironmentId.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -17114,11 +17260,11 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const deleteProjectsProjectIdEnvironmentsEnvironmentIdTotal = qraft.v1Service.deleteProjectsProjectIdEnvironmentsEnvironmentId.useIsMutating()
+         * const deleteProjectsProjectIdEnvironmentsEnvironmentIdTotal = qraft.v1.deleteProjectsProjectIdEnvironmentsEnvironmentId.useIsMutating()
          * ```
          * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const deleteProjectsProjectIdEnvironmentsEnvironmentIdTotal = qraft.v1Service.deleteProjectsProjectIdEnvironmentsEnvironmentId.useIsMutating({
+         * const deleteProjectsProjectIdEnvironmentsEnvironmentIdTotal = qraft.v1.deleteProjectsProjectIdEnvironmentsEnvironmentId.useIsMutating({
          *     parameters: {
          *         path: {
          *             projectId: projectId,
@@ -17135,7 +17281,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
-         * const deleteProjectsProjectIdEnvironmentsEnvironmentIdPendingMutationVariables = qraft.v1Service.deleteProjectsProjectIdEnvironmentsEnvironmentId.useMutationState({
+         * const deleteProjectsProjectIdEnvironmentsEnvironmentIdPendingMutationVariables = qraft.v1.deleteProjectsProjectIdEnvironmentsEnvironmentId.useMutationState({
          *     filters: {
          *         status: "pending"
          *     },
@@ -17144,7 +17290,7 @@ export interface V1Service {
          * ```
          * @example Get all data for specific mutations via the `parameters`.
          * ```ts
-         * const deleteProjectsProjectIdEnvironmentsEnvironmentIdMutationData = qraft.v1Service.deleteProjectsProjectIdEnvironmentsEnvironmentId.useMutationState({
+         * const deleteProjectsProjectIdEnvironmentsEnvironmentIdMutationData = qraft.v1.deleteProjectsProjectIdEnvironmentsEnvironmentId.useMutationState({
          *     filters: {
          *         parameters: {
          *             path: {
@@ -17171,7 +17317,7 @@ export interface V1Service {
          *
          * @example Find a mutation with specific parameters
          * ```ts
-         * const mutationCache = qraft.v1Service.deleteProjectsProjectIdEnvironmentsEnvironmentId.getMutationCache();
+         * const mutationCache = qraft.v1.deleteProjectsProjectIdEnvironmentsEnvironmentId.getMutationCache();
          * const mutation = mutationCache.find({
          *     parameters: {
          *         path: {
@@ -17184,7 +17330,7 @@ export interface V1Service {
          *
          * @example Find all mutations for the endpoint
          * ```ts
-         * const mutationCache = qraft.v1Service.deleteProjectsProjectIdEnvironmentsEnvironmentId.getMutationCache();
+         * const mutationCache = qraft.v1.deleteProjectsProjectIdEnvironmentsEnvironmentId.getMutationCache();
          * const mutations = mutationCache.findAll();
          * ```
          */
@@ -17212,7 +17358,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postProjectsProjectIdEnvironmentsEnvironmentIdPromote.useMutation({
+         * const { mutate, isPending } = qraft.v1.postProjectsProjectIdEnvironmentsEnvironmentIdPromote.useMutation({
          *     path: {
          *         projectId: projectId,
          *         environmentId: environmentId
@@ -17222,7 +17368,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postProjectsProjectIdEnvironmentsEnvironmentIdPromote.useMutation()
+         * const { mutate, isPending } = qraft.v1.postProjectsProjectIdEnvironmentsEnvironmentIdPromote.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -17240,7 +17386,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postProjectsProjectIdEnvironmentsEnvironmentIdPromote.useMutation({
+         * const { mutate, isPending } = qraft.v1.postProjectsProjectIdEnvironmentsEnvironmentIdPromote.useMutation({
          *     path: {
          *         projectId: projectId,
          *         environmentId: environmentId
@@ -17250,7 +17396,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postProjectsProjectIdEnvironmentsEnvironmentIdPromote.useMutation()
+         * const { mutate, isPending } = qraft.v1.postProjectsProjectIdEnvironmentsEnvironmentIdPromote.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -17267,11 +17413,11 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const postProjectsProjectIdEnvironmentsEnvironmentIdPromoteTotal = qraft.v1Service.postProjectsProjectIdEnvironmentsEnvironmentIdPromote.useIsMutating()
+         * const postProjectsProjectIdEnvironmentsEnvironmentIdPromoteTotal = qraft.v1.postProjectsProjectIdEnvironmentsEnvironmentIdPromote.useIsMutating()
          * ```
          * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const postProjectsProjectIdEnvironmentsEnvironmentIdPromoteTotal = qraft.v1Service.postProjectsProjectIdEnvironmentsEnvironmentIdPromote.useIsMutating({
+         * const postProjectsProjectIdEnvironmentsEnvironmentIdPromoteTotal = qraft.v1.postProjectsProjectIdEnvironmentsEnvironmentIdPromote.useIsMutating({
          *     parameters: {
          *         path: {
          *             projectId: projectId,
@@ -17288,7 +17434,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
-         * const postProjectsProjectIdEnvironmentsEnvironmentIdPromotePendingMutationVariables = qraft.v1Service.postProjectsProjectIdEnvironmentsEnvironmentIdPromote.useMutationState({
+         * const postProjectsProjectIdEnvironmentsEnvironmentIdPromotePendingMutationVariables = qraft.v1.postProjectsProjectIdEnvironmentsEnvironmentIdPromote.useMutationState({
          *     filters: {
          *         status: "pending"
          *     },
@@ -17297,7 +17443,7 @@ export interface V1Service {
          * ```
          * @example Get all data for specific mutations via the `parameters`.
          * ```ts
-         * const postProjectsProjectIdEnvironmentsEnvironmentIdPromoteMutationData = qraft.v1Service.postProjectsProjectIdEnvironmentsEnvironmentIdPromote.useMutationState({
+         * const postProjectsProjectIdEnvironmentsEnvironmentIdPromoteMutationData = qraft.v1.postProjectsProjectIdEnvironmentsEnvironmentIdPromote.useMutationState({
          *     filters: {
          *         parameters: {
          *             path: {
@@ -17324,7 +17470,7 @@ export interface V1Service {
          *
          * @example Find a mutation with specific parameters
          * ```ts
-         * const mutationCache = qraft.v1Service.postProjectsProjectIdEnvironmentsEnvironmentIdPromote.getMutationCache();
+         * const mutationCache = qraft.v1.postProjectsProjectIdEnvironmentsEnvironmentIdPromote.getMutationCache();
          * const mutation = mutationCache.find({
          *     parameters: {
          *         path: {
@@ -17337,7 +17483,7 @@ export interface V1Service {
          *
          * @example Find all mutations for the endpoint
          * ```ts
-         * const mutationCache = qraft.v1Service.postProjectsProjectIdEnvironmentsEnvironmentIdPromote.getMutationCache();
+         * const mutationCache = qraft.v1.postProjectsProjectIdEnvironmentsEnvironmentIdPromote.getMutationCache();
          * const mutations = mutationCache.findAll();
          * ```
          */
@@ -17365,7 +17511,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.putProjectsProjectIdEnvironmentsEnvironmentIdTier.useMutation({
+         * const { mutate, isPending } = qraft.v1.putProjectsProjectIdEnvironmentsEnvironmentIdTier.useMutation({
          *     path: {
          *         projectId: projectId,
          *         environmentId: environmentId
@@ -17375,7 +17521,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.putProjectsProjectIdEnvironmentsEnvironmentIdTier.useMutation()
+         * const { mutate, isPending } = qraft.v1.putProjectsProjectIdEnvironmentsEnvironmentIdTier.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -17393,7 +17539,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.putProjectsProjectIdEnvironmentsEnvironmentIdTier.useMutation({
+         * const { mutate, isPending } = qraft.v1.putProjectsProjectIdEnvironmentsEnvironmentIdTier.useMutation({
          *     path: {
          *         projectId: projectId,
          *         environmentId: environmentId
@@ -17403,7 +17549,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.putProjectsProjectIdEnvironmentsEnvironmentIdTier.useMutation()
+         * const { mutate, isPending } = qraft.v1.putProjectsProjectIdEnvironmentsEnvironmentIdTier.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -17420,11 +17566,11 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const putProjectsProjectIdEnvironmentsEnvironmentIdTierTotal = qraft.v1Service.putProjectsProjectIdEnvironmentsEnvironmentIdTier.useIsMutating()
+         * const putProjectsProjectIdEnvironmentsEnvironmentIdTierTotal = qraft.v1.putProjectsProjectIdEnvironmentsEnvironmentIdTier.useIsMutating()
          * ```
          * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const putProjectsProjectIdEnvironmentsEnvironmentIdTierTotal = qraft.v1Service.putProjectsProjectIdEnvironmentsEnvironmentIdTier.useIsMutating({
+         * const putProjectsProjectIdEnvironmentsEnvironmentIdTierTotal = qraft.v1.putProjectsProjectIdEnvironmentsEnvironmentIdTier.useIsMutating({
          *     parameters: {
          *         path: {
          *             projectId: projectId,
@@ -17441,7 +17587,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
-         * const putProjectsProjectIdEnvironmentsEnvironmentIdTierPendingMutationVariables = qraft.v1Service.putProjectsProjectIdEnvironmentsEnvironmentIdTier.useMutationState({
+         * const putProjectsProjectIdEnvironmentsEnvironmentIdTierPendingMutationVariables = qraft.v1.putProjectsProjectIdEnvironmentsEnvironmentIdTier.useMutationState({
          *     filters: {
          *         status: "pending"
          *     },
@@ -17450,7 +17596,7 @@ export interface V1Service {
          * ```
          * @example Get all data for specific mutations via the `parameters`.
          * ```ts
-         * const putProjectsProjectIdEnvironmentsEnvironmentIdTierMutationData = qraft.v1Service.putProjectsProjectIdEnvironmentsEnvironmentIdTier.useMutationState({
+         * const putProjectsProjectIdEnvironmentsEnvironmentIdTierMutationData = qraft.v1.putProjectsProjectIdEnvironmentsEnvironmentIdTier.useMutationState({
          *     filters: {
          *         parameters: {
          *             path: {
@@ -17477,7 +17623,7 @@ export interface V1Service {
          *
          * @example Find a mutation with specific parameters
          * ```ts
-         * const mutationCache = qraft.v1Service.putProjectsProjectIdEnvironmentsEnvironmentIdTier.getMutationCache();
+         * const mutationCache = qraft.v1.putProjectsProjectIdEnvironmentsEnvironmentIdTier.getMutationCache();
          * const mutation = mutationCache.find({
          *     parameters: {
          *         path: {
@@ -17490,7 +17636,7 @@ export interface V1Service {
          *
          * @example Find all mutations for the endpoint
          * ```ts
-         * const mutationCache = qraft.v1Service.putProjectsProjectIdEnvironmentsEnvironmentIdTier.getMutationCache();
+         * const mutationCache = qraft.v1.putProjectsProjectIdEnvironmentsEnvironmentIdTier.getMutationCache();
          * const mutations = mutationCache.findAll();
          * ```
          */
@@ -17518,7 +17664,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.putProjectsProjectIdEnvironmentsEnvironmentIdAutoDeploy.useMutation({
+         * const { mutate, isPending } = qraft.v1.putProjectsProjectIdEnvironmentsEnvironmentIdAutoDeploy.useMutation({
          *     path: {
          *         projectId: projectId,
          *         environmentId: environmentId
@@ -17528,7 +17674,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.putProjectsProjectIdEnvironmentsEnvironmentIdAutoDeploy.useMutation()
+         * const { mutate, isPending } = qraft.v1.putProjectsProjectIdEnvironmentsEnvironmentIdAutoDeploy.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -17546,7 +17692,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.putProjectsProjectIdEnvironmentsEnvironmentIdAutoDeploy.useMutation({
+         * const { mutate, isPending } = qraft.v1.putProjectsProjectIdEnvironmentsEnvironmentIdAutoDeploy.useMutation({
          *     path: {
          *         projectId: projectId,
          *         environmentId: environmentId
@@ -17556,7 +17702,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.putProjectsProjectIdEnvironmentsEnvironmentIdAutoDeploy.useMutation()
+         * const { mutate, isPending } = qraft.v1.putProjectsProjectIdEnvironmentsEnvironmentIdAutoDeploy.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -17573,11 +17719,11 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const putProjectsProjectIdEnvironmentsEnvironmentIdAutoDeployTotal = qraft.v1Service.putProjectsProjectIdEnvironmentsEnvironmentIdAutoDeploy.useIsMutating()
+         * const putProjectsProjectIdEnvironmentsEnvironmentIdAutoDeployTotal = qraft.v1.putProjectsProjectIdEnvironmentsEnvironmentIdAutoDeploy.useIsMutating()
          * ```
          * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const putProjectsProjectIdEnvironmentsEnvironmentIdAutoDeployTotal = qraft.v1Service.putProjectsProjectIdEnvironmentsEnvironmentIdAutoDeploy.useIsMutating({
+         * const putProjectsProjectIdEnvironmentsEnvironmentIdAutoDeployTotal = qraft.v1.putProjectsProjectIdEnvironmentsEnvironmentIdAutoDeploy.useIsMutating({
          *     parameters: {
          *         path: {
          *             projectId: projectId,
@@ -17594,7 +17740,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
-         * const putProjectsProjectIdEnvironmentsEnvironmentIdAutoDeployPendingMutationVariables = qraft.v1Service.putProjectsProjectIdEnvironmentsEnvironmentIdAutoDeploy.useMutationState({
+         * const putProjectsProjectIdEnvironmentsEnvironmentIdAutoDeployPendingMutationVariables = qraft.v1.putProjectsProjectIdEnvironmentsEnvironmentIdAutoDeploy.useMutationState({
          *     filters: {
          *         status: "pending"
          *     },
@@ -17603,7 +17749,7 @@ export interface V1Service {
          * ```
          * @example Get all data for specific mutations via the `parameters`.
          * ```ts
-         * const putProjectsProjectIdEnvironmentsEnvironmentIdAutoDeployMutationData = qraft.v1Service.putProjectsProjectIdEnvironmentsEnvironmentIdAutoDeploy.useMutationState({
+         * const putProjectsProjectIdEnvironmentsEnvironmentIdAutoDeployMutationData = qraft.v1.putProjectsProjectIdEnvironmentsEnvironmentIdAutoDeploy.useMutationState({
          *     filters: {
          *         parameters: {
          *             path: {
@@ -17630,7 +17776,7 @@ export interface V1Service {
          *
          * @example Find a mutation with specific parameters
          * ```ts
-         * const mutationCache = qraft.v1Service.putProjectsProjectIdEnvironmentsEnvironmentIdAutoDeploy.getMutationCache();
+         * const mutationCache = qraft.v1.putProjectsProjectIdEnvironmentsEnvironmentIdAutoDeploy.getMutationCache();
          * const mutation = mutationCache.find({
          *     parameters: {
          *         path: {
@@ -17643,7 +17789,7 @@ export interface V1Service {
          *
          * @example Find all mutations for the endpoint
          * ```ts
-         * const mutationCache = qraft.v1Service.putProjectsProjectIdEnvironmentsEnvironmentIdAutoDeploy.getMutationCache();
+         * const mutationCache = qraft.v1.putProjectsProjectIdEnvironmentsEnvironmentIdAutoDeploy.getMutationCache();
          * const mutations = mutationCache.findAll();
          * ```
          */
@@ -17657,6 +17803,159 @@ export interface V1Service {
             data: PutProjectsProjectIdEnvironmentsEnvironmentIdAutoDeployData;
             error: PutProjectsProjectIdEnvironmentsEnvironmentIdAutoDeployError;
             body: PutProjectsProjectIdEnvironmentsEnvironmentIdAutoDeployBody;
+        };
+    };
+    putProjectsProjectIdEnvironmentsEnvironmentIdBranches: {
+        /**/
+        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: ServiceOperationMutationFnOptions<PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesBody, PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesParameters, TMeta, TSignal>, client?: (schema: PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesSchema, options: ServiceOperationMutationFnOptions<PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesBody, PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesParameters, TMeta, TSignal>) => Promise<RequestFnResponse<PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesData, PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesError>>): Promise<RequestFnResponse<PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesData, PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesError>>;
+        /**/
+        getMutationKey(parameters: DeepReadonly<PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesParameters> | void): ServiceOperationMutationKey<PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesSchema, PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesParameters>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1.putProjectsProjectIdEnvironmentsEnvironmentIdBranches.useMutation({
+         *     path: {
+         *         projectId: projectId,
+         *         environmentId: environmentId
+         *     }
+         * })
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1.putProjectsProjectIdEnvironmentsEnvironmentIdBranches.useMutation()
+         * mutate({
+         *     body: bodyPayload,
+         *     path: {
+         *         projectId: projectId,
+         *         environmentId: environmentId
+         *     }
+         * });
+         * ```
+         */
+        useMutation<TVariables extends PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesBody, TContext = unknown>(parameters: DeepReadonly<PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesParameters>, options?: ServiceOperationUseMutationOptions<PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesSchema, PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesData, PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesParameters, TVariables, OperationError<PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesError>, TContext>): UseMutationResult<PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesData, OperationError<PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesError>, TVariables, TContext>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1.putProjectsProjectIdEnvironmentsEnvironmentIdBranches.useMutation({
+         *     path: {
+         *         projectId: projectId,
+         *         environmentId: environmentId
+         *     }
+         * })
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1.putProjectsProjectIdEnvironmentsEnvironmentIdBranches.useMutation()
+         * mutate({
+         *     body: bodyPayload,
+         *     path: {
+         *         projectId: projectId,
+         *         environmentId: environmentId
+         *     }
+         * });
+         * ```
+         */
+        useMutation<TVariables extends MutationVariables<PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesBody, PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesParameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesSchema, PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesData, PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesParameters, TVariables, OperationError<PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesError>, TContext>): UseMutationResult<PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesData, OperationError<PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesError>, TVariables, TContext>;
+        /**
+         * Returns the count of currently in-progress mutations.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
+         * @example Check how many mutations are currently in progress for the specified service method.
+         * ```ts
+         * const putProjectsProjectIdEnvironmentsEnvironmentIdBranchesTotal = qraft.v1.putProjectsProjectIdEnvironmentsEnvironmentIdBranches.useIsMutating()
+         * ```
+         * @example Check how many mutations are currently in progress with the specified parameters.
+         * ```ts
+         * const putProjectsProjectIdEnvironmentsEnvironmentIdBranchesTotal = qraft.v1.putProjectsProjectIdEnvironmentsEnvironmentIdBranches.useIsMutating({
+         *     parameters: {
+         *         path: {
+         *             projectId: projectId,
+         *             environmentId: environmentId
+         *         }
+         *     }
+         * })
+         * ```
+         */
+        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesBody, PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesData, PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesParameters, OperationError<PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesError>, TContext> | MutationFiltersByMutationKey<PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesSchema, PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesBody, PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesData, PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesParameters, OperationError<PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesError>, TContext>): number;
+        /**
+         * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
+         * @example Get all variables of all running mutations.
+         * ```ts
+         * const putProjectsProjectIdEnvironmentsEnvironmentIdBranchesPendingMutationVariables = qraft.v1.putProjectsProjectIdEnvironmentsEnvironmentIdBranches.useMutationState({
+         *     filters: {
+         *         status: "pending"
+         *     },
+         *     select: mutation => mutation.state.variables
+         * })
+         * ```
+         * @example Get all data for specific mutations via the `parameters`.
+         * ```ts
+         * const putProjectsProjectIdEnvironmentsEnvironmentIdBranchesMutationData = qraft.v1.putProjectsProjectIdEnvironmentsEnvironmentIdBranches.useMutationState({
+         *     filters: {
+         *         parameters: {
+         *             path: {
+         *                 projectId: projectId,
+         *                 environmentId: environmentId
+         *             }
+         *         }
+         *     },
+         *     select: mutation => mutation.state.data
+         * })
+         * ```
+         */
+        useMutationState<TContext = unknown, TResult = MutationState<PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesData, OperationError<PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesError>, MutationVariables<PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesBody, PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesParameters>, TContext>>(options?: {
+            filters?: MutationFiltersByParameters<PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesBody, PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesData, PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesParameters, OperationError<PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesError>, TContext> | MutationFiltersByMutationKey<PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesSchema, PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesBody, PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesData, PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesParameters, OperationError<PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesError>, TContext>;
+            select?: (mutation: Mutation<PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesData, OperationError<PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesError>, MutationVariables<PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesBody, PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesParameters>, TContext>) => TResult;
+        }): Array<TResult>;
+        /**/
+        isMutating<TContext>(filters?: MutationFiltersByParameters<PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesBody, PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesData, PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesParameters, OperationError<PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesError>, TContext> | MutationFiltersByMutationKey<PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesSchema, PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesBody, PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesData, PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesParameters, OperationError<PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesError>, TContext>): number;
+        /**
+         * Returns a `MutationCache` object that provides access to mutation cache operations
+         * for the specific endpoint.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/query-client/getMutationCache|`getMutationCache(...)` documentation}
+         *
+         * @example Find a mutation with specific parameters
+         * ```ts
+         * const mutationCache = qraft.v1.putProjectsProjectIdEnvironmentsEnvironmentIdBranches.getMutationCache();
+         * const mutation = mutationCache.find({
+         *     parameters: {
+         *         path: {
+         *             projectId: projectId,
+         *             environmentId: environmentId
+         *         }
+         *     }
+         * });
+         * ```
+         *
+         * @example Find all mutations for the endpoint
+         * ```ts
+         * const mutationCache = qraft.v1.putProjectsProjectIdEnvironmentsEnvironmentIdBranches.getMutationCache();
+         * const mutations = mutationCache.findAll();
+         * ```
+         */
+        getMutationCache(): Omit<MutationCache, "find" | "findAll"> & {
+            find<TContext = unknown>(filters: MutationFiltersByParameters<PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesBody, PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesData, PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesParameters, OperationError<PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesError>, TContext> | MutationFiltersByMutationKey<PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesSchema, PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesBody, PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesData, PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesParameters, OperationError<PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesError>, TContext>): Mutation<PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesData, PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesError, MutationVariables<PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesBody, PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesParameters>, TContext> | undefined;
+            findAll<TContext = unknown>(filters?: MutationFiltersByParameters<PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesBody, PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesData, PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesParameters, OperationError<PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesError>, TContext> | MutationFiltersByMutationKey<PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesSchema, PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesBody, PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesData, PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesParameters, OperationError<PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesError>, TContext>): Array<Mutation<PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesData, PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesError, MutationVariables<PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesBody, PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesParameters>, TContext>>;
+        };
+        schema: PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesSchema;
+        types: {
+            parameters: PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesParameters;
+            data: PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesData;
+            error: PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesError;
+            body: PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesBody;
         };
     };
     getProjectsProjectIdEnvironmentsEnvironmentIdDeployments: {
@@ -17674,7 +17973,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query with parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getProjectsProjectIdEnvironmentsEnvironmentIdDeployments.useQuery({
+         * const { data, isLoading } = qraft.v1.getProjectsProjectIdEnvironmentsEnvironmentIdDeployments.useQuery({
          *     path: {
          *         projectId: projectId,
          *         environmentId: environmentId
@@ -17692,7 +17991,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query with parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getProjectsProjectIdEnvironmentsEnvironmentIdDeployments.useQuery({
+         * const { data, isLoading } = qraft.v1.getProjectsProjectIdEnvironmentsEnvironmentIdDeployments.useQuery({
          *     path: {
          *         projectId: projectId,
          *         environmentId: environmentId
@@ -17714,7 +18013,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdEnvironmentsEnvironmentIdDeployments.useInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getProjectsProjectIdEnvironmentsEnvironmentIdDeployments.useInfiniteQuery({
          *     path: {
          *         projectId: projectId,
          *         environmentId: environmentId
@@ -17741,7 +18040,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdEnvironmentsEnvironmentIdDeployments.useInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getProjectsProjectIdEnvironmentsEnvironmentIdDeployments.useInfiniteQuery({
          *     path: {
          *         projectId: projectId,
          *         environmentId: environmentId
@@ -17768,11 +18067,11 @@ export interface V1Service {
          * @example Checks the total number of queries fetching from the specified service method,
          * both normal and infinite. If no parameters are provided, no filtering is applied.
          * ```ts
-         * const getProjectsProjectIdEnvironmentsEnvironmentIdDeploymentsTotal = qraft.v1Service.getProjectsProjectIdEnvironmentsEnvironmentIdDeployments.useIsFetching()
+         * const getProjectsProjectIdEnvironmentsEnvironmentIdDeploymentsTotal = qraft.v1.getProjectsProjectIdEnvironmentsEnvironmentIdDeployments.useIsFetching()
          * ```
          * @example Checks the number of normal queries fetching with the specified parameters.
          * ```ts
-         * const getProjectsProjectIdEnvironmentsEnvironmentIdDeploymentsByParametersTotal = qraft.v1Service.getProjectsProjectIdEnvironmentsEnvironmentIdDeployments.useIsFetching({
+         * const getProjectsProjectIdEnvironmentsEnvironmentIdDeploymentsByParametersTotal = qraft.v1.getProjectsProjectIdEnvironmentsEnvironmentIdDeployments.useIsFetching({
          *     infinite: false,
          *     parameters: {
          *         path: {
@@ -17793,7 +18092,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
          * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
          * ```ts
-         * const getProjectsProjectIdEnvironmentsEnvironmentIdDeploymentsResults = qraft.v1Service.getProjectsProjectIdEnvironmentsEnvironmentIdDeployments.useQueries({
+         * const getProjectsProjectIdEnvironmentsEnvironmentIdDeploymentsResults = qraft.v1.getProjectsProjectIdEnvironmentsEnvironmentIdDeployments.useQueries({
          *     queries: [
          *         {
          *             path: {
@@ -17819,7 +18118,7 @@ export interface V1Service {
          * ```
          * @example Combined results. Only the data will be returned.
          * ```ts
-         * const getProjectsProjectIdEnvironmentsEnvironmentIdDeploymentsCombinedResults = qraft.v1Service.getProjectsProjectIdEnvironmentsEnvironmentIdDeployments.useQueries({
+         * const getProjectsProjectIdEnvironmentsEnvironmentIdDeploymentsCombinedResults = qraft.v1.getProjectsProjectIdEnvironmentsEnvironmentIdDeployments.useQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {
@@ -17856,7 +18155,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
          * @example Suspense Query with parameters
          * ```ts
-         * const data = qraft.v1Service.getProjectsProjectIdEnvironmentsEnvironmentIdDeployments.useSuspenseQuery({
+         * const data = qraft.v1.getProjectsProjectIdEnvironmentsEnvironmentIdDeployments.useSuspenseQuery({
          *     path: {
          *         projectId: projectId,
          *         environmentId: environmentId
@@ -17877,7 +18176,7 @@ export interface V1Service {
          *
          * @example Suspense Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdEnvironmentsEnvironmentIdDeployments.useSuspenseInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getProjectsProjectIdEnvironmentsEnvironmentIdDeployments.useSuspenseInfiniteQuery({
          *     path: {
          *         projectId: projectId,
          *         environmentId: environmentId
@@ -17903,7 +18202,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
          * @example Basic usage with Suspense
          * ```ts
-         * const getProjectsProjectIdEnvironmentsEnvironmentIdDeploymentsData = qraft.v1Service.getProjectsProjectIdEnvironmentsEnvironmentIdDeployments.useSuspenseQueries({
+         * const getProjectsProjectIdEnvironmentsEnvironmentIdDeploymentsData = qraft.v1.getProjectsProjectIdEnvironmentsEnvironmentIdDeployments.useSuspenseQueries({
          *     queries: [
          *         {
          *             path: {
@@ -17929,7 +18228,7 @@ export interface V1Service {
          * ```
          * @example With data transformation using combine
          * ```ts
-         * const getProjectsProjectIdEnvironmentsEnvironmentIdDeploymentsCombinedData = qraft.v1Service.getProjectsProjectIdEnvironmentsEnvironmentIdDeployments.useSuspenseQueries({
+         * const getProjectsProjectIdEnvironmentsEnvironmentIdDeploymentsCombinedData = qraft.v1.getProjectsProjectIdEnvironmentsEnvironmentIdDeployments.useSuspenseQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {
@@ -18027,7 +18326,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query with parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getProjectsProjectIdEnvironmentsEnvironmentIdServices.useQuery({
+         * const { data, isLoading } = qraft.v1.getProjectsProjectIdEnvironmentsEnvironmentIdServices.useQuery({
          *     path: {
          *         projectId: projectId,
          *         environmentId: environmentId
@@ -18042,7 +18341,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query with parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getProjectsProjectIdEnvironmentsEnvironmentIdServices.useQuery({
+         * const { data, isLoading } = qraft.v1.getProjectsProjectIdEnvironmentsEnvironmentIdServices.useQuery({
          *     path: {
          *         projectId: projectId,
          *         environmentId: environmentId
@@ -18061,7 +18360,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdEnvironmentsEnvironmentIdServices.useInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getProjectsProjectIdEnvironmentsEnvironmentIdServices.useInfiniteQuery({
          *     path: {
          *         projectId: projectId,
          *         environmentId: environmentId
@@ -18084,7 +18383,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdEnvironmentsEnvironmentIdServices.useInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getProjectsProjectIdEnvironmentsEnvironmentIdServices.useInfiniteQuery({
          *     path: {
          *         projectId: projectId,
          *         environmentId: environmentId
@@ -18107,11 +18406,11 @@ export interface V1Service {
          * @example Checks the total number of queries fetching from the specified service method,
          * both normal and infinite. If no parameters are provided, no filtering is applied.
          * ```ts
-         * const getProjectsProjectIdEnvironmentsEnvironmentIdServicesTotal = qraft.v1Service.getProjectsProjectIdEnvironmentsEnvironmentIdServices.useIsFetching()
+         * const getProjectsProjectIdEnvironmentsEnvironmentIdServicesTotal = qraft.v1.getProjectsProjectIdEnvironmentsEnvironmentIdServices.useIsFetching()
          * ```
          * @example Checks the number of normal queries fetching with the specified parameters.
          * ```ts
-         * const getProjectsProjectIdEnvironmentsEnvironmentIdServicesByParametersTotal = qraft.v1Service.getProjectsProjectIdEnvironmentsEnvironmentIdServices.useIsFetching({
+         * const getProjectsProjectIdEnvironmentsEnvironmentIdServicesByParametersTotal = qraft.v1.getProjectsProjectIdEnvironmentsEnvironmentIdServices.useIsFetching({
          *     infinite: false,
          *     parameters: {
          *         path: {
@@ -18129,7 +18428,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
          * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
          * ```ts
-         * const getProjectsProjectIdEnvironmentsEnvironmentIdServicesResults = qraft.v1Service.getProjectsProjectIdEnvironmentsEnvironmentIdServices.useQueries({
+         * const getProjectsProjectIdEnvironmentsEnvironmentIdServicesResults = qraft.v1.getProjectsProjectIdEnvironmentsEnvironmentIdServices.useQueries({
          *     queries: [
          *         {
          *             path: {
@@ -18149,7 +18448,7 @@ export interface V1Service {
          * ```
          * @example Combined results. Only the data will be returned.
          * ```ts
-         * const getProjectsProjectIdEnvironmentsEnvironmentIdServicesCombinedResults = qraft.v1Service.getProjectsProjectIdEnvironmentsEnvironmentIdServices.useQueries({
+         * const getProjectsProjectIdEnvironmentsEnvironmentIdServicesCombinedResults = qraft.v1.getProjectsProjectIdEnvironmentsEnvironmentIdServices.useQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {
@@ -18180,7 +18479,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
          * @example Suspense Query with parameters
          * ```ts
-         * const data = qraft.v1Service.getProjectsProjectIdEnvironmentsEnvironmentIdServices.useSuspenseQuery({
+         * const data = qraft.v1.getProjectsProjectIdEnvironmentsEnvironmentIdServices.useSuspenseQuery({
          *     path: {
          *         projectId: projectId,
          *         environmentId: environmentId
@@ -18198,7 +18497,7 @@ export interface V1Service {
          *
          * @example Suspense Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdEnvironmentsEnvironmentIdServices.useSuspenseInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getProjectsProjectIdEnvironmentsEnvironmentIdServices.useSuspenseInfiniteQuery({
          *     path: {
          *         projectId: projectId,
          *         environmentId: environmentId
@@ -18220,7 +18519,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
          * @example Basic usage with Suspense
          * ```ts
-         * const getProjectsProjectIdEnvironmentsEnvironmentIdServicesData = qraft.v1Service.getProjectsProjectIdEnvironmentsEnvironmentIdServices.useSuspenseQueries({
+         * const getProjectsProjectIdEnvironmentsEnvironmentIdServicesData = qraft.v1.getProjectsProjectIdEnvironmentsEnvironmentIdServices.useSuspenseQueries({
          *     queries: [
          *         {
          *             path: {
@@ -18240,7 +18539,7 @@ export interface V1Service {
          * ```
          * @example With data transformation using combine
          * ```ts
-         * const getProjectsProjectIdEnvironmentsEnvironmentIdServicesCombinedData = qraft.v1Service.getProjectsProjectIdEnvironmentsEnvironmentIdServices.useSuspenseQueries({
+         * const getProjectsProjectIdEnvironmentsEnvironmentIdServicesCombinedData = qraft.v1.getProjectsProjectIdEnvironmentsEnvironmentIdServices.useSuspenseQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {
@@ -18332,7 +18631,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query with parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogs.useQuery({
+         * const { data, isLoading } = qraft.v1.getProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogs.useQuery({
          *     path: {
          *         projectId: projectId,
          *         environmentId: environmentId,
@@ -18351,7 +18650,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query with parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogs.useQuery({
+         * const { data, isLoading } = qraft.v1.getProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogs.useQuery({
          *     path: {
          *         projectId: projectId,
          *         environmentId: environmentId,
@@ -18374,7 +18673,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogs.useInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogs.useInfiniteQuery({
          *     path: {
          *         projectId: projectId,
          *         environmentId: environmentId,
@@ -18402,7 +18701,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogs.useInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogs.useInfiniteQuery({
          *     path: {
          *         projectId: projectId,
          *         environmentId: environmentId,
@@ -18430,11 +18729,11 @@ export interface V1Service {
          * @example Checks the total number of queries fetching from the specified service method,
          * both normal and infinite. If no parameters are provided, no filtering is applied.
          * ```ts
-         * const getProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsTotal = qraft.v1Service.getProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogs.useIsFetching()
+         * const getProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsTotal = qraft.v1.getProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogs.useIsFetching()
          * ```
          * @example Checks the number of normal queries fetching with the specified parameters.
          * ```ts
-         * const getProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsByParametersTotal = qraft.v1Service.getProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogs.useIsFetching({
+         * const getProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsByParametersTotal = qraft.v1.getProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogs.useIsFetching({
          *     infinite: false,
          *     parameters: {
          *         path: {
@@ -18456,7 +18755,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
          * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
          * ```ts
-         * const getProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsResults = qraft.v1Service.getProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogs.useQueries({
+         * const getProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsResults = qraft.v1.getProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogs.useQueries({
          *     queries: [
          *         {
          *             path: {
@@ -18484,7 +18783,7 @@ export interface V1Service {
          * ```
          * @example Combined results. Only the data will be returned.
          * ```ts
-         * const getProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsCombinedResults = qraft.v1Service.getProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogs.useQueries({
+         * const getProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsCombinedResults = qraft.v1.getProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogs.useQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {
@@ -18523,7 +18822,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
          * @example Suspense Query with parameters
          * ```ts
-         * const data = qraft.v1Service.getProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogs.useSuspenseQuery({
+         * const data = qraft.v1.getProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogs.useSuspenseQuery({
          *     path: {
          *         projectId: projectId,
          *         environmentId: environmentId,
@@ -18545,7 +18844,7 @@ export interface V1Service {
          *
          * @example Suspense Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogs.useSuspenseInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogs.useSuspenseInfiniteQuery({
          *     path: {
          *         projectId: projectId,
          *         environmentId: environmentId,
@@ -18572,7 +18871,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
          * @example Basic usage with Suspense
          * ```ts
-         * const getProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsData = qraft.v1Service.getProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogs.useSuspenseQueries({
+         * const getProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsData = qraft.v1.getProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogs.useSuspenseQueries({
          *     queries: [
          *         {
          *             path: {
@@ -18600,7 +18899,7 @@ export interface V1Service {
          * ```
          * @example With data transformation using combine
          * ```ts
-         * const getProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsCombinedData = qraft.v1Service.getProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogs.useSuspenseQueries({
+         * const getProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogsCombinedData = qraft.v1.getProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogs.useSuspenseQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {
@@ -18700,7 +18999,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query with parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getProjectsProjectIdEnvironmentsEnvironmentIdDomains.useQuery({
+         * const { data, isLoading } = qraft.v1.getProjectsProjectIdEnvironmentsEnvironmentIdDomains.useQuery({
          *     path: {
          *         projectId: projectId,
          *         environmentId: environmentId
@@ -18715,7 +19014,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query with parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getProjectsProjectIdEnvironmentsEnvironmentIdDomains.useQuery({
+         * const { data, isLoading } = qraft.v1.getProjectsProjectIdEnvironmentsEnvironmentIdDomains.useQuery({
          *     path: {
          *         projectId: projectId,
          *         environmentId: environmentId
@@ -18734,7 +19033,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdEnvironmentsEnvironmentIdDomains.useInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getProjectsProjectIdEnvironmentsEnvironmentIdDomains.useInfiniteQuery({
          *     path: {
          *         projectId: projectId,
          *         environmentId: environmentId
@@ -18757,7 +19056,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdEnvironmentsEnvironmentIdDomains.useInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getProjectsProjectIdEnvironmentsEnvironmentIdDomains.useInfiniteQuery({
          *     path: {
          *         projectId: projectId,
          *         environmentId: environmentId
@@ -18780,11 +19079,11 @@ export interface V1Service {
          * @example Checks the total number of queries fetching from the specified service method,
          * both normal and infinite. If no parameters are provided, no filtering is applied.
          * ```ts
-         * const getProjectsProjectIdEnvironmentsEnvironmentIdDomainsTotal = qraft.v1Service.getProjectsProjectIdEnvironmentsEnvironmentIdDomains.useIsFetching()
+         * const getProjectsProjectIdEnvironmentsEnvironmentIdDomainsTotal = qraft.v1.getProjectsProjectIdEnvironmentsEnvironmentIdDomains.useIsFetching()
          * ```
          * @example Checks the number of normal queries fetching with the specified parameters.
          * ```ts
-         * const getProjectsProjectIdEnvironmentsEnvironmentIdDomainsByParametersTotal = qraft.v1Service.getProjectsProjectIdEnvironmentsEnvironmentIdDomains.useIsFetching({
+         * const getProjectsProjectIdEnvironmentsEnvironmentIdDomainsByParametersTotal = qraft.v1.getProjectsProjectIdEnvironmentsEnvironmentIdDomains.useIsFetching({
          *     infinite: false,
          *     parameters: {
          *         path: {
@@ -18802,7 +19101,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
          * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
          * ```ts
-         * const getProjectsProjectIdEnvironmentsEnvironmentIdDomainsResults = qraft.v1Service.getProjectsProjectIdEnvironmentsEnvironmentIdDomains.useQueries({
+         * const getProjectsProjectIdEnvironmentsEnvironmentIdDomainsResults = qraft.v1.getProjectsProjectIdEnvironmentsEnvironmentIdDomains.useQueries({
          *     queries: [
          *         {
          *             path: {
@@ -18822,7 +19121,7 @@ export interface V1Service {
          * ```
          * @example Combined results. Only the data will be returned.
          * ```ts
-         * const getProjectsProjectIdEnvironmentsEnvironmentIdDomainsCombinedResults = qraft.v1Service.getProjectsProjectIdEnvironmentsEnvironmentIdDomains.useQueries({
+         * const getProjectsProjectIdEnvironmentsEnvironmentIdDomainsCombinedResults = qraft.v1.getProjectsProjectIdEnvironmentsEnvironmentIdDomains.useQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {
@@ -18853,7 +19152,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
          * @example Suspense Query with parameters
          * ```ts
-         * const data = qraft.v1Service.getProjectsProjectIdEnvironmentsEnvironmentIdDomains.useSuspenseQuery({
+         * const data = qraft.v1.getProjectsProjectIdEnvironmentsEnvironmentIdDomains.useSuspenseQuery({
          *     path: {
          *         projectId: projectId,
          *         environmentId: environmentId
@@ -18871,7 +19170,7 @@ export interface V1Service {
          *
          * @example Suspense Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdEnvironmentsEnvironmentIdDomains.useSuspenseInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getProjectsProjectIdEnvironmentsEnvironmentIdDomains.useSuspenseInfiniteQuery({
          *     path: {
          *         projectId: projectId,
          *         environmentId: environmentId
@@ -18893,7 +19192,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
          * @example Basic usage with Suspense
          * ```ts
-         * const getProjectsProjectIdEnvironmentsEnvironmentIdDomainsData = qraft.v1Service.getProjectsProjectIdEnvironmentsEnvironmentIdDomains.useSuspenseQueries({
+         * const getProjectsProjectIdEnvironmentsEnvironmentIdDomainsData = qraft.v1.getProjectsProjectIdEnvironmentsEnvironmentIdDomains.useSuspenseQueries({
          *     queries: [
          *         {
          *             path: {
@@ -18913,7 +19212,7 @@ export interface V1Service {
          * ```
          * @example With data transformation using combine
          * ```ts
-         * const getProjectsProjectIdEnvironmentsEnvironmentIdDomainsCombinedData = qraft.v1Service.getProjectsProjectIdEnvironmentsEnvironmentIdDomains.useSuspenseQueries({
+         * const getProjectsProjectIdEnvironmentsEnvironmentIdDomainsCombinedData = qraft.v1.getProjectsProjectIdEnvironmentsEnvironmentIdDomains.useSuspenseQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {
@@ -19005,7 +19304,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query with parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getProjectsProjectIdDomains.useQuery({
+         * const { data, isLoading } = qraft.v1.getProjectsProjectIdDomains.useQuery({
          *     path: {
          *         projectId: projectId
          *     }
@@ -19019,7 +19318,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query with parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getProjectsProjectIdDomains.useQuery({
+         * const { data, isLoading } = qraft.v1.getProjectsProjectIdDomains.useQuery({
          *     path: {
          *         projectId: projectId
          *     }
@@ -19037,7 +19336,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdDomains.useInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getProjectsProjectIdDomains.useInfiniteQuery({
          *     path: {
          *         projectId: projectId
          *     }
@@ -19059,7 +19358,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdDomains.useInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getProjectsProjectIdDomains.useInfiniteQuery({
          *     path: {
          *         projectId: projectId
          *     }
@@ -19081,11 +19380,11 @@ export interface V1Service {
          * @example Checks the total number of queries fetching from the specified service method,
          * both normal and infinite. If no parameters are provided, no filtering is applied.
          * ```ts
-         * const getProjectsProjectIdDomainsTotal = qraft.v1Service.getProjectsProjectIdDomains.useIsFetching()
+         * const getProjectsProjectIdDomainsTotal = qraft.v1.getProjectsProjectIdDomains.useIsFetching()
          * ```
          * @example Checks the number of normal queries fetching with the specified parameters.
          * ```ts
-         * const getProjectsProjectIdDomainsByParametersTotal = qraft.v1Service.getProjectsProjectIdDomains.useIsFetching({
+         * const getProjectsProjectIdDomainsByParametersTotal = qraft.v1.getProjectsProjectIdDomains.useIsFetching({
          *     infinite: false,
          *     parameters: {
          *         path: {
@@ -19102,7 +19401,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
          * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
          * ```ts
-         * const getProjectsProjectIdDomainsResults = qraft.v1Service.getProjectsProjectIdDomains.useQueries({
+         * const getProjectsProjectIdDomainsResults = qraft.v1.getProjectsProjectIdDomains.useQueries({
          *     queries: [
          *         {
          *             path: {
@@ -19120,7 +19419,7 @@ export interface V1Service {
          * ```
          * @example Combined results. Only the data will be returned.
          * ```ts
-         * const getProjectsProjectIdDomainsCombinedResults = qraft.v1Service.getProjectsProjectIdDomains.useQueries({
+         * const getProjectsProjectIdDomainsCombinedResults = qraft.v1.getProjectsProjectIdDomains.useQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {
@@ -19149,7 +19448,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
          * @example Suspense Query with parameters
          * ```ts
-         * const data = qraft.v1Service.getProjectsProjectIdDomains.useSuspenseQuery({
+         * const data = qraft.v1.getProjectsProjectIdDomains.useSuspenseQuery({
          *     path: {
          *         projectId: projectId
          *     }
@@ -19166,7 +19465,7 @@ export interface V1Service {
          *
          * @example Suspense Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdDomains.useSuspenseInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getProjectsProjectIdDomains.useSuspenseInfiniteQuery({
          *     path: {
          *         projectId: projectId
          *     }
@@ -19187,7 +19486,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
          * @example Basic usage with Suspense
          * ```ts
-         * const getProjectsProjectIdDomainsData = qraft.v1Service.getProjectsProjectIdDomains.useSuspenseQueries({
+         * const getProjectsProjectIdDomainsData = qraft.v1.getProjectsProjectIdDomains.useSuspenseQueries({
          *     queries: [
          *         {
          *             path: {
@@ -19205,7 +19504,7 @@ export interface V1Service {
          * ```
          * @example With data transformation using combine
          * ```ts
-         * const getProjectsProjectIdDomainsCombinedData = qraft.v1Service.getProjectsProjectIdDomains.useSuspenseQueries({
+         * const getProjectsProjectIdDomainsCombinedData = qraft.v1.getProjectsProjectIdDomains.useSuspenseQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {
@@ -19292,7 +19591,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postProjectsProjectIdDomains.useMutation({
+         * const { mutate, isPending } = qraft.v1.postProjectsProjectIdDomains.useMutation({
          *     path: {
          *         projectId: projectId
          *     }
@@ -19301,7 +19600,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postProjectsProjectIdDomains.useMutation()
+         * const { mutate, isPending } = qraft.v1.postProjectsProjectIdDomains.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -19318,7 +19617,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postProjectsProjectIdDomains.useMutation({
+         * const { mutate, isPending } = qraft.v1.postProjectsProjectIdDomains.useMutation({
          *     path: {
          *         projectId: projectId
          *     }
@@ -19327,7 +19626,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postProjectsProjectIdDomains.useMutation()
+         * const { mutate, isPending } = qraft.v1.postProjectsProjectIdDomains.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -19343,11 +19642,11 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const postProjectsProjectIdDomainsTotal = qraft.v1Service.postProjectsProjectIdDomains.useIsMutating()
+         * const postProjectsProjectIdDomainsTotal = qraft.v1.postProjectsProjectIdDomains.useIsMutating()
          * ```
          * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const postProjectsProjectIdDomainsTotal = qraft.v1Service.postProjectsProjectIdDomains.useIsMutating({
+         * const postProjectsProjectIdDomainsTotal = qraft.v1.postProjectsProjectIdDomains.useIsMutating({
          *     parameters: {
          *         path: {
          *             projectId: projectId
@@ -19363,7 +19662,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
-         * const postProjectsProjectIdDomainsPendingMutationVariables = qraft.v1Service.postProjectsProjectIdDomains.useMutationState({
+         * const postProjectsProjectIdDomainsPendingMutationVariables = qraft.v1.postProjectsProjectIdDomains.useMutationState({
          *     filters: {
          *         status: "pending"
          *     },
@@ -19372,7 +19671,7 @@ export interface V1Service {
          * ```
          * @example Get all data for specific mutations via the `parameters`.
          * ```ts
-         * const postProjectsProjectIdDomainsMutationData = qraft.v1Service.postProjectsProjectIdDomains.useMutationState({
+         * const postProjectsProjectIdDomainsMutationData = qraft.v1.postProjectsProjectIdDomains.useMutationState({
          *     filters: {
          *         parameters: {
          *             path: {
@@ -19398,7 +19697,7 @@ export interface V1Service {
          *
          * @example Find a mutation with specific parameters
          * ```ts
-         * const mutationCache = qraft.v1Service.postProjectsProjectIdDomains.getMutationCache();
+         * const mutationCache = qraft.v1.postProjectsProjectIdDomains.getMutationCache();
          * const mutation = mutationCache.find({
          *     parameters: {
          *         path: {
@@ -19410,7 +19709,7 @@ export interface V1Service {
          *
          * @example Find all mutations for the endpoint
          * ```ts
-         * const mutationCache = qraft.v1Service.postProjectsProjectIdDomains.getMutationCache();
+         * const mutationCache = qraft.v1.postProjectsProjectIdDomains.getMutationCache();
          * const mutations = mutationCache.findAll();
          * ```
          */
@@ -19438,7 +19737,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.deleteProjectsProjectIdDomainsDomainId.useMutation({
+         * const { mutate, isPending } = qraft.v1.deleteProjectsProjectIdDomainsDomainId.useMutation({
          *     path: {
          *         projectId: projectId,
          *         domainId: domainId
@@ -19448,7 +19747,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.deleteProjectsProjectIdDomainsDomainId.useMutation()
+         * const { mutate, isPending } = qraft.v1.deleteProjectsProjectIdDomainsDomainId.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -19466,7 +19765,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.deleteProjectsProjectIdDomainsDomainId.useMutation({
+         * const { mutate, isPending } = qraft.v1.deleteProjectsProjectIdDomainsDomainId.useMutation({
          *     path: {
          *         projectId: projectId,
          *         domainId: domainId
@@ -19476,7 +19775,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.deleteProjectsProjectIdDomainsDomainId.useMutation()
+         * const { mutate, isPending } = qraft.v1.deleteProjectsProjectIdDomainsDomainId.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -19493,11 +19792,11 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const deleteProjectsProjectIdDomainsDomainIdTotal = qraft.v1Service.deleteProjectsProjectIdDomainsDomainId.useIsMutating()
+         * const deleteProjectsProjectIdDomainsDomainIdTotal = qraft.v1.deleteProjectsProjectIdDomainsDomainId.useIsMutating()
          * ```
          * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const deleteProjectsProjectIdDomainsDomainIdTotal = qraft.v1Service.deleteProjectsProjectIdDomainsDomainId.useIsMutating({
+         * const deleteProjectsProjectIdDomainsDomainIdTotal = qraft.v1.deleteProjectsProjectIdDomainsDomainId.useIsMutating({
          *     parameters: {
          *         path: {
          *             projectId: projectId,
@@ -19514,7 +19813,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
-         * const deleteProjectsProjectIdDomainsDomainIdPendingMutationVariables = qraft.v1Service.deleteProjectsProjectIdDomainsDomainId.useMutationState({
+         * const deleteProjectsProjectIdDomainsDomainIdPendingMutationVariables = qraft.v1.deleteProjectsProjectIdDomainsDomainId.useMutationState({
          *     filters: {
          *         status: "pending"
          *     },
@@ -19523,7 +19822,7 @@ export interface V1Service {
          * ```
          * @example Get all data for specific mutations via the `parameters`.
          * ```ts
-         * const deleteProjectsProjectIdDomainsDomainIdMutationData = qraft.v1Service.deleteProjectsProjectIdDomainsDomainId.useMutationState({
+         * const deleteProjectsProjectIdDomainsDomainIdMutationData = qraft.v1.deleteProjectsProjectIdDomainsDomainId.useMutationState({
          *     filters: {
          *         parameters: {
          *             path: {
@@ -19550,7 +19849,7 @@ export interface V1Service {
          *
          * @example Find a mutation with specific parameters
          * ```ts
-         * const mutationCache = qraft.v1Service.deleteProjectsProjectIdDomainsDomainId.getMutationCache();
+         * const mutationCache = qraft.v1.deleteProjectsProjectIdDomainsDomainId.getMutationCache();
          * const mutation = mutationCache.find({
          *     parameters: {
          *         path: {
@@ -19563,7 +19862,7 @@ export interface V1Service {
          *
          * @example Find all mutations for the endpoint
          * ```ts
-         * const mutationCache = qraft.v1Service.deleteProjectsProjectIdDomainsDomainId.getMutationCache();
+         * const mutationCache = qraft.v1.deleteProjectsProjectIdDomainsDomainId.getMutationCache();
          * const mutations = mutationCache.findAll();
          * ```
          */
@@ -19594,7 +19893,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query with parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getProjectsProjectIdDomainsDomainIdVerify.useQuery({
+         * const { data, isLoading } = qraft.v1.getProjectsProjectIdDomainsDomainIdVerify.useQuery({
          *     path: {
          *         projectId: projectId,
          *         domainId: domainId
@@ -19609,7 +19908,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query with parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getProjectsProjectIdDomainsDomainIdVerify.useQuery({
+         * const { data, isLoading } = qraft.v1.getProjectsProjectIdDomainsDomainIdVerify.useQuery({
          *     path: {
          *         projectId: projectId,
          *         domainId: domainId
@@ -19628,7 +19927,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdDomainsDomainIdVerify.useInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getProjectsProjectIdDomainsDomainIdVerify.useInfiniteQuery({
          *     path: {
          *         projectId: projectId,
          *         domainId: domainId
@@ -19651,7 +19950,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdDomainsDomainIdVerify.useInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getProjectsProjectIdDomainsDomainIdVerify.useInfiniteQuery({
          *     path: {
          *         projectId: projectId,
          *         domainId: domainId
@@ -19674,11 +19973,11 @@ export interface V1Service {
          * @example Checks the total number of queries fetching from the specified service method,
          * both normal and infinite. If no parameters are provided, no filtering is applied.
          * ```ts
-         * const getProjectsProjectIdDomainsDomainIdVerifyTotal = qraft.v1Service.getProjectsProjectIdDomainsDomainIdVerify.useIsFetching()
+         * const getProjectsProjectIdDomainsDomainIdVerifyTotal = qraft.v1.getProjectsProjectIdDomainsDomainIdVerify.useIsFetching()
          * ```
          * @example Checks the number of normal queries fetching with the specified parameters.
          * ```ts
-         * const getProjectsProjectIdDomainsDomainIdVerifyByParametersTotal = qraft.v1Service.getProjectsProjectIdDomainsDomainIdVerify.useIsFetching({
+         * const getProjectsProjectIdDomainsDomainIdVerifyByParametersTotal = qraft.v1.getProjectsProjectIdDomainsDomainIdVerify.useIsFetching({
          *     infinite: false,
          *     parameters: {
          *         path: {
@@ -19696,7 +19995,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
          * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
          * ```ts
-         * const getProjectsProjectIdDomainsDomainIdVerifyResults = qraft.v1Service.getProjectsProjectIdDomainsDomainIdVerify.useQueries({
+         * const getProjectsProjectIdDomainsDomainIdVerifyResults = qraft.v1.getProjectsProjectIdDomainsDomainIdVerify.useQueries({
          *     queries: [
          *         {
          *             path: {
@@ -19716,7 +20015,7 @@ export interface V1Service {
          * ```
          * @example Combined results. Only the data will be returned.
          * ```ts
-         * const getProjectsProjectIdDomainsDomainIdVerifyCombinedResults = qraft.v1Service.getProjectsProjectIdDomainsDomainIdVerify.useQueries({
+         * const getProjectsProjectIdDomainsDomainIdVerifyCombinedResults = qraft.v1.getProjectsProjectIdDomainsDomainIdVerify.useQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {
@@ -19747,7 +20046,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
          * @example Suspense Query with parameters
          * ```ts
-         * const data = qraft.v1Service.getProjectsProjectIdDomainsDomainIdVerify.useSuspenseQuery({
+         * const data = qraft.v1.getProjectsProjectIdDomainsDomainIdVerify.useSuspenseQuery({
          *     path: {
          *         projectId: projectId,
          *         domainId: domainId
@@ -19765,7 +20064,7 @@ export interface V1Service {
          *
          * @example Suspense Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdDomainsDomainIdVerify.useSuspenseInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getProjectsProjectIdDomainsDomainIdVerify.useSuspenseInfiniteQuery({
          *     path: {
          *         projectId: projectId,
          *         domainId: domainId
@@ -19787,7 +20086,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
          * @example Basic usage with Suspense
          * ```ts
-         * const getProjectsProjectIdDomainsDomainIdVerifyData = qraft.v1Service.getProjectsProjectIdDomainsDomainIdVerify.useSuspenseQueries({
+         * const getProjectsProjectIdDomainsDomainIdVerifyData = qraft.v1.getProjectsProjectIdDomainsDomainIdVerify.useSuspenseQueries({
          *     queries: [
          *         {
          *             path: {
@@ -19807,7 +20106,7 @@ export interface V1Service {
          * ```
          * @example With data transformation using combine
          * ```ts
-         * const getProjectsProjectIdDomainsDomainIdVerifyCombinedData = qraft.v1Service.getProjectsProjectIdDomainsDomainIdVerify.useSuspenseQueries({
+         * const getProjectsProjectIdDomainsDomainIdVerifyCombinedData = qraft.v1.getProjectsProjectIdDomainsDomainIdVerify.useSuspenseQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {
@@ -19896,7 +20195,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postProjectsProjectIdDomainsDomainIdSetPrimary.useMutation({
+         * const { mutate, isPending } = qraft.v1.postProjectsProjectIdDomainsDomainIdSetPrimary.useMutation({
          *     path: {
          *         projectId: projectId,
          *         domainId: domainId
@@ -19906,7 +20205,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postProjectsProjectIdDomainsDomainIdSetPrimary.useMutation()
+         * const { mutate, isPending } = qraft.v1.postProjectsProjectIdDomainsDomainIdSetPrimary.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -19924,7 +20223,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postProjectsProjectIdDomainsDomainIdSetPrimary.useMutation({
+         * const { mutate, isPending } = qraft.v1.postProjectsProjectIdDomainsDomainIdSetPrimary.useMutation({
          *     path: {
          *         projectId: projectId,
          *         domainId: domainId
@@ -19934,7 +20233,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postProjectsProjectIdDomainsDomainIdSetPrimary.useMutation()
+         * const { mutate, isPending } = qraft.v1.postProjectsProjectIdDomainsDomainIdSetPrimary.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -19951,11 +20250,11 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const postProjectsProjectIdDomainsDomainIdSetPrimaryTotal = qraft.v1Service.postProjectsProjectIdDomainsDomainIdSetPrimary.useIsMutating()
+         * const postProjectsProjectIdDomainsDomainIdSetPrimaryTotal = qraft.v1.postProjectsProjectIdDomainsDomainIdSetPrimary.useIsMutating()
          * ```
          * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const postProjectsProjectIdDomainsDomainIdSetPrimaryTotal = qraft.v1Service.postProjectsProjectIdDomainsDomainIdSetPrimary.useIsMutating({
+         * const postProjectsProjectIdDomainsDomainIdSetPrimaryTotal = qraft.v1.postProjectsProjectIdDomainsDomainIdSetPrimary.useIsMutating({
          *     parameters: {
          *         path: {
          *             projectId: projectId,
@@ -19972,7 +20271,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
-         * const postProjectsProjectIdDomainsDomainIdSetPrimaryPendingMutationVariables = qraft.v1Service.postProjectsProjectIdDomainsDomainIdSetPrimary.useMutationState({
+         * const postProjectsProjectIdDomainsDomainIdSetPrimaryPendingMutationVariables = qraft.v1.postProjectsProjectIdDomainsDomainIdSetPrimary.useMutationState({
          *     filters: {
          *         status: "pending"
          *     },
@@ -19981,7 +20280,7 @@ export interface V1Service {
          * ```
          * @example Get all data for specific mutations via the `parameters`.
          * ```ts
-         * const postProjectsProjectIdDomainsDomainIdSetPrimaryMutationData = qraft.v1Service.postProjectsProjectIdDomainsDomainIdSetPrimary.useMutationState({
+         * const postProjectsProjectIdDomainsDomainIdSetPrimaryMutationData = qraft.v1.postProjectsProjectIdDomainsDomainIdSetPrimary.useMutationState({
          *     filters: {
          *         parameters: {
          *             path: {
@@ -20008,7 +20307,7 @@ export interface V1Service {
          *
          * @example Find a mutation with specific parameters
          * ```ts
-         * const mutationCache = qraft.v1Service.postProjectsProjectIdDomainsDomainIdSetPrimary.getMutationCache();
+         * const mutationCache = qraft.v1.postProjectsProjectIdDomainsDomainIdSetPrimary.getMutationCache();
          * const mutation = mutationCache.find({
          *     parameters: {
          *         path: {
@@ -20021,7 +20320,7 @@ export interface V1Service {
          *
          * @example Find all mutations for the endpoint
          * ```ts
-         * const mutationCache = qraft.v1Service.postProjectsProjectIdDomainsDomainIdSetPrimary.getMutationCache();
+         * const mutationCache = qraft.v1.postProjectsProjectIdDomainsDomainIdSetPrimary.getMutationCache();
          * const mutations = mutationCache.findAll();
          * ```
          */
@@ -20052,7 +20351,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query with parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getProjectsProjectIdDomainsLookup.useQuery({
+         * const { data, isLoading } = qraft.v1.getProjectsProjectIdDomainsLookup.useQuery({
          *     path: {
          *         projectId: projectId
          *     },
@@ -20069,7 +20368,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query with parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getProjectsProjectIdDomainsLookup.useQuery({
+         * const { data, isLoading } = qraft.v1.getProjectsProjectIdDomainsLookup.useQuery({
          *     path: {
          *         projectId: projectId
          *     },
@@ -20090,7 +20389,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdDomainsLookup.useInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getProjectsProjectIdDomainsLookup.useInfiniteQuery({
          *     path: {
          *         projectId: projectId
          *     },
@@ -20119,7 +20418,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdDomainsLookup.useInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getProjectsProjectIdDomainsLookup.useInfiniteQuery({
          *     path: {
          *         projectId: projectId
          *     },
@@ -20148,11 +20447,11 @@ export interface V1Service {
          * @example Checks the total number of queries fetching from the specified service method,
          * both normal and infinite. If no parameters are provided, no filtering is applied.
          * ```ts
-         * const getProjectsProjectIdDomainsLookupTotal = qraft.v1Service.getProjectsProjectIdDomainsLookup.useIsFetching()
+         * const getProjectsProjectIdDomainsLookupTotal = qraft.v1.getProjectsProjectIdDomainsLookup.useIsFetching()
          * ```
          * @example Checks the number of normal queries fetching with the specified parameters.
          * ```ts
-         * const getProjectsProjectIdDomainsLookupByParametersTotal = qraft.v1Service.getProjectsProjectIdDomainsLookup.useIsFetching({
+         * const getProjectsProjectIdDomainsLookupByParametersTotal = qraft.v1.getProjectsProjectIdDomainsLookup.useIsFetching({
          *     infinite: false,
          *     parameters: {
          *         path: {
@@ -20172,7 +20471,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
          * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
          * ```ts
-         * const getProjectsProjectIdDomainsLookupResults = qraft.v1Service.getProjectsProjectIdDomainsLookup.useQueries({
+         * const getProjectsProjectIdDomainsLookupResults = qraft.v1.getProjectsProjectIdDomainsLookup.useQueries({
          *     queries: [
          *         {
          *             path: {
@@ -20196,7 +20495,7 @@ export interface V1Service {
          * ```
          * @example Combined results. Only the data will be returned.
          * ```ts
-         * const getProjectsProjectIdDomainsLookupCombinedResults = qraft.v1Service.getProjectsProjectIdDomainsLookup.useQueries({
+         * const getProjectsProjectIdDomainsLookupCombinedResults = qraft.v1.getProjectsProjectIdDomainsLookup.useQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {
@@ -20231,7 +20530,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
          * @example Suspense Query with parameters
          * ```ts
-         * const data = qraft.v1Service.getProjectsProjectIdDomainsLookup.useSuspenseQuery({
+         * const data = qraft.v1.getProjectsProjectIdDomainsLookup.useSuspenseQuery({
          *     path: {
          *         projectId: projectId
          *     },
@@ -20251,7 +20550,7 @@ export interface V1Service {
          *
          * @example Suspense Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdDomainsLookup.useSuspenseInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getProjectsProjectIdDomainsLookup.useSuspenseInfiniteQuery({
          *     path: {
          *         projectId: projectId
          *     },
@@ -20279,7 +20578,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
          * @example Basic usage with Suspense
          * ```ts
-         * const getProjectsProjectIdDomainsLookupData = qraft.v1Service.getProjectsProjectIdDomainsLookup.useSuspenseQueries({
+         * const getProjectsProjectIdDomainsLookupData = qraft.v1.getProjectsProjectIdDomainsLookup.useSuspenseQueries({
          *     queries: [
          *         {
          *             path: {
@@ -20303,7 +20602,7 @@ export interface V1Service {
          * ```
          * @example With data transformation using combine
          * ```ts
-         * const getProjectsProjectIdDomainsLookupCombinedData = qraft.v1Service.getProjectsProjectIdDomainsLookup.useSuspenseQueries({
+         * const getProjectsProjectIdDomainsLookupCombinedData = qraft.v1.getProjectsProjectIdDomainsLookup.useSuspenseQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {
@@ -20396,7 +20695,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.patchProjectsProjectIdDomainsDomainIdEnvironment.useMutation({
+         * const { mutate, isPending } = qraft.v1.patchProjectsProjectIdDomainsDomainIdEnvironment.useMutation({
          *     path: {
          *         projectId: projectId,
          *         domainId: domainId
@@ -20406,7 +20705,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.patchProjectsProjectIdDomainsDomainIdEnvironment.useMutation()
+         * const { mutate, isPending } = qraft.v1.patchProjectsProjectIdDomainsDomainIdEnvironment.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -20424,7 +20723,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.patchProjectsProjectIdDomainsDomainIdEnvironment.useMutation({
+         * const { mutate, isPending } = qraft.v1.patchProjectsProjectIdDomainsDomainIdEnvironment.useMutation({
          *     path: {
          *         projectId: projectId,
          *         domainId: domainId
@@ -20434,7 +20733,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.patchProjectsProjectIdDomainsDomainIdEnvironment.useMutation()
+         * const { mutate, isPending } = qraft.v1.patchProjectsProjectIdDomainsDomainIdEnvironment.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -20451,11 +20750,11 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const patchProjectsProjectIdDomainsDomainIdEnvironmentTotal = qraft.v1Service.patchProjectsProjectIdDomainsDomainIdEnvironment.useIsMutating()
+         * const patchProjectsProjectIdDomainsDomainIdEnvironmentTotal = qraft.v1.patchProjectsProjectIdDomainsDomainIdEnvironment.useIsMutating()
          * ```
          * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const patchProjectsProjectIdDomainsDomainIdEnvironmentTotal = qraft.v1Service.patchProjectsProjectIdDomainsDomainIdEnvironment.useIsMutating({
+         * const patchProjectsProjectIdDomainsDomainIdEnvironmentTotal = qraft.v1.patchProjectsProjectIdDomainsDomainIdEnvironment.useIsMutating({
          *     parameters: {
          *         path: {
          *             projectId: projectId,
@@ -20472,7 +20771,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
-         * const patchProjectsProjectIdDomainsDomainIdEnvironmentPendingMutationVariables = qraft.v1Service.patchProjectsProjectIdDomainsDomainIdEnvironment.useMutationState({
+         * const patchProjectsProjectIdDomainsDomainIdEnvironmentPendingMutationVariables = qraft.v1.patchProjectsProjectIdDomainsDomainIdEnvironment.useMutationState({
          *     filters: {
          *         status: "pending"
          *     },
@@ -20481,7 +20780,7 @@ export interface V1Service {
          * ```
          * @example Get all data for specific mutations via the `parameters`.
          * ```ts
-         * const patchProjectsProjectIdDomainsDomainIdEnvironmentMutationData = qraft.v1Service.patchProjectsProjectIdDomainsDomainIdEnvironment.useMutationState({
+         * const patchProjectsProjectIdDomainsDomainIdEnvironmentMutationData = qraft.v1.patchProjectsProjectIdDomainsDomainIdEnvironment.useMutationState({
          *     filters: {
          *         parameters: {
          *             path: {
@@ -20508,7 +20807,7 @@ export interface V1Service {
          *
          * @example Find a mutation with specific parameters
          * ```ts
-         * const mutationCache = qraft.v1Service.patchProjectsProjectIdDomainsDomainIdEnvironment.getMutationCache();
+         * const mutationCache = qraft.v1.patchProjectsProjectIdDomainsDomainIdEnvironment.getMutationCache();
          * const mutation = mutationCache.find({
          *     parameters: {
          *         path: {
@@ -20521,7 +20820,7 @@ export interface V1Service {
          *
          * @example Find all mutations for the endpoint
          * ```ts
-         * const mutationCache = qraft.v1Service.patchProjectsProjectIdDomainsDomainIdEnvironment.getMutationCache();
+         * const mutationCache = qraft.v1.patchProjectsProjectIdDomainsDomainIdEnvironment.getMutationCache();
          * const mutations = mutationCache.findAll();
          * ```
          */
@@ -20552,7 +20851,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query with parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getProjectsProjectIdDomainsDomainIdParent.useQuery({
+         * const { data, isLoading } = qraft.v1.getProjectsProjectIdDomainsDomainIdParent.useQuery({
          *     path: {
          *         projectId: projectId,
          *         domainId: domainId
@@ -20567,7 +20866,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query with parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getProjectsProjectIdDomainsDomainIdParent.useQuery({
+         * const { data, isLoading } = qraft.v1.getProjectsProjectIdDomainsDomainIdParent.useQuery({
          *     path: {
          *         projectId: projectId,
          *         domainId: domainId
@@ -20586,7 +20885,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdDomainsDomainIdParent.useInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getProjectsProjectIdDomainsDomainIdParent.useInfiniteQuery({
          *     path: {
          *         projectId: projectId,
          *         domainId: domainId
@@ -20609,7 +20908,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdDomainsDomainIdParent.useInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getProjectsProjectIdDomainsDomainIdParent.useInfiniteQuery({
          *     path: {
          *         projectId: projectId,
          *         domainId: domainId
@@ -20632,11 +20931,11 @@ export interface V1Service {
          * @example Checks the total number of queries fetching from the specified service method,
          * both normal and infinite. If no parameters are provided, no filtering is applied.
          * ```ts
-         * const getProjectsProjectIdDomainsDomainIdParentTotal = qraft.v1Service.getProjectsProjectIdDomainsDomainIdParent.useIsFetching()
+         * const getProjectsProjectIdDomainsDomainIdParentTotal = qraft.v1.getProjectsProjectIdDomainsDomainIdParent.useIsFetching()
          * ```
          * @example Checks the number of normal queries fetching with the specified parameters.
          * ```ts
-         * const getProjectsProjectIdDomainsDomainIdParentByParametersTotal = qraft.v1Service.getProjectsProjectIdDomainsDomainIdParent.useIsFetching({
+         * const getProjectsProjectIdDomainsDomainIdParentByParametersTotal = qraft.v1.getProjectsProjectIdDomainsDomainIdParent.useIsFetching({
          *     infinite: false,
          *     parameters: {
          *         path: {
@@ -20654,7 +20953,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
          * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
          * ```ts
-         * const getProjectsProjectIdDomainsDomainIdParentResults = qraft.v1Service.getProjectsProjectIdDomainsDomainIdParent.useQueries({
+         * const getProjectsProjectIdDomainsDomainIdParentResults = qraft.v1.getProjectsProjectIdDomainsDomainIdParent.useQueries({
          *     queries: [
          *         {
          *             path: {
@@ -20674,7 +20973,7 @@ export interface V1Service {
          * ```
          * @example Combined results. Only the data will be returned.
          * ```ts
-         * const getProjectsProjectIdDomainsDomainIdParentCombinedResults = qraft.v1Service.getProjectsProjectIdDomainsDomainIdParent.useQueries({
+         * const getProjectsProjectIdDomainsDomainIdParentCombinedResults = qraft.v1.getProjectsProjectIdDomainsDomainIdParent.useQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {
@@ -20705,7 +21004,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
          * @example Suspense Query with parameters
          * ```ts
-         * const data = qraft.v1Service.getProjectsProjectIdDomainsDomainIdParent.useSuspenseQuery({
+         * const data = qraft.v1.getProjectsProjectIdDomainsDomainIdParent.useSuspenseQuery({
          *     path: {
          *         projectId: projectId,
          *         domainId: domainId
@@ -20723,7 +21022,7 @@ export interface V1Service {
          *
          * @example Suspense Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdDomainsDomainIdParent.useSuspenseInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getProjectsProjectIdDomainsDomainIdParent.useSuspenseInfiniteQuery({
          *     path: {
          *         projectId: projectId,
          *         domainId: domainId
@@ -20745,7 +21044,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
          * @example Basic usage with Suspense
          * ```ts
-         * const getProjectsProjectIdDomainsDomainIdParentData = qraft.v1Service.getProjectsProjectIdDomainsDomainIdParent.useSuspenseQueries({
+         * const getProjectsProjectIdDomainsDomainIdParentData = qraft.v1.getProjectsProjectIdDomainsDomainIdParent.useSuspenseQueries({
          *     queries: [
          *         {
          *             path: {
@@ -20765,7 +21064,7 @@ export interface V1Service {
          * ```
          * @example With data transformation using combine
          * ```ts
-         * const getProjectsProjectIdDomainsDomainIdParentCombinedData = qraft.v1Service.getProjectsProjectIdDomainsDomainIdParent.useSuspenseQueries({
+         * const getProjectsProjectIdDomainsDomainIdParentCombinedData = qraft.v1.getProjectsProjectIdDomainsDomainIdParent.useSuspenseQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {
@@ -20857,7 +21156,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query with parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getProjectsProjectIdServices.useQuery({
+         * const { data, isLoading } = qraft.v1.getProjectsProjectIdServices.useQuery({
          *     path: {
          *         projectId: projectId
          *     }
@@ -20871,7 +21170,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query with parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getProjectsProjectIdServices.useQuery({
+         * const { data, isLoading } = qraft.v1.getProjectsProjectIdServices.useQuery({
          *     path: {
          *         projectId: projectId
          *     }
@@ -20889,7 +21188,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdServices.useInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getProjectsProjectIdServices.useInfiniteQuery({
          *     path: {
          *         projectId: projectId
          *     }
@@ -20911,7 +21210,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdServices.useInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getProjectsProjectIdServices.useInfiniteQuery({
          *     path: {
          *         projectId: projectId
          *     }
@@ -20933,11 +21232,11 @@ export interface V1Service {
          * @example Checks the total number of queries fetching from the specified service method,
          * both normal and infinite. If no parameters are provided, no filtering is applied.
          * ```ts
-         * const getProjectsProjectIdServicesTotal = qraft.v1Service.getProjectsProjectIdServices.useIsFetching()
+         * const getProjectsProjectIdServicesTotal = qraft.v1.getProjectsProjectIdServices.useIsFetching()
          * ```
          * @example Checks the number of normal queries fetching with the specified parameters.
          * ```ts
-         * const getProjectsProjectIdServicesByParametersTotal = qraft.v1Service.getProjectsProjectIdServices.useIsFetching({
+         * const getProjectsProjectIdServicesByParametersTotal = qraft.v1.getProjectsProjectIdServices.useIsFetching({
          *     infinite: false,
          *     parameters: {
          *         path: {
@@ -20954,7 +21253,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
          * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
          * ```ts
-         * const getProjectsProjectIdServicesResults = qraft.v1Service.getProjectsProjectIdServices.useQueries({
+         * const getProjectsProjectIdServicesResults = qraft.v1.getProjectsProjectIdServices.useQueries({
          *     queries: [
          *         {
          *             path: {
@@ -20972,7 +21271,7 @@ export interface V1Service {
          * ```
          * @example Combined results. Only the data will be returned.
          * ```ts
-         * const getProjectsProjectIdServicesCombinedResults = qraft.v1Service.getProjectsProjectIdServices.useQueries({
+         * const getProjectsProjectIdServicesCombinedResults = qraft.v1.getProjectsProjectIdServices.useQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {
@@ -21001,7 +21300,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
          * @example Suspense Query with parameters
          * ```ts
-         * const data = qraft.v1Service.getProjectsProjectIdServices.useSuspenseQuery({
+         * const data = qraft.v1.getProjectsProjectIdServices.useSuspenseQuery({
          *     path: {
          *         projectId: projectId
          *     }
@@ -21018,7 +21317,7 @@ export interface V1Service {
          *
          * @example Suspense Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getProjectsProjectIdServices.useSuspenseInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getProjectsProjectIdServices.useSuspenseInfiniteQuery({
          *     path: {
          *         projectId: projectId
          *     }
@@ -21039,7 +21338,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
          * @example Basic usage with Suspense
          * ```ts
-         * const getProjectsProjectIdServicesData = qraft.v1Service.getProjectsProjectIdServices.useSuspenseQueries({
+         * const getProjectsProjectIdServicesData = qraft.v1.getProjectsProjectIdServices.useSuspenseQueries({
          *     queries: [
          *         {
          *             path: {
@@ -21057,7 +21356,7 @@ export interface V1Service {
          * ```
          * @example With data transformation using combine
          * ```ts
-         * const getProjectsProjectIdServicesCombinedData = qraft.v1Service.getProjectsProjectIdServices.useSuspenseQueries({
+         * const getProjectsProjectIdServicesCombinedData = qraft.v1.getProjectsProjectIdServices.useSuspenseQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {
@@ -21144,7 +21443,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postProjectsProjectIdServicesServiceNameExposeTcp.useMutation({
+         * const { mutate, isPending } = qraft.v1.postProjectsProjectIdServicesServiceNameExposeTcp.useMutation({
          *     path: {
          *         projectId: projectId,
          *         serviceName: serviceName
@@ -21154,7 +21453,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postProjectsProjectIdServicesServiceNameExposeTcp.useMutation()
+         * const { mutate, isPending } = qraft.v1.postProjectsProjectIdServicesServiceNameExposeTcp.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -21172,7 +21471,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postProjectsProjectIdServicesServiceNameExposeTcp.useMutation({
+         * const { mutate, isPending } = qraft.v1.postProjectsProjectIdServicesServiceNameExposeTcp.useMutation({
          *     path: {
          *         projectId: projectId,
          *         serviceName: serviceName
@@ -21182,7 +21481,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postProjectsProjectIdServicesServiceNameExposeTcp.useMutation()
+         * const { mutate, isPending } = qraft.v1.postProjectsProjectIdServicesServiceNameExposeTcp.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -21199,11 +21498,11 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const postProjectsProjectIdServicesServiceNameExposeTcpTotal = qraft.v1Service.postProjectsProjectIdServicesServiceNameExposeTcp.useIsMutating()
+         * const postProjectsProjectIdServicesServiceNameExposeTcpTotal = qraft.v1.postProjectsProjectIdServicesServiceNameExposeTcp.useIsMutating()
          * ```
          * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const postProjectsProjectIdServicesServiceNameExposeTcpTotal = qraft.v1Service.postProjectsProjectIdServicesServiceNameExposeTcp.useIsMutating({
+         * const postProjectsProjectIdServicesServiceNameExposeTcpTotal = qraft.v1.postProjectsProjectIdServicesServiceNameExposeTcp.useIsMutating({
          *     parameters: {
          *         path: {
          *             projectId: projectId,
@@ -21220,7 +21519,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
-         * const postProjectsProjectIdServicesServiceNameExposeTcpPendingMutationVariables = qraft.v1Service.postProjectsProjectIdServicesServiceNameExposeTcp.useMutationState({
+         * const postProjectsProjectIdServicesServiceNameExposeTcpPendingMutationVariables = qraft.v1.postProjectsProjectIdServicesServiceNameExposeTcp.useMutationState({
          *     filters: {
          *         status: "pending"
          *     },
@@ -21229,7 +21528,7 @@ export interface V1Service {
          * ```
          * @example Get all data for specific mutations via the `parameters`.
          * ```ts
-         * const postProjectsProjectIdServicesServiceNameExposeTcpMutationData = qraft.v1Service.postProjectsProjectIdServicesServiceNameExposeTcp.useMutationState({
+         * const postProjectsProjectIdServicesServiceNameExposeTcpMutationData = qraft.v1.postProjectsProjectIdServicesServiceNameExposeTcp.useMutationState({
          *     filters: {
          *         parameters: {
          *             path: {
@@ -21256,7 +21555,7 @@ export interface V1Service {
          *
          * @example Find a mutation with specific parameters
          * ```ts
-         * const mutationCache = qraft.v1Service.postProjectsProjectIdServicesServiceNameExposeTcp.getMutationCache();
+         * const mutationCache = qraft.v1.postProjectsProjectIdServicesServiceNameExposeTcp.getMutationCache();
          * const mutation = mutationCache.find({
          *     parameters: {
          *         path: {
@@ -21269,7 +21568,7 @@ export interface V1Service {
          *
          * @example Find all mutations for the endpoint
          * ```ts
-         * const mutationCache = qraft.v1Service.postProjectsProjectIdServicesServiceNameExposeTcp.getMutationCache();
+         * const mutationCache = qraft.v1.postProjectsProjectIdServicesServiceNameExposeTcp.getMutationCache();
          * const mutations = mutationCache.findAll();
          * ```
          */
@@ -21297,7 +21596,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.deleteProjectsProjectIdServicesServiceNameExposeTcp.useMutation({
+         * const { mutate, isPending } = qraft.v1.deleteProjectsProjectIdServicesServiceNameExposeTcp.useMutation({
          *     path: {
          *         projectId: projectId,
          *         serviceName: serviceName
@@ -21307,7 +21606,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.deleteProjectsProjectIdServicesServiceNameExposeTcp.useMutation()
+         * const { mutate, isPending } = qraft.v1.deleteProjectsProjectIdServicesServiceNameExposeTcp.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -21325,7 +21624,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.deleteProjectsProjectIdServicesServiceNameExposeTcp.useMutation({
+         * const { mutate, isPending } = qraft.v1.deleteProjectsProjectIdServicesServiceNameExposeTcp.useMutation({
          *     path: {
          *         projectId: projectId,
          *         serviceName: serviceName
@@ -21335,7 +21634,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.deleteProjectsProjectIdServicesServiceNameExposeTcp.useMutation()
+         * const { mutate, isPending } = qraft.v1.deleteProjectsProjectIdServicesServiceNameExposeTcp.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -21352,11 +21651,11 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const deleteProjectsProjectIdServicesServiceNameExposeTcpTotal = qraft.v1Service.deleteProjectsProjectIdServicesServiceNameExposeTcp.useIsMutating()
+         * const deleteProjectsProjectIdServicesServiceNameExposeTcpTotal = qraft.v1.deleteProjectsProjectIdServicesServiceNameExposeTcp.useIsMutating()
          * ```
          * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const deleteProjectsProjectIdServicesServiceNameExposeTcpTotal = qraft.v1Service.deleteProjectsProjectIdServicesServiceNameExposeTcp.useIsMutating({
+         * const deleteProjectsProjectIdServicesServiceNameExposeTcpTotal = qraft.v1.deleteProjectsProjectIdServicesServiceNameExposeTcp.useIsMutating({
          *     parameters: {
          *         path: {
          *             projectId: projectId,
@@ -21373,7 +21672,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
-         * const deleteProjectsProjectIdServicesServiceNameExposeTcpPendingMutationVariables = qraft.v1Service.deleteProjectsProjectIdServicesServiceNameExposeTcp.useMutationState({
+         * const deleteProjectsProjectIdServicesServiceNameExposeTcpPendingMutationVariables = qraft.v1.deleteProjectsProjectIdServicesServiceNameExposeTcp.useMutationState({
          *     filters: {
          *         status: "pending"
          *     },
@@ -21382,7 +21681,7 @@ export interface V1Service {
          * ```
          * @example Get all data for specific mutations via the `parameters`.
          * ```ts
-         * const deleteProjectsProjectIdServicesServiceNameExposeTcpMutationData = qraft.v1Service.deleteProjectsProjectIdServicesServiceNameExposeTcp.useMutationState({
+         * const deleteProjectsProjectIdServicesServiceNameExposeTcpMutationData = qraft.v1.deleteProjectsProjectIdServicesServiceNameExposeTcp.useMutationState({
          *     filters: {
          *         parameters: {
          *             path: {
@@ -21409,7 +21708,7 @@ export interface V1Service {
          *
          * @example Find a mutation with specific parameters
          * ```ts
-         * const mutationCache = qraft.v1Service.deleteProjectsProjectIdServicesServiceNameExposeTcp.getMutationCache();
+         * const mutationCache = qraft.v1.deleteProjectsProjectIdServicesServiceNameExposeTcp.getMutationCache();
          * const mutation = mutationCache.find({
          *     parameters: {
          *         path: {
@@ -21422,7 +21721,7 @@ export interface V1Service {
          *
          * @example Find all mutations for the endpoint
          * ```ts
-         * const mutationCache = qraft.v1Service.deleteProjectsProjectIdServicesServiceNameExposeTcp.getMutationCache();
+         * const mutationCache = qraft.v1.deleteProjectsProjectIdServicesServiceNameExposeTcp.getMutationCache();
          * const mutations = mutationCache.findAll();
          * ```
          */
@@ -21450,7 +21749,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.patchProjectsProjectIdServicesServiceNameProtocol.useMutation({
+         * const { mutate, isPending } = qraft.v1.patchProjectsProjectIdServicesServiceNameProtocol.useMutation({
          *     path: {
          *         projectId: projectId,
          *         serviceName: serviceName
@@ -21460,7 +21759,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.patchProjectsProjectIdServicesServiceNameProtocol.useMutation()
+         * const { mutate, isPending } = qraft.v1.patchProjectsProjectIdServicesServiceNameProtocol.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -21478,7 +21777,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.patchProjectsProjectIdServicesServiceNameProtocol.useMutation({
+         * const { mutate, isPending } = qraft.v1.patchProjectsProjectIdServicesServiceNameProtocol.useMutation({
          *     path: {
          *         projectId: projectId,
          *         serviceName: serviceName
@@ -21488,7 +21787,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.patchProjectsProjectIdServicesServiceNameProtocol.useMutation()
+         * const { mutate, isPending } = qraft.v1.patchProjectsProjectIdServicesServiceNameProtocol.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -21505,11 +21804,11 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const patchProjectsProjectIdServicesServiceNameProtocolTotal = qraft.v1Service.patchProjectsProjectIdServicesServiceNameProtocol.useIsMutating()
+         * const patchProjectsProjectIdServicesServiceNameProtocolTotal = qraft.v1.patchProjectsProjectIdServicesServiceNameProtocol.useIsMutating()
          * ```
          * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const patchProjectsProjectIdServicesServiceNameProtocolTotal = qraft.v1Service.patchProjectsProjectIdServicesServiceNameProtocol.useIsMutating({
+         * const patchProjectsProjectIdServicesServiceNameProtocolTotal = qraft.v1.patchProjectsProjectIdServicesServiceNameProtocol.useIsMutating({
          *     parameters: {
          *         path: {
          *             projectId: projectId,
@@ -21526,7 +21825,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
-         * const patchProjectsProjectIdServicesServiceNameProtocolPendingMutationVariables = qraft.v1Service.patchProjectsProjectIdServicesServiceNameProtocol.useMutationState({
+         * const patchProjectsProjectIdServicesServiceNameProtocolPendingMutationVariables = qraft.v1.patchProjectsProjectIdServicesServiceNameProtocol.useMutationState({
          *     filters: {
          *         status: "pending"
          *     },
@@ -21535,7 +21834,7 @@ export interface V1Service {
          * ```
          * @example Get all data for specific mutations via the `parameters`.
          * ```ts
-         * const patchProjectsProjectIdServicesServiceNameProtocolMutationData = qraft.v1Service.patchProjectsProjectIdServicesServiceNameProtocol.useMutationState({
+         * const patchProjectsProjectIdServicesServiceNameProtocolMutationData = qraft.v1.patchProjectsProjectIdServicesServiceNameProtocol.useMutationState({
          *     filters: {
          *         parameters: {
          *             path: {
@@ -21562,7 +21861,7 @@ export interface V1Service {
          *
          * @example Find a mutation with specific parameters
          * ```ts
-         * const mutationCache = qraft.v1Service.patchProjectsProjectIdServicesServiceNameProtocol.getMutationCache();
+         * const mutationCache = qraft.v1.patchProjectsProjectIdServicesServiceNameProtocol.getMutationCache();
          * const mutation = mutationCache.find({
          *     parameters: {
          *         path: {
@@ -21575,7 +21874,7 @@ export interface V1Service {
          *
          * @example Find all mutations for the endpoint
          * ```ts
-         * const mutationCache = qraft.v1Service.patchProjectsProjectIdServicesServiceNameProtocol.getMutationCache();
+         * const mutationCache = qraft.v1.patchProjectsProjectIdServicesServiceNameProtocol.getMutationCache();
          * const mutations = mutationCache.findAll();
          * ```
          */
@@ -21603,12 +21902,12 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postServers.useMutation({})
+         * const { mutate, isPending } = qraft.v1.postServers.useMutation({})
          * mutate(body);
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postServers.useMutation()
+         * const { mutate, isPending } = qraft.v1.postServers.useMutation()
          * mutate({
          *     body: bodyPayload
          * });
@@ -21622,12 +21921,12 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postServers.useMutation({})
+         * const { mutate, isPending } = qraft.v1.postServers.useMutation({})
          * mutate(body);
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postServers.useMutation()
+         * const { mutate, isPending } = qraft.v1.postServers.useMutation()
          * mutate({
          *     body: bodyPayload
          * });
@@ -21640,11 +21939,11 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const postServersTotal = qraft.v1Service.postServers.useIsMutating()
+         * const postServersTotal = qraft.v1.postServers.useIsMutating()
          * ```
          * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const postServersTotal = qraft.v1Service.postServers.useIsMutating({
+         * const postServersTotal = qraft.v1.postServers.useIsMutating({
          *     parameters: {}
          * })
          * ```
@@ -21656,7 +21955,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
-         * const postServersPendingMutationVariables = qraft.v1Service.postServers.useMutationState({
+         * const postServersPendingMutationVariables = qraft.v1.postServers.useMutationState({
          *     filters: {
          *         status: "pending"
          *     },
@@ -21665,7 +21964,7 @@ export interface V1Service {
          * ```
          * @example Get all data for specific mutations via the `parameters`.
          * ```ts
-         * const postServersMutationData = qraft.v1Service.postServers.useMutationState({
+         * const postServersMutationData = qraft.v1.postServers.useMutationState({
          *     filters: {
          *         parameters: {}
          *     },
@@ -21687,7 +21986,7 @@ export interface V1Service {
          *
          * @example Find a mutation with specific parameters
          * ```ts
-         * const mutationCache = qraft.v1Service.postServers.getMutationCache();
+         * const mutationCache = qraft.v1.postServers.getMutationCache();
          * const mutation = mutationCache.find({
          *     parameters: {}
          * });
@@ -21695,7 +21994,7 @@ export interface V1Service {
          *
          * @example Find all mutations for the endpoint
          * ```ts
-         * const mutationCache = qraft.v1Service.postServers.getMutationCache();
+         * const mutationCache = qraft.v1.postServers.getMutationCache();
          * const mutations = mutationCache.findAll();
          * ```
          */
@@ -21723,12 +22022,12 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.putServers.useMutation({})
+         * const { mutate, isPending } = qraft.v1.putServers.useMutation({})
          * mutate(body);
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.putServers.useMutation()
+         * const { mutate, isPending } = qraft.v1.putServers.useMutation()
          * mutate({
          *     body: bodyPayload
          * });
@@ -21742,12 +22041,12 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.putServers.useMutation({})
+         * const { mutate, isPending } = qraft.v1.putServers.useMutation({})
          * mutate(body);
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.putServers.useMutation()
+         * const { mutate, isPending } = qraft.v1.putServers.useMutation()
          * mutate({
          *     body: bodyPayload
          * });
@@ -21760,11 +22059,11 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const putServersTotal = qraft.v1Service.putServers.useIsMutating()
+         * const putServersTotal = qraft.v1.putServers.useIsMutating()
          * ```
          * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const putServersTotal = qraft.v1Service.putServers.useIsMutating({
+         * const putServersTotal = qraft.v1.putServers.useIsMutating({
          *     parameters: {}
          * })
          * ```
@@ -21776,7 +22075,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
-         * const putServersPendingMutationVariables = qraft.v1Service.putServers.useMutationState({
+         * const putServersPendingMutationVariables = qraft.v1.putServers.useMutationState({
          *     filters: {
          *         status: "pending"
          *     },
@@ -21785,7 +22084,7 @@ export interface V1Service {
          * ```
          * @example Get all data for specific mutations via the `parameters`.
          * ```ts
-         * const putServersMutationData = qraft.v1Service.putServers.useMutationState({
+         * const putServersMutationData = qraft.v1.putServers.useMutationState({
          *     filters: {
          *         parameters: {}
          *     },
@@ -21807,7 +22106,7 @@ export interface V1Service {
          *
          * @example Find a mutation with specific parameters
          * ```ts
-         * const mutationCache = qraft.v1Service.putServers.getMutationCache();
+         * const mutationCache = qraft.v1.putServers.getMutationCache();
          * const mutation = mutationCache.find({
          *     parameters: {}
          * });
@@ -21815,7 +22114,7 @@ export interface V1Service {
          *
          * @example Find all mutations for the endpoint
          * ```ts
-         * const mutationCache = qraft.v1Service.putServers.getMutationCache();
+         * const mutationCache = qraft.v1.putServers.getMutationCache();
          * const mutations = mutationCache.findAll();
          * ```
          */
@@ -21846,7 +22145,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query without parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getServersTiers.useQuery()
+         * const { data, isLoading } = qraft.v1.getServersTiers.useQuery()
          * ```
          */
         useQuery<TData = GetServersTiersData>(parameters: ServiceOperationQueryKey<GetServersTiersSchema, GetServersTiersParameters> | (DeepReadonly<GetServersTiersParameters> | void), options?: Omit<UndefinedInitialDataOptions<GetServersTiersData, GetServersTiersError, TData, ServiceOperationQueryKey<GetServersTiersSchema, GetServersTiersParameters>>, "queryKey">): UseQueryResult<TData, OperationError<GetServersTiersError>>;
@@ -21856,7 +22155,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query without parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getServersTiers.useQuery()
+         * const { data, isLoading } = qraft.v1.getServersTiers.useQuery()
          * ```
          */
         useQuery<TData = GetServersTiersData>(parameters: ServiceOperationQueryKey<GetServersTiersSchema, GetServersTiersParameters> | (DeepReadonly<GetServersTiersParameters> | void), options: Omit<DefinedInitialDataOptions<GetServersTiersData, GetServersTiersError, TData, ServiceOperationQueryKey<GetServersTiersSchema, GetServersTiersParameters>>, "queryKey">): DefinedUseQueryResult<TData, OperationError<GetServersTiersError>>;
@@ -21870,7 +22169,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getServersTiers.useInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getServersTiers.useInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -21888,7 +22187,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getServersTiers.useInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getServersTiers.useInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -21906,7 +22205,7 @@ export interface V1Service {
          * @example Checks the total number of queries fetching from the specified service method,
          * both normal and infinite. If no parameters are provided, no filtering is applied.
          * ```ts
-         * const getServersTiersTotal = qraft.v1Service.getServersTiers.useIsFetching()
+         * const getServersTiersTotal = qraft.v1.getServersTiers.useIsFetching()
          * ```
          */
         useIsFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetServersTiersSchema, GetServersTiersData, TInfinite, GetServersTiersParameters, GetServersTiersError> | QueryFiltersByQueryKey<GetServersTiersSchema, GetServersTiersData, TInfinite, GetServersTiersParameters, GetServersTiersError>): number;
@@ -21916,7 +22215,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
          * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
          * ```ts
-         * const getServersTiersResults = qraft.v1Service.getServersTiers.useQueries({
+         * const getServersTiersResults = qraft.v1.getServersTiers.useQueries({
          *     queries: [
          *         {},
          *         {}
@@ -21926,7 +22225,7 @@ export interface V1Service {
          * ```
          * @example Combined results. Only the data will be returned.
          * ```ts
-         * const getServersTiersCombinedResults = qraft.v1Service.getServersTiers.useQueries({
+         * const getServersTiersCombinedResults = qraft.v1.getServersTiers.useQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {},
@@ -21947,7 +22246,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
          * @example Suspense Query without parameters
          * ```ts
-         * const data = qraft.v1Service.getServersTiers.useSuspenseQuery()
+         * const data = qraft.v1.getServersTiers.useSuspenseQuery()
          * ```
          */
         useSuspenseQuery<TData = GetServersTiersData>(parameters: ServiceOperationQueryKey<GetServersTiersSchema, GetServersTiersParameters> | (DeepReadonly<GetServersTiersParameters> | void), options?: Omit<UseSuspenseQueryOptions<GetServersTiersData, GetServersTiersError, TData, ServiceOperationQueryKey<GetServersTiersSchema, GetServersTiersParameters>>, "queryKey">): UseSuspenseQueryResult<TData, OperationError<GetServersTiersError>>;
@@ -21960,7 +22259,7 @@ export interface V1Service {
          *
          * @example Suspense Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getServersTiers.useSuspenseInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getServersTiers.useSuspenseInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -21977,7 +22276,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
          * @example Basic usage with Suspense
          * ```ts
-         * const getServersTiersData = qraft.v1Service.getServersTiers.useSuspenseQueries({
+         * const getServersTiersData = qraft.v1.getServersTiers.useSuspenseQueries({
          *     queries: [
          *         {},
          *         {}
@@ -21987,7 +22286,7 @@ export interface V1Service {
          * ```
          * @example With data transformation using combine
          * ```ts
-         * const getServersTiersCombinedData = qraft.v1Service.getServersTiers.useSuspenseQueries({
+         * const getServersTiersCombinedData = qraft.v1.getServersTiers.useSuspenseQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {},
@@ -22069,7 +22368,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query with parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getServersServerIdTcpAllocations.useQuery({
+         * const { data, isLoading } = qraft.v1.getServersServerIdTcpAllocations.useQuery({
          *     path: {
          *         serverId: serverId
          *     }
@@ -22083,7 +22382,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query with parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getServersServerIdTcpAllocations.useQuery({
+         * const { data, isLoading } = qraft.v1.getServersServerIdTcpAllocations.useQuery({
          *     path: {
          *         serverId: serverId
          *     }
@@ -22101,7 +22400,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getServersServerIdTcpAllocations.useInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getServersServerIdTcpAllocations.useInfiniteQuery({
          *     path: {
          *         serverId: serverId
          *     }
@@ -22123,7 +22422,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getServersServerIdTcpAllocations.useInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getServersServerIdTcpAllocations.useInfiniteQuery({
          *     path: {
          *         serverId: serverId
          *     }
@@ -22145,11 +22444,11 @@ export interface V1Service {
          * @example Checks the total number of queries fetching from the specified service method,
          * both normal and infinite. If no parameters are provided, no filtering is applied.
          * ```ts
-         * const getServersServerIdTcpAllocationsTotal = qraft.v1Service.getServersServerIdTcpAllocations.useIsFetching()
+         * const getServersServerIdTcpAllocationsTotal = qraft.v1.getServersServerIdTcpAllocations.useIsFetching()
          * ```
          * @example Checks the number of normal queries fetching with the specified parameters.
          * ```ts
-         * const getServersServerIdTcpAllocationsByParametersTotal = qraft.v1Service.getServersServerIdTcpAllocations.useIsFetching({
+         * const getServersServerIdTcpAllocationsByParametersTotal = qraft.v1.getServersServerIdTcpAllocations.useIsFetching({
          *     infinite: false,
          *     parameters: {
          *         path: {
@@ -22166,7 +22465,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
          * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
          * ```ts
-         * const getServersServerIdTcpAllocationsResults = qraft.v1Service.getServersServerIdTcpAllocations.useQueries({
+         * const getServersServerIdTcpAllocationsResults = qraft.v1.getServersServerIdTcpAllocations.useQueries({
          *     queries: [
          *         {
          *             path: {
@@ -22184,7 +22483,7 @@ export interface V1Service {
          * ```
          * @example Combined results. Only the data will be returned.
          * ```ts
-         * const getServersServerIdTcpAllocationsCombinedResults = qraft.v1Service.getServersServerIdTcpAllocations.useQueries({
+         * const getServersServerIdTcpAllocationsCombinedResults = qraft.v1.getServersServerIdTcpAllocations.useQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {
@@ -22213,7 +22512,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
          * @example Suspense Query with parameters
          * ```ts
-         * const data = qraft.v1Service.getServersServerIdTcpAllocations.useSuspenseQuery({
+         * const data = qraft.v1.getServersServerIdTcpAllocations.useSuspenseQuery({
          *     path: {
          *         serverId: serverId
          *     }
@@ -22230,7 +22529,7 @@ export interface V1Service {
          *
          * @example Suspense Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getServersServerIdTcpAllocations.useSuspenseInfiniteQuery({
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getServersServerIdTcpAllocations.useSuspenseInfiniteQuery({
          *     path: {
          *         serverId: serverId
          *     }
@@ -22251,7 +22550,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
          * @example Basic usage with Suspense
          * ```ts
-         * const getServersServerIdTcpAllocationsData = qraft.v1Service.getServersServerIdTcpAllocations.useSuspenseQueries({
+         * const getServersServerIdTcpAllocationsData = qraft.v1.getServersServerIdTcpAllocations.useSuspenseQueries({
          *     queries: [
          *         {
          *             path: {
@@ -22269,7 +22568,7 @@ export interface V1Service {
          * ```
          * @example With data transformation using combine
          * ```ts
-         * const getServersServerIdTcpAllocationsCombinedData = qraft.v1Service.getServersServerIdTcpAllocations.useSuspenseQueries({
+         * const getServersServerIdTcpAllocationsCombinedData = qraft.v1.getServersServerIdTcpAllocations.useSuspenseQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {
@@ -22356,7 +22655,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.deleteStripeSubscriptionsSubscriptionIdCancel.useMutation({
+         * const { mutate, isPending } = qraft.v1.deleteStripeSubscriptionsSubscriptionIdCancel.useMutation({
          *     path: {
          *         subscriptionId: subscriptionId
          *     }
@@ -22365,7 +22664,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.deleteStripeSubscriptionsSubscriptionIdCancel.useMutation()
+         * const { mutate, isPending } = qraft.v1.deleteStripeSubscriptionsSubscriptionIdCancel.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -22382,7 +22681,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.deleteStripeSubscriptionsSubscriptionIdCancel.useMutation({
+         * const { mutate, isPending } = qraft.v1.deleteStripeSubscriptionsSubscriptionIdCancel.useMutation({
          *     path: {
          *         subscriptionId: subscriptionId
          *     }
@@ -22391,7 +22690,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.deleteStripeSubscriptionsSubscriptionIdCancel.useMutation()
+         * const { mutate, isPending } = qraft.v1.deleteStripeSubscriptionsSubscriptionIdCancel.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     path: {
@@ -22407,11 +22706,11 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const deleteStripeSubscriptionsSubscriptionIdCancelTotal = qraft.v1Service.deleteStripeSubscriptionsSubscriptionIdCancel.useIsMutating()
+         * const deleteStripeSubscriptionsSubscriptionIdCancelTotal = qraft.v1.deleteStripeSubscriptionsSubscriptionIdCancel.useIsMutating()
          * ```
          * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const deleteStripeSubscriptionsSubscriptionIdCancelTotal = qraft.v1Service.deleteStripeSubscriptionsSubscriptionIdCancel.useIsMutating({
+         * const deleteStripeSubscriptionsSubscriptionIdCancelTotal = qraft.v1.deleteStripeSubscriptionsSubscriptionIdCancel.useIsMutating({
          *     parameters: {
          *         path: {
          *             subscriptionId: subscriptionId
@@ -22427,7 +22726,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
-         * const deleteStripeSubscriptionsSubscriptionIdCancelPendingMutationVariables = qraft.v1Service.deleteStripeSubscriptionsSubscriptionIdCancel.useMutationState({
+         * const deleteStripeSubscriptionsSubscriptionIdCancelPendingMutationVariables = qraft.v1.deleteStripeSubscriptionsSubscriptionIdCancel.useMutationState({
          *     filters: {
          *         status: "pending"
          *     },
@@ -22436,7 +22735,7 @@ export interface V1Service {
          * ```
          * @example Get all data for specific mutations via the `parameters`.
          * ```ts
-         * const deleteStripeSubscriptionsSubscriptionIdCancelMutationData = qraft.v1Service.deleteStripeSubscriptionsSubscriptionIdCancel.useMutationState({
+         * const deleteStripeSubscriptionsSubscriptionIdCancelMutationData = qraft.v1.deleteStripeSubscriptionsSubscriptionIdCancel.useMutationState({
          *     filters: {
          *         parameters: {
          *             path: {
@@ -22462,7 +22761,7 @@ export interface V1Service {
          *
          * @example Find a mutation with specific parameters
          * ```ts
-         * const mutationCache = qraft.v1Service.deleteStripeSubscriptionsSubscriptionIdCancel.getMutationCache();
+         * const mutationCache = qraft.v1.deleteStripeSubscriptionsSubscriptionIdCancel.getMutationCache();
          * const mutation = mutationCache.find({
          *     parameters: {
          *         path: {
@@ -22474,7 +22773,7 @@ export interface V1Service {
          *
          * @example Find all mutations for the endpoint
          * ```ts
-         * const mutationCache = qraft.v1Service.deleteStripeSubscriptionsSubscriptionIdCancel.getMutationCache();
+         * const mutationCache = qraft.v1.deleteStripeSubscriptionsSubscriptionIdCancel.getMutationCache();
          * const mutations = mutationCache.findAll();
          * ```
          */
@@ -22505,7 +22804,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query without parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getStripeSubscriptionsUser.useQuery()
+         * const { data, isLoading } = qraft.v1.getStripeSubscriptionsUser.useQuery()
          * ```
          */
         useQuery<TData = GetStripeSubscriptionsUserData>(parameters: ServiceOperationQueryKey<GetStripeSubscriptionsUserSchema, GetStripeSubscriptionsUserParameters> | (DeepReadonly<GetStripeSubscriptionsUserParameters> | void), options?: Omit<UndefinedInitialDataOptions<GetStripeSubscriptionsUserData, GetStripeSubscriptionsUserError, TData, ServiceOperationQueryKey<GetStripeSubscriptionsUserSchema, GetStripeSubscriptionsUserParameters>>, "queryKey">): UseQueryResult<TData, OperationError<GetStripeSubscriptionsUserError>>;
@@ -22515,7 +22814,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query without parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getStripeSubscriptionsUser.useQuery()
+         * const { data, isLoading } = qraft.v1.getStripeSubscriptionsUser.useQuery()
          * ```
          */
         useQuery<TData = GetStripeSubscriptionsUserData>(parameters: ServiceOperationQueryKey<GetStripeSubscriptionsUserSchema, GetStripeSubscriptionsUserParameters> | (DeepReadonly<GetStripeSubscriptionsUserParameters> | void), options: Omit<DefinedInitialDataOptions<GetStripeSubscriptionsUserData, GetStripeSubscriptionsUserError, TData, ServiceOperationQueryKey<GetStripeSubscriptionsUserSchema, GetStripeSubscriptionsUserParameters>>, "queryKey">): DefinedUseQueryResult<TData, OperationError<GetStripeSubscriptionsUserError>>;
@@ -22529,7 +22828,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getStripeSubscriptionsUser.useInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getStripeSubscriptionsUser.useInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -22547,7 +22846,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getStripeSubscriptionsUser.useInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getStripeSubscriptionsUser.useInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -22565,7 +22864,7 @@ export interface V1Service {
          * @example Checks the total number of queries fetching from the specified service method,
          * both normal and infinite. If no parameters are provided, no filtering is applied.
          * ```ts
-         * const getStripeSubscriptionsUserTotal = qraft.v1Service.getStripeSubscriptionsUser.useIsFetching()
+         * const getStripeSubscriptionsUserTotal = qraft.v1.getStripeSubscriptionsUser.useIsFetching()
          * ```
          */
         useIsFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetStripeSubscriptionsUserSchema, GetStripeSubscriptionsUserData, TInfinite, GetStripeSubscriptionsUserParameters, GetStripeSubscriptionsUserError> | QueryFiltersByQueryKey<GetStripeSubscriptionsUserSchema, GetStripeSubscriptionsUserData, TInfinite, GetStripeSubscriptionsUserParameters, GetStripeSubscriptionsUserError>): number;
@@ -22575,7 +22874,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
          * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
          * ```ts
-         * const getStripeSubscriptionsUserResults = qraft.v1Service.getStripeSubscriptionsUser.useQueries({
+         * const getStripeSubscriptionsUserResults = qraft.v1.getStripeSubscriptionsUser.useQueries({
          *     queries: [
          *         {},
          *         {}
@@ -22585,7 +22884,7 @@ export interface V1Service {
          * ```
          * @example Combined results. Only the data will be returned.
          * ```ts
-         * const getStripeSubscriptionsUserCombinedResults = qraft.v1Service.getStripeSubscriptionsUser.useQueries({
+         * const getStripeSubscriptionsUserCombinedResults = qraft.v1.getStripeSubscriptionsUser.useQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {},
@@ -22606,7 +22905,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
          * @example Suspense Query without parameters
          * ```ts
-         * const data = qraft.v1Service.getStripeSubscriptionsUser.useSuspenseQuery()
+         * const data = qraft.v1.getStripeSubscriptionsUser.useSuspenseQuery()
          * ```
          */
         useSuspenseQuery<TData = GetStripeSubscriptionsUserData>(parameters: ServiceOperationQueryKey<GetStripeSubscriptionsUserSchema, GetStripeSubscriptionsUserParameters> | (DeepReadonly<GetStripeSubscriptionsUserParameters> | void), options?: Omit<UseSuspenseQueryOptions<GetStripeSubscriptionsUserData, GetStripeSubscriptionsUserError, TData, ServiceOperationQueryKey<GetStripeSubscriptionsUserSchema, GetStripeSubscriptionsUserParameters>>, "queryKey">): UseSuspenseQueryResult<TData, OperationError<GetStripeSubscriptionsUserError>>;
@@ -22619,7 +22918,7 @@ export interface V1Service {
          *
          * @example Suspense Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getStripeSubscriptionsUser.useSuspenseInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getStripeSubscriptionsUser.useSuspenseInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -22636,7 +22935,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
          * @example Basic usage with Suspense
          * ```ts
-         * const getStripeSubscriptionsUserData = qraft.v1Service.getStripeSubscriptionsUser.useSuspenseQueries({
+         * const getStripeSubscriptionsUserData = qraft.v1.getStripeSubscriptionsUser.useSuspenseQueries({
          *     queries: [
          *         {},
          *         {}
@@ -22646,7 +22945,7 @@ export interface V1Service {
          * ```
          * @example With data transformation using combine
          * ```ts
-         * const getStripeSubscriptionsUserCombinedData = qraft.v1Service.getStripeSubscriptionsUser.useSuspenseQueries({
+         * const getStripeSubscriptionsUserCombinedData = qraft.v1.getStripeSubscriptionsUser.useSuspenseQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {},
@@ -22725,12 +23024,12 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postStripeSubscriptionsUpsert.useMutation({})
+         * const { mutate, isPending } = qraft.v1.postStripeSubscriptionsUpsert.useMutation({})
          * mutate(body);
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postStripeSubscriptionsUpsert.useMutation()
+         * const { mutate, isPending } = qraft.v1.postStripeSubscriptionsUpsert.useMutation()
          * mutate({
          *     body: bodyPayload
          * });
@@ -22744,12 +23043,12 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postStripeSubscriptionsUpsert.useMutation({})
+         * const { mutate, isPending } = qraft.v1.postStripeSubscriptionsUpsert.useMutation({})
          * mutate(body);
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postStripeSubscriptionsUpsert.useMutation()
+         * const { mutate, isPending } = qraft.v1.postStripeSubscriptionsUpsert.useMutation()
          * mutate({
          *     body: bodyPayload
          * });
@@ -22762,11 +23061,11 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const postStripeSubscriptionsUpsertTotal = qraft.v1Service.postStripeSubscriptionsUpsert.useIsMutating()
+         * const postStripeSubscriptionsUpsertTotal = qraft.v1.postStripeSubscriptionsUpsert.useIsMutating()
          * ```
          * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const postStripeSubscriptionsUpsertTotal = qraft.v1Service.postStripeSubscriptionsUpsert.useIsMutating({
+         * const postStripeSubscriptionsUpsertTotal = qraft.v1.postStripeSubscriptionsUpsert.useIsMutating({
          *     parameters: {}
          * })
          * ```
@@ -22778,7 +23077,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
-         * const postStripeSubscriptionsUpsertPendingMutationVariables = qraft.v1Service.postStripeSubscriptionsUpsert.useMutationState({
+         * const postStripeSubscriptionsUpsertPendingMutationVariables = qraft.v1.postStripeSubscriptionsUpsert.useMutationState({
          *     filters: {
          *         status: "pending"
          *     },
@@ -22787,7 +23086,7 @@ export interface V1Service {
          * ```
          * @example Get all data for specific mutations via the `parameters`.
          * ```ts
-         * const postStripeSubscriptionsUpsertMutationData = qraft.v1Service.postStripeSubscriptionsUpsert.useMutationState({
+         * const postStripeSubscriptionsUpsertMutationData = qraft.v1.postStripeSubscriptionsUpsert.useMutationState({
          *     filters: {
          *         parameters: {}
          *     },
@@ -22809,7 +23108,7 @@ export interface V1Service {
          *
          * @example Find a mutation with specific parameters
          * ```ts
-         * const mutationCache = qraft.v1Service.postStripeSubscriptionsUpsert.getMutationCache();
+         * const mutationCache = qraft.v1.postStripeSubscriptionsUpsert.getMutationCache();
          * const mutation = mutationCache.find({
          *     parameters: {}
          * });
@@ -22817,7 +23116,7 @@ export interface V1Service {
          *
          * @example Find all mutations for the endpoint
          * ```ts
-         * const mutationCache = qraft.v1Service.postStripeSubscriptionsUpsert.getMutationCache();
+         * const mutationCache = qraft.v1.postStripeSubscriptionsUpsert.getMutationCache();
          * const mutations = mutationCache.findAll();
          * ```
          */
@@ -22848,7 +23147,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query without parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getStripePaymentMethodsUser.useQuery()
+         * const { data, isLoading } = qraft.v1.getStripePaymentMethodsUser.useQuery()
          * ```
          */
         useQuery<TData = GetStripePaymentMethodsUserData>(parameters: ServiceOperationQueryKey<GetStripePaymentMethodsUserSchema, GetStripePaymentMethodsUserParameters> | (DeepReadonly<GetStripePaymentMethodsUserParameters> | void), options?: Omit<UndefinedInitialDataOptions<GetStripePaymentMethodsUserData, GetStripePaymentMethodsUserError, TData, ServiceOperationQueryKey<GetStripePaymentMethodsUserSchema, GetStripePaymentMethodsUserParameters>>, "queryKey">): UseQueryResult<TData, OperationError<GetStripePaymentMethodsUserError>>;
@@ -22858,7 +23157,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query without parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getStripePaymentMethodsUser.useQuery()
+         * const { data, isLoading } = qraft.v1.getStripePaymentMethodsUser.useQuery()
          * ```
          */
         useQuery<TData = GetStripePaymentMethodsUserData>(parameters: ServiceOperationQueryKey<GetStripePaymentMethodsUserSchema, GetStripePaymentMethodsUserParameters> | (DeepReadonly<GetStripePaymentMethodsUserParameters> | void), options: Omit<DefinedInitialDataOptions<GetStripePaymentMethodsUserData, GetStripePaymentMethodsUserError, TData, ServiceOperationQueryKey<GetStripePaymentMethodsUserSchema, GetStripePaymentMethodsUserParameters>>, "queryKey">): DefinedUseQueryResult<TData, OperationError<GetStripePaymentMethodsUserError>>;
@@ -22872,7 +23171,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getStripePaymentMethodsUser.useInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getStripePaymentMethodsUser.useInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -22890,7 +23189,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getStripePaymentMethodsUser.useInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getStripePaymentMethodsUser.useInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -22908,7 +23207,7 @@ export interface V1Service {
          * @example Checks the total number of queries fetching from the specified service method,
          * both normal and infinite. If no parameters are provided, no filtering is applied.
          * ```ts
-         * const getStripePaymentMethodsUserTotal = qraft.v1Service.getStripePaymentMethodsUser.useIsFetching()
+         * const getStripePaymentMethodsUserTotal = qraft.v1.getStripePaymentMethodsUser.useIsFetching()
          * ```
          */
         useIsFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetStripePaymentMethodsUserSchema, GetStripePaymentMethodsUserData, TInfinite, GetStripePaymentMethodsUserParameters, GetStripePaymentMethodsUserError> | QueryFiltersByQueryKey<GetStripePaymentMethodsUserSchema, GetStripePaymentMethodsUserData, TInfinite, GetStripePaymentMethodsUserParameters, GetStripePaymentMethodsUserError>): number;
@@ -22918,7 +23217,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
          * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
          * ```ts
-         * const getStripePaymentMethodsUserResults = qraft.v1Service.getStripePaymentMethodsUser.useQueries({
+         * const getStripePaymentMethodsUserResults = qraft.v1.getStripePaymentMethodsUser.useQueries({
          *     queries: [
          *         {},
          *         {}
@@ -22928,7 +23227,7 @@ export interface V1Service {
          * ```
          * @example Combined results. Only the data will be returned.
          * ```ts
-         * const getStripePaymentMethodsUserCombinedResults = qraft.v1Service.getStripePaymentMethodsUser.useQueries({
+         * const getStripePaymentMethodsUserCombinedResults = qraft.v1.getStripePaymentMethodsUser.useQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {},
@@ -22949,7 +23248,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
          * @example Suspense Query without parameters
          * ```ts
-         * const data = qraft.v1Service.getStripePaymentMethodsUser.useSuspenseQuery()
+         * const data = qraft.v1.getStripePaymentMethodsUser.useSuspenseQuery()
          * ```
          */
         useSuspenseQuery<TData = GetStripePaymentMethodsUserData>(parameters: ServiceOperationQueryKey<GetStripePaymentMethodsUserSchema, GetStripePaymentMethodsUserParameters> | (DeepReadonly<GetStripePaymentMethodsUserParameters> | void), options?: Omit<UseSuspenseQueryOptions<GetStripePaymentMethodsUserData, GetStripePaymentMethodsUserError, TData, ServiceOperationQueryKey<GetStripePaymentMethodsUserSchema, GetStripePaymentMethodsUserParameters>>, "queryKey">): UseSuspenseQueryResult<TData, OperationError<GetStripePaymentMethodsUserError>>;
@@ -22962,7 +23261,7 @@ export interface V1Service {
          *
          * @example Suspense Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getStripePaymentMethodsUser.useSuspenseInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getStripePaymentMethodsUser.useSuspenseInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -22979,7 +23278,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
          * @example Basic usage with Suspense
          * ```ts
-         * const getStripePaymentMethodsUserData = qraft.v1Service.getStripePaymentMethodsUser.useSuspenseQueries({
+         * const getStripePaymentMethodsUserData = qraft.v1.getStripePaymentMethodsUser.useSuspenseQueries({
          *     queries: [
          *         {},
          *         {}
@@ -22989,7 +23288,7 @@ export interface V1Service {
          * ```
          * @example With data transformation using combine
          * ```ts
-         * const getStripePaymentMethodsUserCombinedData = qraft.v1Service.getStripePaymentMethodsUser.useSuspenseQueries({
+         * const getStripePaymentMethodsUserCombinedData = qraft.v1.getStripePaymentMethodsUser.useSuspenseQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {},
@@ -23068,12 +23367,12 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postStripePaymentMethodsAttach.useMutation({})
+         * const { mutate, isPending } = qraft.v1.postStripePaymentMethodsAttach.useMutation({})
          * mutate(body);
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postStripePaymentMethodsAttach.useMutation()
+         * const { mutate, isPending } = qraft.v1.postStripePaymentMethodsAttach.useMutation()
          * mutate({
          *     body: bodyPayload
          * });
@@ -23087,12 +23386,12 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postStripePaymentMethodsAttach.useMutation({})
+         * const { mutate, isPending } = qraft.v1.postStripePaymentMethodsAttach.useMutation({})
          * mutate(body);
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postStripePaymentMethodsAttach.useMutation()
+         * const { mutate, isPending } = qraft.v1.postStripePaymentMethodsAttach.useMutation()
          * mutate({
          *     body: bodyPayload
          * });
@@ -23105,11 +23404,11 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const postStripePaymentMethodsAttachTotal = qraft.v1Service.postStripePaymentMethodsAttach.useIsMutating()
+         * const postStripePaymentMethodsAttachTotal = qraft.v1.postStripePaymentMethodsAttach.useIsMutating()
          * ```
          * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const postStripePaymentMethodsAttachTotal = qraft.v1Service.postStripePaymentMethodsAttach.useIsMutating({
+         * const postStripePaymentMethodsAttachTotal = qraft.v1.postStripePaymentMethodsAttach.useIsMutating({
          *     parameters: {}
          * })
          * ```
@@ -23121,7 +23420,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
-         * const postStripePaymentMethodsAttachPendingMutationVariables = qraft.v1Service.postStripePaymentMethodsAttach.useMutationState({
+         * const postStripePaymentMethodsAttachPendingMutationVariables = qraft.v1.postStripePaymentMethodsAttach.useMutationState({
          *     filters: {
          *         status: "pending"
          *     },
@@ -23130,7 +23429,7 @@ export interface V1Service {
          * ```
          * @example Get all data for specific mutations via the `parameters`.
          * ```ts
-         * const postStripePaymentMethodsAttachMutationData = qraft.v1Service.postStripePaymentMethodsAttach.useMutationState({
+         * const postStripePaymentMethodsAttachMutationData = qraft.v1.postStripePaymentMethodsAttach.useMutationState({
          *     filters: {
          *         parameters: {}
          *     },
@@ -23152,7 +23451,7 @@ export interface V1Service {
          *
          * @example Find a mutation with specific parameters
          * ```ts
-         * const mutationCache = qraft.v1Service.postStripePaymentMethodsAttach.getMutationCache();
+         * const mutationCache = qraft.v1.postStripePaymentMethodsAttach.getMutationCache();
          * const mutation = mutationCache.find({
          *     parameters: {}
          * });
@@ -23160,7 +23459,7 @@ export interface V1Service {
          *
          * @example Find all mutations for the endpoint
          * ```ts
-         * const mutationCache = qraft.v1Service.postStripePaymentMethodsAttach.getMutationCache();
+         * const mutationCache = qraft.v1.postStripePaymentMethodsAttach.getMutationCache();
          * const mutations = mutationCache.findAll();
          * ```
          */
@@ -23188,12 +23487,12 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postStripePaymentMethodsDefault.useMutation({})
+         * const { mutate, isPending } = qraft.v1.postStripePaymentMethodsDefault.useMutation({})
          * mutate(body);
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postStripePaymentMethodsDefault.useMutation()
+         * const { mutate, isPending } = qraft.v1.postStripePaymentMethodsDefault.useMutation()
          * mutate({
          *     body: bodyPayload
          * });
@@ -23207,12 +23506,12 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postStripePaymentMethodsDefault.useMutation({})
+         * const { mutate, isPending } = qraft.v1.postStripePaymentMethodsDefault.useMutation({})
          * mutate(body);
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postStripePaymentMethodsDefault.useMutation()
+         * const { mutate, isPending } = qraft.v1.postStripePaymentMethodsDefault.useMutation()
          * mutate({
          *     body: bodyPayload
          * });
@@ -23225,11 +23524,11 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const postStripePaymentMethodsDefaultTotal = qraft.v1Service.postStripePaymentMethodsDefault.useIsMutating()
+         * const postStripePaymentMethodsDefaultTotal = qraft.v1.postStripePaymentMethodsDefault.useIsMutating()
          * ```
          * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const postStripePaymentMethodsDefaultTotal = qraft.v1Service.postStripePaymentMethodsDefault.useIsMutating({
+         * const postStripePaymentMethodsDefaultTotal = qraft.v1.postStripePaymentMethodsDefault.useIsMutating({
          *     parameters: {}
          * })
          * ```
@@ -23241,7 +23540,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
-         * const postStripePaymentMethodsDefaultPendingMutationVariables = qraft.v1Service.postStripePaymentMethodsDefault.useMutationState({
+         * const postStripePaymentMethodsDefaultPendingMutationVariables = qraft.v1.postStripePaymentMethodsDefault.useMutationState({
          *     filters: {
          *         status: "pending"
          *     },
@@ -23250,7 +23549,7 @@ export interface V1Service {
          * ```
          * @example Get all data for specific mutations via the `parameters`.
          * ```ts
-         * const postStripePaymentMethodsDefaultMutationData = qraft.v1Service.postStripePaymentMethodsDefault.useMutationState({
+         * const postStripePaymentMethodsDefaultMutationData = qraft.v1.postStripePaymentMethodsDefault.useMutationState({
          *     filters: {
          *         parameters: {}
          *     },
@@ -23272,7 +23571,7 @@ export interface V1Service {
          *
          * @example Find a mutation with specific parameters
          * ```ts
-         * const mutationCache = qraft.v1Service.postStripePaymentMethodsDefault.getMutationCache();
+         * const mutationCache = qraft.v1.postStripePaymentMethodsDefault.getMutationCache();
          * const mutation = mutationCache.find({
          *     parameters: {}
          * });
@@ -23280,7 +23579,7 @@ export interface V1Service {
          *
          * @example Find all mutations for the endpoint
          * ```ts
-         * const mutationCache = qraft.v1Service.postStripePaymentMethodsDefault.getMutationCache();
+         * const mutationCache = qraft.v1.postStripePaymentMethodsDefault.getMutationCache();
          * const mutations = mutationCache.findAll();
          * ```
          */
@@ -23308,7 +23607,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.deleteStripePaymentMethods.useMutation({
+         * const { mutate, isPending } = qraft.v1.deleteStripePaymentMethods.useMutation({
          *     query: {
          *         paymentMethodId: paymentMethodId
          *     }
@@ -23317,7 +23616,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.deleteStripePaymentMethods.useMutation()
+         * const { mutate, isPending } = qraft.v1.deleteStripePaymentMethods.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     query: {
@@ -23334,7 +23633,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.deleteStripePaymentMethods.useMutation({
+         * const { mutate, isPending } = qraft.v1.deleteStripePaymentMethods.useMutation({
          *     query: {
          *         paymentMethodId: paymentMethodId
          *     }
@@ -23343,7 +23642,7 @@ export interface V1Service {
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.deleteStripePaymentMethods.useMutation()
+         * const { mutate, isPending } = qraft.v1.deleteStripePaymentMethods.useMutation()
          * mutate({
          *     body: bodyPayload,
          *     query: {
@@ -23359,11 +23658,11 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const deleteStripePaymentMethodsTotal = qraft.v1Service.deleteStripePaymentMethods.useIsMutating()
+         * const deleteStripePaymentMethodsTotal = qraft.v1.deleteStripePaymentMethods.useIsMutating()
          * ```
          * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const deleteStripePaymentMethodsTotal = qraft.v1Service.deleteStripePaymentMethods.useIsMutating({
+         * const deleteStripePaymentMethodsTotal = qraft.v1.deleteStripePaymentMethods.useIsMutating({
          *     parameters: {
          *         query: {
          *             paymentMethodId: paymentMethodId
@@ -23379,7 +23678,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
-         * const deleteStripePaymentMethodsPendingMutationVariables = qraft.v1Service.deleteStripePaymentMethods.useMutationState({
+         * const deleteStripePaymentMethodsPendingMutationVariables = qraft.v1.deleteStripePaymentMethods.useMutationState({
          *     filters: {
          *         status: "pending"
          *     },
@@ -23388,7 +23687,7 @@ export interface V1Service {
          * ```
          * @example Get all data for specific mutations via the `parameters`.
          * ```ts
-         * const deleteStripePaymentMethodsMutationData = qraft.v1Service.deleteStripePaymentMethods.useMutationState({
+         * const deleteStripePaymentMethodsMutationData = qraft.v1.deleteStripePaymentMethods.useMutationState({
          *     filters: {
          *         parameters: {
          *             query: {
@@ -23414,7 +23713,7 @@ export interface V1Service {
          *
          * @example Find a mutation with specific parameters
          * ```ts
-         * const mutationCache = qraft.v1Service.deleteStripePaymentMethods.getMutationCache();
+         * const mutationCache = qraft.v1.deleteStripePaymentMethods.getMutationCache();
          * const mutation = mutationCache.find({
          *     parameters: {
          *         query: {
@@ -23426,7 +23725,7 @@ export interface V1Service {
          *
          * @example Find all mutations for the endpoint
          * ```ts
-         * const mutationCache = qraft.v1Service.deleteStripePaymentMethods.getMutationCache();
+         * const mutationCache = qraft.v1.deleteStripePaymentMethods.getMutationCache();
          * const mutations = mutationCache.findAll();
          * ```
          */
@@ -23454,12 +23753,12 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postStripePaymentMethodsSetupIntent.useMutation({})
+         * const { mutate, isPending } = qraft.v1.postStripePaymentMethodsSetupIntent.useMutation({})
          * mutate(body);
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postStripePaymentMethodsSetupIntent.useMutation()
+         * const { mutate, isPending } = qraft.v1.postStripePaymentMethodsSetupIntent.useMutation()
          * mutate({
          *     body: bodyPayload
          * });
@@ -23473,12 +23772,12 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postStripePaymentMethodsSetupIntent.useMutation({})
+         * const { mutate, isPending } = qraft.v1.postStripePaymentMethodsSetupIntent.useMutation({})
          * mutate(body);
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postStripePaymentMethodsSetupIntent.useMutation()
+         * const { mutate, isPending } = qraft.v1.postStripePaymentMethodsSetupIntent.useMutation()
          * mutate({
          *     body: bodyPayload
          * });
@@ -23491,11 +23790,11 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const postStripePaymentMethodsSetupIntentTotal = qraft.v1Service.postStripePaymentMethodsSetupIntent.useIsMutating()
+         * const postStripePaymentMethodsSetupIntentTotal = qraft.v1.postStripePaymentMethodsSetupIntent.useIsMutating()
          * ```
          * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const postStripePaymentMethodsSetupIntentTotal = qraft.v1Service.postStripePaymentMethodsSetupIntent.useIsMutating({
+         * const postStripePaymentMethodsSetupIntentTotal = qraft.v1.postStripePaymentMethodsSetupIntent.useIsMutating({
          *     parameters: {}
          * })
          * ```
@@ -23507,7 +23806,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
-         * const postStripePaymentMethodsSetupIntentPendingMutationVariables = qraft.v1Service.postStripePaymentMethodsSetupIntent.useMutationState({
+         * const postStripePaymentMethodsSetupIntentPendingMutationVariables = qraft.v1.postStripePaymentMethodsSetupIntent.useMutationState({
          *     filters: {
          *         status: "pending"
          *     },
@@ -23516,7 +23815,7 @@ export interface V1Service {
          * ```
          * @example Get all data for specific mutations via the `parameters`.
          * ```ts
-         * const postStripePaymentMethodsSetupIntentMutationData = qraft.v1Service.postStripePaymentMethodsSetupIntent.useMutationState({
+         * const postStripePaymentMethodsSetupIntentMutationData = qraft.v1.postStripePaymentMethodsSetupIntent.useMutationState({
          *     filters: {
          *         parameters: {}
          *     },
@@ -23538,7 +23837,7 @@ export interface V1Service {
          *
          * @example Find a mutation with specific parameters
          * ```ts
-         * const mutationCache = qraft.v1Service.postStripePaymentMethodsSetupIntent.getMutationCache();
+         * const mutationCache = qraft.v1.postStripePaymentMethodsSetupIntent.getMutationCache();
          * const mutation = mutationCache.find({
          *     parameters: {}
          * });
@@ -23546,7 +23845,7 @@ export interface V1Service {
          *
          * @example Find all mutations for the endpoint
          * ```ts
-         * const mutationCache = qraft.v1Service.postStripePaymentMethodsSetupIntent.getMutationCache();
+         * const mutationCache = qraft.v1.postStripePaymentMethodsSetupIntent.getMutationCache();
          * const mutations = mutationCache.findAll();
          * ```
          */
@@ -23577,7 +23876,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query without parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getStripePaymentMethodsPersonalHasPaymentMethod.useQuery()
+         * const { data, isLoading } = qraft.v1.getStripePaymentMethodsPersonalHasPaymentMethod.useQuery()
          * ```
          */
         useQuery<TData = GetStripePaymentMethodsPersonalHasPaymentMethodData>(parameters: ServiceOperationQueryKey<GetStripePaymentMethodsPersonalHasPaymentMethodSchema, GetStripePaymentMethodsPersonalHasPaymentMethodParameters> | (DeepReadonly<GetStripePaymentMethodsPersonalHasPaymentMethodParameters> | void), options?: Omit<UndefinedInitialDataOptions<GetStripePaymentMethodsPersonalHasPaymentMethodData, GetStripePaymentMethodsPersonalHasPaymentMethodError, TData, ServiceOperationQueryKey<GetStripePaymentMethodsPersonalHasPaymentMethodSchema, GetStripePaymentMethodsPersonalHasPaymentMethodParameters>>, "queryKey">): UseQueryResult<TData, OperationError<GetStripePaymentMethodsPersonalHasPaymentMethodError>>;
@@ -23587,7 +23886,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query without parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getStripePaymentMethodsPersonalHasPaymentMethod.useQuery()
+         * const { data, isLoading } = qraft.v1.getStripePaymentMethodsPersonalHasPaymentMethod.useQuery()
          * ```
          */
         useQuery<TData = GetStripePaymentMethodsPersonalHasPaymentMethodData>(parameters: ServiceOperationQueryKey<GetStripePaymentMethodsPersonalHasPaymentMethodSchema, GetStripePaymentMethodsPersonalHasPaymentMethodParameters> | (DeepReadonly<GetStripePaymentMethodsPersonalHasPaymentMethodParameters> | void), options: Omit<DefinedInitialDataOptions<GetStripePaymentMethodsPersonalHasPaymentMethodData, GetStripePaymentMethodsPersonalHasPaymentMethodError, TData, ServiceOperationQueryKey<GetStripePaymentMethodsPersonalHasPaymentMethodSchema, GetStripePaymentMethodsPersonalHasPaymentMethodParameters>>, "queryKey">): DefinedUseQueryResult<TData, OperationError<GetStripePaymentMethodsPersonalHasPaymentMethodError>>;
@@ -23601,7 +23900,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getStripePaymentMethodsPersonalHasPaymentMethod.useInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getStripePaymentMethodsPersonalHasPaymentMethod.useInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -23619,7 +23918,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getStripePaymentMethodsPersonalHasPaymentMethod.useInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getStripePaymentMethodsPersonalHasPaymentMethod.useInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -23637,7 +23936,7 @@ export interface V1Service {
          * @example Checks the total number of queries fetching from the specified service method,
          * both normal and infinite. If no parameters are provided, no filtering is applied.
          * ```ts
-         * const getStripePaymentMethodsPersonalHasPaymentMethodTotal = qraft.v1Service.getStripePaymentMethodsPersonalHasPaymentMethod.useIsFetching()
+         * const getStripePaymentMethodsPersonalHasPaymentMethodTotal = qraft.v1.getStripePaymentMethodsPersonalHasPaymentMethod.useIsFetching()
          * ```
          */
         useIsFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetStripePaymentMethodsPersonalHasPaymentMethodSchema, GetStripePaymentMethodsPersonalHasPaymentMethodData, TInfinite, GetStripePaymentMethodsPersonalHasPaymentMethodParameters, GetStripePaymentMethodsPersonalHasPaymentMethodError> | QueryFiltersByQueryKey<GetStripePaymentMethodsPersonalHasPaymentMethodSchema, GetStripePaymentMethodsPersonalHasPaymentMethodData, TInfinite, GetStripePaymentMethodsPersonalHasPaymentMethodParameters, GetStripePaymentMethodsPersonalHasPaymentMethodError>): number;
@@ -23647,7 +23946,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
          * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
          * ```ts
-         * const getStripePaymentMethodsPersonalHasPaymentMethodResults = qraft.v1Service.getStripePaymentMethodsPersonalHasPaymentMethod.useQueries({
+         * const getStripePaymentMethodsPersonalHasPaymentMethodResults = qraft.v1.getStripePaymentMethodsPersonalHasPaymentMethod.useQueries({
          *     queries: [
          *         {},
          *         {}
@@ -23657,7 +23956,7 @@ export interface V1Service {
          * ```
          * @example Combined results. Only the data will be returned.
          * ```ts
-         * const getStripePaymentMethodsPersonalHasPaymentMethodCombinedResults = qraft.v1Service.getStripePaymentMethodsPersonalHasPaymentMethod.useQueries({
+         * const getStripePaymentMethodsPersonalHasPaymentMethodCombinedResults = qraft.v1.getStripePaymentMethodsPersonalHasPaymentMethod.useQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {},
@@ -23678,7 +23977,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
          * @example Suspense Query without parameters
          * ```ts
-         * const data = qraft.v1Service.getStripePaymentMethodsPersonalHasPaymentMethod.useSuspenseQuery()
+         * const data = qraft.v1.getStripePaymentMethodsPersonalHasPaymentMethod.useSuspenseQuery()
          * ```
          */
         useSuspenseQuery<TData = GetStripePaymentMethodsPersonalHasPaymentMethodData>(parameters: ServiceOperationQueryKey<GetStripePaymentMethodsPersonalHasPaymentMethodSchema, GetStripePaymentMethodsPersonalHasPaymentMethodParameters> | (DeepReadonly<GetStripePaymentMethodsPersonalHasPaymentMethodParameters> | void), options?: Omit<UseSuspenseQueryOptions<GetStripePaymentMethodsPersonalHasPaymentMethodData, GetStripePaymentMethodsPersonalHasPaymentMethodError, TData, ServiceOperationQueryKey<GetStripePaymentMethodsPersonalHasPaymentMethodSchema, GetStripePaymentMethodsPersonalHasPaymentMethodParameters>>, "queryKey">): UseSuspenseQueryResult<TData, OperationError<GetStripePaymentMethodsPersonalHasPaymentMethodError>>;
@@ -23691,7 +23990,7 @@ export interface V1Service {
          *
          * @example Suspense Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getStripePaymentMethodsPersonalHasPaymentMethod.useSuspenseInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getStripePaymentMethodsPersonalHasPaymentMethod.useSuspenseInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -23708,7 +24007,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
          * @example Basic usage with Suspense
          * ```ts
-         * const getStripePaymentMethodsPersonalHasPaymentMethodData = qraft.v1Service.getStripePaymentMethodsPersonalHasPaymentMethod.useSuspenseQueries({
+         * const getStripePaymentMethodsPersonalHasPaymentMethodData = qraft.v1.getStripePaymentMethodsPersonalHasPaymentMethod.useSuspenseQueries({
          *     queries: [
          *         {},
          *         {}
@@ -23718,7 +24017,7 @@ export interface V1Service {
          * ```
          * @example With data transformation using combine
          * ```ts
-         * const getStripePaymentMethodsPersonalHasPaymentMethodCombinedData = qraft.v1Service.getStripePaymentMethodsPersonalHasPaymentMethod.useSuspenseQueries({
+         * const getStripePaymentMethodsPersonalHasPaymentMethodCombinedData = qraft.v1.getStripePaymentMethodsPersonalHasPaymentMethod.useSuspenseQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {},
@@ -23797,12 +24096,12 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postStripeWebhooks.useMutation({})
+         * const { mutate, isPending } = qraft.v1.postStripeWebhooks.useMutation({})
          * mutate(body);
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postStripeWebhooks.useMutation()
+         * const { mutate, isPending } = qraft.v1.postStripeWebhooks.useMutation()
          * mutate({
          *     body: bodyPayload
          * });
@@ -23816,12 +24115,12 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
          * @example Mutation with predefined parameters, e.g., for updating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postStripeWebhooks.useMutation({})
+         * const { mutate, isPending } = qraft.v1.postStripeWebhooks.useMutation({})
          * mutate(body);
          * ```
          * @example Mutation without predefined parameters, e.g., for creating
          * ```ts
-         * const { mutate, isPending } = qraft.v1Service.postStripeWebhooks.useMutation()
+         * const { mutate, isPending } = qraft.v1.postStripeWebhooks.useMutation()
          * mutate({
          *     body: bodyPayload
          * });
@@ -23834,11 +24133,11 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
          * @example Check how many mutations are currently in progress for the specified service method.
          * ```ts
-         * const postStripeWebhooksTotal = qraft.v1Service.postStripeWebhooks.useIsMutating()
+         * const postStripeWebhooksTotal = qraft.v1.postStripeWebhooks.useIsMutating()
          * ```
          * @example Check how many mutations are currently in progress with the specified parameters.
          * ```ts
-         * const postStripeWebhooksTotal = qraft.v1Service.postStripeWebhooks.useIsMutating({
+         * const postStripeWebhooksTotal = qraft.v1.postStripeWebhooks.useIsMutating({
          *     parameters: {}
          * })
          * ```
@@ -23850,7 +24149,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
          * @example Get all variables of all running mutations.
          * ```ts
-         * const postStripeWebhooksPendingMutationVariables = qraft.v1Service.postStripeWebhooks.useMutationState({
+         * const postStripeWebhooksPendingMutationVariables = qraft.v1.postStripeWebhooks.useMutationState({
          *     filters: {
          *         status: "pending"
          *     },
@@ -23859,7 +24158,7 @@ export interface V1Service {
          * ```
          * @example Get all data for specific mutations via the `parameters`.
          * ```ts
-         * const postStripeWebhooksMutationData = qraft.v1Service.postStripeWebhooks.useMutationState({
+         * const postStripeWebhooksMutationData = qraft.v1.postStripeWebhooks.useMutationState({
          *     filters: {
          *         parameters: {}
          *     },
@@ -23881,7 +24180,7 @@ export interface V1Service {
          *
          * @example Find a mutation with specific parameters
          * ```ts
-         * const mutationCache = qraft.v1Service.postStripeWebhooks.getMutationCache();
+         * const mutationCache = qraft.v1.postStripeWebhooks.getMutationCache();
          * const mutation = mutationCache.find({
          *     parameters: {}
          * });
@@ -23889,7 +24188,7 @@ export interface V1Service {
          *
          * @example Find all mutations for the endpoint
          * ```ts
-         * const mutationCache = qraft.v1Service.postStripeWebhooks.getMutationCache();
+         * const mutationCache = qraft.v1.postStripeWebhooks.getMutationCache();
          * const mutations = mutationCache.findAll();
          * ```
          */
@@ -23920,7 +24219,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query without parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getStripeInvoices.useQuery()
+         * const { data, isLoading } = qraft.v1.getStripeInvoices.useQuery()
          * ```
          */
         useQuery<TData = GetStripeInvoicesData>(parameters: ServiceOperationQueryKey<GetStripeInvoicesSchema, GetStripeInvoicesParameters> | (DeepReadonly<GetStripeInvoicesParameters> | void), options?: Omit<UndefinedInitialDataOptions<GetStripeInvoicesData, GetStripeInvoicesError, TData, ServiceOperationQueryKey<GetStripeInvoicesSchema, GetStripeInvoicesParameters>>, "queryKey">): UseQueryResult<TData, OperationError<GetStripeInvoicesError>>;
@@ -23930,7 +24229,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query without parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getStripeInvoices.useQuery()
+         * const { data, isLoading } = qraft.v1.getStripeInvoices.useQuery()
          * ```
          */
         useQuery<TData = GetStripeInvoicesData>(parameters: ServiceOperationQueryKey<GetStripeInvoicesSchema, GetStripeInvoicesParameters> | (DeepReadonly<GetStripeInvoicesParameters> | void), options: Omit<DefinedInitialDataOptions<GetStripeInvoicesData, GetStripeInvoicesError, TData, ServiceOperationQueryKey<GetStripeInvoicesSchema, GetStripeInvoicesParameters>>, "queryKey">): DefinedUseQueryResult<TData, OperationError<GetStripeInvoicesError>>;
@@ -23944,7 +24243,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getStripeInvoices.useInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getStripeInvoices.useInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -23962,7 +24261,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getStripeInvoices.useInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getStripeInvoices.useInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -23980,7 +24279,7 @@ export interface V1Service {
          * @example Checks the total number of queries fetching from the specified service method,
          * both normal and infinite. If no parameters are provided, no filtering is applied.
          * ```ts
-         * const getStripeInvoicesTotal = qraft.v1Service.getStripeInvoices.useIsFetching()
+         * const getStripeInvoicesTotal = qraft.v1.getStripeInvoices.useIsFetching()
          * ```
          */
         useIsFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetStripeInvoicesSchema, GetStripeInvoicesData, TInfinite, GetStripeInvoicesParameters, GetStripeInvoicesError> | QueryFiltersByQueryKey<GetStripeInvoicesSchema, GetStripeInvoicesData, TInfinite, GetStripeInvoicesParameters, GetStripeInvoicesError>): number;
@@ -23990,7 +24289,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
          * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
          * ```ts
-         * const getStripeInvoicesResults = qraft.v1Service.getStripeInvoices.useQueries({
+         * const getStripeInvoicesResults = qraft.v1.getStripeInvoices.useQueries({
          *     queries: [
          *         {},
          *         {}
@@ -24000,7 +24299,7 @@ export interface V1Service {
          * ```
          * @example Combined results. Only the data will be returned.
          * ```ts
-         * const getStripeInvoicesCombinedResults = qraft.v1Service.getStripeInvoices.useQueries({
+         * const getStripeInvoicesCombinedResults = qraft.v1.getStripeInvoices.useQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {},
@@ -24021,7 +24320,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
          * @example Suspense Query without parameters
          * ```ts
-         * const data = qraft.v1Service.getStripeInvoices.useSuspenseQuery()
+         * const data = qraft.v1.getStripeInvoices.useSuspenseQuery()
          * ```
          */
         useSuspenseQuery<TData = GetStripeInvoicesData>(parameters: ServiceOperationQueryKey<GetStripeInvoicesSchema, GetStripeInvoicesParameters> | (DeepReadonly<GetStripeInvoicesParameters> | void), options?: Omit<UseSuspenseQueryOptions<GetStripeInvoicesData, GetStripeInvoicesError, TData, ServiceOperationQueryKey<GetStripeInvoicesSchema, GetStripeInvoicesParameters>>, "queryKey">): UseSuspenseQueryResult<TData, OperationError<GetStripeInvoicesError>>;
@@ -24034,7 +24333,7 @@ export interface V1Service {
          *
          * @example Suspense Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getStripeInvoices.useSuspenseInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getStripeInvoices.useSuspenseInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -24051,7 +24350,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
          * @example Basic usage with Suspense
          * ```ts
-         * const getStripeInvoicesData = qraft.v1Service.getStripeInvoices.useSuspenseQueries({
+         * const getStripeInvoicesData = qraft.v1.getStripeInvoices.useSuspenseQueries({
          *     queries: [
          *         {},
          *         {}
@@ -24061,7 +24360,7 @@ export interface V1Service {
          * ```
          * @example With data transformation using combine
          * ```ts
-         * const getStripeInvoicesCombinedData = qraft.v1Service.getStripeInvoices.useSuspenseQueries({
+         * const getStripeInvoicesCombinedData = qraft.v1.getStripeInvoices.useSuspenseQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {},
@@ -24143,7 +24442,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query without parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getUsers.useQuery()
+         * const { data, isLoading } = qraft.v1.getUsers.useQuery()
          * ```
          */
         useQuery<TData = GetUsersData>(parameters: ServiceOperationQueryKey<GetUsersSchema, GetUsersParameters> | (DeepReadonly<GetUsersParameters> | void), options?: Omit<UndefinedInitialDataOptions<GetUsersData, GetUsersError, TData, ServiceOperationQueryKey<GetUsersSchema, GetUsersParameters>>, "queryKey">): UseQueryResult<TData, OperationError<GetUsersError>>;
@@ -24153,7 +24452,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
          * @example Query without parameters
          * ```ts
-         * const { data, isLoading } = qraft.v1Service.getUsers.useQuery()
+         * const { data, isLoading } = qraft.v1.getUsers.useQuery()
          * ```
          */
         useQuery<TData = GetUsersData>(parameters: ServiceOperationQueryKey<GetUsersSchema, GetUsersParameters> | (DeepReadonly<GetUsersParameters> | void), options: Omit<DefinedInitialDataOptions<GetUsersData, GetUsersError, TData, ServiceOperationQueryKey<GetUsersSchema, GetUsersParameters>>, "queryKey">): DefinedUseQueryResult<TData, OperationError<GetUsersError>>;
@@ -24167,7 +24466,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getUsers.useInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getUsers.useInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -24185,7 +24484,7 @@ export interface V1Service {
          *
          * @example Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getUsers.useInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getUsers.useInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -24203,7 +24502,7 @@ export interface V1Service {
          * @example Checks the total number of queries fetching from the specified service method,
          * both normal and infinite. If no parameters are provided, no filtering is applied.
          * ```ts
-         * const getUsersTotal = qraft.v1Service.getUsers.useIsFetching()
+         * const getUsersTotal = qraft.v1.getUsers.useIsFetching()
          * ```
          */
         useIsFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetUsersSchema, GetUsersData, TInfinite, GetUsersParameters, GetUsersError> | QueryFiltersByQueryKey<GetUsersSchema, GetUsersData, TInfinite, GetUsersParameters, GetUsersError>): number;
@@ -24213,7 +24512,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
          * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
          * ```ts
-         * const getUsersResults = qraft.v1Service.getUsers.useQueries({
+         * const getUsersResults = qraft.v1.getUsers.useQueries({
          *     queries: [
          *         {},
          *         {}
@@ -24223,7 +24522,7 @@ export interface V1Service {
          * ```
          * @example Combined results. Only the data will be returned.
          * ```ts
-         * const getUsersCombinedResults = qraft.v1Service.getUsers.useQueries({
+         * const getUsersCombinedResults = qraft.v1.getUsers.useQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {},
@@ -24244,7 +24543,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
          * @example Suspense Query without parameters
          * ```ts
-         * const data = qraft.v1Service.getUsers.useSuspenseQuery()
+         * const data = qraft.v1.getUsers.useSuspenseQuery()
          * ```
          */
         useSuspenseQuery<TData = GetUsersData>(parameters: ServiceOperationQueryKey<GetUsersSchema, GetUsersParameters> | (DeepReadonly<GetUsersParameters> | void), options?: Omit<UseSuspenseQueryOptions<GetUsersData, GetUsersError, TData, ServiceOperationQueryKey<GetUsersSchema, GetUsersParameters>>, "queryKey">): UseSuspenseQueryResult<TData, OperationError<GetUsersError>>;
@@ -24257,7 +24556,7 @@ export interface V1Service {
          *
          * @example Suspense Infinite Query
          * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1Service.getUsers.useSuspenseInfiniteQuery({}, {
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getUsers.useSuspenseInfiniteQuery({}, {
          *     initialPageParam: {},
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
@@ -24274,7 +24573,7 @@ export interface V1Service {
          * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
          * @example Basic usage with Suspense
          * ```ts
-         * const getUsersData = qraft.v1Service.getUsers.useSuspenseQueries({
+         * const getUsersData = qraft.v1.getUsers.useSuspenseQueries({
          *     queries: [
          *         {},
          *         {}
@@ -24284,7 +24583,7 @@ export interface V1Service {
          * ```
          * @example With data transformation using combine
          * ```ts
-         * const getUsersCombinedData = qraft.v1Service.getUsers.useSuspenseQueries({
+         * const getUsersCombinedData = qraft.v1.getUsers.useSuspenseQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
          *         {},
@@ -24735,6 +25034,16 @@ export const putHostingProjectsProjectIdState = {
     schema: PutHostingProjectsProjectIdStateSchema;
     [QraftServiceOperationsToken]: V1Service["putHostingProjectsProjectIdState"];
 };
+export const putHostingProjectsProjectIdConfig = {
+    schema: {
+        method: "put",
+        url: "/v1/hosting/projects/{projectId}/config",
+        mediaType: ["application/json"]
+    }
+} as {
+    schema: PutHostingProjectsProjectIdConfigSchema;
+    [QraftServiceOperationsToken]: V1Service["putHostingProjectsProjectIdConfig"];
+};
 export const postHostingProjectsProjectIdServices = {
     schema: {
         method: "post",
@@ -25173,6 +25482,16 @@ export const putProjectsProjectIdEnvironmentsEnvironmentIdAutoDeploy = {
     schema: PutProjectsProjectIdEnvironmentsEnvironmentIdAutoDeploySchema;
     [QraftServiceOperationsToken]: V1Service["putProjectsProjectIdEnvironmentsEnvironmentIdAutoDeploy"];
 };
+export const putProjectsProjectIdEnvironmentsEnvironmentIdBranches = {
+    schema: {
+        method: "put",
+        url: "/v1/projects/{projectId}/environments/{environmentId}/branches",
+        mediaType: ["application/json"]
+    }
+} as {
+    schema: PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesSchema;
+    [QraftServiceOperationsToken]: V1Service["putProjectsProjectIdEnvironmentsEnvironmentIdBranches"];
+};
 export const getProjectsProjectIdEnvironmentsEnvironmentIdDeployments = {
     schema: {
         method: "get",
@@ -25511,6 +25830,7 @@ export const v1Service = {
     postHostingDeploymentsDeploymentIdLogs,
     getHostingProjects,
     putHostingProjectsProjectIdState,
+    putHostingProjectsProjectIdConfig,
     postHostingProjectsProjectIdServices,
     postHostingProjectsProjectIdEnvironmentsEnvironmentIdServices,
     getHostingProjectsTcpAllocations,
@@ -25558,6 +25878,7 @@ export const v1Service = {
     postProjectsProjectIdEnvironmentsEnvironmentIdPromote,
     putProjectsProjectIdEnvironmentsEnvironmentIdTier,
     putProjectsProjectIdEnvironmentsEnvironmentIdAutoDeploy,
+    putProjectsProjectIdEnvironmentsEnvironmentIdBranches,
     getProjectsProjectIdEnvironmentsEnvironmentIdDeployments,
     getProjectsProjectIdEnvironmentsEnvironmentIdServices,
     getProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogs,
@@ -25984,6 +26305,17 @@ type PutHostingProjectsProjectIdStateParameters = paths["/v1/hosting/projects/{p
 type PutHostingProjectsProjectIdStateData = paths["/v1/hosting/projects/{projectId}/state"]["put"]["responses"]["200"]["content"]["application/json"];
 type PutHostingProjectsProjectIdStateError = unknown;
 type PutHostingProjectsProjectIdStateBody = paths["/v1/hosting/projects/{projectId}/state"]["put"]["requestBody"]["content"]["application/json"];
+type PutHostingProjectsProjectIdConfigSchema = {
+    method: "put";
+    url: "/v1/hosting/projects/{projectId}/config";
+    mediaType: [
+        "application/json"
+    ];
+};
+type PutHostingProjectsProjectIdConfigParameters = paths["/v1/hosting/projects/{projectId}/config"]["put"]["parameters"];
+type PutHostingProjectsProjectIdConfigData = paths["/v1/hosting/projects/{projectId}/config"]["put"]["responses"]["200"]["content"]["application/json"];
+type PutHostingProjectsProjectIdConfigError = unknown;
+type PutHostingProjectsProjectIdConfigBody = paths["/v1/hosting/projects/{projectId}/config"]["put"]["requestBody"]["content"]["application/json"];
 type PostHostingProjectsProjectIdServicesSchema = {
     method: "post";
     url: "/v1/hosting/projects/{projectId}/services";
@@ -26397,6 +26729,17 @@ type PutProjectsProjectIdEnvironmentsEnvironmentIdAutoDeployParameters = paths["
 type PutProjectsProjectIdEnvironmentsEnvironmentIdAutoDeployData = null;
 type PutProjectsProjectIdEnvironmentsEnvironmentIdAutoDeployError = unknown;
 type PutProjectsProjectIdEnvironmentsEnvironmentIdAutoDeployBody = paths["/v1/projects/{projectId}/environments/{environmentId}/auto-deploy"]["put"]["requestBody"]["content"]["application/json"];
+type PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesSchema = {
+    method: "put";
+    url: "/v1/projects/{projectId}/environments/{environmentId}/branches";
+    mediaType: [
+        "application/json"
+    ];
+};
+type PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesParameters = paths["/v1/projects/{projectId}/environments/{environmentId}/branches"]["put"]["parameters"];
+type PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesData = null;
+type PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesError = unknown;
+type PutProjectsProjectIdEnvironmentsEnvironmentIdBranchesBody = paths["/v1/projects/{projectId}/environments/{environmentId}/branches"]["put"]["requestBody"]["content"]["application/json"];
 type GetProjectsProjectIdEnvironmentsEnvironmentIdDeploymentsSchema = {
     method: "get";
     url: "/v1/projects/{projectId}/environments/{environmentId}/deployments";

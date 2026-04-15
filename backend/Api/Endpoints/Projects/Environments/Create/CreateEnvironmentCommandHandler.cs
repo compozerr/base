@@ -20,7 +20,7 @@ public sealed class CreateEnvironmentCommandHandler(
             ?? throw new InvalidOperationException($"Project {command.ProjectId} not found.");
 
         var subdomain = command.Type == EnvironmentType.Preview
-            ? SubdomainHelper.GenerateSubdomain(project.Name, command.Branch)
+            ? SubdomainHelper.GenerateSubdomain(project.Name, command.Branch ?? command.Name)
             : null;
 
         var serverTier = ServerTiers.GetById(new ServerTierId(command.Tier));
@@ -31,8 +31,8 @@ public sealed class CreateEnvironmentCommandHandler(
             ProjectId = command.ProjectId,
             Name = command.Name,
             Type = command.Type,
-            Branches = [command.Branch],
-            AutoDeploy = true,
+            Branches = command.Branch is not null ? [command.Branch] : [],
+            AutoDeploy = command.Branch is not null,
             Subdomain = subdomain,
             ServerTierId = serverTier.Id
         };

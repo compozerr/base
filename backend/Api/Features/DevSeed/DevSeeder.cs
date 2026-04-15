@@ -3,6 +3,7 @@ using Api.Data;
 using Auth.Abstractions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Organizations.Abstractions;
 using Serilog;
 
 namespace Api.Features.DevSeed;
@@ -78,14 +79,14 @@ public static class DevSeeder
         return (location, server);
     }
 
-    public static async Task<object> SeedForUser(ApiDbContext apiDb, UserId userId)
+    public static async Task<object> SeedForUser(ApiDbContext apiDb, UserId userId, OrganizationId? organizationId = null)
     {
-        Log.Information("[DevSeed] Seeding development data for user {UserId}...", userId);
+        Log.Information("[DevSeed] Seeding development data for user {UserId} (org: {OrgId})...", userId, organizationId);
 
         var (location, server) = await EnsureInfrastructureAsync(apiDb);
 
         // --- Seed projects ---
-        var projects = CreateProjects(userId, location.Id, server.Id);
+        var projects = CreateProjects(userId, location.Id, server.Id, organizationId);
         apiDb.Projects.AddRange(projects);
         await apiDb.SaveChangesAsync();
 
@@ -227,7 +228,7 @@ public static class DevSeeder
         Log.Information("[DevSeed] Seeded {Count} marketplace modules", modules.Length);
     }
 
-    private static List<Project> CreateProjects(UserId userId, LocationId locationId, ServerId serverId)
+    private static List<Project> CreateProjects(UserId userId, LocationId locationId, ServerId serverId, OrganizationId? organizationId = null)
     {
         var now = DateTime.UtcNow;
         return
@@ -237,6 +238,7 @@ public static class DevSeeder
                 Name = "my-saas-app",
                 RepoUri = new Uri("https://github.com/acme/my-saas-app"),
                 UserId = userId, LocationId = locationId, ServerId = serverId,
+                OrganizationId = organizationId,
                 State = ProjectState.Running, ServerTierId = new ServerTierId("T2"),
                 Type = ProjectType.Compozerr, GithubInstallationId = 12345678,
                 CreatedAtUtc = now.AddDays(-45),
@@ -246,6 +248,7 @@ public static class DevSeeder
                 Name = "landing-page",
                 RepoUri = new Uri("https://github.com/acme/landing-page"),
                 UserId = userId, LocationId = locationId, ServerId = serverId,
+                OrganizationId = organizationId,
                 State = ProjectState.Running, ServerTierId = new ServerTierId("T0"),
                 Type = ProjectType.Dockerfile, GithubInstallationId = 12345679,
                 CreatedAtUtc = now.AddDays(-30),
@@ -255,6 +258,7 @@ public static class DevSeeder
                 Name = "workflow-automation",
                 RepoUri = new Uri("https://github.com/acme/workflow-automation"),
                 UserId = userId, LocationId = locationId, ServerId = serverId,
+                OrganizationId = organizationId,
                 State = ProjectState.Running, ServerTierId = new ServerTierId("T1"),
                 Type = ProjectType.N8n,
                 CreatedAtUtc = now.AddDays(-20),
@@ -264,6 +268,7 @@ public static class DevSeeder
                 Name = "microservices-stack",
                 RepoUri = new Uri("https://github.com/acme/microservices-stack"),
                 UserId = userId, LocationId = locationId, ServerId = serverId,
+                OrganizationId = organizationId,
                 State = ProjectState.Stopped, ServerTierId = new ServerTierId("T3"),
                 Type = ProjectType.DockerCompose, GithubInstallationId = 12345680,
                 CreatedAtUtc = now.AddDays(-60),
@@ -273,6 +278,7 @@ public static class DevSeeder
                 Name = "api-gateway",
                 RepoUri = new Uri("https://github.com/acme/api-gateway"),
                 UserId = userId, LocationId = locationId, ServerId = serverId,
+                OrganizationId = organizationId,
                 State = ProjectState.Starting, ServerTierId = new ServerTierId("T1"),
                 Type = ProjectType.Dockerfile, GithubInstallationId = 12345681,
                 CreatedAtUtc = now.AddDays(-10),
@@ -282,6 +288,7 @@ public static class DevSeeder
                 Name = "docs-site",
                 RepoUri = new Uri("https://github.com/acme/docs-site"),
                 UserId = userId, LocationId = locationId, ServerId = serverId,
+                OrganizationId = organizationId,
                 State = ProjectState.Running, ServerTierId = new ServerTierId("T0"),
                 Type = ProjectType.Dockerfile,
                 CreatedAtUtc = now.AddDays(-15),

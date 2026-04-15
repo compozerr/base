@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Api.Abstractions;
 using Api.Data.Extensions;
 
@@ -9,6 +10,9 @@ public class ProjectEnvironment : BaseEntityWithId<ProjectEnvironmentId>
     public required ProjectId ProjectId { get; set; }
     public required List<string> Branches { get; set; }
     public required bool AutoDeploy { get; set; } = true;
+
+    [NotMapped]
+    public bool EffectiveAutoDeploy => Branches.Count > 0 && AutoDeploy;
 
     [MaxLength(255)]
     public string? Name { get; set; }

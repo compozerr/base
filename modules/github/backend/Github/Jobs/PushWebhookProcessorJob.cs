@@ -83,7 +83,7 @@ public sealed class PushWebhookProcessorJob(
                 return;
             }
 
-            if (projectEnvironment.AutoDeploy is false)
+            if (projectEnvironment.EffectiveAutoDeploy is false)
             {
                 Log.ForContext(nameof(deployCommand), deployCommand)
                    .ForContext(nameof(pushWebhookEvent), pushWebhookEvent.Id)
@@ -115,13 +115,6 @@ public sealed class PushWebhookProcessorJob(
             await MarkAsHandledAsync(pushWebhookEvent);
         }
     }
-
-    // private async Task<ProjectId> GetProjectIdAsync(
-    //     string repoName)
-    // {
-    //     // Assuming the project ID is stored in the event, adjust as necessary
-    //     return await pushWebhookEventRepository.GetProjectIdAsync(pushWebhookEvent);
-    // }
 
     private async Task MarkAsHandledAsync(
         PushWebhookEvent pushWebhookEvent)

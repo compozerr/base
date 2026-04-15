@@ -8,6 +8,8 @@ import { v1Service } from "./V1Service";
 export type Services = {
     v1: V1Service;
 };
-export const services = {
+export const services: {
+    v1: typeof v1Service;
+} = {
     v1: v1Service
-} as const;
+};

@@ -267,6 +267,7 @@ function EnvironmentDetailPage() {
             {/* Sections */}
             <RecentDeploymentsSection projectId={projectId} environmentId={environmentId} />
             <ServerTierSection projectId={projectId} environmentId={environmentId} env={env} tiers={tiers} onChanged={invalidateEnvs} />
+            <BranchSection projectId={projectId} environmentId={environmentId} env={env} onChanged={invalidateEnvs} />
             <AutoDeploySection projectId={projectId} environmentId={environmentId} env={env} />
             <EnvironmentVariablesSection projectId={projectId} branch={branch} />
             <ServicesSection projectId={projectId} environmentId={environmentId} />
@@ -466,6 +467,99 @@ function ServerTierSection({
 }
 
 // ============================================================
+// Section: Branch
+// ============================================================
+
+function BranchSection({
+    projectId,
+    environmentId,
+    env,
+    onChanged,
+}: {
+    projectId: string
+    environmentId: string
+    env: EnvironmentDto
+    onChanged: () => void
+}) {
+    const { toast } = useToast()
+    const [editing, setEditing] = useState(false)
+    const [branchValue, setBranchValue] = useState(env.branches?.[0] ?? '')
+    const hasBranch = env.branches && env.branches.length > 0
+
+    const { mutateAsync: updateBranches, isPending } =
+        api.v1.putProjectsProjectIdEnvironmentsEnvironmentIdBranches.useMutation(
+            { path: { projectId, environmentId } },
+        )
+
+    const handleSaveBranches = async (branches: string[]) => {
+        try {
+            await updateBranches({ branches })
+            if (branches.length === 0) setBranchValue('')
+            toast({
+                title: branches.length > 0 ? 'Branch updated' : 'Branch unlinked',
+                description: branches.length > 0 ? `Linked to ${branches[0]}.` : undefined,
+            })
+            setEditing(false)
+            onChanged()
+        } catch (err) {
+            toast({ title: 'Error', description: err instanceof Error ? err.message : 'Unknown error', variant: 'destructive' })
+        }
+    }
+
+    return (
+        <Card className="rounded-xl border-zinc-800 bg-zinc-900/50">
+            <CardContent className="p-6">
+                <div className="flex items-center justify-between">
+                    <div className="space-y-0.5">
+                        <Label className="text-base font-medium">Branch</Label>
+                        {!editing && (
+                            <p className="text-sm text-muted-foreground">
+                                {hasBranch ? (
+                                    <span className="flex items-center gap-1.5">
+                                        <GitBranch className="h-3.5 w-3.5" />
+                                        <code className="font-mono text-xs bg-zinc-800 px-1.5 py-0.5 rounded">
+                                            {env.branches?.[0]}
+                                        </code>
+                                    </span>
+                                ) : (
+                                    'No branch linked.'
+                                )}
+                            </p>
+                        )}
+                    </div>
+                    {!editing && (
+                        <Button variant="outline" size="sm" onClick={() => { setEditing(true); setBranchValue(env.branches?.[0] ?? '') }}>
+                            {hasBranch ? 'Change' : 'Link branch'}
+                        </Button>
+                    )}
+                </div>
+                {editing && (
+                    <div className="mt-3 flex items-center gap-2">
+                        <Input
+                            placeholder="main"
+                            value={branchValue}
+                            onChange={(e) => setBranchValue(e.target.value)}
+                            className="max-w-xs font-mono text-xs"
+                        />
+                        <Button size="sm" onClick={() => handleSaveBranches(branchValue.trim() ? [branchValue.trim()] : [])} disabled={isPending}>
+                            Save
+                        </Button>
+                        {hasBranch && (
+                            <Button size="sm" variant="ghost" className="text-red-400 hover:text-red-300" onClick={() => handleSaveBranches([])} disabled={isPending}>
+                                Unlink
+                            </Button>
+                        )}
+                        <Button size="sm" variant="ghost" onClick={() => setEditing(false)}>
+                            Cancel
+                        </Button>
+                    </div>
+                )}
+            </CardContent>
+        </Card>
+    )
+}
+
+// ============================================================
 // Section: Auto-Deploy
 // ============================================================
 
@@ -480,6 +574,7 @@ function AutoDeploySection({
 }) {
     const { toast } = useToast()
     const [autoDeploy, setAutoDeploy] = useState(env.autoDeploy ?? false)
+    const hasBranch = env.branches && env.branches.length > 0
 
     useEffect(() => {
         setAutoDeploy(env.autoDeploy ?? false)
@@ -507,13 +602,23 @@ function AutoDeploySection({
                     <div className="space-y-0.5">
                         <Label className="text-base font-medium">Auto Deploy</Label>
                         <p className="text-sm text-muted-foreground">
-                            Automatically deploy when you push to{' '}
-                            <code className="font-mono text-xs bg-zinc-800 px-1.5 py-0.5 rounded">
-                                {env.branches?.[0] ?? 'this branch'}
-                            </code>.
+                            {hasBranch ? (
+                                <>
+                                    Automatically deploy when you push to{' '}
+                                    <code className="font-mono text-xs bg-zinc-800 px-1.5 py-0.5 rounded">
+                                        {env.branches?.[0]}
+                                    </code>.
+                                </>
+                            ) : (
+                                'Link a branch to enable auto-deploy.'
+                            )}
                         </p>
                     </div>
-                    <Switch checked={autoDeploy} onCheckedChange={handleChange} />
+                    <Switch
+                        checked={hasBranch ? autoDeploy : false}
+                        onCheckedChange={handleChange}
+                        disabled={!hasBranch}
+                    />
                 </div>
             </CardContent>
         </Card>

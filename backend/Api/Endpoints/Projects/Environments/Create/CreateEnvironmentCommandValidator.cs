@@ -16,10 +16,12 @@ public sealed class CreateEnvironmentCommandValidator : AbstractValidator<Create
             .MaximumLength(255)
             .WithMessage("Environment name is required.");
 
-        RuleFor(x => x.Branch)
-            .NotEmpty()
-            .MaximumLength(255)
-            .WithMessage("Branch name is required.");
+        When(x => x.Branch is not null, () =>
+        {
+            RuleFor(x => x.Branch)
+                .NotEmpty()
+                .MaximumLength(255);
+        });
 
         RuleFor(x => x.Tier).MustBeValidServerTier();
     }

@@ -4,7 +4,7 @@ using Api.Data.Repositories;
 namespace Api.Endpoints.Projects.Environments.ChangeAutoDeploy;
 
 public sealed record ChangeEnvironmentAutoDeployRequest(bool AutoDeploy);
-public sealed record ChangeEnvironmentAutoDeployResponse(bool AutoDeploy);
+public sealed record ChangeEnvironmentAutoDeployResponse(bool AutoDeploy, bool EffectiveAutoDeploy);
 
 public static class ChangeEnvironmentAutoDeployRoute
 {
@@ -30,6 +30,6 @@ public static class ChangeEnvironmentAutoDeployRoute
         environment.AutoDeploy = request.AutoDeploy;
         await environmentRepository.UpdateAsync(environment);
 
-        return TypedResults.Ok(new ChangeEnvironmentAutoDeployResponse(environment.AutoDeploy));
+        return TypedResults.Ok(new ChangeEnvironmentAutoDeployResponse(environment.AutoDeploy, environment.EffectiveAutoDeploy));
     }
 }

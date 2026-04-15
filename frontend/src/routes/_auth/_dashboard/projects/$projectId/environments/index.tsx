@@ -402,7 +402,7 @@ function EnvironmentCard({
                     </div>
 
                     {/* Auto-deploy status */}
-                    {env.autoDeploy && (
+                    {env.effectiveAutoDeploy && (
                         <Badge
                             variant="outline"
                             className="text-[11px] border-zinc-700 text-zinc-400"
@@ -532,6 +532,7 @@ function CreateEnvironmentDialog({
     const [branch, setBranch] = useState('')
     const [isManualBranch, setIsManualBranch] = useState(false)
     const [selectedTier, setSelectedTier] = useState('T0')
+    const [branchMode, setBranchMode] = useState<'link' | 'later'>('link')
     const { toast } = useToast()
 
     const { data: branchesData } = api.v1.getProjectsProjectIdEnvironmentsBranches.useQuery(
@@ -569,7 +570,7 @@ function CreateEnvironmentDialog({
         try {
             await createEnvironment({
                 name,
-                branch,
+                branch: branchMode === 'link' ? branch : null,
                 type: 'Preview',
                 tier: selectedTier,
             })
@@ -596,6 +597,7 @@ function CreateEnvironmentDialog({
         setNameManuallyEdited(false)
         setIsManualBranch(false)
         setSelectedTier('T0')
+        setBranchMode('link')
     }
 
     return (
@@ -624,70 +626,102 @@ function CreateEnvironmentDialog({
                 <form onSubmit={handleSubmit} className="space-y-5">
                     {/* Branch + Name */}
                     <div className="space-y-4">
-                        <div className="space-y-2">
-                            <Label>Branch</Label>
-                            {branches.length > 0 && !isManualBranch ? (
-                                <Select
-                                    value={branch}
-                                    onValueChange={handleBranchSelect}
-                                >
-                                    <SelectTrigger>
-                                        <SelectValue placeholder="Select a branch" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        {branches.map((b) => {
-                                            const isUsed = usedBranches.includes(b)
-                                            return (
-                                                <SelectItem
-                                                    key={b}
-                                                    value={b}
-                                                    disabled={isUsed}
-                                                >
-                                                    <span
-                                                        className={cn(
-                                                            'font-mono text-xs',
-                                                            isUsed && 'text-muted-foreground line-through',
-                                                        )}
-                                                    >
-                                                        {b}
-                                                        {isUsed && ' (in use)'}
+                        <div className="space-y-4">
+                            <div className="space-y-2">
+                                <Label>Branch</Label>
+                                <div className="flex gap-2">
+                                    <Button
+                                        type="button"
+                                        variant={branchMode === 'link' ? 'default' : 'outline'}
+                                        size="sm"
+                                        className="flex-1"
+                                        onClick={() => setBranchMode('link')}
+                                    >
+                                        <GitBranch className="h-3.5 w-3.5 mr-1.5" />
+                                        Link to branch
+                                    </Button>
+                                    <Button
+                                        type="button"
+                                        variant={branchMode === 'later' ? 'default' : 'outline'}
+                                        size="sm"
+                                        className="flex-1"
+                                        onClick={() => {
+                                            setBranchMode('later')
+                                            setBranch('')
+                                            setIsManualBranch(false)
+                                        }}
+                                    >
+                                        Specify later
+                                    </Button>
+                                </div>
+                            </div>
+
+                            {branchMode === 'link' && (
+                                <div className="space-y-2">
+                                    {branches.length > 0 && !isManualBranch ? (
+                                        <Select
+                                            value={branch}
+                                            onValueChange={handleBranchSelect}
+                                        >
+                                            <SelectTrigger>
+                                                <SelectValue placeholder="Select a branch" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                {branches.map((b) => {
+                                                    const isUsed = usedBranches.includes(b)
+                                                    return (
+                                                        <SelectItem
+                                                            key={b}
+                                                            value={b}
+                                                            disabled={isUsed}
+                                                        >
+                                                            <span
+                                                                className={cn(
+                                                                    'font-mono text-xs',
+                                                                    isUsed && 'text-muted-foreground line-through',
+                                                                )}
+                                                            >
+                                                                {b}
+                                                                {isUsed && ' (in use)'}
+                                                            </span>
+                                                        </SelectItem>
+                                                    )
+                                                })}
+                                                <SelectItem value={MANUAL_BRANCH}>
+                                                    <span className="text-muted-foreground">
+                                                        Enter manually...
                                                     </span>
                                                 </SelectItem>
-                                            )
-                                        })}
-                                        <SelectItem value={MANUAL_BRANCH}>
-                                            <span className="text-muted-foreground">
-                                                Enter manually...
-                                            </span>
-                                        </SelectItem>
-                                    </SelectContent>
-                                </Select>
-                            ) : (
-                                <div className="flex gap-2">
-                                    <Input
-                                        placeholder="feature/my-branch"
-                                        value={branch}
-                                        onChange={(e) => {
-                                            setBranch(e.target.value)
-                                            if (!nameManuallyEdited && e.target.value) {
-                                                setName(branchToEnvName(e.target.value))
-                                            }
-                                        }}
-                                        required
-                                    />
-                                    {branches.length > 0 && (
-                                        <Button
-                                            type="button"
-                                            variant="outline"
-                                            size="sm"
-                                            className="shrink-0"
-                                            onClick={() => {
-                                                setIsManualBranch(false)
-                                                setBranch('')
-                                            }}
-                                        >
-                                            <GitBranch className="h-3.5 w-3.5" />
-                                        </Button>
+                                            </SelectContent>
+                                        </Select>
+                                    ) : (
+                                        <div className="flex gap-2">
+                                            <Input
+                                                placeholder="feature/my-branch"
+                                                value={branch}
+                                                onChange={(e) => {
+                                                    setBranch(e.target.value)
+                                                    if (!nameManuallyEdited && e.target.value) {
+                                                        setName(branchToEnvName(e.target.value))
+                                                    }
+                                                }}
+                                                required
+                                            />
+                                            {branches.length > 0 && (
+                                                <Button
+                                                    type="button"
+                                                    variant="outline"
+                                                    size="sm"
+                                                    className="shrink-0"
+                                                    onClick={() => {
+                                                        setIsManualBranch(false)
+                                                        setBranch('')
+                                                    }}
+                                                >
+                                                    <GitBranch className="h-3.5 w-3.5" />
+                                                </Button>
+                                            )}
+                                        </div>
                                     )}
                                 </div>
                             )}
@@ -793,7 +827,7 @@ function CreateEnvironmentDialog({
                             <Button
                                 type="submit"
                                 disabled={
-                                    isPending || !name.trim() || !branch.trim()
+                                    isPending || !name.trim() || (branchMode === 'link' && !branch.trim())
                                 }
                             >
                                 {isPending

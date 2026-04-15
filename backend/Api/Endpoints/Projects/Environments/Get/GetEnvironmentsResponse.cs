@@ -11,6 +11,7 @@ public sealed record EnvironmentDto(
     string Type,
     List<string> Branches,
     bool AutoDeploy,
+    bool EffectiveAutoDeploy,
     int? PullRequestNumber,
     string? Subdomain,
     string? Url,
