@@ -45,27 +45,28 @@ public class CoreFeature : IFeature
         forwardedHeadersOptions.KnownProxies.Clear();
         app.UseForwardedHeaders(forwardedHeadersOptions);
 
-        // TEMP DIAGNOSTIC: trace scheme/host/X-Forwarded-* on every OAuth-related hit
-        // so we can see what Request.Scheme + Request.Host look like when
-        // BuildRedirectUri runs during authorize vs. callback.
+        // TEMP DIAGNOSTIC: trace EVERY request's scheme/host/X-Forwarded-* + raw orig
+        // headers so we can see exactly what the OAuth handler sees on the callback.
         app.Use(async (ctx, next) =>
         {
-            var path = ctx.Request.Path.Value ?? string.Empty;
-            if (path.StartsWith("/v1/auth", StringComparison.OrdinalIgnoreCase))
-            {
-                Log.Information(
-                    "OAUTH-TRACE {Method} {Path} scheme={Scheme} host={Host} XFProto={XFProto} XFHost={XFHost} XFFor={XFFor} XFPrefix={XFPrefix}",
-                    ctx.Request.Method,
-                    path,
-                    ctx.Request.Scheme,
-                    ctx.Request.Host.Value ?? "<null>",
-                    ctx.Request.Headers["X-Forwarded-Proto"].ToString(),
-                    ctx.Request.Headers["X-Forwarded-Host"].ToString(),
-                    ctx.Request.Headers["X-Forwarded-For"].ToString(),
-                    ctx.Request.Headers["X-Forwarded-Prefix"].ToString());
-            }
+            Log.Information(
+                "OAUTH-TRACE {Method} {Path} scheme={Scheme} host={Host} XFProto={XFProto} XOrigProto={XOrigProto} XFHost={XFHost} XOrigHost={XOrigHost}",
+                ctx.Request.Method,
+                ctx.Request.Path.Value ?? string.Empty,
+                ctx.Request.Scheme,
+                ctx.Request.Host.Value ?? "<null>",
+                ctx.Request.Headers["X-Forwarded-Proto"].ToString(),
+                ctx.Request.Headers["X-Original-Proto"].ToString(),
+                ctx.Request.Headers["X-Forwarded-Host"].ToString(),
+                ctx.Request.Headers["X-Original-Host"].ToString());
             await next();
         });
+
+        // Explicitly place auth middleware AFTER our diagnostic + ForwardedHeaders,
+        // otherwise WebApplication auto-inserts it earlier and the callback handler
+        // runs before our middleware sees the request.
+        app.UseAuthentication();
+        app.UseAuthorization();
 
         app.MapGroup("v1").MapCarter();
         app.UseCors(AppConstants.CorsPolicy);
