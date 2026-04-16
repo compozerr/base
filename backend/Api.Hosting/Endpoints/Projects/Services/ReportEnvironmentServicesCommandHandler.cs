@@ -50,7 +50,17 @@ public sealed class ReportEnvironmentServicesCommandHandler(
 
             if (existingServices.TryGetValue(serviceInfo.Name, out var existingService))
             {
-                serviceChanged = existingService.Port != serviceInfo.Port
+                // Resurrect previously soft-deleted rows. Without this, a service that
+                // briefly disappeared from a single port-detection run (and got tombstoned
+                // by the stale-IsSystem cleanup below) stays hidden from the UI forever,
+                // because the name+port match here short-circuits with serviceChanged=false.
+                var wasSoftDeleted = existingService.DeletedAtUtc is not null;
+                if (wasSoftDeleted)
+                {
+                    existingService.DeletedAtUtc = null;
+                }
+                serviceChanged = wasSoftDeleted
+                              || existingService.Port != serviceInfo.Port
                               || existingService.Protocol != serviceInfo.Protocol;
                 existingService.Port = serviceInfo.Port;
                 existingService.Protocol = serviceInfo.Protocol;
