@@ -62,9 +62,33 @@ public sealed class ReportEnvironmentServicesCommandHandler(
                 serviceChanged = wasSoftDeleted
                               || existingService.Port != serviceInfo.Port
                               || existingService.Protocol != serviceInfo.Protocol;
+                var portChanged = existingService.Port != serviceInfo.Port
+                               || existingService.Protocol != serviceInfo.Protocol;
                 existingService.Port = serviceInfo.Port;
                 existingService.Protocol = serviceInfo.Protocol;
                 serviceToProcess = existingService;
+
+                // Sync domains: Domain.Port feeds Traefik's backend URL (see
+                // hosting manager/services/domain-service.ts). If we update
+                // ProjectService.Port but leave Domain.Port stale, Traefik
+                // keeps routing to the old port and every request 502s until
+                // the Domain rows are patched by hand.
+                if (portChanged)
+                {
+                    var domainsToSync = project.Domains?
+                        .Where(d => d.ServiceName == serviceInfo.Name
+                                 && d.ProjectEnvironmentId == command.EnvironmentId
+                                 && d.DeletedAtUtc == null);
+
+                    if (domainsToSync != null)
+                    {
+                        foreach (var domain in domainsToSync)
+                        {
+                            domain.Port = serviceInfo.Port;
+                            domain.Protocol = serviceInfo.Protocol;
+                        }
+                    }
+                }
             }
             else if (portToServiceName.TryGetValue(serviceInfo.Port, out var oldServiceName))
             {
