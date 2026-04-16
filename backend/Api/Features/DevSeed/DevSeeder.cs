@@ -453,8 +453,9 @@ public static class DevSeeder
 
                 var memUsage = isRunning ? (decimal)(baseMemory + rng.NextDouble() * 0.5) : 0m;
 
-                var totalMemory = project.ServerTierId.Value switch { "T0" => 0.5m, "T1" => 1m, "T2" => 2m, "T3" => 4m, "T4" => 8m, _ => 1m };
-                var cpuCount = project.ServerTierId.Value switch { "T0" => 1, "T1" => 1, "T2" => 2, "T3" => 2, "T4" => 3, _ => 1 };
+                var tier = ServerTiers.GetById(project.ServerTierId);
+                var totalMemory = tier.RamGb;
+                var cpuCount = (int)Math.Ceiling(tier.Cores);
 
                 usages.Add(new ProjectUsage
                 {

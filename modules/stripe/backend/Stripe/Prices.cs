@@ -30,6 +30,10 @@ public static class Prices
             [PricesEnvironment.Sandbox] = "price_1RXJAQPw8PYQFLLYMPLCOLVB",
             [PricesEnvironment.Production] = "price_1RhW6uLbalvevoyGTzRSQRVv"
         }},
+        { "T5", new Dictionary<PricesEnvironment, string> {
+            [PricesEnvironment.Sandbox] = "price_1TMnJOPw8PYQFLLYPlCF37Ce",
+            [PricesEnvironment.Production] = "price_1TMnKLLbalvevoyG5mtYbzRq"
+        }},
     };
 
     public static string GetPriceId(string internalId, bool isProduction = false)

@@ -7,6 +7,7 @@ public static class ServerTiers
     private static readonly ServerTier T2 = new(new("T2"), 2, 2, 50, new(14, "USD"), null);
     private static readonly ServerTier T3 = new(new("T3"), 4, 2, 50, new(25, "USD"), null);
     private static readonly ServerTier T4 = new(new("T4"), 8, 3, 50, new(40, "USD"), null);
+    private static readonly ServerTier T5 = new(new("T5"), 16, 8, 100, new(75, "USD"), null);
 
     public static readonly List<ServerTier> All =
     [
@@ -14,7 +15,8 @@ public static class ServerTiers
         T1,
         T2,
         T3,
-        T4
+        T4,
+        T5
     ];
 
     public static ServerTier GetById(ServerTierId id)
