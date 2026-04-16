@@ -45,6 +45,28 @@ public class CoreFeature : IFeature
         forwardedHeadersOptions.KnownProxies.Clear();
         app.UseForwardedHeaders(forwardedHeadersOptions);
 
+        // TEMP DIAGNOSTIC: trace scheme/host/X-Forwarded-* on every OAuth-related hit
+        // so we can see what Request.Scheme + Request.Host look like when
+        // BuildRedirectUri runs during authorize vs. callback.
+        app.Use(async (ctx, next) =>
+        {
+            var path = ctx.Request.Path.Value ?? string.Empty;
+            if (path.StartsWith("/v1/auth", StringComparison.OrdinalIgnoreCase))
+            {
+                Log.Information(
+                    "OAUTH-TRACE {Method} {Path} scheme={Scheme} host={Host} XFProto={XFProto} XFHost={XFHost} XFFor={XFFor} XFPrefix={XFPrefix}",
+                    ctx.Request.Method,
+                    path,
+                    ctx.Request.Scheme,
+                    ctx.Request.Host.Value ?? "<null>",
+                    ctx.Request.Headers["X-Forwarded-Proto"].ToString(),
+                    ctx.Request.Headers["X-Forwarded-Host"].ToString(),
+                    ctx.Request.Headers["X-Forwarded-For"].ToString(),
+                    ctx.Request.Headers["X-Forwarded-Prefix"].ToString());
+            }
+            await next();
+        });
+
         app.MapGroup("v1").MapCarter();
         app.UseCors(AppConstants.CorsPolicy);
 
