@@ -34,10 +34,16 @@ public class CoreFeature : IFeature
 
     public void ConfigureApp(WebApplication app)
     {
-        app.UseForwardedHeaders(new ForwardedHeadersOptions
+        // Trust X-Forwarded-* from any proxy. Traefik runs on a separate host in prod,
+        // so the default KnownNetworks (127.0.0.1/8) and KnownProxies (::1) reject its
+        // headers and Request.Scheme stays "http" — breaking OAuth redirect_uri construction.
+        var forwardedHeadersOptions = new ForwardedHeadersOptions
         {
-            ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
-        });
+            ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto | ForwardedHeaders.XForwardedHost
+        };
+        forwardedHeadersOptions.KnownNetworks.Clear();
+        forwardedHeadersOptions.KnownProxies.Clear();
+        app.UseForwardedHeaders(forwardedHeadersOptions);
 
         app.MapGroup("v1").MapCarter();
         app.UseCors(AppConstants.CorsPolicy);
