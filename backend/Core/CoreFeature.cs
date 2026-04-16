@@ -45,28 +45,27 @@ public class CoreFeature : IFeature
         forwardedHeadersOptions.KnownProxies.Clear();
         app.UseForwardedHeaders(forwardedHeadersOptions);
 
-        // TEMP DIAGNOSTIC: trace EVERY request's scheme/host/X-Forwarded-* + raw orig
-        // headers so we can see exactly what the OAuth handler sees on the callback.
-        app.Use(async (ctx, next) =>
-        {
-            Log.Information(
-                "OAUTH-TRACE {Method} {Path} scheme={Scheme} host={Host} XFProto={XFProto} XOrigProto={XOrigProto} XFHost={XFHost} XOrigHost={XOrigHost}",
-                ctx.Request.Method,
-                ctx.Request.Path.Value ?? string.Empty,
-                ctx.Request.Scheme,
-                ctx.Request.Host.Value ?? "<null>",
-                ctx.Request.Headers["X-Forwarded-Proto"].ToString(),
-                ctx.Request.Headers["X-Original-Proto"].ToString(),
-                ctx.Request.Headers["X-Forwarded-Host"].ToString(),
-                ctx.Request.Headers["X-Original-Host"].ToString());
-            await next();
-        });
-
-        // Explicitly place auth middleware AFTER our diagnostic + ForwardedHeaders,
-        // otherwise WebApplication auto-inserts it earlier and the callback handler
-        // runs before our middleware sees the request.
+        // Must be placed explicitly AFTER UseForwardedHeaders. If WebApplication
+        // auto-inserts UseAuthentication, it lands earlier in the pipeline and the
+        // OAuth callback handler runs with Request.Scheme=http — so BuildRedirectUri
+        // sends http:// to the token endpoint and GitHub rejects it with
+        // redirect_uri_mismatch.
         app.UseAuthentication();
         app.UseAuthorization();
+
+        // Light diagnostic for OAuth paths only — helps trace redirect_uri issues
+        // without flooding logs with every request.
+        app.Use(async (ctx, next) =>
+        {
+            var path = ctx.Request.Path.Value ?? string.Empty;
+            if (path.StartsWith("/v1/auth", StringComparison.OrdinalIgnoreCase))
+            {
+                Log.Information(
+                    "AUTH-TRACE {Method} {Path} scheme={Scheme} host={Host}",
+                    ctx.Request.Method, path, ctx.Request.Scheme, ctx.Request.Host.Value ?? "<null>");
+            }
+            await next();
+        });
 
         app.MapGroup("v1").MapCarter();
         app.UseCors(AppConstants.CorsPolicy);

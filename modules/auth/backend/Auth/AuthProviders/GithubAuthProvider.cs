@@ -44,12 +44,6 @@ public static class GithubAuthProvider
             {
                 OnRedirectToAuthorizationEndpoint = context =>
                 {
-                    Log.Information(
-                        "OAUTH-TRACE challenge authorize_url={AuthorizeUrl} scheme={Scheme} host={Host}",
-                        context.RedirectUri,
-                        context.Request.Scheme,
-                        context.Request.Host.Value);
-
                     // Only redirect if this is the initial login attempt
                     if (context.Request.Path == "/v1/auth/login")
                     {
@@ -65,11 +59,10 @@ public static class GithubAuthProvider
                 {
                     Log.Error(
                         context.Failure,
-                        "OAUTH-TRACE remote failure scheme={Scheme} host={Host} path={Path} query={Query}",
-                        context.Request.Scheme,
-                        context.Request.Host.Value,
+                        "GitHub OAuth remote failure on {Path}: scheme={Scheme} host={Host}",
                         context.Request.Path.Value,
-                        context.Request.QueryString.Value);
+                        context.Request.Scheme,
+                        context.Request.Host.Value);
                     return Task.CompletedTask;
                 },
                 OnAccessDenied = context =>
