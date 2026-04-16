@@ -55,6 +55,16 @@ public static class GithubAuthProvider
                     }
                     return Task.CompletedTask;
                 },
+                OnRemoteFailure = context =>
+                {
+                    Log.Error(
+                        context.Failure,
+                        "GitHub OAuth remote failure on {Path}: scheme={Scheme} host={Host}",
+                        context.Request.Path.Value,
+                        context.Request.Scheme,
+                        context.Request.Host.Value);
+                    return Task.CompletedTask;
+                },
                 OnAccessDenied = context =>
                 {
                     Log.ForContext("User", context.HttpContext.User.Identity?.Name)

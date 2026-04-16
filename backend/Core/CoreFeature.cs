@@ -45,6 +45,28 @@ public class CoreFeature : IFeature
         forwardedHeadersOptions.KnownProxies.Clear();
         app.UseForwardedHeaders(forwardedHeadersOptions);
 
+        // Must be placed explicitly AFTER UseForwardedHeaders. If WebApplication
+        // auto-inserts UseAuthentication, it lands earlier in the pipeline and the
+        // OAuth callback handler runs with Request.Scheme=http — so BuildRedirectUri
+        // sends http:// to the token endpoint and GitHub rejects it with
+        // redirect_uri_mismatch.
+        app.UseAuthentication();
+        app.UseAuthorization();
+
+        // Light diagnostic for OAuth paths only — helps trace redirect_uri issues
+        // without flooding logs with every request.
+        app.Use(async (ctx, next) =>
+        {
+            var path = ctx.Request.Path.Value ?? string.Empty;
+            if (path.StartsWith("/v1/auth", StringComparison.OrdinalIgnoreCase))
+            {
+                Log.Information(
+                    "AUTH-TRACE {Method} {Path} scheme={Scheme} host={Host}",
+                    ctx.Request.Method, path, ctx.Request.Scheme, ctx.Request.Host.Value ?? "<null>");
+            }
+            await next();
+        });
+
         app.MapGroup("v1").MapCarter();
         app.UseCors(AppConstants.CorsPolicy);
 
