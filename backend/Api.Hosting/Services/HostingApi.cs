@@ -49,10 +49,10 @@ public sealed class HostingApi(
 
     public async Task UpdateDomainsForProjectAsync(ProjectId projectId)
     {
-        var response = await HttpClient.PutAsync("/domains", JsonContent.Create(new
+        var response = await HttpClient.PutAsync("/domains", new
         {
             projectId = projectId.Value.ToString()
-        }));
+        });
 
         if (!response.IsSuccessStatusCode)
         {
@@ -126,7 +126,7 @@ public sealed class HostingApi(
 
             try
             {
-                var deployResponse = await HttpClient.PostAsync("/projects/deploy", JsonContent.Create(new
+                var deployResponse = await HttpClient.PostAsync("/projects/deploy", new
                 {
                     projectId = projectId.Value.ToString(),
                     accessToken,
@@ -143,7 +143,7 @@ public sealed class HostingApi(
                     environmentName = deployment.Environment?.Name,
                     environmentType = deployment.Environment?.Type.ToString().ToLower(),
                     subdomain = deployment.Environment?.Subdomain
-                }), cts.Token);
+                }, cts.Token);
 
                 if (!deployResponse.IsSuccessStatusCode)
                 {
@@ -207,10 +207,10 @@ public sealed class HostingApi(
     public async Task StartProjectAsync(ProjectId projectId, string? environmentName = null)
     {
         var vmIdentifier = BuildVmIdentifier(projectId, environmentName);
-        var response = await HttpClient.PostAsync("/projects/start", JsonContent.Create(new
+        var response = await HttpClient.PostAsync("/projects/start", new
         {
             projectId = vmIdentifier
-        }));
+        });
 
         if (!response.IsSuccessStatusCode)
         {
@@ -223,10 +223,10 @@ public sealed class HostingApi(
 
     public async Task StopProjectAsync(ProjectId projectId)
     {
-        var response = await HttpClient.PostAsync("/projects/stop", JsonContent.Create(new
+        var response = await HttpClient.PostAsync("/projects/stop", new
         {
             projectId = projectId.Value.ToString()
-        }));
+        });
         if (!response.IsSuccessStatusCode)
         {
             Log.ForContext("BaseDomain", HttpClient.BaseDomain)
@@ -288,11 +288,11 @@ public sealed class HostingApi(
     public async Task<CommandExecutionResult> ExecuteCommandAsync(ProjectId projectId, string command, string? environmentName = null)
     {
         var vmIdentifier = BuildVmIdentifier(projectId, environmentName);
-        var response = await HttpClient.PostAsync("/projects/exec", JsonContent.Create(new
+        var response = await HttpClient.PostAsync("/projects/exec", new
         {
             projectId = vmIdentifier,
             command
-        }));
+        });
 
         if (!response.IsSuccessStatusCode)
         {
