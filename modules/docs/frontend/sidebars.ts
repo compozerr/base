@@ -19,6 +19,7 @@ const sidebars: SidebarsConfig = {
         'tutorials/deploy-docker-compose',
         'tutorials/deploy-nextjs',
         'tutorials/deploy-static-website',
+        'tutorials/deploy-with-github-actions',
         'tutorials/build-fullstack-app',
         'tutorials/create-publish-module',
         'tutorials/custom-domains-ssl',
@@ -69,6 +70,7 @@ const sidebars: SidebarsConfig = {
             'reference/architecture/project-structure',
           ],
         },
+        'reference/github-action',
       ],
     },
     {
