@@ -49,7 +49,7 @@ public sealed class HostingApi(
 
     public async Task UpdateDomainsForProjectAsync(ProjectId projectId)
     {
-        var response = await HttpClient.PutAsync("/domains", new
+        var response = await HttpClient.PutJsonAsync("/domains", new
         {
             projectId = projectId.Value.ToString()
         });
@@ -126,7 +126,7 @@ public sealed class HostingApi(
 
             try
             {
-                var deployResponse = await HttpClient.PostAsync("/projects/deploy", new
+                var deployResponse = await HttpClient.PostJsonAsync("/projects/deploy", new
                 {
                     projectId = projectId.Value.ToString(),
                     accessToken,
@@ -207,7 +207,7 @@ public sealed class HostingApi(
     public async Task StartProjectAsync(ProjectId projectId, string? environmentName = null)
     {
         var vmIdentifier = BuildVmIdentifier(projectId, environmentName);
-        var response = await HttpClient.PostAsync("/projects/start", new
+        var response = await HttpClient.PostJsonAsync("/projects/start", new
         {
             projectId = vmIdentifier
         });
@@ -223,7 +223,7 @@ public sealed class HostingApi(
 
     public async Task StopProjectAsync(ProjectId projectId)
     {
-        var response = await HttpClient.PostAsync("/projects/stop", new
+        var response = await HttpClient.PostJsonAsync("/projects/stop", new
         {
             projectId = projectId.Value.ToString()
         });
@@ -288,7 +288,7 @@ public sealed class HostingApi(
     public async Task<CommandExecutionResult> ExecuteCommandAsync(ProjectId projectId, string command, string? environmentName = null)
     {
         var vmIdentifier = BuildVmIdentifier(projectId, environmentName);
-        var response = await HttpClient.PostAsync("/projects/exec", new
+        var response = await HttpClient.PostJsonAsync("/projects/exec", new
         {
             projectId = vmIdentifier,
             command

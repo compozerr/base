@@ -68,13 +68,11 @@ public class HostingServerHttpClient(
         return await SendAsync(request, cancellationToken);
     }
 
-    public Task<HttpResponseMessage> PostAsync<T>(
+    public Task<HttpResponseMessage> PostJsonAsync<T>(
         string url,
         T payload,
         CancellationToken cancellationToken = default)
-    {
-        return PostAsync(url, JsonContent.Create(payload, options: SerializerOptions), cancellationToken);
-    }
+        => PostAsync(url, JsonContent.Create(payload, options: SerializerOptions), cancellationToken);
 
     public async Task<HttpResponseMessage> PutAsync(
         string url,
@@ -88,13 +86,11 @@ public class HostingServerHttpClient(
         return await SendAsync(request, cancellationToken);
     }
 
-    public Task<HttpResponseMessage> PutAsync<T>(
+    public Task<HttpResponseMessage> PutJsonAsync<T>(
         string url,
         T payload,
         CancellationToken cancellationToken = default)
-    {
-        return PutAsync(url, JsonContent.Create(payload, options: SerializerOptions), cancellationToken);
-    }
+        => PutAsync(url, JsonContent.Create(payload, options: SerializerOptions), cancellationToken);
 
     public async Task<HttpResponseMessage> DeleteAsync(
         string url,
