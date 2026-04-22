@@ -10,17 +10,14 @@ public class HostingServerHttpClient(
     Server server,
     ICryptoService cryptoService)
 {
-    // The hosting/manager (Node/Express) verifier re-stringifies req.body via
-    // JSON.stringify for signature comparison. JS's JSON.stringify does not
-    // escape '<', '>', '&', '\'' or non-ASCII, whereas System.Text.Json's default
-    // JavaScriptEncoder does (emitting <, &, ', etc.). Signing
-    // the default-encoded bytes but verifying against the re-stringified
-    // (non-escaped) bytes produces spurious 401 Unauthorized whenever the
-    // payload contains any of those characters (e.g. URLs with '&' in query
-    // strings, commands using shell ''' or '&&'). Use UnsafeRelaxedJsonEscaping
-    // so the bytes we sign match the bytes the verifier sees after parse+
-    // re-stringify.
-    public static readonly JsonSerializerOptions SerializerOptions = new()
+    // JsonSerializerDefaults.Web matches JsonContent.Create's implicit default
+    // (camelCase property naming) — the hosting/manager (Node/Express) reads
+    // req.body.serverTier.cores / ramGb in lowercase, so PascalCase would send
+    // cores=NaN&memory=NaN to Proxmox and 400 every deploy that updates VM HW.
+    // Encoder = UnsafeRelaxedJsonEscaping so signer-side bytes match the
+    // verifier's JSON.stringify output (which does not escape '<', '>', '&',
+    // '\'' or non-ASCII).
+    public static readonly JsonSerializerOptions SerializerOptions = new(JsonSerializerDefaults.Web)
     {
         Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
     };

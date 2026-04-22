@@ -68,4 +68,26 @@ public class HostingServerHttpClientTests
 
         Assert.Equal(1, handler.CallCount);
     }
+
+    // Hosting manager (TypeScript) reads serverTier.cores / serverTier.ramGb —
+    // if properties serialize as PascalCase they become undefined and Proxmox
+    // sees cores=NaN&memory=NaN (400 Parameter verification failed).
+    [Fact]
+    public async Task PostJsonAsync_SerializesNestedRecordsAsCamelCase()
+    {
+        var handler = new CapturingHandler();
+        var client = BuildClient(handler);
+
+        var payload = new
+        {
+            serverTier = ServerTiers.GetById(new ServerTierId("T4"))
+        };
+        await client.PostJsonAsync("/projects/deploy", payload);
+
+        Assert.NotNull(handler.CapturedBody);
+        Assert.Contains("\"cores\":", handler.CapturedBody);
+        Assert.Contains("\"ramGb\":", handler.CapturedBody);
+        Assert.DoesNotContain("\"Cores\":", handler.CapturedBody);
+        Assert.DoesNotContain("\"RamGb\":", handler.CapturedBody);
+    }
 }
