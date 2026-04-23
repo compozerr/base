@@ -10,6 +10,7 @@ public interface IProjectEnvironmentRepository : IGenericRepository<ProjectEnvir
     public Task<List<ProjectEnvironment>> GetByProjectIdWithLatestDeploymentAsync(ProjectId projectId, CancellationToken cancellationToken = default);
     public Task<ProjectEnvironment?> GetProductionEnvironmentAsync(ProjectId projectId);
     public Task<ProjectEnvironment?> GetProjectEnvironmentByNameAsync(ProjectId projectId, string name);
+    public Task<ProjectEnvironment?> GetByIdWithVariablesAsync(ProjectEnvironmentId environmentId);
 }
 
 public sealed class ProjectEnvironmentRepository(
@@ -39,6 +40,11 @@ public sealed class ProjectEnvironmentRepository(
         => Query()
             .Include(x => x.ProjectEnvironmentVariables)
             .FirstOrDefaultAsync(x => x.ProjectId == projectId && x.Name == name);
+
+    public Task<ProjectEnvironment?> GetByIdWithVariablesAsync(ProjectEnvironmentId environmentId)
+        => Query()
+            .Include(x => x.ProjectEnvironmentVariables)
+            .SingleOrDefaultAsync(x => x.Id == environmentId);
 
     public async Task<ProjectId> UpsertProjectEnvironmentAsync(ProjectId projectId, string branch, ProjectEnvironmentVariableDto[] pairs)
     {

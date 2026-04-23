@@ -1,3 +1,5 @@
+using Api.Data;
+using Api.Data.ProjectTypes;
 using Api.Endpoints.Projects.ProjectEnvironment;
 using Api.Jobs;
 using Api.Options;

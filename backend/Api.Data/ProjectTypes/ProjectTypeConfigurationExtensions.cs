@@ -1,6 +1,4 @@
-using Api.Data;
-
-namespace Api.ProjectTypes;
+namespace Api.Data.ProjectTypes;
 
 public static class ProjectTypeConfigurationExtensions
 {

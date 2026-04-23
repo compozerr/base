@@ -4,13 +4,6 @@ using Api.Data.Repositories;
 
 namespace Api.Endpoints.Projects.ProjectEnvironment;
 
-public interface IDefaultEnvironmentVariablesAppender
-{
-    Task<List<ProjectEnvironmentVariableDto>> AppendDefaultVariablesAsync(
-        List<ProjectEnvironmentVariableDto> current,
-        ProjectId projectId);
-}
-
 public sealed class DefaultEnvironmentVariablesAppender(
     IProjectRepository projectRepository) : IDefaultEnvironmentVariablesAppender
 {

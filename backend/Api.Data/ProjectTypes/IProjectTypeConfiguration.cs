@@ -1,7 +1,6 @@
 using Api.Abstractions;
-using Api.Data;
 
-namespace Api.ProjectTypes;
+namespace Api.Data.ProjectTypes;
 
 public interface IProjectTypeConfiguration
 {

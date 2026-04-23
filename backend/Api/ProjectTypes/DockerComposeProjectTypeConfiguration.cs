@@ -1,4 +1,5 @@
 using Api.Abstractions;
+using Api.Data.ProjectTypes;
 
 namespace Api.ProjectTypes;
 

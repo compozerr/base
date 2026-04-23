@@ -1,7 +1,7 @@
 using Api.Abstractions;
 using Api.Data;
+using Api.Data.ProjectTypes;
 using Api.Data.Repositories;
-using Api.ProjectTypes;
 using Core.MediatR;
 
 namespace Api.Endpoints.Projects.ProjectEnvironment;

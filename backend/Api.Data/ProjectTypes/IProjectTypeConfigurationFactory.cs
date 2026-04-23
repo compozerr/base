@@ -1,6 +1,6 @@
 using Api.Abstractions;
 
-namespace Api.ProjectTypes;
+namespace Api.Data.ProjectTypes;
 
 public interface IProjectTypeConfigurationFactory
 {
