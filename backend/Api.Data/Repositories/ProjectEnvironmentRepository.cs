@@ -8,6 +8,7 @@ public interface IProjectEnvironmentRepository : IGenericRepository<ProjectEnvir
     public Task<ProjectEnvironment?> GetProjectEnvironmentByBranchAsync(ProjectId projectId, string branch);
     public Task<ProjectId> UpsertProjectEnvironmentAsync(ProjectId projectId, string branch, ProjectEnvironmentVariableDto[] pairs);
     public Task<List<ProjectEnvironment>> GetByProjectIdWithLatestDeploymentAsync(ProjectId projectId, CancellationToken cancellationToken = default);
+    public Task<List<ProjectEnvironment>> GetByProjectIdAsync(ProjectId projectId, CancellationToken cancellationToken = default);
     public Task<ProjectEnvironment?> GetProductionEnvironmentAsync(ProjectId projectId);
     public Task<ProjectEnvironment?> GetProjectEnvironmentByNameAsync(ProjectId projectId, string name);
     public Task<ProjectEnvironment?> GetByIdWithVariablesAsync(ProjectEnvironmentId environmentId);
@@ -27,6 +28,13 @@ public sealed class ProjectEnvironmentRepository(
             .Include(e => e.Deployments!.OrderByDescending(d => d.CreatedAtUtc).Take(1))
             .Include(e => e.Project!).ThenInclude(p => p.Domains)
             .Include(e => e.Project!).ThenInclude(p => p.Server!)
+            .OrderBy(e => e.Type)
+            .ThenByDescending(e => e.CreatedAtUtc)
+            .ToListAsync(cancellationToken);
+
+    public Task<List<ProjectEnvironment>> GetByProjectIdAsync(ProjectId projectId, CancellationToken cancellationToken = default)
+        => Query()
+            .Where(e => e.ProjectId == projectId)
             .OrderBy(e => e.Type)
             .ThenByDescending(e => e.CreatedAtUtc)
             .ToListAsync(cancellationToken);

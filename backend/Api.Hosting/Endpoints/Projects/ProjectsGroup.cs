@@ -4,6 +4,7 @@ using Api.Hosting.Endpoints.Projects.GetAll;
 using Api.Hosting.Endpoints.Projects.ProductionEnvironment;
 using Api.Hosting.Endpoints.Projects.ProjectDomains;
 using Api.Hosting.Endpoints.Projects.ProjectEnvironment;
+using Api.Hosting.Endpoints.Projects.ProjectEnvironments;
 using Api.Hosting.Endpoints.Projects.ProjectState;
 using Api.Hosting.Endpoints.Projects.Services;
 using Api.Hosting.Endpoints.Projects.TcpAllocations;
@@ -23,6 +24,7 @@ public static class ProjectsGroup
         group.AddGetAllProjectsRoute();
         group.AddProjectDomainsGroup();
         group.AddProjectEnvironmentGroup();
+        group.AddProjectEnvironmentsGroup();
         group.AddEnvironmentVariablesGroup();
         group.AddProductionEnvironmentGroup();
         group.AddProjectStateRoute();
