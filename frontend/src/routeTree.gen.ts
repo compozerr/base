@@ -27,12 +27,15 @@ import { Route as AuthDashboardSettingsRouteImport } from './routes/_auth/_dashb
 import { Route as AuthDashboardMyModulesRouteImport } from './routes/_auth/_dashboard/my-modules'
 import { Route as AuthDashboardMembersRouteImport } from './routes/_auth/_dashboard/members'
 import { Route as AuthDashboardIntroFlowRouteImport } from './routes/_auth/_dashboard/intro-flow'
+import { Route as AuthDashboardAdminRouteRouteImport } from './routes/_auth/_dashboard/admin/route'
 import { Route as AuthDashboardProjectsIndexRouteImport } from './routes/_auth/_dashboard/projects/index'
 import { Route as AuthDashboardOrganizationsIndexRouteImport } from './../../modules/organizations/frontend/src/routes/_auth/_dashboard/organizations/index'
 import { Route as AuthDashboardProjectsProjectIdRouteRouteImport } from './routes/_auth/_dashboard/projects/$projectId/route'
 import { Route as AuthDashboardProjectsProjectIdIndexRouteImport } from './routes/_auth/_dashboard/projects/$projectId/index'
 import { Route as AuthDashboardOrganizationsOrgIdIndexRouteImport } from './../../modules/organizations/frontend/src/routes/_auth/_dashboard/organizations/$orgId/index'
+import { Route as AuthDashboardAdminEmailsIndexRouteImport } from './routes/_auth/_dashboard/admin/emails/index'
 import { Route as AuthDashboardOrganizationsOrgIdMembersRouteImport } from './../../modules/organizations/frontend/src/routes/_auth/_dashboard/organizations/$orgId/members'
+import { Route as AuthDashboardAdminEmailsIdRouteImport } from './routes/_auth/_dashboard/admin/emails/$id'
 import { Route as AuthDashboardProjectsProjectIdSettingsRouteRouteImport } from './routes/_auth/_dashboard/projects/$projectId/settings/route'
 import { Route as AuthDashboardProjectsProjectIdSettingsIndexRouteImport } from './routes/_auth/_dashboard/projects/$projectId/settings/index'
 import { Route as AuthDashboardProjectsProjectIdEnvironmentsIndexRouteImport } from './routes/_auth/_dashboard/projects/$projectId/environments/index'
@@ -130,6 +133,11 @@ const AuthDashboardIntroFlowRoute = AuthDashboardIntroFlowRouteImport.update({
   path: '/intro-flow',
   getParentRoute: () => AuthDashboardRoute,
 } as any)
+const AuthDashboardAdminRouteRoute = AuthDashboardAdminRouteRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AuthDashboardRoute,
+} as any)
 const AuthDashboardProjectsIndexRoute =
   AuthDashboardProjectsIndexRouteImport.update({
     id: '/projects/',
@@ -160,11 +168,23 @@ const AuthDashboardOrganizationsOrgIdIndexRoute =
     path: '/organizations/$orgId/',
     getParentRoute: () => AuthDashboardRoute,
   } as any)
+const AuthDashboardAdminEmailsIndexRoute =
+  AuthDashboardAdminEmailsIndexRouteImport.update({
+    id: '/emails/',
+    path: '/emails/',
+    getParentRoute: () => AuthDashboardAdminRouteRoute,
+  } as any)
 const AuthDashboardOrganizationsOrgIdMembersRoute =
   AuthDashboardOrganizationsOrgIdMembersRouteImport.update({
     id: '/organizations/$orgId/members',
     path: '/organizations/$orgId/members',
     getParentRoute: () => AuthDashboardRoute,
+  } as any)
+const AuthDashboardAdminEmailsIdRoute =
+  AuthDashboardAdminEmailsIdRouteImport.update({
+    id: '/emails/$id',
+    path: '/emails/$id',
+    getParentRoute: () => AuthDashboardAdminRouteRoute,
   } as any)
 const AuthDashboardProjectsProjectIdSettingsRouteRoute =
   AuthDashboardProjectsProjectIdSettingsRouteRouteImport.update({
@@ -229,6 +249,7 @@ export interface FileRoutesByFullPath {
   '/invoices/': typeof InvoicesIndexRoute
   '/modules/': typeof ModulesIndexRoute
   '/stripe/': typeof StripeIndexRoute
+  '/admin': typeof AuthDashboardAdminRouteRouteWithChildren
   '/intro-flow': typeof AuthDashboardIntroFlowRoute
   '/members': typeof AuthDashboardMembersRoute
   '/my-modules': typeof AuthDashboardMyModulesRoute
@@ -238,7 +259,9 @@ export interface FileRoutesByFullPath {
   '/organizations/': typeof AuthDashboardOrganizationsIndexRoute
   '/projects/': typeof AuthDashboardProjectsIndexRoute
   '/projects/$projectId/settings': typeof AuthDashboardProjectsProjectIdSettingsRouteRouteWithChildren
+  '/admin/emails/$id': typeof AuthDashboardAdminEmailsIdRoute
   '/organizations/$orgId/members': typeof AuthDashboardOrganizationsOrgIdMembersRoute
+  '/admin/emails/': typeof AuthDashboardAdminEmailsIndexRoute
   '/organizations/$orgId/': typeof AuthDashboardOrganizationsOrgIdIndexRoute
   '/projects/$projectId/': typeof AuthDashboardProjectsProjectIdIndexRoute
   '/projects/$projectId/settings/domains': typeof AuthDashboardProjectsProjectIdSettingsDomainsRoute
@@ -261,6 +284,7 @@ export interface FileRoutesByTo {
   '/invoices': typeof InvoicesIndexRoute
   '/modules': typeof ModulesIndexRoute
   '/stripe': typeof StripeIndexRoute
+  '/admin': typeof AuthDashboardAdminRouteRouteWithChildren
   '/intro-flow': typeof AuthDashboardIntroFlowRoute
   '/members': typeof AuthDashboardMembersRoute
   '/my-modules': typeof AuthDashboardMyModulesRoute
@@ -268,7 +292,9 @@ export interface FileRoutesByTo {
   '/modules/$org/$name': typeof ModulesOrgDotnameRoute
   '/organizations': typeof AuthDashboardOrganizationsIndexRoute
   '/projects': typeof AuthDashboardProjectsIndexRoute
+  '/admin/emails/$id': typeof AuthDashboardAdminEmailsIdRoute
   '/organizations/$orgId/members': typeof AuthDashboardOrganizationsOrgIdMembersRoute
+  '/admin/emails': typeof AuthDashboardAdminEmailsIndexRoute
   '/organizations/$orgId': typeof AuthDashboardOrganizationsOrgIdIndexRoute
   '/projects/$projectId': typeof AuthDashboardProjectsProjectIdIndexRoute
   '/projects/$projectId/settings/domains': typeof AuthDashboardProjectsProjectIdSettingsDomainsRoute
@@ -294,6 +320,7 @@ export interface FileRoutesById {
   '/invoices/': typeof InvoicesIndexRoute
   '/modules/': typeof ModulesIndexRoute
   '/stripe/': typeof StripeIndexRoute
+  '/_auth/_dashboard/admin': typeof AuthDashboardAdminRouteRouteWithChildren
   '/_auth/_dashboard/intro-flow': typeof AuthDashboardIntroFlowRoute
   '/_auth/_dashboard/members': typeof AuthDashboardMembersRoute
   '/_auth/_dashboard/my-modules': typeof AuthDashboardMyModulesRoute
@@ -303,7 +330,9 @@ export interface FileRoutesById {
   '/_auth/_dashboard/organizations/': typeof AuthDashboardOrganizationsIndexRoute
   '/_auth/_dashboard/projects/': typeof AuthDashboardProjectsIndexRoute
   '/_auth/_dashboard/projects/$projectId/settings': typeof AuthDashboardProjectsProjectIdSettingsRouteRouteWithChildren
+  '/_auth/_dashboard/admin/emails/$id': typeof AuthDashboardAdminEmailsIdRoute
   '/_auth/_dashboard/organizations/$orgId/members': typeof AuthDashboardOrganizationsOrgIdMembersRoute
+  '/_auth/_dashboard/admin/emails/': typeof AuthDashboardAdminEmailsIndexRoute
   '/_auth/_dashboard/organizations/$orgId/': typeof AuthDashboardOrganizationsOrgIdIndexRoute
   '/_auth/_dashboard/projects/$projectId/': typeof AuthDashboardProjectsProjectIdIndexRoute
   '/_auth/_dashboard/projects/$projectId/settings/domains': typeof AuthDashboardProjectsProjectIdSettingsDomainsRoute
@@ -328,6 +357,7 @@ export interface FileRouteTypes {
     | '/invoices/'
     | '/modules/'
     | '/stripe/'
+    | '/admin'
     | '/intro-flow'
     | '/members'
     | '/my-modules'
@@ -337,7 +367,9 @@ export interface FileRouteTypes {
     | '/organizations/'
     | '/projects/'
     | '/projects/$projectId/settings'
+    | '/admin/emails/$id'
     | '/organizations/$orgId/members'
+    | '/admin/emails/'
     | '/organizations/$orgId/'
     | '/projects/$projectId/'
     | '/projects/$projectId/settings/domains'
@@ -360,6 +392,7 @@ export interface FileRouteTypes {
     | '/invoices'
     | '/modules'
     | '/stripe'
+    | '/admin'
     | '/intro-flow'
     | '/members'
     | '/my-modules'
@@ -367,7 +400,9 @@ export interface FileRouteTypes {
     | '/modules/$org/$name'
     | '/organizations'
     | '/projects'
+    | '/admin/emails/$id'
     | '/organizations/$orgId/members'
+    | '/admin/emails'
     | '/organizations/$orgId'
     | '/projects/$projectId'
     | '/projects/$projectId/settings/domains'
@@ -392,6 +427,7 @@ export interface FileRouteTypes {
     | '/invoices/'
     | '/modules/'
     | '/stripe/'
+    | '/_auth/_dashboard/admin'
     | '/_auth/_dashboard/intro-flow'
     | '/_auth/_dashboard/members'
     | '/_auth/_dashboard/my-modules'
@@ -401,7 +437,9 @@ export interface FileRouteTypes {
     | '/_auth/_dashboard/organizations/'
     | '/_auth/_dashboard/projects/'
     | '/_auth/_dashboard/projects/$projectId/settings'
+    | '/_auth/_dashboard/admin/emails/$id'
     | '/_auth/_dashboard/organizations/$orgId/members'
+    | '/_auth/_dashboard/admin/emails/'
     | '/_auth/_dashboard/organizations/$orgId/'
     | '/_auth/_dashboard/projects/$projectId/'
     | '/_auth/_dashboard/projects/$projectId/settings/domains'
@@ -556,6 +594,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthDashboardIntroFlowRouteImport
       parentRoute: typeof AuthDashboardRoute
     }
+    '/_auth/_dashboard/admin': {
+      id: '/_auth/_dashboard/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthDashboardAdminRouteRouteImport
+      parentRoute: typeof AuthDashboardRoute
+    }
     '/_auth/_dashboard/projects/': {
       id: '/_auth/_dashboard/projects/'
       path: '/projects'
@@ -591,12 +636,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthDashboardOrganizationsOrgIdIndexRouteImport
       parentRoute: typeof AuthDashboardRoute
     }
+    '/_auth/_dashboard/admin/emails/': {
+      id: '/_auth/_dashboard/admin/emails/'
+      path: '/emails'
+      fullPath: '/admin/emails/'
+      preLoaderRoute: typeof AuthDashboardAdminEmailsIndexRouteImport
+      parentRoute: typeof AuthDashboardAdminRouteRoute
+    }
     '/_auth/_dashboard/organizations/$orgId/members': {
       id: '/_auth/_dashboard/organizations/$orgId/members'
       path: '/organizations/$orgId/members'
       fullPath: '/organizations/$orgId/members'
       preLoaderRoute: typeof AuthDashboardOrganizationsOrgIdMembersRouteImport
       parentRoute: typeof AuthDashboardRoute
+    }
+    '/_auth/_dashboard/admin/emails/$id': {
+      id: '/_auth/_dashboard/admin/emails/$id'
+      path: '/emails/$id'
+      fullPath: '/admin/emails/$id'
+      preLoaderRoute: typeof AuthDashboardAdminEmailsIdRouteImport
+      parentRoute: typeof AuthDashboardAdminRouteRoute
     }
     '/_auth/_dashboard/projects/$projectId/settings': {
       id: '/_auth/_dashboard/projects/$projectId/settings'
@@ -657,6 +716,22 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AuthDashboardAdminRouteRouteChildren {
+  AuthDashboardAdminEmailsIdRoute: typeof AuthDashboardAdminEmailsIdRoute
+  AuthDashboardAdminEmailsIndexRoute: typeof AuthDashboardAdminEmailsIndexRoute
+}
+
+const AuthDashboardAdminRouteRouteChildren: AuthDashboardAdminRouteRouteChildren =
+  {
+    AuthDashboardAdminEmailsIdRoute: AuthDashboardAdminEmailsIdRoute,
+    AuthDashboardAdminEmailsIndexRoute: AuthDashboardAdminEmailsIndexRoute,
+  }
+
+const AuthDashboardAdminRouteRouteWithChildren =
+  AuthDashboardAdminRouteRoute._addFileChildren(
+    AuthDashboardAdminRouteRouteChildren,
+  )
+
 interface AuthDashboardProjectsProjectIdSettingsRouteRouteChildren {
   AuthDashboardProjectsProjectIdSettingsDomainsRoute: typeof AuthDashboardProjectsProjectIdSettingsDomainsRoute
   AuthDashboardProjectsProjectIdSettingsGeneralRoute: typeof AuthDashboardProjectsProjectIdSettingsGeneralRoute
@@ -709,6 +784,7 @@ const AuthDashboardProjectsProjectIdRouteRouteWithChildren =
   )
 
 interface AuthDashboardRouteChildren {
+  AuthDashboardAdminRouteRoute: typeof AuthDashboardAdminRouteRouteWithChildren
   AuthDashboardIntroFlowRoute: typeof AuthDashboardIntroFlowRoute
   AuthDashboardMembersRoute: typeof AuthDashboardMembersRoute
   AuthDashboardMyModulesRoute: typeof AuthDashboardMyModulesRoute
@@ -721,6 +797,7 @@ interface AuthDashboardRouteChildren {
 }
 
 const AuthDashboardRouteChildren: AuthDashboardRouteChildren = {
+  AuthDashboardAdminRouteRoute: AuthDashboardAdminRouteRouteWithChildren,
   AuthDashboardIntroFlowRoute: AuthDashboardIntroFlowRoute,
   AuthDashboardMembersRoute: AuthDashboardMembersRoute,
   AuthDashboardMyModulesRoute: AuthDashboardMyModulesRoute,

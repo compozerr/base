@@ -4,4 +4,5 @@ internal sealed record MeResponse(
     Guid Id,
     string Name,
     string Email,
-    string AvatarUrl);
+    string AvatarUrl,
+    IReadOnlyList<string> Roles);

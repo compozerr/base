@@ -33,6 +33,7 @@ async function fetchAndSetUser(setUser: React.Dispatch<React.SetStateAction<Auth
         email: response.email!,
         name: response.name!,
         avatarUrl: response.avatarUrl!,
+        roles: response.roles ?? [],
     }
 
     setUser(user)

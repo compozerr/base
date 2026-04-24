@@ -23,7 +23,8 @@ public static class MeRoute
                 user.Id.Value,
                 user.Name,
                 user.Email,
-                user.AvatarUrl);
+                user.AvatarUrl,
+                [.. user.Roles]);
         });
     }
 }

@@ -6,7 +6,7 @@ import { useAuth } from "@/hooks/use-dynamic-auth"
 import { getLink } from "@/links"
 import { Link, useNavigate, useRouter, useRouterState } from "@tanstack/react-router"
 import { AnimatePresence, motion } from "framer-motion"
-import { Building2, Check, ChevronDown, ChevronsUpDown, FileText, FolderGit2, Home, LogOut, Package, Settings, User, Users } from "lucide-react"
+import { Building2, Check, ChevronDown, ChevronsUpDown, FileText, FolderGit2, Home, LogOut, Mail, Package, Settings, Shield, User, Users } from "lucide-react"
 import { useEffect, useState } from "react"
 import {
   Sidebar,
@@ -298,6 +298,38 @@ export function AppSidebar() {
                     </motion.div>
                   )}
                 </AnimatePresence>
+              </SidebarGroupContent>
+            </SidebarGroup>
+          </>
+        )}
+
+        {user?.roles?.includes("admin") && (
+          <>
+            <SidebarSeparator className="bg-white/[0.06]" />
+            <SidebarGroup>
+              <SidebarGroupLabel className="px-4 text-[11px] font-medium uppercase tracking-wider text-white/40">
+                <Shield className="inline h-3 w-3 mr-1" /> Admin
+              </SidebarGroupLabel>
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton
+                      onClick={() =>
+                        navigate({ viewTransition: true, to: "/admin/emails" })
+                      }
+                      isActive={isActive("/admin/emails")}
+                      tooltip="Sent emails"
+                      className={
+                        isActive("/admin/emails")
+                          ? "relative text-white before:absolute before:left-0 before:top-1/2 before:h-5 before:-translate-y-1/2 before:w-[2px] before:rounded-r before:bg-[hsl(var(--nav-accent))]"
+                          : "text-white/60 hover:text-white"
+                      }
+                    >
+                      <Mail className="h-4 w-4" />
+                      <span>Sent emails</span>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                </SidebarMenu>
               </SidebarGroupContent>
             </SidebarGroup>
           </>

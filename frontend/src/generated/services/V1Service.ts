@@ -7,6 +7,598 @@ import type { paths } from "../schema";
 import type { DeepReadonly, InvalidateQueryFilters, MutationFiltersByMutationKey, MutationFiltersByParameters, MutationVariables, OperationError, OperationInfiniteData, PartialParameters, QueryFiltersByParameters, QueryFiltersByQueryKey, QueryFnOptionsByParameters, QueryFnOptionsByQueryKey, RequestFnResponse, ServiceOperationEnsureInfiniteQueryDataOptions, ServiceOperationEnsureQueryDataOptions, ServiceOperationFetchInfiniteQueryOptions, ServiceOperationFetchQueryOptions, ServiceOperationInfiniteQueryKey, ServiceOperationMutationFnOptions, ServiceOperationMutationKey, ServiceOperationQueryKey, ServiceOperationUseMutationOptions, UseQueryOptionsForUseQueries, UseQueryOptionsForUseSuspenseQuery, WithOptional, QraftServiceOperationsToken } from "@openapi-qraft/tanstack-query-react-types";
 import type { CancelOptions, DefinedInitialDataInfiniteOptions, DefinedInitialDataOptions, DefinedUseInfiniteQueryResult, DefinedUseQueryResult, InfiniteQueryPageParamsOptions, InvalidateOptions, Mutation, MutationCache, MutationState, NoInfer, QueryState, RefetchOptions, ResetOptions, SetDataOptions, UndefinedInitialDataInfiniteOptions, UndefinedInitialDataOptions, Updater, UseInfiniteQueryResult, UseMutationResult, UseQueryResult, UseSuspenseInfiniteQueryOptions, UseSuspenseInfiniteQueryResult, UseSuspenseQueryOptions, UseSuspenseQueryResult } from "@tanstack/react-query";
 export interface V1Service {
+    getAdminSentEmails: {
+        /**/
+        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: QueryFnOptionsByQueryKey<GetAdminSentEmailsSchema, GetAdminSentEmailsParameters, TMeta, TSignal> | (QueryFnOptionsByParameters<GetAdminSentEmailsParameters, TMeta, TSignal> | void), client?: (schema: GetAdminSentEmailsSchema, options: {
+            parameters: GetAdminSentEmailsParameters;
+            signal?: TSignal;
+            meta?: TMeta;
+        }) => Promise<RequestFnResponse<GetAdminSentEmailsData, GetAdminSentEmailsError>>): Promise<RequestFnResponse<GetAdminSentEmailsData, GetAdminSentEmailsError>>;
+        /**/
+        getQueryKey(parameters: DeepReadonly<GetAdminSentEmailsParameters> | void): ServiceOperationQueryKey<GetAdminSentEmailsSchema, GetAdminSentEmailsParameters>;
+        /**
+         * Performs asynchronous data fetching, manages loading states and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
+         * @example Query without parameters
+         * ```ts
+         * const { data, isLoading } = qraft.v1.getAdminSentEmails.useQuery()
+         * ```
+         * @example Query with parameters
+         * ```ts
+         * const { data, isLoading } = qraft.v1.getAdminSentEmails.useQuery({
+         *     query: {
+         *         Cursor: cursor
+         *     }
+         * })
+         * ```
+         */
+        useQuery<TData = GetAdminSentEmailsData>(parameters: ServiceOperationQueryKey<GetAdminSentEmailsSchema, GetAdminSentEmailsParameters> | (DeepReadonly<GetAdminSentEmailsParameters> | void), options?: Omit<UndefinedInitialDataOptions<GetAdminSentEmailsData, GetAdminSentEmailsError, TData, ServiceOperationQueryKey<GetAdminSentEmailsSchema, GetAdminSentEmailsParameters>>, "queryKey">): UseQueryResult<TData, OperationError<GetAdminSentEmailsError>>;
+        /**
+         * Performs asynchronous data fetching, manages loading states and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
+         * @example Query without parameters
+         * ```ts
+         * const { data, isLoading } = qraft.v1.getAdminSentEmails.useQuery()
+         * ```
+         * @example Query with parameters
+         * ```ts
+         * const { data, isLoading } = qraft.v1.getAdminSentEmails.useQuery({
+         *     query: {
+         *         Cursor: cursor
+         *     }
+         * })
+         * ```
+         */
+        useQuery<TData = GetAdminSentEmailsData>(parameters: ServiceOperationQueryKey<GetAdminSentEmailsSchema, GetAdminSentEmailsParameters> | (DeepReadonly<GetAdminSentEmailsParameters> | void), options: Omit<DefinedInitialDataOptions<GetAdminSentEmailsData, GetAdminSentEmailsError, TData, ServiceOperationQueryKey<GetAdminSentEmailsSchema, GetAdminSentEmailsParameters>>, "queryKey">): DefinedUseQueryResult<TData, OperationError<GetAdminSentEmailsError>>;
+        /**/
+        getInfiniteQueryKey(parameters: DeepReadonly<GetAdminSentEmailsParameters> | void): ServiceOperationInfiniteQueryKey<GetAdminSentEmailsSchema, GetAdminSentEmailsParameters>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useInfiniteQuery|`useInfiniteQuery(...)` documentation}
+         *
+         * @example Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getAdminSentEmails.useInfiniteQuery({}, {
+         *     initialPageParam: {
+         *         query: {
+         *             Cursor: initialCursor
+         *         }
+         *     },
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useInfiniteQuery<TPageParam extends GetAdminSentEmailsParameters, TQueryFnData = GetAdminSentEmailsData, TData = OperationInfiniteData<TQueryFnData, GetAdminSentEmailsParameters>>(parameters: ServiceOperationInfiniteQueryKey<GetAdminSentEmailsSchema, GetAdminSentEmailsParameters> | (DeepReadonly<GetAdminSentEmailsParameters> | void), options: Omit<UndefinedInitialDataInfiniteOptions<TQueryFnData, GetAdminSentEmailsError, TData, ServiceOperationInfiniteQueryKey<GetAdminSentEmailsSchema, GetAdminSentEmailsParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<TQueryFnData, PartialParameters<DeepReadonly<TPageParam>>>): UseInfiniteQueryResult<TData, OperationError<GetAdminSentEmailsError>>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useInfiniteQuery|`useInfiniteQuery(...)` documentation}
+         *
+         * @example Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getAdminSentEmails.useInfiniteQuery({}, {
+         *     initialPageParam: {
+         *         query: {
+         *             Cursor: initialCursor
+         *         }
+         *     },
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useInfiniteQuery<TPageParam extends GetAdminSentEmailsParameters, TQueryFnData = GetAdminSentEmailsData, TData = OperationInfiniteData<TQueryFnData, GetAdminSentEmailsParameters>>(parameters: ServiceOperationInfiniteQueryKey<GetAdminSentEmailsSchema, GetAdminSentEmailsParameters> | (DeepReadonly<GetAdminSentEmailsParameters> | void), options: Omit<DefinedInitialDataInfiniteOptions<TQueryFnData, GetAdminSentEmailsError, TData, ServiceOperationInfiniteQueryKey<GetAdminSentEmailsSchema, GetAdminSentEmailsParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<GetAdminSentEmailsData, PartialParameters<DeepReadonly<TPageParam>>>): DefinedUseInfiniteQueryResult<TData, OperationError<GetAdminSentEmailsError>>;
+        /**
+         * Monitors the number of queries currently fetching, matching the provided filters.
+         * Useful for creating loading indicators or performing actions based on active requests.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsFetching|`useIsFetching(...)` documentation}
+         * @example Checks the total number of queries fetching from the specified service method,
+         * both normal and infinite. If no parameters are provided, no filtering is applied.
+         * ```ts
+         * const getAdminSentEmailsTotal = qraft.v1.getAdminSentEmails.useIsFetching()
+         * ```
+         * @example Checks the number of normal queries fetching with the specified parameters.
+         * ```ts
+         * const getAdminSentEmailsByParametersTotal = qraft.v1.getAdminSentEmails.useIsFetching({
+         *     infinite: false,
+         *     parameters: {
+         *         query: {
+         *             Cursor: cursor
+         *         }
+         *     }
+         * })
+         * ```
+         */
+        useIsFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetAdminSentEmailsSchema, GetAdminSentEmailsData, TInfinite, GetAdminSentEmailsParameters, GetAdminSentEmailsError> | QueryFiltersByQueryKey<GetAdminSentEmailsSchema, GetAdminSentEmailsData, TInfinite, GetAdminSentEmailsParameters, GetAdminSentEmailsError>): number;
+        /**
+         * Allows you to execute multiple asynchronous data fetching operations concurrently. This is especially useful for managing complex data dependencies in parallel.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
+         * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
+         * ```ts
+         * const getAdminSentEmailsResults = qraft.v1.getAdminSentEmails.useQueries({
+         *     queries: [
+         *         {
+         *             query: {
+         *                 Cursor: cursor1
+         *             }
+         *         },
+         *         {
+         *             query: {
+         *                 Cursor: cursor2
+         *             }
+         *         }
+         *     ]
+         * });
+         * getAdminSentEmailsResults.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
+         * ```
+         * @example Combined results. Only the data will be returned.
+         * ```ts
+         * const getAdminSentEmailsCombinedResults = qraft.v1.getAdminSentEmails.useQueries({
+         *     combine: results => results.map(result => result.data),
+         *     queries: [
+         *         {
+         *             query: {
+         *                 Cursor: cursor1
+         *             }
+         *         },
+         *         {
+         *             query: {
+         *                 Cursor: cursor2
+         *             }
+         *         }
+         *     ]
+         * });
+         * getAdminSentEmailsCombinedResults.forEach(data => console.log({ data }));
+         * ```
+         */
+        useQueries<T extends Array<UseQueryOptionsForUseQueries<GetAdminSentEmailsSchema, GetAdminSentEmailsParameters, GetAdminSentEmailsData, GetAdminSentEmailsError>>, TCombinedResult = Array<UseQueryResult<GetAdminSentEmailsData, GetAdminSentEmailsError>>>(options: {
+            queries: T;
+            combine?: (results: Array<UseQueryResult<GetAdminSentEmailsData, GetAdminSentEmailsError>>) => TCombinedResult;
+        }): TCombinedResult;
+        /**
+         * Performs asynchronous data fetching with Suspense support.
+         * Similar to useQuery but integrates with React Suspense for loading states.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
+         * @example Suspense Query without parameters
+         * ```ts
+         * const data = qraft.v1.getAdminSentEmails.useSuspenseQuery()
+         * ```
+         * @example Suspense Query with parameters
+         * ```ts
+         * const data = qraft.v1.getAdminSentEmails.useSuspenseQuery({
+         *     query: {
+         *         Cursor: cursor
+         *     }
+         * })
+         * ```
+         */
+        useSuspenseQuery<TData = GetAdminSentEmailsData>(parameters: ServiceOperationQueryKey<GetAdminSentEmailsSchema, GetAdminSentEmailsParameters> | (DeepReadonly<GetAdminSentEmailsParameters> | void), options?: Omit<UseSuspenseQueryOptions<GetAdminSentEmailsData, GetAdminSentEmailsError, TData, ServiceOperationQueryKey<GetAdminSentEmailsSchema, GetAdminSentEmailsParameters>>, "queryKey">): UseSuspenseQueryResult<TData, OperationError<GetAdminSentEmailsError>>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         * It functions similarly to `useInfiniteQuery`, but with added support for React Suspense.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseInfiniteQuery|`useSuspenseInfiniteQuery(...)` documentation}
+         *
+         * @example Suspense Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getAdminSentEmails.useSuspenseInfiniteQuery({}, {
+         *     initialPageParam: {
+         *         query: {
+         *             Cursor: initialCursor
+         *         }
+         *     },
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useSuspenseInfiniteQuery<TPageParam extends GetAdminSentEmailsParameters, TData = GetAdminSentEmailsData>(parameters: ServiceOperationInfiniteQueryKey<GetAdminSentEmailsSchema, GetAdminSentEmailsParameters> | (DeepReadonly<GetAdminSentEmailsParameters> | void), options: Omit<UseSuspenseInfiniteQueryOptions<GetAdminSentEmailsData, GetAdminSentEmailsError, OperationInfiniteData<TData, GetAdminSentEmailsParameters>, ServiceOperationInfiniteQueryKey<GetAdminSentEmailsSchema, GetAdminSentEmailsParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<GetAdminSentEmailsData, PartialParameters<DeepReadonly<TPageParam>>>): UseSuspenseInfiniteQueryResult<OperationInfiniteData<TData, GetAdminSentEmailsParameters>, OperationError<GetAdminSentEmailsError>>;
+        /**
+         * Allows you to execute multiple asynchronous data fetching operations concurrently with Suspense support.
+         * Similar to useQueries but integrates with React Suspense for loading states.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
+         * @example Basic usage with Suspense
+         * ```ts
+         * const getAdminSentEmailsData = qraft.v1.getAdminSentEmails.useSuspenseQueries({
+         *     queries: [
+         *         {
+         *             query: {
+         *                 Cursor: cursor1
+         *             }
+         *         },
+         *         {
+         *             query: {
+         *                 Cursor: cursor2
+         *             }
+         *         }
+         *     ]
+         * });
+         * getAdminSentEmailsResults.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
+         * ```
+         * @example With data transformation using combine
+         * ```ts
+         * const getAdminSentEmailsCombinedData = qraft.v1.getAdminSentEmails.useSuspenseQueries({
+         *     combine: results => results.map(result => result.data),
+         *     queries: [
+         *         {
+         *             query: {
+         *                 Cursor: cursor1
+         *             }
+         *         },
+         *         {
+         *             query: {
+         *                 Cursor: cursor2
+         *             }
+         *         }
+         *     ]
+         * });
+         * getAdminSentEmailsCombinedData.forEach(data => console.log({ data }));
+         * ```
+         */
+        useSuspenseQueries<T extends Array<UseQueryOptionsForUseSuspenseQuery<GetAdminSentEmailsSchema, GetAdminSentEmailsParameters, GetAdminSentEmailsData, GetAdminSentEmailsError>>, TCombinedResult = Array<UseSuspenseQueryResult<GetAdminSentEmailsData, GetAdminSentEmailsError>>>(options: {
+            queries: T;
+            combine?: (results: Array<WithOptional<UseSuspenseQueryResult<GetAdminSentEmailsData, GetAdminSentEmailsError>, "data">>) => TCombinedResult;
+        }): TCombinedResult;
+        /**/
+        fetchQuery(options: ServiceOperationFetchQueryOptions<GetAdminSentEmailsSchema, GetAdminSentEmailsData, GetAdminSentEmailsParameters, GetAdminSentEmailsError> | void): Promise<GetAdminSentEmailsData>;
+        /**/
+        prefetchQuery(options: ServiceOperationFetchQueryOptions<GetAdminSentEmailsSchema, GetAdminSentEmailsData, GetAdminSentEmailsParameters, GetAdminSentEmailsError> | void): Promise<void>;
+        /**/
+        ensureQueryData(options: ServiceOperationEnsureQueryDataOptions<GetAdminSentEmailsSchema, GetAdminSentEmailsData, GetAdminSentEmailsParameters, GetAdminSentEmailsError> | void): Promise<GetAdminSentEmailsData>;
+        /**/
+        fetchInfiniteQuery<TPageParam extends GetAdminSentEmailsParameters>(options: ServiceOperationFetchInfiniteQueryOptions<GetAdminSentEmailsSchema, GetAdminSentEmailsData, GetAdminSentEmailsParameters, DeepReadonly<TPageParam>, GetAdminSentEmailsError> | void): Promise<OperationInfiniteData<GetAdminSentEmailsData, GetAdminSentEmailsParameters>>;
+        /**/
+        prefetchInfiniteQuery<TPageParam extends GetAdminSentEmailsParameters>(options: ServiceOperationFetchInfiniteQueryOptions<GetAdminSentEmailsSchema, GetAdminSentEmailsData, GetAdminSentEmailsParameters, DeepReadonly<TPageParam>, GetAdminSentEmailsError> | void): Promise<void>;
+        /**/
+        ensureInfiniteQueryData<TPageParam extends GetAdminSentEmailsParameters>(options: ServiceOperationEnsureInfiniteQueryDataOptions<GetAdminSentEmailsSchema, GetAdminSentEmailsData, GetAdminSentEmailsParameters, DeepReadonly<TPageParam>, GetAdminSentEmailsError> | void): Promise<OperationInfiniteData<GetAdminSentEmailsData, GetAdminSentEmailsParameters>>;
+        /**/
+        getQueryData(parameters: ServiceOperationQueryKey<GetAdminSentEmailsSchema, GetAdminSentEmailsParameters> | (DeepReadonly<GetAdminSentEmailsParameters> | void)): GetAdminSentEmailsData | undefined;
+        /**/
+        getInfiniteQueryData(parameters: ServiceOperationInfiniteQueryKey<GetAdminSentEmailsSchema, GetAdminSentEmailsParameters> | (DeepReadonly<GetAdminSentEmailsParameters> | void)): OperationInfiniteData<GetAdminSentEmailsData, GetAdminSentEmailsParameters> | undefined;
+        /**/
+        getQueriesData<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetAdminSentEmailsSchema, GetAdminSentEmailsData, TInfinite, GetAdminSentEmailsParameters, GetAdminSentEmailsError> | QueryFiltersByQueryKey<GetAdminSentEmailsSchema, GetAdminSentEmailsData, TInfinite, GetAdminSentEmailsParameters, GetAdminSentEmailsError>): TInfinite extends true ? Array<[
+            queryKey: ServiceOperationInfiniteQueryKey<GetAdminSentEmailsSchema, GetAdminSentEmailsParameters>,
+            data: NoInfer<OperationInfiniteData<GetAdminSentEmailsData, GetAdminSentEmailsParameters>> | undefined
+        ]> : Array<[
+            queryKey: ServiceOperationQueryKey<GetAdminSentEmailsSchema, GetAdminSentEmailsParameters>,
+            data: GetAdminSentEmailsData | undefined
+        ]>;
+        /**/
+        getQueryState(parameters: ServiceOperationQueryKey<GetAdminSentEmailsSchema, GetAdminSentEmailsParameters> | (DeepReadonly<GetAdminSentEmailsParameters> | void)): QueryState<GetAdminSentEmailsData, GetAdminSentEmailsError> | undefined;
+        /**/
+        getInfiniteQueryState(parameters: DeepReadonly<GetAdminSentEmailsParameters> | ServiceOperationInfiniteQueryKey<GetAdminSentEmailsSchema, GetAdminSentEmailsParameters> | void): QueryState<OperationInfiniteData<GetAdminSentEmailsData, GetAdminSentEmailsParameters>, GetAdminSentEmailsError> | undefined;
+        /**/
+        setQueryData(parameters: (DeepReadonly<GetAdminSentEmailsParameters> | undefined) | ServiceOperationQueryKey<GetAdminSentEmailsSchema, GetAdminSentEmailsParameters>, updater: Updater<NoInfer<GetAdminSentEmailsData> | undefined, NoInfer<DeepReadonly<GetAdminSentEmailsData>> | undefined>, options?: SetDataOptions): GetAdminSentEmailsData | undefined;
+        /**/
+        setInfiniteQueryData(parameters: (DeepReadonly<GetAdminSentEmailsParameters> | undefined) | ServiceOperationInfiniteQueryKey<GetAdminSentEmailsSchema, GetAdminSentEmailsParameters>, updater: Updater<NoInfer<OperationInfiniteData<GetAdminSentEmailsData, GetAdminSentEmailsParameters>> | undefined, NoInfer<DeepReadonly<OperationInfiniteData<GetAdminSentEmailsData, GetAdminSentEmailsParameters>>> | undefined>, options?: SetDataOptions): OperationInfiniteData<GetAdminSentEmailsData, GetAdminSentEmailsParameters> | undefined;
+        /**/
+        setQueriesData<TInfinite extends boolean = false>(filters: QueryFiltersByParameters<GetAdminSentEmailsSchema, GetAdminSentEmailsData, TInfinite, GetAdminSentEmailsParameters, GetAdminSentEmailsError> | QueryFiltersByQueryKey<GetAdminSentEmailsSchema, GetAdminSentEmailsData, TInfinite, GetAdminSentEmailsParameters, GetAdminSentEmailsError>, updater: Updater<NoInfer<GetAdminSentEmailsData> | undefined, NoInfer<GetAdminSentEmailsData> | undefined>, options?: SetDataOptions): Array<GetAdminSentEmailsData | undefined>;
+        /**/
+        invalidateQueries<TInfinite extends boolean = false>(filters?: InvalidateQueryFilters<GetAdminSentEmailsSchema, GetAdminSentEmailsData, TInfinite, GetAdminSentEmailsParameters, GetAdminSentEmailsError>, options?: InvalidateOptions): Promise<void>;
+        /**/
+        refetchQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetAdminSentEmailsSchema, GetAdminSentEmailsData, TInfinite, GetAdminSentEmailsParameters, GetAdminSentEmailsError> | QueryFiltersByQueryKey<GetAdminSentEmailsSchema, GetAdminSentEmailsData, TInfinite, GetAdminSentEmailsParameters, GetAdminSentEmailsError>, options?: RefetchOptions): Promise<void>;
+        /**/
+        cancelQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetAdminSentEmailsSchema, GetAdminSentEmailsData, TInfinite, GetAdminSentEmailsParameters, GetAdminSentEmailsError> | QueryFiltersByQueryKey<GetAdminSentEmailsSchema, GetAdminSentEmailsData, TInfinite, GetAdminSentEmailsParameters, GetAdminSentEmailsError>, options?: CancelOptions): Promise<void>;
+        /**/
+        removeQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetAdminSentEmailsSchema, GetAdminSentEmailsData, TInfinite, GetAdminSentEmailsParameters, GetAdminSentEmailsError> | QueryFiltersByQueryKey<GetAdminSentEmailsSchema, GetAdminSentEmailsData, TInfinite, GetAdminSentEmailsParameters, GetAdminSentEmailsError>): void;
+        /**/
+        resetQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetAdminSentEmailsSchema, GetAdminSentEmailsData, TInfinite, GetAdminSentEmailsParameters, GetAdminSentEmailsError> | QueryFiltersByQueryKey<GetAdminSentEmailsSchema, GetAdminSentEmailsData, TInfinite, GetAdminSentEmailsParameters, GetAdminSentEmailsError>, options?: ResetOptions): Promise<void>;
+        /**/
+        isFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetAdminSentEmailsSchema, GetAdminSentEmailsData, TInfinite, GetAdminSentEmailsParameters, GetAdminSentEmailsError> | QueryFiltersByQueryKey<GetAdminSentEmailsSchema, GetAdminSentEmailsData, TInfinite, GetAdminSentEmailsParameters, GetAdminSentEmailsError>): number;
+        schema: GetAdminSentEmailsSchema;
+        types: {
+            parameters: GetAdminSentEmailsParameters;
+            data: GetAdminSentEmailsData;
+            error: GetAdminSentEmailsError;
+        };
+    };
+    getAdminSentEmailsId: {
+        /**/
+        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: QueryFnOptionsByQueryKey<GetAdminSentEmailsIdSchema, GetAdminSentEmailsIdParameters, TMeta, TSignal> | (QueryFnOptionsByParameters<GetAdminSentEmailsIdParameters, TMeta, TSignal>), client?: (schema: GetAdminSentEmailsIdSchema, options: {
+            parameters: GetAdminSentEmailsIdParameters;
+            signal?: TSignal;
+            meta?: TMeta;
+        }) => Promise<RequestFnResponse<GetAdminSentEmailsIdData, GetAdminSentEmailsIdError>>): Promise<RequestFnResponse<GetAdminSentEmailsIdData, GetAdminSentEmailsIdError>>;
+        /**/
+        getQueryKey(parameters: DeepReadonly<GetAdminSentEmailsIdParameters>): ServiceOperationQueryKey<GetAdminSentEmailsIdSchema, GetAdminSentEmailsIdParameters>;
+        /**
+         * Performs asynchronous data fetching, manages loading states and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
+         * @example Query with parameters
+         * ```ts
+         * const { data, isLoading } = qraft.v1.getAdminSentEmailsId.useQuery({
+         *     path: {
+         *         id: id
+         *     }
+         * })
+         * ```
+         */
+        useQuery<TData = GetAdminSentEmailsIdData>(parameters: ServiceOperationQueryKey<GetAdminSentEmailsIdSchema, GetAdminSentEmailsIdParameters> | (DeepReadonly<GetAdminSentEmailsIdParameters>), options?: Omit<UndefinedInitialDataOptions<GetAdminSentEmailsIdData, GetAdminSentEmailsIdError, TData, ServiceOperationQueryKey<GetAdminSentEmailsIdSchema, GetAdminSentEmailsIdParameters>>, "queryKey">): UseQueryResult<TData, OperationError<GetAdminSentEmailsIdError>>;
+        /**
+         * Performs asynchronous data fetching, manages loading states and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
+         * @example Query with parameters
+         * ```ts
+         * const { data, isLoading } = qraft.v1.getAdminSentEmailsId.useQuery({
+         *     path: {
+         *         id: id
+         *     }
+         * })
+         * ```
+         */
+        useQuery<TData = GetAdminSentEmailsIdData>(parameters: ServiceOperationQueryKey<GetAdminSentEmailsIdSchema, GetAdminSentEmailsIdParameters> | (DeepReadonly<GetAdminSentEmailsIdParameters>), options: Omit<DefinedInitialDataOptions<GetAdminSentEmailsIdData, GetAdminSentEmailsIdError, TData, ServiceOperationQueryKey<GetAdminSentEmailsIdSchema, GetAdminSentEmailsIdParameters>>, "queryKey">): DefinedUseQueryResult<TData, OperationError<GetAdminSentEmailsIdError>>;
+        /**/
+        getInfiniteQueryKey(parameters: DeepReadonly<GetAdminSentEmailsIdParameters>): ServiceOperationInfiniteQueryKey<GetAdminSentEmailsIdSchema, GetAdminSentEmailsIdParameters>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useInfiniteQuery|`useInfiniteQuery(...)` documentation}
+         *
+         * @example Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getAdminSentEmailsId.useInfiniteQuery({
+         *     path: {
+         *         id: id
+         *     }
+         * }, {
+         *     initialPageParam: {},
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useInfiniteQuery<TPageParam extends GetAdminSentEmailsIdParameters, TQueryFnData = GetAdminSentEmailsIdData, TData = OperationInfiniteData<TQueryFnData, GetAdminSentEmailsIdParameters>>(parameters: ServiceOperationInfiniteQueryKey<GetAdminSentEmailsIdSchema, GetAdminSentEmailsIdParameters> | (DeepReadonly<GetAdminSentEmailsIdParameters>), options: Omit<UndefinedInitialDataInfiniteOptions<TQueryFnData, GetAdminSentEmailsIdError, TData, ServiceOperationInfiniteQueryKey<GetAdminSentEmailsIdSchema, GetAdminSentEmailsIdParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<TQueryFnData, PartialParameters<DeepReadonly<TPageParam>>>): UseInfiniteQueryResult<TData, OperationError<GetAdminSentEmailsIdError>>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useInfiniteQuery|`useInfiniteQuery(...)` documentation}
+         *
+         * @example Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getAdminSentEmailsId.useInfiniteQuery({
+         *     path: {
+         *         id: id
+         *     }
+         * }, {
+         *     initialPageParam: {},
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useInfiniteQuery<TPageParam extends GetAdminSentEmailsIdParameters, TQueryFnData = GetAdminSentEmailsIdData, TData = OperationInfiniteData<TQueryFnData, GetAdminSentEmailsIdParameters>>(parameters: ServiceOperationInfiniteQueryKey<GetAdminSentEmailsIdSchema, GetAdminSentEmailsIdParameters> | (DeepReadonly<GetAdminSentEmailsIdParameters>), options: Omit<DefinedInitialDataInfiniteOptions<TQueryFnData, GetAdminSentEmailsIdError, TData, ServiceOperationInfiniteQueryKey<GetAdminSentEmailsIdSchema, GetAdminSentEmailsIdParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<GetAdminSentEmailsIdData, PartialParameters<DeepReadonly<TPageParam>>>): DefinedUseInfiniteQueryResult<TData, OperationError<GetAdminSentEmailsIdError>>;
+        /**
+         * Monitors the number of queries currently fetching, matching the provided filters.
+         * Useful for creating loading indicators or performing actions based on active requests.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsFetching|`useIsFetching(...)` documentation}
+         * @example Checks the total number of queries fetching from the specified service method,
+         * both normal and infinite. If no parameters are provided, no filtering is applied.
+         * ```ts
+         * const getAdminSentEmailsIdTotal = qraft.v1.getAdminSentEmailsId.useIsFetching()
+         * ```
+         * @example Checks the number of normal queries fetching with the specified parameters.
+         * ```ts
+         * const getAdminSentEmailsIdByParametersTotal = qraft.v1.getAdminSentEmailsId.useIsFetching({
+         *     infinite: false,
+         *     parameters: {
+         *         path: {
+         *             id: id
+         *         }
+         *     }
+         * })
+         * ```
+         */
+        useIsFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetAdminSentEmailsIdSchema, GetAdminSentEmailsIdData, TInfinite, GetAdminSentEmailsIdParameters, GetAdminSentEmailsIdError> | QueryFiltersByQueryKey<GetAdminSentEmailsIdSchema, GetAdminSentEmailsIdData, TInfinite, GetAdminSentEmailsIdParameters, GetAdminSentEmailsIdError>): number;
+        /**
+         * Allows you to execute multiple asynchronous data fetching operations concurrently. This is especially useful for managing complex data dependencies in parallel.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
+         * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
+         * ```ts
+         * const getAdminSentEmailsIdResults = qraft.v1.getAdminSentEmailsId.useQueries({
+         *     queries: [
+         *         {
+         *             path: {
+         *                 id: id1
+         *             }
+         *         },
+         *         {
+         *             path: {
+         *                 id: id2
+         *             }
+         *         }
+         *     ]
+         * });
+         * getAdminSentEmailsIdResults.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
+         * ```
+         * @example Combined results. Only the data will be returned.
+         * ```ts
+         * const getAdminSentEmailsIdCombinedResults = qraft.v1.getAdminSentEmailsId.useQueries({
+         *     combine: results => results.map(result => result.data),
+         *     queries: [
+         *         {
+         *             path: {
+         *                 id: id1
+         *             }
+         *         },
+         *         {
+         *             path: {
+         *                 id: id2
+         *             }
+         *         }
+         *     ]
+         * });
+         * getAdminSentEmailsIdCombinedResults.forEach(data => console.log({ data }));
+         * ```
+         */
+        useQueries<T extends Array<UseQueryOptionsForUseQueries<GetAdminSentEmailsIdSchema, GetAdminSentEmailsIdParameters, GetAdminSentEmailsIdData, GetAdminSentEmailsIdError>>, TCombinedResult = Array<UseQueryResult<GetAdminSentEmailsIdData, GetAdminSentEmailsIdError>>>(options: {
+            queries: T;
+            combine?: (results: Array<UseQueryResult<GetAdminSentEmailsIdData, GetAdminSentEmailsIdError>>) => TCombinedResult;
+        }): TCombinedResult;
+        /**
+         * Performs asynchronous data fetching with Suspense support.
+         * Similar to useQuery but integrates with React Suspense for loading states.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
+         * @example Suspense Query with parameters
+         * ```ts
+         * const data = qraft.v1.getAdminSentEmailsId.useSuspenseQuery({
+         *     path: {
+         *         id: id
+         *     }
+         * })
+         * ```
+         */
+        useSuspenseQuery<TData = GetAdminSentEmailsIdData>(parameters: ServiceOperationQueryKey<GetAdminSentEmailsIdSchema, GetAdminSentEmailsIdParameters> | (DeepReadonly<GetAdminSentEmailsIdParameters>), options?: Omit<UseSuspenseQueryOptions<GetAdminSentEmailsIdData, GetAdminSentEmailsIdError, TData, ServiceOperationQueryKey<GetAdminSentEmailsIdSchema, GetAdminSentEmailsIdParameters>>, "queryKey">): UseSuspenseQueryResult<TData, OperationError<GetAdminSentEmailsIdError>>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         * It functions similarly to `useInfiniteQuery`, but with added support for React Suspense.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseInfiniteQuery|`useSuspenseInfiniteQuery(...)` documentation}
+         *
+         * @example Suspense Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getAdminSentEmailsId.useSuspenseInfiniteQuery({
+         *     path: {
+         *         id: id
+         *     }
+         * }, {
+         *     initialPageParam: {},
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useSuspenseInfiniteQuery<TPageParam extends GetAdminSentEmailsIdParameters, TData = GetAdminSentEmailsIdData>(parameters: ServiceOperationInfiniteQueryKey<GetAdminSentEmailsIdSchema, GetAdminSentEmailsIdParameters> | (DeepReadonly<GetAdminSentEmailsIdParameters>), options: Omit<UseSuspenseInfiniteQueryOptions<GetAdminSentEmailsIdData, GetAdminSentEmailsIdError, OperationInfiniteData<TData, GetAdminSentEmailsIdParameters>, ServiceOperationInfiniteQueryKey<GetAdminSentEmailsIdSchema, GetAdminSentEmailsIdParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<GetAdminSentEmailsIdData, PartialParameters<DeepReadonly<TPageParam>>>): UseSuspenseInfiniteQueryResult<OperationInfiniteData<TData, GetAdminSentEmailsIdParameters>, OperationError<GetAdminSentEmailsIdError>>;
+        /**
+         * Allows you to execute multiple asynchronous data fetching operations concurrently with Suspense support.
+         * Similar to useQueries but integrates with React Suspense for loading states.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
+         * @example Basic usage with Suspense
+         * ```ts
+         * const getAdminSentEmailsIdData = qraft.v1.getAdminSentEmailsId.useSuspenseQueries({
+         *     queries: [
+         *         {
+         *             path: {
+         *                 id: id1
+         *             }
+         *         },
+         *         {
+         *             path: {
+         *                 id: id2
+         *             }
+         *         }
+         *     ]
+         * });
+         * getAdminSentEmailsIdResults.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
+         * ```
+         * @example With data transformation using combine
+         * ```ts
+         * const getAdminSentEmailsIdCombinedData = qraft.v1.getAdminSentEmailsId.useSuspenseQueries({
+         *     combine: results => results.map(result => result.data),
+         *     queries: [
+         *         {
+         *             path: {
+         *                 id: id1
+         *             }
+         *         },
+         *         {
+         *             path: {
+         *                 id: id2
+         *             }
+         *         }
+         *     ]
+         * });
+         * getAdminSentEmailsIdCombinedData.forEach(data => console.log({ data }));
+         * ```
+         */
+        useSuspenseQueries<T extends Array<UseQueryOptionsForUseSuspenseQuery<GetAdminSentEmailsIdSchema, GetAdminSentEmailsIdParameters, GetAdminSentEmailsIdData, GetAdminSentEmailsIdError>>, TCombinedResult = Array<UseSuspenseQueryResult<GetAdminSentEmailsIdData, GetAdminSentEmailsIdError>>>(options: {
+            queries: T;
+            combine?: (results: Array<WithOptional<UseSuspenseQueryResult<GetAdminSentEmailsIdData, GetAdminSentEmailsIdError>, "data">>) => TCombinedResult;
+        }): TCombinedResult;
+        /**/
+        fetchQuery(options: ServiceOperationFetchQueryOptions<GetAdminSentEmailsIdSchema, GetAdminSentEmailsIdData, GetAdminSentEmailsIdParameters, GetAdminSentEmailsIdError>): Promise<GetAdminSentEmailsIdData>;
+        /**/
+        prefetchQuery(options: ServiceOperationFetchQueryOptions<GetAdminSentEmailsIdSchema, GetAdminSentEmailsIdData, GetAdminSentEmailsIdParameters, GetAdminSentEmailsIdError>): Promise<void>;
+        /**/
+        ensureQueryData(options: ServiceOperationEnsureQueryDataOptions<GetAdminSentEmailsIdSchema, GetAdminSentEmailsIdData, GetAdminSentEmailsIdParameters, GetAdminSentEmailsIdError>): Promise<GetAdminSentEmailsIdData>;
+        /**/
+        fetchInfiniteQuery<TPageParam extends GetAdminSentEmailsIdParameters>(options: ServiceOperationFetchInfiniteQueryOptions<GetAdminSentEmailsIdSchema, GetAdminSentEmailsIdData, GetAdminSentEmailsIdParameters, DeepReadonly<TPageParam>, GetAdminSentEmailsIdError>): Promise<OperationInfiniteData<GetAdminSentEmailsIdData, GetAdminSentEmailsIdParameters>>;
+        /**/
+        prefetchInfiniteQuery<TPageParam extends GetAdminSentEmailsIdParameters>(options: ServiceOperationFetchInfiniteQueryOptions<GetAdminSentEmailsIdSchema, GetAdminSentEmailsIdData, GetAdminSentEmailsIdParameters, DeepReadonly<TPageParam>, GetAdminSentEmailsIdError>): Promise<void>;
+        /**/
+        ensureInfiniteQueryData<TPageParam extends GetAdminSentEmailsIdParameters>(options: ServiceOperationEnsureInfiniteQueryDataOptions<GetAdminSentEmailsIdSchema, GetAdminSentEmailsIdData, GetAdminSentEmailsIdParameters, DeepReadonly<TPageParam>, GetAdminSentEmailsIdError>): Promise<OperationInfiniteData<GetAdminSentEmailsIdData, GetAdminSentEmailsIdParameters>>;
+        /**/
+        getQueryData(parameters: ServiceOperationQueryKey<GetAdminSentEmailsIdSchema, GetAdminSentEmailsIdParameters> | (DeepReadonly<GetAdminSentEmailsIdParameters>)): GetAdminSentEmailsIdData | undefined;
+        /**/
+        getInfiniteQueryData(parameters: ServiceOperationInfiniteQueryKey<GetAdminSentEmailsIdSchema, GetAdminSentEmailsIdParameters> | (DeepReadonly<GetAdminSentEmailsIdParameters>)): OperationInfiniteData<GetAdminSentEmailsIdData, GetAdminSentEmailsIdParameters> | undefined;
+        /**/
+        getQueriesData<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetAdminSentEmailsIdSchema, GetAdminSentEmailsIdData, TInfinite, GetAdminSentEmailsIdParameters, GetAdminSentEmailsIdError> | QueryFiltersByQueryKey<GetAdminSentEmailsIdSchema, GetAdminSentEmailsIdData, TInfinite, GetAdminSentEmailsIdParameters, GetAdminSentEmailsIdError>): TInfinite extends true ? Array<[
+            queryKey: ServiceOperationInfiniteQueryKey<GetAdminSentEmailsIdSchema, GetAdminSentEmailsIdParameters>,
+            data: NoInfer<OperationInfiniteData<GetAdminSentEmailsIdData, GetAdminSentEmailsIdParameters>> | undefined
+        ]> : Array<[
+            queryKey: ServiceOperationQueryKey<GetAdminSentEmailsIdSchema, GetAdminSentEmailsIdParameters>,
+            data: GetAdminSentEmailsIdData | undefined
+        ]>;
+        /**/
+        getQueryState(parameters: ServiceOperationQueryKey<GetAdminSentEmailsIdSchema, GetAdminSentEmailsIdParameters> | (DeepReadonly<GetAdminSentEmailsIdParameters>)): QueryState<GetAdminSentEmailsIdData, GetAdminSentEmailsIdError> | undefined;
+        /**/
+        getInfiniteQueryState(parameters: DeepReadonly<GetAdminSentEmailsIdParameters> | ServiceOperationInfiniteQueryKey<GetAdminSentEmailsIdSchema, GetAdminSentEmailsIdParameters>): QueryState<OperationInfiniteData<GetAdminSentEmailsIdData, GetAdminSentEmailsIdParameters>, GetAdminSentEmailsIdError> | undefined;
+        /**/
+        setQueryData(parameters: (DeepReadonly<GetAdminSentEmailsIdParameters>) | ServiceOperationQueryKey<GetAdminSentEmailsIdSchema, GetAdminSentEmailsIdParameters>, updater: Updater<NoInfer<GetAdminSentEmailsIdData> | undefined, NoInfer<DeepReadonly<GetAdminSentEmailsIdData>> | undefined>, options?: SetDataOptions): GetAdminSentEmailsIdData | undefined;
+        /**/
+        setInfiniteQueryData(parameters: (DeepReadonly<GetAdminSentEmailsIdParameters>) | ServiceOperationInfiniteQueryKey<GetAdminSentEmailsIdSchema, GetAdminSentEmailsIdParameters>, updater: Updater<NoInfer<OperationInfiniteData<GetAdminSentEmailsIdData, GetAdminSentEmailsIdParameters>> | undefined, NoInfer<DeepReadonly<OperationInfiniteData<GetAdminSentEmailsIdData, GetAdminSentEmailsIdParameters>>> | undefined>, options?: SetDataOptions): OperationInfiniteData<GetAdminSentEmailsIdData, GetAdminSentEmailsIdParameters> | undefined;
+        /**/
+        setQueriesData<TInfinite extends boolean = false>(filters: QueryFiltersByParameters<GetAdminSentEmailsIdSchema, GetAdminSentEmailsIdData, TInfinite, GetAdminSentEmailsIdParameters, GetAdminSentEmailsIdError> | QueryFiltersByQueryKey<GetAdminSentEmailsIdSchema, GetAdminSentEmailsIdData, TInfinite, GetAdminSentEmailsIdParameters, GetAdminSentEmailsIdError>, updater: Updater<NoInfer<GetAdminSentEmailsIdData> | undefined, NoInfer<GetAdminSentEmailsIdData> | undefined>, options?: SetDataOptions): Array<GetAdminSentEmailsIdData | undefined>;
+        /**/
+        invalidateQueries<TInfinite extends boolean = false>(filters?: InvalidateQueryFilters<GetAdminSentEmailsIdSchema, GetAdminSentEmailsIdData, TInfinite, GetAdminSentEmailsIdParameters, GetAdminSentEmailsIdError>, options?: InvalidateOptions): Promise<void>;
+        /**/
+        refetchQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetAdminSentEmailsIdSchema, GetAdminSentEmailsIdData, TInfinite, GetAdminSentEmailsIdParameters, GetAdminSentEmailsIdError> | QueryFiltersByQueryKey<GetAdminSentEmailsIdSchema, GetAdminSentEmailsIdData, TInfinite, GetAdminSentEmailsIdParameters, GetAdminSentEmailsIdError>, options?: RefetchOptions): Promise<void>;
+        /**/
+        cancelQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetAdminSentEmailsIdSchema, GetAdminSentEmailsIdData, TInfinite, GetAdminSentEmailsIdParameters, GetAdminSentEmailsIdError> | QueryFiltersByQueryKey<GetAdminSentEmailsIdSchema, GetAdminSentEmailsIdData, TInfinite, GetAdminSentEmailsIdParameters, GetAdminSentEmailsIdError>, options?: CancelOptions): Promise<void>;
+        /**/
+        removeQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetAdminSentEmailsIdSchema, GetAdminSentEmailsIdData, TInfinite, GetAdminSentEmailsIdParameters, GetAdminSentEmailsIdError> | QueryFiltersByQueryKey<GetAdminSentEmailsIdSchema, GetAdminSentEmailsIdData, TInfinite, GetAdminSentEmailsIdParameters, GetAdminSentEmailsIdError>): void;
+        /**/
+        resetQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetAdminSentEmailsIdSchema, GetAdminSentEmailsIdData, TInfinite, GetAdminSentEmailsIdParameters, GetAdminSentEmailsIdError> | QueryFiltersByQueryKey<GetAdminSentEmailsIdSchema, GetAdminSentEmailsIdData, TInfinite, GetAdminSentEmailsIdParameters, GetAdminSentEmailsIdError>, options?: ResetOptions): Promise<void>;
+        /**/
+        isFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetAdminSentEmailsIdSchema, GetAdminSentEmailsIdData, TInfinite, GetAdminSentEmailsIdParameters, GetAdminSentEmailsIdError> | QueryFiltersByQueryKey<GetAdminSentEmailsIdSchema, GetAdminSentEmailsIdData, TInfinite, GetAdminSentEmailsIdParameters, GetAdminSentEmailsIdError>): number;
+        schema: GetAdminSentEmailsIdSchema;
+        types: {
+            parameters: GetAdminSentEmailsIdParameters;
+            data: GetAdminSentEmailsIdData;
+            error: GetAdminSentEmailsIdError;
+        };
+    };
     postDevSeed: {
         /**/
         <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: ServiceOperationMutationFnOptions<PostDevSeedBody, PostDevSeedParameters, TMeta, TSignal>, client?: (schema: PostDevSeedSchema, options: ServiceOperationMutationFnOptions<PostDevSeedBody, PostDevSeedParameters, TMeta, TSignal>) => Promise<RequestFnResponse<PostDevSeedData, PostDevSeedError>>): Promise<RequestFnResponse<PostDevSeedData, PostDevSeedError>>;
@@ -25044,6 +25636,24 @@ export interface V1Service {
         };
     };
 }
+export const getAdminSentEmails = {
+    schema: {
+        method: "get",
+        url: "/v1/admin/sent-emails"
+    }
+} as {
+    schema: GetAdminSentEmailsSchema;
+    [QraftServiceOperationsToken]: V1Service["getAdminSentEmails"];
+};
+export const getAdminSentEmailsId = {
+    schema: {
+        method: "get",
+        url: "/v1/admin/sent-emails/{id}"
+    }
+} as {
+    schema: GetAdminSentEmailsIdSchema;
+    [QraftServiceOperationsToken]: V1Service["getAdminSentEmailsId"];
+};
 export const postDevSeed = {
     schema: {
         method: "post",
@@ -26190,6 +26800,8 @@ export const getUsers = {
     [QraftServiceOperationsToken]: V1Service["getUsers"];
 };
 export const v1Service = {
+    getAdminSentEmails,
+    getAdminSentEmailsId,
     postDevSeed,
     deleteDevSeed,
     postApiTokens,
@@ -26314,6 +26926,20 @@ export const v1Service = {
     getStripeInvoices,
     getUsers
 } as const;
+type GetAdminSentEmailsSchema = {
+    method: "get";
+    url: "/v1/admin/sent-emails";
+};
+type GetAdminSentEmailsParameters = paths["/v1/admin/sent-emails"]["get"]["parameters"];
+type GetAdminSentEmailsData = paths["/v1/admin/sent-emails"]["get"]["responses"]["200"]["content"]["application/json"];
+type GetAdminSentEmailsError = unknown;
+type GetAdminSentEmailsIdSchema = {
+    method: "get";
+    url: "/v1/admin/sent-emails/{id}";
+};
+type GetAdminSentEmailsIdParameters = paths["/v1/admin/sent-emails/{id}"]["get"]["parameters"];
+type GetAdminSentEmailsIdData = paths["/v1/admin/sent-emails/{id}"]["get"]["responses"]["200"]["content"]["application/json"];
+type GetAdminSentEmailsIdError = null;
 type PostDevSeedSchema = {
     method: "post";
     url: "/v1/dev/seed";

@@ -4,6 +4,88 @@
  */
 
 export type paths = {
+    "/v1/admin/sent-emails": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: {
+                    Cursor?: string;
+                    Limit?: number;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Mail.Endpoints.Admin.ListSentEmails.ListSentEmailsResponse"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/admin/sent-emails/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Mail.Endpoints.Admin.GetSentEmail.GetSentEmailResponse"];
+                    };
+                };
+                /** @description Not Found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/dev/seed": {
         parameters: {
             query?: never;
@@ -4853,6 +4935,7 @@ export type components = {
             name: string | null;
             email: string | null;
             avatarUrl: string | null;
+            roles: string[] | null;
         };
         /**
          * Format: int32
@@ -5111,6 +5194,37 @@ export type components = {
             ownedByInstallationId: string | null;
             name: string | null;
         };
+        "Mail.Endpoints.Admin.GetSentEmail.GetSentEmailResponse": {
+            /** Format: uuid */
+            id: string;
+            fromAddress: string | null;
+            fromDisplayName: string | null;
+            toAddress: string | null;
+            toDisplayName: string | null;
+            subject: string | null;
+            htmlBody: string | null;
+            templateName: string | null;
+            /** Format: date-time */
+            sentAtUtc: string;
+            status: components["schemas"]["Mail.Models.SentEmailStatus"];
+            errorMessage: string | null;
+        };
+        "Mail.Endpoints.Admin.ListSentEmails.ListSentEmailsResponse": {
+            items: components["schemas"]["Mail.Endpoints.Admin.ListSentEmails.SentEmailListItemDto"][] | null;
+            /** Format: date-time */
+            nextCursor: string | null;
+        };
+        "Mail.Endpoints.Admin.ListSentEmails.SentEmailListItemDto": {
+            /** Format: uuid */
+            id: string;
+            toAddress: string | null;
+            toDisplayName: string | null;
+            subject: string | null;
+            templateName: string | null;
+            /** Format: date-time */
+            sentAtUtc: string;
+            status: components["schemas"]["Mail.Models.SentEmailStatus"];
+        };
         "Mail.Endpoints.Mail.SendMail.SendMailCommand": {
             from: string | null;
             displayName: string | null;
@@ -5118,6 +5232,11 @@ export type components = {
             subject: string | null;
             htmlBody: string | null;
         };
+        /**
+         * Format: int32
+         * @enum {integer}
+         */
+        "Mail.Models.SentEmailStatus": 0 | 1;
         "Organizations.Endpoints.Create.CreateOrganizationCommand": {
             name: string | null;
             slug: string | null;

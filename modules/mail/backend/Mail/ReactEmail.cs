@@ -6,8 +6,9 @@ public class ReactEmail : Email
         EmailAddress from,
         IReadOnlyList<EmailAddress> to,
         string subject,
-        string htmlBody)
-        : base(from, to, subject, htmlBody)
+        string htmlBody,
+        string templateName)
+        : base(from, to, subject, htmlBody, templateName)
     {
 
     }
@@ -24,6 +25,7 @@ public class ReactEmail : Email
             from,
             to,
             subject,
-            htmlBody);
+            htmlBody,
+            template.GetType().Name);
     }
 }

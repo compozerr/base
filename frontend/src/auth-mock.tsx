@@ -5,6 +5,7 @@ export type AuthUserType = {
   email: string;
   name: string;
   avatarUrl: string;
+  roles: string[];
 };
 
 export interface AuthContextType {
