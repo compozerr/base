@@ -7,6 +7,6 @@ public sealed class GetInvoicesCommandValidator : AbstractValidator<GetInvoicesC
 {
 	public GetInvoicesCommandValidator()
 	{
-		// Add validation rules using RuleFor()
+		RuleFor(x => x.Limit).InclusiveBetween(1, 100);
 	}
 }

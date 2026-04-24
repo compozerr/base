@@ -10,8 +10,11 @@ public sealed class GetInvoicesCommandHandler(
 		GetInvoicesCommand command,
 		CancellationToken cancellationToken = default)
 	{
-		var invoices = await invoicesService.GetInvoicesForCurrentCustomerAsync(cancellationToken);
+		var page = await invoicesService.GetInvoicesForCurrentCustomerAsync(
+			command.Limit,
+			command.StartingAfter,
+			cancellationToken);
 
-		return new GetInvoicesResponse(invoices);
+		return new GetInvoicesResponse(page.Invoices, page.HasMore, page.NextCursor);
 	}
 }

@@ -13,7 +13,10 @@ public static class GetInvoicesRoute
 		return app.MapGet(Route, ExecuteAsync);
 	}
 
-	public static Task<GetInvoicesResponse> ExecuteAsync(IMediator mediator)
+	public static Task<GetInvoicesResponse> ExecuteAsync(
+		IMediator mediator,
+		int limit = 20,
+		string? startingAfter = null)
 		=> mediator.Send(
-			new GetInvoicesCommand());
+			new GetInvoicesCommand(limit, startingAfter));
 }

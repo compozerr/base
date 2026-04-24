@@ -25206,6 +25206,14 @@ export interface V1Service {
          * ```ts
          * const { data, isLoading } = qraft.v1.getStripeInvoices.useQuery()
          * ```
+         * @example Query with parameters
+         * ```ts
+         * const { data, isLoading } = qraft.v1.getStripeInvoices.useQuery({
+         *     query: {
+         *         limit: limit
+         *     }
+         * })
+         * ```
          */
         useQuery<TData = GetStripeInvoicesData>(parameters: ServiceOperationQueryKey<GetStripeInvoicesSchema, GetStripeInvoicesParameters> | (DeepReadonly<GetStripeInvoicesParameters> | void), options?: Omit<UndefinedInitialDataOptions<GetStripeInvoicesData, GetStripeInvoicesError, TData, ServiceOperationQueryKey<GetStripeInvoicesSchema, GetStripeInvoicesParameters>>, "queryKey">): UseQueryResult<TData, OperationError<GetStripeInvoicesError>>;
         /**
@@ -25215,6 +25223,14 @@ export interface V1Service {
          * @example Query without parameters
          * ```ts
          * const { data, isLoading } = qraft.v1.getStripeInvoices.useQuery()
+         * ```
+         * @example Query with parameters
+         * ```ts
+         * const { data, isLoading } = qraft.v1.getStripeInvoices.useQuery({
+         *     query: {
+         *         limit: limit
+         *     }
+         * })
          * ```
          */
         useQuery<TData = GetStripeInvoicesData>(parameters: ServiceOperationQueryKey<GetStripeInvoicesSchema, GetStripeInvoicesParameters> | (DeepReadonly<GetStripeInvoicesParameters> | void), options: Omit<DefinedInitialDataOptions<GetStripeInvoicesData, GetStripeInvoicesError, TData, ServiceOperationQueryKey<GetStripeInvoicesSchema, GetStripeInvoicesParameters>>, "queryKey">): DefinedUseQueryResult<TData, OperationError<GetStripeInvoicesError>>;
@@ -25229,7 +25245,11 @@ export interface V1Service {
          * @example Infinite Query
          * ```ts
          * const { data, isLoading, fetchNextPage } = qraft.v1.getStripeInvoices.useInfiniteQuery({}, {
-         *     initialPageParam: {},
+         *     initialPageParam: {
+         *         query: {
+         *             limit: initialLimit
+         *         }
+         *     },
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
          *
@@ -25247,7 +25267,11 @@ export interface V1Service {
          * @example Infinite Query
          * ```ts
          * const { data, isLoading, fetchNextPage } = qraft.v1.getStripeInvoices.useInfiniteQuery({}, {
-         *     initialPageParam: {},
+         *     initialPageParam: {
+         *         query: {
+         *             limit: initialLimit
+         *         }
+         *     },
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
          *
@@ -25266,6 +25290,17 @@ export interface V1Service {
          * ```ts
          * const getStripeInvoicesTotal = qraft.v1.getStripeInvoices.useIsFetching()
          * ```
+         * @example Checks the number of normal queries fetching with the specified parameters.
+         * ```ts
+         * const getStripeInvoicesByParametersTotal = qraft.v1.getStripeInvoices.useIsFetching({
+         *     infinite: false,
+         *     parameters: {
+         *         query: {
+         *             limit: limit
+         *         }
+         *     }
+         * })
+         * ```
          */
         useIsFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetStripeInvoicesSchema, GetStripeInvoicesData, TInfinite, GetStripeInvoicesParameters, GetStripeInvoicesError> | QueryFiltersByQueryKey<GetStripeInvoicesSchema, GetStripeInvoicesData, TInfinite, GetStripeInvoicesParameters, GetStripeInvoicesError>): number;
         /**
@@ -25276,8 +25311,16 @@ export interface V1Service {
          * ```ts
          * const getStripeInvoicesResults = qraft.v1.getStripeInvoices.useQueries({
          *     queries: [
-         *         {},
-         *         {}
+         *         {
+         *             query: {
+         *                 limit: limit1
+         *             }
+         *         },
+         *         {
+         *             query: {
+         *                 limit: limit2
+         *             }
+         *         }
          *     ]
          * });
          * getStripeInvoicesResults.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
@@ -25287,8 +25330,16 @@ export interface V1Service {
          * const getStripeInvoicesCombinedResults = qraft.v1.getStripeInvoices.useQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
-         *         {},
-         *         {}
+         *         {
+         *             query: {
+         *                 limit: limit1
+         *             }
+         *         },
+         *         {
+         *             query: {
+         *                 limit: limit2
+         *             }
+         *         }
          *     ]
          * });
          * getStripeInvoicesCombinedResults.forEach(data => console.log({ data }));
@@ -25307,6 +25358,14 @@ export interface V1Service {
          * ```ts
          * const data = qraft.v1.getStripeInvoices.useSuspenseQuery()
          * ```
+         * @example Suspense Query with parameters
+         * ```ts
+         * const data = qraft.v1.getStripeInvoices.useSuspenseQuery({
+         *     query: {
+         *         limit: limit
+         *     }
+         * })
+         * ```
          */
         useSuspenseQuery<TData = GetStripeInvoicesData>(parameters: ServiceOperationQueryKey<GetStripeInvoicesSchema, GetStripeInvoicesParameters> | (DeepReadonly<GetStripeInvoicesParameters> | void), options?: Omit<UseSuspenseQueryOptions<GetStripeInvoicesData, GetStripeInvoicesError, TData, ServiceOperationQueryKey<GetStripeInvoicesSchema, GetStripeInvoicesParameters>>, "queryKey">): UseSuspenseQueryResult<TData, OperationError<GetStripeInvoicesError>>;
         /**
@@ -25319,7 +25378,11 @@ export interface V1Service {
          * @example Suspense Infinite Query
          * ```ts
          * const { data, isLoading, fetchNextPage } = qraft.v1.getStripeInvoices.useSuspenseInfiniteQuery({}, {
-         *     initialPageParam: {},
+         *     initialPageParam: {
+         *         query: {
+         *             limit: initialLimit
+         *         }
+         *     },
          *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
          * })
          *
@@ -25337,8 +25400,16 @@ export interface V1Service {
          * ```ts
          * const getStripeInvoicesData = qraft.v1.getStripeInvoices.useSuspenseQueries({
          *     queries: [
-         *         {},
-         *         {}
+         *         {
+         *             query: {
+         *                 limit: limit1
+         *             }
+         *         },
+         *         {
+         *             query: {
+         *                 limit: limit2
+         *             }
+         *         }
          *     ]
          * });
          * getStripeInvoicesResults.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
@@ -25348,8 +25419,16 @@ export interface V1Service {
          * const getStripeInvoicesCombinedData = qraft.v1.getStripeInvoices.useSuspenseQueries({
          *     combine: results => results.map(result => result.data),
          *     queries: [
-         *         {},
-         *         {}
+         *         {
+         *             query: {
+         *                 limit: limit1
+         *             }
+         *         },
+         *         {
+         *             query: {
+         *                 limit: limit2
+         *             }
+         *         }
          *     ]
          * });
          * getStripeInvoicesCombinedData.forEach(data => console.log({ data }));
@@ -28053,7 +28132,7 @@ type GetStripeInvoicesSchema = {
     method: "get";
     url: "/v1/stripe/invoices";
 };
-type GetStripeInvoicesParameters = undefined;
+type GetStripeInvoicesParameters = paths["/v1/stripe/invoices"]["get"]["parameters"];
 type GetStripeInvoicesData = paths["/v1/stripe/invoices"]["get"]["responses"]["200"]["content"]["application/json"];
 type GetStripeInvoicesError = unknown;
 type GetUsersSchema = {

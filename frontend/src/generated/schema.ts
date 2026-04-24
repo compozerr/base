@@ -4436,7 +4436,10 @@ export type paths = {
         };
         get: {
             parameters: {
-                query?: never;
+                query?: {
+                    limit?: number;
+                    startingAfter?: string;
+                };
                 header?: never;
                 path?: never;
                 cookie?: never;
@@ -5283,6 +5286,8 @@ export type components = {
         "Organizations.Models.OrganizationRole": 0 | 1;
         "Stripe.Endpoints.Invoices.GetInvoices.GetInvoicesResponse": {
             invoices: components["schemas"]["Stripe.Services.InvoiceDto"][] | null;
+            hasMore: boolean;
+            nextCursor: string | null;
         };
         "Stripe.Endpoints.PaymentMethods.AttachPaymentMethod.AttachPaymentMethodRequest": {
             paymentMethodId: string | null;
