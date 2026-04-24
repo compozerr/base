@@ -1,4 +1,5 @@
 using Api.Abstractions;
+using Api.Data;
 using Api.Data.Extensions;
 using Api.Data.Repositories;
 using Api.Hosting.Services;
@@ -55,7 +56,8 @@ public static class GetProjectRoute
             project.ServerTierId.Value,
             serverTierPrice,
             projectDomains?.GetPrimary()?.GetValue,
-            project.Type
+            project.Type,
+            DisplayState: project.GetDisplayState()
         ));
     }
 

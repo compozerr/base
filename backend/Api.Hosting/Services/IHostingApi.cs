@@ -18,6 +18,7 @@ public interface IHostingApi
     Task<HealthCheckResponse> HealthCheckProjectAsync(ProjectId projectId);
     Task<CommandExecutionResult> ExecuteCommandAsync(ProjectId projectId, string command, string? environmentName = null);
     Task<string> DebugTerminalAsync(ProjectId projectId);
+    Task<EnvironmentHealthResponse?> GetEnvironmentHealthAsync(ProjectId projectId, ProjectEnvironmentId environmentId);
 }
 
 public sealed record CommandExecutionResult(int ExitCode, string Stdout, string Stderr);

@@ -1,69 +1,109 @@
 {
   "type": "object",
   "properties": {
-    "id": {
-      "type": "string"
-    },
-    "type": {
+    "id": { "type": "string" },
+    "type": { "type": "string", "enum": ["project", "module"] },
+    "name": { "type": "string" },
+    "version": {
       "type": "string",
-      "enum": [
-        "project",
-        "module"
-      ]
+      "description": "Semver version of the module."
     },
-    "name": {
-      "type": "string"
+    "description": {
+      "type": "string",
+      "description": "Human-readable description of the module or project."
     },
     "dependencies": {
       "type": "object",
-      "additionalProperties": {
-        "type": "string"
-      }
+      "additionalProperties": { "type": "string" }
+    },
+    "modules": {
+      "type": "object",
+      "description": "Alias of `dependencies`. Prefer `dependencies` in new configs.",
+      "additionalProperties": { "type": "string" }
+    },
+    "origin": {
+      "type": "object",
+      "description": "Provenance metadata for externally-sourced modules (added by the CLI when pulling a module from a remote repo).",
+      "properties": {
+        "repo": { "type": "string" },
+        "commit": { "type": "string" },
+        "addedAt": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "templateType": {
+      "type": "string",
+      "description": "Template identifier used by the CLI when scaffolding a project (e.g. 'compozerr-standard')."
+    },
+    "templateFile": {
+      "type": "string",
+      "description": "File to use as the template source when scaffolding (e.g. 'package.json')."
     },
     "services": {
       "type": "object",
       "properties": {
-        "start": {
-          "type": "string"
+        "start": { "type": "string" },
+        "stop": { "type": "string" },
+        "readyCheck": { "type": "string" },
+        "startupTimeoutMs": { "type": "number" },
+        "port": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "start": { "type": "string" },
+    "startupTimeoutMs": { "type": "number" },
+    "readyMessage": { "type": "string" },
+    "end": { "type": "string" },
+    "port": { "type": "string" },
+    "cwd": { "type": "string" },
+    "build": { "type": "boolean" },
+    "zeroDowntime": {
+      "type": "boolean",
+      "description": "Opt out of zero-downtime deploys. Defaults to true when `healthcheck.service` is set."
+    },
+    "healthcheck": {
+      "type": "object",
+      "properties": {
+        "service": {
+          "type": "string",
+          "description": "docker-compose service name that is the primary HTTP entrypoint. Required to enable zero-downtime deploys and periodic HTTP health checks."
         },
-        "stop": {
-          "type": "string"
+        "path": {
+          "type": "string",
+          "description": "URL path hit by the health check. Default '/'."
         },
-        "readyCheck": {
-          "type": "string"
+        "interval": {
+          "type": "string",
+          "description": "Polling interval as a duration string (e.g. '30s'). Default '30s'."
         },
-        "startupTimeoutMs": {
-          "type": "number"
-        },
-        "port": {
-          "type": "string"
+        "timeout": {
+          "type": "string",
+          "description": "Per-request timeout as a duration string (e.g. '5s'). Default '5s'."
         }
       },
       "additionalProperties": false
     },
-    "start": {
-      "type": "string"
-    },
-    "startupTimeoutMs": {
-      "type": "number"
-    },
-    "readyMessage": {
-      "type": "string"
-    },
-    "end": {
-      "type": "string"
-    },
-    "port": {
-      "type": "string"
+    "docker": {
+      "type": "object",
+      "properties": {
+        "composeCommand": {
+          "type": "string",
+          "description": "Override the compose command binary (default 'docker compose')."
+        }
+      },
+      "additionalProperties": false
     },
     "backend": {
       "type": "object",
       "properties": {
         "defaultEnvProperties": {
           "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          }
+          "additionalProperties": { "type": "string" }
+        },
+        "projects": {
+          "type": "array",
+          "description": "List of .csproj paths that belong to this module.",
+          "items": { "type": "string" }
         }
       },
       "additionalProperties": false
@@ -71,37 +111,20 @@
     "frontend": {
       "type": "object",
       "properties": {
-        "srcDir": {
-          "type": "string",
-          "default": "frontend/src"
-        },
-        "routesDir": {
-          "type": "string"
-        },
-        "routePrefix": {
-          "type": "string"
-        },
+        "srcDir": { "type": "string", "default": "frontend/src" },
+        "routesDir": { "type": "string" },
+        "routePrefix": { "type": "string" },
         "defaultEnvProperties": {
           "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          }
+          "additionalProperties": { "type": "string" }
         }
       },
       "additionalProperties": false,
-      "default": {
-        "alias": "@/*",
-        "srcDir": "frontend/src"
-      }
+      "default": { "alias": "@/*", "srcDir": "frontend/src" }
     },
-    "dockerComposeFile": {
-      "type": "string"
-    }
+    "dockerComposeFile": { "type": "string" }
   },
-  "required": [
-    "type",
-    "name"
-  ],
+  "required": ["type", "name"],
   "additionalProperties": false,
   "$schema": "http://json-schema.org/draft-07/schema#"
 }
