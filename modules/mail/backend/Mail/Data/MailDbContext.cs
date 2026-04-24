@@ -1,4 +1,5 @@
 using Database.Data;
+using Mail.Data.Configurations;
 using Mail.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -15,10 +16,6 @@ public class MailDbContext(
     {
         base.OnModelCreating(modelBuilder);
 
-        modelBuilder.Entity<SentEmail>(entity =>
-        {
-            entity.HasIndex(e => e.SentAtUtc);
-            entity.Property(e => e.Status).HasConversion<int>();
-        });
+        modelBuilder.ApplyConfiguration(new SentEmailConfiguration());
     }
 }
