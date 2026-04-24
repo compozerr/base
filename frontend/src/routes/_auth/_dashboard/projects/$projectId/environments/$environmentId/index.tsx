@@ -137,7 +137,6 @@ function EnvironmentDetailPage() {
     )
 
     const isProduction = env?.type === 'Production'
-    const branch = env?.branches?.[0] ?? 'main'
     const previewUrl = env?.url ? `https://${env.url}` : null
 
     // --- Deploy ---
@@ -269,7 +268,7 @@ function EnvironmentDetailPage() {
             <ServerTierSection projectId={projectId} environmentId={environmentId} env={env} tiers={tiers} onChanged={invalidateEnvs} />
             <BranchSection projectId={projectId} environmentId={environmentId} env={env} onChanged={invalidateEnvs} />
             <AutoDeploySection projectId={projectId} environmentId={environmentId} env={env} />
-            <EnvironmentVariablesSection projectId={projectId} branch={branch} />
+            <EnvironmentVariablesSection projectId={projectId} environmentId={environmentId} />
             <ServicesSection projectId={projectId} environmentId={environmentId} />
             <CustomDomainsSection projectId={projectId} environmentId={environmentId} environmentName={env?.name ?? (isProduction ? 'Production' : environmentId)} />
         </div>
@@ -638,15 +637,15 @@ type EnvironmentVar = {
     isGenerated: boolean
 }
 
-function EnvironmentVariablesSection({ projectId, branch }: { projectId: string; branch: string }) {
+function EnvironmentVariablesSection({ projectId, environmentId }: { projectId: string; environmentId: string }) {
     const { toast } = useToast()
 
-    const { data, error } = api.v1.getProjectsProjectIdEnvironment.useQuery(
-        { path: { projectId }, query: { branch } },
+    const { data, error } = api.v1.getProjectsProjectIdEnvironmentsEnvironmentIdVariables.useQuery(
+        { path: { projectId, environmentId } },
     )
 
-    const { mutate: saveVars } = api.v1.putProjectsProjectIdEnvironment.useMutation(
-        { path: { projectId }, query: { branch } },
+    const { mutate: saveVars } = api.v1.putProjectsProjectIdEnvironmentsEnvironmentIdVariables.useMutation(
+        { path: { projectId, environmentId } },
     )
 
     const config = data?.configuration
@@ -741,7 +740,7 @@ function EnvironmentVariablesSection({ projectId, branch }: { projectId: string;
             {
                 onSuccess: () => {
                     toast({ title: 'Saved', description: 'Environment variables updated.' })
-                    api.v1.getProjectsProjectIdEnvironment.invalidateQueries({ parameters: { path: { projectId }, query: { branch } } })
+                    api.v1.getProjectsProjectIdEnvironmentsEnvironmentIdVariables.invalidateQueries({ parameters: { path: { projectId, environmentId } } })
                 },
                 onSettled: () => setIsSaving(false),
             },

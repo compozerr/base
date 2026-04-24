@@ -3,11 +3,11 @@ using Auth.Services;
 using FluentValidation;
 using Organizations.Services;
 
-namespace Api.Endpoints.Projects.ProjectEnvironment;
+namespace Api.Endpoints.Projects.Environments.Variables;
 
-public sealed class UpsertProjectEnvironmentVariablesCommandValidator : AbstractValidator<UpsertProjectEnvironmentVariablesCommand>
+public sealed class UpsertEnvironmentVariablesCommandValidator : AbstractValidator<UpsertEnvironmentVariablesCommand>
 {
-    public UpsertProjectEnvironmentVariablesCommandValidator(IServiceScopeFactory scopeFactory)
+    public UpsertEnvironmentVariablesCommandValidator(IServiceScopeFactory scopeFactory)
     {
         RuleFor(x => x.ProjectId).MustAsync(async (command, projectId, cancellationToken) =>
         {
@@ -29,17 +29,13 @@ public sealed class UpsertProjectEnvironmentVariablesCommandValidator : Abstract
             return project.UserId == currentUserId;
         }).WithErrorCode("403");
 
-        RuleFor(x => x.Branch).MustAsync(async (command, branch, cancellationToken) =>
+        RuleFor(x => x.EnvironmentId).MustAsync(async (command, environmentId, cancellationToken) =>
         {
             await using var scope = scopeFactory.CreateAsyncScope();
-            var projectEnvironmentRepository = scope.ServiceProvider.GetRequiredService<IProjectEnvironmentRepository>();
-
-            var environment = await projectEnvironmentRepository.GetProjectEnvironmentByBranchAsync(
-                command.ProjectId,
-                branch);
-
-            return environment is not null;
-        }).WithMessage("Branch does not exist");
+            var environmentRepository = scope.ServiceProvider.GetRequiredService<IProjectEnvironmentRepository>();
+            var environment = await environmentRepository.GetByIdAsync(environmentId);
+            return environment is not null && environment.ProjectId == command.ProjectId;
+        }).WithMessage("Environment does not exist");
 
         RuleForEach(x => x.Variables).ChildRules(v =>
         {

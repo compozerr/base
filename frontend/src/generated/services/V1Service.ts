@@ -9036,6 +9036,601 @@ export interface V1Service {
             error: GetHostingProjectsProjectIdEnvironmentError;
         };
     };
+    getHostingProjectsProjectIdEnvironmentsEnvironmentIdVariables: {
+        /**/
+        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: QueryFnOptionsByQueryKey<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters, TMeta, TSignal> | (QueryFnOptionsByParameters<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters, TMeta, TSignal>), client?: (schema: GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, options: {
+            parameters: GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters;
+            signal?: TSignal;
+            meta?: TMeta;
+        }) => Promise<RequestFnResponse<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>>): Promise<RequestFnResponse<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>>;
+        /**/
+        getQueryKey(parameters: DeepReadonly<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>): ServiceOperationQueryKey<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>;
+        /**
+         * Performs asynchronous data fetching, manages loading states and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
+         * @example Query with parameters
+         * ```ts
+         * const { data, isLoading } = qraft.v1.getHostingProjectsProjectIdEnvironmentsEnvironmentIdVariables.useQuery({
+         *     path: {
+         *         projectId: projectId,
+         *         environmentId: environmentId
+         *     }
+         * })
+         * ```
+         */
+        useQuery<TData = GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesData>(parameters: ServiceOperationQueryKey<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters> | (DeepReadonly<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>), options?: Omit<UndefinedInitialDataOptions<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesError, TData, ServiceOperationQueryKey<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>>, "queryKey">): UseQueryResult<TData, OperationError<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>>;
+        /**
+         * Performs asynchronous data fetching, manages loading states and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
+         * @example Query with parameters
+         * ```ts
+         * const { data, isLoading } = qraft.v1.getHostingProjectsProjectIdEnvironmentsEnvironmentIdVariables.useQuery({
+         *     path: {
+         *         projectId: projectId,
+         *         environmentId: environmentId
+         *     }
+         * })
+         * ```
+         */
+        useQuery<TData = GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesData>(parameters: ServiceOperationQueryKey<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters> | (DeepReadonly<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>), options: Omit<DefinedInitialDataOptions<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesError, TData, ServiceOperationQueryKey<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>>, "queryKey">): DefinedUseQueryResult<TData, OperationError<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>>;
+        /**/
+        getInfiniteQueryKey(parameters: DeepReadonly<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>): ServiceOperationInfiniteQueryKey<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useInfiniteQuery|`useInfiniteQuery(...)` documentation}
+         *
+         * @example Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getHostingProjectsProjectIdEnvironmentsEnvironmentIdVariables.useInfiniteQuery({
+         *     path: {
+         *         projectId: projectId,
+         *         environmentId: environmentId
+         *     }
+         * }, {
+         *     initialPageParam: {},
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useInfiniteQuery<TPageParam extends GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters, TQueryFnData = GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, TData = OperationInfiniteData<TQueryFnData, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>>(parameters: ServiceOperationInfiniteQueryKey<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters> | (DeepReadonly<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>), options: Omit<UndefinedInitialDataInfiniteOptions<TQueryFnData, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesError, TData, ServiceOperationInfiniteQueryKey<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<TQueryFnData, PartialParameters<DeepReadonly<TPageParam>>>): UseInfiniteQueryResult<TData, OperationError<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useInfiniteQuery|`useInfiniteQuery(...)` documentation}
+         *
+         * @example Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getHostingProjectsProjectIdEnvironmentsEnvironmentIdVariables.useInfiniteQuery({
+         *     path: {
+         *         projectId: projectId,
+         *         environmentId: environmentId
+         *     }
+         * }, {
+         *     initialPageParam: {},
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useInfiniteQuery<TPageParam extends GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters, TQueryFnData = GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, TData = OperationInfiniteData<TQueryFnData, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>>(parameters: ServiceOperationInfiniteQueryKey<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters> | (DeepReadonly<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>), options: Omit<DefinedInitialDataInfiniteOptions<TQueryFnData, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesError, TData, ServiceOperationInfiniteQueryKey<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, PartialParameters<DeepReadonly<TPageParam>>>): DefinedUseInfiniteQueryResult<TData, OperationError<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>>;
+        /**
+         * Monitors the number of queries currently fetching, matching the provided filters.
+         * Useful for creating loading indicators or performing actions based on active requests.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsFetching|`useIsFetching(...)` documentation}
+         * @example Checks the total number of queries fetching from the specified service method,
+         * both normal and infinite. If no parameters are provided, no filtering is applied.
+         * ```ts
+         * const getHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesTotal = qraft.v1.getHostingProjectsProjectIdEnvironmentsEnvironmentIdVariables.useIsFetching()
+         * ```
+         * @example Checks the number of normal queries fetching with the specified parameters.
+         * ```ts
+         * const getHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesByParametersTotal = qraft.v1.getHostingProjectsProjectIdEnvironmentsEnvironmentIdVariables.useIsFetching({
+         *     infinite: false,
+         *     parameters: {
+         *         path: {
+         *             projectId: projectId,
+         *             environmentId: environmentId
+         *         }
+         *     }
+         * })
+         * ```
+         */
+        useIsFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, TInfinite, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesError> | QueryFiltersByQueryKey<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, TInfinite, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>): number;
+        /**
+         * Allows you to execute multiple asynchronous data fetching operations concurrently. This is especially useful for managing complex data dependencies in parallel.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
+         * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
+         * ```ts
+         * const getHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesResults = qraft.v1.getHostingProjectsProjectIdEnvironmentsEnvironmentIdVariables.useQueries({
+         *     queries: [
+         *         {
+         *             path: {
+         *                 projectId: projectId1,
+         *                 environmentId: environmentId1
+         *             }
+         *         },
+         *         {
+         *             path: {
+         *                 projectId: projectId2,
+         *                 environmentId: environmentId2
+         *             }
+         *         }
+         *     ]
+         * });
+         * getHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesResults.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
+         * ```
+         * @example Combined results. Only the data will be returned.
+         * ```ts
+         * const getHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesCombinedResults = qraft.v1.getHostingProjectsProjectIdEnvironmentsEnvironmentIdVariables.useQueries({
+         *     combine: results => results.map(result => result.data),
+         *     queries: [
+         *         {
+         *             path: {
+         *                 projectId: projectId1,
+         *                 environmentId: environmentId1
+         *             }
+         *         },
+         *         {
+         *             path: {
+         *                 projectId: projectId2,
+         *                 environmentId: environmentId2
+         *             }
+         *         }
+         *     ]
+         * });
+         * getHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesCombinedResults.forEach(data => console.log({ data }));
+         * ```
+         */
+        useQueries<T extends Array<UseQueryOptionsForUseQueries<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>>, TCombinedResult = Array<UseQueryResult<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>>>(options: {
+            queries: T;
+            combine?: (results: Array<UseQueryResult<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>>) => TCombinedResult;
+        }): TCombinedResult;
+        /**
+         * Performs asynchronous data fetching with Suspense support.
+         * Similar to useQuery but integrates with React Suspense for loading states.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
+         * @example Suspense Query with parameters
+         * ```ts
+         * const data = qraft.v1.getHostingProjectsProjectIdEnvironmentsEnvironmentIdVariables.useSuspenseQuery({
+         *     path: {
+         *         projectId: projectId,
+         *         environmentId: environmentId
+         *     }
+         * })
+         * ```
+         */
+        useSuspenseQuery<TData = GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesData>(parameters: ServiceOperationQueryKey<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters> | (DeepReadonly<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>), options?: Omit<UseSuspenseQueryOptions<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesError, TData, ServiceOperationQueryKey<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>>, "queryKey">): UseSuspenseQueryResult<TData, OperationError<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         * It functions similarly to `useInfiniteQuery`, but with added support for React Suspense.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseInfiniteQuery|`useSuspenseInfiniteQuery(...)` documentation}
+         *
+         * @example Suspense Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getHostingProjectsProjectIdEnvironmentsEnvironmentIdVariables.useSuspenseInfiniteQuery({
+         *     path: {
+         *         projectId: projectId,
+         *         environmentId: environmentId
+         *     }
+         * }, {
+         *     initialPageParam: {},
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useSuspenseInfiniteQuery<TPageParam extends GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters, TData = GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesData>(parameters: ServiceOperationInfiniteQueryKey<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters> | (DeepReadonly<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>), options: Omit<UseSuspenseInfiniteQueryOptions<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesError, OperationInfiniteData<TData, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>, ServiceOperationInfiniteQueryKey<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, PartialParameters<DeepReadonly<TPageParam>>>): UseSuspenseInfiniteQueryResult<OperationInfiniteData<TData, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>, OperationError<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>>;
+        /**
+         * Allows you to execute multiple asynchronous data fetching operations concurrently with Suspense support.
+         * Similar to useQueries but integrates with React Suspense for loading states.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
+         * @example Basic usage with Suspense
+         * ```ts
+         * const getHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesData = qraft.v1.getHostingProjectsProjectIdEnvironmentsEnvironmentIdVariables.useSuspenseQueries({
+         *     queries: [
+         *         {
+         *             path: {
+         *                 projectId: projectId1,
+         *                 environmentId: environmentId1
+         *             }
+         *         },
+         *         {
+         *             path: {
+         *                 projectId: projectId2,
+         *                 environmentId: environmentId2
+         *             }
+         *         }
+         *     ]
+         * });
+         * getHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesResults.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
+         * ```
+         * @example With data transformation using combine
+         * ```ts
+         * const getHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesCombinedData = qraft.v1.getHostingProjectsProjectIdEnvironmentsEnvironmentIdVariables.useSuspenseQueries({
+         *     combine: results => results.map(result => result.data),
+         *     queries: [
+         *         {
+         *             path: {
+         *                 projectId: projectId1,
+         *                 environmentId: environmentId1
+         *             }
+         *         },
+         *         {
+         *             path: {
+         *                 projectId: projectId2,
+         *                 environmentId: environmentId2
+         *             }
+         *         }
+         *     ]
+         * });
+         * getHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesCombinedData.forEach(data => console.log({ data }));
+         * ```
+         */
+        useSuspenseQueries<T extends Array<UseQueryOptionsForUseSuspenseQuery<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>>, TCombinedResult = Array<UseSuspenseQueryResult<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>>>(options: {
+            queries: T;
+            combine?: (results: Array<WithOptional<UseSuspenseQueryResult<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>, "data">>) => TCombinedResult;
+        }): TCombinedResult;
+        /**/
+        fetchQuery(options: ServiceOperationFetchQueryOptions<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>): Promise<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesData>;
+        /**/
+        prefetchQuery(options: ServiceOperationFetchQueryOptions<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>): Promise<void>;
+        /**/
+        ensureQueryData(options: ServiceOperationEnsureQueryDataOptions<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>): Promise<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesData>;
+        /**/
+        fetchInfiniteQuery<TPageParam extends GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>(options: ServiceOperationFetchInfiniteQueryOptions<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters, DeepReadonly<TPageParam>, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>): Promise<OperationInfiniteData<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>>;
+        /**/
+        prefetchInfiniteQuery<TPageParam extends GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>(options: ServiceOperationFetchInfiniteQueryOptions<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters, DeepReadonly<TPageParam>, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>): Promise<void>;
+        /**/
+        ensureInfiniteQueryData<TPageParam extends GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>(options: ServiceOperationEnsureInfiniteQueryDataOptions<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters, DeepReadonly<TPageParam>, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>): Promise<OperationInfiniteData<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>>;
+        /**/
+        getQueryData(parameters: ServiceOperationQueryKey<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters> | (DeepReadonly<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>)): GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesData | undefined;
+        /**/
+        getInfiniteQueryData(parameters: ServiceOperationInfiniteQueryKey<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters> | (DeepReadonly<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>)): OperationInfiniteData<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters> | undefined;
+        /**/
+        getQueriesData<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, TInfinite, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesError> | QueryFiltersByQueryKey<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, TInfinite, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>): TInfinite extends true ? Array<[
+            queryKey: ServiceOperationInfiniteQueryKey<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>,
+            data: NoInfer<OperationInfiniteData<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>> | undefined
+        ]> : Array<[
+            queryKey: ServiceOperationQueryKey<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>,
+            data: GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesData | undefined
+        ]>;
+        /**/
+        getQueryState(parameters: ServiceOperationQueryKey<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters> | (DeepReadonly<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>)): QueryState<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesError> | undefined;
+        /**/
+        getInfiniteQueryState(parameters: DeepReadonly<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters> | ServiceOperationInfiniteQueryKey<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>): QueryState<OperationInfiniteData<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesError> | undefined;
+        /**/
+        setQueryData(parameters: (DeepReadonly<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>) | ServiceOperationQueryKey<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>, updater: Updater<NoInfer<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesData> | undefined, NoInfer<DeepReadonly<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesData>> | undefined>, options?: SetDataOptions): GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesData | undefined;
+        /**/
+        setInfiniteQueryData(parameters: (DeepReadonly<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>) | ServiceOperationInfiniteQueryKey<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>, updater: Updater<NoInfer<OperationInfiniteData<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>> | undefined, NoInfer<DeepReadonly<OperationInfiniteData<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>>> | undefined>, options?: SetDataOptions): OperationInfiniteData<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters> | undefined;
+        /**/
+        setQueriesData<TInfinite extends boolean = false>(filters: QueryFiltersByParameters<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, TInfinite, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesError> | QueryFiltersByQueryKey<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, TInfinite, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>, updater: Updater<NoInfer<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesData> | undefined, NoInfer<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesData> | undefined>, options?: SetDataOptions): Array<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesData | undefined>;
+        /**/
+        invalidateQueries<TInfinite extends boolean = false>(filters?: InvalidateQueryFilters<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, TInfinite, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>, options?: InvalidateOptions): Promise<void>;
+        /**/
+        refetchQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, TInfinite, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesError> | QueryFiltersByQueryKey<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, TInfinite, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>, options?: RefetchOptions): Promise<void>;
+        /**/
+        cancelQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, TInfinite, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesError> | QueryFiltersByQueryKey<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, TInfinite, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>, options?: CancelOptions): Promise<void>;
+        /**/
+        removeQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, TInfinite, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesError> | QueryFiltersByQueryKey<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, TInfinite, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>): void;
+        /**/
+        resetQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, TInfinite, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesError> | QueryFiltersByQueryKey<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, TInfinite, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>, options?: ResetOptions): Promise<void>;
+        /**/
+        isFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, TInfinite, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesError> | QueryFiltersByQueryKey<GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, TInfinite, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters, GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>): number;
+        schema: GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema;
+        types: {
+            parameters: GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters;
+            data: GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesData;
+            error: GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesError;
+        };
+    };
+    getHostingProjectsProjectIdEnvironmentsProduction: {
+        /**/
+        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: QueryFnOptionsByQueryKey<GetHostingProjectsProjectIdEnvironmentsProductionSchema, GetHostingProjectsProjectIdEnvironmentsProductionParameters, TMeta, TSignal> | (QueryFnOptionsByParameters<GetHostingProjectsProjectIdEnvironmentsProductionParameters, TMeta, TSignal>), client?: (schema: GetHostingProjectsProjectIdEnvironmentsProductionSchema, options: {
+            parameters: GetHostingProjectsProjectIdEnvironmentsProductionParameters;
+            signal?: TSignal;
+            meta?: TMeta;
+        }) => Promise<RequestFnResponse<GetHostingProjectsProjectIdEnvironmentsProductionData, GetHostingProjectsProjectIdEnvironmentsProductionError>>): Promise<RequestFnResponse<GetHostingProjectsProjectIdEnvironmentsProductionData, GetHostingProjectsProjectIdEnvironmentsProductionError>>;
+        /**/
+        getQueryKey(parameters: DeepReadonly<GetHostingProjectsProjectIdEnvironmentsProductionParameters>): ServiceOperationQueryKey<GetHostingProjectsProjectIdEnvironmentsProductionSchema, GetHostingProjectsProjectIdEnvironmentsProductionParameters>;
+        /**
+         * Performs asynchronous data fetching, manages loading states and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
+         * @example Query with parameters
+         * ```ts
+         * const { data, isLoading } = qraft.v1.getHostingProjectsProjectIdEnvironmentsProduction.useQuery({
+         *     path: {
+         *         projectId: projectId
+         *     }
+         * })
+         * ```
+         */
+        useQuery<TData = GetHostingProjectsProjectIdEnvironmentsProductionData>(parameters: ServiceOperationQueryKey<GetHostingProjectsProjectIdEnvironmentsProductionSchema, GetHostingProjectsProjectIdEnvironmentsProductionParameters> | (DeepReadonly<GetHostingProjectsProjectIdEnvironmentsProductionParameters>), options?: Omit<UndefinedInitialDataOptions<GetHostingProjectsProjectIdEnvironmentsProductionData, GetHostingProjectsProjectIdEnvironmentsProductionError, TData, ServiceOperationQueryKey<GetHostingProjectsProjectIdEnvironmentsProductionSchema, GetHostingProjectsProjectIdEnvironmentsProductionParameters>>, "queryKey">): UseQueryResult<TData, OperationError<GetHostingProjectsProjectIdEnvironmentsProductionError>>;
+        /**
+         * Performs asynchronous data fetching, manages loading states and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
+         * @example Query with parameters
+         * ```ts
+         * const { data, isLoading } = qraft.v1.getHostingProjectsProjectIdEnvironmentsProduction.useQuery({
+         *     path: {
+         *         projectId: projectId
+         *     }
+         * })
+         * ```
+         */
+        useQuery<TData = GetHostingProjectsProjectIdEnvironmentsProductionData>(parameters: ServiceOperationQueryKey<GetHostingProjectsProjectIdEnvironmentsProductionSchema, GetHostingProjectsProjectIdEnvironmentsProductionParameters> | (DeepReadonly<GetHostingProjectsProjectIdEnvironmentsProductionParameters>), options: Omit<DefinedInitialDataOptions<GetHostingProjectsProjectIdEnvironmentsProductionData, GetHostingProjectsProjectIdEnvironmentsProductionError, TData, ServiceOperationQueryKey<GetHostingProjectsProjectIdEnvironmentsProductionSchema, GetHostingProjectsProjectIdEnvironmentsProductionParameters>>, "queryKey">): DefinedUseQueryResult<TData, OperationError<GetHostingProjectsProjectIdEnvironmentsProductionError>>;
+        /**/
+        getInfiniteQueryKey(parameters: DeepReadonly<GetHostingProjectsProjectIdEnvironmentsProductionParameters>): ServiceOperationInfiniteQueryKey<GetHostingProjectsProjectIdEnvironmentsProductionSchema, GetHostingProjectsProjectIdEnvironmentsProductionParameters>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useInfiniteQuery|`useInfiniteQuery(...)` documentation}
+         *
+         * @example Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getHostingProjectsProjectIdEnvironmentsProduction.useInfiniteQuery({
+         *     path: {
+         *         projectId: projectId
+         *     }
+         * }, {
+         *     initialPageParam: {},
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useInfiniteQuery<TPageParam extends GetHostingProjectsProjectIdEnvironmentsProductionParameters, TQueryFnData = GetHostingProjectsProjectIdEnvironmentsProductionData, TData = OperationInfiniteData<TQueryFnData, GetHostingProjectsProjectIdEnvironmentsProductionParameters>>(parameters: ServiceOperationInfiniteQueryKey<GetHostingProjectsProjectIdEnvironmentsProductionSchema, GetHostingProjectsProjectIdEnvironmentsProductionParameters> | (DeepReadonly<GetHostingProjectsProjectIdEnvironmentsProductionParameters>), options: Omit<UndefinedInitialDataInfiniteOptions<TQueryFnData, GetHostingProjectsProjectIdEnvironmentsProductionError, TData, ServiceOperationInfiniteQueryKey<GetHostingProjectsProjectIdEnvironmentsProductionSchema, GetHostingProjectsProjectIdEnvironmentsProductionParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<TQueryFnData, PartialParameters<DeepReadonly<TPageParam>>>): UseInfiniteQueryResult<TData, OperationError<GetHostingProjectsProjectIdEnvironmentsProductionError>>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useInfiniteQuery|`useInfiniteQuery(...)` documentation}
+         *
+         * @example Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getHostingProjectsProjectIdEnvironmentsProduction.useInfiniteQuery({
+         *     path: {
+         *         projectId: projectId
+         *     }
+         * }, {
+         *     initialPageParam: {},
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useInfiniteQuery<TPageParam extends GetHostingProjectsProjectIdEnvironmentsProductionParameters, TQueryFnData = GetHostingProjectsProjectIdEnvironmentsProductionData, TData = OperationInfiniteData<TQueryFnData, GetHostingProjectsProjectIdEnvironmentsProductionParameters>>(parameters: ServiceOperationInfiniteQueryKey<GetHostingProjectsProjectIdEnvironmentsProductionSchema, GetHostingProjectsProjectIdEnvironmentsProductionParameters> | (DeepReadonly<GetHostingProjectsProjectIdEnvironmentsProductionParameters>), options: Omit<DefinedInitialDataInfiniteOptions<TQueryFnData, GetHostingProjectsProjectIdEnvironmentsProductionError, TData, ServiceOperationInfiniteQueryKey<GetHostingProjectsProjectIdEnvironmentsProductionSchema, GetHostingProjectsProjectIdEnvironmentsProductionParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<GetHostingProjectsProjectIdEnvironmentsProductionData, PartialParameters<DeepReadonly<TPageParam>>>): DefinedUseInfiniteQueryResult<TData, OperationError<GetHostingProjectsProjectIdEnvironmentsProductionError>>;
+        /**
+         * Monitors the number of queries currently fetching, matching the provided filters.
+         * Useful for creating loading indicators or performing actions based on active requests.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsFetching|`useIsFetching(...)` documentation}
+         * @example Checks the total number of queries fetching from the specified service method,
+         * both normal and infinite. If no parameters are provided, no filtering is applied.
+         * ```ts
+         * const getHostingProjectsProjectIdEnvironmentsProductionTotal = qraft.v1.getHostingProjectsProjectIdEnvironmentsProduction.useIsFetching()
+         * ```
+         * @example Checks the number of normal queries fetching with the specified parameters.
+         * ```ts
+         * const getHostingProjectsProjectIdEnvironmentsProductionByParametersTotal = qraft.v1.getHostingProjectsProjectIdEnvironmentsProduction.useIsFetching({
+         *     infinite: false,
+         *     parameters: {
+         *         path: {
+         *             projectId: projectId
+         *         }
+         *     }
+         * })
+         * ```
+         */
+        useIsFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetHostingProjectsProjectIdEnvironmentsProductionSchema, GetHostingProjectsProjectIdEnvironmentsProductionData, TInfinite, GetHostingProjectsProjectIdEnvironmentsProductionParameters, GetHostingProjectsProjectIdEnvironmentsProductionError> | QueryFiltersByQueryKey<GetHostingProjectsProjectIdEnvironmentsProductionSchema, GetHostingProjectsProjectIdEnvironmentsProductionData, TInfinite, GetHostingProjectsProjectIdEnvironmentsProductionParameters, GetHostingProjectsProjectIdEnvironmentsProductionError>): number;
+        /**
+         * Allows you to execute multiple asynchronous data fetching operations concurrently. This is especially useful for managing complex data dependencies in parallel.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
+         * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
+         * ```ts
+         * const getHostingProjectsProjectIdEnvironmentsProductionResults = qraft.v1.getHostingProjectsProjectIdEnvironmentsProduction.useQueries({
+         *     queries: [
+         *         {
+         *             path: {
+         *                 projectId: projectId1
+         *             }
+         *         },
+         *         {
+         *             path: {
+         *                 projectId: projectId2
+         *             }
+         *         }
+         *     ]
+         * });
+         * getHostingProjectsProjectIdEnvironmentsProductionResults.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
+         * ```
+         * @example Combined results. Only the data will be returned.
+         * ```ts
+         * const getHostingProjectsProjectIdEnvironmentsProductionCombinedResults = qraft.v1.getHostingProjectsProjectIdEnvironmentsProduction.useQueries({
+         *     combine: results => results.map(result => result.data),
+         *     queries: [
+         *         {
+         *             path: {
+         *                 projectId: projectId1
+         *             }
+         *         },
+         *         {
+         *             path: {
+         *                 projectId: projectId2
+         *             }
+         *         }
+         *     ]
+         * });
+         * getHostingProjectsProjectIdEnvironmentsProductionCombinedResults.forEach(data => console.log({ data }));
+         * ```
+         */
+        useQueries<T extends Array<UseQueryOptionsForUseQueries<GetHostingProjectsProjectIdEnvironmentsProductionSchema, GetHostingProjectsProjectIdEnvironmentsProductionParameters, GetHostingProjectsProjectIdEnvironmentsProductionData, GetHostingProjectsProjectIdEnvironmentsProductionError>>, TCombinedResult = Array<UseQueryResult<GetHostingProjectsProjectIdEnvironmentsProductionData, GetHostingProjectsProjectIdEnvironmentsProductionError>>>(options: {
+            queries: T;
+            combine?: (results: Array<UseQueryResult<GetHostingProjectsProjectIdEnvironmentsProductionData, GetHostingProjectsProjectIdEnvironmentsProductionError>>) => TCombinedResult;
+        }): TCombinedResult;
+        /**
+         * Performs asynchronous data fetching with Suspense support.
+         * Similar to useQuery but integrates with React Suspense for loading states.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
+         * @example Suspense Query with parameters
+         * ```ts
+         * const data = qraft.v1.getHostingProjectsProjectIdEnvironmentsProduction.useSuspenseQuery({
+         *     path: {
+         *         projectId: projectId
+         *     }
+         * })
+         * ```
+         */
+        useSuspenseQuery<TData = GetHostingProjectsProjectIdEnvironmentsProductionData>(parameters: ServiceOperationQueryKey<GetHostingProjectsProjectIdEnvironmentsProductionSchema, GetHostingProjectsProjectIdEnvironmentsProductionParameters> | (DeepReadonly<GetHostingProjectsProjectIdEnvironmentsProductionParameters>), options?: Omit<UseSuspenseQueryOptions<GetHostingProjectsProjectIdEnvironmentsProductionData, GetHostingProjectsProjectIdEnvironmentsProductionError, TData, ServiceOperationQueryKey<GetHostingProjectsProjectIdEnvironmentsProductionSchema, GetHostingProjectsProjectIdEnvironmentsProductionParameters>>, "queryKey">): UseSuspenseQueryResult<TData, OperationError<GetHostingProjectsProjectIdEnvironmentsProductionError>>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         * It functions similarly to `useInfiniteQuery`, but with added support for React Suspense.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseInfiniteQuery|`useSuspenseInfiniteQuery(...)` documentation}
+         *
+         * @example Suspense Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getHostingProjectsProjectIdEnvironmentsProduction.useSuspenseInfiniteQuery({
+         *     path: {
+         *         projectId: projectId
+         *     }
+         * }, {
+         *     initialPageParam: {},
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useSuspenseInfiniteQuery<TPageParam extends GetHostingProjectsProjectIdEnvironmentsProductionParameters, TData = GetHostingProjectsProjectIdEnvironmentsProductionData>(parameters: ServiceOperationInfiniteQueryKey<GetHostingProjectsProjectIdEnvironmentsProductionSchema, GetHostingProjectsProjectIdEnvironmentsProductionParameters> | (DeepReadonly<GetHostingProjectsProjectIdEnvironmentsProductionParameters>), options: Omit<UseSuspenseInfiniteQueryOptions<GetHostingProjectsProjectIdEnvironmentsProductionData, GetHostingProjectsProjectIdEnvironmentsProductionError, OperationInfiniteData<TData, GetHostingProjectsProjectIdEnvironmentsProductionParameters>, ServiceOperationInfiniteQueryKey<GetHostingProjectsProjectIdEnvironmentsProductionSchema, GetHostingProjectsProjectIdEnvironmentsProductionParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<GetHostingProjectsProjectIdEnvironmentsProductionData, PartialParameters<DeepReadonly<TPageParam>>>): UseSuspenseInfiniteQueryResult<OperationInfiniteData<TData, GetHostingProjectsProjectIdEnvironmentsProductionParameters>, OperationError<GetHostingProjectsProjectIdEnvironmentsProductionError>>;
+        /**
+         * Allows you to execute multiple asynchronous data fetching operations concurrently with Suspense support.
+         * Similar to useQueries but integrates with React Suspense for loading states.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
+         * @example Basic usage with Suspense
+         * ```ts
+         * const getHostingProjectsProjectIdEnvironmentsProductionData = qraft.v1.getHostingProjectsProjectIdEnvironmentsProduction.useSuspenseQueries({
+         *     queries: [
+         *         {
+         *             path: {
+         *                 projectId: projectId1
+         *             }
+         *         },
+         *         {
+         *             path: {
+         *                 projectId: projectId2
+         *             }
+         *         }
+         *     ]
+         * });
+         * getHostingProjectsProjectIdEnvironmentsProductionResults.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
+         * ```
+         * @example With data transformation using combine
+         * ```ts
+         * const getHostingProjectsProjectIdEnvironmentsProductionCombinedData = qraft.v1.getHostingProjectsProjectIdEnvironmentsProduction.useSuspenseQueries({
+         *     combine: results => results.map(result => result.data),
+         *     queries: [
+         *         {
+         *             path: {
+         *                 projectId: projectId1
+         *             }
+         *         },
+         *         {
+         *             path: {
+         *                 projectId: projectId2
+         *             }
+         *         }
+         *     ]
+         * });
+         * getHostingProjectsProjectIdEnvironmentsProductionCombinedData.forEach(data => console.log({ data }));
+         * ```
+         */
+        useSuspenseQueries<T extends Array<UseQueryOptionsForUseSuspenseQuery<GetHostingProjectsProjectIdEnvironmentsProductionSchema, GetHostingProjectsProjectIdEnvironmentsProductionParameters, GetHostingProjectsProjectIdEnvironmentsProductionData, GetHostingProjectsProjectIdEnvironmentsProductionError>>, TCombinedResult = Array<UseSuspenseQueryResult<GetHostingProjectsProjectIdEnvironmentsProductionData, GetHostingProjectsProjectIdEnvironmentsProductionError>>>(options: {
+            queries: T;
+            combine?: (results: Array<WithOptional<UseSuspenseQueryResult<GetHostingProjectsProjectIdEnvironmentsProductionData, GetHostingProjectsProjectIdEnvironmentsProductionError>, "data">>) => TCombinedResult;
+        }): TCombinedResult;
+        /**/
+        fetchQuery(options: ServiceOperationFetchQueryOptions<GetHostingProjectsProjectIdEnvironmentsProductionSchema, GetHostingProjectsProjectIdEnvironmentsProductionData, GetHostingProjectsProjectIdEnvironmentsProductionParameters, GetHostingProjectsProjectIdEnvironmentsProductionError>): Promise<GetHostingProjectsProjectIdEnvironmentsProductionData>;
+        /**/
+        prefetchQuery(options: ServiceOperationFetchQueryOptions<GetHostingProjectsProjectIdEnvironmentsProductionSchema, GetHostingProjectsProjectIdEnvironmentsProductionData, GetHostingProjectsProjectIdEnvironmentsProductionParameters, GetHostingProjectsProjectIdEnvironmentsProductionError>): Promise<void>;
+        /**/
+        ensureQueryData(options: ServiceOperationEnsureQueryDataOptions<GetHostingProjectsProjectIdEnvironmentsProductionSchema, GetHostingProjectsProjectIdEnvironmentsProductionData, GetHostingProjectsProjectIdEnvironmentsProductionParameters, GetHostingProjectsProjectIdEnvironmentsProductionError>): Promise<GetHostingProjectsProjectIdEnvironmentsProductionData>;
+        /**/
+        fetchInfiniteQuery<TPageParam extends GetHostingProjectsProjectIdEnvironmentsProductionParameters>(options: ServiceOperationFetchInfiniteQueryOptions<GetHostingProjectsProjectIdEnvironmentsProductionSchema, GetHostingProjectsProjectIdEnvironmentsProductionData, GetHostingProjectsProjectIdEnvironmentsProductionParameters, DeepReadonly<TPageParam>, GetHostingProjectsProjectIdEnvironmentsProductionError>): Promise<OperationInfiniteData<GetHostingProjectsProjectIdEnvironmentsProductionData, GetHostingProjectsProjectIdEnvironmentsProductionParameters>>;
+        /**/
+        prefetchInfiniteQuery<TPageParam extends GetHostingProjectsProjectIdEnvironmentsProductionParameters>(options: ServiceOperationFetchInfiniteQueryOptions<GetHostingProjectsProjectIdEnvironmentsProductionSchema, GetHostingProjectsProjectIdEnvironmentsProductionData, GetHostingProjectsProjectIdEnvironmentsProductionParameters, DeepReadonly<TPageParam>, GetHostingProjectsProjectIdEnvironmentsProductionError>): Promise<void>;
+        /**/
+        ensureInfiniteQueryData<TPageParam extends GetHostingProjectsProjectIdEnvironmentsProductionParameters>(options: ServiceOperationEnsureInfiniteQueryDataOptions<GetHostingProjectsProjectIdEnvironmentsProductionSchema, GetHostingProjectsProjectIdEnvironmentsProductionData, GetHostingProjectsProjectIdEnvironmentsProductionParameters, DeepReadonly<TPageParam>, GetHostingProjectsProjectIdEnvironmentsProductionError>): Promise<OperationInfiniteData<GetHostingProjectsProjectIdEnvironmentsProductionData, GetHostingProjectsProjectIdEnvironmentsProductionParameters>>;
+        /**/
+        getQueryData(parameters: ServiceOperationQueryKey<GetHostingProjectsProjectIdEnvironmentsProductionSchema, GetHostingProjectsProjectIdEnvironmentsProductionParameters> | (DeepReadonly<GetHostingProjectsProjectIdEnvironmentsProductionParameters>)): GetHostingProjectsProjectIdEnvironmentsProductionData | undefined;
+        /**/
+        getInfiniteQueryData(parameters: ServiceOperationInfiniteQueryKey<GetHostingProjectsProjectIdEnvironmentsProductionSchema, GetHostingProjectsProjectIdEnvironmentsProductionParameters> | (DeepReadonly<GetHostingProjectsProjectIdEnvironmentsProductionParameters>)): OperationInfiniteData<GetHostingProjectsProjectIdEnvironmentsProductionData, GetHostingProjectsProjectIdEnvironmentsProductionParameters> | undefined;
+        /**/
+        getQueriesData<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetHostingProjectsProjectIdEnvironmentsProductionSchema, GetHostingProjectsProjectIdEnvironmentsProductionData, TInfinite, GetHostingProjectsProjectIdEnvironmentsProductionParameters, GetHostingProjectsProjectIdEnvironmentsProductionError> | QueryFiltersByQueryKey<GetHostingProjectsProjectIdEnvironmentsProductionSchema, GetHostingProjectsProjectIdEnvironmentsProductionData, TInfinite, GetHostingProjectsProjectIdEnvironmentsProductionParameters, GetHostingProjectsProjectIdEnvironmentsProductionError>): TInfinite extends true ? Array<[
+            queryKey: ServiceOperationInfiniteQueryKey<GetHostingProjectsProjectIdEnvironmentsProductionSchema, GetHostingProjectsProjectIdEnvironmentsProductionParameters>,
+            data: NoInfer<OperationInfiniteData<GetHostingProjectsProjectIdEnvironmentsProductionData, GetHostingProjectsProjectIdEnvironmentsProductionParameters>> | undefined
+        ]> : Array<[
+            queryKey: ServiceOperationQueryKey<GetHostingProjectsProjectIdEnvironmentsProductionSchema, GetHostingProjectsProjectIdEnvironmentsProductionParameters>,
+            data: GetHostingProjectsProjectIdEnvironmentsProductionData | undefined
+        ]>;
+        /**/
+        getQueryState(parameters: ServiceOperationQueryKey<GetHostingProjectsProjectIdEnvironmentsProductionSchema, GetHostingProjectsProjectIdEnvironmentsProductionParameters> | (DeepReadonly<GetHostingProjectsProjectIdEnvironmentsProductionParameters>)): QueryState<GetHostingProjectsProjectIdEnvironmentsProductionData, GetHostingProjectsProjectIdEnvironmentsProductionError> | undefined;
+        /**/
+        getInfiniteQueryState(parameters: DeepReadonly<GetHostingProjectsProjectIdEnvironmentsProductionParameters> | ServiceOperationInfiniteQueryKey<GetHostingProjectsProjectIdEnvironmentsProductionSchema, GetHostingProjectsProjectIdEnvironmentsProductionParameters>): QueryState<OperationInfiniteData<GetHostingProjectsProjectIdEnvironmentsProductionData, GetHostingProjectsProjectIdEnvironmentsProductionParameters>, GetHostingProjectsProjectIdEnvironmentsProductionError> | undefined;
+        /**/
+        setQueryData(parameters: (DeepReadonly<GetHostingProjectsProjectIdEnvironmentsProductionParameters>) | ServiceOperationQueryKey<GetHostingProjectsProjectIdEnvironmentsProductionSchema, GetHostingProjectsProjectIdEnvironmentsProductionParameters>, updater: Updater<NoInfer<GetHostingProjectsProjectIdEnvironmentsProductionData> | undefined, NoInfer<DeepReadonly<GetHostingProjectsProjectIdEnvironmentsProductionData>> | undefined>, options?: SetDataOptions): GetHostingProjectsProjectIdEnvironmentsProductionData | undefined;
+        /**/
+        setInfiniteQueryData(parameters: (DeepReadonly<GetHostingProjectsProjectIdEnvironmentsProductionParameters>) | ServiceOperationInfiniteQueryKey<GetHostingProjectsProjectIdEnvironmentsProductionSchema, GetHostingProjectsProjectIdEnvironmentsProductionParameters>, updater: Updater<NoInfer<OperationInfiniteData<GetHostingProjectsProjectIdEnvironmentsProductionData, GetHostingProjectsProjectIdEnvironmentsProductionParameters>> | undefined, NoInfer<DeepReadonly<OperationInfiniteData<GetHostingProjectsProjectIdEnvironmentsProductionData, GetHostingProjectsProjectIdEnvironmentsProductionParameters>>> | undefined>, options?: SetDataOptions): OperationInfiniteData<GetHostingProjectsProjectIdEnvironmentsProductionData, GetHostingProjectsProjectIdEnvironmentsProductionParameters> | undefined;
+        /**/
+        setQueriesData<TInfinite extends boolean = false>(filters: QueryFiltersByParameters<GetHostingProjectsProjectIdEnvironmentsProductionSchema, GetHostingProjectsProjectIdEnvironmentsProductionData, TInfinite, GetHostingProjectsProjectIdEnvironmentsProductionParameters, GetHostingProjectsProjectIdEnvironmentsProductionError> | QueryFiltersByQueryKey<GetHostingProjectsProjectIdEnvironmentsProductionSchema, GetHostingProjectsProjectIdEnvironmentsProductionData, TInfinite, GetHostingProjectsProjectIdEnvironmentsProductionParameters, GetHostingProjectsProjectIdEnvironmentsProductionError>, updater: Updater<NoInfer<GetHostingProjectsProjectIdEnvironmentsProductionData> | undefined, NoInfer<GetHostingProjectsProjectIdEnvironmentsProductionData> | undefined>, options?: SetDataOptions): Array<GetHostingProjectsProjectIdEnvironmentsProductionData | undefined>;
+        /**/
+        invalidateQueries<TInfinite extends boolean = false>(filters?: InvalidateQueryFilters<GetHostingProjectsProjectIdEnvironmentsProductionSchema, GetHostingProjectsProjectIdEnvironmentsProductionData, TInfinite, GetHostingProjectsProjectIdEnvironmentsProductionParameters, GetHostingProjectsProjectIdEnvironmentsProductionError>, options?: InvalidateOptions): Promise<void>;
+        /**/
+        refetchQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetHostingProjectsProjectIdEnvironmentsProductionSchema, GetHostingProjectsProjectIdEnvironmentsProductionData, TInfinite, GetHostingProjectsProjectIdEnvironmentsProductionParameters, GetHostingProjectsProjectIdEnvironmentsProductionError> | QueryFiltersByQueryKey<GetHostingProjectsProjectIdEnvironmentsProductionSchema, GetHostingProjectsProjectIdEnvironmentsProductionData, TInfinite, GetHostingProjectsProjectIdEnvironmentsProductionParameters, GetHostingProjectsProjectIdEnvironmentsProductionError>, options?: RefetchOptions): Promise<void>;
+        /**/
+        cancelQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetHostingProjectsProjectIdEnvironmentsProductionSchema, GetHostingProjectsProjectIdEnvironmentsProductionData, TInfinite, GetHostingProjectsProjectIdEnvironmentsProductionParameters, GetHostingProjectsProjectIdEnvironmentsProductionError> | QueryFiltersByQueryKey<GetHostingProjectsProjectIdEnvironmentsProductionSchema, GetHostingProjectsProjectIdEnvironmentsProductionData, TInfinite, GetHostingProjectsProjectIdEnvironmentsProductionParameters, GetHostingProjectsProjectIdEnvironmentsProductionError>, options?: CancelOptions): Promise<void>;
+        /**/
+        removeQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetHostingProjectsProjectIdEnvironmentsProductionSchema, GetHostingProjectsProjectIdEnvironmentsProductionData, TInfinite, GetHostingProjectsProjectIdEnvironmentsProductionParameters, GetHostingProjectsProjectIdEnvironmentsProductionError> | QueryFiltersByQueryKey<GetHostingProjectsProjectIdEnvironmentsProductionSchema, GetHostingProjectsProjectIdEnvironmentsProductionData, TInfinite, GetHostingProjectsProjectIdEnvironmentsProductionParameters, GetHostingProjectsProjectIdEnvironmentsProductionError>): void;
+        /**/
+        resetQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetHostingProjectsProjectIdEnvironmentsProductionSchema, GetHostingProjectsProjectIdEnvironmentsProductionData, TInfinite, GetHostingProjectsProjectIdEnvironmentsProductionParameters, GetHostingProjectsProjectIdEnvironmentsProductionError> | QueryFiltersByQueryKey<GetHostingProjectsProjectIdEnvironmentsProductionSchema, GetHostingProjectsProjectIdEnvironmentsProductionData, TInfinite, GetHostingProjectsProjectIdEnvironmentsProductionParameters, GetHostingProjectsProjectIdEnvironmentsProductionError>, options?: ResetOptions): Promise<void>;
+        /**/
+        isFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetHostingProjectsProjectIdEnvironmentsProductionSchema, GetHostingProjectsProjectIdEnvironmentsProductionData, TInfinite, GetHostingProjectsProjectIdEnvironmentsProductionParameters, GetHostingProjectsProjectIdEnvironmentsProductionError> | QueryFiltersByQueryKey<GetHostingProjectsProjectIdEnvironmentsProductionSchema, GetHostingProjectsProjectIdEnvironmentsProductionData, TInfinite, GetHostingProjectsProjectIdEnvironmentsProductionParameters, GetHostingProjectsProjectIdEnvironmentsProductionError>): number;
+        schema: GetHostingProjectsProjectIdEnvironmentsProductionSchema;
+        types: {
+            parameters: GetHostingProjectsProjectIdEnvironmentsProductionParameters;
+            data: GetHostingProjectsProjectIdEnvironmentsProductionData;
+            error: GetHostingProjectsProjectIdEnvironmentsProductionError;
+        };
+    };
     postInvitationsTokenAccept: {
         /**/
         <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: ServiceOperationMutationFnOptions<PostInvitationsTokenAcceptBody, PostInvitationsTokenAcceptParameters, TMeta, TSignal>, client?: (schema: PostInvitationsTokenAcceptSchema, options: ServiceOperationMutationFnOptions<PostInvitationsTokenAcceptBody, PostInvitationsTokenAcceptParameters, TMeta, TSignal>) => Promise<RequestFnResponse<PostInvitationsTokenAcceptData, PostInvitationsTokenAcceptError>>): Promise<RequestFnResponse<PostInvitationsTokenAcceptData, PostInvitationsTokenAcceptError>>;
@@ -15807,666 +16402,6 @@ export interface V1Service {
             body: PostProjectsProjectIdDeploymentsDeploymentIdCancelBody;
         };
     };
-    getProjectsProjectIdEnvironment: {
-        /**/
-        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: QueryFnOptionsByQueryKey<GetProjectsProjectIdEnvironmentSchema, GetProjectsProjectIdEnvironmentParameters, TMeta, TSignal> | (QueryFnOptionsByParameters<GetProjectsProjectIdEnvironmentParameters, TMeta, TSignal>), client?: (schema: GetProjectsProjectIdEnvironmentSchema, options: {
-            parameters: GetProjectsProjectIdEnvironmentParameters;
-            signal?: TSignal;
-            meta?: TMeta;
-        }) => Promise<RequestFnResponse<GetProjectsProjectIdEnvironmentData, GetProjectsProjectIdEnvironmentError>>): Promise<RequestFnResponse<GetProjectsProjectIdEnvironmentData, GetProjectsProjectIdEnvironmentError>>;
-        /**/
-        getQueryKey(parameters: DeepReadonly<GetProjectsProjectIdEnvironmentParameters>): ServiceOperationQueryKey<GetProjectsProjectIdEnvironmentSchema, GetProjectsProjectIdEnvironmentParameters>;
-        /**
-         * Performs asynchronous data fetching, manages loading states and error handling.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
-         * @example Query with parameters
-         * ```ts
-         * const { data, isLoading } = qraft.v1.getProjectsProjectIdEnvironment.useQuery({
-         *     path: {
-         *         projectId: projectId
-         *     },
-         *     query: {
-         *         branch: branch
-         *     }
-         * })
-         * ```
-         */
-        useQuery<TData = GetProjectsProjectIdEnvironmentData>(parameters: ServiceOperationQueryKey<GetProjectsProjectIdEnvironmentSchema, GetProjectsProjectIdEnvironmentParameters> | (DeepReadonly<GetProjectsProjectIdEnvironmentParameters>), options?: Omit<UndefinedInitialDataOptions<GetProjectsProjectIdEnvironmentData, GetProjectsProjectIdEnvironmentError, TData, ServiceOperationQueryKey<GetProjectsProjectIdEnvironmentSchema, GetProjectsProjectIdEnvironmentParameters>>, "queryKey">): UseQueryResult<TData, OperationError<GetProjectsProjectIdEnvironmentError>>;
-        /**
-         * Performs asynchronous data fetching, manages loading states and error handling.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
-         * @example Query with parameters
-         * ```ts
-         * const { data, isLoading } = qraft.v1.getProjectsProjectIdEnvironment.useQuery({
-         *     path: {
-         *         projectId: projectId
-         *     },
-         *     query: {
-         *         branch: branch
-         *     }
-         * })
-         * ```
-         */
-        useQuery<TData = GetProjectsProjectIdEnvironmentData>(parameters: ServiceOperationQueryKey<GetProjectsProjectIdEnvironmentSchema, GetProjectsProjectIdEnvironmentParameters> | (DeepReadonly<GetProjectsProjectIdEnvironmentParameters>), options: Omit<DefinedInitialDataOptions<GetProjectsProjectIdEnvironmentData, GetProjectsProjectIdEnvironmentError, TData, ServiceOperationQueryKey<GetProjectsProjectIdEnvironmentSchema, GetProjectsProjectIdEnvironmentParameters>>, "queryKey">): DefinedUseQueryResult<TData, OperationError<GetProjectsProjectIdEnvironmentError>>;
-        /**/
-        getInfiniteQueryKey(parameters: DeepReadonly<GetProjectsProjectIdEnvironmentParameters>): ServiceOperationInfiniteQueryKey<GetProjectsProjectIdEnvironmentSchema, GetProjectsProjectIdEnvironmentParameters>;
-        /**
-         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
-         * Manages paginated data and provides utilities for fetching additional pages.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useInfiniteQuery|`useInfiniteQuery(...)` documentation}
-         *
-         * @example Infinite Query
-         * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1.getProjectsProjectIdEnvironment.useInfiniteQuery({
-         *     path: {
-         *         projectId: projectId
-         *     },
-         *     query: {
-         *         branch: branch
-         *     }
-         * }, {
-         *     initialPageParam: {
-         *         query: {
-         *             branch: initialBranch
-         *         }
-         *     },
-         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
-         * })
-         *
-         * console.log(data);
-         * fetchNextPage(); // Fetch the next page
-         * ```
-         */
-        useInfiniteQuery<TPageParam extends GetProjectsProjectIdEnvironmentParameters, TQueryFnData = GetProjectsProjectIdEnvironmentData, TData = OperationInfiniteData<TQueryFnData, GetProjectsProjectIdEnvironmentParameters>>(parameters: ServiceOperationInfiniteQueryKey<GetProjectsProjectIdEnvironmentSchema, GetProjectsProjectIdEnvironmentParameters> | (DeepReadonly<GetProjectsProjectIdEnvironmentParameters>), options: Omit<UndefinedInitialDataInfiniteOptions<TQueryFnData, GetProjectsProjectIdEnvironmentError, TData, ServiceOperationInfiniteQueryKey<GetProjectsProjectIdEnvironmentSchema, GetProjectsProjectIdEnvironmentParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<TQueryFnData, PartialParameters<DeepReadonly<TPageParam>>>): UseInfiniteQueryResult<TData, OperationError<GetProjectsProjectIdEnvironmentError>>;
-        /**
-         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
-         * Manages paginated data and provides utilities for fetching additional pages.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useInfiniteQuery|`useInfiniteQuery(...)` documentation}
-         *
-         * @example Infinite Query
-         * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1.getProjectsProjectIdEnvironment.useInfiniteQuery({
-         *     path: {
-         *         projectId: projectId
-         *     },
-         *     query: {
-         *         branch: branch
-         *     }
-         * }, {
-         *     initialPageParam: {
-         *         query: {
-         *             branch: initialBranch
-         *         }
-         *     },
-         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
-         * })
-         *
-         * console.log(data);
-         * fetchNextPage(); // Fetch the next page
-         * ```
-         */
-        useInfiniteQuery<TPageParam extends GetProjectsProjectIdEnvironmentParameters, TQueryFnData = GetProjectsProjectIdEnvironmentData, TData = OperationInfiniteData<TQueryFnData, GetProjectsProjectIdEnvironmentParameters>>(parameters: ServiceOperationInfiniteQueryKey<GetProjectsProjectIdEnvironmentSchema, GetProjectsProjectIdEnvironmentParameters> | (DeepReadonly<GetProjectsProjectIdEnvironmentParameters>), options: Omit<DefinedInitialDataInfiniteOptions<TQueryFnData, GetProjectsProjectIdEnvironmentError, TData, ServiceOperationInfiniteQueryKey<GetProjectsProjectIdEnvironmentSchema, GetProjectsProjectIdEnvironmentParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<GetProjectsProjectIdEnvironmentData, PartialParameters<DeepReadonly<TPageParam>>>): DefinedUseInfiniteQueryResult<TData, OperationError<GetProjectsProjectIdEnvironmentError>>;
-        /**
-         * Monitors the number of queries currently fetching, matching the provided filters.
-         * Useful for creating loading indicators or performing actions based on active requests.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsFetching|`useIsFetching(...)` documentation}
-         * @example Checks the total number of queries fetching from the specified service method,
-         * both normal and infinite. If no parameters are provided, no filtering is applied.
-         * ```ts
-         * const getProjectsProjectIdEnvironmentTotal = qraft.v1.getProjectsProjectIdEnvironment.useIsFetching()
-         * ```
-         * @example Checks the number of normal queries fetching with the specified parameters.
-         * ```ts
-         * const getProjectsProjectIdEnvironmentByParametersTotal = qraft.v1.getProjectsProjectIdEnvironment.useIsFetching({
-         *     infinite: false,
-         *     parameters: {
-         *         path: {
-         *             projectId: projectId
-         *         },
-         *         query: {
-         *             branch: branch
-         *         }
-         *     }
-         * })
-         * ```
-         */
-        useIsFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetProjectsProjectIdEnvironmentSchema, GetProjectsProjectIdEnvironmentData, TInfinite, GetProjectsProjectIdEnvironmentParameters, GetProjectsProjectIdEnvironmentError> | QueryFiltersByQueryKey<GetProjectsProjectIdEnvironmentSchema, GetProjectsProjectIdEnvironmentData, TInfinite, GetProjectsProjectIdEnvironmentParameters, GetProjectsProjectIdEnvironmentError>): number;
-        /**
-         * Allows you to execute multiple asynchronous data fetching operations concurrently. This is especially useful for managing complex data dependencies in parallel.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
-         * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
-         * ```ts
-         * const getProjectsProjectIdEnvironmentResults = qraft.v1.getProjectsProjectIdEnvironment.useQueries({
-         *     queries: [
-         *         {
-         *             path: {
-         *                 projectId: projectId1
-         *             },
-         *             query: {
-         *                 branch: branch1
-         *             }
-         *         },
-         *         {
-         *             path: {
-         *                 projectId: projectId2
-         *             },
-         *             query: {
-         *                 branch: branch2
-         *             }
-         *         }
-         *     ]
-         * });
-         * getProjectsProjectIdEnvironmentResults.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
-         * ```
-         * @example Combined results. Only the data will be returned.
-         * ```ts
-         * const getProjectsProjectIdEnvironmentCombinedResults = qraft.v1.getProjectsProjectIdEnvironment.useQueries({
-         *     combine: results => results.map(result => result.data),
-         *     queries: [
-         *         {
-         *             path: {
-         *                 projectId: projectId1
-         *             },
-         *             query: {
-         *                 branch: branch1
-         *             }
-         *         },
-         *         {
-         *             path: {
-         *                 projectId: projectId2
-         *             },
-         *             query: {
-         *                 branch: branch2
-         *             }
-         *         }
-         *     ]
-         * });
-         * getProjectsProjectIdEnvironmentCombinedResults.forEach(data => console.log({ data }));
-         * ```
-         */
-        useQueries<T extends Array<UseQueryOptionsForUseQueries<GetProjectsProjectIdEnvironmentSchema, GetProjectsProjectIdEnvironmentParameters, GetProjectsProjectIdEnvironmentData, GetProjectsProjectIdEnvironmentError>>, TCombinedResult = Array<UseQueryResult<GetProjectsProjectIdEnvironmentData, GetProjectsProjectIdEnvironmentError>>>(options: {
-            queries: T;
-            combine?: (results: Array<UseQueryResult<GetProjectsProjectIdEnvironmentData, GetProjectsProjectIdEnvironmentError>>) => TCombinedResult;
-        }): TCombinedResult;
-        /**
-         * Performs asynchronous data fetching with Suspense support.
-         * Similar to useQuery but integrates with React Suspense for loading states.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
-         * @example Suspense Query with parameters
-         * ```ts
-         * const data = qraft.v1.getProjectsProjectIdEnvironment.useSuspenseQuery({
-         *     path: {
-         *         projectId: projectId
-         *     },
-         *     query: {
-         *         branch: branch
-         *     }
-         * })
-         * ```
-         */
-        useSuspenseQuery<TData = GetProjectsProjectIdEnvironmentData>(parameters: ServiceOperationQueryKey<GetProjectsProjectIdEnvironmentSchema, GetProjectsProjectIdEnvironmentParameters> | (DeepReadonly<GetProjectsProjectIdEnvironmentParameters>), options?: Omit<UseSuspenseQueryOptions<GetProjectsProjectIdEnvironmentData, GetProjectsProjectIdEnvironmentError, TData, ServiceOperationQueryKey<GetProjectsProjectIdEnvironmentSchema, GetProjectsProjectIdEnvironmentParameters>>, "queryKey">): UseSuspenseQueryResult<TData, OperationError<GetProjectsProjectIdEnvironmentError>>;
-        /**
-         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
-         * Manages paginated data and provides utilities for fetching additional pages.
-         * It functions similarly to `useInfiniteQuery`, but with added support for React Suspense.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseInfiniteQuery|`useSuspenseInfiniteQuery(...)` documentation}
-         *
-         * @example Suspense Infinite Query
-         * ```ts
-         * const { data, isLoading, fetchNextPage } = qraft.v1.getProjectsProjectIdEnvironment.useSuspenseInfiniteQuery({
-         *     path: {
-         *         projectId: projectId
-         *     },
-         *     query: {
-         *         branch: branch
-         *     }
-         * }, {
-         *     initialPageParam: {
-         *         query: {
-         *             branch: initialBranch
-         *         }
-         *     },
-         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
-         * })
-         *
-         * console.log(data);
-         * fetchNextPage(); // Fetch the next page
-         * ```
-         */
-        useSuspenseInfiniteQuery<TPageParam extends GetProjectsProjectIdEnvironmentParameters, TData = GetProjectsProjectIdEnvironmentData>(parameters: ServiceOperationInfiniteQueryKey<GetProjectsProjectIdEnvironmentSchema, GetProjectsProjectIdEnvironmentParameters> | (DeepReadonly<GetProjectsProjectIdEnvironmentParameters>), options: Omit<UseSuspenseInfiniteQueryOptions<GetProjectsProjectIdEnvironmentData, GetProjectsProjectIdEnvironmentError, OperationInfiniteData<TData, GetProjectsProjectIdEnvironmentParameters>, ServiceOperationInfiniteQueryKey<GetProjectsProjectIdEnvironmentSchema, GetProjectsProjectIdEnvironmentParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<GetProjectsProjectIdEnvironmentData, PartialParameters<DeepReadonly<TPageParam>>>): UseSuspenseInfiniteQueryResult<OperationInfiniteData<TData, GetProjectsProjectIdEnvironmentParameters>, OperationError<GetProjectsProjectIdEnvironmentError>>;
-        /**
-         * Allows you to execute multiple asynchronous data fetching operations concurrently with Suspense support.
-         * Similar to useQueries but integrates with React Suspense for loading states.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
-         * @example Basic usage with Suspense
-         * ```ts
-         * const getProjectsProjectIdEnvironmentData = qraft.v1.getProjectsProjectIdEnvironment.useSuspenseQueries({
-         *     queries: [
-         *         {
-         *             path: {
-         *                 projectId: projectId1
-         *             },
-         *             query: {
-         *                 branch: branch1
-         *             }
-         *         },
-         *         {
-         *             path: {
-         *                 projectId: projectId2
-         *             },
-         *             query: {
-         *                 branch: branch2
-         *             }
-         *         }
-         *     ]
-         * });
-         * getProjectsProjectIdEnvironmentResults.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
-         * ```
-         * @example With data transformation using combine
-         * ```ts
-         * const getProjectsProjectIdEnvironmentCombinedData = qraft.v1.getProjectsProjectIdEnvironment.useSuspenseQueries({
-         *     combine: results => results.map(result => result.data),
-         *     queries: [
-         *         {
-         *             path: {
-         *                 projectId: projectId1
-         *             },
-         *             query: {
-         *                 branch: branch1
-         *             }
-         *         },
-         *         {
-         *             path: {
-         *                 projectId: projectId2
-         *             },
-         *             query: {
-         *                 branch: branch2
-         *             }
-         *         }
-         *     ]
-         * });
-         * getProjectsProjectIdEnvironmentCombinedData.forEach(data => console.log({ data }));
-         * ```
-         */
-        useSuspenseQueries<T extends Array<UseQueryOptionsForUseSuspenseQuery<GetProjectsProjectIdEnvironmentSchema, GetProjectsProjectIdEnvironmentParameters, GetProjectsProjectIdEnvironmentData, GetProjectsProjectIdEnvironmentError>>, TCombinedResult = Array<UseSuspenseQueryResult<GetProjectsProjectIdEnvironmentData, GetProjectsProjectIdEnvironmentError>>>(options: {
-            queries: T;
-            combine?: (results: Array<WithOptional<UseSuspenseQueryResult<GetProjectsProjectIdEnvironmentData, GetProjectsProjectIdEnvironmentError>, "data">>) => TCombinedResult;
-        }): TCombinedResult;
-        /**/
-        fetchQuery(options: ServiceOperationFetchQueryOptions<GetProjectsProjectIdEnvironmentSchema, GetProjectsProjectIdEnvironmentData, GetProjectsProjectIdEnvironmentParameters, GetProjectsProjectIdEnvironmentError>): Promise<GetProjectsProjectIdEnvironmentData>;
-        /**/
-        prefetchQuery(options: ServiceOperationFetchQueryOptions<GetProjectsProjectIdEnvironmentSchema, GetProjectsProjectIdEnvironmentData, GetProjectsProjectIdEnvironmentParameters, GetProjectsProjectIdEnvironmentError>): Promise<void>;
-        /**/
-        ensureQueryData(options: ServiceOperationEnsureQueryDataOptions<GetProjectsProjectIdEnvironmentSchema, GetProjectsProjectIdEnvironmentData, GetProjectsProjectIdEnvironmentParameters, GetProjectsProjectIdEnvironmentError>): Promise<GetProjectsProjectIdEnvironmentData>;
-        /**/
-        fetchInfiniteQuery<TPageParam extends GetProjectsProjectIdEnvironmentParameters>(options: ServiceOperationFetchInfiniteQueryOptions<GetProjectsProjectIdEnvironmentSchema, GetProjectsProjectIdEnvironmentData, GetProjectsProjectIdEnvironmentParameters, DeepReadonly<TPageParam>, GetProjectsProjectIdEnvironmentError>): Promise<OperationInfiniteData<GetProjectsProjectIdEnvironmentData, GetProjectsProjectIdEnvironmentParameters>>;
-        /**/
-        prefetchInfiniteQuery<TPageParam extends GetProjectsProjectIdEnvironmentParameters>(options: ServiceOperationFetchInfiniteQueryOptions<GetProjectsProjectIdEnvironmentSchema, GetProjectsProjectIdEnvironmentData, GetProjectsProjectIdEnvironmentParameters, DeepReadonly<TPageParam>, GetProjectsProjectIdEnvironmentError>): Promise<void>;
-        /**/
-        ensureInfiniteQueryData<TPageParam extends GetProjectsProjectIdEnvironmentParameters>(options: ServiceOperationEnsureInfiniteQueryDataOptions<GetProjectsProjectIdEnvironmentSchema, GetProjectsProjectIdEnvironmentData, GetProjectsProjectIdEnvironmentParameters, DeepReadonly<TPageParam>, GetProjectsProjectIdEnvironmentError>): Promise<OperationInfiniteData<GetProjectsProjectIdEnvironmentData, GetProjectsProjectIdEnvironmentParameters>>;
-        /**/
-        getQueryData(parameters: ServiceOperationQueryKey<GetProjectsProjectIdEnvironmentSchema, GetProjectsProjectIdEnvironmentParameters> | (DeepReadonly<GetProjectsProjectIdEnvironmentParameters>)): GetProjectsProjectIdEnvironmentData | undefined;
-        /**/
-        getInfiniteQueryData(parameters: ServiceOperationInfiniteQueryKey<GetProjectsProjectIdEnvironmentSchema, GetProjectsProjectIdEnvironmentParameters> | (DeepReadonly<GetProjectsProjectIdEnvironmentParameters>)): OperationInfiniteData<GetProjectsProjectIdEnvironmentData, GetProjectsProjectIdEnvironmentParameters> | undefined;
-        /**/
-        getQueriesData<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetProjectsProjectIdEnvironmentSchema, GetProjectsProjectIdEnvironmentData, TInfinite, GetProjectsProjectIdEnvironmentParameters, GetProjectsProjectIdEnvironmentError> | QueryFiltersByQueryKey<GetProjectsProjectIdEnvironmentSchema, GetProjectsProjectIdEnvironmentData, TInfinite, GetProjectsProjectIdEnvironmentParameters, GetProjectsProjectIdEnvironmentError>): TInfinite extends true ? Array<[
-            queryKey: ServiceOperationInfiniteQueryKey<GetProjectsProjectIdEnvironmentSchema, GetProjectsProjectIdEnvironmentParameters>,
-            data: NoInfer<OperationInfiniteData<GetProjectsProjectIdEnvironmentData, GetProjectsProjectIdEnvironmentParameters>> | undefined
-        ]> : Array<[
-            queryKey: ServiceOperationQueryKey<GetProjectsProjectIdEnvironmentSchema, GetProjectsProjectIdEnvironmentParameters>,
-            data: GetProjectsProjectIdEnvironmentData | undefined
-        ]>;
-        /**/
-        getQueryState(parameters: ServiceOperationQueryKey<GetProjectsProjectIdEnvironmentSchema, GetProjectsProjectIdEnvironmentParameters> | (DeepReadonly<GetProjectsProjectIdEnvironmentParameters>)): QueryState<GetProjectsProjectIdEnvironmentData, GetProjectsProjectIdEnvironmentError> | undefined;
-        /**/
-        getInfiniteQueryState(parameters: DeepReadonly<GetProjectsProjectIdEnvironmentParameters> | ServiceOperationInfiniteQueryKey<GetProjectsProjectIdEnvironmentSchema, GetProjectsProjectIdEnvironmentParameters>): QueryState<OperationInfiniteData<GetProjectsProjectIdEnvironmentData, GetProjectsProjectIdEnvironmentParameters>, GetProjectsProjectIdEnvironmentError> | undefined;
-        /**/
-        setQueryData(parameters: (DeepReadonly<GetProjectsProjectIdEnvironmentParameters>) | ServiceOperationQueryKey<GetProjectsProjectIdEnvironmentSchema, GetProjectsProjectIdEnvironmentParameters>, updater: Updater<NoInfer<GetProjectsProjectIdEnvironmentData> | undefined, NoInfer<DeepReadonly<GetProjectsProjectIdEnvironmentData>> | undefined>, options?: SetDataOptions): GetProjectsProjectIdEnvironmentData | undefined;
-        /**/
-        setInfiniteQueryData(parameters: (DeepReadonly<GetProjectsProjectIdEnvironmentParameters>) | ServiceOperationInfiniteQueryKey<GetProjectsProjectIdEnvironmentSchema, GetProjectsProjectIdEnvironmentParameters>, updater: Updater<NoInfer<OperationInfiniteData<GetProjectsProjectIdEnvironmentData, GetProjectsProjectIdEnvironmentParameters>> | undefined, NoInfer<DeepReadonly<OperationInfiniteData<GetProjectsProjectIdEnvironmentData, GetProjectsProjectIdEnvironmentParameters>>> | undefined>, options?: SetDataOptions): OperationInfiniteData<GetProjectsProjectIdEnvironmentData, GetProjectsProjectIdEnvironmentParameters> | undefined;
-        /**/
-        setQueriesData<TInfinite extends boolean = false>(filters: QueryFiltersByParameters<GetProjectsProjectIdEnvironmentSchema, GetProjectsProjectIdEnvironmentData, TInfinite, GetProjectsProjectIdEnvironmentParameters, GetProjectsProjectIdEnvironmentError> | QueryFiltersByQueryKey<GetProjectsProjectIdEnvironmentSchema, GetProjectsProjectIdEnvironmentData, TInfinite, GetProjectsProjectIdEnvironmentParameters, GetProjectsProjectIdEnvironmentError>, updater: Updater<NoInfer<GetProjectsProjectIdEnvironmentData> | undefined, NoInfer<GetProjectsProjectIdEnvironmentData> | undefined>, options?: SetDataOptions): Array<GetProjectsProjectIdEnvironmentData | undefined>;
-        /**/
-        invalidateQueries<TInfinite extends boolean = false>(filters?: InvalidateQueryFilters<GetProjectsProjectIdEnvironmentSchema, GetProjectsProjectIdEnvironmentData, TInfinite, GetProjectsProjectIdEnvironmentParameters, GetProjectsProjectIdEnvironmentError>, options?: InvalidateOptions): Promise<void>;
-        /**/
-        refetchQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetProjectsProjectIdEnvironmentSchema, GetProjectsProjectIdEnvironmentData, TInfinite, GetProjectsProjectIdEnvironmentParameters, GetProjectsProjectIdEnvironmentError> | QueryFiltersByQueryKey<GetProjectsProjectIdEnvironmentSchema, GetProjectsProjectIdEnvironmentData, TInfinite, GetProjectsProjectIdEnvironmentParameters, GetProjectsProjectIdEnvironmentError>, options?: RefetchOptions): Promise<void>;
-        /**/
-        cancelQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetProjectsProjectIdEnvironmentSchema, GetProjectsProjectIdEnvironmentData, TInfinite, GetProjectsProjectIdEnvironmentParameters, GetProjectsProjectIdEnvironmentError> | QueryFiltersByQueryKey<GetProjectsProjectIdEnvironmentSchema, GetProjectsProjectIdEnvironmentData, TInfinite, GetProjectsProjectIdEnvironmentParameters, GetProjectsProjectIdEnvironmentError>, options?: CancelOptions): Promise<void>;
-        /**/
-        removeQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetProjectsProjectIdEnvironmentSchema, GetProjectsProjectIdEnvironmentData, TInfinite, GetProjectsProjectIdEnvironmentParameters, GetProjectsProjectIdEnvironmentError> | QueryFiltersByQueryKey<GetProjectsProjectIdEnvironmentSchema, GetProjectsProjectIdEnvironmentData, TInfinite, GetProjectsProjectIdEnvironmentParameters, GetProjectsProjectIdEnvironmentError>): void;
-        /**/
-        resetQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetProjectsProjectIdEnvironmentSchema, GetProjectsProjectIdEnvironmentData, TInfinite, GetProjectsProjectIdEnvironmentParameters, GetProjectsProjectIdEnvironmentError> | QueryFiltersByQueryKey<GetProjectsProjectIdEnvironmentSchema, GetProjectsProjectIdEnvironmentData, TInfinite, GetProjectsProjectIdEnvironmentParameters, GetProjectsProjectIdEnvironmentError>, options?: ResetOptions): Promise<void>;
-        /**/
-        isFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetProjectsProjectIdEnvironmentSchema, GetProjectsProjectIdEnvironmentData, TInfinite, GetProjectsProjectIdEnvironmentParameters, GetProjectsProjectIdEnvironmentError> | QueryFiltersByQueryKey<GetProjectsProjectIdEnvironmentSchema, GetProjectsProjectIdEnvironmentData, TInfinite, GetProjectsProjectIdEnvironmentParameters, GetProjectsProjectIdEnvironmentError>): number;
-        schema: GetProjectsProjectIdEnvironmentSchema;
-        types: {
-            parameters: GetProjectsProjectIdEnvironmentParameters;
-            data: GetProjectsProjectIdEnvironmentData;
-            error: GetProjectsProjectIdEnvironmentError;
-        };
-    };
-    putProjectsProjectIdEnvironment: {
-        /**/
-        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: ServiceOperationMutationFnOptions<PutProjectsProjectIdEnvironmentBody, PutProjectsProjectIdEnvironmentParameters, TMeta, TSignal>, client?: (schema: PutProjectsProjectIdEnvironmentSchema, options: ServiceOperationMutationFnOptions<PutProjectsProjectIdEnvironmentBody, PutProjectsProjectIdEnvironmentParameters, TMeta, TSignal>) => Promise<RequestFnResponse<PutProjectsProjectIdEnvironmentData, PutProjectsProjectIdEnvironmentError>>): Promise<RequestFnResponse<PutProjectsProjectIdEnvironmentData, PutProjectsProjectIdEnvironmentError>>;
-        /**/
-        getMutationKey(parameters: DeepReadonly<PutProjectsProjectIdEnvironmentParameters> | void): ServiceOperationMutationKey<PutProjectsProjectIdEnvironmentSchema, PutProjectsProjectIdEnvironmentParameters>;
-        /**
-         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
-         * Handles loading state, optimistic updates, and error handling.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
-         * @example Mutation with predefined parameters, e.g., for updating
-         * ```ts
-         * const { mutate, isPending } = qraft.v1.putProjectsProjectIdEnvironment.useMutation({
-         *     path: {
-         *         projectId: projectId
-         *     },
-         *     query: {
-         *         branch: branch
-         *     }
-         * })
-         * mutate(body);
-         * ```
-         * @example Mutation without predefined parameters, e.g., for creating
-         * ```ts
-         * const { mutate, isPending } = qraft.v1.putProjectsProjectIdEnvironment.useMutation()
-         * mutate({
-         *     body: bodyPayload,
-         *     path: {
-         *         projectId: projectId
-         *     },
-         *     query: {
-         *         branch: branch
-         *     }
-         * });
-         * ```
-         */
-        useMutation<TVariables extends PutProjectsProjectIdEnvironmentBody, TContext = unknown>(parameters: DeepReadonly<PutProjectsProjectIdEnvironmentParameters>, options?: ServiceOperationUseMutationOptions<PutProjectsProjectIdEnvironmentSchema, PutProjectsProjectIdEnvironmentData, PutProjectsProjectIdEnvironmentParameters, TVariables, OperationError<PutProjectsProjectIdEnvironmentError>, TContext>): UseMutationResult<PutProjectsProjectIdEnvironmentData, OperationError<PutProjectsProjectIdEnvironmentError>, TVariables, TContext>;
-        /**
-         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
-         * Handles loading state, optimistic updates, and error handling.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
-         * @example Mutation with predefined parameters, e.g., for updating
-         * ```ts
-         * const { mutate, isPending } = qraft.v1.putProjectsProjectIdEnvironment.useMutation({
-         *     path: {
-         *         projectId: projectId
-         *     },
-         *     query: {
-         *         branch: branch
-         *     }
-         * })
-         * mutate(body);
-         * ```
-         * @example Mutation without predefined parameters, e.g., for creating
-         * ```ts
-         * const { mutate, isPending } = qraft.v1.putProjectsProjectIdEnvironment.useMutation()
-         * mutate({
-         *     body: bodyPayload,
-         *     path: {
-         *         projectId: projectId
-         *     },
-         *     query: {
-         *         branch: branch
-         *     }
-         * });
-         * ```
-         */
-        useMutation<TVariables extends MutationVariables<PutProjectsProjectIdEnvironmentBody, PutProjectsProjectIdEnvironmentParameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<PutProjectsProjectIdEnvironmentSchema, PutProjectsProjectIdEnvironmentData, PutProjectsProjectIdEnvironmentParameters, TVariables, OperationError<PutProjectsProjectIdEnvironmentError>, TContext>): UseMutationResult<PutProjectsProjectIdEnvironmentData, OperationError<PutProjectsProjectIdEnvironmentError>, TVariables, TContext>;
-        /**
-         * Returns the count of currently in-progress mutations.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
-         * @example Check how many mutations are currently in progress for the specified service method.
-         * ```ts
-         * const putProjectsProjectIdEnvironmentTotal = qraft.v1.putProjectsProjectIdEnvironment.useIsMutating()
-         * ```
-         * @example Check how many mutations are currently in progress with the specified parameters.
-         * ```ts
-         * const putProjectsProjectIdEnvironmentTotal = qraft.v1.putProjectsProjectIdEnvironment.useIsMutating({
-         *     parameters: {
-         *         path: {
-         *             projectId: projectId
-         *         },
-         *         query: {
-         *             branch: branch
-         *         }
-         *     }
-         * })
-         * ```
-         */
-        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<PutProjectsProjectIdEnvironmentBody, PutProjectsProjectIdEnvironmentData, PutProjectsProjectIdEnvironmentParameters, OperationError<PutProjectsProjectIdEnvironmentError>, TContext> | MutationFiltersByMutationKey<PutProjectsProjectIdEnvironmentSchema, PutProjectsProjectIdEnvironmentBody, PutProjectsProjectIdEnvironmentData, PutProjectsProjectIdEnvironmentParameters, OperationError<PutProjectsProjectIdEnvironmentError>, TContext>): number;
-        /**
-         * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
-         * @example Get all variables of all running mutations.
-         * ```ts
-         * const putProjectsProjectIdEnvironmentPendingMutationVariables = qraft.v1.putProjectsProjectIdEnvironment.useMutationState({
-         *     filters: {
-         *         status: "pending"
-         *     },
-         *     select: mutation => mutation.state.variables
-         * })
-         * ```
-         * @example Get all data for specific mutations via the `parameters`.
-         * ```ts
-         * const putProjectsProjectIdEnvironmentMutationData = qraft.v1.putProjectsProjectIdEnvironment.useMutationState({
-         *     filters: {
-         *         parameters: {
-         *             path: {
-         *                 projectId: projectId
-         *             },
-         *             query: {
-         *                 branch: branch
-         *             }
-         *         }
-         *     },
-         *     select: mutation => mutation.state.data
-         * })
-         * ```
-         */
-        useMutationState<TContext = unknown, TResult = MutationState<PutProjectsProjectIdEnvironmentData, OperationError<PutProjectsProjectIdEnvironmentError>, MutationVariables<PutProjectsProjectIdEnvironmentBody, PutProjectsProjectIdEnvironmentParameters>, TContext>>(options?: {
-            filters?: MutationFiltersByParameters<PutProjectsProjectIdEnvironmentBody, PutProjectsProjectIdEnvironmentData, PutProjectsProjectIdEnvironmentParameters, OperationError<PutProjectsProjectIdEnvironmentError>, TContext> | MutationFiltersByMutationKey<PutProjectsProjectIdEnvironmentSchema, PutProjectsProjectIdEnvironmentBody, PutProjectsProjectIdEnvironmentData, PutProjectsProjectIdEnvironmentParameters, OperationError<PutProjectsProjectIdEnvironmentError>, TContext>;
-            select?: (mutation: Mutation<PutProjectsProjectIdEnvironmentData, OperationError<PutProjectsProjectIdEnvironmentError>, MutationVariables<PutProjectsProjectIdEnvironmentBody, PutProjectsProjectIdEnvironmentParameters>, TContext>) => TResult;
-        }): Array<TResult>;
-        /**/
-        isMutating<TContext>(filters?: MutationFiltersByParameters<PutProjectsProjectIdEnvironmentBody, PutProjectsProjectIdEnvironmentData, PutProjectsProjectIdEnvironmentParameters, OperationError<PutProjectsProjectIdEnvironmentError>, TContext> | MutationFiltersByMutationKey<PutProjectsProjectIdEnvironmentSchema, PutProjectsProjectIdEnvironmentBody, PutProjectsProjectIdEnvironmentData, PutProjectsProjectIdEnvironmentParameters, OperationError<PutProjectsProjectIdEnvironmentError>, TContext>): number;
-        /**
-         * Returns a `MutationCache` object that provides access to mutation cache operations
-         * for the specific endpoint.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/query-client/getMutationCache|`getMutationCache(...)` documentation}
-         *
-         * @example Find a mutation with specific parameters
-         * ```ts
-         * const mutationCache = qraft.v1.putProjectsProjectIdEnvironment.getMutationCache();
-         * const mutation = mutationCache.find({
-         *     parameters: {
-         *         path: {
-         *             projectId: projectId
-         *         },
-         *         query: {
-         *             branch: branch
-         *         }
-         *     }
-         * });
-         * ```
-         *
-         * @example Find all mutations for the endpoint
-         * ```ts
-         * const mutationCache = qraft.v1.putProjectsProjectIdEnvironment.getMutationCache();
-         * const mutations = mutationCache.findAll();
-         * ```
-         */
-        getMutationCache(): Omit<MutationCache, "find" | "findAll"> & {
-            find<TContext = unknown>(filters: MutationFiltersByParameters<PutProjectsProjectIdEnvironmentBody, PutProjectsProjectIdEnvironmentData, PutProjectsProjectIdEnvironmentParameters, OperationError<PutProjectsProjectIdEnvironmentError>, TContext> | MutationFiltersByMutationKey<PutProjectsProjectIdEnvironmentSchema, PutProjectsProjectIdEnvironmentBody, PutProjectsProjectIdEnvironmentData, PutProjectsProjectIdEnvironmentParameters, OperationError<PutProjectsProjectIdEnvironmentError>, TContext>): Mutation<PutProjectsProjectIdEnvironmentData, PutProjectsProjectIdEnvironmentError, MutationVariables<PutProjectsProjectIdEnvironmentBody, PutProjectsProjectIdEnvironmentParameters>, TContext> | undefined;
-            findAll<TContext = unknown>(filters?: MutationFiltersByParameters<PutProjectsProjectIdEnvironmentBody, PutProjectsProjectIdEnvironmentData, PutProjectsProjectIdEnvironmentParameters, OperationError<PutProjectsProjectIdEnvironmentError>, TContext> | MutationFiltersByMutationKey<PutProjectsProjectIdEnvironmentSchema, PutProjectsProjectIdEnvironmentBody, PutProjectsProjectIdEnvironmentData, PutProjectsProjectIdEnvironmentParameters, OperationError<PutProjectsProjectIdEnvironmentError>, TContext>): Array<Mutation<PutProjectsProjectIdEnvironmentData, PutProjectsProjectIdEnvironmentError, MutationVariables<PutProjectsProjectIdEnvironmentBody, PutProjectsProjectIdEnvironmentParameters>, TContext>>;
-        };
-        schema: PutProjectsProjectIdEnvironmentSchema;
-        types: {
-            parameters: PutProjectsProjectIdEnvironmentParameters;
-            data: PutProjectsProjectIdEnvironmentData;
-            error: PutProjectsProjectIdEnvironmentError;
-            body: PutProjectsProjectIdEnvironmentBody;
-        };
-    };
-    putProjectsProjectIdEnvironmentChangeAutoDeploy: {
-        /**/
-        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: ServiceOperationMutationFnOptions<PutProjectsProjectIdEnvironmentChangeAutoDeployBody, PutProjectsProjectIdEnvironmentChangeAutoDeployParameters, TMeta, TSignal>, client?: (schema: PutProjectsProjectIdEnvironmentChangeAutoDeploySchema, options: ServiceOperationMutationFnOptions<PutProjectsProjectIdEnvironmentChangeAutoDeployBody, PutProjectsProjectIdEnvironmentChangeAutoDeployParameters, TMeta, TSignal>) => Promise<RequestFnResponse<PutProjectsProjectIdEnvironmentChangeAutoDeployData, PutProjectsProjectIdEnvironmentChangeAutoDeployError>>): Promise<RequestFnResponse<PutProjectsProjectIdEnvironmentChangeAutoDeployData, PutProjectsProjectIdEnvironmentChangeAutoDeployError>>;
-        /**/
-        getMutationKey(parameters: DeepReadonly<PutProjectsProjectIdEnvironmentChangeAutoDeployParameters> | void): ServiceOperationMutationKey<PutProjectsProjectIdEnvironmentChangeAutoDeploySchema, PutProjectsProjectIdEnvironmentChangeAutoDeployParameters>;
-        /**
-         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
-         * Handles loading state, optimistic updates, and error handling.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
-         * @example Mutation with predefined parameters, e.g., for updating
-         * ```ts
-         * const { mutate, isPending } = qraft.v1.putProjectsProjectIdEnvironmentChangeAutoDeploy.useMutation({
-         *     path: {
-         *         projectId: projectId
-         *     }
-         * })
-         * mutate(body);
-         * ```
-         * @example Mutation without predefined parameters, e.g., for creating
-         * ```ts
-         * const { mutate, isPending } = qraft.v1.putProjectsProjectIdEnvironmentChangeAutoDeploy.useMutation()
-         * mutate({
-         *     body: bodyPayload,
-         *     path: {
-         *         projectId: projectId
-         *     }
-         * });
-         * ```
-         */
-        useMutation<TVariables extends PutProjectsProjectIdEnvironmentChangeAutoDeployBody, TContext = unknown>(parameters: DeepReadonly<PutProjectsProjectIdEnvironmentChangeAutoDeployParameters>, options?: ServiceOperationUseMutationOptions<PutProjectsProjectIdEnvironmentChangeAutoDeploySchema, PutProjectsProjectIdEnvironmentChangeAutoDeployData, PutProjectsProjectIdEnvironmentChangeAutoDeployParameters, TVariables, OperationError<PutProjectsProjectIdEnvironmentChangeAutoDeployError>, TContext>): UseMutationResult<PutProjectsProjectIdEnvironmentChangeAutoDeployData, OperationError<PutProjectsProjectIdEnvironmentChangeAutoDeployError>, TVariables, TContext>;
-        /**
-         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
-         * Handles loading state, optimistic updates, and error handling.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
-         * @example Mutation with predefined parameters, e.g., for updating
-         * ```ts
-         * const { mutate, isPending } = qraft.v1.putProjectsProjectIdEnvironmentChangeAutoDeploy.useMutation({
-         *     path: {
-         *         projectId: projectId
-         *     }
-         * })
-         * mutate(body);
-         * ```
-         * @example Mutation without predefined parameters, e.g., for creating
-         * ```ts
-         * const { mutate, isPending } = qraft.v1.putProjectsProjectIdEnvironmentChangeAutoDeploy.useMutation()
-         * mutate({
-         *     body: bodyPayload,
-         *     path: {
-         *         projectId: projectId
-         *     }
-         * });
-         * ```
-         */
-        useMutation<TVariables extends MutationVariables<PutProjectsProjectIdEnvironmentChangeAutoDeployBody, PutProjectsProjectIdEnvironmentChangeAutoDeployParameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<PutProjectsProjectIdEnvironmentChangeAutoDeploySchema, PutProjectsProjectIdEnvironmentChangeAutoDeployData, PutProjectsProjectIdEnvironmentChangeAutoDeployParameters, TVariables, OperationError<PutProjectsProjectIdEnvironmentChangeAutoDeployError>, TContext>): UseMutationResult<PutProjectsProjectIdEnvironmentChangeAutoDeployData, OperationError<PutProjectsProjectIdEnvironmentChangeAutoDeployError>, TVariables, TContext>;
-        /**
-         * Returns the count of currently in-progress mutations.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
-         * @example Check how many mutations are currently in progress for the specified service method.
-         * ```ts
-         * const putProjectsProjectIdEnvironmentChangeAutoDeployTotal = qraft.v1.putProjectsProjectIdEnvironmentChangeAutoDeploy.useIsMutating()
-         * ```
-         * @example Check how many mutations are currently in progress with the specified parameters.
-         * ```ts
-         * const putProjectsProjectIdEnvironmentChangeAutoDeployTotal = qraft.v1.putProjectsProjectIdEnvironmentChangeAutoDeploy.useIsMutating({
-         *     parameters: {
-         *         path: {
-         *             projectId: projectId
-         *         }
-         *     }
-         * })
-         * ```
-         */
-        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<PutProjectsProjectIdEnvironmentChangeAutoDeployBody, PutProjectsProjectIdEnvironmentChangeAutoDeployData, PutProjectsProjectIdEnvironmentChangeAutoDeployParameters, OperationError<PutProjectsProjectIdEnvironmentChangeAutoDeployError>, TContext> | MutationFiltersByMutationKey<PutProjectsProjectIdEnvironmentChangeAutoDeploySchema, PutProjectsProjectIdEnvironmentChangeAutoDeployBody, PutProjectsProjectIdEnvironmentChangeAutoDeployData, PutProjectsProjectIdEnvironmentChangeAutoDeployParameters, OperationError<PutProjectsProjectIdEnvironmentChangeAutoDeployError>, TContext>): number;
-        /**
-         * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
-         * @example Get all variables of all running mutations.
-         * ```ts
-         * const putProjectsProjectIdEnvironmentChangeAutoDeployPendingMutationVariables = qraft.v1.putProjectsProjectIdEnvironmentChangeAutoDeploy.useMutationState({
-         *     filters: {
-         *         status: "pending"
-         *     },
-         *     select: mutation => mutation.state.variables
-         * })
-         * ```
-         * @example Get all data for specific mutations via the `parameters`.
-         * ```ts
-         * const putProjectsProjectIdEnvironmentChangeAutoDeployMutationData = qraft.v1.putProjectsProjectIdEnvironmentChangeAutoDeploy.useMutationState({
-         *     filters: {
-         *         parameters: {
-         *             path: {
-         *                 projectId: projectId
-         *             }
-         *         }
-         *     },
-         *     select: mutation => mutation.state.data
-         * })
-         * ```
-         */
-        useMutationState<TContext = unknown, TResult = MutationState<PutProjectsProjectIdEnvironmentChangeAutoDeployData, OperationError<PutProjectsProjectIdEnvironmentChangeAutoDeployError>, MutationVariables<PutProjectsProjectIdEnvironmentChangeAutoDeployBody, PutProjectsProjectIdEnvironmentChangeAutoDeployParameters>, TContext>>(options?: {
-            filters?: MutationFiltersByParameters<PutProjectsProjectIdEnvironmentChangeAutoDeployBody, PutProjectsProjectIdEnvironmentChangeAutoDeployData, PutProjectsProjectIdEnvironmentChangeAutoDeployParameters, OperationError<PutProjectsProjectIdEnvironmentChangeAutoDeployError>, TContext> | MutationFiltersByMutationKey<PutProjectsProjectIdEnvironmentChangeAutoDeploySchema, PutProjectsProjectIdEnvironmentChangeAutoDeployBody, PutProjectsProjectIdEnvironmentChangeAutoDeployData, PutProjectsProjectIdEnvironmentChangeAutoDeployParameters, OperationError<PutProjectsProjectIdEnvironmentChangeAutoDeployError>, TContext>;
-            select?: (mutation: Mutation<PutProjectsProjectIdEnvironmentChangeAutoDeployData, OperationError<PutProjectsProjectIdEnvironmentChangeAutoDeployError>, MutationVariables<PutProjectsProjectIdEnvironmentChangeAutoDeployBody, PutProjectsProjectIdEnvironmentChangeAutoDeployParameters>, TContext>) => TResult;
-        }): Array<TResult>;
-        /**/
-        isMutating<TContext>(filters?: MutationFiltersByParameters<PutProjectsProjectIdEnvironmentChangeAutoDeployBody, PutProjectsProjectIdEnvironmentChangeAutoDeployData, PutProjectsProjectIdEnvironmentChangeAutoDeployParameters, OperationError<PutProjectsProjectIdEnvironmentChangeAutoDeployError>, TContext> | MutationFiltersByMutationKey<PutProjectsProjectIdEnvironmentChangeAutoDeploySchema, PutProjectsProjectIdEnvironmentChangeAutoDeployBody, PutProjectsProjectIdEnvironmentChangeAutoDeployData, PutProjectsProjectIdEnvironmentChangeAutoDeployParameters, OperationError<PutProjectsProjectIdEnvironmentChangeAutoDeployError>, TContext>): number;
-        /**
-         * Returns a `MutationCache` object that provides access to mutation cache operations
-         * for the specific endpoint.
-         *
-         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/query-client/getMutationCache|`getMutationCache(...)` documentation}
-         *
-         * @example Find a mutation with specific parameters
-         * ```ts
-         * const mutationCache = qraft.v1.putProjectsProjectIdEnvironmentChangeAutoDeploy.getMutationCache();
-         * const mutation = mutationCache.find({
-         *     parameters: {
-         *         path: {
-         *             projectId: projectId
-         *         }
-         *     }
-         * });
-         * ```
-         *
-         * @example Find all mutations for the endpoint
-         * ```ts
-         * const mutationCache = qraft.v1.putProjectsProjectIdEnvironmentChangeAutoDeploy.getMutationCache();
-         * const mutations = mutationCache.findAll();
-         * ```
-         */
-        getMutationCache(): Omit<MutationCache, "find" | "findAll"> & {
-            find<TContext = unknown>(filters: MutationFiltersByParameters<PutProjectsProjectIdEnvironmentChangeAutoDeployBody, PutProjectsProjectIdEnvironmentChangeAutoDeployData, PutProjectsProjectIdEnvironmentChangeAutoDeployParameters, OperationError<PutProjectsProjectIdEnvironmentChangeAutoDeployError>, TContext> | MutationFiltersByMutationKey<PutProjectsProjectIdEnvironmentChangeAutoDeploySchema, PutProjectsProjectIdEnvironmentChangeAutoDeployBody, PutProjectsProjectIdEnvironmentChangeAutoDeployData, PutProjectsProjectIdEnvironmentChangeAutoDeployParameters, OperationError<PutProjectsProjectIdEnvironmentChangeAutoDeployError>, TContext>): Mutation<PutProjectsProjectIdEnvironmentChangeAutoDeployData, PutProjectsProjectIdEnvironmentChangeAutoDeployError, MutationVariables<PutProjectsProjectIdEnvironmentChangeAutoDeployBody, PutProjectsProjectIdEnvironmentChangeAutoDeployParameters>, TContext> | undefined;
-            findAll<TContext = unknown>(filters?: MutationFiltersByParameters<PutProjectsProjectIdEnvironmentChangeAutoDeployBody, PutProjectsProjectIdEnvironmentChangeAutoDeployData, PutProjectsProjectIdEnvironmentChangeAutoDeployParameters, OperationError<PutProjectsProjectIdEnvironmentChangeAutoDeployError>, TContext> | MutationFiltersByMutationKey<PutProjectsProjectIdEnvironmentChangeAutoDeploySchema, PutProjectsProjectIdEnvironmentChangeAutoDeployBody, PutProjectsProjectIdEnvironmentChangeAutoDeployData, PutProjectsProjectIdEnvironmentChangeAutoDeployParameters, OperationError<PutProjectsProjectIdEnvironmentChangeAutoDeployError>, TContext>): Array<Mutation<PutProjectsProjectIdEnvironmentChangeAutoDeployData, PutProjectsProjectIdEnvironmentChangeAutoDeployError, MutationVariables<PutProjectsProjectIdEnvironmentChangeAutoDeployBody, PutProjectsProjectIdEnvironmentChangeAutoDeployParameters>, TContext>>;
-        };
-        schema: PutProjectsProjectIdEnvironmentChangeAutoDeploySchema;
-        types: {
-            parameters: PutProjectsProjectIdEnvironmentChangeAutoDeployParameters;
-            data: PutProjectsProjectIdEnvironmentChangeAutoDeployData;
-            error: PutProjectsProjectIdEnvironmentChangeAutoDeployError;
-            body: PutProjectsProjectIdEnvironmentChangeAutoDeployBody;
-        };
-    };
     getProjectsProjectIdEnvironments: {
         /**/
         <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: QueryFnOptionsByQueryKey<GetProjectsProjectIdEnvironmentsSchema, GetProjectsProjectIdEnvironmentsParameters, TMeta, TSignal> | (QueryFnOptionsByParameters<GetProjectsProjectIdEnvironmentsParameters, TMeta, TSignal>), client?: (schema: GetProjectsProjectIdEnvironmentsSchema, options: {
@@ -19287,6 +19222,464 @@ export interface V1Service {
             parameters: GetProjectsProjectIdEnvironmentsEnvironmentIdDomainsParameters;
             data: GetProjectsProjectIdEnvironmentsEnvironmentIdDomainsData;
             error: GetProjectsProjectIdEnvironmentsEnvironmentIdDomainsError;
+        };
+    };
+    getProjectsProjectIdEnvironmentsEnvironmentIdVariables: {
+        /**/
+        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: QueryFnOptionsByQueryKey<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters, TMeta, TSignal> | (QueryFnOptionsByParameters<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters, TMeta, TSignal>), client?: (schema: GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, options: {
+            parameters: GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters;
+            signal?: TSignal;
+            meta?: TMeta;
+        }) => Promise<RequestFnResponse<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>>): Promise<RequestFnResponse<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>>;
+        /**/
+        getQueryKey(parameters: DeepReadonly<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>): ServiceOperationQueryKey<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>;
+        /**
+         * Performs asynchronous data fetching, manages loading states and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
+         * @example Query with parameters
+         * ```ts
+         * const { data, isLoading } = qraft.v1.getProjectsProjectIdEnvironmentsEnvironmentIdVariables.useQuery({
+         *     path: {
+         *         projectId: projectId,
+         *         environmentId: environmentId
+         *     }
+         * })
+         * ```
+         */
+        useQuery<TData = GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesData>(parameters: ServiceOperationQueryKey<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters> | (DeepReadonly<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>), options?: Omit<UndefinedInitialDataOptions<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesError, TData, ServiceOperationQueryKey<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>>, "queryKey">): UseQueryResult<TData, OperationError<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>>;
+        /**
+         * Performs asynchronous data fetching, manages loading states and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
+         * @example Query with parameters
+         * ```ts
+         * const { data, isLoading } = qraft.v1.getProjectsProjectIdEnvironmentsEnvironmentIdVariables.useQuery({
+         *     path: {
+         *         projectId: projectId,
+         *         environmentId: environmentId
+         *     }
+         * })
+         * ```
+         */
+        useQuery<TData = GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesData>(parameters: ServiceOperationQueryKey<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters> | (DeepReadonly<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>), options: Omit<DefinedInitialDataOptions<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesError, TData, ServiceOperationQueryKey<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>>, "queryKey">): DefinedUseQueryResult<TData, OperationError<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>>;
+        /**/
+        getInfiniteQueryKey(parameters: DeepReadonly<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>): ServiceOperationInfiniteQueryKey<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useInfiniteQuery|`useInfiniteQuery(...)` documentation}
+         *
+         * @example Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getProjectsProjectIdEnvironmentsEnvironmentIdVariables.useInfiniteQuery({
+         *     path: {
+         *         projectId: projectId,
+         *         environmentId: environmentId
+         *     }
+         * }, {
+         *     initialPageParam: {},
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useInfiniteQuery<TPageParam extends GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters, TQueryFnData = GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, TData = OperationInfiniteData<TQueryFnData, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>>(parameters: ServiceOperationInfiniteQueryKey<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters> | (DeepReadonly<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>), options: Omit<UndefinedInitialDataInfiniteOptions<TQueryFnData, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesError, TData, ServiceOperationInfiniteQueryKey<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<TQueryFnData, PartialParameters<DeepReadonly<TPageParam>>>): UseInfiniteQueryResult<TData, OperationError<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useInfiniteQuery|`useInfiniteQuery(...)` documentation}
+         *
+         * @example Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getProjectsProjectIdEnvironmentsEnvironmentIdVariables.useInfiniteQuery({
+         *     path: {
+         *         projectId: projectId,
+         *         environmentId: environmentId
+         *     }
+         * }, {
+         *     initialPageParam: {},
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useInfiniteQuery<TPageParam extends GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters, TQueryFnData = GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, TData = OperationInfiniteData<TQueryFnData, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>>(parameters: ServiceOperationInfiniteQueryKey<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters> | (DeepReadonly<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>), options: Omit<DefinedInitialDataInfiniteOptions<TQueryFnData, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesError, TData, ServiceOperationInfiniteQueryKey<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, PartialParameters<DeepReadonly<TPageParam>>>): DefinedUseInfiniteQueryResult<TData, OperationError<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>>;
+        /**
+         * Monitors the number of queries currently fetching, matching the provided filters.
+         * Useful for creating loading indicators or performing actions based on active requests.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsFetching|`useIsFetching(...)` documentation}
+         * @example Checks the total number of queries fetching from the specified service method,
+         * both normal and infinite. If no parameters are provided, no filtering is applied.
+         * ```ts
+         * const getProjectsProjectIdEnvironmentsEnvironmentIdVariablesTotal = qraft.v1.getProjectsProjectIdEnvironmentsEnvironmentIdVariables.useIsFetching()
+         * ```
+         * @example Checks the number of normal queries fetching with the specified parameters.
+         * ```ts
+         * const getProjectsProjectIdEnvironmentsEnvironmentIdVariablesByParametersTotal = qraft.v1.getProjectsProjectIdEnvironmentsEnvironmentIdVariables.useIsFetching({
+         *     infinite: false,
+         *     parameters: {
+         *         path: {
+         *             projectId: projectId,
+         *             environmentId: environmentId
+         *         }
+         *     }
+         * })
+         * ```
+         */
+        useIsFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, TInfinite, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesError> | QueryFiltersByQueryKey<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, TInfinite, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>): number;
+        /**
+         * Allows you to execute multiple asynchronous data fetching operations concurrently. This is especially useful for managing complex data dependencies in parallel.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
+         * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
+         * ```ts
+         * const getProjectsProjectIdEnvironmentsEnvironmentIdVariablesResults = qraft.v1.getProjectsProjectIdEnvironmentsEnvironmentIdVariables.useQueries({
+         *     queries: [
+         *         {
+         *             path: {
+         *                 projectId: projectId1,
+         *                 environmentId: environmentId1
+         *             }
+         *         },
+         *         {
+         *             path: {
+         *                 projectId: projectId2,
+         *                 environmentId: environmentId2
+         *             }
+         *         }
+         *     ]
+         * });
+         * getProjectsProjectIdEnvironmentsEnvironmentIdVariablesResults.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
+         * ```
+         * @example Combined results. Only the data will be returned.
+         * ```ts
+         * const getProjectsProjectIdEnvironmentsEnvironmentIdVariablesCombinedResults = qraft.v1.getProjectsProjectIdEnvironmentsEnvironmentIdVariables.useQueries({
+         *     combine: results => results.map(result => result.data),
+         *     queries: [
+         *         {
+         *             path: {
+         *                 projectId: projectId1,
+         *                 environmentId: environmentId1
+         *             }
+         *         },
+         *         {
+         *             path: {
+         *                 projectId: projectId2,
+         *                 environmentId: environmentId2
+         *             }
+         *         }
+         *     ]
+         * });
+         * getProjectsProjectIdEnvironmentsEnvironmentIdVariablesCombinedResults.forEach(data => console.log({ data }));
+         * ```
+         */
+        useQueries<T extends Array<UseQueryOptionsForUseQueries<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>>, TCombinedResult = Array<UseQueryResult<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>>>(options: {
+            queries: T;
+            combine?: (results: Array<UseQueryResult<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>>) => TCombinedResult;
+        }): TCombinedResult;
+        /**
+         * Performs asynchronous data fetching with Suspense support.
+         * Similar to useQuery but integrates with React Suspense for loading states.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
+         * @example Suspense Query with parameters
+         * ```ts
+         * const data = qraft.v1.getProjectsProjectIdEnvironmentsEnvironmentIdVariables.useSuspenseQuery({
+         *     path: {
+         *         projectId: projectId,
+         *         environmentId: environmentId
+         *     }
+         * })
+         * ```
+         */
+        useSuspenseQuery<TData = GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesData>(parameters: ServiceOperationQueryKey<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters> | (DeepReadonly<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>), options?: Omit<UseSuspenseQueryOptions<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesError, TData, ServiceOperationQueryKey<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>>, "queryKey">): UseSuspenseQueryResult<TData, OperationError<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         * It functions similarly to `useInfiniteQuery`, but with added support for React Suspense.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseInfiniteQuery|`useSuspenseInfiniteQuery(...)` documentation}
+         *
+         * @example Suspense Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getProjectsProjectIdEnvironmentsEnvironmentIdVariables.useSuspenseInfiniteQuery({
+         *     path: {
+         *         projectId: projectId,
+         *         environmentId: environmentId
+         *     }
+         * }, {
+         *     initialPageParam: {},
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useSuspenseInfiniteQuery<TPageParam extends GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters, TData = GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesData>(parameters: ServiceOperationInfiniteQueryKey<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters> | (DeepReadonly<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>), options: Omit<UseSuspenseInfiniteQueryOptions<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesError, OperationInfiniteData<TData, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>, ServiceOperationInfiniteQueryKey<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, PartialParameters<DeepReadonly<TPageParam>>>): UseSuspenseInfiniteQueryResult<OperationInfiniteData<TData, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>, OperationError<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>>;
+        /**
+         * Allows you to execute multiple asynchronous data fetching operations concurrently with Suspense support.
+         * Similar to useQueries but integrates with React Suspense for loading states.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
+         * @example Basic usage with Suspense
+         * ```ts
+         * const getProjectsProjectIdEnvironmentsEnvironmentIdVariablesData = qraft.v1.getProjectsProjectIdEnvironmentsEnvironmentIdVariables.useSuspenseQueries({
+         *     queries: [
+         *         {
+         *             path: {
+         *                 projectId: projectId1,
+         *                 environmentId: environmentId1
+         *             }
+         *         },
+         *         {
+         *             path: {
+         *                 projectId: projectId2,
+         *                 environmentId: environmentId2
+         *             }
+         *         }
+         *     ]
+         * });
+         * getProjectsProjectIdEnvironmentsEnvironmentIdVariablesResults.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
+         * ```
+         * @example With data transformation using combine
+         * ```ts
+         * const getProjectsProjectIdEnvironmentsEnvironmentIdVariablesCombinedData = qraft.v1.getProjectsProjectIdEnvironmentsEnvironmentIdVariables.useSuspenseQueries({
+         *     combine: results => results.map(result => result.data),
+         *     queries: [
+         *         {
+         *             path: {
+         *                 projectId: projectId1,
+         *                 environmentId: environmentId1
+         *             }
+         *         },
+         *         {
+         *             path: {
+         *                 projectId: projectId2,
+         *                 environmentId: environmentId2
+         *             }
+         *         }
+         *     ]
+         * });
+         * getProjectsProjectIdEnvironmentsEnvironmentIdVariablesCombinedData.forEach(data => console.log({ data }));
+         * ```
+         */
+        useSuspenseQueries<T extends Array<UseQueryOptionsForUseSuspenseQuery<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>>, TCombinedResult = Array<UseSuspenseQueryResult<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>>>(options: {
+            queries: T;
+            combine?: (results: Array<WithOptional<UseSuspenseQueryResult<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>, "data">>) => TCombinedResult;
+        }): TCombinedResult;
+        /**/
+        fetchQuery(options: ServiceOperationFetchQueryOptions<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>): Promise<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesData>;
+        /**/
+        prefetchQuery(options: ServiceOperationFetchQueryOptions<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>): Promise<void>;
+        /**/
+        ensureQueryData(options: ServiceOperationEnsureQueryDataOptions<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>): Promise<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesData>;
+        /**/
+        fetchInfiniteQuery<TPageParam extends GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>(options: ServiceOperationFetchInfiniteQueryOptions<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters, DeepReadonly<TPageParam>, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>): Promise<OperationInfiniteData<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>>;
+        /**/
+        prefetchInfiniteQuery<TPageParam extends GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>(options: ServiceOperationFetchInfiniteQueryOptions<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters, DeepReadonly<TPageParam>, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>): Promise<void>;
+        /**/
+        ensureInfiniteQueryData<TPageParam extends GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>(options: ServiceOperationEnsureInfiniteQueryDataOptions<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters, DeepReadonly<TPageParam>, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>): Promise<OperationInfiniteData<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>>;
+        /**/
+        getQueryData(parameters: ServiceOperationQueryKey<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters> | (DeepReadonly<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>)): GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesData | undefined;
+        /**/
+        getInfiniteQueryData(parameters: ServiceOperationInfiniteQueryKey<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters> | (DeepReadonly<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>)): OperationInfiniteData<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters> | undefined;
+        /**/
+        getQueriesData<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, TInfinite, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesError> | QueryFiltersByQueryKey<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, TInfinite, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>): TInfinite extends true ? Array<[
+            queryKey: ServiceOperationInfiniteQueryKey<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>,
+            data: NoInfer<OperationInfiniteData<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>> | undefined
+        ]> : Array<[
+            queryKey: ServiceOperationQueryKey<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>,
+            data: GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesData | undefined
+        ]>;
+        /**/
+        getQueryState(parameters: ServiceOperationQueryKey<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters> | (DeepReadonly<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>)): QueryState<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesError> | undefined;
+        /**/
+        getInfiniteQueryState(parameters: DeepReadonly<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters> | ServiceOperationInfiniteQueryKey<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>): QueryState<OperationInfiniteData<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesError> | undefined;
+        /**/
+        setQueryData(parameters: (DeepReadonly<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>) | ServiceOperationQueryKey<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>, updater: Updater<NoInfer<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesData> | undefined, NoInfer<DeepReadonly<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesData>> | undefined>, options?: SetDataOptions): GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesData | undefined;
+        /**/
+        setInfiniteQueryData(parameters: (DeepReadonly<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>) | ServiceOperationInfiniteQueryKey<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>, updater: Updater<NoInfer<OperationInfiniteData<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>> | undefined, NoInfer<DeepReadonly<OperationInfiniteData<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>>> | undefined>, options?: SetDataOptions): OperationInfiniteData<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters> | undefined;
+        /**/
+        setQueriesData<TInfinite extends boolean = false>(filters: QueryFiltersByParameters<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, TInfinite, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesError> | QueryFiltersByQueryKey<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, TInfinite, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>, updater: Updater<NoInfer<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesData> | undefined, NoInfer<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesData> | undefined>, options?: SetDataOptions): Array<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesData | undefined>;
+        /**/
+        invalidateQueries<TInfinite extends boolean = false>(filters?: InvalidateQueryFilters<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, TInfinite, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>, options?: InvalidateOptions): Promise<void>;
+        /**/
+        refetchQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, TInfinite, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesError> | QueryFiltersByQueryKey<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, TInfinite, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>, options?: RefetchOptions): Promise<void>;
+        /**/
+        cancelQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, TInfinite, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesError> | QueryFiltersByQueryKey<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, TInfinite, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>, options?: CancelOptions): Promise<void>;
+        /**/
+        removeQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, TInfinite, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesError> | QueryFiltersByQueryKey<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, TInfinite, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>): void;
+        /**/
+        resetQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, TInfinite, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesError> | QueryFiltersByQueryKey<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, TInfinite, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>, options?: ResetOptions): Promise<void>;
+        /**/
+        isFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, TInfinite, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesError> | QueryFiltersByQueryKey<GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, TInfinite, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters, GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>): number;
+        schema: GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema;
+        types: {
+            parameters: GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters;
+            data: GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesData;
+            error: GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesError;
+        };
+    };
+    putProjectsProjectIdEnvironmentsEnvironmentIdVariables: {
+        /**/
+        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: ServiceOperationMutationFnOptions<PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesBody, PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters, TMeta, TSignal>, client?: (schema: PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, options: ServiceOperationMutationFnOptions<PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesBody, PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters, TMeta, TSignal>) => Promise<RequestFnResponse<PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>>): Promise<RequestFnResponse<PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>>;
+        /**/
+        getMutationKey(parameters: DeepReadonly<PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters> | void): ServiceOperationMutationKey<PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1.putProjectsProjectIdEnvironmentsEnvironmentIdVariables.useMutation({
+         *     path: {
+         *         projectId: projectId,
+         *         environmentId: environmentId
+         *     }
+         * })
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1.putProjectsProjectIdEnvironmentsEnvironmentIdVariables.useMutation()
+         * mutate({
+         *     body: bodyPayload,
+         *     path: {
+         *         projectId: projectId,
+         *         environmentId: environmentId
+         *     }
+         * });
+         * ```
+         */
+        useMutation<TVariables extends PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesBody, TContext = unknown>(parameters: DeepReadonly<PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>, options?: ServiceOperationUseMutationOptions<PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters, TVariables, OperationError<PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>, TContext>): UseMutationResult<PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, OperationError<PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>, TVariables, TContext>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1.putProjectsProjectIdEnvironmentsEnvironmentIdVariables.useMutation({
+         *     path: {
+         *         projectId: projectId,
+         *         environmentId: environmentId
+         *     }
+         * })
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1.putProjectsProjectIdEnvironmentsEnvironmentIdVariables.useMutation()
+         * mutate({
+         *     body: bodyPayload,
+         *     path: {
+         *         projectId: projectId,
+         *         environmentId: environmentId
+         *     }
+         * });
+         * ```
+         */
+        useMutation<TVariables extends MutationVariables<PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesBody, PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters, TVariables, OperationError<PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>, TContext>): UseMutationResult<PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, OperationError<PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>, TVariables, TContext>;
+        /**
+         * Returns the count of currently in-progress mutations.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
+         * @example Check how many mutations are currently in progress for the specified service method.
+         * ```ts
+         * const putProjectsProjectIdEnvironmentsEnvironmentIdVariablesTotal = qraft.v1.putProjectsProjectIdEnvironmentsEnvironmentIdVariables.useIsMutating()
+         * ```
+         * @example Check how many mutations are currently in progress with the specified parameters.
+         * ```ts
+         * const putProjectsProjectIdEnvironmentsEnvironmentIdVariablesTotal = qraft.v1.putProjectsProjectIdEnvironmentsEnvironmentIdVariables.useIsMutating({
+         *     parameters: {
+         *         path: {
+         *             projectId: projectId,
+         *             environmentId: environmentId
+         *         }
+         *     }
+         * })
+         * ```
+         */
+        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesBody, PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters, OperationError<PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>, TContext> | MutationFiltersByMutationKey<PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesBody, PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters, OperationError<PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>, TContext>): number;
+        /**
+         * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
+         * @example Get all variables of all running mutations.
+         * ```ts
+         * const putProjectsProjectIdEnvironmentsEnvironmentIdVariablesPendingMutationVariables = qraft.v1.putProjectsProjectIdEnvironmentsEnvironmentIdVariables.useMutationState({
+         *     filters: {
+         *         status: "pending"
+         *     },
+         *     select: mutation => mutation.state.variables
+         * })
+         * ```
+         * @example Get all data for specific mutations via the `parameters`.
+         * ```ts
+         * const putProjectsProjectIdEnvironmentsEnvironmentIdVariablesMutationData = qraft.v1.putProjectsProjectIdEnvironmentsEnvironmentIdVariables.useMutationState({
+         *     filters: {
+         *         parameters: {
+         *             path: {
+         *                 projectId: projectId,
+         *                 environmentId: environmentId
+         *             }
+         *         }
+         *     },
+         *     select: mutation => mutation.state.data
+         * })
+         * ```
+         */
+        useMutationState<TContext = unknown, TResult = MutationState<PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, OperationError<PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>, MutationVariables<PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesBody, PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>, TContext>>(options?: {
+            filters?: MutationFiltersByParameters<PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesBody, PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters, OperationError<PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>, TContext> | MutationFiltersByMutationKey<PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesBody, PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters, OperationError<PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>, TContext>;
+            select?: (mutation: Mutation<PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, OperationError<PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>, MutationVariables<PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesBody, PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>, TContext>) => TResult;
+        }): Array<TResult>;
+        /**/
+        isMutating<TContext>(filters?: MutationFiltersByParameters<PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesBody, PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters, OperationError<PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>, TContext> | MutationFiltersByMutationKey<PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesBody, PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters, OperationError<PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>, TContext>): number;
+        /**
+         * Returns a `MutationCache` object that provides access to mutation cache operations
+         * for the specific endpoint.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/query-client/getMutationCache|`getMutationCache(...)` documentation}
+         *
+         * @example Find a mutation with specific parameters
+         * ```ts
+         * const mutationCache = qraft.v1.putProjectsProjectIdEnvironmentsEnvironmentIdVariables.getMutationCache();
+         * const mutation = mutationCache.find({
+         *     parameters: {
+         *         path: {
+         *             projectId: projectId,
+         *             environmentId: environmentId
+         *         }
+         *     }
+         * });
+         * ```
+         *
+         * @example Find all mutations for the endpoint
+         * ```ts
+         * const mutationCache = qraft.v1.putProjectsProjectIdEnvironmentsEnvironmentIdVariables.getMutationCache();
+         * const mutations = mutationCache.findAll();
+         * ```
+         */
+        getMutationCache(): Omit<MutationCache, "find" | "findAll"> & {
+            find<TContext = unknown>(filters: MutationFiltersByParameters<PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesBody, PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters, OperationError<PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>, TContext> | MutationFiltersByMutationKey<PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesBody, PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters, OperationError<PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>, TContext>): Mutation<PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesError, MutationVariables<PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesBody, PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>, TContext> | undefined;
+            findAll<TContext = unknown>(filters?: MutationFiltersByParameters<PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesBody, PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters, OperationError<PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>, TContext> | MutationFiltersByMutationKey<PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema, PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesBody, PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters, OperationError<PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesError>, TContext>): Array<Mutation<PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesData, PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesError, MutationVariables<PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesBody, PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters>, TContext>>;
+        };
+        schema: PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema;
+        types: {
+            parameters: PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters;
+            data: PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesData;
+            error: PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesError;
+            body: PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesBody;
         };
     };
     getProjectsProjectIdDomains: {
@@ -25091,6 +25484,24 @@ export const getHostingProjectsProjectIdEnvironment = {
     schema: GetHostingProjectsProjectIdEnvironmentSchema;
     [QraftServiceOperationsToken]: V1Service["getHostingProjectsProjectIdEnvironment"];
 };
+export const getHostingProjectsProjectIdEnvironmentsEnvironmentIdVariables = {
+    schema: {
+        method: "get",
+        url: "/v1/hosting/projects/{projectId}/environments/{environmentId}/variables"
+    }
+} as {
+    schema: GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema;
+    [QraftServiceOperationsToken]: V1Service["getHostingProjectsProjectIdEnvironmentsEnvironmentIdVariables"];
+};
+export const getHostingProjectsProjectIdEnvironmentsProduction = {
+    schema: {
+        method: "get",
+        url: "/v1/hosting/projects/{projectId}/environments/production"
+    }
+} as {
+    schema: GetHostingProjectsProjectIdEnvironmentsProductionSchema;
+    [QraftServiceOperationsToken]: V1Service["getHostingProjectsProjectIdEnvironmentsProduction"];
+};
 export const postInvitationsTokenAccept = {
     schema: {
         method: "post",
@@ -25387,35 +25798,6 @@ export const postProjectsProjectIdDeploymentsDeploymentIdCancel = {
     schema: PostProjectsProjectIdDeploymentsDeploymentIdCancelSchema;
     [QraftServiceOperationsToken]: V1Service["postProjectsProjectIdDeploymentsDeploymentIdCancel"];
 };
-export const getProjectsProjectIdEnvironment = {
-    schema: {
-        method: "get",
-        url: "/v1/projects/{projectId}/environment"
-    }
-} as {
-    schema: GetProjectsProjectIdEnvironmentSchema;
-    [QraftServiceOperationsToken]: V1Service["getProjectsProjectIdEnvironment"];
-};
-export const putProjectsProjectIdEnvironment = {
-    schema: {
-        method: "put",
-        url: "/v1/projects/{projectId}/environment",
-        mediaType: ["application/json"]
-    }
-} as {
-    schema: PutProjectsProjectIdEnvironmentSchema;
-    [QraftServiceOperationsToken]: V1Service["putProjectsProjectIdEnvironment"];
-};
-export const putProjectsProjectIdEnvironmentChangeAutoDeploy = {
-    schema: {
-        method: "put",
-        url: "/v1/projects/{projectId}/environment/change-auto-deploy",
-        mediaType: ["application/json"]
-    }
-} as {
-    schema: PutProjectsProjectIdEnvironmentChangeAutoDeploySchema;
-    [QraftServiceOperationsToken]: V1Service["putProjectsProjectIdEnvironmentChangeAutoDeploy"];
-};
 export const getProjectsProjectIdEnvironments = {
     schema: {
         method: "get",
@@ -25527,6 +25909,25 @@ export const getProjectsProjectIdEnvironmentsEnvironmentIdDomains = {
 } as {
     schema: GetProjectsProjectIdEnvironmentsEnvironmentIdDomainsSchema;
     [QraftServiceOperationsToken]: V1Service["getProjectsProjectIdEnvironmentsEnvironmentIdDomains"];
+};
+export const getProjectsProjectIdEnvironmentsEnvironmentIdVariables = {
+    schema: {
+        method: "get",
+        url: "/v1/projects/{projectId}/environments/{environmentId}/variables"
+    }
+} as {
+    schema: GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema;
+    [QraftServiceOperationsToken]: V1Service["getProjectsProjectIdEnvironmentsEnvironmentIdVariables"];
+};
+export const putProjectsProjectIdEnvironmentsEnvironmentIdVariables = {
+    schema: {
+        method: "put",
+        url: "/v1/projects/{projectId}/environments/{environmentId}/variables",
+        mediaType: ["application/json"]
+    }
+} as {
+    schema: PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema;
+    [QraftServiceOperationsToken]: V1Service["putProjectsProjectIdEnvironmentsEnvironmentIdVariables"];
 };
 export const getProjectsProjectIdDomains = {
     schema: {
@@ -25836,6 +26237,8 @@ export const v1Service = {
     getHostingProjectsTcpAllocations,
     getHostingProjectsProjectIdDomains,
     getHostingProjectsProjectIdEnvironment,
+    getHostingProjectsProjectIdEnvironmentsEnvironmentIdVariables,
+    getHostingProjectsProjectIdEnvironmentsProduction,
     postInvitationsTokenAccept,
     postInvitationsTokenDecline,
     postMailSend,
@@ -25868,9 +26271,6 @@ export const v1Service = {
     postProjectsProjectIdDeploymentsDeploymentIdRedeploy,
     postProjectsProjectIdDeploymentsDeployFromLatestCommit,
     postProjectsProjectIdDeploymentsDeploymentIdCancel,
-    getProjectsProjectIdEnvironment,
-    putProjectsProjectIdEnvironment,
-    putProjectsProjectIdEnvironmentChangeAutoDeploy,
     getProjectsProjectIdEnvironments,
     postProjectsProjectIdEnvironments,
     getProjectsProjectIdEnvironmentsBranches,
@@ -25883,6 +26283,8 @@ export const v1Service = {
     getProjectsProjectIdEnvironmentsEnvironmentIdServices,
     getProjectsProjectIdEnvironmentsEnvironmentIdServicesServiceNameLogs,
     getProjectsProjectIdEnvironmentsEnvironmentIdDomains,
+    getProjectsProjectIdEnvironmentsEnvironmentIdVariables,
+    putProjectsProjectIdEnvironmentsEnvironmentIdVariables,
     getProjectsProjectIdDomains,
     postProjectsProjectIdDomains,
     deleteProjectsProjectIdDomainsDomainId,
@@ -26359,6 +26761,20 @@ type GetHostingProjectsProjectIdEnvironmentSchema = {
 type GetHostingProjectsProjectIdEnvironmentParameters = paths["/v1/hosting/projects/{projectId}/environment"]["get"]["parameters"];
 type GetHostingProjectsProjectIdEnvironmentData = paths["/v1/hosting/projects/{projectId}/environment"]["get"]["responses"]["200"]["content"]["application/json"];
 type GetHostingProjectsProjectIdEnvironmentError = unknown;
+type GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema = {
+    method: "get";
+    url: "/v1/hosting/projects/{projectId}/environments/{environmentId}/variables";
+};
+type GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters = paths["/v1/hosting/projects/{projectId}/environments/{environmentId}/variables"]["get"]["parameters"];
+type GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesData = paths["/v1/hosting/projects/{projectId}/environments/{environmentId}/variables"]["get"]["responses"]["200"]["content"]["application/json"];
+type GetHostingProjectsProjectIdEnvironmentsEnvironmentIdVariablesError = null;
+type GetHostingProjectsProjectIdEnvironmentsProductionSchema = {
+    method: "get";
+    url: "/v1/hosting/projects/{projectId}/environments/production";
+};
+type GetHostingProjectsProjectIdEnvironmentsProductionParameters = paths["/v1/hosting/projects/{projectId}/environments/production"]["get"]["parameters"];
+type GetHostingProjectsProjectIdEnvironmentsProductionData = paths["/v1/hosting/projects/{projectId}/environments/production"]["get"]["responses"]["200"]["content"]["application/json"];
+type GetHostingProjectsProjectIdEnvironmentsProductionError = null;
 type PostInvitationsTokenAcceptSchema = {
     method: "post";
     url: "/v1/invitations/{token}/accept";
@@ -26637,35 +27053,6 @@ type PostProjectsProjectIdDeploymentsDeploymentIdCancelParameters = paths["/v1/p
 type PostProjectsProjectIdDeploymentsDeploymentIdCancelData = paths["/v1/projects/{projectId}/deployments/{deploymentId}/cancel"]["post"]["responses"]["200"]["content"]["application/json"];
 type PostProjectsProjectIdDeploymentsDeploymentIdCancelError = unknown;
 type PostProjectsProjectIdDeploymentsDeploymentIdCancelBody = undefined;
-type GetProjectsProjectIdEnvironmentSchema = {
-    method: "get";
-    url: "/v1/projects/{projectId}/environment";
-};
-type GetProjectsProjectIdEnvironmentParameters = paths["/v1/projects/{projectId}/environment"]["get"]["parameters"];
-type GetProjectsProjectIdEnvironmentData = paths["/v1/projects/{projectId}/environment"]["get"]["responses"]["200"]["content"]["application/json"];
-type GetProjectsProjectIdEnvironmentError = unknown;
-type PutProjectsProjectIdEnvironmentSchema = {
-    method: "put";
-    url: "/v1/projects/{projectId}/environment";
-    mediaType: [
-        "application/json"
-    ];
-};
-type PutProjectsProjectIdEnvironmentParameters = paths["/v1/projects/{projectId}/environment"]["put"]["parameters"];
-type PutProjectsProjectIdEnvironmentData = null;
-type PutProjectsProjectIdEnvironmentError = unknown;
-type PutProjectsProjectIdEnvironmentBody = paths["/v1/projects/{projectId}/environment"]["put"]["requestBody"]["content"]["application/json"];
-type PutProjectsProjectIdEnvironmentChangeAutoDeploySchema = {
-    method: "put";
-    url: "/v1/projects/{projectId}/environment/change-auto-deploy";
-    mediaType: [
-        "application/json"
-    ];
-};
-type PutProjectsProjectIdEnvironmentChangeAutoDeployParameters = paths["/v1/projects/{projectId}/environment/change-auto-deploy"]["put"]["parameters"];
-type PutProjectsProjectIdEnvironmentChangeAutoDeployData = paths["/v1/projects/{projectId}/environment/change-auto-deploy"]["put"]["responses"]["200"]["content"]["application/json"];
-type PutProjectsProjectIdEnvironmentChangeAutoDeployError = unknown;
-type PutProjectsProjectIdEnvironmentChangeAutoDeployBody = paths["/v1/projects/{projectId}/environment/change-auto-deploy"]["put"]["requestBody"]["content"]["application/json"];
 type GetProjectsProjectIdEnvironmentsSchema = {
     method: "get";
     url: "/v1/projects/{projectId}/environments";
@@ -26768,6 +27155,24 @@ type GetProjectsProjectIdEnvironmentsEnvironmentIdDomainsSchema = {
 type GetProjectsProjectIdEnvironmentsEnvironmentIdDomainsParameters = paths["/v1/projects/{projectId}/environments/{environmentId}/domains"]["get"]["parameters"];
 type GetProjectsProjectIdEnvironmentsEnvironmentIdDomainsData = paths["/v1/projects/{projectId}/environments/{environmentId}/domains"]["get"]["responses"]["200"]["content"]["application/json"];
 type GetProjectsProjectIdEnvironmentsEnvironmentIdDomainsError = unknown;
+type GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema = {
+    method: "get";
+    url: "/v1/projects/{projectId}/environments/{environmentId}/variables";
+};
+type GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters = paths["/v1/projects/{projectId}/environments/{environmentId}/variables"]["get"]["parameters"];
+type GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesData = paths["/v1/projects/{projectId}/environments/{environmentId}/variables"]["get"]["responses"]["200"]["content"]["application/json"];
+type GetProjectsProjectIdEnvironmentsEnvironmentIdVariablesError = null;
+type PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesSchema = {
+    method: "put";
+    url: "/v1/projects/{projectId}/environments/{environmentId}/variables";
+    mediaType: [
+        "application/json"
+    ];
+};
+type PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesParameters = paths["/v1/projects/{projectId}/environments/{environmentId}/variables"]["put"]["parameters"];
+type PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesData = null;
+type PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesError = unknown;
+type PutProjectsProjectIdEnvironmentsEnvironmentIdVariablesBody = paths["/v1/projects/{projectId}/environments/{environmentId}/variables"]["put"]["requestBody"]["content"]["application/json"];
 type GetProjectsProjectIdDomainsSchema = {
     method: "get";
     url: "/v1/projects/{projectId}/domains";

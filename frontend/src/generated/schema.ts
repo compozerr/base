@@ -1714,6 +1714,95 @@ export type paths = {
         patch?: never;
         trace?: never;
     };
+    "/v1/hosting/projects/{projectId}/environments/{environmentId}/variables": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    projectId: string;
+                    environmentId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Api.Data.GetProjectEnvironmentResponse"];
+                    };
+                };
+                /** @description Not Found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/hosting/projects/{projectId}/environments/production": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    projectId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Api.Hosting.Endpoints.Projects.ProductionEnvironment.GetProductionEnvironmentResponse"];
+                    };
+                };
+                /** @description Not Found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/invitations/{token}/accept": {
         parameters: {
             query?: never;
@@ -2821,111 +2910,6 @@ export type paths = {
         patch?: never;
         trace?: never;
     };
-    "/v1/projects/{projectId}/environment": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query: {
-                    branch: string;
-                };
-                header?: never;
-                path: {
-                    projectId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["Api.Data.GetProjectEnvironmentResponse"];
-                    };
-                };
-            };
-        };
-        put: {
-            parameters: {
-                query: {
-                    branch: string;
-                };
-                header?: never;
-                path: {
-                    projectId: string;
-                };
-                cookie?: never;
-            };
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["Api.Endpoints.Projects.ProjectEnvironment.UpsertProjectEnvironmentVariablesRequest"];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/v1/projects/{projectId}/environment/change-auto-deploy": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    projectId: string;
-                };
-                cookie?: never;
-            };
-            requestBody: {
-                content: {
-                    "application/json": components["schemas"]["Api.Endpoints.Projects.ProjectEnvironment.ChangeAutoDeploy.ChangeAutoDeployRequest"];
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["Api.Endpoints.Projects.ProjectEnvironment.ChangeAutoDeploy.ChangeAutoDeployResponse"];
-                    };
-                };
-            };
-        };
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/v1/projects/{projectId}/environments": {
         parameters: {
             query?: never;
@@ -3374,6 +3358,75 @@ export type paths = {
             };
         };
         put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/projects/{projectId}/environments/{environmentId}/variables": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    projectId: string;
+                    environmentId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Api.Data.GetProjectEnvironmentResponse"];
+                    };
+                };
+                /** @description Not Found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    projectId: string;
+                    environmentId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["Api.Endpoints.Projects.Environments.Variables.UpsertEnvironmentVariablesRequest"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
         post?: never;
         delete?: never;
         options?: never;
@@ -4592,6 +4645,9 @@ export type components = {
         "Api.Endpoints.Projects.Environments.UpdateBranches.UpdateEnvironmentBranchesRequest": {
             branches: string[] | null;
         };
+        "Api.Endpoints.Projects.Environments.Variables.UpsertEnvironmentVariablesRequest": {
+            variables: components["schemas"]["Api.Data.ProjectEnvironmentVariableDto"][] | null;
+        };
         "Api.Endpoints.Projects.GetProjectsResponse": {
             /** Format: int32 */
             totalProjectsCount: number;
@@ -4627,13 +4683,6 @@ export type components = {
             type: components["schemas"]["Api.Abstractions.ProjectType"];
             /** Format: uuid */
             activeDeploymentId: string | null;
-        };
-        "Api.Endpoints.Projects.ProjectEnvironment.ChangeAutoDeploy.ChangeAutoDeployRequest": {
-            autoDeploy: boolean;
-        };
-        "Api.Endpoints.Projects.ProjectEnvironment.ChangeAutoDeploy.ChangeAutoDeployResponse": Record<string, never>;
-        "Api.Endpoints.Projects.ProjectEnvironment.UpsertProjectEnvironmentVariablesRequest": {
-            variables: components["schemas"]["Api.Data.ProjectEnvironmentVariableDto"][] | null;
         };
         "Api.Endpoints.Projects.Services.ChangeProtocol.ChangeProtocolRequest": {
             protocol: components["schemas"]["Api.Data.Protocol"];
@@ -4733,6 +4782,11 @@ export type components = {
         "Api.Hosting.Endpoints.Projects.Config.ReportProjectConfigResponse": Record<string, never>;
         "Api.Hosting.Endpoints.Projects.GetAll.ProjectDto": {
             projectId: components["schemas"]["Api.Abstractions.ProjectId"];
+        };
+        "Api.Hosting.Endpoints.Projects.ProductionEnvironment.GetProductionEnvironmentResponse": {
+            /** Format: uuid */
+            id: string;
+            name: string | null;
         };
         "Api.Hosting.Endpoints.Projects.ProjectDomains.DomainDto": {
             serviceName: string | null;
