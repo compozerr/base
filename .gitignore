@@ -21,3 +21,5 @@ settings.local.json
 .superpowers/
 docs/superpowers/.worktrees/
 .worktrees/
+
+.claude/worktrees/
