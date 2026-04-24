@@ -30,6 +30,7 @@ import {
     Rocket,
     Trash2,
     Upload,
+    Download,
     FileText,
     Info,
     PlusCircle,
@@ -268,7 +269,7 @@ function EnvironmentDetailPage() {
             <ServerTierSection projectId={projectId} environmentId={environmentId} env={env} tiers={tiers} onChanged={invalidateEnvs} />
             <BranchSection projectId={projectId} environmentId={environmentId} env={env} onChanged={invalidateEnvs} />
             <AutoDeploySection projectId={projectId} environmentId={environmentId} env={env} />
-            <EnvironmentVariablesSection projectId={projectId} environmentId={environmentId} />
+            <EnvironmentVariablesSection projectId={projectId} environmentId={environmentId} environmentName={env?.name ?? (isProduction ? 'Production' : environmentId)} />
             <ServicesSection projectId={projectId} environmentId={environmentId} />
             <CustomDomainsSection projectId={projectId} environmentId={environmentId} environmentName={env?.name ?? (isProduction ? 'Production' : environmentId)} />
         </div>
@@ -637,12 +638,18 @@ type EnvironmentVar = {
     isGenerated: boolean
 }
 
-function EnvironmentVariablesSection({ projectId, environmentId }: { projectId: string; environmentId: string }) {
+function serializeDotenv(entries: { key: string; value: string }[]): string {
+    return entries.map(({ key, value }) => `${key}=${value.replace(/\r?\n/g, '\\n')}`).join('\n') + '\n'
+}
+
+function EnvironmentVariablesSection({ projectId, environmentId, environmentName }: { projectId: string; environmentId: string; environmentName: string }) {
     const { toast } = useToast()
 
     const { data, error } = api.v1.getProjectsProjectIdEnvironmentsEnvironmentIdVariables.useQuery(
         { path: { projectId, environmentId } },
     )
+
+    const { data: project } = api.v1.getProjectsProjectId.useQuery({ path: { projectId } })
 
     const { mutate: saveVars } = api.v1.putProjectsProjectIdEnvironmentsEnvironmentIdVariables.useMutation(
         { path: { projectId, environmentId } },
@@ -751,11 +758,40 @@ function EnvironmentVariablesSection({ projectId, environmentId }: { projectId: 
     const hasAnyChanges = availableSystemTypes.some(systemTypeHasChanges)
     const variablesToShow = variables.filter((v) => v.systemType === selectedSystemType)
 
+    const downloadEnvFile = () => {
+        if (variablesToShow.length === 0) return
+        const content = serializeDotenv(variablesToShow.filter((v) => !v.isDeleting).map((v) => ({ key: v.key, value: v.value })))
+        const slug = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'env'
+        const filename = `${slug(project?.name ?? 'project')}-${slug(environmentName)}.env`
+        const blob = new Blob([content], { type: 'text/plain;charset=utf-8' })
+        const url = URL.createObjectURL(blob)
+        const a = document.createElement('a')
+        a.href = url
+        a.download = filename
+        document.body.appendChild(a)
+        a.click()
+        document.body.removeChild(a)
+        URL.revokeObjectURL(url)
+    }
+
     return (
         <Card className="rounded-xl border-zinc-800 bg-zinc-900/50">
             <CardHeader>
-                <CardTitle className="text-lg">Environment Variables</CardTitle>
-                <CardDescription>Manage environment variables for this environment.</CardDescription>
+                <div className="flex items-start justify-between gap-2">
+                    <div>
+                        <CardTitle className="text-lg">Environment Variables</CardTitle>
+                        <CardDescription>Manage environment variables for this environment.</CardDescription>
+                    </div>
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={downloadEnvFile}
+                        disabled={variablesToShow.length === 0}
+                    >
+                        <Download className="h-3.5 w-3.5 mr-1" />
+                        Download .env
+                    </Button>
+                </div>
             </CardHeader>
             <CardContent className="space-y-6">
                 <Alert className="border-zinc-800 bg-zinc-900/30">
