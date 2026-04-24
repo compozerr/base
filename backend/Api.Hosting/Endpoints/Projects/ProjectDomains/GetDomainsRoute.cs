@@ -12,7 +12,8 @@ public sealed record DomainDto(
     string ServiceName,
     string Port,
     Protocol Protocol,
-    string Value);
+    string Value,
+    ProjectEnvironmentId? ProjectEnvironmentId);
 
 public static class GetDomainsRoute
 {
@@ -53,7 +54,8 @@ public static class GetDomainsRoute
                         domain.ServiceName,
                         domain.Port,
                         domain.Protocol,
-                        value));
+                        value,
+                        domain.ProjectEnvironmentId));
             }
         }
 
