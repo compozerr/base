@@ -26,9 +26,7 @@ import { useModal } from '@/hooks/use-modal'
 import { useToast } from '@/hooks/use-toast'
 import { cn } from '@/lib/utils'
 import { motion } from 'framer-motion'
-import { formatDistanceToNow } from 'date-fns'
 import {
-    AlertTriangle,
     Clock,
     Cpu,
     GitBranch,
@@ -399,18 +397,6 @@ function EnvironmentCard({
                             <span className="flex items-center gap-1.5">
                                 <Clock className="h-3.5 w-3.5 shrink-0" />
                                 <LastDeploy date={env.lastDeploymentAtUtc} />
-                            </span>
-                        )}
-
-                        {env.healthStatus === 'Unhealthy' && (
-                            <span className="inline-flex items-center gap-1 text-xs text-red-700">
-                                <AlertTriangle className="h-3 w-3" />
-                                Not responding
-                                {env.lastHealthCheckAtUtc && (
-                                    <span className="text-muted-foreground">
-                                        · checked {formatDistanceToNow(new Date(env.lastHealthCheckAtUtc))} ago
-                                    </span>
-                                )}
                             </span>
                         )}
                     </div>

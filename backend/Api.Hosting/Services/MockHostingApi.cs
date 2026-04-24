@@ -115,13 +115,4 @@ public sealed class MockHostingApi(IProjectRepository projectRepository) : IHost
         return Task.FromResult(new CommandExecutionResult(0, $"Mock output for: {command}", ""));
     }
 
-    public Task<EnvironmentHealthResponse?> GetEnvironmentHealthAsync(ProjectId projectId, ProjectEnvironmentId environmentId)
-    {
-        Console.WriteLine($"[MOCK] Getting environment health for project {projectId}, environment {environmentId}");
-        return Task.FromResult<EnvironmentHealthResponse?>(new EnvironmentHealthResponse
-        {
-            Status = EnvironmentHealthReportStatus.Unknown
-        });
-    }
-
 }

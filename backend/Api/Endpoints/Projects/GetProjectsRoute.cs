@@ -1,5 +1,4 @@
 using Api.Data;
-using Api.Data.Extensions;
 using Api.Data.Repositories;
 using Api.Endpoints.Projects.Project.Get;
 using Api.Hosting.Services;
@@ -39,18 +38,19 @@ public static class GetProjectsRoute
             ? await projectRepository.GetProjectsForOrganizationPagedAsync(orgId, page, pageSize, search, stateFilter)
             : await projectRepository.GetProjectsForUserPagedAsync(page, pageSize, search, stateFilter);
 
-        List<GetProjectResponse> projectsDto = [.. projects.Select(p => new GetProjectResponse(
-            p.Id.Value,
-            p.Name,
-            RepoUri.Parse(p.RepoUri).RepoName,
-            p.State,
-            [.. p.Domains?.Select(x => x.GetValue) ?? []],
-            p.ServerTierId.Value,
-            null,
-            p.Domains!.FirstOrDefault()?.GetValue ?? "Unknown",
-            p.Type,
-            activeDeployments.TryGetValue(p.Id, out var deploymentId) ? deploymentId.Value : null,
-            p.GetDisplayState()))];
+        List<GetProjectResponse> projectsDto = [.. projects.Select(
+            p => new GetProjectResponse(
+                p.Id.Value,
+                p.Name,
+                RepoUri.Parse(p.RepoUri).RepoName,
+                p.State,
+                [.. p.Domains?.Select(x => x.GetValue) ?? []],
+                p.ServerTierId.Value,
+                null,
+                p.Domains!.FirstOrDefault()?.GetValue ?? "Unknown",
+                p.Type,
+                activeDeployments.TryGetValue(p.Id, out var deploymentId) ? deploymentId.Value : null)
+            )];
 
         return new(
             totalProjectsCount,

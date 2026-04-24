@@ -37,7 +37,6 @@ public sealed class ProjectRepository(
             // had its own filter. See docs/plans/2026-04-08-services-reporting-bugs-handoff.md.
             .Include(x => x.Domains!.Where(d => d.DeletedAtUtc == null))
             .Include(x => x.Server)
-            .Include(x => x.ProjectEnvironments)
             .SingleOrDefaultAsync(x => x.Id == projectId);
 
 
@@ -83,7 +82,6 @@ public sealed class ProjectRepository(
         var userId = currentUserAccessor.CurrentUserId!;
         var query = Query()
             .Include(x => x.Domains)
-            .Include(x => x.ProjectEnvironments)
             .Where(x => x.UserId == userId);
 
         // Filter by state
@@ -132,7 +130,6 @@ public sealed class ProjectRepository(
     {
         var query = Query()
             .Include(x => x.Domains)
-            .Include(x => x.ProjectEnvironments)
             .Where(x => x.OrganizationId == orgId);
 
         if (stateFilter != ProjectStateFilter.All)

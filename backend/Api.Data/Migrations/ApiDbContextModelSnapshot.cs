@@ -366,19 +366,10 @@ namespace Api.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text[]");
 
-                    b.Property<int>("ConsecutiveHealthFailures")
-                        .HasColumnType("integer");
-
                     b.Property<DateTime>("CreatedAtUtc")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTime?>("DeletedAtUtc")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("HealthStatus")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTimeOffset?>("LastHealthCheckAtUtc")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Name")

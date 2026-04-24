@@ -7,12 +7,11 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
 import { Input } from '@/components/ui/input'
 import { useEphemeralQueryParams } from '@/hooks/use-ephemeral-storage.hook'
 import { ProjectStateFilter } from '@/lib/project-state-filter'
-import { ProjectState } from '@/lib/project-state'
 import { getLink } from '@/links'
 import { cn } from '@/lib/utils'
 import { createFileRoute, useRouter } from '@tanstack/react-router'
 import { motion } from 'framer-motion'
-import { AlertTriangle, MoreVertical, Plus, Search, Workflow, Filter, FolderGit2, Activity, Server, Terminal, ExternalLink } from 'lucide-react'
+import { MoreVertical, Plus, Search, Workflow, Filter, FolderGit2, Activity, Server, Terminal, ExternalLink } from 'lucide-react'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { z } from 'zod'
 import { useRegisterActions } from '@/lib/command-palette/action-registry'
@@ -290,18 +289,16 @@ function RouteComponent() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {allProjects.map((project, index) => {
                     const isN8n = project.type === 'N8n';
-                    const state = project.displayState ?? project.state;
+                    const state = project.state;
                     const statusColor =
-                        state === ProjectState.Running ? 'bg-green-500' :
-                        state === ProjectState.Stopped ? 'bg-red-500' :
-                        state === ProjectState.Starting ? 'bg-yellow-500' :
-                        state === ProjectState.Unhealthy ? 'bg-red-500' :
+                        state === 'Running' ? 'bg-green-500' :
+                        state === 'Stopped' ? 'bg-red-500' :
+                        state === 'Starting' ? 'bg-yellow-500' :
                         'bg-gray-500';
                     const statusTextColor =
-                        state === ProjectState.Running ? 'text-green-500' :
-                        state === ProjectState.Stopped ? 'text-red-500' :
-                        state === ProjectState.Starting ? 'text-yellow-500' :
-                        state === ProjectState.Unhealthy ? 'text-red-500' :
+                        state === 'Running' ? 'text-green-500' :
+                        state === 'Stopped' ? 'text-red-500' :
+                        state === 'Starting' ? 'text-yellow-500' :
                         'text-muted-foreground';
 
                     return (
@@ -364,16 +361,12 @@ function RouteComponent() {
 
                             {/* Status indicator */}
                             <div className="flex items-center gap-2 mb-3">
-                                {state === ProjectState.Unhealthy ? (
-                                    <AlertTriangle className={cn('h-3.5 w-3.5 shrink-0', statusTextColor)} />
-                                ) : (
-                                    <span className="relative flex h-2.5 w-2.5">
-                                        {state === ProjectState.Running && (
-                                            <span className={cn('animate-ping absolute inline-flex h-full w-full rounded-full opacity-75', statusColor)} />
-                                        )}
-                                        <span className={cn('relative inline-flex rounded-full h-2.5 w-2.5', statusColor)} />
-                                    </span>
-                                )}
+                                <span className="relative flex h-2.5 w-2.5">
+                                    {state === 'Running' && (
+                                        <span className={cn('animate-ping absolute inline-flex h-full w-full rounded-full opacity-75', statusColor)} />
+                                    )}
+                                    <span className={cn('relative inline-flex rounded-full h-2.5 w-2.5', statusColor)} />
+                                </span>
                                 <span className={cn('text-sm font-medium', statusTextColor)}>{state}</span>
                                 {project.activeDeploymentId && (
                                     <button

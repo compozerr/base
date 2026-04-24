@@ -47,9 +47,7 @@ public sealed class GetEnvironmentsCommandHandler(
                 serverTierId,
                 monthlyPrice,
                 e.BillingStatus.ToString(),
-                e.StripeSubscriptionId,
-                e.HealthStatus,
-                e.LastHealthCheckAtUtc
+                e.StripeSubscriptionId
             );
         }).ToList();
 

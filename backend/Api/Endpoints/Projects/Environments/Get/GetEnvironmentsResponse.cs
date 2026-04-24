@@ -20,6 +20,4 @@ public sealed record EnvironmentDto(
     string? ServerTierId,
     decimal? MonthlyPrice,
     string? BillingStatus,
-    string? StripeSubscriptionId,
-    EnvironmentHealthStatus HealthStatus,
-    DateTimeOffset? LastHealthCheckAtUtc);
+    string? StripeSubscriptionId);

@@ -12,7 +12,6 @@ public interface IProjectEnvironmentRepository : IGenericRepository<ProjectEnvir
     public Task<ProjectEnvironment?> GetProductionEnvironmentAsync(ProjectId projectId);
     public Task<ProjectEnvironment?> GetProjectEnvironmentByNameAsync(ProjectId projectId, string name);
     public Task<ProjectEnvironment?> GetByIdWithVariablesAsync(ProjectEnvironmentId environmentId);
-    Task<List<ProjectEnvironment>> GetAllActiveWithProjectAndServerAsync(CancellationToken cancellationToken = default);
 }
 
 public sealed class ProjectEnvironmentRepository(
@@ -54,13 +53,6 @@ public sealed class ProjectEnvironmentRepository(
         => Query()
             .Include(x => x.ProjectEnvironmentVariables)
             .SingleOrDefaultAsync(x => x.Id == environmentId);
-
-    public Task<List<ProjectEnvironment>> GetAllActiveWithProjectAndServerAsync(CancellationToken cancellationToken = default)
-        => Query()
-            .Include(e => e.Project)
-            .Where(e => e.Project != null && e.Project.DeletedAtUtc == null && e.Project.ServerId != null)
-            .Where(e => e.BillingStatus == EnvironmentBillingStatus.Active)
-            .ToListAsync(cancellationToken);
 
     public async Task<ProjectId> UpsertProjectEnvironmentAsync(ProjectId projectId, string branch, ProjectEnvironmentVariableDto[] pairs)
     {

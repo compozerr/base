@@ -29,6 +29,5 @@ public class ApiHostingFeature : IFeature
         app.AddRecurringJob<UpdateProjectsUsageJob>(Cron.Hourly());
         app.AddRecurringJob<VMPoolSyncJob>(Cron.Hourly());
         app.AddRecurringJob<DeploymentTimeoutJob>(new Cron("*/5 * * * *"));
-        app.AddRecurringJob<ProjectEnvironmentHealthCheckJob>(new Cron("*/5 * * * *")); // every 5 minutes
     }
 }

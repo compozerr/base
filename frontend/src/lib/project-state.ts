@@ -5,8 +5,7 @@ export enum ProjectState {
     Running = "Running",
     Starting = "Starting",
     Stopped = "Stopped",
-    Deleting = "Deleting",
-    Unhealthy = "Unhealthy"
+    Deleting = "Deleting"
 }
 
 export function getProjectStateFromNumber(stateNum?: components["schemas"]["Api.Data.ProjectState"]): ProjectState {
@@ -16,7 +15,6 @@ export function getProjectStateFromNumber(stateNum?: components["schemas"]["Api.
         case "Starting": return ProjectState.Starting;
         case "Stopped": return ProjectState.Stopped;
         case "Deleting": return ProjectState.Deleting;
-        case "Unhealthy": return ProjectState.Unhealthy;
         default: return ProjectState.Unknown;
     }
 }

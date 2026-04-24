@@ -47,25 +47,6 @@ public sealed class HostingApi(
         return serverUsage;
     }
 
-    public async Task<EnvironmentHealthResponse?> GetEnvironmentHealthAsync(ProjectId projectId, ProjectEnvironmentId environmentId)
-    {
-        try
-        {
-            var response = await HttpClient.GetAsync($"/projects/{projectId.Value}/environments/{environmentId.Value}/health");
-            if (!response.IsSuccessStatusCode) return null;
-            return await response.Content.ReadFromJsonAsync<EnvironmentHealthResponse>();
-        }
-        catch (Exception ex)
-        {
-            Log.Logger
-                .ForContext("projectId", projectId)
-                .ForContext("environmentId", environmentId)
-                .ForContext("error", ex)
-                .Warning("Failed to fetch environment health from hosting");
-            return null;
-        }
-    }
-
     public async Task UpdateDomainsForProjectAsync(ProjectId projectId)
     {
         var response = await HttpClient.PutJsonAsync("/domains", new

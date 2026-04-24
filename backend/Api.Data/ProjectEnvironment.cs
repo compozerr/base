@@ -35,10 +35,6 @@ public class ProjectEnvironment : BaseEntityWithId<ProjectEnvironmentId>
     public string? StripeSubscriptionItemId { get; set; }
     public EnvironmentBillingStatus BillingStatus { get; set; } = EnvironmentBillingStatus.Active;
 
-    public EnvironmentHealthStatus HealthStatus { get; set; } = EnvironmentHealthStatus.Unknown;
-    public DateTimeOffset? LastHealthCheckAtUtc { get; set; }
-    public int ConsecutiveHealthFailures { get; set; }
-
     public virtual Project? Project { get; set; }
     public virtual ICollection<ProjectEnvironmentVariable>? ProjectEnvironmentVariables { get; set; }
     public virtual ICollection<Deployment>? Deployments { get; set; }

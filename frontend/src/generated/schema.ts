@@ -2992,45 +2992,6 @@ export type paths = {
         patch?: never;
         trace?: never;
     };
-    "/v1/projects/{projectId}/environment": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query: {
-                    branch: string;
-                };
-                header?: never;
-                path: {
-                    projectId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["Api.Data.GetProjectEnvironmentResponse"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/v1/projects/{projectId}/environments": {
         parameters: {
             query?: never;
@@ -4587,8 +4548,6 @@ export type components = {
             displayName: string | null;
         };
         /** @enum {string} */
-        "Api.Data.EnvironmentHealthStatus": "Unknown" | "Healthy" | "Unhealthy";
-        /** @enum {string} */
         "Api.Data.EnvironmentType": "Production" | "Preview";
         "Api.Data.GetProjectEnvironmentResponse": {
             autoDeploy: boolean;
@@ -4603,7 +4562,7 @@ export type components = {
             isGenerated: boolean;
         };
         /** @enum {string} */
-        "Api.Data.ProjectState": "Unknown" | "Running" | "Starting" | "Stopped" | "Deleting" | "Unhealthy";
+        "Api.Data.ProjectState": "Unknown" | "Running" | "Starting" | "Stopped" | "Deleting";
         "Api.Data.ProjectTypeConfigurationDto": {
             allowedSystemTypes: string[] | null;
             environmentFiles: components["schemas"]["Api.Data.EnvironmentFileConfigDto"][] | null;
@@ -4753,9 +4712,6 @@ export type components = {
             monthlyPrice: number | null;
             billingStatus: string | null;
             stripeSubscriptionId: string | null;
-            healthStatus: components["schemas"]["Api.Data.EnvironmentHealthStatus"];
-            /** Format: date-time */
-            lastHealthCheckAtUtc: string | null;
         };
         "Api.Endpoints.Projects.Environments.Get.GetEnvironmentsResponse": {
             environments: components["schemas"]["Api.Endpoints.Projects.Environments.Get.EnvironmentDto"][] | null;
@@ -4812,7 +4768,6 @@ export type components = {
             type: components["schemas"]["Api.Abstractions.ProjectType"];
             /** Format: uuid */
             activeDeploymentId: string | null;
-            displayState: components["schemas"]["Api.Data.ProjectState"];
         };
         "Api.Endpoints.Projects.Services.ChangeProtocol.ChangeProtocolRequest": {
             protocol: components["schemas"]["Api.Data.Protocol"];
