@@ -19,6 +19,13 @@ namespace Core;
 
 public class CoreFeature : IFeature
 {
+    // Core registers foundational middleware — UseForwardedHeaders,
+    // UseAuthentication, UseAuthorization, Carter endpoints, CORS, request logging,
+    // global exception handler. Every other feature's middleware (e.g. Hangfire's
+    // dashboard) expects auth to already be in the pipeline, so Core must run
+    // before features that default to Order = 0.
+    public int Order => -1;
+
     public void ConfigureBuilder(WebApplicationBuilder builder)
     {
         if (builder.Environment.IsProduction())

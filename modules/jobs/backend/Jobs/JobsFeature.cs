@@ -3,7 +3,6 @@ using Hangfire;
 using Hangfire.Dashboard;
 using Hangfire.PostgreSql;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -42,23 +41,18 @@ public class JobsFeature : IFeature
 
     void IFeature.ConfigureApp(WebApplication app)
     {
-        // Route the dashboard through endpoint routing + the existing "admin"
-        // authorization policy (see AuthFeature). This ensures UseAuthentication
-        // / UseAuthorization have populated HttpContext.User with role claims
-        // from the cookie before the policy is evaluated. UseHangfireDashboard
-        // runs as plain middleware and — depending on feature registration
-        // order — can execute before UseAuthentication, in which case its own
-        // IDashboardAuthorizationFilter always sees an unauthenticated user.
-        //
-        // Authorization is cleared because endpoint-routing auth already
-        // enforces the policy; the default LocalRequestsOnlyAuthorizationFilter
-        // would otherwise reject remote requests regardless of role.
-        app.MapHangfireDashboardWithAuthorizationPolicy(
-            authorizationPolicyName: "admin",
-            pattern: "/hangfire",
-            options: new DashboardOptions
-            {
-                Authorization = Array.Empty<IDashboardAuthorizationFilter>()
-            });
+        app.UseHangfireDashboard("/hangfire", new DashboardOptions
+        {
+            Authorization = [new OnlyRolesAuthorizationFilter("admin")]
+        });
+    }
+}
+
+public class OnlyRolesAuthorizationFilter(params string[] roles) : IDashboardAuthorizationFilter
+{
+    public bool Authorize(DashboardContext context)
+    {
+        var httpContext = context.GetHttpContext();
+        return roles.Any(httpContext.User.IsInRole);
     }
 }
