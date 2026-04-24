@@ -1,34 +1,17 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { RouterProvider, createRouter } from '@tanstack/react-router'
-import { routeTree } from './routeTree.gen'
+import { RouterProvider } from '@tanstack/react-router'
 import { useDynamicAuth } from './hooks/use-dynamic-auth'
 import "./index.css";
 import { QueryClientProvider } from '@tanstack/react-query';
 import { queryClient } from './api-client';
 import { Toaster } from './components/ui/toaster';
 import { ModalProvider } from './hooks/use-modal';
-import { LoadingAnimation } from './components/loading-animation';
 import { HelmetProvider } from 'react-helmet-async'
 import { ActionRegistryProvider } from './lib/command-palette/action-registry'
 import { CommandPalette } from './components/command-palette'
 import { useGlobalActions } from './lib/command-palette/global-actions'
-
-const router = createRouter({
-  routeTree,
-  defaultPreload: 'intent',
-  scrollRestoration: false,
-  defaultPendingComponent: LoadingAnimation,
-  context: {
-    auth: undefined!
-  }
-})
-
-declare module '@tanstack/react-router' {
-  interface Register {
-    router: typeof router
-  }
-}
+import { router } from './router'
 
 function GlobalActionsRegistrar({ children }: { children: React.ReactNode }) {
   useGlobalActions(router.navigate)

@@ -1,8 +1,6 @@
 import { api } from "@/api-client"
-import {
-  getCurrentOrgId,
-  setCurrentOrgId as persistOrgId,
-} from "@/lib/org-storage"
+import { getCurrentOrgId } from "@/lib/org-storage"
+import { switchOrg as switchOrgGlobal } from "@/lib/switch-org"
 import { useAuth } from "@/hooks/use-dynamic-auth"
 import { useNavigate } from "@tanstack/react-router"
 import { AnimatePresence, motion } from "framer-motion"
@@ -34,7 +32,7 @@ export function MobileOrgPicker() {
       organizations.find((o) => o.isPersonal) ?? organizations[0]
     if (personal) {
       setCurrentOrgId(personal.id)
-      persistOrgId(personal.id)
+      switchOrgGlobal(personal.id)
     }
   }, [organizations, currentOrgId])
 
@@ -42,9 +40,8 @@ export function MobileOrgPicker() {
 
   const switchOrg = (org: NonNullable<typeof organizations>[number]) => {
     setCurrentOrgId(org.id)
-    persistOrgId(org.id)
+    switchOrgGlobal(org.id)
     setOpen(false)
-    api.v1.getProjects.invalidateQueries()
   }
 
   // Don't render if only one org
