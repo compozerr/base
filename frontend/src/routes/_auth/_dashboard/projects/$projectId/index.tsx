@@ -2,7 +2,7 @@ import { Badge } from '@/components/ui/badge'
 import { Formatter } from '@/lib/formatter'
 import { getProjectStateFromNumber as getProjectStateFromStateString, ProjectState } from '@/lib/project-state'
 import { createFileRoute, getRouteApi, Link, useNavigate } from '@tanstack/react-router'
-import { Cpu, ExternalLink, Globe, HardDrive, HelpCircle, MemoryStick, Settings, Star, Github } from 'lucide-react'
+import { AlertTriangle, Cpu, ExternalLink, Globe, HardDrive, HelpCircle, MemoryStick, Settings, Star, Github } from 'lucide-react'
 import { UsageGraph } from '@/components/usage-graph'
 import StartStopProjectButton from '@/components/project/project-startstop-button'
 import { api } from '@/api-client'
@@ -24,7 +24,10 @@ export const Route = createFileRoute('/_auth/_dashboard/projects/$projectId/')({
 function RouteComponent() {
     const { projectId } = getRouteApi("/_auth/_dashboard/projects/$projectId").useLoaderData();
     const { data: project } = api.v1.getProjectsProjectId.useQuery({ path: { projectId } }, {
-        refetchInterval: (project) => project.state.data?.state === ProjectState.Starting ? 2000 : 30000,
+        refetchInterval: (project) => {
+            const ds = project.state.data?.displayState ?? project.state.data?.state;
+            return ds === ProjectState.Starting ? 2000 : 30000;
+        },
     })
 
     const modal = useModal();
@@ -56,6 +59,8 @@ function RouteComponent() {
                 return 'bg-yellow-500'
             case ProjectState.Stopped:
                 return 'bg-red-500'
+            case ProjectState.Unhealthy:
+                return 'bg-red-100 text-red-700 border border-red-300'
             default:
                 return 'bg-gray-500'
         }
@@ -69,6 +74,8 @@ function RouteComponent() {
                 return 'shadow-[0_0_8px_rgba(234,179,8,0.4)]'
             case ProjectState.Stopped:
                 return 'shadow-[0_0_8px_rgba(239,68,68,0.4)]'
+            case ProjectState.Unhealthy:
+                return 'shadow-[0_0_8px_rgba(239,68,68,0.3)]'
             default:
                 return ''
         }
@@ -144,7 +151,7 @@ function RouteComponent() {
     };
 
     const templateType = getTemplateTypeDisplay(project.type);
-    const currentState = getProjectStateFromStateString(project.state);
+    const currentState = getProjectStateFromStateString(project.displayState ?? project.state);
 
     return (
         <div className="space-y-6">
@@ -158,15 +165,29 @@ function RouteComponent() {
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                     <div className="flex items-center gap-3">
                         <h1 className="text-3xl font-bold tracking-tight">{project.name}</h1>
-                        <Badge
-                            className={cn(
-                                getStateColor(currentState),
-                                getStateGlow(currentState),
-                                'border-0'
-                            )}
-                        >
-                            {currentState}
-                        </Badge>
+                        <TooltipProvider>
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <Badge
+                                        className={cn(
+                                            getStateColor(currentState),
+                                            getStateGlow(currentState),
+                                            currentState !== ProjectState.Unhealthy && 'border-0'
+                                        )}
+                                    >
+                                        {currentState === ProjectState.Unhealthy && (
+                                            <AlertTriangle className="h-3 w-3 mr-1" />
+                                        )}
+                                        {currentState}
+                                    </Badge>
+                                </TooltipTrigger>
+                                {currentState === ProjectState.Unhealthy && (
+                                    <TooltipContent>
+                                        <p>Containers are running, but the primary service is not responding.</p>
+                                    </TooltipContent>
+                                )}
+                            </Tooltip>
+                        </TooltipProvider>
                     </div>
 
                     {/* Quick action buttons */}
