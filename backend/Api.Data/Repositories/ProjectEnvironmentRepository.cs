@@ -18,10 +18,20 @@ public interface IProjectEnvironmentRepository : IGenericRepository<ProjectEnvir
 public sealed class ProjectEnvironmentRepository(
     ApiDbContext context) : GenericRepository<ProjectEnvironment, ProjectEnvironmentId, ApiDbContext>(context), IProjectEnvironmentRepository
 {
+    /// <summary>
+    /// Returns the environment whose <see cref="ProjectEnvironment.Branches"/> contains <paramref name="branch"/>
+    /// for the given <paramref name="projectId"/>. When multiple environments share the branch (e.g. a Production
+    /// env and a Preview/staging env both auto-deploying from <c>main</c>), the result is deterministic:
+    /// Production wins (lowest <see cref="ProjectEnvironment.Type"/> value), then most recently created.
+    /// Returns <c>null</c> when no environment matches.
+    /// </summary>
     public Task<ProjectEnvironment?> GetProjectEnvironmentByBranchAsync(ProjectId projectId, string branch)
         => Query()
                 .Include(x => x.ProjectEnvironmentVariables)
-                .SingleOrDefaultAsync(x => x.Branches.Contains(branch) && x.ProjectId == projectId);
+                .Where(x => x.ProjectId == projectId && x.Branches.Contains(branch))
+                .OrderBy(x => x.Type)
+                .ThenByDescending(x => x.CreatedAtUtc)
+                .FirstOrDefaultAsync();
 
     public Task<List<ProjectEnvironment>> GetByProjectIdWithLatestDeploymentAsync(ProjectId projectId, CancellationToken cancellationToken = default)
         => Query()
