@@ -43,6 +43,14 @@ public sealed class PushWebhookProcessorJob(
             var projectId = await pushWebhookEventRepository.GetProjectIdFromGitUrlAsync(
                 gitUrl) ?? throw new CouldNotFindProjectFromGitUrlException(gitUrl);
 
+            if (pushWebhookEvent.Event.HeadCommit is null)
+            {
+                Log.ForContext(nameof(pushWebhookEvent), pushWebhookEvent.Id)
+                   .Information("No head commit in PushWebhookEvent {PushWebhookEventId}, skipping (likely branch deletion)",
+                                pushWebhookEvent.Id);
+                return;
+            }
+
             if (pushWebhookEvent.Event.HeadCommit is
                 {
                     Id: null or "",
