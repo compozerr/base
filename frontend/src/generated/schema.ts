@@ -1992,6 +1992,50 @@ export type paths = {
         patch?: never;
         trace?: never;
     };
+    "/v1/invitations/{token}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    token: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Organizations.Endpoints.Invitations.GetInvitationByToken.GetInvitationByTokenResponse"];
+                    };
+                };
+                /** @description Not Found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/mail/send": {
         parameters: {
             query?: never;
@@ -5346,6 +5390,19 @@ export type components = {
             isPersonal: boolean;
             avatarUrl: string | null;
         };
+        "Organizations.Endpoints.Invitations.GetInvitationByToken.GetInvitationByTokenResponse": {
+            /** Format: uuid */
+            id: string;
+            /** Format: uuid */
+            organizationId: string;
+            organizationName: string | null;
+            inviterName: string | null;
+            role: components["schemas"]["Organizations.Models.OrganizationRole"];
+            status: components["schemas"]["Organizations.Models.InvitationStatus"];
+            /** Format: date-time */
+            expiresAtUtc: string;
+            isExpired: boolean;
+        };
         "Organizations.Endpoints.Invitations.InviteUser.InviteUserRequest": {
             email: string | null;
             githubUsername: string | null;
@@ -5367,11 +5424,10 @@ export type components = {
             id: string;
             name: string | null;
         };
-        /**
-         * Format: int32
-         * @enum {integer}
-         */
-        "Organizations.Models.OrganizationRole": 0 | 1;
+        /** @enum {string} */
+        "Organizations.Models.InvitationStatus": "Pending" | "Accepted" | "Declined" | "Expired";
+        /** @enum {string} */
+        "Organizations.Models.OrganizationRole": "Admin" | "Member";
         "Stripe.Endpoints.Invoices.GetInvoices.GetInvoicesResponse": {
             invoices: components["schemas"]["Stripe.Services.InvoiceDto"][] | null;
             hasMore: boolean;

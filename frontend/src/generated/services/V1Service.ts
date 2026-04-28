@@ -10805,6 +10805,296 @@ export interface V1Service {
             body: PostInvitationsTokenDeclineBody;
         };
     };
+    getInvitationsToken: {
+        /**/
+        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: QueryFnOptionsByQueryKey<GetInvitationsTokenSchema, GetInvitationsTokenParameters, TMeta, TSignal> | (QueryFnOptionsByParameters<GetInvitationsTokenParameters, TMeta, TSignal>), client?: (schema: GetInvitationsTokenSchema, options: {
+            parameters: GetInvitationsTokenParameters;
+            signal?: TSignal;
+            meta?: TMeta;
+        }) => Promise<RequestFnResponse<GetInvitationsTokenData, GetInvitationsTokenError>>): Promise<RequestFnResponse<GetInvitationsTokenData, GetInvitationsTokenError>>;
+        /**/
+        getQueryKey(parameters: DeepReadonly<GetInvitationsTokenParameters>): ServiceOperationQueryKey<GetInvitationsTokenSchema, GetInvitationsTokenParameters>;
+        /**
+         * Performs asynchronous data fetching, manages loading states and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
+         * @example Query with parameters
+         * ```ts
+         * const { data, isLoading } = qraft.v1.getInvitationsToken.useQuery({
+         *     path: {
+         *         token: token
+         *     }
+         * })
+         * ```
+         */
+        useQuery<TData = GetInvitationsTokenData>(parameters: ServiceOperationQueryKey<GetInvitationsTokenSchema, GetInvitationsTokenParameters> | (DeepReadonly<GetInvitationsTokenParameters>), options?: Omit<UndefinedInitialDataOptions<GetInvitationsTokenData, GetInvitationsTokenError, TData, ServiceOperationQueryKey<GetInvitationsTokenSchema, GetInvitationsTokenParameters>>, "queryKey">): UseQueryResult<TData, OperationError<GetInvitationsTokenError>>;
+        /**
+         * Performs asynchronous data fetching, manages loading states and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
+         * @example Query with parameters
+         * ```ts
+         * const { data, isLoading } = qraft.v1.getInvitationsToken.useQuery({
+         *     path: {
+         *         token: token
+         *     }
+         * })
+         * ```
+         */
+        useQuery<TData = GetInvitationsTokenData>(parameters: ServiceOperationQueryKey<GetInvitationsTokenSchema, GetInvitationsTokenParameters> | (DeepReadonly<GetInvitationsTokenParameters>), options: Omit<DefinedInitialDataOptions<GetInvitationsTokenData, GetInvitationsTokenError, TData, ServiceOperationQueryKey<GetInvitationsTokenSchema, GetInvitationsTokenParameters>>, "queryKey">): DefinedUseQueryResult<TData, OperationError<GetInvitationsTokenError>>;
+        /**/
+        getInfiniteQueryKey(parameters: DeepReadonly<GetInvitationsTokenParameters>): ServiceOperationInfiniteQueryKey<GetInvitationsTokenSchema, GetInvitationsTokenParameters>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useInfiniteQuery|`useInfiniteQuery(...)` documentation}
+         *
+         * @example Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getInvitationsToken.useInfiniteQuery({
+         *     path: {
+         *         token: token
+         *     }
+         * }, {
+         *     initialPageParam: {},
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useInfiniteQuery<TPageParam extends GetInvitationsTokenParameters, TQueryFnData = GetInvitationsTokenData, TData = OperationInfiniteData<TQueryFnData, GetInvitationsTokenParameters>>(parameters: ServiceOperationInfiniteQueryKey<GetInvitationsTokenSchema, GetInvitationsTokenParameters> | (DeepReadonly<GetInvitationsTokenParameters>), options: Omit<UndefinedInitialDataInfiniteOptions<TQueryFnData, GetInvitationsTokenError, TData, ServiceOperationInfiniteQueryKey<GetInvitationsTokenSchema, GetInvitationsTokenParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<TQueryFnData, PartialParameters<DeepReadonly<TPageParam>>>): UseInfiniteQueryResult<TData, OperationError<GetInvitationsTokenError>>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useInfiniteQuery|`useInfiniteQuery(...)` documentation}
+         *
+         * @example Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getInvitationsToken.useInfiniteQuery({
+         *     path: {
+         *         token: token
+         *     }
+         * }, {
+         *     initialPageParam: {},
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useInfiniteQuery<TPageParam extends GetInvitationsTokenParameters, TQueryFnData = GetInvitationsTokenData, TData = OperationInfiniteData<TQueryFnData, GetInvitationsTokenParameters>>(parameters: ServiceOperationInfiniteQueryKey<GetInvitationsTokenSchema, GetInvitationsTokenParameters> | (DeepReadonly<GetInvitationsTokenParameters>), options: Omit<DefinedInitialDataInfiniteOptions<TQueryFnData, GetInvitationsTokenError, TData, ServiceOperationInfiniteQueryKey<GetInvitationsTokenSchema, GetInvitationsTokenParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<GetInvitationsTokenData, PartialParameters<DeepReadonly<TPageParam>>>): DefinedUseInfiniteQueryResult<TData, OperationError<GetInvitationsTokenError>>;
+        /**
+         * Monitors the number of queries currently fetching, matching the provided filters.
+         * Useful for creating loading indicators or performing actions based on active requests.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsFetching|`useIsFetching(...)` documentation}
+         * @example Checks the total number of queries fetching from the specified service method,
+         * both normal and infinite. If no parameters are provided, no filtering is applied.
+         * ```ts
+         * const getInvitationsTokenTotal = qraft.v1.getInvitationsToken.useIsFetching()
+         * ```
+         * @example Checks the number of normal queries fetching with the specified parameters.
+         * ```ts
+         * const getInvitationsTokenByParametersTotal = qraft.v1.getInvitationsToken.useIsFetching({
+         *     infinite: false,
+         *     parameters: {
+         *         path: {
+         *             token: token
+         *         }
+         *     }
+         * })
+         * ```
+         */
+        useIsFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetInvitationsTokenSchema, GetInvitationsTokenData, TInfinite, GetInvitationsTokenParameters, GetInvitationsTokenError> | QueryFiltersByQueryKey<GetInvitationsTokenSchema, GetInvitationsTokenData, TInfinite, GetInvitationsTokenParameters, GetInvitationsTokenError>): number;
+        /**
+         * Allows you to execute multiple asynchronous data fetching operations concurrently. This is especially useful for managing complex data dependencies in parallel.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
+         * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
+         * ```ts
+         * const getInvitationsTokenResults = qraft.v1.getInvitationsToken.useQueries({
+         *     queries: [
+         *         {
+         *             path: {
+         *                 token: token1
+         *             }
+         *         },
+         *         {
+         *             path: {
+         *                 token: token2
+         *             }
+         *         }
+         *     ]
+         * });
+         * getInvitationsTokenResults.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
+         * ```
+         * @example Combined results. Only the data will be returned.
+         * ```ts
+         * const getInvitationsTokenCombinedResults = qraft.v1.getInvitationsToken.useQueries({
+         *     combine: results => results.map(result => result.data),
+         *     queries: [
+         *         {
+         *             path: {
+         *                 token: token1
+         *             }
+         *         },
+         *         {
+         *             path: {
+         *                 token: token2
+         *             }
+         *         }
+         *     ]
+         * });
+         * getInvitationsTokenCombinedResults.forEach(data => console.log({ data }));
+         * ```
+         */
+        useQueries<T extends Array<UseQueryOptionsForUseQueries<GetInvitationsTokenSchema, GetInvitationsTokenParameters, GetInvitationsTokenData, GetInvitationsTokenError>>, TCombinedResult = Array<UseQueryResult<GetInvitationsTokenData, GetInvitationsTokenError>>>(options: {
+            queries: T;
+            combine?: (results: Array<UseQueryResult<GetInvitationsTokenData, GetInvitationsTokenError>>) => TCombinedResult;
+        }): TCombinedResult;
+        /**
+         * Performs asynchronous data fetching with Suspense support.
+         * Similar to useQuery but integrates with React Suspense for loading states.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
+         * @example Suspense Query with parameters
+         * ```ts
+         * const data = qraft.v1.getInvitationsToken.useSuspenseQuery({
+         *     path: {
+         *         token: token
+         *     }
+         * })
+         * ```
+         */
+        useSuspenseQuery<TData = GetInvitationsTokenData>(parameters: ServiceOperationQueryKey<GetInvitationsTokenSchema, GetInvitationsTokenParameters> | (DeepReadonly<GetInvitationsTokenParameters>), options?: Omit<UseSuspenseQueryOptions<GetInvitationsTokenData, GetInvitationsTokenError, TData, ServiceOperationQueryKey<GetInvitationsTokenSchema, GetInvitationsTokenParameters>>, "queryKey">): UseSuspenseQueryResult<TData, OperationError<GetInvitationsTokenError>>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         * It functions similarly to `useInfiniteQuery`, but with added support for React Suspense.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseInfiniteQuery|`useSuspenseInfiniteQuery(...)` documentation}
+         *
+         * @example Suspense Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getInvitationsToken.useSuspenseInfiniteQuery({
+         *     path: {
+         *         token: token
+         *     }
+         * }, {
+         *     initialPageParam: {},
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useSuspenseInfiniteQuery<TPageParam extends GetInvitationsTokenParameters, TData = GetInvitationsTokenData>(parameters: ServiceOperationInfiniteQueryKey<GetInvitationsTokenSchema, GetInvitationsTokenParameters> | (DeepReadonly<GetInvitationsTokenParameters>), options: Omit<UseSuspenseInfiniteQueryOptions<GetInvitationsTokenData, GetInvitationsTokenError, OperationInfiniteData<TData, GetInvitationsTokenParameters>, ServiceOperationInfiniteQueryKey<GetInvitationsTokenSchema, GetInvitationsTokenParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<GetInvitationsTokenData, PartialParameters<DeepReadonly<TPageParam>>>): UseSuspenseInfiniteQueryResult<OperationInfiniteData<TData, GetInvitationsTokenParameters>, OperationError<GetInvitationsTokenError>>;
+        /**
+         * Allows you to execute multiple asynchronous data fetching operations concurrently with Suspense support.
+         * Similar to useQueries but integrates with React Suspense for loading states.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
+         * @example Basic usage with Suspense
+         * ```ts
+         * const getInvitationsTokenData = qraft.v1.getInvitationsToken.useSuspenseQueries({
+         *     queries: [
+         *         {
+         *             path: {
+         *                 token: token1
+         *             }
+         *         },
+         *         {
+         *             path: {
+         *                 token: token2
+         *             }
+         *         }
+         *     ]
+         * });
+         * getInvitationsTokenResults.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
+         * ```
+         * @example With data transformation using combine
+         * ```ts
+         * const getInvitationsTokenCombinedData = qraft.v1.getInvitationsToken.useSuspenseQueries({
+         *     combine: results => results.map(result => result.data),
+         *     queries: [
+         *         {
+         *             path: {
+         *                 token: token1
+         *             }
+         *         },
+         *         {
+         *             path: {
+         *                 token: token2
+         *             }
+         *         }
+         *     ]
+         * });
+         * getInvitationsTokenCombinedData.forEach(data => console.log({ data }));
+         * ```
+         */
+        useSuspenseQueries<T extends Array<UseQueryOptionsForUseSuspenseQuery<GetInvitationsTokenSchema, GetInvitationsTokenParameters, GetInvitationsTokenData, GetInvitationsTokenError>>, TCombinedResult = Array<UseSuspenseQueryResult<GetInvitationsTokenData, GetInvitationsTokenError>>>(options: {
+            queries: T;
+            combine?: (results: Array<WithOptional<UseSuspenseQueryResult<GetInvitationsTokenData, GetInvitationsTokenError>, "data">>) => TCombinedResult;
+        }): TCombinedResult;
+        /**/
+        fetchQuery(options: ServiceOperationFetchQueryOptions<GetInvitationsTokenSchema, GetInvitationsTokenData, GetInvitationsTokenParameters, GetInvitationsTokenError>): Promise<GetInvitationsTokenData>;
+        /**/
+        prefetchQuery(options: ServiceOperationFetchQueryOptions<GetInvitationsTokenSchema, GetInvitationsTokenData, GetInvitationsTokenParameters, GetInvitationsTokenError>): Promise<void>;
+        /**/
+        ensureQueryData(options: ServiceOperationEnsureQueryDataOptions<GetInvitationsTokenSchema, GetInvitationsTokenData, GetInvitationsTokenParameters, GetInvitationsTokenError>): Promise<GetInvitationsTokenData>;
+        /**/
+        fetchInfiniteQuery<TPageParam extends GetInvitationsTokenParameters>(options: ServiceOperationFetchInfiniteQueryOptions<GetInvitationsTokenSchema, GetInvitationsTokenData, GetInvitationsTokenParameters, DeepReadonly<TPageParam>, GetInvitationsTokenError>): Promise<OperationInfiniteData<GetInvitationsTokenData, GetInvitationsTokenParameters>>;
+        /**/
+        prefetchInfiniteQuery<TPageParam extends GetInvitationsTokenParameters>(options: ServiceOperationFetchInfiniteQueryOptions<GetInvitationsTokenSchema, GetInvitationsTokenData, GetInvitationsTokenParameters, DeepReadonly<TPageParam>, GetInvitationsTokenError>): Promise<void>;
+        /**/
+        ensureInfiniteQueryData<TPageParam extends GetInvitationsTokenParameters>(options: ServiceOperationEnsureInfiniteQueryDataOptions<GetInvitationsTokenSchema, GetInvitationsTokenData, GetInvitationsTokenParameters, DeepReadonly<TPageParam>, GetInvitationsTokenError>): Promise<OperationInfiniteData<GetInvitationsTokenData, GetInvitationsTokenParameters>>;
+        /**/
+        getQueryData(parameters: ServiceOperationQueryKey<GetInvitationsTokenSchema, GetInvitationsTokenParameters> | (DeepReadonly<GetInvitationsTokenParameters>)): GetInvitationsTokenData | undefined;
+        /**/
+        getInfiniteQueryData(parameters: ServiceOperationInfiniteQueryKey<GetInvitationsTokenSchema, GetInvitationsTokenParameters> | (DeepReadonly<GetInvitationsTokenParameters>)): OperationInfiniteData<GetInvitationsTokenData, GetInvitationsTokenParameters> | undefined;
+        /**/
+        getQueriesData<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetInvitationsTokenSchema, GetInvitationsTokenData, TInfinite, GetInvitationsTokenParameters, GetInvitationsTokenError> | QueryFiltersByQueryKey<GetInvitationsTokenSchema, GetInvitationsTokenData, TInfinite, GetInvitationsTokenParameters, GetInvitationsTokenError>): TInfinite extends true ? Array<[
+            queryKey: ServiceOperationInfiniteQueryKey<GetInvitationsTokenSchema, GetInvitationsTokenParameters>,
+            data: NoInfer<OperationInfiniteData<GetInvitationsTokenData, GetInvitationsTokenParameters>> | undefined
+        ]> : Array<[
+            queryKey: ServiceOperationQueryKey<GetInvitationsTokenSchema, GetInvitationsTokenParameters>,
+            data: GetInvitationsTokenData | undefined
+        ]>;
+        /**/
+        getQueryState(parameters: ServiceOperationQueryKey<GetInvitationsTokenSchema, GetInvitationsTokenParameters> | (DeepReadonly<GetInvitationsTokenParameters>)): QueryState<GetInvitationsTokenData, GetInvitationsTokenError> | undefined;
+        /**/
+        getInfiniteQueryState(parameters: DeepReadonly<GetInvitationsTokenParameters> | ServiceOperationInfiniteQueryKey<GetInvitationsTokenSchema, GetInvitationsTokenParameters>): QueryState<OperationInfiniteData<GetInvitationsTokenData, GetInvitationsTokenParameters>, GetInvitationsTokenError> | undefined;
+        /**/
+        setQueryData(parameters: (DeepReadonly<GetInvitationsTokenParameters>) | ServiceOperationQueryKey<GetInvitationsTokenSchema, GetInvitationsTokenParameters>, updater: Updater<NoInfer<GetInvitationsTokenData> | undefined, NoInfer<DeepReadonly<GetInvitationsTokenData>> | undefined>, options?: SetDataOptions): GetInvitationsTokenData | undefined;
+        /**/
+        setInfiniteQueryData(parameters: (DeepReadonly<GetInvitationsTokenParameters>) | ServiceOperationInfiniteQueryKey<GetInvitationsTokenSchema, GetInvitationsTokenParameters>, updater: Updater<NoInfer<OperationInfiniteData<GetInvitationsTokenData, GetInvitationsTokenParameters>> | undefined, NoInfer<DeepReadonly<OperationInfiniteData<GetInvitationsTokenData, GetInvitationsTokenParameters>>> | undefined>, options?: SetDataOptions): OperationInfiniteData<GetInvitationsTokenData, GetInvitationsTokenParameters> | undefined;
+        /**/
+        setQueriesData<TInfinite extends boolean = false>(filters: QueryFiltersByParameters<GetInvitationsTokenSchema, GetInvitationsTokenData, TInfinite, GetInvitationsTokenParameters, GetInvitationsTokenError> | QueryFiltersByQueryKey<GetInvitationsTokenSchema, GetInvitationsTokenData, TInfinite, GetInvitationsTokenParameters, GetInvitationsTokenError>, updater: Updater<NoInfer<GetInvitationsTokenData> | undefined, NoInfer<GetInvitationsTokenData> | undefined>, options?: SetDataOptions): Array<GetInvitationsTokenData | undefined>;
+        /**/
+        invalidateQueries<TInfinite extends boolean = false>(filters?: InvalidateQueryFilters<GetInvitationsTokenSchema, GetInvitationsTokenData, TInfinite, GetInvitationsTokenParameters, GetInvitationsTokenError>, options?: InvalidateOptions): Promise<void>;
+        /**/
+        refetchQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetInvitationsTokenSchema, GetInvitationsTokenData, TInfinite, GetInvitationsTokenParameters, GetInvitationsTokenError> | QueryFiltersByQueryKey<GetInvitationsTokenSchema, GetInvitationsTokenData, TInfinite, GetInvitationsTokenParameters, GetInvitationsTokenError>, options?: RefetchOptions): Promise<void>;
+        /**/
+        cancelQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetInvitationsTokenSchema, GetInvitationsTokenData, TInfinite, GetInvitationsTokenParameters, GetInvitationsTokenError> | QueryFiltersByQueryKey<GetInvitationsTokenSchema, GetInvitationsTokenData, TInfinite, GetInvitationsTokenParameters, GetInvitationsTokenError>, options?: CancelOptions): Promise<void>;
+        /**/
+        removeQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetInvitationsTokenSchema, GetInvitationsTokenData, TInfinite, GetInvitationsTokenParameters, GetInvitationsTokenError> | QueryFiltersByQueryKey<GetInvitationsTokenSchema, GetInvitationsTokenData, TInfinite, GetInvitationsTokenParameters, GetInvitationsTokenError>): void;
+        /**/
+        resetQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetInvitationsTokenSchema, GetInvitationsTokenData, TInfinite, GetInvitationsTokenParameters, GetInvitationsTokenError> | QueryFiltersByQueryKey<GetInvitationsTokenSchema, GetInvitationsTokenData, TInfinite, GetInvitationsTokenParameters, GetInvitationsTokenError>, options?: ResetOptions): Promise<void>;
+        /**/
+        isFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetInvitationsTokenSchema, GetInvitationsTokenData, TInfinite, GetInvitationsTokenParameters, GetInvitationsTokenError> | QueryFiltersByQueryKey<GetInvitationsTokenSchema, GetInvitationsTokenData, TInfinite, GetInvitationsTokenParameters, GetInvitationsTokenError>): number;
+        schema: GetInvitationsTokenSchema;
+        types: {
+            parameters: GetInvitationsTokenParameters;
+            data: GetInvitationsTokenData;
+            error: GetInvitationsTokenError;
+        };
+    };
     postMailSend: {
         /**/
         <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: ServiceOperationMutationFnOptions<PostMailSendBody, PostMailSendParameters, TMeta, TSignal>, client?: (schema: PostMailSendSchema, options: ServiceOperationMutationFnOptions<PostMailSendBody, PostMailSendParameters, TMeta, TSignal>) => Promise<RequestFnResponse<PostMailSendData, PostMailSendError>>): Promise<RequestFnResponse<PostMailSendData, PostMailSendError>>;
@@ -26855,6 +27145,15 @@ export const postInvitationsTokenDecline = {
     schema: PostInvitationsTokenDeclineSchema;
     [QraftServiceOperationsToken]: V1Service["postInvitationsTokenDecline"];
 };
+export const getInvitationsToken = {
+    schema: {
+        method: "get",
+        url: "/v1/invitations/{token}"
+    }
+} as {
+    schema: GetInvitationsTokenSchema;
+    [QraftServiceOperationsToken]: V1Service["getInvitationsToken"];
+};
 export const postMailSend = {
     schema: {
         method: "post",
@@ -27588,6 +27887,7 @@ export const v1Service = {
     getHostingProjectsProjectIdEnvironmentsProduction,
     postInvitationsTokenAccept,
     postInvitationsTokenDecline,
+    getInvitationsToken,
     postMailSend,
     postN8nProjects,
     postOrganizations,
@@ -28160,6 +28460,13 @@ type PostInvitationsTokenDeclineParameters = paths["/v1/invitations/{token}/decl
 type PostInvitationsTokenDeclineData = null;
 type PostInvitationsTokenDeclineError = unknown;
 type PostInvitationsTokenDeclineBody = undefined;
+type GetInvitationsTokenSchema = {
+    method: "get";
+    url: "/v1/invitations/{token}";
+};
+type GetInvitationsTokenParameters = paths["/v1/invitations/{token}"]["get"]["parameters"];
+type GetInvitationsTokenData = paths["/v1/invitations/{token}"]["get"]["responses"]["200"]["content"]["application/json"];
+type GetInvitationsTokenError = null;
 type PostMailSendSchema = {
     method: "post";
     url: "/v1/mail/send";

@@ -23,6 +23,7 @@ import { Route as InvoicesIndexRouteImport } from './../../modules/stripe/fronte
 import { Route as AuthLogoutRouteImport } from './../../modules/auth/frontend/src/routes/_auth/logout'
 import { Route as AuthDashboardRouteImport } from './routes/_auth/_dashboard'
 import { Route as ModulesOrgDotnameRouteImport } from './routes/modules/$org.$name'
+import { Route as AuthInvitationsTokenRouteImport } from './routes/_auth/invitations/$token'
 import { Route as AuthDashboardSettingsRouteImport } from './routes/_auth/_dashboard/settings'
 import { Route as AuthDashboardMyModulesRouteImport } from './routes/_auth/_dashboard/my-modules'
 import { Route as AuthDashboardMembersRouteImport } from './routes/_auth/_dashboard/members'
@@ -112,6 +113,11 @@ const ModulesOrgDotnameRoute = ModulesOrgDotnameRouteImport.update({
   id: '/modules/$org/$name',
   path: '/modules/$org/$name',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AuthInvitationsTokenRoute = AuthInvitationsTokenRouteImport.update({
+  id: '/invitations/$token',
+  path: '/invitations/$token',
+  getParentRoute: () => AuthRoute,
 } as any)
 const AuthDashboardSettingsRoute = AuthDashboardSettingsRouteImport.update({
   id: '/settings',
@@ -254,6 +260,7 @@ export interface FileRoutesByFullPath {
   '/members': typeof AuthDashboardMembersRoute
   '/my-modules': typeof AuthDashboardMyModulesRoute
   '/settings': typeof AuthDashboardSettingsRoute
+  '/invitations/$token': typeof AuthInvitationsTokenRoute
   '/modules/$org/$name': typeof ModulesOrgDotnameRoute
   '/projects/$projectId': typeof AuthDashboardProjectsProjectIdRouteRouteWithChildren
   '/organizations/': typeof AuthDashboardOrganizationsIndexRoute
@@ -289,6 +296,7 @@ export interface FileRoutesByTo {
   '/members': typeof AuthDashboardMembersRoute
   '/my-modules': typeof AuthDashboardMyModulesRoute
   '/settings': typeof AuthDashboardSettingsRoute
+  '/invitations/$token': typeof AuthInvitationsTokenRoute
   '/modules/$org/$name': typeof ModulesOrgDotnameRoute
   '/organizations': typeof AuthDashboardOrganizationsIndexRoute
   '/projects': typeof AuthDashboardProjectsIndexRoute
@@ -325,6 +333,7 @@ export interface FileRoutesById {
   '/_auth/_dashboard/members': typeof AuthDashboardMembersRoute
   '/_auth/_dashboard/my-modules': typeof AuthDashboardMyModulesRoute
   '/_auth/_dashboard/settings': typeof AuthDashboardSettingsRoute
+  '/_auth/invitations/$token': typeof AuthInvitationsTokenRoute
   '/modules/$org/$name': typeof ModulesOrgDotnameRoute
   '/_auth/_dashboard/projects/$projectId': typeof AuthDashboardProjectsProjectIdRouteRouteWithChildren
   '/_auth/_dashboard/organizations/': typeof AuthDashboardOrganizationsIndexRoute
@@ -362,6 +371,7 @@ export interface FileRouteTypes {
     | '/members'
     | '/my-modules'
     | '/settings'
+    | '/invitations/$token'
     | '/modules/$org/$name'
     | '/projects/$projectId'
     | '/organizations/'
@@ -397,6 +407,7 @@ export interface FileRouteTypes {
     | '/members'
     | '/my-modules'
     | '/settings'
+    | '/invitations/$token'
     | '/modules/$org/$name'
     | '/organizations'
     | '/projects'
@@ -432,6 +443,7 @@ export interface FileRouteTypes {
     | '/_auth/_dashboard/members'
     | '/_auth/_dashboard/my-modules'
     | '/_auth/_dashboard/settings'
+    | '/_auth/invitations/$token'
     | '/modules/$org/$name'
     | '/_auth/_dashboard/projects/$projectId'
     | '/_auth/_dashboard/organizations/'
@@ -565,6 +577,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/modules/$org/$name'
       preLoaderRoute: typeof ModulesOrgDotnameRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_auth/invitations/$token': {
+      id: '/_auth/invitations/$token'
+      path: '/invitations/$token'
+      fullPath: '/invitations/$token'
+      preLoaderRoute: typeof AuthInvitationsTokenRouteImport
+      parentRoute: typeof AuthRoute
     }
     '/_auth/_dashboard/settings': {
       id: '/_auth/_dashboard/settings'
@@ -819,11 +838,13 @@ const AuthDashboardRouteWithChildren = AuthDashboardRoute._addFileChildren(
 interface AuthRouteChildren {
   AuthDashboardRoute: typeof AuthDashboardRouteWithChildren
   AuthLogoutRoute: typeof AuthLogoutRoute
+  AuthInvitationsTokenRoute: typeof AuthInvitationsTokenRoute
 }
 
 const AuthRouteChildren: AuthRouteChildren = {
   AuthDashboardRoute: AuthDashboardRouteWithChildren,
   AuthLogoutRoute: AuthLogoutRoute,
+  AuthInvitationsTokenRoute: AuthInvitationsTokenRoute,
 }
 
 const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)

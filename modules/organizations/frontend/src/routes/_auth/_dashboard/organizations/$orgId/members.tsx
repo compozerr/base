@@ -161,7 +161,7 @@ function MembersPage() {
   const [debouncedQuery, setDebouncedQuery] = React.useState('')
   const [selectedUser, setSelectedUser] = React.useState<GithubUser | null>(null)
   const [inviteEmail, setInviteEmail] = React.useState('')
-  const [inviteRole, setInviteRole] = React.useState('Member')
+  const [inviteRole, setInviteRole] = React.useState<'Admin' | 'Member'>('Member')
   const [removeMemberId, setRemoveMemberId] = React.useState<string | null>(null)
 
   useRegisterActions([
@@ -257,7 +257,7 @@ function MembersPage() {
     inviteMutation.mutate({
       email: email?.trim() ?? null,
       githubUsername: githubUsername ?? null,
-      role: inviteRole === 'Admin' ? 0 : 1,
+      role: inviteRole,
     })
   }
 
@@ -537,7 +537,7 @@ function MembersPage() {
             {/* Role Selection */}
             <div className="space-y-2">
               <label className="text-sm font-medium">Role</label>
-              <Select value={inviteRole} onValueChange={setInviteRole}>
+              <Select value={inviteRole} onValueChange={(v) => setInviteRole(v as 'Admin' | 'Member')}>
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
@@ -560,7 +560,7 @@ function MembersPage() {
                   inviteMutation.mutate({
                     email: searchQuery.trim(),
                     githubUsername: null,
-                    role: inviteRole === 'Admin' ? 0 : 1,
+                    role: inviteRole,
                   })
                 } else {
                   handleInvite()

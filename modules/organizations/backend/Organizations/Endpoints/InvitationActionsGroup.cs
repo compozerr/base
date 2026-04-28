@@ -2,6 +2,7 @@ using Carter;
 using Microsoft.AspNetCore.Routing;
 using Organizations.Endpoints.Invitations.AcceptInvitation;
 using Organizations.Endpoints.Invitations.DeclineInvitation;
+using Organizations.Endpoints.Invitations.GetInvitationByToken;
 
 namespace Organizations.Endpoints;
 
@@ -18,5 +19,6 @@ public class InvitationActionsGroup : CarterModule
     {
         app.AddAcceptInvitationRoute();
         app.AddDeclineInvitationRoute();
+        app.AddGetInvitationByTokenRoute();
     }
 }
