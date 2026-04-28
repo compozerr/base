@@ -91,8 +91,8 @@ function formatAddress(address: string, displayName: string | null | undefined) 
   return displayName ? `${displayName} <${address}>` : address
 }
 
-function StatusBadge({ status }: { status: 0 | 1 }) {
-  if (status === 0) {
+function StatusBadge({ status }: { status: 'Sent' | 'Failed' }) {
+  if (status === 'Sent') {
     return <Badge variant="default">Sent</Badge>
   }
   return <Badge variant="destructive">Failed</Badge>

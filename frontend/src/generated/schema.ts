@@ -1796,6 +1796,43 @@ export type paths = {
         patch?: never;
         trace?: never;
     };
+    "/v1/hosting/projects/{projectId}/environments": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    projectId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Api.Hosting.Endpoints.Projects.ProjectEnvironments.HostingEnvironmentDto"][];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/hosting/projects/{projectId}/environments/{environmentId}/variables": {
         parameters: {
             query?: never;
@@ -4562,6 +4599,8 @@ export type components = {
             readonly isDiscounted: boolean;
         };
         /** Format: uuid */
+        "Api.Abstractions.ProjectEnvironmentId": string;
+        /** Format: uuid */
         "Api.Abstractions.ProjectId": string;
         /** @enum {string} */
         "Api.Abstractions.ProjectType": "Compozerr" | "N8n" | "DockerCompose" | "Dockerfile";
@@ -4923,6 +4962,13 @@ export type components = {
             port: string | null;
             protocol: components["schemas"]["Api.Data.Protocol"];
             value: string | null;
+            projectEnvironmentId: components["schemas"]["Api.Abstractions.ProjectEnvironmentId"];
+        };
+        "Api.Hosting.Endpoints.Projects.ProjectEnvironments.HostingEnvironmentDto": {
+            id: components["schemas"]["Api.Abstractions.ProjectEnvironmentId"];
+            name: string | null;
+            type: components["schemas"]["Api.Data.EnvironmentType"];
+            subdomain: string | null;
         };
         "Api.Hosting.Endpoints.Projects.ProjectState.ProjectStateRequest": {
             state: components["schemas"]["Api.Data.ProjectState"];
@@ -5280,11 +5326,8 @@ export type components = {
             subject: string | null;
             htmlBody: string | null;
         };
-        /**
-         * Format: int32
-         * @enum {integer}
-         */
-        "Mail.Models.SentEmailStatus": 0 | 1;
+        /** @enum {string} */
+        "Mail.Models.SentEmailStatus": "Sent" | "Failed";
         "Organizations.Endpoints.Create.CreateOrganizationCommand": {
             name: string | null;
             slug: string | null;

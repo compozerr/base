@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Database.Models;
 
 namespace Mail.Models;
@@ -16,6 +17,7 @@ public class SentEmail : BaseEntityWithId<SentEmailId>
     public string? ErrorMessage { get; set; }
 }
 
+[JsonConverter(typeof(JsonStringEnumConverter<SentEmailStatus>))]
 public enum SentEmailStatus
 {
     Sent = 0,
