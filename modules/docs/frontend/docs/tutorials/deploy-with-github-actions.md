@@ -144,6 +144,29 @@ jobs:
           environment: ${{ inputs.environment }}
 ```
 
+### Production deploys from version tags {#production-deploys-from-version-tags}
+
+Deploy immutable release tags to production:
+
+```yaml
+name: Deploy Production
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: compozerr/github-action/deploy@v1
+        with:
+          token: ${{ secrets.COMPOZERR_API_TOKEN }}
+```
+
+Do not set `ref: main` on `actions/checkout` in a tag-triggered workflow. The deploy action verifies the checkout against the triggering commit and corrects it when possible, so the deployment records and builds the pushed tag commit.
+
 ### Run custom CLI commands alongside deploy {#run-custom-cli-commands-alongside-deploy}
 
 Use the `setup` action when you need more than just `deploy` -- for example, to run migrations, fetch logs, or inspect state in the same job:

@@ -22,6 +22,8 @@ Deploys the project in the working directory. Installs and authenticates the CLI
     token: ${{ secrets.COMPOZERR_API_TOKEN }}
 ```
 
+In GitHub Actions, the deploy action verifies that the local checkout points at the workflow's triggering `GITHUB_SHA`. If a tag-triggered workflow accidentally checks out `main`, the action corrects the checkout when possible before running `compozerr deploy`.
+
 ### Inputs {#inputs}
 
 <FlagTable flags={[
