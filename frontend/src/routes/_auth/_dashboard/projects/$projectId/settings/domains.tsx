@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { api } from '@/api-client'
-import { useMemo, useState, useEffect } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { z } from 'zod'
 import { cn } from '@/lib/utils'
 import { components } from '@/generated'
@@ -13,6 +13,11 @@ import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuSub,
+    DropdownMenuSubContent,
+    DropdownMenuSubTrigger,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { CopyText } from '@/components/copy-text'
@@ -21,7 +26,7 @@ import VerifyDnsDialog from './!components/verify-dns-dialog'
 import { useAppForm } from '@/components/form/use-app-form'
 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Globe, Star, Check, Clock, Trash2, MoreVertical, ExternalLink } from 'lucide-react'
+import { Globe, Star, Check, Clock, Trash2, MoreVertical, ExternalLink, Network } from 'lucide-react'
 
 export const Route = createFileRoute(
     '/_auth/_dashboard/projects/$projectId/settings/domains',
@@ -116,6 +121,41 @@ function DomainsSettingsTab() {
         },
     )
 
+    const { mutateAsync: changeService } = api.v1.patchProjectsProjectIdDomainsDomainIdService.useMutation(
+        undefined as void,
+        { onSuccess: invalidate },
+    )
+
+    const { mutateAsync: changeEnvironment } = api.v1.patchProjectsProjectIdDomainsDomainIdEnvironment.useMutation(
+        undefined as void,
+        { onSuccess: invalidate },
+    )
+
+    const onChangeService = useCallback(
+        (domainId: string, serviceName: string, protocol: components['schemas']['Api.Data.Protocol']) =>
+            changeService({ path: { projectId, domainId }, body: { serviceName, protocol } }),
+        [changeService, projectId],
+    )
+
+    const onChangeEnvironment = useCallback(
+        (domainId: string, envId: string | null) =>
+            changeEnvironment({ path: { projectId, domainId }, body: { environmentId: envId } }),
+        [changeEnvironment, projectId],
+    )
+
+    const sharedGroupProps = {
+        onVerify: setSelectedDomainId,
+        onDelete: setDeleteDomainId,
+        onSetPrimary: setSetPrimaryId,
+        activePrimary: setPrimaryId,
+        isProduction,
+        envNameMap,
+        availableServices,
+        environments: envsData?.environments ?? [],
+        onChangeService,
+        onChangeEnvironment,
+    }
+
     useEffect(() => {
         if (!setPrimaryId) return
         setPrimary().finally(() => setSetPrimaryId(null))
@@ -176,43 +216,13 @@ function DomainsSettingsTab() {
                     {hasDomains ? (
                         <>
                             {grouped.primary.length > 0 && (
-                                <DomainGroup
-                                    title="Primary Domain"
-                                    domains={grouped.primary}
-                                    variant="primary"
-                                    onVerify={setSelectedDomainId}
-                                    onDelete={setDeleteDomainId}
-                                    onSetPrimary={setSetPrimaryId}
-                                    activePrimary={setPrimaryId}
-                                    isProduction={isProduction}
-                                    envNameMap={envNameMap}
-                                />
+                                <DomainGroup title="Primary Domain" domains={grouped.primary} variant="primary" {...sharedGroupProps} />
                             )}
                             {grouped.verified.length > 0 && (
-                                <DomainGroup
-                                    title="Verified Domains"
-                                    domains={grouped.verified}
-                                    variant="verified"
-                                    onVerify={setSelectedDomainId}
-                                    onDelete={setDeleteDomainId}
-                                    onSetPrimary={setSetPrimaryId}
-                                    activePrimary={setPrimaryId}
-                                    isProduction={isProduction}
-                                    envNameMap={envNameMap}
-                                />
+                                <DomainGroup title="Verified Domains" domains={grouped.verified} variant="verified" {...sharedGroupProps} />
                             )}
                             {grouped.pending.length > 0 && (
-                                <DomainGroup
-                                    title="Pending Verification"
-                                    domains={grouped.pending}
-                                    variant="pending"
-                                    onVerify={setSelectedDomainId}
-                                    onDelete={setDeleteDomainId}
-                                    onSetPrimary={setSetPrimaryId}
-                                    activePrimary={setPrimaryId}
-                                    isProduction={isProduction}
-                                    envNameMap={envNameMap}
-                                />
+                                <DomainGroup title="Pending Verification" domains={grouped.pending} variant="pending" {...sharedGroupProps} />
                             )}
                         </>
                     ) : (
@@ -383,6 +393,10 @@ function DomainGroup({
     activePrimary,
     isProduction,
     envNameMap,
+    availableServices,
+    environments,
+    onChangeService,
+    onChangeEnvironment,
 }: {
     title: string
     domains: DomainDto[]
@@ -393,6 +407,10 @@ function DomainGroup({
     activePrimary: string | null
     isProduction: (id: string | null | undefined) => boolean
     envNameMap: Map<string, string>
+    availableServices: string[]
+    environments: NonNullable<NonNullable<Awaited<ReturnType<typeof api.v1.getProjectsProjectIdEnvironments.fetchQuery>>>['environments']>
+    onChangeService: (domainId: string, serviceName: string, protocol: components['schemas']['Api.Data.Protocol']) => void
+    onChangeEnvironment: (domainId: string, environmentId: string | null) => void
 }) {
     return (
         <div className="space-y-3">
@@ -523,7 +541,7 @@ function DomainGroup({
                                                     <Button
                                                         variant="ghost"
                                                         size="icon"
-                                                        className="sm:opacity-0 sm:group-hover:opacity-100 h-8 w-8"
+                                                        className="h-8 w-8"
                                                         onClick={(e) => e.stopPropagation()}
                                                     >
                                                         <MoreVertical className="h-4 w-4" />
@@ -558,14 +576,67 @@ function DomainGroup({
                                                             Set as Primary
                                                         </DropdownMenuItem>
                                                     )}
+                                                    {!d.isInternal && availableServices.length > 0 && (
+                                                        <DropdownMenuSub>
+                                                            <DropdownMenuSubTrigger>
+                                                                <Network className="mr-2 h-4 w-4" />
+                                                                Route to service
+                                                            </DropdownMenuSubTrigger>
+                                                            <DropdownMenuSubContent>
+                                                                <DropdownMenuLabel className="text-xs text-muted-foreground">Service</DropdownMenuLabel>
+                                                                {availableServices.map((svc) => (
+                                                                    <DropdownMenuItem
+                                                                        key={svc}
+                                                                        disabled={svc === d.serviceName}
+                                                                        onClick={() => onChangeService(d.domainId!, svc, (d.protocol ?? 'Http') as components['schemas']['Api.Data.Protocol'])}
+                                                                    >
+                                                                        {svc}
+                                                                        {svc === d.serviceName && <Check className="ml-auto h-4 w-4" />}
+                                                                    </DropdownMenuItem>
+                                                                ))}
+                                                            </DropdownMenuSubContent>
+                                                        </DropdownMenuSub>
+                                                    )}
+                                                    {!d.isInternal && environments.length > 1 && (
+                                                        <DropdownMenuSub>
+                                                            <DropdownMenuSubTrigger>
+                                                                <Globe className="mr-2 h-4 w-4" />
+                                                                Route to environment
+                                                            </DropdownMenuSubTrigger>
+                                                            <DropdownMenuSubContent>
+                                                                <DropdownMenuLabel className="text-xs text-muted-foreground">Environment</DropdownMenuLabel>
+                                                                {environments.map((e) => (
+                                                                    <DropdownMenuItem
+                                                                        key={e.id}
+                                                                        disabled={e.id === d.environmentId}
+                                                                        onClick={() => onChangeEnvironment(d.domainId!, e.id!)}
+                                                                    >
+                                                                        {e.name ?? e.id}
+                                                                        {e.id === d.environmentId && <Check className="ml-auto h-4 w-4" />}
+                                                                    </DropdownMenuItem>
+                                                                ))}
+                                                                <DropdownMenuSeparator />
+                                                                <DropdownMenuItem
+                                                                    disabled={!d.environmentId}
+                                                                    onClick={() => onChangeEnvironment(d.domainId!, null)}
+                                                                >
+                                                                    Unassigned
+                                                                    {!d.environmentId && <Check className="ml-auto h-4 w-4" />}
+                                                                </DropdownMenuItem>
+                                                            </DropdownMenuSubContent>
+                                                        </DropdownMenuSub>
+                                                    )}
                                                     {!d.isInternal && (
-                                                        <DropdownMenuItem
-                                                            className="text-red-500 focus:text-red-500 focus:bg-red-500/10"
-                                                            onClick={() => onDelete(d.domainId!)}
-                                                        >
-                                                            <Trash2 className="mr-2 h-4 w-4" />
-                                                            Delete
-                                                        </DropdownMenuItem>
+                                                        <>
+                                                            <DropdownMenuSeparator />
+                                                            <DropdownMenuItem
+                                                                className="text-red-500 focus:text-red-500 focus:bg-red-500/10"
+                                                                onClick={() => onDelete(d.domainId!)}
+                                                            >
+                                                                <Trash2 className="mr-2 h-4 w-4" />
+                                                                Delete
+                                                            </DropdownMenuItem>
+                                                        </>
                                                     )}
                                                 </DropdownMenuContent>
                                             </DropdownMenu>

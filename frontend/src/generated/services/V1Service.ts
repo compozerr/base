@@ -22748,6 +22748,159 @@ export interface V1Service {
             body: PatchProjectsProjectIdDomainsDomainIdEnvironmentBody;
         };
     };
+    patchProjectsProjectIdDomainsDomainIdService: {
+        /**/
+        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: ServiceOperationMutationFnOptions<PatchProjectsProjectIdDomainsDomainIdServiceBody, PatchProjectsProjectIdDomainsDomainIdServiceParameters, TMeta, TSignal>, client?: (schema: PatchProjectsProjectIdDomainsDomainIdServiceSchema, options: ServiceOperationMutationFnOptions<PatchProjectsProjectIdDomainsDomainIdServiceBody, PatchProjectsProjectIdDomainsDomainIdServiceParameters, TMeta, TSignal>) => Promise<RequestFnResponse<PatchProjectsProjectIdDomainsDomainIdServiceData, PatchProjectsProjectIdDomainsDomainIdServiceError>>): Promise<RequestFnResponse<PatchProjectsProjectIdDomainsDomainIdServiceData, PatchProjectsProjectIdDomainsDomainIdServiceError>>;
+        /**/
+        getMutationKey(parameters: DeepReadonly<PatchProjectsProjectIdDomainsDomainIdServiceParameters> | void): ServiceOperationMutationKey<PatchProjectsProjectIdDomainsDomainIdServiceSchema, PatchProjectsProjectIdDomainsDomainIdServiceParameters>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1.patchProjectsProjectIdDomainsDomainIdService.useMutation({
+         *     path: {
+         *         projectId: projectId,
+         *         domainId: domainId
+         *     }
+         * })
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1.patchProjectsProjectIdDomainsDomainIdService.useMutation()
+         * mutate({
+         *     body: bodyPayload,
+         *     path: {
+         *         projectId: projectId,
+         *         domainId: domainId
+         *     }
+         * });
+         * ```
+         */
+        useMutation<TVariables extends PatchProjectsProjectIdDomainsDomainIdServiceBody, TContext = unknown>(parameters: DeepReadonly<PatchProjectsProjectIdDomainsDomainIdServiceParameters>, options?: ServiceOperationUseMutationOptions<PatchProjectsProjectIdDomainsDomainIdServiceSchema, PatchProjectsProjectIdDomainsDomainIdServiceData, PatchProjectsProjectIdDomainsDomainIdServiceParameters, TVariables, OperationError<PatchProjectsProjectIdDomainsDomainIdServiceError>, TContext>): UseMutationResult<PatchProjectsProjectIdDomainsDomainIdServiceData, OperationError<PatchProjectsProjectIdDomainsDomainIdServiceError>, TVariables, TContext>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1.patchProjectsProjectIdDomainsDomainIdService.useMutation({
+         *     path: {
+         *         projectId: projectId,
+         *         domainId: domainId
+         *     }
+         * })
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1.patchProjectsProjectIdDomainsDomainIdService.useMutation()
+         * mutate({
+         *     body: bodyPayload,
+         *     path: {
+         *         projectId: projectId,
+         *         domainId: domainId
+         *     }
+         * });
+         * ```
+         */
+        useMutation<TVariables extends MutationVariables<PatchProjectsProjectIdDomainsDomainIdServiceBody, PatchProjectsProjectIdDomainsDomainIdServiceParameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<PatchProjectsProjectIdDomainsDomainIdServiceSchema, PatchProjectsProjectIdDomainsDomainIdServiceData, PatchProjectsProjectIdDomainsDomainIdServiceParameters, TVariables, OperationError<PatchProjectsProjectIdDomainsDomainIdServiceError>, TContext>): UseMutationResult<PatchProjectsProjectIdDomainsDomainIdServiceData, OperationError<PatchProjectsProjectIdDomainsDomainIdServiceError>, TVariables, TContext>;
+        /**
+         * Returns the count of currently in-progress mutations.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
+         * @example Check how many mutations are currently in progress for the specified service method.
+         * ```ts
+         * const patchProjectsProjectIdDomainsDomainIdServiceTotal = qraft.v1.patchProjectsProjectIdDomainsDomainIdService.useIsMutating()
+         * ```
+         * @example Check how many mutations are currently in progress with the specified parameters.
+         * ```ts
+         * const patchProjectsProjectIdDomainsDomainIdServiceTotal = qraft.v1.patchProjectsProjectIdDomainsDomainIdService.useIsMutating({
+         *     parameters: {
+         *         path: {
+         *             projectId: projectId,
+         *             domainId: domainId
+         *         }
+         *     }
+         * })
+         * ```
+         */
+        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<PatchProjectsProjectIdDomainsDomainIdServiceBody, PatchProjectsProjectIdDomainsDomainIdServiceData, PatchProjectsProjectIdDomainsDomainIdServiceParameters, OperationError<PatchProjectsProjectIdDomainsDomainIdServiceError>, TContext> | MutationFiltersByMutationKey<PatchProjectsProjectIdDomainsDomainIdServiceSchema, PatchProjectsProjectIdDomainsDomainIdServiceBody, PatchProjectsProjectIdDomainsDomainIdServiceData, PatchProjectsProjectIdDomainsDomainIdServiceParameters, OperationError<PatchProjectsProjectIdDomainsDomainIdServiceError>, TContext>): number;
+        /**
+         * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
+         * @example Get all variables of all running mutations.
+         * ```ts
+         * const patchProjectsProjectIdDomainsDomainIdServicePendingMutationVariables = qraft.v1.patchProjectsProjectIdDomainsDomainIdService.useMutationState({
+         *     filters: {
+         *         status: "pending"
+         *     },
+         *     select: mutation => mutation.state.variables
+         * })
+         * ```
+         * @example Get all data for specific mutations via the `parameters`.
+         * ```ts
+         * const patchProjectsProjectIdDomainsDomainIdServiceMutationData = qraft.v1.patchProjectsProjectIdDomainsDomainIdService.useMutationState({
+         *     filters: {
+         *         parameters: {
+         *             path: {
+         *                 projectId: projectId,
+         *                 domainId: domainId
+         *             }
+         *         }
+         *     },
+         *     select: mutation => mutation.state.data
+         * })
+         * ```
+         */
+        useMutationState<TContext = unknown, TResult = MutationState<PatchProjectsProjectIdDomainsDomainIdServiceData, OperationError<PatchProjectsProjectIdDomainsDomainIdServiceError>, MutationVariables<PatchProjectsProjectIdDomainsDomainIdServiceBody, PatchProjectsProjectIdDomainsDomainIdServiceParameters>, TContext>>(options?: {
+            filters?: MutationFiltersByParameters<PatchProjectsProjectIdDomainsDomainIdServiceBody, PatchProjectsProjectIdDomainsDomainIdServiceData, PatchProjectsProjectIdDomainsDomainIdServiceParameters, OperationError<PatchProjectsProjectIdDomainsDomainIdServiceError>, TContext> | MutationFiltersByMutationKey<PatchProjectsProjectIdDomainsDomainIdServiceSchema, PatchProjectsProjectIdDomainsDomainIdServiceBody, PatchProjectsProjectIdDomainsDomainIdServiceData, PatchProjectsProjectIdDomainsDomainIdServiceParameters, OperationError<PatchProjectsProjectIdDomainsDomainIdServiceError>, TContext>;
+            select?: (mutation: Mutation<PatchProjectsProjectIdDomainsDomainIdServiceData, OperationError<PatchProjectsProjectIdDomainsDomainIdServiceError>, MutationVariables<PatchProjectsProjectIdDomainsDomainIdServiceBody, PatchProjectsProjectIdDomainsDomainIdServiceParameters>, TContext>) => TResult;
+        }): Array<TResult>;
+        /**/
+        isMutating<TContext>(filters?: MutationFiltersByParameters<PatchProjectsProjectIdDomainsDomainIdServiceBody, PatchProjectsProjectIdDomainsDomainIdServiceData, PatchProjectsProjectIdDomainsDomainIdServiceParameters, OperationError<PatchProjectsProjectIdDomainsDomainIdServiceError>, TContext> | MutationFiltersByMutationKey<PatchProjectsProjectIdDomainsDomainIdServiceSchema, PatchProjectsProjectIdDomainsDomainIdServiceBody, PatchProjectsProjectIdDomainsDomainIdServiceData, PatchProjectsProjectIdDomainsDomainIdServiceParameters, OperationError<PatchProjectsProjectIdDomainsDomainIdServiceError>, TContext>): number;
+        /**
+         * Returns a `MutationCache` object that provides access to mutation cache operations
+         * for the specific endpoint.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/query-client/getMutationCache|`getMutationCache(...)` documentation}
+         *
+         * @example Find a mutation with specific parameters
+         * ```ts
+         * const mutationCache = qraft.v1.patchProjectsProjectIdDomainsDomainIdService.getMutationCache();
+         * const mutation = mutationCache.find({
+         *     parameters: {
+         *         path: {
+         *             projectId: projectId,
+         *             domainId: domainId
+         *         }
+         *     }
+         * });
+         * ```
+         *
+         * @example Find all mutations for the endpoint
+         * ```ts
+         * const mutationCache = qraft.v1.patchProjectsProjectIdDomainsDomainIdService.getMutationCache();
+         * const mutations = mutationCache.findAll();
+         * ```
+         */
+        getMutationCache(): Omit<MutationCache, "find" | "findAll"> & {
+            find<TContext = unknown>(filters: MutationFiltersByParameters<PatchProjectsProjectIdDomainsDomainIdServiceBody, PatchProjectsProjectIdDomainsDomainIdServiceData, PatchProjectsProjectIdDomainsDomainIdServiceParameters, OperationError<PatchProjectsProjectIdDomainsDomainIdServiceError>, TContext> | MutationFiltersByMutationKey<PatchProjectsProjectIdDomainsDomainIdServiceSchema, PatchProjectsProjectIdDomainsDomainIdServiceBody, PatchProjectsProjectIdDomainsDomainIdServiceData, PatchProjectsProjectIdDomainsDomainIdServiceParameters, OperationError<PatchProjectsProjectIdDomainsDomainIdServiceError>, TContext>): Mutation<PatchProjectsProjectIdDomainsDomainIdServiceData, PatchProjectsProjectIdDomainsDomainIdServiceError, MutationVariables<PatchProjectsProjectIdDomainsDomainIdServiceBody, PatchProjectsProjectIdDomainsDomainIdServiceParameters>, TContext> | undefined;
+            findAll<TContext = unknown>(filters?: MutationFiltersByParameters<PatchProjectsProjectIdDomainsDomainIdServiceBody, PatchProjectsProjectIdDomainsDomainIdServiceData, PatchProjectsProjectIdDomainsDomainIdServiceParameters, OperationError<PatchProjectsProjectIdDomainsDomainIdServiceError>, TContext> | MutationFiltersByMutationKey<PatchProjectsProjectIdDomainsDomainIdServiceSchema, PatchProjectsProjectIdDomainsDomainIdServiceBody, PatchProjectsProjectIdDomainsDomainIdServiceData, PatchProjectsProjectIdDomainsDomainIdServiceParameters, OperationError<PatchProjectsProjectIdDomainsDomainIdServiceError>, TContext>): Array<Mutation<PatchProjectsProjectIdDomainsDomainIdServiceData, PatchProjectsProjectIdDomainsDomainIdServiceError, MutationVariables<PatchProjectsProjectIdDomainsDomainIdServiceBody, PatchProjectsProjectIdDomainsDomainIdServiceParameters>, TContext>>;
+        };
+        schema: PatchProjectsProjectIdDomainsDomainIdServiceSchema;
+        types: {
+            parameters: PatchProjectsProjectIdDomainsDomainIdServiceParameters;
+            data: PatchProjectsProjectIdDomainsDomainIdServiceData;
+            error: PatchProjectsProjectIdDomainsDomainIdServiceError;
+            body: PatchProjectsProjectIdDomainsDomainIdServiceBody;
+        };
+    };
     getProjectsProjectIdDomainsDomainIdParent: {
         /**/
         <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: QueryFnOptionsByQueryKey<GetProjectsProjectIdDomainsDomainIdParentSchema, GetProjectsProjectIdDomainsDomainIdParentParameters, TMeta, TSignal> | (QueryFnOptionsByParameters<GetProjectsProjectIdDomainsDomainIdParentParameters, TMeta, TSignal>), client?: (schema: GetProjectsProjectIdDomainsDomainIdParentSchema, options: {
@@ -27637,6 +27790,16 @@ export const patchProjectsProjectIdDomainsDomainIdEnvironment = {
     schema: PatchProjectsProjectIdDomainsDomainIdEnvironmentSchema;
     [QraftServiceOperationsToken]: V1Service["patchProjectsProjectIdDomainsDomainIdEnvironment"];
 };
+export const patchProjectsProjectIdDomainsDomainIdService = {
+    schema: {
+        method: "patch",
+        url: "/v1/projects/{projectId}/domains/{domainId}/service",
+        mediaType: ["application/json"]
+    }
+} as {
+    schema: PatchProjectsProjectIdDomainsDomainIdServiceSchema;
+    [QraftServiceOperationsToken]: V1Service["patchProjectsProjectIdDomainsDomainIdService"];
+};
 export const getProjectsProjectIdDomainsDomainIdParent = {
     schema: {
         method: "get",
@@ -27940,6 +28103,7 @@ export const v1Service = {
     postProjectsProjectIdDomainsDomainIdSetPrimary,
     getProjectsProjectIdDomainsLookup,
     patchProjectsProjectIdDomainsDomainIdEnvironment,
+    patchProjectsProjectIdDomainsDomainIdService,
     getProjectsProjectIdDomainsDomainIdParent,
     getProjectsProjectIdServices,
     postProjectsProjectIdServicesServiceNameExposeTcp,
@@ -28915,6 +29079,17 @@ type PatchProjectsProjectIdDomainsDomainIdEnvironmentParameters = paths["/v1/pro
 type PatchProjectsProjectIdDomainsDomainIdEnvironmentData = paths["/v1/projects/{projectId}/domains/{domainId}/environment"]["patch"]["responses"]["200"]["content"]["application/json"];
 type PatchProjectsProjectIdDomainsDomainIdEnvironmentError = unknown;
 type PatchProjectsProjectIdDomainsDomainIdEnvironmentBody = paths["/v1/projects/{projectId}/domains/{domainId}/environment"]["patch"]["requestBody"]["content"]["application/json"];
+type PatchProjectsProjectIdDomainsDomainIdServiceSchema = {
+    method: "patch";
+    url: "/v1/projects/{projectId}/domains/{domainId}/service";
+    mediaType: [
+        "application/json"
+    ];
+};
+type PatchProjectsProjectIdDomainsDomainIdServiceParameters = paths["/v1/projects/{projectId}/domains/{domainId}/service"]["patch"]["parameters"];
+type PatchProjectsProjectIdDomainsDomainIdServiceData = paths["/v1/projects/{projectId}/domains/{domainId}/service"]["patch"]["responses"]["200"]["content"]["application/json"];
+type PatchProjectsProjectIdDomainsDomainIdServiceError = unknown;
+type PatchProjectsProjectIdDomainsDomainIdServiceBody = paths["/v1/projects/{projectId}/domains/{domainId}/service"]["patch"]["requestBody"]["content"]["application/json"];
 type GetProjectsProjectIdDomainsDomainIdParentSchema = {
     method: "get";
     url: "/v1/projects/{projectId}/domains/{domainId}/parent";

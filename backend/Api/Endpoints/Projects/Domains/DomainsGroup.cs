@@ -1,5 +1,6 @@
 using Api.Endpoints.Projects.Domains.Add;
 using Api.Endpoints.Projects.Domains.ChangeEnvironment;
+using Api.Endpoints.Projects.Domains.ChangeService;
 using Api.Endpoints.Projects.Domains.Delete;
 using Api.Endpoints.Projects.Domains.Get;
 using Api.Endpoints.Projects.Domains.Lookup;
@@ -24,6 +25,7 @@ public static class DomainsGroup
         group.AddSetPrimaryRoute();
         group.AddGetDnsLookupRoute();
         group.AddChangeDomainEnvironmentRoute();
+        group.AddChangeDomainServiceRoute();
 
         group.AddParentGroup();
 

@@ -3893,6 +3893,48 @@ export type paths = {
         };
         trace?: never;
     };
+    "/v1/projects/{projectId}/domains/{domainId}/service": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    projectId: string;
+                    domainId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["Api.Endpoints.Projects.Domains.ChangeService.ChangeDomainServiceRequest"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Api.Endpoints.Projects.Domains.ChangeService.ChangeDomainServiceResponse"];
+                    };
+                };
+            };
+        };
+        trace?: never;
+    };
     "/v1/projects/{projectId}/domains/{domainId}/parent": {
         parameters: {
             query?: never;
@@ -4755,6 +4797,11 @@ export type components = {
             environmentId: string | null;
         };
         "Api.Endpoints.Projects.Domains.ChangeEnvironment.ChangeDomainEnvironmentResponse": Record<string, never>;
+        "Api.Endpoints.Projects.Domains.ChangeService.ChangeDomainServiceRequest": {
+            serviceName: string | null;
+            protocol: components["schemas"]["Api.Data.Protocol"];
+        };
+        "Api.Endpoints.Projects.Domains.ChangeService.ChangeDomainServiceResponse": Record<string, never>;
         "Api.Endpoints.Projects.Domains.Delete.DeleteDomainResponse": Record<string, never>;
         "Api.Endpoints.Projects.Domains.Get.GetDomainDto": {
             /** Format: uuid */

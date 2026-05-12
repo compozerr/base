@@ -49,6 +49,7 @@ import { Fragment, useEffect, useMemo, useRef, useState } from 'react'
 import { SystemType } from '../../../../../../../lib/system-type'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import VerifyDnsDialog from '../../settings/!components/verify-dns-dialog'
+import AreYouSureDialog from '@/components/are-you-sure-dialog'
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -1159,6 +1160,7 @@ function CustomDomainsSection({ projectId, environmentId, environmentName }: { p
     const availableServices = useMemo(() => httpServices.map((s) => s.name).filter((n): n is string => !!n), [httpServices])
 
     const [selectedDomainId, setSelectedDomainId] = useState<string | null>(null)
+    const [deleteDomainId, setDeleteDomainId] = useState<string | null>(null)
 
     const invalidate = () => {
         api.v1.getProjectsProjectIdEnvironmentsEnvironmentIdDomains.invalidateQueries({ parameters: { path: { projectId, environmentId } } })
@@ -1168,6 +1170,16 @@ function CustomDomainsSection({ projectId, environmentId, environmentName }: { p
     const { mutateAsync: addDomain } = api.v1.postProjectsProjectIdDomains.useMutation({ path: { projectId } }, {
         onSuccess: ({ domainId }) => { invalidate(); setSelectedDomainId(domainId || null) },
     })
+
+    const { mutateAsync: deleteDomain, isPending: isDeleting } = api.v1.deleteProjectsProjectIdDomainsDomainId.useMutation(
+        { path: { projectId, domainId: deleteDomainId! } },
+        { onSuccess: invalidate },
+    )
+
+    const { mutateAsync: changeService } = api.v1.patchProjectsProjectIdDomainsDomainIdService.useMutation(
+        undefined as void,
+        { onSuccess: invalidate },
+    )
 
     const addDomainSchema = useMemo(() => z.object({
         domain: z.string().transform((v) => v.trim()).refine((v) => v.length === 0 || v.length >= 4, { message: 'Min 4 chars' }).refine((v) => v.length === 0 || /^[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,}$/.test(v), { message: 'Invalid domain' }),
@@ -1205,7 +1217,28 @@ function CustomDomainsSection({ projectId, environmentId, environmentName }: { p
                                         <CopyText value={d.value ?? ''}>
                                             <span className="font-mono text-sm truncate cursor-pointer">{d.value}</span>
                                         </CopyText>
-                                        <span className="text-xs text-muted-foreground/60 shrink-0">{d.serviceName}</span>
+                                        <DropdownMenu>
+                                            <DropdownMenuTrigger asChild>
+                                                <button type="button" className="text-xs text-muted-foreground/80 hover:text-foreground inline-flex items-center gap-1 shrink-0">
+                                                    {d.serviceName}<ChevronDown className="h-3 w-3" />
+                                                </button>
+                                            </DropdownMenuTrigger>
+                                            <DropdownMenuContent align="start">
+                                                {availableServices.map((svc) => (
+                                                    <DropdownMenuItem
+                                                        key={svc}
+                                                        disabled={svc === d.serviceName}
+                                                        onClick={() => changeService({ path: { projectId, domainId: d.domainId! }, body: { serviceName: svc, protocol: (d.protocol ?? 'Http') as components['schemas']['Api.Data.Protocol'] } })}
+                                                    >
+                                                        {svc}
+                                                        {svc === d.serviceName && <Check className="ml-auto h-4 w-4" />}
+                                                    </DropdownMenuItem>
+                                                ))}
+                                                {availableServices.length === 0 && (
+                                                    <DropdownMenuItem disabled>No HTTP services</DropdownMenuItem>
+                                                )}
+                                            </DropdownMenuContent>
+                                        </DropdownMenu>
                                     </div>
                                     <div className="flex items-center gap-2 shrink-0">
                                         {d.isVerified ? (
@@ -1217,6 +1250,15 @@ function CustomDomainsSection({ projectId, environmentId, environmentName }: { p
                                                 <Clock className="w-3 h-3 mr-1" />Unverified
                                             </Badge>
                                         )}
+                                        <Button
+                                            variant="ghost"
+                                            size="icon"
+                                            className="h-7 w-7 text-muted-foreground hover:text-red-400"
+                                            onClick={() => setDeleteDomainId(d.domainId!)}
+                                            aria-label="Delete domain"
+                                        >
+                                            <Trash2 className="h-3.5 w-3.5" />
+                                        </Button>
                                     </div>
                                 </div>
                             </div>
@@ -1248,6 +1290,18 @@ function CustomDomainsSection({ projectId, environmentId, environmentName }: { p
                 </div>
 
                 <VerifyDnsDialog selectedDomainId={selectedDomainId} onClose={() => { invalidate(); setSelectedDomainId(null) }} projectId={projectId} domains={domainsData?.domains ?? []} />
+                <AreYouSureDialog
+                    title="Delete this domain?"
+                    subtitle="You'll need to add and verify it again."
+                    open={!!deleteDomainId}
+                    onAnswer={(ans) => {
+                        if (ans && deleteDomainId && !isDeleting) {
+                            deleteDomain().finally(() => setDeleteDomainId(null))
+                        } else {
+                            setDeleteDomainId(null)
+                        }
+                    }}
+                />
             </CardContent>
         </Card>
     )
