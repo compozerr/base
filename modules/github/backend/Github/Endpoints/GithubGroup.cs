@@ -20,6 +20,7 @@ public class GithubGroup : CarterModule
     {
         app.AddGetInstallAppUrlRoute();
         app.AddGetInstallatonsRoute().RequireAuthorization();
+        app.AddGetUserRepositoriesRoute().RequireAuthorization();
         app.AddSetDefaultInstallationRoute().RequireAuthorization();
 
         app.AddPlaygroundRoute().RequireAuthorization();

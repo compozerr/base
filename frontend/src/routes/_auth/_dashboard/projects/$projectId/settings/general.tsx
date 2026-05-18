@@ -8,13 +8,14 @@ import {
   CardContent,
 } from '@/components/ui/card'
 import { createFileRoute, getRouteApi, useNavigate, } from '@tanstack/react-router'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 
 import { api } from '@/api-client'
 import LoadingButton from '@/components/loading-button'
+import { Input } from '@/components/ui/input'
 import { useToast } from '@/hooks/use-toast'
 import { cn } from '@/lib/utils'
-import { Github, AlertTriangle, Building2, Trash2, ArrowRightLeft, User, ExternalLink, GitBranch } from 'lucide-react'
+import { Github, AlertTriangle, Building2, Trash2, ArrowRightLeft, User, ExternalLink, GitBranch, Pencil, Search, Lock } from 'lucide-react'
 import {
   Dialog,
   DialogContent,
@@ -78,7 +79,7 @@ function GeneralSettingsTab() {
   return (
     <div className="space-y-6">
       {/* Linked Repository */}
-      <LinkedRepositorySection repoName={project?.repoName} reconnectUrl={reconnectUrl} />
+      <LinkedRepositorySection projectId={projectId} repoName={project?.repoName} reconnectUrl={reconnectUrl} />
 
       {/* Transfer Project */}
       <TransferProjectSection projectId={projectId} projectName={project?.name} />
@@ -135,7 +136,7 @@ function GeneralSettingsTab() {
   )
 }
 
-function TransferProjectSection({ projectId, projectName }: { projectId: string; projectName?: string }) {
+function TransferProjectSection({ projectId, projectName }: { projectId: string; projectName?: string | null }) {
   const [transferDialogOpen, setTransferDialogOpen] = useState(false)
   const [selectedOrgId, setSelectedOrgId] = useState<string | null>(null)
   const { toast } = useToast()
@@ -246,55 +247,217 @@ function TransferProjectSection({ projectId, projectName }: { projectId: string;
 // --- Linked Repository Section ---
 
 function LinkedRepositorySection({
+  projectId,
   repoName,
   reconnectUrl,
 }: {
-  repoName?: string
+  projectId: string
+  repoName?: string | null
   reconnectUrl: string
 }) {
+  const [changeRepoOpen, setChangeRepoOpen] = useState(false)
+
   return (
-    <Card className="rounded-xl border-zinc-800 bg-zinc-900/50">
-      <CardContent className="p-6">
-        <div className="flex items-start gap-4">
-          <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-zinc-800 flex items-center justify-center">
-            <Github className="h-5 w-5 text-zinc-400" />
-          </div>
-          <div className="flex-1 min-w-0 space-y-4">
-            <div>
-              <h3 className="font-medium mb-1">Linked Repository</h3>
-              {repoName && (
-                <a
-                  className="inline-flex items-center gap-1.5 text-sm font-mono hover:text-foreground text-foreground/80 transition-colors mt-1"
-                  href={`https://github.com/${repoName}`}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <GitBranch className="h-3.5 w-3.5 text-muted-foreground" />
-                  {repoName}
-                  <ExternalLink className="h-3 w-3 text-muted-foreground" />
-                </a>
-              )}
-              <p className="text-xs text-muted-foreground mt-2">
-                Compozerr automatically detects if this repository is renamed or transferred on GitHub and updates the link for you.
+    <>
+      <Card className="rounded-xl border-zinc-800 bg-zinc-900/50">
+        <CardContent className="p-6">
+          <div className="flex items-start gap-4">
+            <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-zinc-800 flex items-center justify-center">
+              <Github className="h-5 w-5 text-zinc-400" />
+            </div>
+            <div className="flex-1 min-w-0 space-y-4">
+              <div>
+                <h3 className="font-medium mb-1">Linked Repository</h3>
+                <div className="flex items-center gap-1.5 mt-1">
+                  {repoName && (
+                    <a
+                      className="inline-flex items-center gap-1.5 text-sm font-mono hover:text-foreground text-foreground/80 transition-colors"
+                      href={`https://github.com/${repoName}`}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      <GitBranch className="h-3.5 w-3.5 text-muted-foreground" />
+                      {repoName}
+                      <ExternalLink className="h-3 w-3 text-muted-foreground" />
+                    </a>
+                  )}
+                  <button
+                    type="button"
+                    onClick={() => setChangeRepoOpen(true)}
+                    title="Change linked repository"
+                    aria-label="Change linked repository"
+                    className="ml-1 inline-flex h-6 w-6 items-center justify-center rounded text-muted-foreground hover:text-foreground hover:bg-zinc-800 transition-colors"
+                  >
+                    <Pencil className="h-3.5 w-3.5" />
+                  </button>
+                </div>
+                <p className="text-xs text-muted-foreground mt-2">
+                  Compozerr automatically detects if this repository is renamed or transferred on GitHub and updates the link for you. If the auto-detect didn't catch it, use the pencil to pick the new repo manually.
+                </p>
+              </div>
+
+              <div className="flex flex-wrap gap-2">
+                <Button variant="outline" size="sm" asChild>
+                  <a href={reconnectUrl}>
+                    <Github className="h-3.5 w-3.5 mr-1.5" />
+                    Reconnect Account
+                  </a>
+                </Button>
+              </div>
+
+              <p className="text-xs text-muted-foreground">
+                If deployments fail due to authentication errors, reconnect your GitHub account to refresh your access token.
               </p>
             </div>
-
-            <div className="flex flex-wrap gap-2">
-              <Button variant="outline" size="sm" asChild>
-                <a href={reconnectUrl}>
-                  <Github className="h-3.5 w-3.5 mr-1.5" />
-                  Reconnect Account
-                </a>
-              </Button>
-            </div>
-
-            <p className="text-xs text-muted-foreground">
-              If deployments fail due to authentication errors, reconnect your GitHub account to refresh your access token.
-            </p>
           </div>
+        </CardContent>
+      </Card>
+
+      <ChangeRepositoryDialog
+        open={changeRepoOpen}
+        onOpenChange={setChangeRepoOpen}
+        projectId={projectId}
+        currentRepoName={repoName}
+      />
+    </>
+  )
+}
+
+function ChangeRepositoryDialog({
+  open,
+  onOpenChange,
+  projectId,
+  currentRepoName,
+}: {
+  open: boolean
+  onOpenChange: (open: boolean) => void
+  projectId: string
+  currentRepoName?: string | null
+}) {
+  const [search, setSearch] = useState('')
+  const [selectedFullName, setSelectedFullName] = useState<string | null>(null)
+  const { toast } = useToast()
+
+  const { data: repos, isLoading: reposLoading } = api.v1.getGithubUserRepositories.useQuery(
+    undefined,
+    { enabled: open },
+  )
+
+  const filteredRepos = useMemo(() => {
+    if (!repos) return []
+    const q = search.trim().toLowerCase()
+    const sorted = [...repos].sort((a, b) => (a.fullName ?? '').localeCompare(b.fullName ?? ''))
+    if (!q) return sorted
+    return sorted.filter((r) => (r.fullName ?? '').toLowerCase().includes(q))
+  }, [repos, search])
+
+  const changeRepoMutation = api.v1.postProjectsProjectIdChangeRepository.useMutation(
+    { path: { projectId } },
+    {
+      onSuccess: async () => {
+        toast({
+          title: 'Repository updated',
+          description: `Project is now linked to ${selectedFullName}. The next deploy will use the new repo.`,
+          variant: 'success',
+        })
+        await api.v1.getProjectsProjectId.invalidateQueries({ parameters: { path: { projectId } } })
+        onOpenChange(false)
+        setSelectedFullName(null)
+        setSearch('')
+      },
+      onError: (error: unknown) => {
+        toast({
+          title: 'Could not change repository',
+          description: error instanceof Error ? error.message : String(error),
+          variant: 'destructive',
+        })
+      },
+    },
+  )
+
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="max-w-lg">
+        <DialogHeader>
+          <DialogTitle>Change linked repository</DialogTitle>
+          <DialogDescription>
+            Re-link this project to a different GitHub repository — useful if the
+            repo was transferred to another organization or renamed and Compozerr's
+            auto-detect didn't catch it. The next deploy will clone from the new repo.
+          </DialogDescription>
+        </DialogHeader>
+
+        <div className="relative">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Input
+            autoFocus
+            placeholder="Search repositories…"
+            className="pl-9 font-mono text-sm"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
         </div>
-      </CardContent>
-    </Card>
+
+        <div className="max-h-72 overflow-y-auto space-y-1.5 pr-1">
+          {reposLoading && (
+            <p className="text-sm text-muted-foreground py-4 text-center">Loading repositories…</p>
+          )}
+          {!reposLoading && filteredRepos.length === 0 && (
+            <p className="text-sm text-muted-foreground py-4 text-center">
+              No repositories found. Make sure the Compozerr GitHub App is installed on the new owner.
+            </p>
+          )}
+          {filteredRepos.map((repo) => {
+            const isCurrent = repo.fullName === currentRepoName
+            const isSelected = selectedFullName === repo.fullName
+            return (
+              <button
+                key={repo.fullName}
+                type="button"
+                onClick={() => setSelectedFullName(repo.fullName)}
+                disabled={isCurrent}
+                className={cn(
+                  'flex w-full items-center gap-3 rounded-lg border p-3 text-left transition-all',
+                  isSelected
+                    ? 'border-primary bg-primary/5 ring-1 ring-primary'
+                    : 'border-zinc-800 bg-zinc-900/30 hover:border-zinc-700',
+                  isCurrent && 'opacity-50 cursor-not-allowed',
+                )}
+              >
+                <div className="flex h-8 w-8 items-center justify-center rounded-md bg-muted shrink-0">
+                  <Github className="h-4 w-4 text-muted-foreground" />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="text-sm font-mono truncate flex items-center gap-1.5">
+                    {repo.fullName}
+                    {repo.private && <Lock className="h-3 w-3 text-muted-foreground" />}
+                  </p>
+                  <p className="text-xs text-muted-foreground truncate">
+                    {isCurrent ? 'Currently linked' : `Installation: ${repo.installationName}`}
+                  </p>
+                </div>
+              </button>
+            )
+          })}
+        </div>
+
+        <DialogFooter>
+          <Button variant="outline" onClick={() => onOpenChange(false)}>
+            Cancel
+          </Button>
+          <LoadingButton
+            isLoading={changeRepoMutation.isPending}
+            disabled={!selectedFullName || selectedFullName === currentRepoName}
+            onClick={() =>
+              selectedFullName &&
+              changeRepoMutation.mutate({ repoFullName: selectedFullName })
+            }
+          >
+            Link repository
+          </LoadingButton>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   )
 }
 

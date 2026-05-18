@@ -6650,6 +6650,229 @@ export interface V1Service {
             error: GetGithubGetInstalledOrganizationsError;
         };
     };
+    getGithubUserRepositories: {
+        /**/
+        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: QueryFnOptionsByQueryKey<GetGithubUserRepositoriesSchema, GetGithubUserRepositoriesParameters, TMeta, TSignal> | (QueryFnOptionsByParameters<GetGithubUserRepositoriesParameters, TMeta, TSignal> | void), client?: (schema: GetGithubUserRepositoriesSchema, options: {
+            parameters: GetGithubUserRepositoriesParameters;
+            signal?: TSignal;
+            meta?: TMeta;
+        }) => Promise<RequestFnResponse<GetGithubUserRepositoriesData, GetGithubUserRepositoriesError>>): Promise<RequestFnResponse<GetGithubUserRepositoriesData, GetGithubUserRepositoriesError>>;
+        /**/
+        getQueryKey(parameters: DeepReadonly<GetGithubUserRepositoriesParameters> | void): ServiceOperationQueryKey<GetGithubUserRepositoriesSchema, GetGithubUserRepositoriesParameters>;
+        /**
+         * Performs asynchronous data fetching, manages loading states and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
+         * @example Query without parameters
+         * ```ts
+         * const { data, isLoading } = qraft.v1.getGithubUserRepositories.useQuery()
+         * ```
+         */
+        useQuery<TData = GetGithubUserRepositoriesData>(parameters: ServiceOperationQueryKey<GetGithubUserRepositoriesSchema, GetGithubUserRepositoriesParameters> | (DeepReadonly<GetGithubUserRepositoriesParameters> | void), options?: Omit<UndefinedInitialDataOptions<GetGithubUserRepositoriesData, GetGithubUserRepositoriesError, TData, ServiceOperationQueryKey<GetGithubUserRepositoriesSchema, GetGithubUserRepositoriesParameters>>, "queryKey">): UseQueryResult<TData, OperationError<GetGithubUserRepositoriesError>>;
+        /**
+         * Performs asynchronous data fetching, manages loading states and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
+         * @example Query without parameters
+         * ```ts
+         * const { data, isLoading } = qraft.v1.getGithubUserRepositories.useQuery()
+         * ```
+         */
+        useQuery<TData = GetGithubUserRepositoriesData>(parameters: ServiceOperationQueryKey<GetGithubUserRepositoriesSchema, GetGithubUserRepositoriesParameters> | (DeepReadonly<GetGithubUserRepositoriesParameters> | void), options: Omit<DefinedInitialDataOptions<GetGithubUserRepositoriesData, GetGithubUserRepositoriesError, TData, ServiceOperationQueryKey<GetGithubUserRepositoriesSchema, GetGithubUserRepositoriesParameters>>, "queryKey">): DefinedUseQueryResult<TData, OperationError<GetGithubUserRepositoriesError>>;
+        /**/
+        getInfiniteQueryKey(parameters: DeepReadonly<GetGithubUserRepositoriesParameters> | void): ServiceOperationInfiniteQueryKey<GetGithubUserRepositoriesSchema, GetGithubUserRepositoriesParameters>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useInfiniteQuery|`useInfiniteQuery(...)` documentation}
+         *
+         * @example Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getGithubUserRepositories.useInfiniteQuery({}, {
+         *     initialPageParam: {},
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useInfiniteQuery<TPageParam extends GetGithubUserRepositoriesParameters, TQueryFnData = GetGithubUserRepositoriesData, TData = OperationInfiniteData<TQueryFnData, GetGithubUserRepositoriesParameters>>(parameters: ServiceOperationInfiniteQueryKey<GetGithubUserRepositoriesSchema, GetGithubUserRepositoriesParameters> | (DeepReadonly<GetGithubUserRepositoriesParameters> | void), options: Omit<UndefinedInitialDataInfiniteOptions<TQueryFnData, GetGithubUserRepositoriesError, TData, ServiceOperationInfiniteQueryKey<GetGithubUserRepositoriesSchema, GetGithubUserRepositoriesParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<TQueryFnData, PartialParameters<DeepReadonly<TPageParam>>>): UseInfiniteQueryResult<TData, OperationError<GetGithubUserRepositoriesError>>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useInfiniteQuery|`useInfiniteQuery(...)` documentation}
+         *
+         * @example Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getGithubUserRepositories.useInfiniteQuery({}, {
+         *     initialPageParam: {},
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useInfiniteQuery<TPageParam extends GetGithubUserRepositoriesParameters, TQueryFnData = GetGithubUserRepositoriesData, TData = OperationInfiniteData<TQueryFnData, GetGithubUserRepositoriesParameters>>(parameters: ServiceOperationInfiniteQueryKey<GetGithubUserRepositoriesSchema, GetGithubUserRepositoriesParameters> | (DeepReadonly<GetGithubUserRepositoriesParameters> | void), options: Omit<DefinedInitialDataInfiniteOptions<TQueryFnData, GetGithubUserRepositoriesError, TData, ServiceOperationInfiniteQueryKey<GetGithubUserRepositoriesSchema, GetGithubUserRepositoriesParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<GetGithubUserRepositoriesData, PartialParameters<DeepReadonly<TPageParam>>>): DefinedUseInfiniteQueryResult<TData, OperationError<GetGithubUserRepositoriesError>>;
+        /**
+         * Monitors the number of queries currently fetching, matching the provided filters.
+         * Useful for creating loading indicators or performing actions based on active requests.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsFetching|`useIsFetching(...)` documentation}
+         * @example Checks the total number of queries fetching from the specified service method,
+         * both normal and infinite. If no parameters are provided, no filtering is applied.
+         * ```ts
+         * const getGithubUserRepositoriesTotal = qraft.v1.getGithubUserRepositories.useIsFetching()
+         * ```
+         */
+        useIsFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetGithubUserRepositoriesSchema, GetGithubUserRepositoriesData, TInfinite, GetGithubUserRepositoriesParameters, GetGithubUserRepositoriesError> | QueryFiltersByQueryKey<GetGithubUserRepositoriesSchema, GetGithubUserRepositoriesData, TInfinite, GetGithubUserRepositoriesParameters, GetGithubUserRepositoriesError>): number;
+        /**
+         * Allows you to execute multiple asynchronous data fetching operations concurrently. This is especially useful for managing complex data dependencies in parallel.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
+         * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
+         * ```ts
+         * const getGithubUserRepositoriesResults = qraft.v1.getGithubUserRepositories.useQueries({
+         *     queries: [
+         *         {},
+         *         {}
+         *     ]
+         * });
+         * getGithubUserRepositoriesResults.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
+         * ```
+         * @example Combined results. Only the data will be returned.
+         * ```ts
+         * const getGithubUserRepositoriesCombinedResults = qraft.v1.getGithubUserRepositories.useQueries({
+         *     combine: results => results.map(result => result.data),
+         *     queries: [
+         *         {},
+         *         {}
+         *     ]
+         * });
+         * getGithubUserRepositoriesCombinedResults.forEach(data => console.log({ data }));
+         * ```
+         */
+        useQueries<T extends Array<UseQueryOptionsForUseQueries<GetGithubUserRepositoriesSchema, GetGithubUserRepositoriesParameters, GetGithubUserRepositoriesData, GetGithubUserRepositoriesError>>, TCombinedResult = Array<UseQueryResult<GetGithubUserRepositoriesData, GetGithubUserRepositoriesError>>>(options: {
+            queries: T;
+            combine?: (results: Array<UseQueryResult<GetGithubUserRepositoriesData, GetGithubUserRepositoriesError>>) => TCombinedResult;
+        }): TCombinedResult;
+        /**
+         * Performs asynchronous data fetching with Suspense support.
+         * Similar to useQuery but integrates with React Suspense for loading states.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
+         * @example Suspense Query without parameters
+         * ```ts
+         * const data = qraft.v1.getGithubUserRepositories.useSuspenseQuery()
+         * ```
+         */
+        useSuspenseQuery<TData = GetGithubUserRepositoriesData>(parameters: ServiceOperationQueryKey<GetGithubUserRepositoriesSchema, GetGithubUserRepositoriesParameters> | (DeepReadonly<GetGithubUserRepositoriesParameters> | void), options?: Omit<UseSuspenseQueryOptions<GetGithubUserRepositoriesData, GetGithubUserRepositoriesError, TData, ServiceOperationQueryKey<GetGithubUserRepositoriesSchema, GetGithubUserRepositoriesParameters>>, "queryKey">): UseSuspenseQueryResult<TData, OperationError<GetGithubUserRepositoriesError>>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         * It functions similarly to `useInfiniteQuery`, but with added support for React Suspense.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseInfiniteQuery|`useSuspenseInfiniteQuery(...)` documentation}
+         *
+         * @example Suspense Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getGithubUserRepositories.useSuspenseInfiniteQuery({}, {
+         *     initialPageParam: {},
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useSuspenseInfiniteQuery<TPageParam extends GetGithubUserRepositoriesParameters, TData = GetGithubUserRepositoriesData>(parameters: ServiceOperationInfiniteQueryKey<GetGithubUserRepositoriesSchema, GetGithubUserRepositoriesParameters> | (DeepReadonly<GetGithubUserRepositoriesParameters> | void), options: Omit<UseSuspenseInfiniteQueryOptions<GetGithubUserRepositoriesData, GetGithubUserRepositoriesError, OperationInfiniteData<TData, GetGithubUserRepositoriesParameters>, ServiceOperationInfiniteQueryKey<GetGithubUserRepositoriesSchema, GetGithubUserRepositoriesParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<GetGithubUserRepositoriesData, PartialParameters<DeepReadonly<TPageParam>>>): UseSuspenseInfiniteQueryResult<OperationInfiniteData<TData, GetGithubUserRepositoriesParameters>, OperationError<GetGithubUserRepositoriesError>>;
+        /**
+         * Allows you to execute multiple asynchronous data fetching operations concurrently with Suspense support.
+         * Similar to useQueries but integrates with React Suspense for loading states.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
+         * @example Basic usage with Suspense
+         * ```ts
+         * const getGithubUserRepositoriesData = qraft.v1.getGithubUserRepositories.useSuspenseQueries({
+         *     queries: [
+         *         {},
+         *         {}
+         *     ]
+         * });
+         * getGithubUserRepositoriesResults.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
+         * ```
+         * @example With data transformation using combine
+         * ```ts
+         * const getGithubUserRepositoriesCombinedData = qraft.v1.getGithubUserRepositories.useSuspenseQueries({
+         *     combine: results => results.map(result => result.data),
+         *     queries: [
+         *         {},
+         *         {}
+         *     ]
+         * });
+         * getGithubUserRepositoriesCombinedData.forEach(data => console.log({ data }));
+         * ```
+         */
+        useSuspenseQueries<T extends Array<UseQueryOptionsForUseSuspenseQuery<GetGithubUserRepositoriesSchema, GetGithubUserRepositoriesParameters, GetGithubUserRepositoriesData, GetGithubUserRepositoriesError>>, TCombinedResult = Array<UseSuspenseQueryResult<GetGithubUserRepositoriesData, GetGithubUserRepositoriesError>>>(options: {
+            queries: T;
+            combine?: (results: Array<WithOptional<UseSuspenseQueryResult<GetGithubUserRepositoriesData, GetGithubUserRepositoriesError>, "data">>) => TCombinedResult;
+        }): TCombinedResult;
+        /**/
+        fetchQuery(options: ServiceOperationFetchQueryOptions<GetGithubUserRepositoriesSchema, GetGithubUserRepositoriesData, GetGithubUserRepositoriesParameters, GetGithubUserRepositoriesError> | void): Promise<GetGithubUserRepositoriesData>;
+        /**/
+        prefetchQuery(options: ServiceOperationFetchQueryOptions<GetGithubUserRepositoriesSchema, GetGithubUserRepositoriesData, GetGithubUserRepositoriesParameters, GetGithubUserRepositoriesError> | void): Promise<void>;
+        /**/
+        ensureQueryData(options: ServiceOperationEnsureQueryDataOptions<GetGithubUserRepositoriesSchema, GetGithubUserRepositoriesData, GetGithubUserRepositoriesParameters, GetGithubUserRepositoriesError> | void): Promise<GetGithubUserRepositoriesData>;
+        /**/
+        fetchInfiniteQuery<TPageParam extends GetGithubUserRepositoriesParameters>(options: ServiceOperationFetchInfiniteQueryOptions<GetGithubUserRepositoriesSchema, GetGithubUserRepositoriesData, GetGithubUserRepositoriesParameters, DeepReadonly<TPageParam>, GetGithubUserRepositoriesError> | void): Promise<OperationInfiniteData<GetGithubUserRepositoriesData, GetGithubUserRepositoriesParameters>>;
+        /**/
+        prefetchInfiniteQuery<TPageParam extends GetGithubUserRepositoriesParameters>(options: ServiceOperationFetchInfiniteQueryOptions<GetGithubUserRepositoriesSchema, GetGithubUserRepositoriesData, GetGithubUserRepositoriesParameters, DeepReadonly<TPageParam>, GetGithubUserRepositoriesError> | void): Promise<void>;
+        /**/
+        ensureInfiniteQueryData<TPageParam extends GetGithubUserRepositoriesParameters>(options: ServiceOperationEnsureInfiniteQueryDataOptions<GetGithubUserRepositoriesSchema, GetGithubUserRepositoriesData, GetGithubUserRepositoriesParameters, DeepReadonly<TPageParam>, GetGithubUserRepositoriesError> | void): Promise<OperationInfiniteData<GetGithubUserRepositoriesData, GetGithubUserRepositoriesParameters>>;
+        /**/
+        getQueryData(parameters: ServiceOperationQueryKey<GetGithubUserRepositoriesSchema, GetGithubUserRepositoriesParameters> | (DeepReadonly<GetGithubUserRepositoriesParameters> | void)): GetGithubUserRepositoriesData | undefined;
+        /**/
+        getInfiniteQueryData(parameters: ServiceOperationInfiniteQueryKey<GetGithubUserRepositoriesSchema, GetGithubUserRepositoriesParameters> | (DeepReadonly<GetGithubUserRepositoriesParameters> | void)): OperationInfiniteData<GetGithubUserRepositoriesData, GetGithubUserRepositoriesParameters> | undefined;
+        /**/
+        getQueriesData<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetGithubUserRepositoriesSchema, GetGithubUserRepositoriesData, TInfinite, GetGithubUserRepositoriesParameters, GetGithubUserRepositoriesError> | QueryFiltersByQueryKey<GetGithubUserRepositoriesSchema, GetGithubUserRepositoriesData, TInfinite, GetGithubUserRepositoriesParameters, GetGithubUserRepositoriesError>): TInfinite extends true ? Array<[
+            queryKey: ServiceOperationInfiniteQueryKey<GetGithubUserRepositoriesSchema, GetGithubUserRepositoriesParameters>,
+            data: NoInfer<OperationInfiniteData<GetGithubUserRepositoriesData, GetGithubUserRepositoriesParameters>> | undefined
+        ]> : Array<[
+            queryKey: ServiceOperationQueryKey<GetGithubUserRepositoriesSchema, GetGithubUserRepositoriesParameters>,
+            data: GetGithubUserRepositoriesData | undefined
+        ]>;
+        /**/
+        getQueryState(parameters: ServiceOperationQueryKey<GetGithubUserRepositoriesSchema, GetGithubUserRepositoriesParameters> | (DeepReadonly<GetGithubUserRepositoriesParameters> | void)): QueryState<GetGithubUserRepositoriesData, GetGithubUserRepositoriesError> | undefined;
+        /**/
+        getInfiniteQueryState(parameters: DeepReadonly<GetGithubUserRepositoriesParameters> | ServiceOperationInfiniteQueryKey<GetGithubUserRepositoriesSchema, GetGithubUserRepositoriesParameters> | void): QueryState<OperationInfiniteData<GetGithubUserRepositoriesData, GetGithubUserRepositoriesParameters>, GetGithubUserRepositoriesError> | undefined;
+        /**/
+        setQueryData(parameters: (DeepReadonly<GetGithubUserRepositoriesParameters> | undefined) | ServiceOperationQueryKey<GetGithubUserRepositoriesSchema, GetGithubUserRepositoriesParameters>, updater: Updater<NoInfer<GetGithubUserRepositoriesData> | undefined, NoInfer<DeepReadonly<GetGithubUserRepositoriesData>> | undefined>, options?: SetDataOptions): GetGithubUserRepositoriesData | undefined;
+        /**/
+        setInfiniteQueryData(parameters: (DeepReadonly<GetGithubUserRepositoriesParameters> | undefined) | ServiceOperationInfiniteQueryKey<GetGithubUserRepositoriesSchema, GetGithubUserRepositoriesParameters>, updater: Updater<NoInfer<OperationInfiniteData<GetGithubUserRepositoriesData, GetGithubUserRepositoriesParameters>> | undefined, NoInfer<DeepReadonly<OperationInfiniteData<GetGithubUserRepositoriesData, GetGithubUserRepositoriesParameters>>> | undefined>, options?: SetDataOptions): OperationInfiniteData<GetGithubUserRepositoriesData, GetGithubUserRepositoriesParameters> | undefined;
+        /**/
+        setQueriesData<TInfinite extends boolean = false>(filters: QueryFiltersByParameters<GetGithubUserRepositoriesSchema, GetGithubUserRepositoriesData, TInfinite, GetGithubUserRepositoriesParameters, GetGithubUserRepositoriesError> | QueryFiltersByQueryKey<GetGithubUserRepositoriesSchema, GetGithubUserRepositoriesData, TInfinite, GetGithubUserRepositoriesParameters, GetGithubUserRepositoriesError>, updater: Updater<NoInfer<GetGithubUserRepositoriesData> | undefined, NoInfer<GetGithubUserRepositoriesData> | undefined>, options?: SetDataOptions): Array<GetGithubUserRepositoriesData | undefined>;
+        /**/
+        invalidateQueries<TInfinite extends boolean = false>(filters?: InvalidateQueryFilters<GetGithubUserRepositoriesSchema, GetGithubUserRepositoriesData, TInfinite, GetGithubUserRepositoriesParameters, GetGithubUserRepositoriesError>, options?: InvalidateOptions): Promise<void>;
+        /**/
+        refetchQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetGithubUserRepositoriesSchema, GetGithubUserRepositoriesData, TInfinite, GetGithubUserRepositoriesParameters, GetGithubUserRepositoriesError> | QueryFiltersByQueryKey<GetGithubUserRepositoriesSchema, GetGithubUserRepositoriesData, TInfinite, GetGithubUserRepositoriesParameters, GetGithubUserRepositoriesError>, options?: RefetchOptions): Promise<void>;
+        /**/
+        cancelQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetGithubUserRepositoriesSchema, GetGithubUserRepositoriesData, TInfinite, GetGithubUserRepositoriesParameters, GetGithubUserRepositoriesError> | QueryFiltersByQueryKey<GetGithubUserRepositoriesSchema, GetGithubUserRepositoriesData, TInfinite, GetGithubUserRepositoriesParameters, GetGithubUserRepositoriesError>, options?: CancelOptions): Promise<void>;
+        /**/
+        removeQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetGithubUserRepositoriesSchema, GetGithubUserRepositoriesData, TInfinite, GetGithubUserRepositoriesParameters, GetGithubUserRepositoriesError> | QueryFiltersByQueryKey<GetGithubUserRepositoriesSchema, GetGithubUserRepositoriesData, TInfinite, GetGithubUserRepositoriesParameters, GetGithubUserRepositoriesError>): void;
+        /**/
+        resetQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetGithubUserRepositoriesSchema, GetGithubUserRepositoriesData, TInfinite, GetGithubUserRepositoriesParameters, GetGithubUserRepositoriesError> | QueryFiltersByQueryKey<GetGithubUserRepositoriesSchema, GetGithubUserRepositoriesData, TInfinite, GetGithubUserRepositoriesParameters, GetGithubUserRepositoriesError>, options?: ResetOptions): Promise<void>;
+        /**/
+        isFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetGithubUserRepositoriesSchema, GetGithubUserRepositoriesData, TInfinite, GetGithubUserRepositoriesParameters, GetGithubUserRepositoriesError> | QueryFiltersByQueryKey<GetGithubUserRepositoriesSchema, GetGithubUserRepositoriesData, TInfinite, GetGithubUserRepositoriesParameters, GetGithubUserRepositoriesError>): number;
+        schema: GetGithubUserRepositoriesSchema;
+        types: {
+            parameters: GetGithubUserRepositoriesParameters;
+            data: GetGithubUserRepositoriesData;
+            error: GetGithubUserRepositoriesError;
+        };
+    };
     postGithubSetDeafultOrganization: {
         /**/
         <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: ServiceOperationMutationFnOptions<PostGithubSetDeafultOrganizationBody, PostGithubSetDeafultOrganizationParameters, TMeta, TSignal>, client?: (schema: PostGithubSetDeafultOrganizationSchema, options: ServiceOperationMutationFnOptions<PostGithubSetDeafultOrganizationBody, PostGithubSetDeafultOrganizationParameters, TMeta, TSignal>) => Promise<RequestFnResponse<PostGithubSetDeafultOrganizationData, PostGithubSetDeafultOrganizationError>>): Promise<RequestFnResponse<PostGithubSetDeafultOrganizationData, PostGithubSetDeafultOrganizationError>>;
@@ -15254,6 +15477,152 @@ export interface V1Service {
             data: PostProjectsProjectIdExecData;
             error: PostProjectsProjectIdExecError;
             body: PostProjectsProjectIdExecBody;
+        };
+    };
+    postProjectsProjectIdChangeRepository: {
+        /**/
+        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: ServiceOperationMutationFnOptions<PostProjectsProjectIdChangeRepositoryBody, PostProjectsProjectIdChangeRepositoryParameters, TMeta, TSignal>, client?: (schema: PostProjectsProjectIdChangeRepositorySchema, options: ServiceOperationMutationFnOptions<PostProjectsProjectIdChangeRepositoryBody, PostProjectsProjectIdChangeRepositoryParameters, TMeta, TSignal>) => Promise<RequestFnResponse<PostProjectsProjectIdChangeRepositoryData, PostProjectsProjectIdChangeRepositoryError>>): Promise<RequestFnResponse<PostProjectsProjectIdChangeRepositoryData, PostProjectsProjectIdChangeRepositoryError>>;
+        /**/
+        getMutationKey(parameters: DeepReadonly<PostProjectsProjectIdChangeRepositoryParameters> | void): ServiceOperationMutationKey<PostProjectsProjectIdChangeRepositorySchema, PostProjectsProjectIdChangeRepositoryParameters>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1.postProjectsProjectIdChangeRepository.useMutation({
+         *     path: {
+         *         projectId: projectId
+         *     }
+         * })
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1.postProjectsProjectIdChangeRepository.useMutation()
+         * mutate({
+         *     body: bodyPayload,
+         *     path: {
+         *         projectId: projectId
+         *     }
+         * });
+         * ```
+         */
+        useMutation<TVariables extends PostProjectsProjectIdChangeRepositoryBody, TContext = unknown>(parameters: DeepReadonly<PostProjectsProjectIdChangeRepositoryParameters>, options?: ServiceOperationUseMutationOptions<PostProjectsProjectIdChangeRepositorySchema, PostProjectsProjectIdChangeRepositoryData, PostProjectsProjectIdChangeRepositoryParameters, TVariables, OperationError<PostProjectsProjectIdChangeRepositoryError>, TContext>): UseMutationResult<PostProjectsProjectIdChangeRepositoryData, OperationError<PostProjectsProjectIdChangeRepositoryError>, TVariables, TContext>;
+        /**
+         * Enables performing asynchronous data mutation operations such as POST, PUT, PATCH, or DELETE requests.
+         * Handles loading state, optimistic updates, and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutation|`useMutation(...)` documentation}
+         * @example Mutation with predefined parameters, e.g., for updating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1.postProjectsProjectIdChangeRepository.useMutation({
+         *     path: {
+         *         projectId: projectId
+         *     }
+         * })
+         * mutate(body);
+         * ```
+         * @example Mutation without predefined parameters, e.g., for creating
+         * ```ts
+         * const { mutate, isPending } = qraft.v1.postProjectsProjectIdChangeRepository.useMutation()
+         * mutate({
+         *     body: bodyPayload,
+         *     path: {
+         *         projectId: projectId
+         *     }
+         * });
+         * ```
+         */
+        useMutation<TVariables extends MutationVariables<PostProjectsProjectIdChangeRepositoryBody, PostProjectsProjectIdChangeRepositoryParameters>, TContext = unknown>(parameters: void, options?: ServiceOperationUseMutationOptions<PostProjectsProjectIdChangeRepositorySchema, PostProjectsProjectIdChangeRepositoryData, PostProjectsProjectIdChangeRepositoryParameters, TVariables, OperationError<PostProjectsProjectIdChangeRepositoryError>, TContext>): UseMutationResult<PostProjectsProjectIdChangeRepositoryData, OperationError<PostProjectsProjectIdChangeRepositoryError>, TVariables, TContext>;
+        /**
+         * Returns the count of currently in-progress mutations.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsMutating|`useIsMutating(...)` documentation}
+         * @example Check how many mutations are currently in progress for the specified service method.
+         * ```ts
+         * const postProjectsProjectIdChangeRepositoryTotal = qraft.v1.postProjectsProjectIdChangeRepository.useIsMutating()
+         * ```
+         * @example Check how many mutations are currently in progress with the specified parameters.
+         * ```ts
+         * const postProjectsProjectIdChangeRepositoryTotal = qraft.v1.postProjectsProjectIdChangeRepository.useIsMutating({
+         *     parameters: {
+         *         path: {
+         *             projectId: projectId
+         *         }
+         *     }
+         * })
+         * ```
+         */
+        useIsMutating<TContext = unknown>(filters?: MutationFiltersByParameters<PostProjectsProjectIdChangeRepositoryBody, PostProjectsProjectIdChangeRepositoryData, PostProjectsProjectIdChangeRepositoryParameters, OperationError<PostProjectsProjectIdChangeRepositoryError>, TContext> | MutationFiltersByMutationKey<PostProjectsProjectIdChangeRepositorySchema, PostProjectsProjectIdChangeRepositoryBody, PostProjectsProjectIdChangeRepositoryData, PostProjectsProjectIdChangeRepositoryParameters, OperationError<PostProjectsProjectIdChangeRepositoryError>, TContext>): number;
+        /**
+         * Provides access to the current state of a mutation, including its status, any resulting data, and associated errors.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useMutationState|`useMutationState(...)` documentation}
+         * @example Get all variables of all running mutations.
+         * ```ts
+         * const postProjectsProjectIdChangeRepositoryPendingMutationVariables = qraft.v1.postProjectsProjectIdChangeRepository.useMutationState({
+         *     filters: {
+         *         status: "pending"
+         *     },
+         *     select: mutation => mutation.state.variables
+         * })
+         * ```
+         * @example Get all data for specific mutations via the `parameters`.
+         * ```ts
+         * const postProjectsProjectIdChangeRepositoryMutationData = qraft.v1.postProjectsProjectIdChangeRepository.useMutationState({
+         *     filters: {
+         *         parameters: {
+         *             path: {
+         *                 projectId: projectId
+         *             }
+         *         }
+         *     },
+         *     select: mutation => mutation.state.data
+         * })
+         * ```
+         */
+        useMutationState<TContext = unknown, TResult = MutationState<PostProjectsProjectIdChangeRepositoryData, OperationError<PostProjectsProjectIdChangeRepositoryError>, MutationVariables<PostProjectsProjectIdChangeRepositoryBody, PostProjectsProjectIdChangeRepositoryParameters>, TContext>>(options?: {
+            filters?: MutationFiltersByParameters<PostProjectsProjectIdChangeRepositoryBody, PostProjectsProjectIdChangeRepositoryData, PostProjectsProjectIdChangeRepositoryParameters, OperationError<PostProjectsProjectIdChangeRepositoryError>, TContext> | MutationFiltersByMutationKey<PostProjectsProjectIdChangeRepositorySchema, PostProjectsProjectIdChangeRepositoryBody, PostProjectsProjectIdChangeRepositoryData, PostProjectsProjectIdChangeRepositoryParameters, OperationError<PostProjectsProjectIdChangeRepositoryError>, TContext>;
+            select?: (mutation: Mutation<PostProjectsProjectIdChangeRepositoryData, OperationError<PostProjectsProjectIdChangeRepositoryError>, MutationVariables<PostProjectsProjectIdChangeRepositoryBody, PostProjectsProjectIdChangeRepositoryParameters>, TContext>) => TResult;
+        }): Array<TResult>;
+        /**/
+        isMutating<TContext>(filters?: MutationFiltersByParameters<PostProjectsProjectIdChangeRepositoryBody, PostProjectsProjectIdChangeRepositoryData, PostProjectsProjectIdChangeRepositoryParameters, OperationError<PostProjectsProjectIdChangeRepositoryError>, TContext> | MutationFiltersByMutationKey<PostProjectsProjectIdChangeRepositorySchema, PostProjectsProjectIdChangeRepositoryBody, PostProjectsProjectIdChangeRepositoryData, PostProjectsProjectIdChangeRepositoryParameters, OperationError<PostProjectsProjectIdChangeRepositoryError>, TContext>): number;
+        /**
+         * Returns a `MutationCache` object that provides access to mutation cache operations
+         * for the specific endpoint.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/query-client/getMutationCache|`getMutationCache(...)` documentation}
+         *
+         * @example Find a mutation with specific parameters
+         * ```ts
+         * const mutationCache = qraft.v1.postProjectsProjectIdChangeRepository.getMutationCache();
+         * const mutation = mutationCache.find({
+         *     parameters: {
+         *         path: {
+         *             projectId: projectId
+         *         }
+         *     }
+         * });
+         * ```
+         *
+         * @example Find all mutations for the endpoint
+         * ```ts
+         * const mutationCache = qraft.v1.postProjectsProjectIdChangeRepository.getMutationCache();
+         * const mutations = mutationCache.findAll();
+         * ```
+         */
+        getMutationCache(): Omit<MutationCache, "find" | "findAll"> & {
+            find<TContext = unknown>(filters: MutationFiltersByParameters<PostProjectsProjectIdChangeRepositoryBody, PostProjectsProjectIdChangeRepositoryData, PostProjectsProjectIdChangeRepositoryParameters, OperationError<PostProjectsProjectIdChangeRepositoryError>, TContext> | MutationFiltersByMutationKey<PostProjectsProjectIdChangeRepositorySchema, PostProjectsProjectIdChangeRepositoryBody, PostProjectsProjectIdChangeRepositoryData, PostProjectsProjectIdChangeRepositoryParameters, OperationError<PostProjectsProjectIdChangeRepositoryError>, TContext>): Mutation<PostProjectsProjectIdChangeRepositoryData, PostProjectsProjectIdChangeRepositoryError, MutationVariables<PostProjectsProjectIdChangeRepositoryBody, PostProjectsProjectIdChangeRepositoryParameters>, TContext> | undefined;
+            findAll<TContext = unknown>(filters?: MutationFiltersByParameters<PostProjectsProjectIdChangeRepositoryBody, PostProjectsProjectIdChangeRepositoryData, PostProjectsProjectIdChangeRepositoryParameters, OperationError<PostProjectsProjectIdChangeRepositoryError>, TContext> | MutationFiltersByMutationKey<PostProjectsProjectIdChangeRepositorySchema, PostProjectsProjectIdChangeRepositoryBody, PostProjectsProjectIdChangeRepositoryData, PostProjectsProjectIdChangeRepositoryParameters, OperationError<PostProjectsProjectIdChangeRepositoryError>, TContext>): Array<Mutation<PostProjectsProjectIdChangeRepositoryData, PostProjectsProjectIdChangeRepositoryError, MutationVariables<PostProjectsProjectIdChangeRepositoryBody, PostProjectsProjectIdChangeRepositoryParameters>, TContext>>;
+        };
+        schema: PostProjectsProjectIdChangeRepositorySchema;
+        types: {
+            parameters: PostProjectsProjectIdChangeRepositoryParameters;
+            data: PostProjectsProjectIdChangeRepositoryData;
+            error: PostProjectsProjectIdChangeRepositoryError;
+            body: PostProjectsProjectIdChangeRepositoryBody;
         };
     };
     getProjectsProjectIdDebugTerminal: {
@@ -27111,6 +27480,15 @@ export const getGithubGetInstalledOrganizations = {
     schema: GetGithubGetInstalledOrganizationsSchema;
     [QraftServiceOperationsToken]: V1Service["getGithubGetInstalledOrganizations"];
 };
+export const getGithubUserRepositories = {
+    schema: {
+        method: "get",
+        url: "/v1/github/user-repositories"
+    }
+} as {
+    schema: GetGithubUserRepositoriesSchema;
+    [QraftServiceOperationsToken]: V1Service["getGithubUserRepositories"];
+};
 export const postGithubSetDeafultOrganization = {
     schema: {
         method: "post",
@@ -27503,6 +27881,16 @@ export const postProjectsProjectIdExec = {
 } as {
     schema: PostProjectsProjectIdExecSchema;
     [QraftServiceOperationsToken]: V1Service["postProjectsProjectIdExec"];
+};
+export const postProjectsProjectIdChangeRepository = {
+    schema: {
+        method: "post",
+        url: "/v1/projects/{projectId}/change-repository",
+        mediaType: ["application/json"]
+    }
+} as {
+    schema: PostProjectsProjectIdChangeRepositorySchema;
+    [QraftServiceOperationsToken]: V1Service["postProjectsProjectIdChangeRepository"];
 };
 export const getProjectsProjectIdDebugTerminal = {
     schema: {
@@ -28030,6 +28418,7 @@ export const v1Service = {
     postCliModulesOrganizationModuleNameTrackInstall,
     getGithubGetInstallAppUrl,
     getGithubGetInstalledOrganizations,
+    getGithubUserRepositories,
     postGithubSetDeafultOrganization,
     getGithubPlayground,
     get,
@@ -28072,6 +28461,7 @@ export const v1Service = {
     getProjectsProjectIdStart,
     getProjectsProjectIdStop,
     postProjectsProjectIdExec,
+    postProjectsProjectIdChangeRepository,
     getProjectsProjectIdDebugTerminal,
     getProjects,
     getProjectsProjectIdUsageSpan,
@@ -28450,6 +28840,13 @@ type GetGithubGetInstalledOrganizationsSchema = {
 type GetGithubGetInstalledOrganizationsParameters = undefined;
 type GetGithubGetInstalledOrganizationsData = paths["/v1/github/get-installed-organizations"]["get"]["responses"]["200"]["content"]["application/json"];
 type GetGithubGetInstalledOrganizationsError = unknown;
+type GetGithubUserRepositoriesSchema = {
+    method: "get";
+    url: "/v1/github/user-repositories";
+};
+type GetGithubUserRepositoriesParameters = undefined;
+type GetGithubUserRepositoriesData = paths["/v1/github/user-repositories"]["get"]["responses"]["200"]["content"]["application/json"];
+type GetGithubUserRepositoriesError = unknown;
 type PostGithubSetDeafultOrganizationSchema = {
     method: "post";
     url: "/v1/github/set-deafult-organization";
@@ -28827,6 +29224,17 @@ type PostProjectsProjectIdExecParameters = paths["/v1/projects/{projectId}/exec"
 type PostProjectsProjectIdExecData = paths["/v1/projects/{projectId}/exec"]["post"]["responses"]["200"]["content"]["application/json"];
 type PostProjectsProjectIdExecError = unknown;
 type PostProjectsProjectIdExecBody = paths["/v1/projects/{projectId}/exec"]["post"]["requestBody"]["content"]["application/json"];
+type PostProjectsProjectIdChangeRepositorySchema = {
+    method: "post";
+    url: "/v1/projects/{projectId}/change-repository";
+    mediaType: [
+        "application/json"
+    ];
+};
+type PostProjectsProjectIdChangeRepositoryParameters = paths["/v1/projects/{projectId}/change-repository"]["post"]["parameters"];
+type PostProjectsProjectIdChangeRepositoryData = paths["/v1/projects/{projectId}/change-repository"]["post"]["responses"]["200"]["content"]["application/json"];
+type PostProjectsProjectIdChangeRepositoryError = unknown;
+type PostProjectsProjectIdChangeRepositoryBody = paths["/v1/projects/{projectId}/change-repository"]["post"]["requestBody"]["content"]["application/json"];
 type GetProjectsProjectIdDebugTerminalSchema = {
     method: "get";
     url: "/v1/projects/{projectId}/debug-terminal";

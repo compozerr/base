@@ -4,6 +4,7 @@ using Api.Data.Repositories;
 using Api.Endpoints.Projects.Deployments;
 using Api.Endpoints.Projects.Domains;
 using Api.Endpoints.Projects.Environments;
+using Api.Endpoints.Projects.Project.ChangeRepository;
 using Api.Endpoints.Projects.Project.ChangeTier;
 using Api.Endpoints.Projects.Project.Delete;
 using Api.Endpoints.Projects.Project.ExecuteCommand;
@@ -32,6 +33,7 @@ public class ProjectsGroup : CarterModule
         app.AddStopProjectRoute();
         app.AddDeleteProjectRoute();
         app.AddExecuteCommandRoute();
+        app.AddChangeRepositoryRoute();
 
         // Debug endpoint for terminal WebSocket testing
         app.MapGet("{projectId:guid}/debug-terminal", async (

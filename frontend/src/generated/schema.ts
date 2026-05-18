@@ -1216,6 +1216,41 @@ export type paths = {
         patch?: never;
         trace?: never;
     };
+    "/v1/github/user-repositories": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Github.Services.UserRepositoryDto"][];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/github/set-deafult-organization": {
         parameters: {
             query?: never;
@@ -2718,6 +2753,47 @@ export type paths = {
                     };
                     content: {
                         "application/json": components["schemas"]["Api.Endpoints.Projects.Project.ExecuteCommand.ExecuteCommandResponse"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/projects/{projectId}/change-repository": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    projectId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["Api.Endpoints.Projects.Project.ChangeRepository.ChangeRepositoryRoute+Request"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Api.Endpoints.Projects.Project.ChangeRepository.ChangeRepositoryResponse"];
                     };
                 };
             };
@@ -4918,6 +4994,12 @@ export type components = {
             /** Format: int32 */
             pageSize: number;
         };
+        "Api.Endpoints.Projects.Project.ChangeRepository.ChangeRepositoryResponse": {
+            repoName: string | null;
+        };
+        "Api.Endpoints.Projects.Project.ChangeRepository.ChangeRepositoryRoute+Request": {
+            repoFullName: string | null;
+        };
         "Api.Endpoints.Projects.Project.Delete.DeleteProjectResponse": Record<string, never>;
         "Api.Endpoints.Projects.Project.ExecuteCommand.ExecuteCommandRequest": {
             command: string | null;
@@ -5378,6 +5460,15 @@ export type components = {
         "Github.Services.RepositoryDto": {
             ownedByInstallationId: string | null;
             name: string | null;
+        };
+        "Github.Services.UserRepositoryDto": {
+            installationId: string | null;
+            installationName: string | null;
+            owner: string | null;
+            name: string | null;
+            fullName: string | null;
+            private: boolean;
+            defaultBranch: string | null;
         };
         "Mail.Endpoints.Admin.GetSentEmail.GetSentEmailResponse": {
             /** Format: uuid */

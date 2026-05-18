@@ -73,6 +73,15 @@ public sealed class MockGithubService : IGithubService
         return Task.FromResult(repos);
     }
 
+    public Task<IReadOnlyList<UserRepositoryDto>> GetAllRepositoriesForUserAsync(UserId userId)
+    {
+        IReadOnlyList<UserRepositoryDto> repos = new List<UserRepositoryDto>
+        {
+            new("dev-install-1", "dev-user", "dev-user", "sample-repo", "dev-user/sample-repo", false, "main"),
+        };
+        return Task.FromResult(repos);
+    }
+
     public Task<GithubUserLogin?> GetUserLoginAsync(UserId userId)
     {
         return Task.FromResult<GithubUserLogin?>(new GithubUserLogin

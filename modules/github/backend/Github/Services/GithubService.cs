@@ -13,6 +13,14 @@ namespace Github.Services;
 
 public record InstallationDto(string InstallationId, string Name, AccountType? AccountType);
 public record RepositoryDto(string OwnedByInstallationId, string Name);
+public record UserRepositoryDto(
+    string InstallationId,
+    string InstallationName,
+    string Owner,
+    string Name,
+    string FullName,
+    bool Private,
+    string? DefaultBranch);
 
 public record GetInstallationClientByUserDefaultResponse(
     IGitHubClient InstallationClient,
@@ -41,6 +49,7 @@ public interface IGithubService
     Task<IReadOnlyList<RepositoryDto>> GetRepositoriesByUserDefaultIdAsync(
         UserId userId,
         DefaultInstallationIdSelectionType defaultInstallationIdSelectionType);
+    Task<IReadOnlyList<UserRepositoryDto>> GetAllRepositoriesForUserAsync(UserId userId);
     Task<GithubUserLogin?> GetUserLoginAsync(UserId userId);
     Task<(Repository, Task)> ForkRepositoryAsync(
         IGitHubClient client,
@@ -298,6 +307,49 @@ public sealed class GithubService(
 
             return [];
         }
+    }
+
+    public async Task<IReadOnlyList<UserRepositoryDto>> GetAllRepositoriesForUserAsync(UserId userId)
+    {
+        var installations = await GetInstallationsForUserAsync(userId);
+        var results = new List<UserRepositoryDto>();
+        var seen = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+        foreach (var installation in installations)
+        {
+            try
+            {
+                var clientResponse = await GetInstallationClientByInstallationIdAsync(installation.InstallationId);
+                if (clientResponse is null) continue;
+
+                var reposResponse = await clientResponse.InstallationClient.GitHubApps.Installation.GetAllRepositoriesForCurrent();
+
+                foreach (var repo in reposResponse.Repositories)
+                {
+                    if (!seen.Add(repo.FullName)) continue;
+                    results.Add(new UserRepositoryDto(
+                        InstallationId: installation.InstallationId,
+                        InstallationName: installation.Name,
+                        Owner: repo.Owner.Login,
+                        Name: repo.Name,
+                        FullName: repo.FullName,
+                        Private: repo.Private,
+                        DefaultBranch: repo.DefaultBranch));
+                }
+            }
+            catch (ForbiddenException ex)
+            {
+                Log.ForContext(nameof(installation.InstallationId), installation.InstallationId)
+                   .Warning(ex, "Installation does not have access to list repositories");
+            }
+            catch (Exception ex)
+            {
+                Log.ForContext(nameof(installation.InstallationId), installation.InstallationId)
+                   .Warning(ex, "Failed to list repositories for installation");
+            }
+        }
+
+        return results;
     }
 
     public async Task<(Repository, Task)> ForkRepositoryAsync(IGitHubClient client, string owner, string repo, string organization, string name)
