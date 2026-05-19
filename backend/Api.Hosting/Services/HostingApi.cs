@@ -280,8 +280,22 @@ public sealed class HostingApi(
 
     public async Task<HealthCheckResponse> HealthCheckProjectAsync(ProjectId projectId)
     {
-        var response = await HttpClient.GetAsync($"/projects/health/{projectId.Value}");
-        
+        HttpResponseMessage response;
+        try
+        {
+            response = await HttpClient.GetAsync($"/projects/health/{projectId.Value}");
+        }
+        catch (OperationCanceledException)
+        {
+            Log.ForContext("BaseDomain", HttpClient.BaseDomain)
+               .Warning("Health check timed out for project {ProjectId}", projectId);
+            return new HealthCheckResponse
+            {
+                Code = HealthCheckCode.Unhealthy,
+                Error = "Health check timed out"
+            };
+        }
+
         Log.ForContext("BaseDomain", HttpClient.BaseDomain)
            .Information("Health check project {projectId}: {response}", projectId, await response.Content.ReadAsStringAsync());
 
