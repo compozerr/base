@@ -1,5 +1,6 @@
 using Auth.Services;
 using Api.Abstractions;
+using Api.Data;
 using Api.Data.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -23,6 +24,7 @@ public static class TransferProjectRoute
             TransferProjectRequest request,
             ICurrentUserAccessor currentUserAccessor,
             IProjectRepository projectRepository,
+            IProjectEnvironmentRepository environmentRepository,
             IOrganizationAuthorizationService authService,
             ISubscriptionTransferService subscriptionTransferService) =>
         {
@@ -49,16 +51,34 @@ public static class TransferProjectRoute
             if (!await authService.IsAdminAsync(organizationId, userId))
                 return Results.Forbid();
 
-            // Migrate the Stripe subscription FIRST. If it fails (throws
-            // SubscriptionTransferException → 409 via the global ExceptionHandler) we
-            // leave the project where it is. If it succeeds the new subscription is
-            // live on the target customer and the old one is cancelled, so we must
-            // flip the project immediately after — otherwise the source org loses
-            // billing for a project they still own.
-            await subscriptionTransferService.TransferAsync(
-                projectId,
+            var environments = await environmentRepository.GetByProjectIdAsync(projectId);
+            var subscriptionIds = environments
+                .Where(e => !string.IsNullOrEmpty(e.StripeSubscriptionId))
+                .Select(e => e.StripeSubscriptionId!)
+                .ToList();
+
+            // Migrate Stripe state FIRST. If it throws (→ 409 via the global
+            // ExceptionHandler), no DB writes have happened. If it succeeds, every
+            // returned migration is already live on the target customer, so we
+            // immediately persist the new ids to keep DB and Stripe in sync.
+            var migrations = await subscriptionTransferService.TransferAsync(
+                subscriptionIds,
                 sourceOrganizationId,
                 organizationId);
+
+            var migrationByOldId = migrations.ToDictionary(m => m.OldSubscriptionId);
+            foreach (var env in environments)
+            {
+                if (env.StripeSubscriptionId is null) continue;
+                if (!migrationByOldId.TryGetValue(env.StripeSubscriptionId, out var m) || !m.WasMigrated) continue;
+
+                env.StripeSubscriptionId = m.NewSubscriptionId;
+                env.StripeSubscriptionItemId = null; // re-derived on next tier update
+                if (m.NewStatus is not null)
+                    env.BillingStatus = EnvironmentBillingStatusExtensions.FromStripeStatus(m.NewStatus);
+
+                await environmentRepository.UpdateAsync(env);
+            }
 
             project.OrganizationId = organizationId;
             await projectRepository.UpdateAsync(project);

@@ -1,119 +1,143 @@
-using Api.Abstractions;
 using Microsoft.Extensions.Options;
 using Organizations.Abstractions;
 using Serilog;
-using Stripe.Data.Repositories;
 using Stripe.Options;
 
 namespace Stripe.Services;
 
 /// <summary>
-/// Migrates a project's active Stripe subscription from one organization's Stripe customer
-/// to another when the project itself is being transferred between organizations.
+/// Migrates Stripe subscriptions between organizations during a project transfer.
 ///
-/// The flow is: create new subscription on target customer with a trial covering the
-/// remaining paid period of the old subscription (so no double-billing), then cancel
-/// the old subscription with prorate=false (so the source org keeps the money it
-/// already paid for the period it already got value from).
+/// Subscriptions are per-environment (each <c>ProjectEnvironment.StripeSubscriptionId</c>),
+/// so a project with N environments can have up to N active subs. Each is migrated
+/// independently. The caller (TransferProjectRoute) hands in the list of
+/// subscription ids it found on the project's environments, and gets back a list
+/// of new subscription ids to write back.
 ///
-/// Caller is responsible for: (a) authorising the transfer, (b) flipping
-/// Project.OrganizationId. This service only owns the Stripe side. The orchestration
-/// rule is: call this BEFORE flipping the project. If this throws, the project flip
-/// must not happen.
+/// Billing rules per migrated subscription:
+///   - Old was trialing (or has trial_end in the future) → preserve the trial on
+///     the new sub so the user is not charged for a period they're not yet paying for.
+///   - Old was active/past_due → new sub starts paying immediately, and the old
+///     is cancelled with prorate=true so the source org gets credit for unused time.
+///
+/// Caller is responsible for: (a) authorising the transfer, (b) updating
+/// <c>StripeSubscriptionId</c> + <c>BillingStatus</c> on each environment, and
+/// (c) flipping <c>Project.OrganizationId</c>. The orchestration rule is: call
+/// this BEFORE applying any DB changes. If it throws, no DB writes should happen.
 /// </summary>
 public sealed class SubscriptionTransferService(
     IOptions<StripeOptions> options,
-    IStripeCustomerRepository stripeCustomerRepository,
     ICurrentStripeCustomerIdAccessor stripeCustomerIdAccessor,
     ISubscriptionsService subscriptionsService) : ISubscriptionTransferService
 {
     private readonly StripeClient _stripeClient = new(options.Value.ApiKey);
 
-    public async Task<SubscriptionTransferResult> TransferAsync(
-        ProjectId projectId,
+    public async Task<IReadOnlyList<MigratedSubscription>> TransferAsync(
+        IReadOnlyList<string> subscriptionIds,
         OrganizationId fromOrganizationId,
         OrganizationId toOrganizationId,
         CancellationToken cancellationToken = default)
     {
-        if (fromOrganizationId == toOrganizationId)
-            return new SubscriptionTransferResult(null, WasMigrated: false);
+        if (fromOrganizationId == toOrganizationId || subscriptionIds.Count == 0)
+            return [];
 
-        var sourceCustomerId = await stripeCustomerRepository.GetStripeCustomerIdByInternalIdAsync(
-            fromOrganizationId.Value.ToString(),
-            cancellationToken);
+        var subscriptionService = new SubscriptionService(_stripeClient);
+        var liveOldSubs = new List<Subscription>();
+        foreach (var id in subscriptionIds)
+        {
+            var sub = await TryGetSubscriptionAsync(subscriptionService, id, cancellationToken);
+            if (sub is not null && IsMigratable(sub))
+                liveOldSubs.Add(sub);
+        }
 
-        // If the source org never had a Stripe customer there is nothing to migrate.
-        if (string.IsNullOrEmpty(sourceCustomerId))
-            return new SubscriptionTransferResult(null, WasMigrated: false);
-
-        var oldSubscription = await FindActiveSubscriptionForProjectAsync(
-            sourceCustomerId, projectId, cancellationToken);
-
-        if (oldSubscription is null)
-            return new SubscriptionTransferResult(null, WasMigrated: false);
+        if (liveOldSubs.Count == 0)
+            return subscriptionIds.Select(id => new MigratedSubscription(id, null, null, WasMigrated: false)).ToList();
 
         var targetCustomerId = await stripeCustomerIdAccessor
             .GetOrCreateStripeCustomerIdForOrganization(toOrganizationId);
 
         await EnsureTargetHasPaymentMethodAsync(targetCustomerId, cancellationToken);
 
-        var newSubscription = await CreateTrialedSubscriptionAsync(
-            oldSubscription, projectId, targetCustomerId, cancellationToken);
-
+        // Phase 1 — create every new sub on the target before cancelling ANY old sub.
+        // If any create fails, every old sub is still live on the source and we can safely
+        // cancel all freshly-created new subs to roll the world back to the pre-transfer state.
+        // The rollback must run for EVERY exception, including SubscriptionTransferException
+        // (which CreateMigratedSubscriptionAsync throws for malformed source subs) —
+        // otherwise an env1 success + env2 throw would leave env1's new sub orphaned on the target.
+        var newSubsByOldId = new Dictionary<string, Subscription>();
         try
         {
-            await CancelOldSubscriptionAsync(
-                oldSubscription, newSubscription.Id, toOrganizationId, cancellationToken);
+            foreach (var oldSub in liveOldSubs)
+            {
+                var newSub = await CreateMigratedSubscriptionAsync(
+                    oldSub, targetCustomerId, cancellationToken);
+                newSubsByOldId[oldSub.Id] = newSub;
+            }
         }
         catch (Exception ex)
         {
-            // The new sub is live but we couldn't cancel the old one — that would dual-bill.
-            // Roll back the new sub and surface the failure.
             Log.Error(ex,
-                "Failed to cancel old subscription {OldSubId} after creating {NewSubId}; rolling back new sub.",
-                oldSubscription.Id, newSubscription.Id);
+                "Subscription create failed mid-batch; rolling back {Count} new sub(s)",
+                newSubsByOldId.Count);
 
-            await TryCancelImmediatelyAsync(newSubscription.Id, cancellationToken);
+            foreach (var ns in newSubsByOldId.Values)
+                await TryCancelImmediatelyAsync(ns.Id, cancellationToken);
+
+            if (ex is SubscriptionTransferException)
+                throw;
+
             throw new SubscriptionTransferException(
-                $"Could not cancel the original subscription on the source organization. The replacement subscription has been rolled back. Cause: {ex.Message}",
+                $"Subscription migration failed; all replacement subscriptions rolled back. Cause: {ex.Message}",
                 ex);
         }
 
-        return new SubscriptionTransferResult(
-            NewSubscriptionId: newSubscription.Id,
-            WasMigrated: true);
-    }
-
-    private async Task<Subscription?> FindActiveSubscriptionForProjectAsync(
-        string customerId,
-        ProjectId projectId,
-        CancellationToken cancellationToken)
-    {
-        // Auto-page rather than ListAsync — a customer with many cancelled
-        // subscriptions can push the active one off the default 10-row first
-        // page when Status="all". Truncation would otherwise look like
-        // "no sub to migrate" and silently leave the source org billed.
-        var service = new SubscriptionService(_stripeClient);
-        var options = new SubscriptionListOptions
+        // Phase 2 — cancel old subs. Failures here are best-effort: we DO NOT roll back
+        // the new sub for that env because doing so would leave the env with no live
+        // subscription (its DB row will be updated to point at the new sub by the caller).
+        // A cancel failure means the source customer continues to be billed for that one
+        // env until manually cancelled — bounded blast radius, surfaced via the error log.
+        foreach (var oldSub in liveOldSubs)
         {
-            Customer = customerId,
-            Status = "all",
-            Limit = 100,
-            Expand = ["data.items.data.plan", "data.discounts"]
-        };
-
-        var projectIdString = projectId.Value.ToString();
-        await foreach (var subscription in service.ListAutoPagingAsync(options, cancellationToken: cancellationToken))
-        {
-            if ((subscription.Status == "active" || subscription.Status == "trialing" || subscription.Status == "past_due")
-                && subscription.Metadata.TryGetValue(StripeMetadataKeys.ProjectId, out var pid)
-                && pid == projectIdString)
+            var newSub = newSubsByOldId[oldSub.Id];
+            try
             {
-                return subscription;
+                await CancelOldSubscriptionAsync(
+                    oldSub, newSub.Id, toOrganizationId, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex,
+                    "Failed to cancel old subscription {OldSubId} after creating replacement {NewSubId}; " +
+                    "source customer will continue to be billed for this environment until manually cancelled.",
+                    oldSub.Id, newSub.Id);
             }
         }
 
-        return null;
+        return subscriptionIds
+            .Select(id => newSubsByOldId.TryGetValue(id, out var newSub)
+                ? new MigratedSubscription(id, newSub.Id, newSub.Status, WasMigrated: true)
+                : new MigratedSubscription(id, null, null, WasMigrated: false))
+            .ToList();
+    }
+
+    private static bool IsMigratable(Subscription sub)
+        => sub.Status is "active" or "trialing" or "past_due";
+
+    private static async Task<Subscription?> TryGetSubscriptionAsync(
+        SubscriptionService service,
+        string subscriptionId,
+        CancellationToken cancellationToken)
+    {
+        try
+        {
+            var options = new SubscriptionGetOptions { Expand = ["items.data.plan", "discounts"] };
+            return await service.GetAsync(subscriptionId, options, cancellationToken: cancellationToken);
+        }
+        catch (StripeException ex) when (ex.Message.Contains("no such subscription", StringComparison.OrdinalIgnoreCase))
+        {
+            Log.Information("Subscription {SubscriptionId} not found in Stripe; skipping migration", subscriptionId);
+            return null;
+        }
     }
 
     private async Task EnsureTargetHasPaymentMethodAsync(
@@ -133,9 +157,8 @@ public sealed class SubscriptionTransferService(
                 "The target organization has no payment method on file. Add one before transferring a project with an active subscription.");
     }
 
-    private async Task<Subscription> CreateTrialedSubscriptionAsync(
+    private async Task<Subscription> CreateMigratedSubscriptionAsync(
         Subscription oldSubscription,
-        ProjectId projectId,
         string targetCustomerId,
         CancellationToken cancellationToken)
     {
@@ -147,15 +170,8 @@ public sealed class SubscriptionTransferService(
             ?? throw new SubscriptionTransferException(
                 $"Subscription {oldSubscription.Id} has no plan id — cannot determine the price to recreate.");
 
-        // Trial through the end of the period the source org has already paid for —
-        // they keep that value, the target org isn't charged twice, and the recurring
-        // bill resumes naturally on the target customer after the trial ends.
-        var trialEnd = oldItem.CurrentPeriodEnd;
-        var hasRemainingTrial = trialEnd > DateTime.UtcNow.AddSeconds(60);
-
         var metadata = new Dictionary<string, string>(oldSubscription.Metadata)
         {
-            [StripeMetadataKeys.ProjectId] = projectId.Value.ToString(),
             [StripeMetadataKeys.TransferredFromSubscriptionId] = oldSubscription.Id
         };
 
@@ -168,8 +184,11 @@ public sealed class SubscriptionTransferService(
             CollectionMethod = "charge_automatically"
         };
 
-        if (hasRemainingTrial)
-            createOptions.TrialEnd = trialEnd;
+        // Only carry a trial when the old sub was genuinely trialing. For a paid
+        // (active/past_due) sub the new one starts paying right away — the source
+        // is compensated for the unused period via proration on cancel below.
+        if (IsTrialing(oldSubscription))
+            createOptions.TrialEnd = oldSubscription.TrialEnd;
 
         var oldCoupon = oldSubscription.Discounts?.FirstOrDefault()?.Coupon?.Id;
         if (!string.IsNullOrEmpty(oldCoupon))
@@ -184,6 +203,10 @@ public sealed class SubscriptionTransferService(
         return await service.CreateAsync(createOptions, cancellationToken: cancellationToken);
     }
 
+    private static bool IsTrialing(Subscription sub)
+        => sub.Status == "trialing"
+           || (sub.TrialEnd is DateTime trialEnd && trialEnd > DateTime.UtcNow.AddSeconds(60));
+
     private async Task CancelOldSubscriptionAsync(
         Subscription oldSubscription,
         string newSubscriptionId,
@@ -192,7 +215,7 @@ public sealed class SubscriptionTransferService(
     {
         // Stamp transfer metadata first so the cancellation webhook (and humans
         // inspecting the dashboard) can see why this was cancelled.
-        // SubscriptionCancelOptions has no Metadata field, so this must be a separate Update call.
+        // SubscriptionCancelOptions has no Metadata field, so this must be a separate call.
         var service = new SubscriptionService(_stripeClient);
         await service.UpdateAsync(oldSubscription.Id, new SubscriptionUpdateOptions
         {
@@ -204,13 +227,16 @@ public sealed class SubscriptionTransferService(
             }
         }, cancellationToken: cancellationToken);
 
-        // Cancel immediately, no proration refund: the customer already got value
-        // for this period, and the new sub trials through that same period so the
-        // user isn't double-charged.
-        await subscriptionsService.CancelSubscriptionAsync(
-            oldSubscription.Id,
-            cancelImmediately: true,
-            cancellationToken);
+        // Trialing → no proration (no money changed hands yet anyway).
+        // Active/past_due mid-period → prorate=true so the source customer gets credit
+        // for the unused remainder of the period they already paid for. The new sub
+        // on the target charges immediately for a fresh period.
+        var prorate = !IsTrialing(oldSubscription);
+        await service.CancelAsync(oldSubscription.Id, new SubscriptionCancelOptions
+        {
+            Prorate = prorate,
+            InvoiceNow = prorate
+        }, cancellationToken: cancellationToken);
     }
 
     private async Task TryCancelImmediatelyAsync(string subscriptionId, CancellationToken cancellationToken)

@@ -1,19 +1,26 @@
-using Api.Abstractions;
 using Organizations.Abstractions;
 
 namespace Stripe.Services;
 
 public interface ISubscriptionTransferService
 {
-    Task<SubscriptionTransferResult> TransferAsync(
-        ProjectId projectId,
+    /// <summary>
+    /// Migrate every subscription in <paramref name="subscriptionIds"/> from the source
+    /// org's Stripe customer to the target org's. Returns one result per input id; the
+    /// caller must apply <see cref="MigratedSubscription.NewSubscriptionId"/> back onto
+    /// the corresponding environment so the link survives the transfer.
+    /// </summary>
+    Task<IReadOnlyList<MigratedSubscription>> TransferAsync(
+        IReadOnlyList<string> subscriptionIds,
         OrganizationId fromOrganizationId,
         OrganizationId toOrganizationId,
         CancellationToken cancellationToken = default);
 }
 
-public sealed record SubscriptionTransferResult(
+public sealed record MigratedSubscription(
+    string OldSubscriptionId,
     string? NewSubscriptionId,
+    string? NewStatus,
     bool WasMigrated);
 
 /// <summary>
