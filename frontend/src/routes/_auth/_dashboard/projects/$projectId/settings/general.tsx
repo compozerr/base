@@ -151,12 +151,13 @@ function TransferProjectSection({ projectId, projectName }: { projectId: string;
       onSuccess: () => {
         toast({ title: 'Project transferred', description: `${projectName} has been moved.`, variant: 'success' })
         api.v1.getOrganizations.invalidateQueries()
+        api.v1.getProjects.invalidateQueries()
         setTransferDialogOpen(false)
         setSelectedOrgId(null)
       },
-      onError: (error) => {
-        toast({ title: 'Error', description: error instanceof Error ? error.message : String(error), variant: 'destructive' })
-      },
+      // Let the global ApiErrorHandler render the destructive toast — the backend
+      // returns ProblemDetails (e.g. "no payment method on target") that already
+      // carry a user-readable detail, and the global handler unpacks it correctly.
     },
   )
 
@@ -196,7 +197,10 @@ function TransferProjectSection({ projectId, projectName }: { projectId: string;
             <DialogTitle>Transfer Project</DialogTitle>
             <DialogDescription>
               Select the organization to transfer <strong>{projectName}</strong> to.
-              You must be an admin of the target organization.
+              You must be an admin of the current organization and the target
+              organization. If the project has an active subscription, billing
+              is migrated to the target organization — it must already have a
+              payment method on file.
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-2">

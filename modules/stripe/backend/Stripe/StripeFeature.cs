@@ -35,6 +35,7 @@ public class StripeFeature : IFeature
 
         services.AddScoped<IPaymentMethodsService, PaymentMethodsService>();
         services.AddScoped<ISubscriptionsService, SubscriptionsService>();
+        services.AddScoped<ISubscriptionTransferService, SubscriptionTransferService>();
         services.AddScoped<IInvoicesService, InvoicesService>();
 
         services.AddScoped<IPaymentFailureSagaOrchestrator, PaymentFailureSagaOrchestrator>();

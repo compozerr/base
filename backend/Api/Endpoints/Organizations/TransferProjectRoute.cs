@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Organizations.Abstractions;
 using Organizations.Services;
+using Stripe.Services;
 
 namespace Api.Endpoints.Organizations;
 
@@ -22,26 +23,42 @@ public static class TransferProjectRoute
             TransferProjectRequest request,
             ICurrentUserAccessor currentUserAccessor,
             IProjectRepository projectRepository,
-            IOrganizationAuthorizationService authService) =>
+            IOrganizationAuthorizationService authService,
+            ISubscriptionTransferService subscriptionTransferService) =>
         {
             var userId = currentUserAccessor.CurrentUserId!;
-
-            // Must be admin of the target organization
-            if (!await authService.IsAdminAsync(organizationId, userId))
-                return Results.Forbid();
 
             var projectId = ProjectId.Create(request.ProjectId);
             var project = await projectRepository.GetByIdAsync(projectId);
             if (project is null)
                 return Results.NotFound("Project not found.");
 
-            // Must have access to the project (member of source org, or direct owner)
-            var hasAccess = project.OrganizationId is not null
-                ? await authService.CanAccessProjectAsync(project.OrganizationId, userId)
-                : project.UserId == userId;
+            // The legacy user-owned path predates the org model — there is no source
+            // org to admin-check against, so refuse rather than fall back to a weaker
+            // check that would re-open the gap this endpoint was hardened to close.
+            if (project.OrganizationId is null)
+                throw new ArgumentException("Project is not owned by an organization and cannot be transferred.");
 
-            if (!hasAccess)
+            var sourceOrganizationId = project.OrganizationId;
+
+            // Admin in BOTH orgs. Target-only would let any admin pull a paying project
+            // out of someone else's org into theirs; source-only would let an admin
+            // dump a project into an org they have no say in.
+            if (!await authService.IsAdminAsync(sourceOrganizationId, userId))
                 return Results.Forbid();
+            if (!await authService.IsAdminAsync(organizationId, userId))
+                return Results.Forbid();
+
+            // Migrate the Stripe subscription FIRST. If it fails (throws
+            // SubscriptionTransferException → 409 via the global ExceptionHandler) we
+            // leave the project where it is. If it succeeds the new subscription is
+            // live on the target customer and the old one is cancelled, so we must
+            // flip the project immediately after — otherwise the source org loses
+            // billing for a project they still own.
+            await subscriptionTransferService.TransferAsync(
+                projectId,
+                sourceOrganizationId,
+                organizationId);
 
             project.OrganizationId = organizationId;
             await projectRepository.UpdateAsync(project);
