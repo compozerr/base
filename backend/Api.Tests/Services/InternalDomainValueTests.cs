@@ -147,4 +147,26 @@ public class InternalDomainValueTests
 
         Assert.Equal("transition.sites.legacy-host.compozerr.com", domain.Value);
     }
+
+    [Fact]
+    public void Value_Throws_WhenHostnameCannotBeResolved()
+    {
+        // F-P2-1: no env server, no project, no legacy hint loaded. Previously
+        // this silently produced "unresolved.sites..compozerr.com" (malformed).
+        // It must now fail loudly so callers never pass a broken domain string
+        // downstream.
+        var domain = new InternalDomain
+        {
+            ProjectId = ProjectId.CreateNew(),
+            ProjectEnvironmentId = null,
+            ProjectEnvironment = null,
+            Project = null,
+            ServiceName = "Web",
+            Port = "3000",
+            Protocol = Protocol.Http,
+            Subdomain = "unresolved",
+        };
+
+        Assert.Throws<InvalidOperationException>(() => domain.Value);
+    }
 }

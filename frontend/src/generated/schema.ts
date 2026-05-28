@@ -5450,7 +5450,7 @@ export type components = {
             /** Format: uuid */
             userId: string;
             /** Format: uuid */
-            serverId: string;
+            serverId: string | null;
             environments: components["schemas"]["Cli.Endpoints.Projects.ProjectEnvironmentServerDto"][] | null;
         };
         "Cli.Endpoints.Projects.ProjectEnvironmentServerDto": {

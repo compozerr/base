@@ -239,6 +239,44 @@ public class EnvironmentTargetResolverTests : IDisposable
     }
 
     [Fact]
+    public async Task GetServerForDomainAsync_FailsWhenEnvScopedDomainEnvHasNoServer()
+    {
+        // F-P2-4: a domain pinned to a specific env (non-null ProjectEnvironmentId)
+        // whose env has no allocated server must FAIL — not silently fall back to
+        // the production env / project hint, which would misroute the pinned
+        // domain to the wrong env's server.
+        var (project, _, _, _, _) = await SeedTwoEnvsTwoServersAsync();
+
+        var unallocatedEnv = new ProjectEnvironment
+        {
+            Id = ProjectEnvironmentId.CreateNew(),
+            ProjectId = project.Id,
+            Branches = new List<string> { "feature-x" },
+            AutoDeploy = true,
+            Type = EnvironmentType.Preview,
+            Name = "feature-x",
+            ServerId = null,
+        };
+        _context.ProjectEnvironments.Add(unallocatedEnv);
+
+        var domain = new InternalDomain
+        {
+            Id = DomainId.CreateNew(),
+            ProjectId = project.Id,
+            ProjectEnvironmentId = unallocatedEnv.Id,
+            ServiceName = "Web",
+            Port = "3000",
+            Protocol = Protocol.Http,
+            Subdomain = "feature-x-app",
+        };
+        _context.Domains.Add(domain);
+        await _context.SaveChangesAsync();
+
+        await Assert.ThrowsAsync<InvalidOperationException>(
+            () => _resolver.GetServerForDomainAsync(domain.Id));
+    }
+
+    [Fact]
     public async Task GetServerForDomainAsync_FallsBackToProductionEnvServer_ForApexDomain()
     {
         // Apex / project-level domain (no ProjectEnvironmentId) must resolve

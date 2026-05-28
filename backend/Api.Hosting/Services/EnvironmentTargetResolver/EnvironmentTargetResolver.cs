@@ -53,28 +53,36 @@ public sealed class EnvironmentTargetResolver(
 
         if (domain.ProjectEnvironmentId is { } envId)
         {
+            var env = await context.ProjectEnvironments
+                .AsNoTracking()
+                .Where(e => e.Id == envId)
+                .Select(e => new { e.ProjectId, e.ServerId })
+                .FirstOrDefaultAsync(cancellationToken);
+
+            // F-P2-4: an env-scoped domain explicitly pins traffic to one env's
+            // server. Never silently fall back to the prod/project hint here —
+            // that misroutes a pinned domain to the wrong env. Fail loudly when
+            // the env is missing or has no allocated server.
+            if (env is null)
+                throw new InvalidOperationException("Domain references missing environment");
+
             // F-P1-1 (defense in depth): the env a domain points at MUST belong
             // to the domain's own project. Without this guard a caller who can
             // set Domain.ProjectEnvironmentId (Add/ChangeEnvironment handlers)
             // could pin project A's domain to project B's env and route traffic
-            // to B's server. Fail loudly on a cross-project reference rather
-            // than silently falling through to the project hint.
-            var ownerProjectId = await context.ProjectEnvironments
-                .AsNoTracking()
-                .Where(e => e.Id == envId)
-                .Select(e => e.ProjectId)
-                .FirstOrDefaultAsync(cancellationToken);
-
-            if (ownerProjectId is { } pid && pid != domain.ProjectId)
+            // to B's server.
+            if (env.ProjectId != domain.ProjectId)
                 throw new InvalidOperationException(
                     $"Domain {domainId} references environment {envId} that does not belong to project {domain.ProjectId}");
 
-            var envServer = await TryGetServerAsync(envId, cancellationToken);
-            if (envServer is not null) return envServer;
+            if (env.ServerId is null)
+                throw new InvalidOperationException("Domain's environment has no allocated server");
+
+            return await LoadServerAsync(env.ServerId, cancellationToken);
         }
 
-        // Apex / project-level domain: fall back to production env's server,
-        // then to legacy project hint.
+        // Apex / project-level domain (no env scope): fall back to production
+        // env's server, then to legacy project hint.
         return await GetProductionOrHintServerAsync(domain.ProjectId, cancellationToken);
     }
 

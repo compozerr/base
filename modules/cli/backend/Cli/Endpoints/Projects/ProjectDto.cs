@@ -13,16 +13,22 @@ public sealed record ProjectDto(
     string Name,
     string RepoUri,
     Guid UserId,
-    Guid ServerId,
+    Guid? ServerId,
     IReadOnlyList<ProjectEnvironmentServerDto> Environments
 )
 {
     public static ProjectDto FromProject(Project project, ServerId? productionEnvServerId)
     {
+        // Fall back through prod-env ServerId then the project's legacy ServerId
+        // hint, which is exactly the transition state (zero envs, or a prod env
+        // not yet backfilled) this deprecated field exists to cover. If all
+        // three are null, emit null rather than throwing — old CLIs treat the
+        // field as nullable and the Environments list is authoritative anyway.
         var effectiveServerId = productionEnvServerId
             ?? project.ProjectEnvironments?
                 .FirstOrDefault(e => e.Type == EnvironmentType.Production)?
-                .ServerId;
+                .ServerId
+            ?? project.ServerId;
 
         var envs = project.ProjectEnvironments?
             .OrderBy(e => e.Type)
@@ -40,7 +46,7 @@ public sealed record ProjectDto(
             project.Name,
             project.RepoUri.ToString(),
             project.UserId.Value,
-            (effectiveServerId ?? throw new InvalidOperationException("Project has no allocated server")).Value,
+            effectiveServerId?.Value,
             envs);
     }
 }
