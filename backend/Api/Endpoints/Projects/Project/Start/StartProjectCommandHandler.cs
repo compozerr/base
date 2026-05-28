@@ -13,15 +13,21 @@ public sealed class StartProjectCommandHandler(
 {
     public async Task<StartProjectResponse> Handle(StartProjectCommand command, CancellationToken cancellationToken = default)
     {
-        var envIds = await GetTargetEnvIdsAsync(command, cancellationToken);
+        var envs = await GetTargetEnvsAsync(command, cancellationToken);
 
-        foreach (var envId in envIds)
+        foreach (var env in envs)
         {
-            var server = await environmentTargetResolver.TryGetServerAsync(envId, cancellationToken);
+            var server = await environmentTargetResolver.TryGetServerAsync(env.Id, cancellationToken);
             if (server is null) continue;
 
-            var hostingApi = await environmentTargetResolver.GetHostingApiAsync(envId, cancellationToken);
-            await hostingApi.StartProjectAsync(command.ProjectId, command.EnvironmentName);
+            var hostingApi = await environmentTargetResolver.GetHostingApiAsync(env.Id, cancellationToken);
+
+            // Preview env VMs are keyed by env name in the VM identifier
+            // (HostingApi.BuildVmIdentifier); production uses the bare project
+            // id. Derive the name from the env's Type so a project-wide fan-out
+            // starts each preview env on its own server — not all as production.
+            var environmentName = env.Type == EnvironmentType.Production ? null : env.Name;
+            await hostingApi.StartProjectAsync(command.ProjectId, environmentName);
         }
 
         return new();
@@ -30,20 +36,19 @@ public sealed class StartProjectCommandHandler(
     // Project-wide Start (no env name) fans out across all envs so projects
     // with envs on multiple servers are fully started. Per-env Start picks
     // the matching env only.
-    private async Task<List<ProjectEnvironmentId>> GetTargetEnvIdsAsync(
+    private async Task<List<(ProjectEnvironmentId Id, string? Name, EnvironmentType Type)>> GetTargetEnvsAsync(
         StartProjectCommand command, CancellationToken cancellationToken)
     {
-        if (command.EnvironmentName is { } name)
-        {
-            return await context.ProjectEnvironments
-                .Where(e => e.ProjectId == command.ProjectId && e.Name == name)
-                .Select(e => e.Id)
-                .ToListAsync(cancellationToken);
-        }
+        var query = context.ProjectEnvironments
+            .Where(e => e.ProjectId == command.ProjectId);
 
-        return await context.ProjectEnvironments
-            .Where(e => e.ProjectId == command.ProjectId)
-            .Select(e => e.Id)
+        if (command.EnvironmentName is { } name)
+            query = query.Where(e => e.Name == name);
+
+        var rows = await query
+            .Select(e => new { e.Id, e.Name, e.Type })
             .ToListAsync(cancellationToken);
+
+        return rows.Select(r => (r.Id, r.Name, r.Type)).ToList();
     }
 }
