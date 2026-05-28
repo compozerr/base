@@ -1,44 +1,33 @@
-using Api.Abstractions;
-using Api.Data.Repositories;
-using Api.Data.Services;
 using Cli.Abstractions;
 using Core.Abstractions;
 
 namespace Cli.Endpoints.Projects;
 
 public sealed class AllocateServer_ProjectCreatedEventHandler(
-    IServerRepository serverRepository,
-    IServerVisibilityFilter serverVisibilityFilter) : EntityDomainEventHandlerBase<ProjectCreatedEvent>
+    IServerAllocator serverAllocator) : EntityDomainEventHandlerBase<ProjectCreatedEvent>
 {
     protected override async Task HandleBeforeSaveAsync(ProjectCreatedEvent domainEvent, CancellationToken cancellationToken)
     {
-        var bestServerInLocationResponse = await GetBestServerInLocationAsync(domainEvent.Entity.LocationId);
-        domainEvent.Entity.ServerId = bestServerInLocationResponse.ServerId;
+        var allocation = await serverAllocator.AllocateForLocationAsync(domainEvent.Entity.LocationId, cancellationToken);
 
-        if (bestServerInLocationResponse.ChangedToLocationId is { } changedToLocationId)
+        // Option B: keep Project.ServerId as a deprecated default-server hint while
+        // ProjectEnvironment.ServerId becomes the load-bearing FK.
+        domainEvent.Entity.ServerId = allocation.ServerId;
+
+        if (allocation.ChangedToLocationId is { } changedToLocationId)
             domainEvent.Entity.LocationId = changedToLocationId;
-    }
 
-    private sealed record BestServerInLocationResponse(ServerId ServerId, LocationId? ChangedToLocationId);
-
-    private async Task<BestServerInLocationResponse> GetBestServerInLocationAsync(LocationId locationId)
-    {
-        var serversInLocation = await serverRepository.GetServersByLocationId(locationId);
-        var visibleServersInLocation = serverVisibilityFilter.ApplyForCurrentUser(serversInLocation).ToList();
-
-        if (visibleServersInLocation.Count == 0)
+        // Propagate the allocation to any envs that AddProjectEnvironment_ProjectCreatedEventHandler
+        // may already have attached. Handler order across two BeforeSave subscribers is not
+        // guaranteed by MediatR, so AddProjectEnvironment_ProjectCreatedEventHandler also copies
+        // Project.ServerId onto the env it creates — whichever handler runs second writes the
+        // final value, and both produce env.ServerId == project.ServerId.
+        if (domainEvent.Entity.ProjectEnvironments is { } envs)
         {
-            Log.ForContext(nameof(locationId), locationId)
-               .Fatal("No servers visible to current user on given locationId, falling back to first available across all locations");
-
-            var allServers = await serverRepository.GetAllAsync();
-            var firstServer = serverVisibilityFilter.ApplyForCurrentUser(allServers).First();
-
-            return new(firstServer.Id, firstServer.LocationId);
+            foreach (var env in envs)
+            {
+                env.ServerId = allocation.ServerId;
+            }
         }
-
-        var firstServerOnLocation = visibleServersInLocation.OrderBy(x => x.Usage.AvgRamPercentage).First();
-
-        return new(firstServerOnLocation.Id, null);
     }
 }

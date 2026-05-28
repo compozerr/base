@@ -31,6 +31,10 @@ public class ProjectEnvironment : BaseEntityWithId<ProjectEnvironmentId>
     public string? Subdomain { get; set; }
 
     public ServerTierId? ServerTierId { get; set; }
+
+    public ServerId? ServerId { get; set; }
+    public virtual Server? Server { get; set; }
+
     public string? StripeSubscriptionId { get; set; }
     public string? StripeSubscriptionItemId { get; set; }
     public EnvironmentBillingStatus BillingStatus { get; set; } = EnvironmentBillingStatus.Active;

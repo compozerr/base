@@ -9,4 +9,5 @@ public sealed record CreateEnvironmentCommand(
     string Name,
     string? Branch,
     string Tier,
-    EnvironmentType Type = EnvironmentType.Preview) : ICommand<CreateEnvironmentResponse>;
+    EnvironmentType Type = EnvironmentType.Preview,
+    ServerId? ServerId = null) : ICommand<CreateEnvironmentResponse>;

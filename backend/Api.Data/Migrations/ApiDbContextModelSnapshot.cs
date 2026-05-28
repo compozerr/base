@@ -391,6 +391,9 @@ namespace Api.Data.Migrations
                     b.Property<int?>("PullRequestNumber")
                         .HasColumnType("integer");
 
+                    b.Property<Guid?>("ServerId")
+                        .HasColumnType("uuid");
+
                     b.Property<string>("ServerTierId")
                         .HasColumnType("text");
 
@@ -413,6 +416,8 @@ namespace Api.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ProjectId");
+
+                    b.HasIndex("ServerId");
 
                     b.ToTable("ProjectEnvironments", "api");
                 });
@@ -908,7 +913,13 @@ namespace Api.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Api.Data.Server", "Server")
+                        .WithMany()
+                        .HasForeignKey("ServerId");
+
                     b.Navigation("Project");
+
+                    b.Navigation("Server");
                 });
 
             modelBuilder.Entity("Api.Data.ProjectEnvironmentVariable", b =>

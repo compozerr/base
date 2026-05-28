@@ -1,6 +1,7 @@
 using Api.Abstractions;
 using Api.Data;
 using Api.Data.Repositories;
+using Cli.Endpoints.Projects;
 using Core.MediatR;
 using Serilog;
 using Stripe.Services;
@@ -10,6 +11,8 @@ namespace Api.Endpoints.Projects.Environments.Create;
 public sealed class CreateEnvironmentCommandHandler(
     IProjectEnvironmentRepository environmentRepository,
     IProjectRepository projectRepository,
+    IServerRepository serverRepository,
+    IServerAllocator serverAllocator,
     ISubscriptionsService subscriptionsService) : ICommandHandler<CreateEnvironmentCommand, CreateEnvironmentResponse>
 {
     public async Task<CreateEnvironmentResponse> Handle(
@@ -48,6 +51,10 @@ public sealed class CreateEnvironmentCommandHandler(
         environment.StripeSubscriptionId = subscription.Id;
         environment.BillingStatus = EnvironmentBillingStatusExtensions.FromStripeStatus(subscription.Status);
 
+        // Server allocation runs AFTER subscription creation (so Stripe compensation in the
+        // try/catch below still rolls back billing if allocation throws) and BEFORE AddAsync.
+        environment.ServerId = await ResolveServerIdAsync(command, project, cancellationToken);
+
         try
         {
             await environmentRepository.AddAsync(environment, cancellationToken);
@@ -63,8 +70,8 @@ public sealed class CreateEnvironmentCommandHandler(
         }
 
         Log.ForContext(nameof(environment), environment, true)
-           .Information("Created {Type} environment '{Name}' for project {ProjectId} with subscription {SubscriptionId}",
-               command.Type, command.Name, command.ProjectId, subscription.Id);
+           .Information("Created {Type} environment '{Name}' for project {ProjectId} with subscription {SubscriptionId} on server {ServerId}",
+               command.Type, command.Name, command.ProjectId, subscription.Id, environment.ServerId);
 
         return new CreateEnvironmentResponse(
             environment.Id.Value,
@@ -74,4 +81,23 @@ public sealed class CreateEnvironmentCommandHandler(
             environment.BillingStatus.ToString());
     }
 
+    private async Task<ServerId> ResolveServerIdAsync(
+        CreateEnvironmentCommand command,
+        Data.Project project,
+        CancellationToken cancellationToken)
+    {
+        if (command.ServerId is { } requestedServerId)
+        {
+            var server = await serverRepository.GetByIdAsync(requestedServerId, cancellationToken)
+                ?? throw new InvalidOperationException($"Server {requestedServerId} not found.");
+
+            // Visibility filtering (AdminOnly etc.) is Spec A's job; this subtask only
+            // verifies the server is live. Once Spec A lands, an IServerVisibilityFilter
+            // check belongs here.
+            return server.Id;
+        }
+
+        var allocation = await serverAllocator.AllocateForLocationAsync(project.LocationId, cancellationToken);
+        return allocation.ServerId;
+    }
 }
