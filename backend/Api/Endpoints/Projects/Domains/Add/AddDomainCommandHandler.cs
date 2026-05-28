@@ -20,6 +20,24 @@ public sealed class AddDomainCommandHandler(
         if (service is null)
             throw new InvalidOperationException($"Service '{command.ServiceName}' not found for project");
 
+        // F-P1-1: an env-scoped domain must point at an env owned by the SAME
+        // project, otherwise the resolver would route this project's domain to
+        // another project's server (cross-project hijack). Reject (400) on
+        // mismatch rather than persisting a poisoned ProjectEnvironmentId.
+        if (command.EnvironmentId is { } environmentId)
+        {
+            var envProjectId = await context.ProjectEnvironments
+                .Where(e => e.Id == environmentId)
+                .Select(e => e.ProjectId)
+                .FirstOrDefaultAsync(cancellationToken);
+
+            if (envProjectId is null)
+                throw new ArgumentException($"Environment '{environmentId}' not found.");
+
+            if (envProjectId != command.ProjectId)
+                throw new ArgumentException("Environment does not belong to this project.");
+        }
+
         var externalDomainEntity = new ExternalDomain
         {
             ProjectId = command.ProjectId,

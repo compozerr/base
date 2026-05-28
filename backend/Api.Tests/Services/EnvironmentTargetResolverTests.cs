@@ -186,6 +186,59 @@ public class EnvironmentTargetResolverTests : IDisposable
     }
 
     [Fact]
+    public async Task GetServerForDomainAsync_RejectsCrossProjectEnvironment()
+    {
+        // F-P1-1: a domain belongs to project A, but its ProjectEnvironmentId
+        // points at an env owned by project B (cross-project hijack attempt).
+        // The resolver must NOT route project A's domain to project B's server —
+        // it must fail loudly instead.
+        var (projectA, _, serverB, _, previewEnvOfB) = await SeedTwoEnvsTwoServersAsync();
+
+        // previewEnvOfB currently belongs to projectA; move it to a brand-new
+        // project B (on serverB) to set up the cross-project reference.
+        var projectB = new Project
+        {
+            Id = ProjectId.CreateNew(),
+            Name = "b",
+            RepoUri = new Uri("https://github.com/test/repo-b"),
+            UserId = Auth.Abstractions.UserId.CreateNew(),
+            LocationId = LocationId.CreateNew(),
+            State = ProjectState.Running,
+            ServerTierId = new ServerTierId("T0"),
+            ServerId = serverB.Id,
+        };
+        _context.Projects.Add(projectB);
+
+        var envOfB = new ProjectEnvironment
+        {
+            Id = ProjectEnvironmentId.CreateNew(),
+            ProjectId = projectB.Id,
+            Branches = new List<string> { "main" },
+            AutoDeploy = true,
+            Type = EnvironmentType.Production,
+            ServerId = serverB.Id,
+        };
+        _context.ProjectEnvironments.Add(envOfB);
+
+        // Domain owned by project A, but pinned to project B's env.
+        var hijackDomain = new InternalDomain
+        {
+            Id = DomainId.CreateNew(),
+            ProjectId = projectA.Id,
+            ProjectEnvironmentId = envOfB.Id,
+            ServiceName = "Web",
+            Port = "3000",
+            Protocol = Protocol.Http,
+            Subdomain = "hijack",
+        };
+        _context.Domains.Add(hijackDomain);
+        await _context.SaveChangesAsync();
+
+        await Assert.ThrowsAsync<InvalidOperationException>(
+            () => _resolver.GetServerForDomainAsync(hijackDomain.Id));
+    }
+
+    [Fact]
     public async Task GetServerForDomainAsync_FallsBackToProductionEnvServer_ForApexDomain()
     {
         // Apex / project-level domain (no ProjectEnvironmentId) must resolve

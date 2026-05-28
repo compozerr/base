@@ -53,6 +53,22 @@ public sealed class EnvironmentTargetResolver(
 
         if (domain.ProjectEnvironmentId is { } envId)
         {
+            // F-P1-1 (defense in depth): the env a domain points at MUST belong
+            // to the domain's own project. Without this guard a caller who can
+            // set Domain.ProjectEnvironmentId (Add/ChangeEnvironment handlers)
+            // could pin project A's domain to project B's env and route traffic
+            // to B's server. Fail loudly on a cross-project reference rather
+            // than silently falling through to the project hint.
+            var ownerProjectId = await context.ProjectEnvironments
+                .AsNoTracking()
+                .Where(e => e.Id == envId)
+                .Select(e => e.ProjectId)
+                .FirstOrDefaultAsync(cancellationToken);
+
+            if (ownerProjectId is { } pid && pid != domain.ProjectId)
+                throw new InvalidOperationException(
+                    $"Domain {domainId} references environment {envId} that does not belong to project {domain.ProjectId}");
+
             var envServer = await TryGetServerAsync(envId, cancellationToken);
             if (envServer is not null) return envServer;
         }

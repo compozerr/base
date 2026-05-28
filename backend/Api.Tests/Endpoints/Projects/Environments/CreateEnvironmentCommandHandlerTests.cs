@@ -1,6 +1,8 @@
 using Api.Abstractions;
+using Api.Abstractions.Exceptions;
 using Api.Data;
 using Api.Data.Repositories;
+using Api.Data.Services;
 using Api.Endpoints.Projects.Environments.Create;
 using Auth.Abstractions;
 using Cli.Endpoints.Projects;
@@ -28,13 +30,24 @@ public class CreateEnvironmentCommandHandlerTests
     private readonly IServerRepository _serverRepository = Substitute.For<IServerRepository>();
     private readonly IServerAllocator _serverAllocator = Substitute.For<IServerAllocator>();
     private readonly ISubscriptionsService _subscriptionsService = Substitute.For<ISubscriptionsService>();
+    private readonly IServerVisibilityFilter _serverVisibilityFilter = Substitute.For<IServerVisibilityFilter>();
+
+    public CreateEnvironmentCommandHandlerTests()
+    {
+        // Default: every candidate server is visible to the caller. Tests that
+        // exercise the AdminOnly-bypass rejection override this for their server.
+        _serverVisibilityFilter
+            .ApplyForCurrentUser(Arg.Any<IEnumerable<Server>>())
+            .Returns(ci => ci.Arg<IEnumerable<Server>>());
+    }
 
     private CreateEnvironmentCommandHandler NewHandler() => new(
         _environmentRepository,
         _projectRepository,
         _serverRepository,
         _serverAllocator,
-        _subscriptionsService);
+        _subscriptionsService,
+        _serverVisibilityFilter);
 
     private static Project NewProject(ProjectId id, LocationId? locationId = null) => new()
     {
@@ -178,6 +191,100 @@ public class CreateEnvironmentCommandHandlerTests
                 Type: EnvironmentType.Preview,
                 ServerId: null)));
 
+        await _subscriptionsService.Received(1).CancelSubscriptionAsync(
+            subscription.Id,
+            cancelImmediately: true,
+            Arg.Any<CancellationToken>());
+    }
+
+    // F-P1-3: server allocation runs INSIDE the compensation scope. If the
+    // allocator throws (e.g. no visible server in the location), the just-created
+    // Stripe subscription must be cancelled — the prior code allocated before the
+    // try/catch and leaked billing on an allocation failure.
+    [Fact]
+    public async Task ServerAllocationThrows_SubscriptionCompensation_CancelsSubscription()
+    {
+        var projectId = ProjectId.CreateNew();
+        var project = NewProject(projectId);
+        var subscription = NewSubscription(projectId);
+
+        _projectRepository.GetByIdAsync(projectId, Arg.Any<CancellationToken>()).Returns(project);
+        _subscriptionsService.CreateSubscriptionTierAsync(
+            projectId,
+            Arg.Any<ServerTierId>(),
+            Arg.Any<string?>(),
+            Arg.Any<string?>(),
+            Arg.Any<CancellationToken>())
+            .Returns(subscription);
+
+        // Allocation (no explicit ServerId) throws — simulating "no server visible
+        // in this location for your account".
+        _serverAllocator.AllocateForLocationAsync(project.LocationId, Arg.Any<CancellationToken>())
+            .ThrowsAsync(new NoAvailableServerException("No server available in location for your account."));
+
+        var handler = NewHandler();
+
+        await Assert.ThrowsAsync<NoAvailableServerException>(() =>
+            handler.Handle(new CreateEnvironmentCommand(
+                ProjectId: projectId,
+                Name: "preview-alloc-fail",
+                Branch: "feature/alloc",
+                Tier: "T0",
+                Type: EnvironmentType.Preview,
+                ServerId: null)));
+
+        // Billing rolled back, and the env was never persisted.
+        await _subscriptionsService.Received(1).CancelSubscriptionAsync(
+            subscription.Id,
+            cancelImmediately: true,
+            Arg.Any<CancellationToken>());
+        await _environmentRepository.DidNotReceiveWithAnyArgs()
+            .AddAsync(default!, default);
+    }
+
+    // F-P1-4: an explicit ServerId must be run through IServerVisibilityFilter.
+    // A non-admin hand-crafting a request with an AdminOnly server's id must be
+    // rejected with a controlled validation error that does NOT reveal the
+    // server exists — and the just-created subscription is compensated.
+    [Fact]
+    public async Task ExplicitAdminOnlyServer_AdminOnlyBypassRejection_IsRejectedWithoutLeakingExistence()
+    {
+        var projectId = ProjectId.CreateNew();
+        var project = NewProject(projectId);
+        var requestedServerId = ServerId.CreateNew();
+        var subscription = NewSubscription(projectId);
+        var adminOnlyServer = new Server
+        {
+            Id = requestedServerId,
+            SecretId = SecretId.CreateNew(),
+            ServerVisibility = ServerVisibility.AdminOnly,
+        };
+
+        _projectRepository.GetByIdAsync(projectId, Arg.Any<CancellationToken>()).Returns(project);
+        _serverRepository.GetByIdAsync(requestedServerId, Arg.Any<CancellationToken>()).Returns(adminOnlyServer);
+        SetupSubscriptionCreate(projectId);
+
+        // The filter hides the AdminOnly server from this (non-admin) caller.
+        _serverVisibilityFilter
+            .ApplyForCurrentUser(Arg.Any<IEnumerable<Server>>())
+            .Returns(Array.Empty<Server>());
+
+        var handler = NewHandler();
+
+        var ex = await Assert.ThrowsAsync<NoAvailableServerException>(() =>
+            handler.Handle(new CreateEnvironmentCommand(
+                ProjectId: projectId,
+                Name: "preview-bypass",
+                Branch: "feature/bypass",
+                Tier: "T0",
+                Type: EnvironmentType.Preview,
+                ServerId: requestedServerId)));
+
+        // Must not leak that the server exists.
+        Assert.DoesNotContain(requestedServerId.Value.ToString(), ex.Message);
+
+        // Never persisted, and billing compensated.
+        await _environmentRepository.DidNotReceiveWithAnyArgs().AddAsync(default!, default);
         await _subscriptionsService.Received(1).CancelSubscriptionAsync(
             subscription.Id,
             cancelImmediately: true,
