@@ -140,6 +140,36 @@ SELECT COUNT(*) FROM "ProjectEnvironments" WHERE "ServerId" IS NULL;
 - **Two external-repo commits on `main`** (not feature branches). Move them before pushing (recipe above).
 - **`ServerVisibility` → `Visibility` rename**: still deferred. Worthwhile only when bundled with another visible change in that area.
 - **End-to-end backend test pass** on the merged branch was not re-run by the orchestrator. Each child ran its own — but the merged sum has not been re-verified. Run before PR.
+  - **Addressed in round 2** (see below) — full `dotnet test backend/Base.sln` was executed after round 2 merged. All 91 active tests pass (Api 64/64, Cli 6/6, Github 9 + 16 pre-existing integration skips, Mail 10/10, Database 2/2).
+
+## Round 2 — Codex adversarial review fix-up
+
+After round 1 completed, both branches were submitted to a Codex (GPT-5.x) adversarial code review:
+
+- **Spec A → main**: verdict **block**. 2× P2 visibility leaks (`ProjectRepository` + `ProjectEnvironmentRepository` joins through `Project.Server` without `IServerVisibilityFilter` → AdminOnly server identity readable by non-admin project members). 1× P2 allocator crash (`.First()` on empty filtered list when only AdminOnly servers exist for non-admins). Full findings: [`round-2/codex-findings/spec-a-review.md`](round-2/codex-findings/spec-a-review.md).
+- **Spec B → Spec A**: verdict **block**. 4× P1: (1) cross-project domain hijack — resolver didn't validate env belongs to domain's project, (2) preview-VM orphan on `DeleteProject` — fan-out called wrong tear-down API for preview envs, (3) Stripe subscription orphan if `ResolveServerIdAsync` throws (compensation `try/catch` started too late), (4) AdminOnly bypass — explicit `ServerId` on env-create skipped the visibility filter. 4× P2. Full findings: [`round-2/codex-findings/spec-b-review.md`](round-2/codex-findings/spec-b-review.md).
+
+Three fix-up sessions, sequential:
+
+| Session | Target branch | Outcome | Diff |
+|---|---|---|---|
+| **f-a1** | `task/multi-server-...102504` (Spec A) | DONE, merged into Spec A branch cleanly | 5 files, +105/-11. Visibility filter applied at both project + env reads; allocator returns `NoAvailableServerException` on empty; 2 new gate tests. |
+| **(merge Spec A → Spec B)** | Spec B run branch | 3 conflicts hand-resolved | `GetEnvironmentsCommandHandler` (env vs project source × filter), `GetProjectRoute` (env-level resolution + filter), `IServerAllocator` (`NoAvailableServerException` carried over to the extracted allocator instead of the deleted inline handler). |
+| **f-b1** | Spec B run branch | DONE, merged clean | 9 files, +487/-38. All 4 P1s addressed with at least one new test each. New `DeleteProjectCommandHandlerTests` (171 lines). |
+| **f-b2** | Spec B run branch | DONE, merged clean (after one mid-task crash and respawn) | 9 files, +386/-38. P2 fixes for `InternalDomain` malformed-output, `StartProjectCommandHandler` env-name fan-out, `ProjectDto.ServerId` fallback chain, resolver env-scoped strict path. New `StartProjectCommandHandlerTests` + `ProjectDtoTests`. |
+
+**Final end-to-end verification on the merged round-2 branch:**
+
+- `dotnet build backend/Base.sln`: 0 errors, 20 pre-existing warnings.
+- `dotnet test backend/Base.sln`:
+  - `Api.Tests`: **64/64 passed**
+  - `Cli.Tests`: 6/6 passed
+  - `Database.Tests`: 2/2 passed
+  - `Github.Tests`: 9 passed + 16 pre-existing integration skips (external deps)
+  - `Mail.Tests`: 10/10 passed
+- Round-1 verification claim ("each subtask self-verified") is now backed by an actual end-to-end run.
+
+**Still BLOCKED:** browser/Puppeteer verification of the picker UI (no seeded password user; same as round 1). The picker code is exercised by backend tests; the modal UI itself has not been clicked through.
 
 ## Next step
 
