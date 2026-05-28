@@ -154,8 +154,7 @@ public class AllocateServer_ProjectCreatedEventHandlerTests
             .Returns(new List<Api.Data.Server> { privateInLocation, adminOnlyInLocation });
 
         var handler = new AllocateServer_ProjectCreatedEventHandler(
-            _serverRepository,
-            new ServerVisibilityFilter(AccessorFor(isAdmin: false)));
+            new ServerAllocator(_serverRepository, new ServerVisibilityFilter(AccessorFor(isAdmin: false))));
 
         var ex = await Assert.ThrowsAsync<NoAvailableServerException>(
             () => InvokeAllocateAsync(handler, NewProjectInLocation(location)));
@@ -180,8 +179,7 @@ public class AllocateServer_ProjectCreatedEventHandlerTests
             .Returns(new List<Api.Data.Server> { adminOnlyInLocation });
 
         var handler = new AllocateServer_ProjectCreatedEventHandler(
-            _serverRepository,
-            new ServerVisibilityFilter(AccessorFor(isAdmin: false)));
+            new ServerAllocator(_serverRepository, new ServerVisibilityFilter(AccessorFor(isAdmin: false))));
 
         var ex = await Assert.ThrowsAsync<NoAvailableServerException>(
             () => InvokeAllocateAsync(handler, NewProjectInLocation(location)));
