@@ -13,7 +13,11 @@ public sealed class AddProjectEnvironment_ProjectCreatedEventHandler : EntityDom
             ProjectId = domainEvent.Entity.Id,
             Branches = ["main"],
             AutoDeploy = true,
-            ServerTierId = domainEvent.Entity.ServerTierId
+            ServerTierId = domainEvent.Entity.ServerTierId,
+            // If AllocateServer_ProjectCreatedEventHandler has already run, Project.ServerId is set
+            // and we copy it onto the env (the load-bearing FK after Spec B). If it runs after us,
+            // its handler will iterate ProjectEnvironments and overwrite ServerId on this env.
+            ServerId = domainEvent.Entity.ServerId,
         };
 
         domainEvent.Entity.ProjectEnvironments = [defaultEnvironment];

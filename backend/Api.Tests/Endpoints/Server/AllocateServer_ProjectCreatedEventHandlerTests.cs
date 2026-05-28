@@ -85,8 +85,7 @@ public class AllocateServer_ProjectCreatedEventHandlerTests
             .Returns(new List<Api.Data.Server> { adminOnlyInLocation, publicElsewhere });
 
         var handler = new AllocateServer_ProjectCreatedEventHandler(
-            _serverRepository,
-            new ServerVisibilityFilter(AccessorFor(isAdmin: false)));
+            new ServerAllocator(_serverRepository, new ServerVisibilityFilter(AccessorFor(isAdmin: false))));
 
         var project = await InvokeAllocateAsync(handler, NewProjectInLocation(location));
 
@@ -106,8 +105,7 @@ public class AllocateServer_ProjectCreatedEventHandlerTests
             .Returns(new List<Api.Data.Server> { adminOnly });
 
         var handler = new AllocateServer_ProjectCreatedEventHandler(
-            _serverRepository,
-            new ServerVisibilityFilter(AccessorFor(isAdmin: true)));
+            new ServerAllocator(_serverRepository, new ServerVisibilityFilter(AccessorFor(isAdmin: true))));
 
         var project = await InvokeAllocateAsync(handler, NewProjectInLocation(location));
 
@@ -127,8 +125,7 @@ public class AllocateServer_ProjectCreatedEventHandlerTests
             .Returns(new List<Api.Data.Server> { publicServer, adminOnly });
 
         var handler = new AllocateServer_ProjectCreatedEventHandler(
-            _serverRepository,
-            new ServerVisibilityFilter(AccessorFor(isAdmin: false)));
+            new ServerAllocator(_serverRepository, new ServerVisibilityFilter(AccessorFor(isAdmin: false))));
 
         var project = await InvokeAllocateAsync(handler, NewProjectInLocation(location));
 
@@ -147,8 +144,7 @@ public class AllocateServer_ProjectCreatedEventHandlerTests
             .Returns(new List<Api.Data.Server> { loaded, fresh });
 
         var handler = new AllocateServer_ProjectCreatedEventHandler(
-            _serverRepository,
-            new ServerVisibilityFilter(AccessorFor(isAdmin: false)));
+            new ServerAllocator(_serverRepository, new ServerVisibilityFilter(AccessorFor(isAdmin: false))));
 
         var project = await InvokeAllocateAsync(handler, NewProjectInLocation(location));
 

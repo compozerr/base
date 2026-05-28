@@ -1,3 +1,4 @@
+using Cli.Endpoints.Projects;
 using Cli.Endpoints.Repos;
 using Cli.Services;
 using Cli.Services.GoogleCloud;
@@ -15,6 +16,7 @@ public class CliFeature : IFeature
     {
         services.AddSingleton<IApiKeyService, ApiKeyService>();
         services.AddSingleton<GoogleAuthService>();
+        services.AddScoped<IServerAllocator, ServerAllocator>();
         services.Configure<KestrelServerOptions>(options =>
         {
             options.Limits.MaxRequestBodySize = 1024L * 1024L * 2048L; // 2GB
