@@ -2,6 +2,7 @@ using Api.Abstractions;
 using Api.Data;
 using Api.Data.Extensions;
 using Api.Data.Repositories;
+using Api.Data.Services;
 using Api.Hosting.Services;
 using Auth.Services;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -25,7 +26,8 @@ public static class GetProjectRoute
         ICurrentUserAccessor currentUserAccessor,
         IProjectRepository projectRepository,
         IOrganizationAuthorizationService orgAuthService,
-        ISubscriptionsService subscriptionsService)
+        ISubscriptionsService subscriptionsService,
+        IServerVisibilityFilter serverVisibilityFilter)
     {
         var project = await projectRepository.GetProjectByIdWithDomainsAsync(projectId);
         if (project is null)
@@ -61,12 +63,17 @@ public static class GetProjectRoute
             // (canonical "project server" for the project card / header).
             // GetProjectByIdWithDomainsAsync eager-loads env.Server, so this is
             // resolved purely from the navigation graph — no extra DB hit.
-            Server: ResolveProjectServerSummary(project),
+            // Mask the resolved server when it is not visible to the caller
+            // (e.g. an AdminOnly server on a project the caller can access but
+            // isn't a platform admin for). Graceful degradation — Server = null.
+            Server: ResolveProjectServerSummary(project, serverVisibilityFilter),
             DisplayState: project.GetDisplayState()
         ));
     }
 
-    private static AllocatedServerSummary? ResolveProjectServerSummary(Data.Project project)
+    private static AllocatedServerSummary? ResolveProjectServerSummary(
+        Data.Project project,
+        IServerVisibilityFilter serverVisibilityFilter)
     {
         // Pick the env-level server: prefer Production env's server (the
         // canonical "project server"), falling back to any env that has one
@@ -82,10 +89,13 @@ public static class GetProjectRoute
 
         if (server is null) return null;
 
+        var visibleServer = serverVisibilityFilter.ApplyForCurrentUser(new[] { server }).FirstOrDefault();
+        if (visibleServer is null) return null;
+
         return new AllocatedServerSummary(
-            server.Id,
-            server.HostName,
-            server.Location?.IsoCountryCode);
+            visibleServer.Id,
+            visibleServer.HostName,
+            visibleServer.Location?.IsoCountryCode);
     }
 
     private static async Task<Price?> GetServerTierPriceFromProjectSubscriptionAsync(

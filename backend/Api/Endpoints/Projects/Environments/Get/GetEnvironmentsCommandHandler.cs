@@ -1,12 +1,14 @@
 using Api.Abstractions;
 using Api.Data;
 using Api.Data.Repositories;
+using Api.Data.Services;
 using Core.MediatR;
 
 namespace Api.Endpoints.Projects.Environments.Get;
 
 public sealed class GetEnvironmentsCommandHandler(
-    IProjectEnvironmentRepository environmentRepository) : ICommandHandler<GetEnvironmentsCommand, GetEnvironmentsResponse>
+    IProjectEnvironmentRepository environmentRepository,
+    IServerVisibilityFilter serverVisibilityFilter) : ICommandHandler<GetEnvironmentsCommand, GetEnvironmentsResponse>
 {
     public async Task<GetEnvironmentsResponse> Handle(
         GetEnvironmentsCommand command,
@@ -33,16 +35,20 @@ public sealed class GetEnvironmentsCommandHandler(
             }
 
             // Surface the env's own server (post-Spec-B each env can live on a
-            // different server). Repository eager-loads e.Server.Location so
-            // the dashboard renders the actual hosting server, not the
-            // project's allocator hint.
+            // different server). Repository eager-loads e.Server.Location.
+            // Mask servers that aren't visible to the caller (AdminOnly for
+            // non-admins) — filtered per-env so other envs may keep their
+            // visible server.
             var server = e.Server;
-            var allocatedServer = server is null
+            var visibleServer = server is null
+                ? null
+                : serverVisibilityFilter.ApplyForCurrentUser(new[] { server }).FirstOrDefault();
+            var allocatedServer = visibleServer is null
                 ? null
                 : new AllocatedServerSummary(
-                    server.Id,
-                    server.HostName,
-                    server.Location?.IsoCountryCode);
+                    visibleServer.Id,
+                    visibleServer.HostName,
+                    visibleServer.Location?.IsoCountryCode);
 
             return new EnvironmentDto(
                 e.Id.Value,
