@@ -1,4 +1,5 @@
 using Api.Abstractions;
+using Api.Abstractions.Exceptions;
 using Api.Data.Repositories;
 using Api.Data.Services;
 using Cli.Abstractions;
@@ -32,7 +33,16 @@ public sealed class AllocateServer_ProjectCreatedEventHandler(
                .Fatal("No servers visible to current user on given locationId, falling back to first available across all locations");
 
             var allServers = await serverRepository.GetAllAsync();
-            var firstServer = serverVisibilityFilter.ApplyForCurrentUser(allServers).First();
+            var firstServer = serverVisibilityFilter.ApplyForCurrentUser(allServers).FirstOrDefault();
+
+            if (firstServer is null)
+            {
+                // No server is visible to this caller anywhere (e.g. a non-admin
+                // whose only candidates are Private/AdminOnly). Surface a controlled
+                // 4xx instead of letting an empty-sequence .First() throw.
+                throw new NoAvailableServerException(
+                    $"No server available in location {locationId} for your account. Contact an administrator.");
+            }
 
             return new(firstServer.Id, firstServer.LocationId);
         }

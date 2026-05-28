@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using Api.Abstractions;
+using Api.Abstractions.Exceptions;
 using Api.Data;
 using Api.Data.Repositories;
 using Api.Services.ServerVisibility;
@@ -134,6 +135,62 @@ public class AllocateServer_ProjectCreatedEventHandlerTests
 
         // Even though the AdminOnly server is less-loaded, non-admins must not see it.
         Assert.Equal(publicServer.Id, project.ServerId);
+    }
+
+    // Gate (d): when a non-admin's location has only Private + AdminOnly servers
+    // (and none exist anywhere else), the filter excludes BOTH tiers — Private is
+    // never returned to anyone, AdminOnly only to platform admins. The Codex finding
+    // worded this as "assert Private is selected", but the IServerVisibilityFilter
+    // contract is explicit that Private is never a fallback; selecting it for a
+    // non-admin would itself be a visibility leak. The correct, secure behaviour is
+    // a controlled failure — proving Private is NOT silently handed out.
+    [Fact]
+    public async Task NonAdmin_GetsControlledError_WhenOnlyPrivateAndAdminOnlyExist()
+    {
+        var location = LocationId.CreateNew();
+        var privateInLocation = MakeServer(location, Api.Data.ServerVisibility.Private);
+        var adminOnlyInLocation = MakeServer(location, Api.Data.ServerVisibility.AdminOnly);
+
+        _serverRepository.GetServersByLocationId(location)
+            .Returns(new List<Api.Data.Server> { privateInLocation, adminOnlyInLocation });
+        _serverRepository.GetAllAsync()
+            .Returns(new List<Api.Data.Server> { privateInLocation, adminOnlyInLocation });
+
+        var handler = new AllocateServer_ProjectCreatedEventHandler(
+            _serverRepository,
+            new ServerVisibilityFilter(AccessorFor(isAdmin: false)));
+
+        var ex = await Assert.ThrowsAsync<NoAvailableServerException>(
+            () => InvokeAllocateAsync(handler, NewProjectInLocation(location)));
+
+        // Controlled domain failure, not an InvalidOperationException from .First().
+        Assert.IsNotType<InvalidOperationException>(ex);
+        Assert.False(string.IsNullOrWhiteSpace(ex.Message));
+    }
+
+    // Gate (e): the "only AdminOnly servers exist for a non-admin" path — exactly the
+    // empty-filtered-sequence path that previously threw an unhandled .First()
+    // (InvalidOperationException → 5xx). Must now surface a controlled failure.
+    [Fact]
+    public async Task NonAdmin_GetsControlledError_WhenOnlyAdminOnlyExists()
+    {
+        var location = LocationId.CreateNew();
+        var adminOnlyInLocation = MakeServer(location, Api.Data.ServerVisibility.AdminOnly);
+
+        _serverRepository.GetServersByLocationId(location)
+            .Returns(new List<Api.Data.Server> { adminOnlyInLocation });
+        _serverRepository.GetAllAsync()
+            .Returns(new List<Api.Data.Server> { adminOnlyInLocation });
+
+        var handler = new AllocateServer_ProjectCreatedEventHandler(
+            _serverRepository,
+            new ServerVisibilityFilter(AccessorFor(isAdmin: false)));
+
+        var ex = await Assert.ThrowsAsync<NoAvailableServerException>(
+            () => InvokeAllocateAsync(handler, NewProjectInLocation(location)));
+
+        Assert.IsNotType<InvalidOperationException>(ex);
+        Assert.False(string.IsNullOrWhiteSpace(ex.Message));
     }
 
     [Fact]

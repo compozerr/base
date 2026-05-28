@@ -2,6 +2,7 @@ using Api.Abstractions;
 using Api.Data;
 using Api.Data.Extensions;
 using Api.Data.Repositories;
+using Api.Data.Services;
 using Api.Hosting.Services;
 using Auth.Services;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -25,7 +26,8 @@ public static class GetProjectRoute
         ICurrentUserAccessor currentUserAccessor,
         IProjectRepository projectRepository,
         IOrganizationAuthorizationService orgAuthService,
-        ISubscriptionsService subscriptionsService)
+        ISubscriptionsService subscriptionsService,
+        IServerVisibilityFilter serverVisibilityFilter)
     {
         var project = await projectRepository.GetProjectByIdWithDomainsAsync(projectId);
         if (project is null)
@@ -47,6 +49,13 @@ public static class GetProjectRoute
             subscriptionsService,
             projectId);
 
+        // Mask the allocated server when it is not visible to the caller (e.g. an
+        // AdminOnly server on a project the caller can access but isn't a platform
+        // admin for). Graceful degradation — the project still loads with Server = null.
+        var visibleServer = project.Server is null
+            ? null
+            : serverVisibilityFilter.ApplyForCurrentUser(new[] { project.Server }).FirstOrDefault();
+
         return TypedResults.Ok(new GetProjectResponse(
             project.Id.Value,
             project.Name,
@@ -57,12 +66,12 @@ public static class GetProjectRoute
             serverTierPrice,
             projectDomains?.GetPrimary()?.GetValue,
             project.Type,
-            Server: project.Server is null
+            Server: visibleServer is null
                 ? null
                 : new AllocatedServerSummary(
-                    project.Server.Id,
-                    project.Server.HostName,
-                    project.Server.Location?.IsoCountryCode),
+                    visibleServer.Id,
+                    visibleServer.HostName,
+                    visibleServer.Location?.IsoCountryCode),
             DisplayState: project.GetDisplayState()
         ));
     }
