@@ -1,5 +1,6 @@
 using Api.Abstractions;
 using Api.Data;
+using Api.Data.Services;
 using Auth.Abstractions;
 using Auth.Services;
 using Core.Feature;
@@ -28,7 +29,11 @@ public class DevSeedFeature : IFeature
 
         var devGroup = app.MapGroup("/v1/dev").RequireAuthorization();
 
-        devGroup.MapPost("/seed", async (ApiDbContext apiDb, ICurrentUserAccessor currentUserAccessor, IOrganizationContextAccessor orgContextAccessor) =>
+        devGroup.MapPost("/seed", async (
+            ApiDbContext apiDb,
+            IServerVisibilityFilter visibility,
+            ICurrentUserAccessor currentUserAccessor,
+            IOrganizationContextAccessor orgContextAccessor) =>
         {
             var userId = currentUserAccessor.CurrentUserId;
             if (userId is null)
@@ -40,7 +45,7 @@ public class DevSeedFeature : IFeature
             if (userHasProjects)
                 return Results.Ok(new { message = "Already seeded", seeded = false });
 
-            var result = await DevSeeder.SeedForUser(apiDb, userId, orgId);
+            var result = await DevSeeder.SeedForUser(apiDb, visibility, userId, orgId);
             return Results.Ok(result);
         });
 

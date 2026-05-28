@@ -7,6 +7,7 @@ public enum ServerVisibility
     Unknown = 0,
     Public = 1,
     Private = 2,
+    AdminOnly = 3,
 }
 
 public class Server : BaseEntityWithId<ServerId>

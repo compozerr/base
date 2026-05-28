@@ -1,5 +1,6 @@
 using Api.Abstractions;
 using Api.Data;
+using Api.Data.Services;
 using Auth.Abstractions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,12 +19,15 @@ public static class DevSeeder
     {
         using var scope = services.CreateScope();
         var apiDb = scope.ServiceProvider.GetRequiredService<ApiDbContext>();
-        await EnsureInfrastructureAsync(apiDb);
+        var visibility = scope.ServiceProvider.GetRequiredService<IServerVisibilityFilter>();
+        await EnsureInfrastructureAsync(apiDb, visibility);
         // Seed marketplace modules at startup so public pages have data without requiring auth
         await SeedMarketplaceAsync(apiDb, null);
     }
 
-    private static async Task<(Location location, Server server)> EnsureInfrastructureAsync(ApiDbContext apiDb)
+    private static async Task<(Location location, Server server)> EnsureInfrastructureAsync(
+        ApiDbContext apiDb,
+        IServerVisibilityFilter visibility)
     {
         var location = await apiDb.Locations.FirstOrDefaultAsync(l => l.IsoCountryCode == "deu");
         if (location is null)
@@ -38,8 +42,9 @@ public static class DevSeeder
             Log.Information("[DevSeed] Created dev location (deu)");
         }
 
-        var server = await apiDb.Servers.FirstOrDefaultAsync(
-            s => s.LocationId == location.Id && s.ServerVisibility == ServerVisibility.Public && s.DeletedAtUtc == null);
+        // Runs at startup outside an HTTP scope — use the user-context-free filter.
+        var server = await visibility.WhereVisibleToAllUsers(apiDb.Servers)
+            .FirstOrDefaultAsync(s => s.LocationId == location.Id && s.DeletedAtUtc == null);
         if (server is null)
         {
             var secretId = SecretId.Create(Guid.NewGuid());
@@ -79,11 +84,15 @@ public static class DevSeeder
         return (location, server);
     }
 
-    public static async Task<object> SeedForUser(ApiDbContext apiDb, UserId userId, OrganizationId? organizationId = null)
+    public static async Task<object> SeedForUser(
+        ApiDbContext apiDb,
+        IServerVisibilityFilter visibility,
+        UserId userId,
+        OrganizationId? organizationId = null)
     {
         Log.Information("[DevSeed] Seeding development data for user {UserId} (org: {OrgId})...", userId, organizationId);
 
-        var (location, server) = await EnsureInfrastructureAsync(apiDb);
+        var (location, server) = await EnsureInfrastructureAsync(apiDb, visibility);
 
         // --- Seed projects ---
         var projects = CreateProjects(userId, location.Id, server.Id, organizationId);

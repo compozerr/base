@@ -1,10 +1,12 @@
 using Api.Data;
 using Api.Data.ProjectTypes;
+using Api.Data.Services;
 using Api.Endpoints.Projects.ProjectEnvironment;
 using Api.Jobs;
 using Api.Options;
 using Api.ProjectTypes;
 using Api.Services;
+using Api.Services.ServerVisibility;
 using Core.Extensions;
 using Core.Feature;
 using DnsClient;
@@ -22,6 +24,7 @@ public class ApiFeature : IFeature
     {
         services.AddScoped<IEncryptionService, EncryptionService>();
         services.AddScoped<IServerService, ServerService>();
+        services.AddScoped<IServerVisibilityFilter, ServerVisibilityFilter>();
         services.AddScoped<IDefaultEnvironmentVariablesAppender, DefaultEnvironmentVariablesAppender>();
         services.AddScoped<IProjectManager, ProjectManager>();
 

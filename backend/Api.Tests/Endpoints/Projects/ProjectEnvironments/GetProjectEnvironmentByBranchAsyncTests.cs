@@ -1,7 +1,6 @@
 using Api.Abstractions;
 using Api.Data;
 using Api.Data.Repositories;
-using Core.Feature;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using NSubstitute;
@@ -44,17 +43,7 @@ public class GetProjectEnvironmentByBranchAsyncTests : IDisposable
     private readonly ApiDbContext _context;
     private readonly ProjectEnvironmentRepository _repository;
 
-    static GetProjectEnvironmentByBranchAsyncTests()
-    {
-        // BaseDbContext.OnModelCreating runs entity configuration over the
-        // assemblies registered via AssembliesFeatureConfigureCallback. In a
-        // production app these are populated by feature discovery at startup;
-        // in tests we need to register them ourselves so strongly-typed Id
-        // converters (UserId, ProjectId, etc.) get applied.
-        var callback = (IFeatureConfigureCallback)new AssembliesFeatureConfigureCallback();
-        callback.Configure(typeof(ProjectEnvironment));   // Api.Data assembly
-        callback.Configure(typeof(ApiDbContext));         // Api.Data assembly (idempotent)
-    }
+    static GetProjectEnvironmentByBranchAsyncTests() => ApiDbContextTestBootstrap.EnsureInitialized();
 
     public GetProjectEnvironmentByBranchAsyncTests()
     {
