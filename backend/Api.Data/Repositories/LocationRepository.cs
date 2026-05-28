@@ -1,3 +1,4 @@
+using Api.Data.Services;
 using Database.Repositories;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,7 +11,8 @@ public interface ILocationRepository : IGenericRepository<Location, LocationId, 
 };
 
 public sealed class LocationRepository(
-    ApiDbContext context) : GenericRepository<Location, LocationId, ApiDbContext>(context), ILocationRepository
+    ApiDbContext context,
+    IServerVisibilityFilter serverVisibilityFilter) : GenericRepository<Location, LocationId, ApiDbContext>(context), ILocationRepository
 {
     private readonly ApiDbContext _context = context;
 
@@ -19,14 +21,15 @@ public sealed class LocationRepository(
 
     public async Task<List<string>> GetUniquePublicLocationIsoCodes()
     {
-        var uniquePublicServerLocations = await _context.Servers
-            .Where(x => x.ServerVisibility == ServerVisibility.Public && x.LocationId != null && x.DeletedAtUtc == null)
+        var visibleLocationIds = await serverVisibilityFilter
+            .ApplyForCurrentUser(_context.Servers)
+            .Where(x => x.LocationId != null && x.DeletedAtUtc == null)
             .Select(x => x.LocationId)
             .Distinct()
             .ToListAsync();
 
         return await Query()
-            .Where(x => uniquePublicServerLocations.Contains(x.Id))
+            .Where(x => visibleLocationIds.Contains(x.Id))
             .Select(x => x.IsoCountryCode)
             .ToListAsync();
     }

@@ -15,6 +15,7 @@ public class ServerGroup : CarterModule
     {
         app.AddCreateNewServerRoute();
         app.AddUpdateServerRoute();
+        app.AddGetServersRoute();
         app.AddGetTiersRoute();
         app.AddGetTcpAllocationsRoute();
     }
