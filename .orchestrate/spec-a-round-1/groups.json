@@ -1,0 +1,8 @@
+{
+  "subtask_count": 2,
+  "group_count": 1,
+  "groups": [
+    ["s-a1", "s-a2"]
+  ],
+  "_note": "Manually collapsed from plan-groups.py output (which produced 2 groups by file-overlap). S-A2 regenerates the openapi-qraft client from S-A1's new endpoint, so it must run AFTER S-A1 merges. Putting both in one group enforces sequential execution."
+}

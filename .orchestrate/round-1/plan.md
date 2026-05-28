@@ -1,140 +1,196 @@
-# Plan — Multi-server support (Spec A: AdminOnly visibility + dashboard display)
+# Spec B — per-environment server allocation: round 1 plan
 
 ## Brief
 
-> Multi-server support for Compozerr, plus admin-only server visibility.
->
-> Today Server entity exists with a ServerVisibility enum (Public, Private, Unknown). Server allocation lives on Project (Project.ServerId) and is auto-assigned by an event handler based on location + RAM load. ProjectEnvironment inherits the project's server. Domain routing uses per-server Traefik instances writing dynamic.yml; DNS resolves to the server's IP.
->
-> Wanted changes (one cohesive feature, but candidates for splitting into two specs A then B):
->
-> **A) Server visibility + admin gating:**
->   1. Extend ServerVisibility enum with a third state (proposed name: AdminOnly).
->   2. Only platform admins can: (a) see AdminOnly servers in the server list, (b) be assigned to / create projects on an AdminOnly server. Need strong backend validation in the create-project / allocate-server path. Confirm whether 'admin' here means platform/system admin or org admin — the existing IOrganizationAuthorizationService.IsAdminAsync is org-scoped, which is probably the wrong gate for this. May need a platform-admin role/policy.
->   3. Show the allocated server on the project / environment dashboard as a read-only property.
->
-> **B) Per-environment server allocation + picker + domain routing:** (out of scope for this run)
->
-> User has indicated preference for shipping A first as its own PR, then B as a follow-up — but final decomposition is at the orchestrator's discretion after deep-thinking. Follow CLAUDE.md: regen the openapi-qraft client whenever endpoints change, use the generated api.v1.* client (no raw fetch), test in compozerr dev before claiming done.
+> Spec B — per-environment server allocation (Compozerr multi-server). See the condensed brief in the 'Spec B handoff' section of /Users/milo/milodev/gits/web/.worktrees/multi-server-support-for-compozerr-plus--20260528-102504/.orchestrate/REPORT.md — read that file first for the full brief.
 
-(Full brief at `.orchestrate/round-1/brief.md`. Code-shape map and architectural notes at `.orchestrate/round-1/skill-notes.md`.)
+Spec B handoff (from prior REPORT.md, verbatim):
 
-## Scope decision
+> Move `ServerId` from `Project` → `ProjectEnvironment`. Add server-picker step to create-project + create-environment flows (CLI + web). Ensure per-env Traefik/DNS routing follows the env's server. Foundations from Spec A (already merged): `IServerVisibilityFilter`, `GET /v1/servers`, `AllocatedServerSummary` DTO, env-side `server` field on `GetEnvironmentsResponse`. Known hazards to address explicitly:
+>
+> - `backend/Api.Data/InternalDomain.cs:12` reads `Project.Server.HostName` — rewire to `Environment.Server.HostName` (highest-risk single line).
+> - 23+ scattered `project.ServerId` / `project.Server` reads to fan out; `ProjectEnvironmentHealthCheckJob.cs:21-24` groups by `Project.ServerId` and is broken-by-construction post-migration.
+> - `UpdateDomains_DomainChangeEventHandler.cs:19` pushes domain config to `domainProject.ServerId` — must fan out per-env.
+> - Every `hostingApiFactory.GetHostingApiAsync(project.ServerId)` call site must route via env.
+> - `ProjectDto.ServerId` is on the CLI wire contract — version or keep a derived field.
+> - Hosting repo (`/Users/milo/milodev/gits/hosting`) `HostingEnvironmentsResponse` does not currently carry per-env server identity — add it.
+> - Cli.Tests/ is empty; `CreateEnvironmentCommandHandler` has no test. Build coverage during the migration.
+> - Reconsider whether `ServerVisibility` property rename to `Visibility` is worth doing now (was skipped in Spec A to minimize diff).
 
-**This run delivers Spec A only.** Spec B (move `ServerId` from `Project` → `ProjectEnvironment` + per-env picker + per-env Traefik/DNS routing) is a separate `/orchestrate-task` run, recommended in the final REPORT.md. Rationale: the user explicitly preferred shipping A first as its own PR; Spec B is large (23+ scattered `project.ServerId` reads, schema migration, hosting-repo coordination, `InternalDomain.Value` rewrite) and warrants its own deep-think pass. Spec A is independently shippable and unblocks Spec B's terminology + central-visibility-filter foundations.
+## Spec A foundations: present (post-rebase)
+
+At approval gate the user chose **"Rebase Spec B on Spec A's branch"**. The run branch was reset to the tip of `task/multi-server-support-for-compozerr-plus--20260528-102504`, so Spec A's foundations are now in the working tree:
+
+- `IServerVisibilityFilter` — **present** (`backend/Api.Data/Services/IServerVisibilityFilter.cs` + impl).
+- `AllocatedServerSummary` DTO — **present** (`backend/Api.Abstractions/AllocatedServerSummary.cs`).
+- `GET /v1/servers` endpoint — **present** (`backend/Api/Endpoints/Server/GetServersRoute.cs`).
+- Env-side `server` field on `GetEnvironmentsResponse` — **present**.
+- `ServerVisibility.AdminOnly` enum value — **present**.
+
+This **simplifies s-b3** — the picker UI just consumes the existing `GET /v1/servers` (already AdminOnly-aware); env-row server display is already wired in the frontend (just sourced from `project.server` today via the `Server` DTO field; s-b3 changes that to `env.server`). The `AllocatedServerSummary` shape is the wire type for env-server summaries.
+
+This run's PR will be a follow-up to Spec A's PR — both branches must be merged in order (`task/multi-server-…-102504` first, then this run's branch). Run REPORT.md will document that.
 
 ## Skills consulted
 
-- **Matched & invoked:** `improve-codebase-architecture` — produced `skill-notes.md`. Findings folded into subtask scope (rename `ServerVisibility` → `Visibility`, centralize visibility filter, use existing platform-admin policy not org admin).
-- **Rejected:**
-  - `grill-with-docs` — no `CONTEXT.md` or `docs/adr/` exist in the repo; nothing to grill against.
-  - `to-issues` — orchestrator IS the breakdown mechanism here.
-  - `diagnose` — no bug to diagnose.
-  - `tdd` — per-subtask concern; subtask specs require tests for the high-risk regression path (allocator handler).
-  - `refactor-architecture` — too heavyweight; this is feature work, not a multi-round refactor loop.
+**Matched & executed**
 
-## Assumptions (surfaced for approval)
+- `improve-codebase-architecture` (non-grilling variant) — invoked as Agent subagent. Output captured at `.orchestrate/round-1/skill-notes.md`. Identified 31 verified call sites that assume one-server-per-project, recommended a new `IEnvironmentTargetResolver` seam as the deepening, and proposed a 4-subtask decomposition. Used directly in the plan below.
 
-1. **Platform admin == existing Identity role `"admin"`.** `RequireRole("admin")` already exists at `AuthFeature.cs:97`, used by `CreateNewServerRoute.cs:12` and `AdminSentEmailsGroup.cs:12`. Spec A reuses this. We do NOT introduce a new role string.
-2. **`Server.ServerVisibility` property is safe to rename to `Visibility`.** It's a C# property over an int-mapped enum column; renaming the property does not alter the schema. Will verify via `dotnet ef migrations add --dry-run` early in S-A1 and revert with `[Column("ServerVisibility")]` if EF disagrees.
-3. **No CLI wire-contract change yet.** `ProjectDto.ServerId` stays. Spec A does not move data; Spec B handles that.
-4. **`AdminOnly` is the chosen enum-value name** (not "InviteOnly" or "PlatformOnly"). The user used both "invite only" and "admin only" in the brief and settled on the latter.
-5. **"Allocated server" is the dashboard label** for the read-only display. Renaming "allocate" → "assign" deferred to Spec B (when the user-facing picker arrives).
-6. **No hosting-repo (`/Users/milo/milodev/gits/hosting`) changes for Spec A.** The hosting layer doesn't read `ServerVisibility`; AdminOnly is purely a web-app concept.
+**Rejected**
+
+- `grill-with-docs` — there is no `CONTEXT.md` and no `docs/adr/`; the skill's grilling input is missing.
+- `to-issues` — the orchestrator IS the work-breakdown mechanism.
+- `diagnose` — not a bug; planned change.
+- `tdd` — per-subtask concern (each subtask's acceptance criteria already require tests where coverage is missing).
+- `refactor-architecture` — that skill IS a multi-round orchestrator; running it here would nest orchestrators.
+- `triage`, `to-prd`, `grill-me`, `find-skills`, `caveman`, `handoff`, `zoom-out`, `write-a-skill`, `app-store-screenshots`, `marketing-psychology`, `microsoft-foundry`, `setup-matt-pocock-skills` — not relevant.
+
+## Assumptions
+
+A1. **Scope expanded to /web + /cli + /hosting** (per user approval). Children spawned for s-b3 may edit `/Users/milo/milodev/gits/cli` and `/Users/milo/milodev/gits/hosting` in addition to `/Users/milo/milodev/gits/web`. **Caveat**: the orchestrate-task framework only manages a worktree/branch for the run's primary repo (`/web`). Cross-repo work in `/cli` and `/hosting` will be made on each of those repos' current branches and **committed but not merged**; their commits are surfaced in REPORT.md as "ready-to-PR" follow-ups the user owns. The child session must `git status` and commit each repo separately; do not push.
+
+A2. **Schema strategy: option B (keep `Project.ServerId` as a nullable hint).** Per skill notes §4, keep `Project.ServerId` after the migration as a deprecated default-server hint. `ProjectEnvironment.ServerId` becomes the load-bearing FK. Wire-compat win on CLI (downgrade-safe). Drop `Project.ServerId` in a follow-up after CLI version bump.
+
+A3. **Allocator moves to env creation.** `AllocateServer_ProjectCreatedEventHandler` continues to allocate for the auto-created production env (and writes both `Project.ServerId` hint + `ProjectEnvironment.ServerId`). `CreateEnvironmentCommandHandler` accepts an optional `ServerId?`; if null, falls back to the same allocator. Allocation stays synchronous, ordered after Stripe subscription creation (preserve commit `bbc17ed0` ordering).
+
+A4. **Apex/project-level domain fallback.** When `Domain.ProjectEnvironmentId` is null, server resolution falls back to the project's Production env's server. Encoded as a single helper to avoid the rule leaking.
+
+A5. **`ServerVisibility` → `Visibility` rename: deferred.** Only worthwhile bundled with Spec A's `AdminOnly`; defer to a follow-up.
+
+A6. **CLI repo + hosting repo changes ARE in this run** (in s-b3) per user approval. Children make those changes on the current default branch of each external repo, commit locally, and leave them un-pushed for the user to PR.
+
+A7. **Run branch is rebased onto Spec A tip.** Spec A's audit trail moved to `.orchestrate/spec-a-round-1/` and `.orchestrate/spec-a-REPORT.md`. The Spec A commits remain in this branch's history.
 
 ## Subtasks
 
-### S-A1 — Backend: AdminOnly visibility + centralized filter + list endpoint
+### s-b1 — Schema + backfill + allocator move (sequential, first)
 
-**Intent:** Add `ServerVisibility.AdminOnly`, sharpen naming, centralize the visibility filter behind one service, route every existing visibility read through it, expose a new `GET /v1/servers` endpoint that returns the visible-to-current-user list, and cover the allocator handler with regression tests.
+**Intent**: Add `ProjectEnvironment.ServerId` as nullable FK, backfill from `Project.ServerId`, move allocation to env-level. Add tests for `CreateEnvironmentCommandHandler` (which has none today).
 
-**Suggested files (read or edit):**
-- `backend/Api.Data/Server.cs` (add enum value; rename property `ServerVisibility` → `Visibility`)
-- `modules/cli/backend/Cli/Endpoints/Projects/AllocateServer_ProjectCreatedEventHandler.cs` (route via new filter; pass requesting user id)
-- `modules/cli/backend/Cli/Endpoints/Projects/CreateProjectCommandHandler.cs` (or wherever the command is sent — pass user-id into the event so the allocator has it; alternatively read `CurrentUserAccessor.CurrentUserId` inside the handler)
-- `backend/Api/Repositories/LocationRepository.cs` (route via filter)
-- `backend/Api/Repositories/ServerRepository.cs` (any `Where(x => x.ServerVisibility == ...)` sites; rename uses)
-- `backend/Api/DevSeeder.cs` (rename property usage; do NOT seed AdminOnly servers — Public stays the default)
-- **NEW:** `backend/Api/Services/ServerVisibility/IServerVisibilityFilter.cs` + impl — single source of truth for "which servers can user X see/be-assigned-to". Signature roughly: `IQueryable<Server> ApplyTo(IQueryable<Server> query, UserId? requestingUserId)`.
-- **NEW:** `backend/Api/Endpoints/Server/GetServersRoute.cs` (+ DTO) — returns visible servers; uses filter service.
-- **NEW:** `backend/Api.Tests/Endpoints/Server/AllocateServer_ProjectCreatedEventHandlerTests.cs` — regression coverage on allocator.
-- **NEW:** `backend/Api.Tests/Endpoints/Server/GetServersRouteTests.cs` — assert non-admin cannot see AdminOnly servers.
-- **NEW:** `backend/Api.Tests/Services/ServerVisibility/ServerVisibilityFilterTests.cs` — covers the filter rules in isolation.
+**Suggested files**:
 
-**Acceptance criteria:**
-- [ ] `dotnet test backend/` passes (full test run, not just the new tests).
-- [ ] `dotnet build backend/Base.sln` is warning-free (or no new warnings).
-- [ ] `ServerVisibility` enum has values `Unknown = 0, Public = 1, Private = 2, AdminOnly = 3` (numeric values preserved for existing rows).
-- [ ] `Server.Visibility` property is renamed (or kept as `ServerVisibility` if EF migration check rejects rename — note the decision in the subtask handoff).
-- [ ] Every grep hit for `ServerVisibility ==` outside `Api.Data/Server.cs` is replaced by a call to the new visibility filter, OR is justified inline (e.g. test fixture seeding a Public server).
-- [ ] `GET /v1/servers` returns the user's visible servers; AdminOnly excluded for non-admins. Admins see all visibilities.
-- [ ] Regression test: a non-platform-admin user requesting `GET /v1/servers` while the DB contains an AdminOnly server gets back a list without that server.
-- [ ] Regression test: `AllocateServer_ProjectCreatedEventHandler` does NOT pick an AdminOnly server for a non-admin user even when it would otherwise be the only candidate in that location.
-- [ ] Regression test: `AllocateServer_ProjectCreatedEventHandler` DOES pick an AdminOnly server for a platform admin when no Public alternative exists in their location.
-- [ ] Swagger doc at `http://localhost:1235/swagger/v1/swagger.json` includes the new endpoint after running `compozerr dev`.
-- [ ] All commits live on this branch (`task/multi-server-support-for-compozerr-plus--20260528-102504`); cmux subtask branch is `task/s-a1`.
+- `backend/Api.Data/ProjectEnvironment.cs` (add `ServerId?` + nav)
+- `backend/Api.Data/ApiDbContext.cs` (configure FK, index)
+- new EF migration under `backend/Api.Data/Migrations/`
+- `modules/cli/backend/Cli/Endpoints/Projects/AllocateServer_ProjectCreatedEventHandler.cs` (also write the new prod env's `ServerId`; keep writing `Project.ServerId` as hint)
+- `backend/Api/Endpoints/Projects/Environments/Create/CreateEnvironmentCommand.cs` + Validator + Handler (accept optional `ServerId`, allocator fallback when null)
+- new `modules/cli/backend/Cli.Tests/Features/Projects/CreateEnvironmentCommandHandlerTests.cs` (R5 mitigation)
 
-**Notes / gotchas:**
-- `RequireRole("admin")` policy already exists at `AuthFeature.cs:97`. Reuse it for the admin-only branch of the endpoint and for the platform-admin check inside the filter. Do NOT touch `IOrganizationAuthorizationService` — that's org-scoped and the wrong gate.
-- When passing user-id into the allocator handler, prefer `ICurrentUserAccessor.CurrentUserId` inside the handler over plumbing it through the event payload (less surface area). If the handler runs outside an HTTP context (e.g. background job), confirm that's not the case for `ProjectCreatedEvent` — the prior architecture review didn't see one.
-- Do NOT regenerate the openapi-qraft client in this subtask — leave that for S-A2 so the regen is paired with the frontend code that consumes the new types (avoids two separate "regen + nothing uses it" commits).
-- If the rename `ServerVisibility` → `Visibility` triggers an EF migration, REVERT the rename and add `// TODO Spec B: rename via explicit migration` rather than authoring a migration here. Property rename is a polish; the central filter is the load-bearing change.
+**Acceptance criteria**:
 
-### S-A2 — Frontend: regen API client + show allocated server on dashboards
+- `dotnet build backend/Base.sln` clean.
+- `dotnet test backend/Api.Tests/Api.Tests.csproj` and `dotnet test modules/cli/backend/Cli.Tests/Cli.Tests.csproj` green.
+- New tests cover: (a) explicit ServerId honored; (b) allocator fallback when ServerId omitted; (c) Stripe subscription compensation on env-creation failure still works.
+- DB integration check: seeded DB with N projects results in every `ProjectEnvironment` having non-null `ServerId` after migration.
+- `Project.ServerId` is **still written** by the allocator (compat hint).
 
-**Intent:** Regenerate the openapi-qraft client to pick up the new `GET /v1/servers` endpoint, then surface the allocated server on the project page and on each environment row/page as a read-only field. No picker, no edit — display only.
+**Notes**: `ProjectEnvironment.ServerId` is **nullable** in the schema (option B) — required (non-null) constraint would block the legacy/backfill path. Add an integrity-check note for prod cutover.
 
-**Suggested files (read or edit):**
-- `frontend/src/generated/` (regenerated wholesale — do not hand-edit)
-- `frontend/src/routes/_auth/_dashboard/projects/$projectId/index.tsx` (project page — surface `Server: <name> (<location>)`)
-- `frontend/src/routes/_auth/_dashboard/projects/$projectId/environments/index.tsx` (env list — surface server per env row; for Spec A all envs of a project share the project's server, so it'll show the same value everywhere, but the wiring must read from the env if the API exposes it — otherwise from the project)
-- Any "servers list" admin page (only if one already exists; otherwise skip — Spec B will introduce the picker UI)
+### s-b2 — IEnvironmentTargetResolver seam + read-site fanout (sequential, after s-b1)
 
-**Acceptance criteria:**
-- [ ] `cd frontend && npm run typecheck` passes.
-- [ ] `cd frontend && npm run build` succeeds.
-- [ ] Generated client (`frontend/src/generated/`) exposes a hook for the new endpoint (e.g. `api.v1.getServers.useQuery()`).
-- [ ] All API calls use the generated `api.v1.*` client — NO raw `fetch()` / `useQuery()` / `useMutation()` / `orgFetch()`.
-- [ ] Project detail page renders the allocated server name (and location if available) as a read-only field. If `project.serverId` is null, render `"Not yet allocated"` or equivalent — do not crash.
-- [ ] Each environment row on the environments page renders its allocated server. For Spec A, all envs of a project share the project's server — the UI must still pull the value from the data shape and not hardcode `project.server`.
-- [ ] User has run `compozerr dev` and visually verified both surfaces show a server name in the browser before claiming done.
-- [ ] All commits live on this branch; cmux subtask branch is `task/s-a2`.
+**Intent**: Introduce a single `IEnvironmentTargetResolver` interface that owns "given a ProjectEnvironmentId, give me the hosting API / Server". Re-route every non-allocator read site enumerated in skill-notes §2.A + §2.B + §2.C through it. Fix the highest-risk single line at `InternalDomain.cs:12`.
 
-**Notes / gotchas:**
-- This subtask depends on S-A1 being merged into the run branch. Start it AFTER the orchestrator confirms S-A1 merged.
-- Regenerate the client via the exact command in CLAUDE.md (port `1235`, NOT `5000`): `npx openapi-qraft --plugin tanstack-query-react --plugin openapi-typescript http://localhost:1235/swagger/v1/swagger.json --clean -o src/generated --export-type --properties-required-by-default --default-non-nullable`. Backend must be up via `compozerr dev` first.
-- After regen, the diff inside `frontend/src/generated/` should be confined to the new endpoint + its DTO. Any unexpected churn in unrelated endpoints means a backend route signature drifted — investigate before committing.
-- Do NOT add a server picker — that's Spec B. If you find yourself wanting to add a `<select>` for server choice, STOP; the read-only display is Spec A's hard ceiling.
+**Suggested files** (per skill-notes §2; full enumeration there):
+
+- new `backend/Api.Hosting/EnvironmentTargetResolver/IEnvironmentTargetResolver.cs` + impl
+- `backend/Api.Data/InternalDomain.cs:12` (env's HostName, with production-env fallback for apex)
+- `backend/Api.Hosting/Jobs/DeployProjectJob.cs:34`
+- `backend/Api.Hosting/VMPooling/Core/BaseVMPooler.cs:69`
+- `backend/Api.Hosting/EventHandlers/UpdateDomains_DomainChangeEventHandler.cs:19` (fan-out: every distinct env-server)
+- `backend/Api.Hosting/Jobs/ProjectEnvironmentHealthCheckJob.cs:21-24` (group by env's ServerId)
+- `backend/Api/Endpoints/Projects/Project/{Start,Stop,Delete,ExecuteCommand}/...CommandHandler.cs`
+- `backend/Api/Endpoints/Projects/Environments/Delete/DeleteEnvironmentCommandHandler.cs:45,47`
+- `backend/Api/Endpoints/Projects/Services/{ChangeProtocol,ExposeTcp,UnexposeTcp}/...CommandHandler.cs`
+- `backend/Api/Endpoints/Projects/Environments/Services/GetServiceLogs/GetServiceLogsCommandHandler.cs`
+- `backend/Api/Endpoints/Projects/ProjectsGroup.cs` (debug terminal)
+- `backend/Api/Endpoints/Projects/Domains/{Parent/Get,Verify}/*` + `backend/Api/Jobs/DomainVerificationJob.cs` (A-record verification fanout per skill-notes R2)
+- `modules/terminal/backend/Terminal/TerminalHub.cs:82,90,110,128`
+- `backend/Api/Endpoints/Projects/Environments/Services/GetEnvironmentServicesCommandHandler.cs`
+- `backend/Api/Endpoints/Projects/Services/Get/GetProjectServicesCommandHandler.cs`
+- `backend/Api/Endpoints/Projects/Environments/Deployments/GetEnvironmentDeploymentsRoute.cs`
+- `backend/Api/Endpoints/Projects/Deployments/{GetDeploymentsRoute,GetDeploymentRoute}.cs`
+- `backend/Api/Endpoints/Projects/Environments/Domains/GetEnvironmentDomainsCommandHandler.cs`
+- `backend/Api.Data/Repositories/{ProjectEnvironmentRepository,ProjectRepository,DomainRepository}.cs`
+- `backend/Api/Endpoints/Server/TcpAllocations/GetTcpAllocationsCommandHandler.cs`
+
+**Acceptance criteria**:
+
+- Zero non-test reads of `project.ServerId` / `project.Server.*` outside (a) `AllocateServer_ProjectCreatedEventHandler` and (b) the new resolver. Enforce with a grep gate (subtask self-check).
+- `InternalDomain.Value` produces correct hostname for prod-env + preview-env on different servers (write a unit test).
+- Apex/custom-domain verification resolves to env's IP when `Domain.ProjectEnvironmentId` is set, else falls back to Production env's IP.
+- `dotnet build` and full test suite green.
+- `UpdateDomains_DomainChangeEventHandler` writes to every distinct server hosting an env of the project (fan-out test).
+
+**Notes**:
+
+- This is the biggest subtask. Sub-stages inside the child: (1) introduce resolver interface + impl + DI registration; (2) port pure fan-out call sites (§2.A); (3) port URL/DNS reads (§2.B); (4) port repository/query reads (§2.C). Commit in stages if the child wants intermediate confidence.
+- **Do NOT regenerate `frontend/src/generated/schema.ts` in this subtask.** Endpoint signatures may shift (some take EnvironmentId now). Regeneration is s-b3's responsibility (after both backend changes settle).
+
+### s-b3 — Wire contracts + frontend picker UI (sequential, after s-b2)
+
+**Intent**: Extend backend DTOs so the frontend can show "the env's server" everywhere it shows server. Add a server-picker step to the create-environment flow on the web. Pull `GET /v1/servers` from Spec A (minimal — without `AdminOnly`) so the picker has a source.
+
+**Suggested files**:
+
+- new `backend/Api/Endpoints/Server/GetServersRoute.cs` + `GetServersResponse.cs` (minimal endpoint; **without** AdminOnly filter — that's Spec A scope; **TODO**: add a visibility filter once Spec A merges)
+- `backend/Api/Endpoints/Server/ServerGroup.cs` (register the route)
+- `modules/cli/backend/Cli/Endpoints/Projects/ProjectDto.cs` (derive `ServerId` from production env's `ServerId`; add new `Environments` list field with per-env server)
+- `backend/Api/Endpoints/Projects/Environments/Get/GetEnvironmentsResponse.cs` (add `Server` field — match Spec A shape so the eventual merge is trivial)
+- `backend/Api/Endpoints/Projects/Environments/Get/GetEnvironmentsCommandHandler.cs` (eager-load env.Server)
+- `backend/Api/Endpoints/Projects/Project/Get/GetProjectResponse.cs` + Route (add `Server` per env if needed)
+- `frontend/src/routes/_auth/_dashboard/projects/$projectId/environments/index.tsx` (server picker in create-env modal)
+- regenerate `frontend/src/generated/schema.ts` + `services/V1Service.ts`
+- frontend display of allocated server on environments rows (sourced from `env.server`, not `project.server` — matches Spec A's frontend shape)
+
+**Acceptance criteria**:
+
+- `cd frontend && npm run typecheck` and `npm run build` pass.
+- Swagger regen produces a diff confined to the new endpoint + new fields (no unrelated drift; check with `git diff --stat frontend/src/generated/`).
+- Backend tests green.
+- Visual verification: create-environment modal shows a server picker; selecting a server creates the env on that server; environments tab shows the right server per row.
+- If Puppeteer access is blocked (no seeded password user — see prior Spec A REPORT), child must STOP, document VERIFICATION_BLOCKED, and signal subtask-done — do not silently skip.
+
+**Notes**:
+
+- **Coordinate with Spec A's eventual merge.** If Spec A lands first, this subtask's `GET /v1/servers` and env.Server field will conflict. Resolution rule: take Spec A's filter-aware version, keep this subtask's per-env wiring.
+- CLI binary (`/Users/milo/milodev/gits/cli`) picker + hosting repo (`/Users/milo/milodev/gits/hosting`) `HostingEnvironmentsResponse` change are **out of scope** (per A1); REPORT.md documents them as follow-ups.
 
 ## Groups
 
-- **Group G1 (sequential):** S-A1 → S-A2.
-  S-A2 cannot start until S-A1 merges, because S-A2 regenerates the API client from S-A1's new endpoint. The orchestrator runs G1 alone (no parallel siblings) and respects the dependency by waiting for S-A1's `subtask-done-s-a1` signal + merge before spawning S-A2.
+All three subtasks share files (s-b1 ↔ s-b2 share `CreateEnvironmentCommandHandler.cs` + `AllocateServer_ProjectCreatedEventHandler.cs`; s-b2 ↔ s-b3 share several handler/response files and indirectly `schema.ts`). Connected-components grouping yields **one group, sequential**:
 
-No parallelism this run — Spec A is too small to benefit, and the dependency makes inter-task overlap unsafe.
+- **Group G1 (sequential): s-b1 → s-b2 → s-b3**
 
-## Risks (≥3)
+No inter-group parallelism. This is the safest interpretation given the read-site fanout and DTO ripple.
 
-1. **Renaming `Server.ServerVisibility` → `Server.Visibility` triggers an unintended EF migration or breaks DTOs.** Mitigation: subtask must dry-run `dotnet ef migrations add --no-build` and inspect for column-name changes before committing the rename; if it produces a migration, revert the rename (keep the field as-is, only add the new enum value) and proceed without the polish. Acceptance criteria explicitly allows this fallback.
+## Risks
 
-2. **AdminOnly servers leak via a read site we don't migrate.** The architecture review found 4+ scattered `ServerVisibility ==` sites today; new ones can be added in parallel work outside this run. Mitigation: S-A1 introduces a *single* `IServerVisibilityFilter` and routes EVERY current site through it; the subtask includes a grep step in its acceptance to ensure no stray comparisons remain. Test: integration test creates an AdminOnly server, hits `GET /v1/servers` as non-admin, asserts absence.
+(Distilled from skill-notes §6; full mitigations there.)
 
-3. **Allocator handler silently picks an AdminOnly server for a non-admin user.** Today the handler filters `Public`; broadening to "any visible server" without the user-context filter would regress. Mitigation: regression tests are first-class acceptance criteria (both "non-admin must NOT get AdminOnly" and "admin MAY get AdminOnly when no Public is available"). Test fixture seeds a location with only an AdminOnly server and asserts the non-admin path falls back / fails gracefully.
+1. **R1 — Broken URL strings during rollout (`InternalDomain.cs:12`).** Backend reading new field before migration completes → empty hostnames in URLs. Mitigation: backfill is mandatory pre-deploy; resolver returns env's HostName with prod-env fallback when env.ServerId is null (transition period); add a deploy-time integrity check that fails if any active env lacks ServerId.
 
-4. **"Platform admin" gate is checked in the wrong service** (e.g. accidentally wired to `IOrganizationAuthorizationService.IsAdminAsync`, which is org-scoped). Mitigation: subtask spec explicitly names the existing `RequireRole("admin")` policy at `AuthFeature.cs:97` as the sole source of truth; subtask must verify that policy's definition before authoring the filter. Reviewer (Phase 5 hook) should flag any reference to `IOrganizationAuthorizationService` introduced in this run.
+2. **R2 — DNS A-record verification breaks for non-prod env custom domains.** Three readers (`GetParentDomain`, `GetVerifyRoute`, `DomainVerificationJob`) use `Project.Server.Ip`. Mitigation: resolve via `Domain.ProjectEnvironmentId?.Server?.Ip` with prod-env fallback; add an integration test for custom-domain on Server B preview env.
 
-5. **Frontend regen surfaces unrelated openapi drift** (a backend endpoint changed signature between the last regen and now, producing a giant generated diff that's hard to review). Mitigation: S-A2 first commits the generated diff in isolation (one commit just for `frontend/src/generated/`) so reviewers can `git diff main -- frontend/src/generated/` cleanly; the subsequent commit adds the consumer code. If the regen diff is huge, the subtask flags it as STUCK rather than burying it in a feature PR.
+3. **R3 — VM pooling assumes one server per project (`BaseVMPooler.cs:69`).** If `VMPoolItem` doesn't carry env scope, pool deploys land on wrong server. Mitigation: inspect VMPoolItem schema during s-b2; if schema bump needed, scope to a clearly-flagged follow-up rather than expanding this run.
+
+4. **R4 — Allocator + Stripe ordering (commit `bbc17ed0` just landed per-env subs).** If env-allocation fires before subscription creation, partial-failure orphans billing. Mitigation: keep allocation synchronous inside `CreateEnvironmentCommandHandler`, ordered after subscription creation but before `AddAsync` — preserve the existing try/catch+compensate pattern.
+
+5. **R5 — `CreateEnvironmentCommandHandler` has no test today.** A materially behaviour-changing edit without coverage = blind change. Mitigation: write the tests in s-b1 *before* the migration commit lands.
+
+6. **R6 — Generated client drift in s-b3.** s-b2 will incidentally change swagger surface (new handler signatures), so regenerating the openapi-qraft client in s-b3 may show a wider diff than just the new endpoint. Mitigation: s-b2 explicitly does NOT regenerate; s-b3 regenerates and reviews the diff for unrelated drift; if drift extends beyond the planned changes, child STOPs and reports.
+
+7. **R7 — Coordinate with Spec A merge.** Spec A's branch is unmerged. If user merges Spec A to main mid-run, child branches diverge. Mitigation: surface this as decision point #1 at the approval gate. If user wants Spec A merged first, abort this run cleanly and re-run after.
 
 ## Estimated wall time
 
-- S-A1: ~45–75 min in a single Claude session (enum + filter + endpoint + 3 tests; mostly mechanical).
-- S-A2: ~30–45 min (regen + two UI surfaces, no design work).
-- Plus orchestrator merge-back overhead (~5 min/subtask).
+- s-b1: 1.5–2h (schema + tests is the bulk; allocator move is small)
+- s-b2: 2.5–4h (30+ call sites; resolver introduction + DI; integration tests)
+- s-b3: 1–1.5h (DTO extension + picker UI + regen — if Puppeteer blocked, child stops short and reports)
+- **Total: 5–7.5h** wall time, sequential.
 
-**Total: ~1.5–2.5 hours wall time, sequential.**
+## Decision points the user should confirm
 
-## Decision points the user should confirm before approval
-
-1. **Scope split (Spec A only this run, Spec B as a follow-up `/orchestrate-task`).** If you want B included, hit `n` and re-brief with both A and B scoped — the deep-think would re-decompose with the migration + 23 call-site sweep + hosting-coordination on the critical path.
-2. **`AdminOnly` as the chosen enum value name** (vs `PlatformOnly` or `InviteOnly`). Architecture review preferred `PlatformOnly` to keep terminology consistent with the existing `RequireRole("admin")` (platform-admin) gate; I went with `AdminOnly` per your latest message. Say so at approval if you want the rename.
-3. **Property rename `Server.ServerVisibility` → `Server.Visibility`** (no schema change expected, but adds noise). Acceptable to skip if you prefer minimal-diff PRs — say so and I'll instruct S-A1 to skip the rename.
+1. **Spec A coverage.** Spec A's branch is unmerged. Options: (a) **proceed** — Spec B pulls a minimal `GET /v1/servers` (no AdminOnly filter) into s-b3 and merges with Spec A later; (b) **abort + merge Spec A first**, then re-run Spec B which sees Spec A's foundations; (c) **rebase Spec B on Spec A** before any subtask runs. Recommendation: **(a)** — Spec A is small and clean, and the conflict at merge time is mechanical.
+2. **Scope boundary**: CLI repo (`/cli`) and hosting repo (`/hosting`) changes are deferred to follow-ups (A1). Confirm you're OK with this, vs. expanding scope to include them.
+3. **Schema option B** (keep `Project.ServerId` as nullable hint, drop in follow-up) vs. **option A** (drop immediately). Recommend B — preserves CLI wire compat. Confirm.

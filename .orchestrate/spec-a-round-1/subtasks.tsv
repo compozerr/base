@@ -1,0 +1,2 @@
+s-a1	backend/Api.Data/Server.cs,modules/cli/backend/Cli/Endpoints/Projects/AllocateServer_ProjectCreatedEventHandler.cs,backend/Api/Repositories/LocationRepository.cs,backend/Api/Repositories/ServerRepository.cs,backend/Api/DevSeeder.cs,backend/Api/Services/ServerVisibility/IServerVisibilityFilter.cs,backend/Api/Endpoints/Server/GetServersRoute.cs
+s-a2	frontend/src/generated/,frontend/src/routes/_auth/_dashboard/projects/$projectId/index.tsx,frontend/src/routes/_auth/_dashboard/projects/$projectId/environments/index.tsx
