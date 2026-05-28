@@ -57,6 +57,12 @@ public static class GetProjectRoute
             serverTierPrice,
             projectDomains?.GetPrimary()?.GetValue,
             project.Type,
+            Server: project.Server is null
+                ? null
+                : new AllocatedServerSummary(
+                    project.Server.Id,
+                    project.Server.HostName,
+                    project.Server.Location?.IsoCountryCode),
             DisplayState: project.GetDisplayState()
         ));
     }

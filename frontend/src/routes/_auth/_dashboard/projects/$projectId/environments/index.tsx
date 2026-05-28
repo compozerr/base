@@ -38,6 +38,7 @@ import {
     Plus,
     RefreshCw,
     Rocket,
+    Server as ServerIcon,
     Trash2,
     Zap,
 } from 'lucide-react'
@@ -401,6 +402,22 @@ function EnvironmentCard({
                                 <LastDeploy date={env.lastDeploymentAtUtc} />
                             </span>
                         )}
+
+                        <span className="flex items-center gap-1.5">
+                            <ServerIcon className="h-3.5 w-3.5 shrink-0" />
+                            {env.server ? (
+                                <>
+                                    <span className="font-mono text-xs">{env.server.hostName}</span>
+                                    {env.server.locationIsoCountryCode && (
+                                        <span className="text-xs uppercase">
+                                            ({env.server.locationIsoCountryCode})
+                                        </span>
+                                    )}
+                                </>
+                            ) : (
+                                <span className="italic text-xs">Not yet allocated</span>
+                            )}
+                        </span>
 
                         {env.healthStatus === 'Unhealthy' && (
                             <span className="inline-flex items-center gap-1 text-xs text-red-700">
