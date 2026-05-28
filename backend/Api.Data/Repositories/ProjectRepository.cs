@@ -36,7 +36,7 @@ public sealed class ProjectRepository(
             // crashing on soft-deleted cross-env domains even though the outer query
             // had its own filter. See docs/plans/2026-04-08-services-reporting-bugs-handoff.md.
             .Include(x => x.Domains!.Where(d => d.DeletedAtUtc == null))
-            .Include(x => x.Server)
+            .Include(x => x.Server).ThenInclude(s => s!.Location)
             .Include(x => x.ProjectEnvironments)
             .SingleOrDefaultAsync(x => x.Id == projectId);
 

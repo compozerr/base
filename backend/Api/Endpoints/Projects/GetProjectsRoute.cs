@@ -49,8 +49,9 @@ public static class GetProjectsRoute
             null,
             p.Domains!.FirstOrDefault()?.GetValue ?? "Unknown",
             p.Type,
-            activeDeployments.TryGetValue(p.Id, out var deploymentId) ? deploymentId.Value : null,
-            p.GetDisplayState()))];
+            Server: null,
+            ActiveDeploymentId: activeDeployments.TryGetValue(p.Id, out var deploymentId) ? deploymentId.Value : null,
+            DisplayState: p.GetDisplayState()))];
 
         return new(
             totalProjectsCount,

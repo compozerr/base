@@ -1,3 +1,4 @@
+using Api.Abstractions;
 using Api.Data;
 
 namespace Api.Endpoints.Projects.Environments.Get;
@@ -22,4 +23,5 @@ public sealed record EnvironmentDto(
     string? BillingStatus,
     string? StripeSubscriptionId,
     EnvironmentHealthStatus HealthStatus,
-    DateTimeOffset? LastHealthCheckAtUtc);
+    DateTimeOffset? LastHealthCheckAtUtc,
+    AllocatedServerSummary? Server);

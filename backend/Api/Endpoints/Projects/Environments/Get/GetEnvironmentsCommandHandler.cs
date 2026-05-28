@@ -32,6 +32,14 @@ public sealed class GetEnvironmentsCommandHandler(
                 }
             }
 
+            var server = e.Project?.Server;
+            var allocatedServer = server is null
+                ? null
+                : new AllocatedServerSummary(
+                    server.Id,
+                    server.HostName,
+                    server.Location?.IsoCountryCode);
+
             return new EnvironmentDto(
                 e.Id.Value,
                 e.Name ?? (e.Type == EnvironmentType.Production ? "Production" : $"Preview ({string.Join(", ", e.Branches)})"),
@@ -49,7 +57,8 @@ public sealed class GetEnvironmentsCommandHandler(
                 e.BillingStatus.ToString(),
                 e.StripeSubscriptionId,
                 e.HealthStatus,
-                e.LastHealthCheckAtUtc
+                e.LastHealthCheckAtUtc,
+                allocatedServer
             );
         }).ToList();
 

@@ -2,7 +2,7 @@ import { Badge } from '@/components/ui/badge'
 import { Formatter } from '@/lib/formatter'
 import { getProjectStateFromNumber as getProjectStateFromStateString, ProjectState } from '@/lib/project-state'
 import { createFileRoute, getRouteApi, Link, useNavigate } from '@tanstack/react-router'
-import { AlertTriangle, Cpu, ExternalLink, Globe, HardDrive, HelpCircle, MemoryStick, Settings, Star, Github } from 'lucide-react'
+import { AlertTriangle, Cpu, ExternalLink, Globe, HardDrive, HelpCircle, MemoryStick, Server as ServerIcon, Settings, Star, Github } from 'lucide-react'
 import { UsageGraph } from '@/components/usage-graph'
 import StartStopProjectButton from '@/components/project/project-startstop-button'
 import { api } from '@/api-client'
@@ -286,6 +286,26 @@ function RouteComponent() {
                                     <Skeleton className="h-[14px] w-[150px]" />
                                     <Skeleton className="h-[14px] w-[150px]" />
                                 </div>
+                            )}
+                        </div>
+
+                        <div>
+                            <p className="text-xs font-medium text-muted-foreground mb-1">Allocated Server</p>
+                            {project.server ? (
+                                <span className="flex items-center gap-2 text-sm text-foreground/80">
+                                    <ServerIcon className="h-4 w-4 text-zinc-400" />
+                                    <span className="font-mono">{project.server.hostName}</span>
+                                    {project.server.locationIsoCountryCode && (
+                                        <span className="text-xs text-muted-foreground uppercase">
+                                            ({project.server.locationIsoCountryCode})
+                                        </span>
+                                    )}
+                                </span>
+                            ) : (
+                                <span className="flex items-center gap-2 text-sm text-muted-foreground italic">
+                                    <ServerIcon className="h-4 w-4 text-zinc-500" />
+                                    Not yet allocated
+                                </span>
                             )}
                         </div>
 

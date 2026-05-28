@@ -4195,7 +4195,26 @@ export type paths = {
             path?: never;
             cookie?: never;
         };
-        get?: never;
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Api.Endpoints.Server.GetServersResponse"];
+                    };
+                };
+            };
+        };
         put: {
             parameters: {
                 query?: never;
@@ -4745,11 +4764,18 @@ export type components = {
         "<>f__AnonymousType0`1[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]": {
             installUrl: string | null;
         };
+        "Api.Abstractions.AllocatedServerSummary": {
+            id: components["schemas"]["Api.Abstractions.ServerId"];
+            hostName: string | null;
+            locationIsoCountryCode: string | null;
+        };
         "Api.Abstractions.DeleteEnvironmentResponse": Record<string, never>;
         "Api.Abstractions.DeployFromLatestCommitResponse": Record<string, never>;
         "Api.Abstractions.DeployProjectResponse": {
             statusUrl: string | null;
         };
+        /** Format: uuid */
+        "Api.Abstractions.LocationId": string;
         /** @enum {string} */
         "Api.Abstractions.LogLevel": "Info" | "Warning" | "Error" | "Success";
         "Api.Abstractions.Price": {
@@ -4766,6 +4792,8 @@ export type components = {
         "Api.Abstractions.ProjectId": string;
         /** @enum {string} */
         "Api.Abstractions.ProjectType": "Compozerr" | "N8n" | "DockerCompose" | "Dockerfile";
+        /** Format: uuid */
+        "Api.Abstractions.ServerId": string;
         "Api.Abstractions.ServerTier": {
             id: components["schemas"]["Api.Abstractions.ServerTierId"];
             /** Format: double */
@@ -4814,6 +4842,11 @@ export type components = {
         };
         /** @enum {string} */
         "Api.Data.Protocol": "Http" | "Tcp";
+        /**
+         * Format: int32
+         * @enum {integer}
+         */
+        "Api.Data.ServerVisibility": 0 | 1 | 2 | 3;
         "Api.Data.ServiceConfigDto": {
             name: string | null;
             /** Format: int32 */
@@ -4962,6 +4995,7 @@ export type components = {
             healthStatus: components["schemas"]["Api.Data.EnvironmentHealthStatus"];
             /** Format: date-time */
             lastHealthCheckAtUtc: string | null;
+            server: components["schemas"]["Api.Abstractions.AllocatedServerSummary"];
         };
         "Api.Endpoints.Projects.Environments.Get.GetEnvironmentsResponse": {
             environments: components["schemas"]["Api.Endpoints.Projects.Environments.Get.EnvironmentDto"][] | null;
@@ -5022,6 +5056,7 @@ export type components = {
             serverTierPrice: components["schemas"]["Api.Abstractions.Price"];
             primaryDomain: string | null;
             type: components["schemas"]["Api.Abstractions.ProjectType"];
+            server: components["schemas"]["Api.Abstractions.AllocatedServerSummary"];
             /** Format: uuid */
             activeDeploymentId: string | null;
             displayState: components["schemas"]["Api.Data.ProjectState"];
@@ -5071,6 +5106,18 @@ export type components = {
         };
         /** @enum {string} */
         "Api.Endpoints.Projects.Usage.Get.UsageSpan": "Total" | "Day" | "Week" | "Month" | "Year";
+        "Api.Endpoints.Server.GetServersResponse": {
+            servers: components["schemas"]["Api.Endpoints.Server.ServerDto"][] | null;
+        };
+        "Api.Endpoints.Server.ServerDto": {
+            id: components["schemas"]["Api.Abstractions.ServerId"];
+            locationId: components["schemas"]["Api.Abstractions.LocationId"];
+            locationIsoCountryCode: string | null;
+            visibility: components["schemas"]["Api.Data.ServerVisibility"];
+            hostName: string | null;
+            apiDomain: string | null;
+            ip: string | null;
+        };
         "Api.Endpoints.Server.TcpAllocations.GetTcpAllocationsResponse": {
             allocations: components["schemas"]["Api.Endpoints.Server.TcpAllocations.TcpAllocationDto"][] | null;
         };
