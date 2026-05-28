@@ -30,10 +30,9 @@ public static class GetDeploymentRoute
             x => x
                 .Include(x => x.Project!)
                     .ThenInclude(x => x.Domains)
-                .Include(x => x.Project!)
-                    .ThenInclude(x => x.Server!)
-                        .ThenInclude(x => x.Location)
-                .Include(x => x.Environment));
+                .Include(x => x.Environment!)
+                    .ThenInclude(e => e.Server!)
+                        .ThenInclude(s => s.Location));
 
         if (deployment is not { ProjectId: not null } || deployment.ProjectId != projectId)
         {
@@ -62,7 +61,7 @@ public static class GetDeploymentRoute
             deployment.CommitAuthor,
             deployment.Id == currentDeploymentId,
             deployment.GetBuildDuration(),
-            deployment.Project?.Server?.Location?.IsoCountryCode ?? "unknown",
+            deployment.Environment?.Server?.Location?.IsoCountryCode ?? "unknown",
             []);
     }
 }

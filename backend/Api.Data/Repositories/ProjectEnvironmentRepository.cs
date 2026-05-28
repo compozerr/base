@@ -12,7 +12,7 @@ public interface IProjectEnvironmentRepository : IGenericRepository<ProjectEnvir
     public Task<ProjectEnvironment?> GetProductionEnvironmentAsync(ProjectId projectId);
     public Task<ProjectEnvironment?> GetProjectEnvironmentByNameAsync(ProjectId projectId, string name);
     public Task<ProjectEnvironment?> GetByIdWithVariablesAsync(ProjectEnvironmentId environmentId);
-    Task<List<ProjectEnvironment>> GetAllActiveWithProjectAndServerAsync(CancellationToken cancellationToken = default);
+    Task<List<ProjectEnvironment>> GetAllActiveWithServerAsync(CancellationToken cancellationToken = default);
 }
 
 public sealed class ProjectEnvironmentRepository(
@@ -38,7 +38,7 @@ public sealed class ProjectEnvironmentRepository(
             .Where(e => e.ProjectId == projectId)
             .Include(e => e.Deployments!.OrderByDescending(d => d.CreatedAtUtc).Take(1))
             .Include(e => e.Project!).ThenInclude(p => p.Domains)
-            .Include(e => e.Project!).ThenInclude(p => p.Server!).ThenInclude(s => s.Location)
+            .Include(e => e.Server!).ThenInclude(s => s.Location)
             .OrderBy(e => e.Type)
             .ThenByDescending(e => e.CreatedAtUtc)
             .ToListAsync(cancellationToken);
@@ -65,11 +65,16 @@ public sealed class ProjectEnvironmentRepository(
             .Include(x => x.ProjectEnvironmentVariables)
             .SingleOrDefaultAsync(x => x.Id == environmentId);
 
-    public Task<List<ProjectEnvironment>> GetAllActiveWithProjectAndServerAsync(CancellationToken cancellationToken = default)
+    public Task<List<ProjectEnvironment>> GetAllActiveWithServerAsync(CancellationToken cancellationToken = default)
         => Query()
             .Include(e => e.Project)
-            .Where(e => e.Project != null && e.Project.DeletedAtUtc == null && e.Project.ServerId != null)
-            .Where(e => e.BillingStatus == EnvironmentBillingStatus.Active)
+            // Filter by env-level ServerId. Envs without a server yet (legacy
+            // pre-backfill rows) are skipped — the health check job has nothing
+            // to probe when the env hasn't been allocated to a server. Soft-
+            // deleted projects are excluded so dead rows don't get probed.
+            .Where(e => e.ServerId != null
+                     && e.BillingStatus == EnvironmentBillingStatus.Active
+                     && e.Project != null && e.Project.DeletedAtUtc == null)
             .ToListAsync(cancellationToken);
 
     public async Task<ProjectId> UpsertProjectEnvironmentAsync(ProjectId projectId, string branch, ProjectEnvironmentVariableDto[] pairs)

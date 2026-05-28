@@ -16,12 +16,15 @@ public class ProjectEnvironmentHealthCheckJob(
 
     public override async Task ExecuteAsync()
     {
-        var environments = await environmentRepository.GetAllActiveWithProjectAndServerAsync();
+        var environments = await environmentRepository.GetAllActiveWithServerAsync();
 
         var hostingApiCache = new ConcurrentDictionary<ServerId, IHostingApi?>();
+        // Per-env ServerId is the source of truth post-Spec-B: envs of the
+        // same project may live on different servers, so grouping by env's
+        // own ServerId keeps each batch routed to the right Traefik.
         var byServer = environments
-            .Where(e => e.Project?.ServerId is not null)
-            .GroupBy(e => e.Project!.ServerId!);
+            .Where(e => e.ServerId is not null)
+            .GroupBy(e => e.ServerId!);
 
         var probeTasks = byServer.Select(async group =>
         {

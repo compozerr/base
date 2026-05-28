@@ -1,5 +1,6 @@
 ﻿using Api.Hosting.Jobs;
 using Api.Hosting.Services;
+using Api.Hosting.Services.EnvironmentTargetResolver;
 using Api.Hosting.VMPooling.Core;
 using Api.Hosting.VMPooling.Jobs;
 using Core.Feature;
@@ -19,6 +20,7 @@ public class ApiHostingFeature : IFeature
         services.AddSingleton<ISubdomainHashService, SubdomainHashService>();
         services.AddTransient<IHostingServerHttpClientFactory, HostingServerHttpClientFactory>();
         services.AddTransient<IHostingApiFactory, HostingApiFactory>();
+        services.AddScoped<IEnvironmentTargetResolver, EnvironmentTargetResolver>();
         services.AddScoped<IVMPoolItemDelegator, VMPoolItemDelegator>();
         services.AddScoped<IVMPoolerFactory, VMPoolerFactory>();
     }

@@ -70,7 +70,7 @@ public static class GetDeploymentsRoute
                 x.CommitAuthor,
                 x.Id == currentDeploymentId,
                 x.GetBuildDuration(),
-                x.Project?.Server?.Location?.IsoCountryCode ?? "unknown",
+                x.Environment?.Server?.Location?.IsoCountryCode ?? "unknown",
                 []
             ))]
         );
@@ -99,10 +99,9 @@ public static class GetDeploymentsRoute
         var result = await query
             .Include(x => x.Project!)
                 .ThenInclude(x => x.Domains)
-            .Include(x => x.Project!)
-                .ThenInclude(x => x.Server!)
-                    .ThenInclude(x => x.Location)
-            .Include(x => x.Environment)
+            .Include(x => x.Environment!)
+                .ThenInclude(e => e.Server!)
+                    .ThenInclude(s => s.Location)
             .OrderByDescending(x => x.CreatedAtUtc)
             .AsPageable(page, pageSize)
             .ToListAsync(cancellationToken);

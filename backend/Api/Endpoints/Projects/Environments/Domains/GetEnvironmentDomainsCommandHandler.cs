@@ -17,7 +17,8 @@ public sealed class GetEnvironmentDomainsCommandHandler(
             ?? throw new ArgumentException("Environment not found");
 
         var domains = await context.Domains
-            .Include(d => d.Project).ThenInclude(p => p!.Server)
+            .Include(d => d.ProjectEnvironment!).ThenInclude(e => e.Server)
+            .Include(d => d.Project!).ThenInclude(p => p.ProjectEnvironments!).ThenInclude(e => e.Server)
             .Where(d => d.ProjectId == command.ProjectId
                      && d.DeletedAtUtc == null
                      && d.ProjectEnvironmentId == command.EnvironmentId)

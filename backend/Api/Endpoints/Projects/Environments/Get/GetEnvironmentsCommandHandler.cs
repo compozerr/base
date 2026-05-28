@@ -32,7 +32,11 @@ public sealed class GetEnvironmentsCommandHandler(
                 }
             }
 
-            var server = e.Project?.Server;
+            // Surface the env's own server (post-Spec-B each env can live on a
+            // different server). Repository eager-loads e.Server.Location so
+            // the dashboard renders the actual hosting server, not the
+            // project's allocator hint.
+            var server = e.Server;
             var allocatedServer = server is null
                 ? null
                 : new AllocatedServerSummary(
