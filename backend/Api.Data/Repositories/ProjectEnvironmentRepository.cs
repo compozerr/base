@@ -46,6 +46,10 @@ public sealed class ProjectEnvironmentRepository(
     public Task<List<ProjectEnvironment>> GetByProjectIdAsync(ProjectId projectId, CancellationToken cancellationToken = default)
         => Query()
             .Where(e => e.ProjectId == projectId)
+            // Spec B: hosting manager + transfer flow both consume this list and
+            // need the env-level Server identity. Eager-loading keeps the route
+            // handlers single-query without forcing a Query()-based rewrite.
+            .Include(e => e.Server)
             .OrderBy(e => e.Type)
             .ThenByDescending(e => e.CreatedAtUtc)
             .ToListAsync(cancellationToken);

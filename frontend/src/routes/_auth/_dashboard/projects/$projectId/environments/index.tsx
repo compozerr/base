@@ -43,7 +43,7 @@ import {
     Zap,
 } from 'lucide-react'
 import { useRegisterActions } from '@/lib/command-palette/action-registry'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 export const Route = createFileRoute(
     '/_auth/_dashboard/projects/$projectId/environments/',
@@ -143,6 +143,7 @@ function RouteComponent() {
                 <CreateEnvironmentDialog
                     projectId={projectId}
                     usedBranches={environments.flatMap((e) => e.branches ?? [])}
+                    productionServerId={productionEnv?.server?.id ?? null}
                     onCreated={invalidate}
                     open={createDialogOpen}
                     onOpenChange={setCreateDialogOpen}
@@ -547,12 +548,14 @@ const MANUAL_BRANCH = '__manual__'
 function CreateEnvironmentDialog({
     projectId,
     usedBranches,
+    productionServerId,
     onCreated,
     open,
     onOpenChange,
 }: {
     projectId: string
     usedBranches: string[]
+    productionServerId: string | null | undefined
     onCreated: () => void
     open: boolean
     onOpenChange: (open: boolean) => void
@@ -563,6 +566,7 @@ function CreateEnvironmentDialog({
     const [branch, setBranch] = useState('')
     const [isManualBranch, setIsManualBranch] = useState(false)
     const [selectedTier, setSelectedTier] = useState('T0')
+    const [selectedServerId, setSelectedServerId] = useState<string | null>(null)
     const [branchMode, setBranchMode] = useState<'link' | 'later'>('link')
     const { toast } = useToast()
 
@@ -571,6 +575,25 @@ function CreateEnvironmentDialog({
         { enabled: open, staleTime: 60_000 },
     )
     const branches = branchesData?.branches ?? []
+
+    const { data: serversData } = api.v1.getServers.useQuery(
+        undefined,
+        { enabled: open, staleTime: 60_000 },
+    )
+    const servers = serversData?.servers ?? []
+
+    // Default the picker to the project's production env's server when the
+    // dialog opens — the common case ("same server as prod") then needs no
+    // clicks. Tracking the prior productionServerId lets a re-open after the
+    // user changed projects pick up the new default.
+    const [defaultedFrom, setDefaultedFrom] = useState<string | null>(null)
+    useEffect(() => {
+        if (!open) return
+        if (productionServerId && defaultedFrom !== productionServerId) {
+            setSelectedServerId(productionServerId)
+            setDefaultedFrom(productionServerId)
+        }
+    }, [open, productionServerId, defaultedFrom])
 
     const handleBranchSelect = (value: string) => {
         if (value === MANUAL_BRANCH) {
@@ -604,6 +627,10 @@ function CreateEnvironmentDialog({
                 branch: branchMode === 'link' ? branch : null,
                 type: 'Preview',
                 tier: selectedTier,
+                // Null lets the backend allocator pick (its "best server in
+                // location" heuristic). The picker sends an explicit ServerId
+                // when the user actively picked one.
+                serverId: selectedServerId,
             })
             toast({
                 title: 'Environment created',
@@ -629,6 +656,8 @@ function CreateEnvironmentDialog({
         setIsManualBranch(false)
         setSelectedTier('T0')
         setBranchMode('link')
+        setSelectedServerId(productionServerId ?? null)
+        setDefaultedFrom(productionServerId ?? null)
     }
 
     return (
@@ -835,6 +864,45 @@ function CreateEnvironmentDialog({
                             })}
                         </div>
                     </div>
+
+                    {/* Server picker */}
+                    {servers.length > 0 && (
+                        <div className="space-y-2">
+                            <Label htmlFor="env-server">Server</Label>
+                            <Select
+                                value={selectedServerId ?? ''}
+                                onValueChange={(v) => setSelectedServerId(v || null)}
+                            >
+                                <SelectTrigger id="env-server">
+                                    <SelectValue placeholder="Auto-allocate (best server in location)" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {servers.map((s) => (
+                                        <SelectItem key={s.id} value={s.id}>
+                                            <span className="flex items-center gap-2">
+                                                <span className="font-mono text-xs">{s.hostName}</span>
+                                                {s.locationIsoCountryCode && (
+                                                    <span className="text-[10px] uppercase text-muted-foreground">
+                                                        {s.locationIsoCountryCode}
+                                                    </span>
+                                                )}
+                                                {s.id === productionServerId && (
+                                                    <span className="text-[10px] text-emerald-400">
+                                                        same as production
+                                                    </span>
+                                                )}
+                                            </span>
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                            <p className="text-xs text-muted-foreground">
+                                Each environment runs on one server. Leaving this
+                                empty lets the backend pick the lightest-loaded
+                                server in the project's location.
+                            </p>
+                        </div>
+                    )}
 
                     {/* Cost summary + submit */}
                     <DialogFooter className="flex-col sm:flex-row gap-3 pt-2 border-t border-zinc-800">
