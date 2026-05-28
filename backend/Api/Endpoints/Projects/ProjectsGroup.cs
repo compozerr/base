@@ -14,7 +14,8 @@ using Api.Endpoints.Projects.Project.Stop;
 using Api.Endpoints.Projects.ProjectEnvironment;
 using Api.Endpoints.Projects.Services;
 using Api.Endpoints.Projects.Usage.Get;
-using Api.Hosting.Services;
+using Api.Hosting.Services.EnvironmentTargetResolver;
+using Microsoft.EntityFrameworkCore;
 
 namespace Api.Endpoints.Projects;
 
@@ -35,18 +36,27 @@ public class ProjectsGroup : CarterModule
         app.AddExecuteCommandRoute();
         app.AddChangeRepositoryRoute();
 
-        // Debug endpoint for terminal WebSocket testing
+        // Debug endpoint for terminal WebSocket testing. Targets the project's
+        // Production env (the env the debug terminal historically pointed at).
         app.MapGet("{projectId:guid}/debug-terminal", async (
             ProjectId projectId,
-            IProjectRepository projectRepository,
-            IHostingApiFactory hostingApiFactory,
+            Api.Data.ApiDbContext context,
+            IEnvironmentTargetResolver environmentTargetResolver,
             CancellationToken ct) =>
         {
-            var project = await projectRepository.GetByIdAsync(projectId, ct);
-            if (project?.ServerId is not { } serverId)
+            var prodEnvId = await context.ProjectEnvironments
+                .Where(e => e.ProjectId == projectId && e.Type == Api.Data.EnvironmentType.Production)
+                .Select(e => (ProjectEnvironmentId?)e.Id)
+                .FirstOrDefaultAsync(ct);
+
+            if (prodEnvId is null)
                 return Results.NotFound("Project not found");
 
-            var hostingApi = await hostingApiFactory.GetHostingApiAsync(serverId);
+            var server = await environmentTargetResolver.TryGetServerAsync(prodEnvId, ct);
+            if (server is null)
+                return Results.NotFound("Project not found");
+
+            var hostingApi = await environmentTargetResolver.GetHostingApiAsync(prodEnvId, ct);
             var result = await hostingApi.DebugTerminalAsync(projectId);
             return Results.Content(result, "application/json");
         });

@@ -20,6 +20,7 @@ public static class GetProjectRoute
     public static async Task<Results<Ok<ProjectDto>, NotFound, Deleted>> ExecuteAsync(
         ProjectId projectId,
         IProjectRepository projectRepository,
+        IProjectEnvironmentRepository projectEnvironmentRepository,
         CancellationToken cancellationToken = default)
     {
         var project = await projectRepository.GetByIdAsync(
@@ -32,6 +33,7 @@ public static class GetProjectRoute
         if (project.IsDeleted)
             return new Deleted();
 
-        return TypedResults.Ok(ProjectDto.FromProject(project));
+        var prodEnv = await projectEnvironmentRepository.GetProductionEnvironmentAsync(project.Id);
+        return TypedResults.Ok(ProjectDto.FromProject(project, prodEnv?.ServerId));
     }
 }

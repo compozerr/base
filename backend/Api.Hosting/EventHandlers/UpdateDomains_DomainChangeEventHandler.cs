@@ -1,25 +1,26 @@
 using Api.Data.Events;
-using Api.Data.Repositories;
-using Api.Hosting.Services;
+using Api.Hosting.Services.EnvironmentTargetResolver;
 using Core.Abstractions;
 using Core.Extensions;
 
 namespace Api.Hosting.EventHandlers;
 
 public sealed class UpdateDomains_DomainChangeEventHandler(
-    IProjectRepository projectRepository,
-    IHostingApiFactory hostingApiFactory) : EntityDomainEventHandlerBase<DomainChangeEvent>
+    IEnvironmentTargetResolver environmentTargetResolver) : EntityDomainEventHandlerBase<DomainChangeEvent>
 {
     protected override async Task HandleAfterSaveAsync(DomainChangeEvent domainEvent, CancellationToken cancellationToken)
     {
-        var domainProject = await projectRepository.GetByIdAsync(
-            domainEvent.Entity.ProjectId,
-            cancellationToken) ?? throw new ArgumentException("Project not found");
+        // Fan out to every distinct server hosting an env of this project so
+        // every Traefik config is in sync. Spec B: envs of the same project
+        // may live on different servers. Per-server UpdateDomainsForProjectAsync
+        // is idempotent so a duplicate push is harmless.
+        var hostingApis = await environmentTargetResolver
+            .GetDistinctHostingApisForProjectAsync(domainEvent.Entity.ProjectId, cancellationToken);
 
-        var hostingApi = await hostingApiFactory.GetHostingApiAsync(domainProject.ServerId ?? throw new ArgumentException("Server id not found"));
-
-        hostingApi.UpdateDomainsForProjectAsync(domainEvent.Entity.ProjectId)
-                  .LogAndSilence();
-
+        foreach (var hostingApi in hostingApis)
+        {
+            hostingApi.UpdateDomainsForProjectAsync(domainEvent.Entity.ProjectId)
+                      .LogAndSilence();
+        }
     }
 }

@@ -37,7 +37,7 @@ public sealed class ProjectRepository(
             // had its own filter. See docs/plans/2026-04-08-services-reporting-bugs-handoff.md.
             .Include(x => x.Domains!.Where(d => d.DeletedAtUtc == null))
             .Include(x => x.Server).ThenInclude(s => s!.Location)
-            .Include(x => x.ProjectEnvironments)
+            .Include(x => x.ProjectEnvironments!).ThenInclude(e => e.Server)
             .SingleOrDefaultAsync(x => x.Id == projectId);
 
 

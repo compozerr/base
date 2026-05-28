@@ -1,5 +1,5 @@
 using Api.Data;
-using Api.Hosting.Services;
+using Api.Hosting.Services.EnvironmentTargetResolver;
 using Core.MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,7 +7,7 @@ namespace Api.Endpoints.Projects.Services.ExposeTcp;
 
 public sealed class ExposeTcpCommandHandler(
     ApiDbContext context,
-    IHostingApiFactory hostingApiFactory) : ICommandHandler<ExposeTcpCommand, ExposeTcpResponse>
+    IEnvironmentTargetResolver environmentTargetResolver) : ICommandHandler<ExposeTcpCommand, ExposeTcpResponse>
 {
     private const int PortRangeStart = 10000;
     private const int PortRangeEnd = 10999;
@@ -17,34 +17,30 @@ public sealed class ExposeTcpCommandHandler(
         ExposeTcpCommand command,
         CancellationToken cancellationToken)
     {
-        var project = await context.Projects
-            .Include(p => p.Server)
-            .FirstOrDefaultAsync(p => p.Id == command.ProjectId, cancellationToken)
-            ?? throw new InvalidOperationException($"Project with ID {command.ProjectId} not found");
-
-        if (project.ServerId is null || project.Server is null)
-            throw new InvalidOperationException("Project has no assigned server");
-
         var service = await context.ProjectServices
             .FirstOrDefaultAsync(s => s.ProjectId == command.ProjectId && s.Name == command.ServiceName, cancellationToken)
             ?? throw new InvalidOperationException($"Service '{command.ServiceName}' not found for project");
+
+        // TCP exposure is per-service and therefore per-env. The hosting server
+        // is the one that runs the env hosting the service — same rule for both
+        // VmIp (returned to Traefik) and ApiDomain (returned to the client).
+        var server = await environmentTargetResolver
+            .GetServerForServiceAsync(command.ProjectId, command.ServiceName, cancellationToken);
 
         var existing = await context.TcpPortAllocations
             .FirstOrDefaultAsync(a => a.ProjectId == command.ProjectId && a.ServiceName == command.ServiceName, cancellationToken);
 
         if (existing is not null)
         {
-            var hostingApiExisting = await hostingApiFactory.GetHostingApiAsync(project.ServerId!);
-            await hostingApiExisting.UpdateDomainsForProjectAsync(command.ProjectId);
-            return new ExposeTcpResponse(existing.AllocatedPort, project.Server.ApiDomain);
+            await PushDomainsUpdateAsync(service, command, cancellationToken);
+            return new ExposeTcpResponse(existing.AllocatedPort, server.ApiDomain);
         }
 
-        var allocation = await AllocatePortWithRetry(command, service, project, cancellationToken);
+        var allocation = await AllocatePortWithRetry(command, service, server.Ip, cancellationToken);
 
         try
         {
-            var hostingApi = await hostingApiFactory.GetHostingApiAsync(project.ServerId!);
-            await hostingApi.UpdateDomainsForProjectAsync(command.ProjectId);
+            await PushDomainsUpdateAsync(service, command, cancellationToken);
         }
         catch
         {
@@ -53,13 +49,33 @@ public sealed class ExposeTcpCommandHandler(
             throw;
         }
 
-        return new ExposeTcpResponse(allocation.AllocatedPort, project.Server.ApiDomain);
+        return new ExposeTcpResponse(allocation.AllocatedPort, server.ApiDomain);
+    }
+
+    private async Task PushDomainsUpdateAsync(
+        ProjectService service,
+        ExposeTcpCommand command,
+        CancellationToken cancellationToken)
+    {
+        if (service.ProjectEnvironmentId is { } envId)
+        {
+            var hostingApi = await environmentTargetResolver.GetHostingApiAsync(envId, cancellationToken);
+            await hostingApi.UpdateDomainsForProjectAsync(command.ProjectId);
+            return;
+        }
+
+        var hostingApis = await environmentTargetResolver
+            .GetDistinctHostingApisForProjectAsync(command.ProjectId, cancellationToken);
+        foreach (var hostingApi in hostingApis)
+        {
+            await hostingApi.UpdateDomainsForProjectAsync(command.ProjectId);
+        }
     }
 
     private async Task<TcpPortAllocation> AllocatePortWithRetry(
         ExposeTcpCommand command,
         ProjectService service,
-        Api.Data.Project project,
+        string vmIp,
         CancellationToken cancellationToken)
     {
         for (var attempt = 0; attempt < MaxRetries; attempt++)
@@ -81,7 +97,7 @@ public sealed class ExposeTcpCommandHandler(
                 ServiceName = command.ServiceName,
                 InternalPort = service.Port,
                 AllocatedPort = nextPort,
-                VmIp = project.Server!.Ip
+                VmIp = vmIp
             };
 
             context.TcpPortAllocations.Add(allocation);

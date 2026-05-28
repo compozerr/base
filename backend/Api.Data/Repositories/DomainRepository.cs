@@ -22,9 +22,11 @@ public sealed class DomainRepository(
         if (domain is InternalDomain internalDomain)
             return internalDomain;
 
-        var parentDomain = await Query().Include(x => x.Project)
-                                                 .ThenInclude(x => x!.Server)
-                                                 .FirstOrDefaultAsync(
+        var parentDomain = await Query()
+            .Include(x => x.ProjectEnvironment!).ThenInclude(e => e.Server)
+            .Include(x => x.Project!).ThenInclude(p => p.ProjectEnvironments!).ThenInclude(e => e.Server)
+            .Include(x => x.Project!).ThenInclude(p => p.Server)
+            .FirstOrDefaultAsync(
             x => x.ProjectId == domain.ProjectId && x.Type == DomainType.Internal && x.Port == domain.Port,
             cancellationToken) ?? throw new ArgumentException("Parent domain not found");
 

@@ -1,8 +1,10 @@
+using Api.Abstractions.Exceptions;
 using Api.Data;
 using Api.Data.Events;
 using Api.Data.Extensions;
 using Api.Data.Repositories;
 using Api.Endpoints.Projects.Domains.Verify;
+using Api.Hosting.Services.EnvironmentTargetResolver;
 using Database.Extensions;
 using DnsClient;
 using Jobs;
@@ -12,6 +14,7 @@ namespace Api.Jobs;
 
 public class DomainVerificationJob(
     IDomainRepository domainRepository,
+    IEnvironmentTargetResolver environmentTargetResolver,
     ILookupClient lookupClient,
     IHttpClientFactory httpClientFactory) : JobBase<DomainVerificationJob>
 {
@@ -19,11 +22,11 @@ public class DomainVerificationJob(
     {
         var now = DateTime.UtcNow;
 
-        // Get all unverified external domains that are due for a check
+        // Get all unverified external domains that are due for a check.
+        // The env's server is resolved per-domain inside VerifyDomainAsync via
+        // the resolver — no legacy server Include needed here.
         var domainsToCheck = await domainRepository.Query()
             .OfType<ExternalDomain>()
-            .Include(d => d.Project)
-            .ThenInclude(p => p!.Server)
             .Where(d => !d.IsVerified)
             .Where(d => d.NextVerificationCheckUtc == null || d.NextVerificationCheckUtc <= now)
             .ToListAsync();
@@ -55,8 +58,18 @@ public class DomainVerificationJob(
 
         if (isApex)
         {
-            // For apex domains, verify A record pointing to server IP
-            var serverIp = domain.Project?.Server?.Ip;
+            // For apex domains, verify A record pointing to the env's server IP.
+            string? serverIp = null;
+            try
+            {
+                var server = await environmentTargetResolver.GetServerForDomainAsync(domain.Id);
+                serverIp = server.Ip;
+            }
+            catch (ServerNotFoundException)
+            {
+                // No server reachable from any env or legacy hint — treat as
+                // "IP not available" (the prior failure mode).
+            }
 
             if (string.IsNullOrEmpty(serverIp))
             {

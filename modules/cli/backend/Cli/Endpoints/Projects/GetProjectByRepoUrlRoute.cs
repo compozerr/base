@@ -19,7 +19,8 @@ public static class GetProjectByRepoUrlRoute
     public static async Task<ProjectDto?> ExecuteAsync(
         GetProjectByRepoUrlRequest Request,
         ICurrentUserAccessor currentUserAccessor,
-        IProjectRepository projectRepository)
+        IProjectRepository projectRepository,
+        IProjectEnvironmentRepository projectEnvironmentRepository)
     {
         var allUserProjects = await projectRepository.GetProjectsForUserAsync();
 
@@ -27,6 +28,7 @@ public static class GetProjectByRepoUrlRoute
 
         if (project is null) return null;
 
-        return ProjectDto.FromProject(project);
+        var prodEnv = await projectEnvironmentRepository.GetProductionEnvironmentAsync(project.Id);
+        return ProjectDto.FromProject(project, prodEnv?.ServerId);
     }
 }

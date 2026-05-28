@@ -11,9 +11,14 @@ public sealed class GetTcpAllocationsCommandHandler(ApiDbContext context)
         GetTcpAllocationsCommand command,
         CancellationToken cancellationToken)
     {
-        var projectIds = await context.Projects
-            .Where(p => p.ServerId == command.ServerId)
-            .Select(p => p.Id)
+        // Post-Spec-B: an env's server is what determines whether its TCP
+        // allocations belong to this server, not the project-level hint.
+        // A project can span servers, and a single server should only return
+        // TCP allocations for envs it actually hosts.
+        var projectIds = await context.ProjectEnvironments
+            .Where(e => e.ServerId == command.ServerId)
+            .Select(e => e.ProjectId)
+            .Distinct()
             .ToListAsync(cancellationToken);
 
         var allocations = await context.TcpPortAllocations

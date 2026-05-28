@@ -3,6 +3,7 @@ using Api.Data;
 using Api.Data.Events;
 using Api.Data.Repositories;
 using Api.Hosting.Services;
+using Api.Hosting.Services.EnvironmentTargetResolver;
 using Api.Hosting.VMPooling.Core;
 
 namespace Api.Hosting.VMPooling.N8n;
@@ -12,11 +13,13 @@ public sealed class N8nVMPooler(
     IProjectRepository projectRepository,
     IVMPoolItemRepository vMPoolItemRepository,
     IHostingApiFactory hostingApiFactory,
+    IEnvironmentTargetResolver environmentTargetResolver,
     IServiceProvider serviceProvider) : BaseVMPooler(
         vMPool,
         projectRepository,
         vMPoolItemRepository,
         hostingApiFactory,
+        environmentTargetResolver,
         serviceProvider)
 {
     public static readonly Uri N8nTemplateRepoUrl = new("https://github.com/compozerr/n8n-template");

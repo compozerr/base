@@ -1,6 +1,7 @@
 using System.Collections.Concurrent;
 using Api.Abstractions;
 using Api.Data;
+using Api.Hosting.Services.EnvironmentTargetResolver;
 using Auth.Abstractions;
 using Auth.Services;
 using MediatR;
@@ -31,6 +32,7 @@ public sealed class TerminalHub : Hub
     private readonly IPublisher _publisher;
     private readonly IHubContext<TerminalHub> _hubContext;
     private readonly IServiceScopeFactory _scopeFactory;
+    private readonly IEnvironmentTargetResolver _environmentTargetResolver;
 
     // Track active sessions by connection ID
     private static readonly ConcurrentDictionary<string, TerminalSessionId> _activeSessions = new();
@@ -43,7 +45,8 @@ public sealed class TerminalHub : Hub
         ITerminalConnectionManager connectionManager,
         IPublisher publisher,
         IHubContext<TerminalHub> hubContext,
-        IServiceScopeFactory scopeFactory)
+        IServiceScopeFactory scopeFactory,
+        IEnvironmentTargetResolver environmentTargetResolver)
     {
         _dbContext = dbContext;
         _currentUserAccessor = currentUserAccessor;
@@ -53,6 +56,7 @@ public sealed class TerminalHub : Hub
         _publisher = publisher;
         _hubContext = hubContext;
         _scopeFactory = scopeFactory;
+        _environmentTargetResolver = environmentTargetResolver;
     }
 
     private const string PreviewSeparator = "--preview--";
@@ -77,37 +81,43 @@ public sealed class TerminalHub : Hub
 
         var projectId = ProjectId.Create(projectGuid);
 
-        // Get project and verify ownership
-        var project = await _dbContext.Projects
-            .Include(p => p.Server)
-            .FirstOrDefaultAsync(p => p.Id == projectId && p.UserId == userId);
+        // Verify ownership without loading the project's legacy hint server —
+        // the env's own server is what the terminal must talk to.
+        var projectExists = await _dbContext.Projects
+            .AnyAsync(p => p.Id == projectId && p.UserId == userId);
 
-        if (project == null)
+        if (!projectExists)
         {
             return new StartSessionResult(false, Error: "Project not found or access denied");
         }
 
-        if (project.Server == null)
+        // Resolve the env we're targeting. Named env: lookup by name; otherwise
+        // the project's Production env (matches the prior "main VM" behaviour).
+        var envQuery = _dbContext.Set<ProjectEnvironment>()
+            .Where(e => e.ProjectId == projectId);
+        var envId = environmentName is not null
+            ? await envQuery.Where(e => e.Name == environmentName)
+                .Select(e => (ProjectEnvironmentId?)e.Id).FirstOrDefaultAsync()
+            : await envQuery.Where(e => e.Type == EnvironmentType.Production)
+                .Select(e => (ProjectEnvironmentId?)e.Id).FirstOrDefaultAsync();
+
+        if (envId is null)
         {
-            return new StartSessionResult(false, Error: "Project has no assigned server");
+            return environmentName is not null
+                ? new StartSessionResult(false, Error: $"Environment '{environmentName}' not found")
+                : new StartSessionResult(false, Error: "Project has no production environment");
         }
 
-        // If an environment name is specified, verify it exists
-        if (environmentName != null)
+        var server = await _environmentTargetResolver.TryGetServerAsync(envId);
+        if (server is null)
         {
-            var environment = await _dbContext.Set<ProjectEnvironment>()
-                .FirstOrDefaultAsync(e => e.ProjectId == projectId && e.Name == environmentName);
-
-            if (environment == null)
-            {
-                return new StartSessionResult(false, Error: $"Environment '{environmentName}' not found");
-            }
+            return new StartSessionResult(false, Error: "Environment has no assigned server");
         }
 
         var vmIdentifier = BuildVmIdentifier(projectId, environmentName);
 
         // Check VM status via hosting manager
-        var vmRunning = await _hostingClient.IsVmRunningAsync(project.Server.ApiDomain, vmIdentifier);
+        var vmRunning = await _hostingClient.IsVmRunningAsync(server.ApiDomain, vmIdentifier);
         if (!vmRunning)
         {
             return new StartSessionResult(false, Error: "VM is not running", VmRunning: false);
@@ -125,7 +135,7 @@ public sealed class TerminalHub : Hub
             var connectionId = Context.ConnectionId;
             var scopeFactory = _scopeFactory;
             await _hostingClient.ConnectAsync(
-                project.Server.ApiDomain,
+                server.ApiDomain,
                 vmIdentifier,
                 onData: async (data) => await _hubContext.Clients.Client(connectionId).SendAsync("OnOutput", data),
                 onDisconnected: async (reason) =>

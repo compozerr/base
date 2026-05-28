@@ -1,11 +1,12 @@
 using Api.Abstractions;
+using Api.Abstractions.Exceptions;
 using Api.Data;
 using Api.Data.Events;
 using Api.Data.Extensions;
 using Api.Data.Repositories;
+using Api.Hosting.Services.EnvironmentTargetResolver;
 using Database.Extensions;
 using DnsClient;
-using Microsoft.EntityFrameworkCore;
 
 namespace Api.Endpoints.Projects.Domains.Verify;
 
@@ -22,6 +23,7 @@ public static class GetVerifyRoute
         ProjectId projectId,
         DomainId domainId,
         IDomainRepository domainRepository,
+        IEnvironmentTargetResolver environmentTargetResolver,
         ILookupClient lookupClient,
         CancellationToken cancellationToken)
     {
@@ -47,13 +49,20 @@ public static class GetVerifyRoute
 
         if (isApex)
         {
-            // For apex domains, verify A record pointing to server IP
-            var domainWithServer = await domainRepository.Query()
-                .Include(d => d.Project)
-                .ThenInclude(p => p!.Server)
-                .FirstOrDefaultAsync(d => d.Id == parentDomain.Id, cancellationToken);
-
-            var serverIp = domainWithServer?.Project?.Server?.Ip;
+            // For apex domains, verify A record pointing to the env's server IP.
+            // Apex/project-level domains (ProjectEnvironmentId is null) fall back
+            // to the project's Production env's server inside the resolver.
+            string? serverIp = null;
+            try
+            {
+                var server = await environmentTargetResolver.GetServerForDomainAsync(parentDomain.Id, cancellationToken);
+                serverIp = server.Ip;
+            }
+            catch (ServerNotFoundException)
+            {
+                // No env server allocated yet — fall through to the IP-missing
+                // branch below so behaviour matches the prior null-IP path.
+            }
 
             if (string.IsNullOrEmpty(serverIp))
             {

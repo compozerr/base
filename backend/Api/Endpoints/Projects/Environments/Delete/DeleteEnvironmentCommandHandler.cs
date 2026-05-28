@@ -1,7 +1,7 @@
 using Api.Abstractions;
 using Api.Data;
 using Api.Data.Repositories;
-using Api.Hosting.Services;
+using Api.Hosting.Services.EnvironmentTargetResolver;
 using Core.MediatR;
 using Serilog;
 using Stripe.Services;
@@ -10,9 +10,8 @@ namespace Api.Endpoints.Projects.Environments.Delete;
 
 public sealed class DeleteEnvironmentCommandHandler(
     IProjectEnvironmentRepository environmentRepository,
-    IProjectRepository projectRepository,
     ISubscriptionsService subscriptionsService,
-    IHostingApiFactory hostingApiFactory) : ICommandHandler<DeleteEnvironmentCommand, DeleteEnvironmentResponse>
+    IEnvironmentTargetResolver environmentTargetResolver) : ICommandHandler<DeleteEnvironmentCommand, DeleteEnvironmentResponse>
 {
     public async Task<DeleteEnvironmentResponse> Handle(
         DeleteEnvironmentCommand command,
@@ -38,13 +37,14 @@ public sealed class DeleteEnvironmentCommandHandler(
                 environment.StripeSubscriptionId, command.EnvironmentId);
         }
 
-        // Delete preview VM on hosting server
+        // Delete preview VM on the env's own server (preview envs may live
+        // on a server different from the project's production server).
         if (environment.Name is not null)
         {
-            var project = await projectRepository.GetByIdAsync(command.ProjectId, cancellationToken);
-            if (project?.ServerId is { } serverId)
+            var server = await environmentTargetResolver.TryGetServerAsync(environment.Id, cancellationToken);
+            if (server is not null)
             {
-                var hostingApi = await hostingApiFactory.GetHostingApiAsync(serverId);
+                var hostingApi = await environmentTargetResolver.GetHostingApiAsync(environment.Id, cancellationToken);
                 await hostingApi.DeletePreviewEnvironmentAsync(command.ProjectId, environment.Name);
 
                 Log.Information("Deleted preview VM for environment {EnvironmentName} on project {ProjectId}",

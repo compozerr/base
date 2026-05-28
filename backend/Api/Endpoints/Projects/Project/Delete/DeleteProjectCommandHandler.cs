@@ -1,6 +1,6 @@
 using Api.Abstractions;
 using Api.Data.Repositories;
-using Api.Hosting.Services;
+using Api.Hosting.Services.EnvironmentTargetResolver;
 using Auth.Abstractions;
 using Core.Extensions;
 using Core.MediatR;
@@ -15,7 +15,7 @@ namespace Api.Endpoints.Projects.Project.Delete;
 
 public sealed class DeleteProjectCommandHandler(
     IProjectRepository projectRepository,
-    IHostingApiFactory hostingApiFactory,
+    IEnvironmentTargetResolver environmentTargetResolver,
     ISender sender,
     ISubscriptionsService subscriptionService,
     IDeploymentRepository deploymentRepository) : ICommandHandler<DeleteProjectCommand, DeleteProjectResponse>
@@ -24,9 +24,14 @@ public sealed class DeleteProjectCommandHandler(
     {
         var project = await projectRepository.GetByIdAsync(command.ProjectId, cancellationToken) ?? throw new InvalidOperationException("Should not be able to be here if null");
 
-        if (project.ServerId is { } serverId)
+        // Tear down on every server hosting an env of this project. Servers
+        // that no longer host any env (e.g. orphaned legacy hint) are still
+        // included by the resolver so the cleanup path doesn't leak VMs.
+        var hostingApis = await environmentTargetResolver
+            .GetDistinctHostingApisForProjectAsync(project.Id, cancellationToken);
+
+        foreach (var hostingApi in hostingApis)
         {
-            var hostingApi = await hostingApiFactory.GetHostingApiAsync(serverId);
             await hostingApi.DeleteProjectAsync(project.Id);
         }
 

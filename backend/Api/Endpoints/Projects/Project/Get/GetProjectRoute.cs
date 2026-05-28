@@ -57,14 +57,35 @@ public static class GetProjectRoute
             serverTierPrice,
             projectDomains?.GetPrimary()?.GetValue,
             project.Type,
-            Server: project.Server is null
-                ? null
-                : new AllocatedServerSummary(
-                    project.Server.Id,
-                    project.Server.HostName,
-                    project.Server.Location?.IsoCountryCode),
+            // Project-level Server summary reflects the production env's server
+            // (canonical "project server" for the project card / header).
+            // GetProjectByIdWithDomainsAsync eager-loads env.Server, so this is
+            // resolved purely from the navigation graph — no extra DB hit.
+            Server: ResolveProjectServerSummary(project),
             DisplayState: project.GetDisplayState()
         ));
+    }
+
+    private static AllocatedServerSummary? ResolveProjectServerSummary(Data.Project project)
+    {
+        // Pick the env-level server: prefer Production env's server (the
+        // canonical "project server"), falling back to any env that has one
+        // when the production env was deleted or hasn't been allocated yet.
+        var prodEnvServer = project.ProjectEnvironments?
+            .FirstOrDefault(e => e.Type == EnvironmentType.Production)?
+            .Server;
+
+        var server = prodEnvServer
+            ?? project.ProjectEnvironments?
+                .FirstOrDefault(e => e.Server is not null)?
+                .Server;
+
+        if (server is null) return null;
+
+        return new AllocatedServerSummary(
+            server.Id,
+            server.HostName,
+            server.Location?.IsoCountryCode);
     }
 
     private static async Task<Price?> GetServerTierPriceFromProjectSubscriptionAsync(

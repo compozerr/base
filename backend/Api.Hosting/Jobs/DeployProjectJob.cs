@@ -5,6 +5,7 @@ using Api.Data.Repositories;
 using Api.Hosting.Endpoints.Deployments.ChangeDeploymentStatus;
 using Api.Hosting.Endpoints.Deployments.Logs.Add;
 using Api.Hosting.Services;
+using Api.Hosting.Services.EnvironmentTargetResolver;
 using Jobs;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -13,7 +14,7 @@ using Serilog;
 namespace Api.Hosting.Jobs;
 
 public class DeployProjectJob(
-    IHostingApiFactory hostingApiFactory,
+    IEnvironmentTargetResolver environmentTargetResolver,
     IDeploymentRepository deploymentRepository,
     IMediator mediator) : JobBase<DeployProjectJob, DeploymentId>
 {
@@ -30,8 +31,14 @@ public class DeployProjectJob(
 
         try
         {
-            var api = await hostingApiFactory.GetHostingApiAsync(
-                deployment.Project!.ServerId ?? throw new ServerNotFoundException());
+            // Deployments target an env, so the deployment's env owns the
+            // server selection. Fall back to project-level (production env)
+            // resolution when the deployment predates per-env scoping.
+            var envId = deployment.EnvironmentId
+                ?? deployment.Environment?.Id
+                ?? throw new ServerNotFoundException();
+
+            var api = await environmentTargetResolver.GetHostingApiAsync(envId);
 
             await api.DeployAsync(deployment);
         }

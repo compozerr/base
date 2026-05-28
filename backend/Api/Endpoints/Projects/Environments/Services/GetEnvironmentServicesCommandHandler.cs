@@ -1,21 +1,33 @@
+using Api.Abstractions.Exceptions;
 using Api.Data;
 using Api.Endpoints.Projects.Services.Get;
+using Api.Hosting.Services.EnvironmentTargetResolver;
 using Core.MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace Api.Endpoints.Projects.Environments.Services;
 
-public sealed class GetEnvironmentServicesCommandHandler(ApiDbContext context)
+public sealed class GetEnvironmentServicesCommandHandler(
+    ApiDbContext context,
+    IEnvironmentTargetResolver environmentTargetResolver)
     : ICommandHandler<GetEnvironmentServicesCommand, GetProjectServicesResponse>
 {
     public async Task<GetProjectServicesResponse> Handle(
         GetEnvironmentServicesCommand command,
         CancellationToken cancellationToken)
     {
-        var serverApiDomain = await context.Projects
-            .Where(p => p.Id == command.ProjectId && p.ServerId != null)
-            .Select(p => p.Server!.ApiDomain)
-            .FirstOrDefaultAsync(cancellationToken);
+        string? serverApiDomain = null;
+        try
+        {
+            var server = await environmentTargetResolver.GetServerAsync(command.EnvironmentId, cancellationToken);
+            serverApiDomain = server.ApiDomain;
+        }
+        catch (ServerNotFoundException)
+        {
+            // Env has no server allocated yet — services are still returned,
+            // but TCP-allocation rows lack a Host (matches prior null behaviour
+            // when no project server was assigned).
+        }
 
         var allocations = await context.TcpPortAllocations
             .Where(a => a.ProjectId == command.ProjectId)
