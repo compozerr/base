@@ -24564,6 +24564,229 @@ export interface V1Service {
             body: PutServersBody;
         };
     };
+    getServers: {
+        /**/
+        <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: QueryFnOptionsByQueryKey<GetServersSchema, GetServersParameters, TMeta, TSignal> | (QueryFnOptionsByParameters<GetServersParameters, TMeta, TSignal> | void), client?: (schema: GetServersSchema, options: {
+            parameters: GetServersParameters;
+            signal?: TSignal;
+            meta?: TMeta;
+        }) => Promise<RequestFnResponse<GetServersData, GetServersError>>): Promise<RequestFnResponse<GetServersData, GetServersError>>;
+        /**/
+        getQueryKey(parameters: DeepReadonly<GetServersParameters> | void): ServiceOperationQueryKey<GetServersSchema, GetServersParameters>;
+        /**
+         * Performs asynchronous data fetching, manages loading states and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
+         * @example Query without parameters
+         * ```ts
+         * const { data, isLoading } = qraft.v1.getServers.useQuery()
+         * ```
+         */
+        useQuery<TData = GetServersData>(parameters: ServiceOperationQueryKey<GetServersSchema, GetServersParameters> | (DeepReadonly<GetServersParameters> | void), options?: Omit<UndefinedInitialDataOptions<GetServersData, GetServersError, TData, ServiceOperationQueryKey<GetServersSchema, GetServersParameters>>, "queryKey">): UseQueryResult<TData, OperationError<GetServersError>>;
+        /**
+         * Performs asynchronous data fetching, manages loading states and error handling.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQuery|`useQuery(...)` documentation}
+         * @example Query without parameters
+         * ```ts
+         * const { data, isLoading } = qraft.v1.getServers.useQuery()
+         * ```
+         */
+        useQuery<TData = GetServersData>(parameters: ServiceOperationQueryKey<GetServersSchema, GetServersParameters> | (DeepReadonly<GetServersParameters> | void), options: Omit<DefinedInitialDataOptions<GetServersData, GetServersError, TData, ServiceOperationQueryKey<GetServersSchema, GetServersParameters>>, "queryKey">): DefinedUseQueryResult<TData, OperationError<GetServersError>>;
+        /**/
+        getInfiniteQueryKey(parameters: DeepReadonly<GetServersParameters> | void): ServiceOperationInfiniteQueryKey<GetServersSchema, GetServersParameters>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useInfiniteQuery|`useInfiniteQuery(...)` documentation}
+         *
+         * @example Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getServers.useInfiniteQuery({}, {
+         *     initialPageParam: {},
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useInfiniteQuery<TPageParam extends GetServersParameters, TQueryFnData = GetServersData, TData = OperationInfiniteData<TQueryFnData, GetServersParameters>>(parameters: ServiceOperationInfiniteQueryKey<GetServersSchema, GetServersParameters> | (DeepReadonly<GetServersParameters> | void), options: Omit<UndefinedInitialDataInfiniteOptions<TQueryFnData, GetServersError, TData, ServiceOperationInfiniteQueryKey<GetServersSchema, GetServersParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<TQueryFnData, PartialParameters<DeepReadonly<TPageParam>>>): UseInfiniteQueryResult<TData, OperationError<GetServersError>>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useInfiniteQuery|`useInfiniteQuery(...)` documentation}
+         *
+         * @example Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getServers.useInfiniteQuery({}, {
+         *     initialPageParam: {},
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useInfiniteQuery<TPageParam extends GetServersParameters, TQueryFnData = GetServersData, TData = OperationInfiniteData<TQueryFnData, GetServersParameters>>(parameters: ServiceOperationInfiniteQueryKey<GetServersSchema, GetServersParameters> | (DeepReadonly<GetServersParameters> | void), options: Omit<DefinedInitialDataInfiniteOptions<TQueryFnData, GetServersError, TData, ServiceOperationInfiniteQueryKey<GetServersSchema, GetServersParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<GetServersData, PartialParameters<DeepReadonly<TPageParam>>>): DefinedUseInfiniteQueryResult<TData, OperationError<GetServersError>>;
+        /**
+         * Monitors the number of queries currently fetching, matching the provided filters.
+         * Useful for creating loading indicators or performing actions based on active requests.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useIsFetching|`useIsFetching(...)` documentation}
+         * @example Checks the total number of queries fetching from the specified service method,
+         * both normal and infinite. If no parameters are provided, no filtering is applied.
+         * ```ts
+         * const getServersTotal = qraft.v1.getServers.useIsFetching()
+         * ```
+         */
+        useIsFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetServersSchema, GetServersData, TInfinite, GetServersParameters, GetServersError> | QueryFiltersByQueryKey<GetServersSchema, GetServersData, TInfinite, GetServersParameters, GetServersError>): number;
+        /**
+         * Allows you to execute multiple asynchronous data fetching operations concurrently. This is especially useful for managing complex data dependencies in parallel.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useQueries|`useQueries(...)` documentation}
+         * @example Multiple queries. Returns `data`, `error`, `isSuccess` and other properties.
+         * ```ts
+         * const getServersResults = qraft.v1.getServers.useQueries({
+         *     queries: [
+         *         {},
+         *         {}
+         *     ]
+         * });
+         * getServersResults.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
+         * ```
+         * @example Combined results. Only the data will be returned.
+         * ```ts
+         * const getServersCombinedResults = qraft.v1.getServers.useQueries({
+         *     combine: results => results.map(result => result.data),
+         *     queries: [
+         *         {},
+         *         {}
+         *     ]
+         * });
+         * getServersCombinedResults.forEach(data => console.log({ data }));
+         * ```
+         */
+        useQueries<T extends Array<UseQueryOptionsForUseQueries<GetServersSchema, GetServersParameters, GetServersData, GetServersError>>, TCombinedResult = Array<UseQueryResult<GetServersData, GetServersError>>>(options: {
+            queries: T;
+            combine?: (results: Array<UseQueryResult<GetServersData, GetServersError>>) => TCombinedResult;
+        }): TCombinedResult;
+        /**
+         * Performs asynchronous data fetching with Suspense support.
+         * Similar to useQuery but integrates with React Suspense for loading states.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQuery|`useSuspenseQuery(...)` documentation}
+         * @example Suspense Query without parameters
+         * ```ts
+         * const data = qraft.v1.getServers.useSuspenseQuery()
+         * ```
+         */
+        useSuspenseQuery<TData = GetServersData>(parameters: ServiceOperationQueryKey<GetServersSchema, GetServersParameters> | (DeepReadonly<GetServersParameters> | void), options?: Omit<UseSuspenseQueryOptions<GetServersData, GetServersError, TData, ServiceOperationQueryKey<GetServersSchema, GetServersParameters>>, "queryKey">): UseSuspenseQueryResult<TData, OperationError<GetServersError>>;
+        /**
+         * Performs asynchronous data fetching with support for infinite scrolling scenarios.
+         * Manages paginated data and provides utilities for fetching additional pages.
+         * It functions similarly to `useInfiniteQuery`, but with added support for React Suspense.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseInfiniteQuery|`useSuspenseInfiniteQuery(...)` documentation}
+         *
+         * @example Suspense Infinite Query
+         * ```ts
+         * const { data, isLoading, fetchNextPage } = qraft.v1.getServers.useSuspenseInfiniteQuery({}, {
+         *     initialPageParam: {},
+         *     getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => getNextPageParams(lastPage)
+         * })
+         *
+         * console.log(data);
+         * fetchNextPage(); // Fetch the next page
+         * ```
+         */
+        useSuspenseInfiniteQuery<TPageParam extends GetServersParameters, TData = GetServersData>(parameters: ServiceOperationInfiniteQueryKey<GetServersSchema, GetServersParameters> | (DeepReadonly<GetServersParameters> | void), options: Omit<UseSuspenseInfiniteQueryOptions<GetServersData, GetServersError, OperationInfiniteData<TData, GetServersParameters>, ServiceOperationInfiniteQueryKey<GetServersSchema, GetServersParameters>, PartialParameters<DeepReadonly<TPageParam>>>, "queryKey" | "getPreviousPageParam" | "getNextPageParam" | "initialPageParam"> & InfiniteQueryPageParamsOptions<GetServersData, PartialParameters<DeepReadonly<TPageParam>>>): UseSuspenseInfiniteQueryResult<OperationInfiniteData<TData, GetServersParameters>, OperationError<GetServersError>>;
+        /**
+         * Allows you to execute multiple asynchronous data fetching operations concurrently with Suspense support.
+         * Similar to useQueries but integrates with React Suspense for loading states.
+         *
+         * @see {@link https://openapi-qraft.github.io/openapi-qraft/docs/hooks/useSuspenseQueries|`useSuspenseQueries(...)` documentation}
+         * @example Basic usage with Suspense
+         * ```ts
+         * const getServersData = qraft.v1.getServers.useSuspenseQueries({
+         *     queries: [
+         *         {},
+         *         {}
+         *     ]
+         * });
+         * getServersResults.forEach(({ isSuccess, data, error }) => console.log({ isSuccess, data, error }));
+         * ```
+         * @example With data transformation using combine
+         * ```ts
+         * const getServersCombinedData = qraft.v1.getServers.useSuspenseQueries({
+         *     combine: results => results.map(result => result.data),
+         *     queries: [
+         *         {},
+         *         {}
+         *     ]
+         * });
+         * getServersCombinedData.forEach(data => console.log({ data }));
+         * ```
+         */
+        useSuspenseQueries<T extends Array<UseQueryOptionsForUseSuspenseQuery<GetServersSchema, GetServersParameters, GetServersData, GetServersError>>, TCombinedResult = Array<UseSuspenseQueryResult<GetServersData, GetServersError>>>(options: {
+            queries: T;
+            combine?: (results: Array<WithOptional<UseSuspenseQueryResult<GetServersData, GetServersError>, "data">>) => TCombinedResult;
+        }): TCombinedResult;
+        /**/
+        fetchQuery(options: ServiceOperationFetchQueryOptions<GetServersSchema, GetServersData, GetServersParameters, GetServersError> | void): Promise<GetServersData>;
+        /**/
+        prefetchQuery(options: ServiceOperationFetchQueryOptions<GetServersSchema, GetServersData, GetServersParameters, GetServersError> | void): Promise<void>;
+        /**/
+        ensureQueryData(options: ServiceOperationEnsureQueryDataOptions<GetServersSchema, GetServersData, GetServersParameters, GetServersError> | void): Promise<GetServersData>;
+        /**/
+        fetchInfiniteQuery<TPageParam extends GetServersParameters>(options: ServiceOperationFetchInfiniteQueryOptions<GetServersSchema, GetServersData, GetServersParameters, DeepReadonly<TPageParam>, GetServersError> | void): Promise<OperationInfiniteData<GetServersData, GetServersParameters>>;
+        /**/
+        prefetchInfiniteQuery<TPageParam extends GetServersParameters>(options: ServiceOperationFetchInfiniteQueryOptions<GetServersSchema, GetServersData, GetServersParameters, DeepReadonly<TPageParam>, GetServersError> | void): Promise<void>;
+        /**/
+        ensureInfiniteQueryData<TPageParam extends GetServersParameters>(options: ServiceOperationEnsureInfiniteQueryDataOptions<GetServersSchema, GetServersData, GetServersParameters, DeepReadonly<TPageParam>, GetServersError> | void): Promise<OperationInfiniteData<GetServersData, GetServersParameters>>;
+        /**/
+        getQueryData(parameters: ServiceOperationQueryKey<GetServersSchema, GetServersParameters> | (DeepReadonly<GetServersParameters> | void)): GetServersData | undefined;
+        /**/
+        getInfiniteQueryData(parameters: ServiceOperationInfiniteQueryKey<GetServersSchema, GetServersParameters> | (DeepReadonly<GetServersParameters> | void)): OperationInfiniteData<GetServersData, GetServersParameters> | undefined;
+        /**/
+        getQueriesData<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetServersSchema, GetServersData, TInfinite, GetServersParameters, GetServersError> | QueryFiltersByQueryKey<GetServersSchema, GetServersData, TInfinite, GetServersParameters, GetServersError>): TInfinite extends true ? Array<[
+            queryKey: ServiceOperationInfiniteQueryKey<GetServersSchema, GetServersParameters>,
+            data: NoInfer<OperationInfiniteData<GetServersData, GetServersParameters>> | undefined
+        ]> : Array<[
+            queryKey: ServiceOperationQueryKey<GetServersSchema, GetServersParameters>,
+            data: GetServersData | undefined
+        ]>;
+        /**/
+        getQueryState(parameters: ServiceOperationQueryKey<GetServersSchema, GetServersParameters> | (DeepReadonly<GetServersParameters> | void)): QueryState<GetServersData, GetServersError> | undefined;
+        /**/
+        getInfiniteQueryState(parameters: DeepReadonly<GetServersParameters> | ServiceOperationInfiniteQueryKey<GetServersSchema, GetServersParameters> | void): QueryState<OperationInfiniteData<GetServersData, GetServersParameters>, GetServersError> | undefined;
+        /**/
+        setQueryData(parameters: (DeepReadonly<GetServersParameters> | undefined) | ServiceOperationQueryKey<GetServersSchema, GetServersParameters>, updater: Updater<NoInfer<GetServersData> | undefined, NoInfer<DeepReadonly<GetServersData>> | undefined>, options?: SetDataOptions): GetServersData | undefined;
+        /**/
+        setInfiniteQueryData(parameters: (DeepReadonly<GetServersParameters> | undefined) | ServiceOperationInfiniteQueryKey<GetServersSchema, GetServersParameters>, updater: Updater<NoInfer<OperationInfiniteData<GetServersData, GetServersParameters>> | undefined, NoInfer<DeepReadonly<OperationInfiniteData<GetServersData, GetServersParameters>>> | undefined>, options?: SetDataOptions): OperationInfiniteData<GetServersData, GetServersParameters> | undefined;
+        /**/
+        setQueriesData<TInfinite extends boolean = false>(filters: QueryFiltersByParameters<GetServersSchema, GetServersData, TInfinite, GetServersParameters, GetServersError> | QueryFiltersByQueryKey<GetServersSchema, GetServersData, TInfinite, GetServersParameters, GetServersError>, updater: Updater<NoInfer<GetServersData> | undefined, NoInfer<GetServersData> | undefined>, options?: SetDataOptions): Array<GetServersData | undefined>;
+        /**/
+        invalidateQueries<TInfinite extends boolean = false>(filters?: InvalidateQueryFilters<GetServersSchema, GetServersData, TInfinite, GetServersParameters, GetServersError>, options?: InvalidateOptions): Promise<void>;
+        /**/
+        refetchQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetServersSchema, GetServersData, TInfinite, GetServersParameters, GetServersError> | QueryFiltersByQueryKey<GetServersSchema, GetServersData, TInfinite, GetServersParameters, GetServersError>, options?: RefetchOptions): Promise<void>;
+        /**/
+        cancelQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetServersSchema, GetServersData, TInfinite, GetServersParameters, GetServersError> | QueryFiltersByQueryKey<GetServersSchema, GetServersData, TInfinite, GetServersParameters, GetServersError>, options?: CancelOptions): Promise<void>;
+        /**/
+        removeQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetServersSchema, GetServersData, TInfinite, GetServersParameters, GetServersError> | QueryFiltersByQueryKey<GetServersSchema, GetServersData, TInfinite, GetServersParameters, GetServersError>): void;
+        /**/
+        resetQueries<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetServersSchema, GetServersData, TInfinite, GetServersParameters, GetServersError> | QueryFiltersByQueryKey<GetServersSchema, GetServersData, TInfinite, GetServersParameters, GetServersError>, options?: ResetOptions): Promise<void>;
+        /**/
+        isFetching<TInfinite extends boolean = false>(filters?: QueryFiltersByParameters<GetServersSchema, GetServersData, TInfinite, GetServersParameters, GetServersError> | QueryFiltersByQueryKey<GetServersSchema, GetServersData, TInfinite, GetServersParameters, GetServersError>): number;
+        schema: GetServersSchema;
+        types: {
+            parameters: GetServersParameters;
+            data: GetServersData;
+            error: GetServersError;
+        };
+    };
     getServersTiers: {
         /**/
         <TMeta extends Record<string, any>, TSignal extends AbortSignal = AbortSignal>(options: QueryFnOptionsByQueryKey<GetServersTiersSchema, GetServersTiersParameters, TMeta, TSignal> | (QueryFnOptionsByParameters<GetServersTiersParameters, TMeta, TSignal> | void), client?: (schema: GetServersTiersSchema, options: {
@@ -28253,6 +28476,15 @@ export const putServers = {
     schema: PutServersSchema;
     [QraftServiceOperationsToken]: V1Service["putServers"];
 };
+export const getServers = {
+    schema: {
+        method: "get",
+        url: "/v1/servers"
+    }
+} as {
+    schema: GetServersSchema;
+    [QraftServiceOperationsToken]: V1Service["getServers"];
+};
 export const getServersTiers = {
     schema: {
         method: "get",
@@ -28501,6 +28733,7 @@ export const v1Service = {
     patchProjectsProjectIdServicesServiceNameProtocol,
     postServers,
     putServers,
+    getServers,
     getServersTiers,
     getServersServerIdTcpAllocations,
     deleteStripeSubscriptionsSubscriptionIdCancel,
@@ -29566,6 +29799,13 @@ type PutServersParameters = {
 type PutServersData = paths["/v1/servers"]["put"]["responses"]["200"]["content"]["application/json"];
 type PutServersError = unknown;
 type PutServersBody = paths["/v1/servers"]["put"]["requestBody"]["content"]["application/json"];
+type GetServersSchema = {
+    method: "get";
+    url: "/v1/servers";
+};
+type GetServersParameters = undefined;
+type GetServersData = paths["/v1/servers"]["get"]["responses"]["200"]["content"]["application/json"];
+type GetServersError = unknown;
 type GetServersTiersSchema = {
     method: "get";
     url: "/v1/servers/tiers";
