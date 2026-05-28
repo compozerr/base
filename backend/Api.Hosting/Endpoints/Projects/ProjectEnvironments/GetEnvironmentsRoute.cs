@@ -12,7 +12,13 @@ public sealed record HostingEnvironmentDto(
     ProjectEnvironmentId Id,
     string? Name,
     EnvironmentType Type,
-    string? Subdomain);
+    string? Subdomain,
+    // Use plain Guid? (not the strongly-typed ServerId?) so OpenAPI sees the
+    // nullability annotation on the wire. The struct-wrapped variant is
+    // generated as a non-nullable string in TS, which would break the
+    // contract for legacy envs that haven't been allocated yet.
+    Guid? ServerId,
+    string? ServerHostName);
 
 public static class GetEnvironmentsRoute
 {
@@ -31,7 +37,13 @@ public static class GetEnvironmentsRoute
         var envs = await envRepository.GetByProjectIdAsync(projectId, cancellationToken);
 
         var dtos = envs
-            .Select(e => new HostingEnvironmentDto(e.Id, e.Name, e.Type, e.Subdomain))
+            .Select(e => new HostingEnvironmentDto(
+                e.Id,
+                e.Name,
+                e.Type,
+                e.Subdomain,
+                e.ServerId?.Value,
+                e.Server?.HostName))
             .ToList();
 
         return TypedResults.Ok(dtos);

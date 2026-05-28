@@ -25,7 +25,7 @@ public static class CreateEnvironmentRoute
             request.Branch,
             request.Tier,
             request.Type,
-            request.ServerId));
+            request.ServerId is { } guid ? new ServerId(guid) : null));
 
         return TypedResults.Ok(result);
     }
@@ -36,4 +36,7 @@ public sealed record CreateEnvironmentRequest(
     string? Branch,
     string Tier,
     EnvironmentType Type = EnvironmentType.Preview,
-    ServerId? ServerId = null);
+    // Plain Guid? on the wire (instead of strongly-typed ServerId?) so the
+    // generated OpenAPI/TS schema picks up the nullability — the strongly-
+    // typed nullable struct emits as non-nullable string in the qraft config.
+    Guid? ServerId = null);

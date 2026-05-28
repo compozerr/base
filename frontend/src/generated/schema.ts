@@ -4961,6 +4961,8 @@ export type components = {
             branch: string | null;
             tier: string | null;
             type: components["schemas"]["Api.Data.EnvironmentType"];
+            /** Format: uuid */
+            serverId: string | null;
         };
         "Api.Endpoints.Projects.Environments.Create.CreateEnvironmentResponse": {
             /** Format: uuid */
@@ -5189,6 +5191,9 @@ export type components = {
             name: string | null;
             type: components["schemas"]["Api.Data.EnvironmentType"];
             subdomain: string | null;
+            /** Format: uuid */
+            serverId: string | null;
+            serverHostName: string | null;
         };
         "Api.Hosting.Endpoints.Projects.ProjectState.ProjectStateRequest": {
             state: components["schemas"]["Api.Data.ProjectState"];
@@ -5446,6 +5451,16 @@ export type components = {
             userId: string;
             /** Format: uuid */
             serverId: string;
+            environments: components["schemas"]["Cli.Endpoints.Projects.ProjectEnvironmentServerDto"][] | null;
+        };
+        "Cli.Endpoints.Projects.ProjectEnvironmentServerDto": {
+            /** Format: uuid */
+            environmentId: string;
+            environmentName: string | null;
+            environmentType: string | null;
+            /** Format: uuid */
+            serverId: string | null;
+            serverHostName: string | null;
         };
         "Cli.Endpoints.Projects.RestoreProject.RestoreProjectResponse": Record<string, never>;
         "Cli.Endpoints.Projects.UpdateTemplate.UpdateTemplateRequest": {
